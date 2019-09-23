@@ -1,3 +1,3 @@
-### Senti WaterWorks Client
+### senti.waterworks client
 
-The frontend part of Senti WaterWorks Client
+React PWA frontend for senti.waterworks client
