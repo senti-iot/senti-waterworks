@@ -1,0 +1,31 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+
+# debugging
+/.chrome
+
+# misc
+.DS_Store
+/.idea
+/.vscode
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tgz
+yarn.lock*
+deploy_rsa
+deploy_rsa.pub
+src/theme_old.js
