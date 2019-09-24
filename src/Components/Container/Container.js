@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
-import { TProvider } from 'Components/Providers/LocalizationProvider';
-import { HTitle } from 'Routes/Main';
+// import { TProvider } from 'Components/Providers/LocalizationProvider';
+import { HTitle } from 'App';
 import containerStyles from 'Styles/containerStyle';
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { Paper } from '@material-ui/core';
@@ -8,7 +8,7 @@ import { Paper } from '@material-ui/core';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 function Container({ ...props }) {
-	const t = useContext(TProvider)
+	// const t = useContext(TProvider)
 	const setHeader = useContext(HTitle)
 	const classes = containerStyles({ color: 'blue' })
 	useEffect(() => {
@@ -74,7 +74,7 @@ function Container({ ...props }) {
 				{...gridProps}
 				onBreakpointChange={onBreakpointChange}
 				onLayoutChange={onLayoutChange}
-				// measureBeforeMount={true}
+				measureBeforeMount={true}
 				// useCSSTransforms={this.state.mounted}
 				isResizable={false}
 				isDraggable={false}
