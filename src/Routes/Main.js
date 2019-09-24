@@ -1,21 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, /* Router */ } from '@reach/router';
 import Header from 'Components/Header';
-import { LocalizationProvider } from 'App';
+// import { LocalizationProvider } from 'App';
+import { TProvider } from 'Components/Providers/LocalizationProvider';
+import Container from 'Components/Container/Container';
+
+export const HTitle = React.createContext(null)
 
 function Main() {
-	const t = useContext(LocalizationProvider)
+	const t = useContext(TProvider)
+	const [title, setTitle] = useState('')
 	return (
 		<div>
-			<Header />
-			{/* <div id={'header'} style={{ width: '100%', background: 'navy', color: '#fff', height: 80, position: 'fixed' }}>
-				<h5>Header</h5>
-			</div> */}
-			<div id={'container'} style={{ marginTop: 70 }}>
-				<Link to={''} >{t('actions.close')} </Link>
-				<Link to={'hello'} >Hello </Link>
-				<Link to={'world'} >World </Link>
-			</div>
+
+			<Header title={title} />
+			<HTitle.Provider value={setTitle}>
+				<div id={'container'} style={{ marginTop: 70 }}>
+					<Container />
+				</div>
+			</HTitle.Provider>
 			{/* <Router>
 
 			</Router> */}

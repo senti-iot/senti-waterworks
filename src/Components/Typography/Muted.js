@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import typographyStyle from '../Styles/typographyStyle';
+import typographyStyle from 'Styles/typographyStyle';
 // import { withStyles } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/styles'
 // import typographyStyle from 'assets/jss/material-dashboard-react/typographyStyle.js';

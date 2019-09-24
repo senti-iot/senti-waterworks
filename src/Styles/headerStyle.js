@@ -74,6 +74,7 @@ const headerStyles = makeStyles(theme => ({
 		display: 'flex',
 		flexFlow: 'row',
 		alignItems: 'center',
+		justifyContent: 'center',
 		marginLeft: 16
 	},
 	goBackButton: {

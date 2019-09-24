@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles'
-import { primaryColor, secondaryColor, hoverColor, /* headerColor */ } from 'Components/Custom/Styles/mainStyles'
+import { primaryColor, secondaryColor, hoverColor, /* headerColor */ } from 'Styles/mainStyles'
 import { teal, red, grey } from '@material-ui/core/colors'
 
 const theme = createMuiTheme({

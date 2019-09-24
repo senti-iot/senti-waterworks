@@ -12,7 +12,7 @@ import Gravatar from 'react-gravatar'
 import { /* ItemG, */ T, Muted } from 'Components';
 import { GoogleLogout } from 'react-google-login';
 import cx from 'classnames'
-import headerLinksStyle from './Custom/Styles/headerLinksStyle';
+import headerLinksStyle from 'Styles/headerLinksStyle';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
 

@@ -11,9 +11,11 @@
 		"for-each": "^0.3.3",
 		"react": "^16.9.0",
 		"react-cookies": "^0.1.1",
+		"react-custom-scrollbars": "^4.2.1",
 		"react-dom": "^16.9.0",
 		"react-google-login": "^5.0.5",
 		"react-gravatar": "^2.6.3",
+		"react-grid-layout": "^0.16.6",
 		"react-scripts": "3.1.2"
 	},
 	"scripts": {
