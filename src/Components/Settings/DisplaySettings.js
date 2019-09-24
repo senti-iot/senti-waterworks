@@ -3,33 +3,24 @@ import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components';
 import { Laptop } from 'variables/icons'
 import { Grid, ListItem, List, ListItemText, /* Switch */ } from '@material-ui/core';
 import { settingsStyles } from 'Styles/settingsStyle';
-// import { connect } from 'react-redux'
-// import {
-// 	changeTRP, changeTheme, changeDrawerState, changeSideBarLoc, changeDiscoverSenti, changeMapTheme, changeDetailsPanel,
-// 	changeSnackbarLocation, changeDrawerType, changeDrawerCloseOnNav, changeHeaderBorder, changeHoverTime, changeGlobalSearch, changeDashboardTheme
-// } from 'redux/settings';
-// import { changeLanguage } from 'redux/localization';
+import { changeLanguage } from 'Redux/localization';
+import { changeTheme } from 'Redux/settings'
+import { useSelector, useDispatch } from 'react-redux'
 
 function DisplaySettings(props) {
-
-	const changeLang = (e) => props.changeLanguage(e.target.value)
+	const lang = useSelector(state => state.localization.language)
+	const settings = useSelector(state => state.settings)
+	const dispatch = useDispatch()
+	const changeLang = (e) => dispatch(changeLanguage(e.target.value))
 	const changeTRP = (e) => props.changeTRP(e.target.value)
-	const changeTheme = (e) => props.changeTheme(e.target.value)
-	// const changeDashboardTheme = (e) => props.changeDashboardTheme(e.target.value)
-	// const changeSideBarLoc = (e) => props.changeSideBarLoc(e.target.value)
-	// const changeMapTheme = e => props.changeMapTheme(e.target.value)
+	const changeThem = (e) => dispatch(changeTheme(e.target.value))
 	const changeSnackbarLocation = e => props.changeSnackbarLocation(e.target.value)
-	// const changeDetailsPanel = e => props.changeDetailsPanel(e.target.checked)
-	// const changeDrawerType = e => props.changeDrawerType(e.target.value)
-	// const changeDrawerState = e => props.changeDrawerState(e.target.checked)
-	// const changeDrawerCloseOnNav = e => props.changeDrawerCloseOnNav(e.target.checked)
-	// const changeHeaderBorder = e => props.changeHeaderBorder(e.target.checked)
 	const changeHoverTime = e => props.changeHoverTime(e.target.value)
-	// const changeGlobalSearch = e => props.changeGlobalSearch(e.target.checked)
 
 
+	const { t } = props
 	const { language, trp, sideBar, discSentiVal,
-		theme, hoverTime, t, snackbarLocation } = props
+		theme, hoverTime, snackbarLocation } = settings
 
 	const classes = settingsStyles()
 
@@ -102,7 +93,7 @@ function DisplaySettings(props) {
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.language')}</ListItemText>
-									<DSelect menuItems={languages} value={'da'} onChange={changeLang} />
+									<DSelect menuItems={languages} value={lang} onChange={changeLang} />
 								</ItemGrid>
 							</ListItem>
 
@@ -115,7 +106,7 @@ function DisplaySettings(props) {
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.theme')}</ListItemText>
-									<DSelect menuItems={themes} value={theme} onChange={changeTheme} />
+									<DSelect menuItems={themes} value={theme} onChange={changeThem} />
 								</ItemGrid>
 							</ListItem>
 

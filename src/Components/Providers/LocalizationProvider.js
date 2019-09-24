@@ -1,11 +1,13 @@
-import React, { useReducer } from 'react'
-import { localization, initialLocState } from 'Redux/localization';
-
+import React from 'react'
+// import { localization, initialLocState } from 'Redux/localization';
+import { useSelector } from 'react-redux'
 export const TProvider = React.createContext(null)
+export const TSetter = React.createContext(null)
 
 const LocalizationProvider = ({ children }) => {
-	const [locState] = useReducer(localization, initialLocState)
-	let langStrings = locState.s
+	// const [locState, locDispatch] = useReducer(localization, initialLocState)
+
+	let langStrings = useSelector(state => state.localization.s)
 
 	var replace = String.prototype.replace
 	var dollarRegex = /\$/g
@@ -60,7 +62,9 @@ const LocalizationProvider = ({ children }) => {
 	}
 	return (
 		<TProvider.Provider value={t}>
+			{/* <TSetter.Provider value={{ dispatch: locDispatch, state: locState }}> */}
 			{children}
+			{/* </TSetter.Provider> */}
 		</TProvider.Provider>
 
 	)
