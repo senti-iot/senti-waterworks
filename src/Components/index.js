@@ -5,6 +5,13 @@ import ItemGrid from 'Components/Containers/ItemGrid'
 import GridContainer from 'Components/Containers/GridContainer'
 
 //#endregion
+
+//#region Dialogs
+import CookiesDialog from 'Components/Dialogs/CookiesDialog'
+import PrivacyDialog from 'Components/Dialogs/PrivacyPolicyDialog'
+
+//#endregion
+
 //#region Cards
 
 import InfoCard from 'Components/Cards/InfoCard'
@@ -14,6 +21,7 @@ import InfoCard from 'Components/Cards/InfoCard'
 
 import T from 'Components/Typography/T'
 import Muted from 'Components/Typography/Muted'
+import Caption from 'Components/Typography/Caption'
 
 //#endregion
 
@@ -36,10 +44,14 @@ export {
 	//Typography
 	T,
 	Muted,
+	Caption,
 	//Inputs
 	DSelect,
 	//Cards
 	InfoCard,
 	//Loaders
-	CircularLoader
+	CircularLoader,
+	//Dialogs
+	CookiesDialog,
+	PrivacyDialog
 }

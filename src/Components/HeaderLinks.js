@@ -1,4 +1,4 @@
-import { Grid, Menu, MenuItem, /*  withStyles, */ Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core';
+import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core';
 import { AccountBox, Business, PowerSettingsNew, SettingsRounded, ExpandMore, /* Notifications */ } from 'variables/icons';
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
 import React, { useState } from 'react';
@@ -13,6 +13,7 @@ import { /* ItemG, */ T, Muted } from 'Components';
 import { GoogleLogout } from 'react-google-login';
 import cx from 'classnames'
 import headerLinksStyle from 'Styles/headerLinksStyle';
+import { navigate } from '@reach/router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
 
@@ -61,8 +62,9 @@ function HeaderLinks(props) {
 	}
 	const handleSettingsOpen = () => {
 		handleProfileClose()
-		if (props.user)
-			props.history.push(`/settings`)
+		navigate(`/settings`)
+		// if (props.user)
+		// props.history.push(`/settings`)
 	}
 	// renderChristmasIcon = () => {
 	// 	const { classes } = props
@@ -180,4 +182,3 @@ function HeaderLinks(props) {
 // })
 
 export default HeaderLinks
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(headerLinksStyle)(HeaderLinks)));

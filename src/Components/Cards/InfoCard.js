@@ -128,7 +128,6 @@ const InfoCard = (props) => {
 }
 
 InfoCard.propTypes = {
-	classes: PropTypes.object.isRequired,
 	topAction: PropTypes.any,
 	content: PropTypes.any,
 	avatar: PropTypes.any,
@@ -142,5 +141,4 @@ InfoCard.propTypes = {
 	hideFacts: PropTypes.bool,
 };
 
-// let InfoCardComposed = compose(withLocalization(), withStyles(regularCardStyle))(InfoCard)
 export default InfoCard;

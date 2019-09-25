@@ -4,10 +4,12 @@ import HeaderLinks from './HeaderLinks';
 import headerStyles from 'Styles/headerStyle';
 import logo from 'logo.svg'
 import { TProvider } from './Providers/LocalizationProvider';
+import { navigate } from '@reach/router';
 
 function Header({ ...props }) {
 	const classes = headerStyles()
 	const t = useContext(TProvider)
+	const navigateHome = () => navigate('/')
 	var brand = (
 		<ButtonBase
 			focusRipple
@@ -16,6 +18,7 @@ function Header({ ...props }) {
 			style={{
 				width: '120px'
 			}}
+			onClick={navigateHome}
 		// onClick={() => props.history.push(defaultRoute ? defaultRoute : '/')}
 		>
 			<span
@@ -29,9 +32,7 @@ function Header({ ...props }) {
 
 	return (
 		<AppBar className={classes.appBar} >
-
 			<Toolbar className={classes.container}>
-
 				<Hidden mdDown>
 					<div className={classes.logoContainer}>
 						{brand}

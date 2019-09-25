@@ -37,7 +37,6 @@ const extend = (morePhrases, prefix) => {
 			phrases[prefixedKey] = phrase;
 		}
 	}, this);
-	console.log(phrases)
 	return phrases
 };
 
