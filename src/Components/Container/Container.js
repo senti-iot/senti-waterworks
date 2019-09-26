@@ -4,6 +4,7 @@ import { HTitle } from 'App';
 import containerStyles from 'Styles/containerStyle';
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { Paper } from '@material-ui/core';
+import LineGraph from 'Components/Graphs/LineGraph';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -41,30 +42,30 @@ function Container({ ...props }) {
 			h: 12,
 			w: 6
 		},
-		{
-			minW: 4,
-			minH: 12,
-			x: 6,
-			y: 0,
-			h: 12,
-			w: 6
-		},
-		{
-			minW: 4,
-			minH: 12,
-			x: 0,
-			y: 12,
-			h: 12,
-			w: 6
-		},
-		{
-			minW: 4,
-			minH: 12,
-			x: 6,
-			y: 12,
-			h: 12,
-			w: 6
-		}
+		// {
+		// 	minW: 4,
+		// 	minH: 12,
+		// 	x: 6,
+		// 	y: 0,
+		// 	h: 12,
+		// 	w: 6
+		// },
+		// {
+		// 	minW: 4,
+		// 	minH: 12,
+		// 	x: 0,
+		// 	y: 12,
+		// 	h: 12,
+		// 	w: 6
+		// },
+		// {
+		// 	minW: 4,
+		// 	minH: 12,
+		// 	x: 6,
+		// 	y: 12,
+		// 	h: 12,
+		// 	w: 6
+		// }
 	]
 	//#endregion
 
@@ -85,7 +86,8 @@ function Container({ ...props }) {
 
 				{gridDemo.map((grid, i) =>
 					<Paper className={classes.gridItemBackground} key={i} data-grid={grid}>
-						{i}
+						{/* {i} */}
+						<LineGraph />
 					</Paper>
 				)}
 			</ResponsiveReactGridLayout>
