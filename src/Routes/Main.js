@@ -6,7 +6,7 @@ import React from 'react'
 import Container from 'Components/Container/Container';
 import { ThemeProvider } from '@material-ui/styles';
 import Header from 'Components/Header';
-import { Router } from '@reach/router';
+import { BrowserRouter as Router, Route, /* Redirect */ } from 'react-router-dom';
 import Settings from './Settings';
 import { lightTheme, darkTheme } from 'variables/themes';
 import { useSelector } from 'react-redux'
@@ -20,8 +20,10 @@ function Main(props) {
 			<Header title={props.title} />
 			<div style={{ marginTop: 70 }}>
 				<Router>
-					<Container path={'/*'} />
-					<Settings path={'/settings'} />
+					<div>
+						<Route path={'/settings'} render={() => <Settings />} />
+						<Route path={'/'} render={(routeProps) => <Container {...routeProps} />} />
+					</div>
 				</Router>
 			</div>
 		</ThemeProvider>

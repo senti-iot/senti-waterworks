@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { lineData, prevLineData } from './demoData'
+import { /* lineData,  */prevLineData, generateData } from './demoData'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
@@ -36,15 +36,16 @@ const lineStyles = makeStyles(theme => ({
 }))
 
 
-const LineGraph = () => {
-
+const LineGraph = (props) => {
+	const lineData = generateData()
 	const lineChartContainer = useRef(null)
 	const classes = lineStyles()
 	const [value, setValue] = useState({ nps: null, date: null })
 	const [expand, setExpand] = useState(false)
-
+	let lastId = useRef('initial')
 	useEffect(() => {
-		if (lineChartContainer.current) {
+		console.log(lineChartContainer.current, console.log(props.id))
+		if (lineChartContainer.current && lastId.current !== props.id) {
 			var margin = { top: 25, right: 25, bottom: 25, left: 25 };
 
 			//Get the height and width from the container
@@ -55,7 +56,8 @@ const LineGraph = () => {
 			width = width - margin.left - margin.right;
 
 			//Append the SVG to the container
-			var svg = d3.select('#linechart').append("svg")
+			var svg = d3.select(`#${props.id}`).append("svg")
+				.attr("id", props.id)
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)
 				.append("g")
@@ -82,7 +84,7 @@ const LineGraph = () => {
 			// 	.y1(function (d) { return y(d.nps); })
 			// 	// .curve(d3.curveMonotoneX);
 
-			//Add the values 
+			//Add the values
 			svg.append("path")
 				.data([prevLineData])
 				.attr("class", classes.line2)
@@ -105,12 +107,12 @@ const LineGraph = () => {
 			//  Add the Y Axis
 			svg.append("g").call(d3.axisLeft(y));
 			// Define the tooltip
-			var div = d3.select("#tooltip")
+			var div = d3.select(`#${props.id}tooltip`)
 				.attr("class", classes.tooltip)
 				.style("opacity", 0);
 
 
-			// Add the mouseover 
+			// Add the mouseover
 			// var formatTime = d3.timeFormat("%e %B");
 
 			// Add the dots
@@ -137,21 +139,23 @@ const LineGraph = () => {
 				}).on('click', function (d) {
 					setExpand(true)
 				});
-
-			// div
+			var oldSvg = d3.select(`#${lastId.current}`)
+			oldSvg.remove()
+			console.log('oldSvg', oldSvg)
+			lastId.current = props.id
 		}
-	}, [lineChartContainer, classes])
-	console.log(expand)
+		else {
+			// console.log(svg)
+		}
+	}, [lineChartContainer, classes, props.id, lineData, lastId])
 	return (
 		<div style={{ width: '100%', height: '100%' }}>
-
-			<div id="tooltip">
+			<div id={props.id + 'tooltip'}>
 				<T>
 					{value.nps}
 				</T>
 				<Collapse in={expand}>
 					<div>
-
 						<T>
 							{value.nps}
 						</T>
@@ -168,9 +172,7 @@ const LineGraph = () => {
 					</div>
 				</Collapse>
 			</div>
-			<div id="linechart" ref={lineChartContainer} style={{ width: '100%', height: '100%' }}>
-
-			</div>
+			<div id={props.id} ref={lineChartContainer} style={{ width: '100%', height: '100%' }}></div>
 		</div>
 	)
 }

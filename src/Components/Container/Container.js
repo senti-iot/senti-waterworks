@@ -2,11 +2,10 @@ import React, { useContext, useEffect } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 import { HTitle } from 'App';
 import containerStyles from 'Styles/containerStyle';
-import { Responsive, WidthProvider } from "react-grid-layout";
+import GridContainer from 'Components/Containers/GridContainer';
+import ItemG from 'Components/Containers/ItemG';
 import { Paper } from '@material-ui/core';
-import LineGraph from 'Components/Graphs/LineGraph';
-
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+import ChartsContainer from 'Components/Custom/ChartsContainer/ChartsContainer';
 
 function Container({ ...props }) {
 	// const t = useContext(TProvider)
@@ -15,82 +14,44 @@ function Container({ ...props }) {
 	useEffect(() => {
 		setHeader('Header Title')
 	}, [setHeader])
-
-
-	//#region Grid Layout
-	const gridProps = {
-		className: "layout",
-		rowHeight: 25,
-		preventCollision: false,
-		cols: { lg: 12, md: 6, sm: 4, xs: 3, xxs: 3 },
-	}
-	const onBreakpointChange = () => {
-		//TODO
-	}
-
-	const onLayoutChange = () => {
-		//TODO
-	}
-
-	//REMOVE / REPLACE
-	const gridDemo = [
-		{
-			minW: 4,
-			minH: 12,
-			x: 0,
-			y: 0,
-			h: 12,
-			w: 6
-		},
-		// {
-		// 	minW: 4,
-		// 	minH: 12,
-		// 	x: 6,
-		// 	y: 0,
-		// 	h: 12,
-		// 	w: 6
-		// },
-		// {
-		// 	minW: 4,
-		// 	minH: 12,
-		// 	x: 0,
-		// 	y: 12,
-		// 	h: 12,
-		// 	w: 6
-		// },
-		// {
-		// 	minW: 4,
-		// 	minH: 12,
-		// 	x: 6,
-		// 	y: 12,
-		// 	h: 12,
-		// 	w: 6
-		// }
-	]
-	//#endregion
+	// console.log(props)
 
 	return (
 		<div className={classes.backgroundColor} style={{ height: 'calc(100vh - 70px)', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}>
-			<ResponsiveReactGridLayout
-				{...gridProps}
-				onBreakpointChange={onBreakpointChange}
-				onLayoutChange={onLayoutChange}
-				measureBeforeMount={true}
-				// useCSSTransforms={this.state.mounted}
-				isResizable={false}
-				isDraggable={false}
-			>
-				{/**
-				 * Demo
-				 */}
+			<GridContainer style={{ height: '100%' }}>
+				<ItemG xs={9} >
 
-				{gridDemo.map((grid, i) =>
-					<Paper className={classes.gridItemBackground} key={i} data-grid={grid}>
-						{/* {i} */}
-						<LineGraph />
+					{/* <Paper className={classes.gridItemBackground}> */}
+					{/* {i} */}
+					<Paper className={classes.gridItemBackground}>
+						<ChartsContainer {...props} />
+						{/* <LineGraph id={'linechart3'} /> */}
 					</Paper>
-				)}
-			</ResponsiveReactGridLayout>
+				</ItemG>
+				<ItemG xs={3}>
+					<ItemG container direction={'column'} style={{ height: '100%', width: '100%' }}>
+						<ItemG xs={3} style={{ maxWidth: '100%' }}>
+							<Paper className={classes.gridItemBackground}>
+								{/* <div style={{ height: 100, width: 100 }} /> */}
+							</Paper>
+
+						</ItemG>
+						<ItemG xs={5} style={{ maxWidth: '100%' }}>
+							<Paper className={classes.gridItemBackground}>
+
+							</Paper>
+
+						</ItemG>
+						<ItemG xs={4} style={{ maxWidth: '100%' }}>
+							<Paper className={classes.gridItemBackground}>
+							</Paper>
+
+						</ItemG>
+					</ItemG>
+				</ItemG>
+			</GridContainer>
+
+
 		</div>
 	)
 }
