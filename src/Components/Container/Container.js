@@ -10,16 +10,12 @@ import { Switch, Route } from 'react-router-dom'
 import Settings from 'Routes/Settings';
 
 const ChartContainer = (props) => {
-	const classes = containerStyles({ color: 'blue' })
+	const classes = props.classes
 
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >
-
-			{/* <Paper className={classes.gridItemBackground}> */}
-			{/* {i} */}
 			<Paper className={classes.gridItemBackground}>
 				<ChartsContainer {...props} />
-				{/* <LineGraph id={'linechart3'} /> */}
 			</Paper>
 		</ItemG>
 		<ItemG xs={3}>
@@ -59,12 +55,11 @@ function Container({ ...props }) {
 	return (
 		<div className={classes.backgroundColor} style={{ height: 'calc(100vh - 70px)', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}>
 			<Switch>
-				{/* <Redirect from={'/'} */}
 				<Route path={'/settings'}>
-					<Settings />
+					<Settings classes={classes} />
 				</Route>
 				<Route path={''}>
-					<ChartContainer />
+					<ChartContainer classes={classes} />
 				</Route>
 			</Switch>
 

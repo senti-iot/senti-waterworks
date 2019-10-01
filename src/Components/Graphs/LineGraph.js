@@ -46,7 +46,7 @@ const LineGraph = (props) => {
 	useEffect(() => {
 		console.log(lineChartContainer.current, console.log(props.id))
 		if (lineChartContainer.current && lastId.current !== props.id) {
-			var margin = { top: 25, right: 25, bottom: 25, left: 25 };
+			var margin = { top: 50, right: 50, bottom: 75, left: 50 };
 
 			//Get the height and width from the container
 			var height = lineChartContainer.current.clientHeight;
@@ -149,7 +149,7 @@ const LineGraph = (props) => {
 		}
 	}, [lineChartContainer, classes, props.id, lineData, lastId])
 	return (
-		<div style={{ width: '100%', height: '100%' }}>
+		<div style={{ width: '100%', height: '100%', }}>
 			<div id={props.id + 'tooltip'}>
 				<T>
 					{value.nps}
@@ -172,7 +172,7 @@ const LineGraph = (props) => {
 					</div>
 				</Collapse>
 			</div>
-			<div id={props.id} ref={lineChartContainer} style={{ width: '100%', height: '100%' }}></div>
+			<div id={props.id} ref={lineChartContainer} style={{ width: '100%', height: '100%', minHeight: 600, maxHeight: 600 }}></div>
 		</div>
 	)
 }

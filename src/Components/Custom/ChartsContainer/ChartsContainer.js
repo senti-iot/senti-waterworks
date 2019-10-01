@@ -1,26 +1,37 @@
 import React, { useState, useContext } from 'react'
 import { /* GridContainer, */ ItemG, T } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
-import ChartWrapper from '../ChartWrapper.js/ChartWrapper'
 import { TProvider } from 'Components/Providers/LocalizationProvider'
+import { Hidden } from '@material-ui/core'
+import LineGraph from 'Components/Graphs/LineGraph'
 // import { Switch, Route, useHistory, useParams } from 'react-router-dom'
 
 const ChartsContainer = (props) => {
 	const [chart, setChart] = useState('waterusage')
 	const t = useContext(TProvider)
+	const isActive = (c) => chart === c ? true : false
+	const handleSetChart = (c) => () => setChart(c)
 	return (
-		<ItemG container>
-			<ItemG xs={12} container justify={'space-evenly'}>
-				<ChartsButton onClick={() => setChart('waterusage')} active={chart === 'waterusage' ? true : false}>{t('charts.types.waterusage')}</ChartsButton>
-				<ChartsButton onClick={() => setChart('temperature')} active={chart === 'temperature' ? true : false}>{t('charts.types.temperature')}</ChartsButton>
-				<ChartsButton onClick={() => setChart('waterflow')} active={chart === 'waterflow' ? true : false}>{t('charts.types.waterflow')}</ChartsButton>
-				<ChartsButton onClick={() => setChart('readings')} active={chart === 'readings' ? true : false}>{t('charts.types.readings')}</ChartsButton>
+		<ItemG spacing={1} container justify={'space-between'} alignItems={'flex-end'} style={{ height: '100%' }}>
+			<ItemG xs={12} >
+				<Hidden mdDown>
+					<ItemG container justify={'space-evenly'} style={{ margin: 8 }}>
+						<ChartsButton onClick={handleSetChart('waterusage')} active={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
+						<ChartsButton onClick={handleSetChart('temperature')} active={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
+						<ChartsButton onClick={handleSetChart('waterflow')} active={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
+						<ChartsButton onClick={handleSetChart('readings')} active={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+					</ItemG>
+				</Hidden>
 			</ItemG>
 			<ItemG xs={12}>
-				<T variant={'h5'}>{t(`charts.types.${chart}`)}</T>
+				<div style={{ margin: 30 }}>
+					<T variant={'h6'} style={{ fontWeight: 600, fontSize: '1.75rem', letterSpacing: 1.5 }}>{t(`charts.types.${chart}`)}</T>
+				</div>
 			</ItemG>
-			<ItemG container xs={12} >
-				<ChartWrapper chart={chart} />
+			<ItemG container xs={12}>
+				<div style={{ width: '100%', height: '100%', marginTop: 'auto' }}>
+					<LineGraph id={chart} />
+				</div>
 			</ItemG>
 		</ItemG>
 	)
