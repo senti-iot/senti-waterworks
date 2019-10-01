@@ -6,10 +6,12 @@ import React from 'react'
 import Container from 'Components/Container/Container';
 import { ThemeProvider } from '@material-ui/styles';
 import Header from 'Components/Header';
-import { BrowserRouter as Router, Route, /* Redirect */ } from 'react-router-dom';
-import Settings from './Settings';
+import { BrowserRouter as Router, Route, Switch /* Redirect */ } from 'react-router-dom';
 import { lightTheme, darkTheme } from 'variables/themes';
 import { useSelector } from 'react-redux'
+import { createBrowserHistory } from 'history'
+
+export const hist = createBrowserHistory();
 
 function Main(props) {
 	// const t = useContext(TProvider)
@@ -17,15 +19,16 @@ function Main(props) {
 	return (
 
 		<ThemeProvider theme={theme ? darkTheme : lightTheme}>
-			<Header title={props.title} />
-			<div style={{ marginTop: 70 }}>
-				<Router>
-					<div>
-						<Route path={'/settings'} render={() => <Settings />} />
-						<Route path={'/'} render={(routeProps) => <Container {...routeProps} />} />
-					</div>
-				</Router>
-			</div>
+			<Router>
+				<Header title={props.title} />
+				<div style={{ marginTop: 70 }}>
+					<Switch>
+						<Route path={'/'}>
+							<Container />
+						</Route>
+					</Switch>
+				</div>
+			</Router>
 		</ThemeProvider>
 	)
 }

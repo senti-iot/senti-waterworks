@@ -4,12 +4,14 @@ import HeaderLinks from './HeaderLinks';
 import headerStyles from 'Styles/headerStyle';
 import logo from 'logo.svg'
 import { TProvider } from './Providers/LocalizationProvider';
-import { navigate } from '@reach/router';
+import { useHistory } from 'react-router'
 
 function Header({ ...props }) {
 	const classes = headerStyles()
 	const t = useContext(TProvider)
-	const navigateHome = () => navigate('/')
+	const history = useHistory()
+	// const navigateHome = () => navigate('/')
+	const goHome = () => history.push('/')
 	var brand = (
 		<ButtonBase
 			focusRipple
@@ -18,7 +20,7 @@ function Header({ ...props }) {
 			style={{
 				width: '120px'
 			}}
-			onClick={navigateHome}
+			onClick={goHome}
 		// onClick={() => props.history.push(defaultRoute ? defaultRoute : '/')}
 		>
 			<span

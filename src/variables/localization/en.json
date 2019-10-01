@@ -107,6 +107,12 @@
 			"weather": "Weather",
 			"windspeed": "Windspeed"
 		},
+		"types": {
+			"waterusage": "Water usage",
+			"temperature": "Temperature",
+			"waterflow": "Water flow",
+			"readings": "Reading"
+		},
 		"type": {
 			"bar": "Bar",
 			"donut": "Donut",

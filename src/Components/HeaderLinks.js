@@ -13,7 +13,7 @@ import { /* ItemG, */ T, Muted } from 'Components';
 import { GoogleLogout } from 'react-google-login';
 import cx from 'classnames'
 import headerLinksStyle from 'Styles/headerLinksStyle';
-import { navigate } from '@reach/router';
+import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
 
@@ -21,7 +21,7 @@ import { navigate } from '@reach/router';
 function HeaderLinks(props) {
 
 	const [anchorProfile, setAnchorProfile] = useState(null)
-
+	const history = useHistory()
 	const handleProfileOpen = e => {
 		setAnchorProfile(e.currentTarget)
 	}
@@ -62,7 +62,7 @@ function HeaderLinks(props) {
 	}
 	const handleSettingsOpen = () => {
 		handleProfileClose()
-		navigate(`/settings`)
+		history.push(`/settings`)
 		// if (props.user)
 		// props.history.push(`/settings`)
 	}

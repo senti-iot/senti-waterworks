@@ -107,6 +107,12 @@
 			"weather": "Vejr",
 			"windspeed": "Vindhastighed"
 		},
+		"types": {
+			"waterusage": "Vandforbrug",
+			"temperature": "Temperatur",
+			"waterflow": "Gennemstrømning",
+			"readings": "Aflæsninger"
+		},
 		"type": {
 			"bar": "Søjle",
 			"donut": "Donut",
