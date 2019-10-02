@@ -1,6 +1,9 @@
 import React from 'react'
 // import { localization, initialLocState } from 'Redux/localization';
 import { useSelector } from 'react-redux'
+import ReactMarkdown from 'react-markdown'
+
+
 export const TProvider = React.createContext(null)
 export const TSetter = React.createContext(null)
 
@@ -34,8 +37,8 @@ const LocalizationProvider = ({ children }) => {
 				return replace.call(options[argument], dollarRegex, dollarBillsYall)
 			})
 		if (substitutions.type === 'markdown')
-			return null
-		// return <ReactMarkdown source={result} />
+			// return null
+			return <ReactMarkdown source={result} />
 		else {
 			return result
 		}

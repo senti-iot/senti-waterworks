@@ -19,6 +19,7 @@ import { changeLanguage } from 'Redux/localization';
 import { setToken } from 'data/data';
 import loginStyles from 'Styles/loginStyles';
 import { defaultFont } from 'Styles/mainStyles';
+import LoginImages from 'Components/Custom/Login/LoginImages';
 
 
 function Login() {
@@ -256,21 +257,11 @@ function Login() {
 			<PrivacyDialog t={t} open={privacy} handleClose={handlePrivacy} />
 			<Hidden smDown>
 				<ItemG md={8} lg={8} xl={9}>
-					{/* <LoginImages t={t} /> */}
+					<LoginImages />
 				</ItemG>
 			</Hidden>
 		</div>
 	)
 }
-// const mapStateToProps = (state) => ({
-// 	defaultRoute: state.settings.defaultRoute
-// })
-
-// const mapDispatchToProps = dispatch => ({
-// 	getSettings: async () => dispatch(await getSettings()),
-// 	setLanguage: (lang) => dispatch(changeLanguage(lang, true))
-// })
-
-// export default compose(connect(mapStateToProps, mapDispatchToProps), withLocalization(), withStyles(loginPageStyles), withWidth())(NewLoginPage)
 
 export default Login
