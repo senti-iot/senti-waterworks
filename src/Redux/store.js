@@ -21,7 +21,9 @@ const rootReducer = (state, action) => {
 }
 let composeMiddleware = compose(
 	applyMiddleware(thunk),
-	window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+	window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__({
+		trace: true
+	}) : f => f
 )
 const store = createStore(rootReducer, composeMiddleware)
 

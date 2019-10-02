@@ -3,20 +3,22 @@ import { Button, Dialog, DialogContent, DialogActions, DialogTitle } from '@mate
 import { T } from 'Components';
 import { makeStyles } from '@material-ui/styles';
 
-const styles = makeStyles(theme => ({
-	p: {
-		marginBottom: theme.spacing(1)
-	},
-	dialogContent: {
-		padding: 24,
-		[theme.breakpoints.down('sm')]: {
-			padding: 16
-		}
-	},
-	title: {
-		fontWeight: 500
-	},
-}))
+const styles = makeStyles(theme => {
+	return ({
+		p: {
+			marginBottom: theme.spacing(1)
+		},
+		dialogContent: {
+			padding: 24,
+			[theme.breakpoints.down('sm')]: {
+				padding: 16
+			}
+		},
+		title: {
+			fontWeight: 500
+		},
+	})
+})
 
 const CookiesDialog = (props) => {
 	const { open, handleClose, t, handleAcceptCookies, readOnly, read } = props

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useLayoutEffect } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 import { HTitle } from 'App';
 import containerStyles from 'Styles/containerStyle';
@@ -6,8 +6,12 @@ import GridContainer from 'Components/Containers/GridContainer';
 import ItemG from 'Components/Containers/ItemG';
 import { Paper } from '@material-ui/core';
 import ChartsContainer from 'Components/Custom/ChartsContainer/ChartsContainer';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Settings from 'Routes/Settings';
+import Header from 'Components/Header';
+import cookie from 'react-cookies';
+import { useDispatch, useSelector, useWhyDidYouUpdate } from 'Hooks';
+import { getSettings } from 'Redux/settings';
 
 const ChartContainer = (props) => {
 	const classes = props.classes
@@ -45,26 +49,45 @@ const ChartContainer = (props) => {
 
 function Container({ ...props }) {
 	// const t = useContext(TProvider)
+	// const history = useHistory()
+	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const setHeader = useContext(HTitle)
-	const classes = containerStyles({ color: 'blue' })
+	const dispatch = useDispatch()
+	const redux = {
+		getSettings: async () => dispatch(await getSettings())
+	}
+	const classes = containerStyles({ color: colorTheme })
 	useEffect(() => {
 		setHeader('Header Title')
 	}, [setHeader])
-	// console.log(props)
-
+	useLayoutEffect(() => {
+		async function loadSettings() {
+			await redux.getSettings()
+		}
+		loadSettings()
+	})
+	useWhyDidYouUpdate('Container', props)
 	return (
-		<div className={classes.backgroundColor} style={{ height: 'calc(100vh - 70px)', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}>
-			<Switch>
-				<Route path={'/settings'}>
-					<Settings classes={classes} />
-				</Route>
-				<Route path={''}>
-					<ChartContainer classes={classes} />
-				</Route>
-			</Switch>
+		cookie.load('SESSION') ?
+			<div>
+				<Header title={props.title} />
+				<div className={classes.backgroundColor} style={{ marginTop: 70, height: 'calc(100vh - 70px)', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}>
+					<Switch>
+						<Route path={'/settings'}>
+							<Settings classes={classes} />
+						</Route>
+						<Route exact path={'/'}>
+							<ChartContainer classes={classes} />
+						</Route>
+					</Switch>
 
-
-		</div>
+				</div>
+			</div>
+			: <Redirect from={window.location.pathname} to={{
+				pathname: '/login', state: {
+					prevURL: window.location.pathname
+				}
+			}} />
 	)
 }
 

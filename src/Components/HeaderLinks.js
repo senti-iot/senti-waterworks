@@ -6,14 +6,15 @@ import cookie from 'react-cookies';
 // import { withRouter } from 'react-router-dom';
 // import { connect } from 'react-redux';
 import Gravatar from 'react-gravatar'
-// import { logOut } from 'variables/dataLogin';
+import { logOut } from 'data/login';
 // import moment from 'moment'
 // import christmas from 'assets/img/christmas'
 import { /* ItemG, */ T, Muted } from 'Components';
 import { GoogleLogout } from 'react-google-login';
 import cx from 'classnames'
 import headerLinksStyle from 'Styles/headerLinksStyle';
-import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'Hooks';
+// import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
 
@@ -21,7 +22,16 @@ import { useHistory } from 'react-router';
 function HeaderLinks(props) {
 
 	const [anchorProfile, setAnchorProfile] = useState(null)
-	const history = useHistory()
+	const history = props.history
+	const dispatch = useDispatch()
+	const redux = {
+		resetRedux: () => dispatch({ type: 'RESET_APP' })
+	}
+	const user = useSelector(state => state.settings.user)
+	// const globalSearch = useSelector(state => state.settings.globalSearch)
+
+
+
 	const handleProfileOpen = e => {
 		setAnchorProfile(e.currentTarget)
 	}
@@ -37,33 +47,34 @@ function HeaderLinks(props) {
 
 	const handleRedirectToOwnProfile = () => {
 		handleProfileClose()
-		if (props.user)
-			props.history.push(`/management/user/${props.user.id}`)
+		// if (user)
+		// history.push(`/management/user/${user.id}`)
 
 	}
 	const handleRedirectToOwnOrg = () => {
 		handleProfileClose()
-		if (props.user)
-			props.history.push(`/management/org/${props.user.org.id}`)
+		// if (user)
+		// history.push(`/management/org/${user.org.id}`)
 	}
 
-	const logOut = async () => {
+	const handleLogOut = async () => {
 		try {
-			// props.resetRedux()
-			// await logOut().then(() => { cookie.remove('SESSION', { path: '/' }) })
+			redux.resetRedux()
+			await logOut().then(() => {
+				cookie.remove('SESSION', { path: '/' })
+			})
 		}
 		catch (e) {
 		}
 		if (!cookie.load('SESSION')) {
-			props.history.push('/login')
+			history.push('/login')
 		}
-		// setState({ anchorProfile: null })
 		setAnchorProfile(null)
 	}
 	const handleSettingsOpen = () => {
 		handleProfileClose()
 		history.push(`/settings`)
-		// if (props.user)
+		// if (user)
 		// props.history.push(`/settings`)
 	}
 	// renderChristmasIcon = () => {
@@ -94,7 +105,7 @@ function HeaderLinks(props) {
 	// 	</ItemG>
 	// }
 	const renderUserMenu = () => {
-		const { t, user } = props;
+		const { t } = props;
 		const openProfile = Boolean(anchorProfile)
 
 		return <div>
@@ -112,8 +123,8 @@ function HeaderLinks(props) {
 						[classes.expandOpen]: openProfile,
 					})} />
 					{user ? <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${user.firstName}`}</T> : <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${'Not logged in'}`}</T>}
-					{/* {user ? user.img ? <img src={user.img} alt='UserProfile' className={classes.img} /> : <Gravatar default='mp' email={user.email} className={classes.img} size={36} /> : <Gravatar default='mp' email={null} className={classes.img} size={36} />} */}
-					<Gravatar default='mp' email={''} className={classes.img} size={36} />
+					{user ? user.img ? <img src={user.img} alt='UserProfile' className={classes.img} /> : <Gravatar default='mp' email={user.email} className={classes.img} size={36} /> : <Gravatar default='mp' email={null} className={classes.img} size={36} />}
+					{/* <Gravatar default='mp' email={''} className={classes.img} size={36} /> */}
 				</Button>
 			</Tooltip>
 			<Menu
@@ -147,7 +158,7 @@ function HeaderLinks(props) {
 				<GoogleLogout
 					// onLogoutSuccess={() => logOut()}
 					clientId="1038408973194-qcb30o8t7opc83k158irkdiar20l3t2a.apps.googleusercontent.com"
-					render={renderProps => (<MenuItem onClick={() => { renderProps.onClick(); logOut() }} className={classes.menuItem}>
+					render={renderProps => (<MenuItem onClick={() => { renderProps.onClick(); handleLogOut() }} className={classes.menuItem}>
 						<PowerSettingsNew className={classes.leftIcon} />{t('menus.user.signout')}
 					</MenuItem>)}
 				>

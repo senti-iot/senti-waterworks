@@ -28,11 +28,12 @@ import Caption from 'Components/Typography/Caption'
 //#region Loaders
 
 import CircularLoader from 'Components/Loaders/CircularLoader'
+import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 
 //#endregion
 
 //#region Selectors/Switches/Inputs
-
+import TextF from 'Components/Input/TextF'
 import DSelect from 'Components/Input/DSelect'
 
 //#endregion
@@ -46,10 +47,12 @@ export {
 	Muted,
 	Caption,
 	//Inputs
+	TextF,
 	DSelect,
 	//Cards
 	InfoCard,
 	//Loaders
+	FadeOutLoader,
 	CircularLoader,
 	//Dialogs
 	CookiesDialog,

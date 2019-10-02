@@ -1,5 +1,6 @@
 
 import loc from 'variables/localization/index'
+import { saveSettingsOnServ } from './settings';
 // import { saveSettingsOnServ } from './settings';
 // import { getDaysOfInterest } from './doi';
 var forEach = require('for-each');
@@ -15,8 +16,8 @@ export const changeLanguage = (code, noSave) => {
 				type: changeLangAction,
 				code
 			})
-		// if (!noSave)
-		// dispatch(saveSettingsOnServ())
+		if (!noSave)
+			dispatch(saveSettingsOnServ())
 		// dispatch(getDaysOfInterest(code))
 	}
 }
@@ -25,10 +26,6 @@ export const changeLanguage = (code, noSave) => {
 
 let phrases = []
 const extend = (morePhrases, prefix) => {
-	// console.log(morePhrases)
-	// Object.keys(morePhrases).forEach((phrase, key) => {
-
-	// })
 	forEach(morePhrases, function (phrase, key) {
 		var prefixedKey = prefix ? prefix + '.' + key : key;
 		if (typeof phrase === 'object') {

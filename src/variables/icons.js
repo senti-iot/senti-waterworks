@@ -5,12 +5,13 @@ import LocationOn from '@material-ui/icons/LocationOn'
 import LinearScale from '@material-ui/icons/LinearScale'
 import Assignment from '@material-ui/icons/Assignment'
 import Public from '@material-ui/icons/Public'
-// import Google from 'assets/img/google.svg'
 import Call from '@material-ui/icons/Call'
 import Language from '@material-ui/icons/Language'
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
 import InsertChart from '@material-ui/icons/InsertChart'
 import Wifi from '@material-ui/icons/Wifi'
+
+import Google from 'assets/icons/google.svg'
 //#region weather Icons
 // import ClearDay from 'assets/weather/clear_day.svg'
 // import ClearNight from 'assets/weather/clear_night.svg'
@@ -134,7 +135,7 @@ export {
 	PowerSettingsNew,
 	Language,
 	Call,
-	// Google,
+	Google,
 	Public,
 	FullscreenOutlined,
 	EventNote,

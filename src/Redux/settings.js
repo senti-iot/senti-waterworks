@@ -1,10 +1,10 @@
-// import cookie from 'react-cookies';
-// import { getUser, getValidSession } from 'variables/dataUsers'
+import cookie from 'react-cookies';
+import { getUser, getValidSession } from 'data/users'
 import 'moment/locale/da'
 import 'moment/locale/en-gb'
 import { saveSettings } from 'data/login';
 // import { setDates } from './dateTime';
-import { /* setPrefix, */ set/* , get */ } from 'data/storage';
+import { setPrefix, set, get } from 'data/storage';
 // import { getAllData } from './data';
 // import { setDashboards } from './dsSystem';
 
@@ -31,6 +31,7 @@ const changeBC = 'changeBreadCrumbs'
 const changeHT = 'changeHoverTime'
 const changeGS = 'changeGlobalSearch'
 const changeDSTheme = 'changeDashboardTheme'
+const changeCTheme = 'changeColorTheme'
 //Navigation
 
 const changeDR = 'changeDefaultRoute'
@@ -82,137 +83,132 @@ export const saveOnServ = (user) => {
 }
 export const saveSettingsOnServ = () => {
 	return async (dispatch, getState) => {
+		console.log('Called Save Settings')
 		// return true
-		// let user = getState().settings.user
-		// let s = getState().settings
-		// let settings = {
-		// 	weekendColor: s.weekendColor,
-		// 	calibration: s.calibration,
-		// 	calNotifications: s.calNotifications,
-		// 	count: s.count,
-		// 	tcount: s.tcount,
-		// 	chartType: s.chartType,
-		// 	discSentiVal: s.discSentiVal,
-		// 	sideBar: s.sideBar,
-		// 	theme: s.theme,
-		// 	trp: s.trp,
-		// 	alerts: s.alerts,
-		// 	didKnow: s.didKnow,
-		// 	rawData: s.rawData,
-		// 	mapTheme: s.mapTheme,
-		// 	defaultRoute: s.defaultRoute,
-		// 	cookies: s.cookies,
-		// 	periods: s.periods,
-		// 	snackbarLocation: s.snackbarLocation,
-		// 	detailsPanel: s.detailsPanel,
-		// 	drawer: s.drawer,
-		// 	drawerState: s.drawerState,
-		// 	drawerCloseOnNav: s.drawerCloseOnNav,
-		// 	headerBorder: s.headerBorder,
-		// 	breadcrumbs: s.breadcrumbs,
-		// 	hoverTime: s.hoverTime,
-		// 	globalSearch: s.globalSearch,
-		// 	dsTheme: s.dsTheme
-		// }
-		// user.aux = user.aux ? user.aux : {}
-		// user.aux.senti = user.aux.senti ? user.aux.senti : {}
-		// user.aux.senti.settings = settings
-		// user.aux.odeum.language = s.language
-		// var saved = await saveSettings(user);
-		var saved = true
+		let user = getState().settings.user
+		let s = getState().settings
+		let settings = {
+			dsTheme: s.dsTheme,
+			weekendColor: s.weekendColor,
+			// count: s.count,
+			// tcount: s.tcount,
+			// chartType: s.chartType,
+			// discSentiVal: s.discSentiVal,
+			// sideBar: s.sideBar,
+			theme: s.theme,
+			colorTheme: s.colorTheme,
+			trp: s.trp,
+			// alerts: s.alerts,
+			// didKnow: s.didKnow,
+			// rawData: s.rawData,
+			// mapTheme: s.mapTheme,
+			// defaultRoute: s.defaultRoute,
+			cookies: s.cookies,
+			// periods: s.periods,
+			snackbarLocation: s.snackbarLocation,
+			// detailsPanel: s.detailsPanel,
+			// drawer: s.drawer,
+			// drawerState: s.drawerState,
+			// drawerCloseOnNav: s.drawerCloseOnNav,
+			// headerBorder: s.headerBorder,
+			// breadcrumbs: s.breadcrumbs,
+			hoverTime: s.hoverTime,
+		}
+		user.aux = user.aux ? user.aux : {}
+		user.aux.sentiWaterworks = user.aux.sentiWaterworks ? user.aux.sentiWaterworks : {}
+		user.aux.sentiWaterworks.settings = settings
+		user.aux.odeum.language = s.language
+		var saved = await saveSettings(user);
 		dispatch({
 			type: SAVESETTINGS,
 			saved: saved ? true : false
 		})
 	}
 }
-// export const getSettings = async () => {
-// 	return async (dispatch, getState) => {
-// 		var sessionCookie = cookie.load('SESSION') ? cookie.load('SESSION') : null
-// 		if (sessionCookie) {
-// 			let vSession = await getValidSession(sessionCookie.userID).then(rs => rs.status)
-// 			if (vSession === 200) {
+export const getSettings = async () => {
+	return async (dispatch, getState) => {
+		var sessionCookie = cookie.load('SESSION') ? cookie.load('SESSION') : null
+		if (sessionCookie) {
+			let vSession = await getValidSession(sessionCookie.userID).then(rs => rs.status)
+			if (vSession === 200) {
 
-// 				let exp = moment().add('1', 'day')
-// 				cookie.save('SESSION', sessionCookie, { path: '/', expires: exp.toDate() })
-// 				setPrefix(sessionCookie.userID)
-// 			}
-// 			else {
-// 				return cookie.remove('SESSION')
-// 			}
-// 		}
+				let exp = moment().add('1', 'day')
+				cookie.save('SESSION', sessionCookie, { path: '/', expires: exp.toDate() })
+				setPrefix(sessionCookie.userID)
+			}
+			else {
+				return cookie.remove('SESSION')
+			}
+		}
 
-// 		var userId = cookie.load('SESSION') ? cookie.load('SESSION').userID : 0
-// 		var user = userId !== 0 ? await getUser(userId) : null
+		var userId = cookie.load('SESSION') ? cookie.load('SESSION').userID : 0
+		var user = userId !== 0 ? await getUser(userId) : null
 
-// 		var settings = get('settings') ? get('settings') : user ? user.aux ? user.aux.senti ? user.aux.senti.settings ? user.aux.senti.settings : null : null : null : null
-// 		if (settings) {
-// 			dispatch({
-// 				type: GetSettings,
-// 				settings: settings,
-// 				user: user
-// 			})
-// 		}
-// 		var favorites = user ? user.aux ? user.aux.senti ? user.aux.senti.favorites ? user.aux.senti.favorites : [] : [] : [] : []
-// 		var dashboards = user ? user.aux ? user.aux.senti ? user.aux.senti.dashboards ? user.aux.senti.dashboards : [] : [] : [] : []
-// 		moment.updateLocale('en-gb', {
-// 			week: {
-// 				dow: 1
-// 			}
-// 		})
-// 		if (user) {
-// 			dispatch(await getAllData(true, user.org.id, user.privileges.apisuperuser ? true : false))
-// 			if (settings) {
-// 				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
-// 				dispatch({
-// 					type: GetSettings,
-// 					settings: {
-// 						...user.aux.senti.settings,
-// 						language: user.aux.odeum.language
-// 					},
-// 					user
-// 				})
-// 			}
-// 			else {
-// 				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
-// 				let s = {
-// 					...getState().settings,
-// 					language: user.aux.odeum.language
-// 				}
-// 				dispatch({
-// 					type: NOSETTINGS,
-// 					loading: false,
-// 					user,
-// 					settings: s
-// 				})
-// 			}
-// 			if (favorites) {
-// 				dispatch({
-// 					type: GETFAVS,
-// 					payload:
-// 						[...favorites]
+		var settings = get('settings') ? get('settings') :
+			user ?
+				user.aux ?
+					user.aux.sentiWaterworks ?
+						user.aux.sentiWaterworks.settings ?
+							user.aux.sentiWaterworks.settings : null : null : null : null
 
-// 				})
-// 			}
-// 			if (dashboards) {
-// 				dispatch(setDashboards(dashboards))
-// 			}
-// 		}
-// 		else {
-// 			moment.locale('da')
-// 			let s = {
-// 				...getState().settings,
-// 			}
-// 			dispatch({
-// 				type: NOSETTINGS,
-// 				loading: false,
-// 				user,
-// 				settings: s
-// 			})
-// 			return false
-// 		}
-// 	}
-// }
+		moment.updateLocale('en-gb', {
+			week: {
+				dow: 1
+			}
+		})
+		if (user) {
+			// dispatch(await getAllData(true, user.org.id, user.privileges.apisuperuser ? true : false))
+			if (settings) {
+				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
+				dispatch({
+					type: GetSettings,
+					settings: {
+						...user.aux.sentiWaterworks.settings,
+						language: user.aux.odeum.language
+					},
+					user
+				})
+			}
+			else {
+				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
+				let s = {
+					...getState().settings,
+					language: user.aux.odeum.language
+				}
+				dispatch({
+					type: NOSETTINGS,
+					loading: false,
+					user,
+					settings: s
+				})
+			}
+			// if (favorites) {
+			// 	dispatch({
+			// 		type: GETFAVS,
+			// 		payload:
+			// 			[...favorites]
+
+			// 	})
+			// }
+			// if (dashboards) {
+			// 	dispatch(setDashboards(dashboards))
+			// }
+		}
+		else {
+			moment.locale('da')
+			let s = {
+				...getState().settings,
+			}
+			dispatch({
+				type: NOSETTINGS,
+				loading: false,
+				user,
+				settings: s
+			})
+			return false
+		}
+	}
+}
 export const changeGlobalSearch = val => {
 	return async dispatch => {
 		dispatch({
@@ -510,6 +506,15 @@ export const changeTheme = (code) => {
 		dispatch(saveSettingsOnServ())
 	}
 }
+export const changeColorTheme = (code) => {
+	return async (dispatch, getState) => {
+		dispatch({
+			type: changeCTheme,
+			code
+		})
+		dispatch(saveSettingsOnServ())
+	}
+}
 export const changeWeekendColor = (id) => {
 	return async (dispatch, getState) => {
 		dispatch({
@@ -546,36 +551,37 @@ export let initialState = {
 		hide: false
 	}],
 	cookies: true,
-	defaultRoute: '/dashboard',
-	defaultView: '/list',
-	mapTheme: 0,
-	rawData: 0,
+	// defaultRoute: '/dashboard',
+	// defaultView: '/list',
+	// mapTheme: 0,
+	// rawData: 0,
 	language: 'da',
-	calibration: 1,
-	calNotifications: 0,
-	count: 200,
-	tcount: 600,
-	discSentiVal: 1,
-	sideBar: 0,
+	// calibration: 1,
+	// calNotifications: 0,
+	// count: 200,
+	// tcount: 600,
+	// discSentiVal: 1,
+	// sideBar: 0,
 	theme: 0,
-	chartType: 3,
+	// chartType: 3,
 	trp: 10,
-	alerts: 1,
-	didKnow: 0,
+	// alerts: 1,
+	// didKnow: 0,
 	loading: true,
 	saved: false,
 	rowsPerPageOptions: [autoheight, 5, 7, 8, 10, 15, 20, 25, 50, 100],
-	cardsPerPageOptions: [2, 3, 4, 6, 8, 9],
+	// cardsPerPageOptions: [2, 3, 4, 6, 8, 9],
 	snackbarLocation: 'left',
-	detailsPanel: 0,
-	drawer: 'permanent',
-	drawerState: true,
-	drawerCloseOnNav: true,
-	headerBorder: false,
-	breadcrumbs: true,
+	// detailsPanel: 0,
+	// drawer: 'permanent',
+	// drawerState: true,
+	// drawerCloseOnNav: true,
+	// headerBorder: false,
+	// breadcrumbs: true,
 	hoverTime: 1000,
-	globalSearch: true,
-	dsTheme: 0
+	// globalSearch: true,
+	dsTheme: 0,
+	colorTheme: 'blue'
 }
 export const settings = (state = initialState, action) => {
 	switch (action.type) {
@@ -642,6 +648,10 @@ export const settings = (state = initialState, action) => {
 		case THEME:
 			return Object.assign({}, state, {
 				theme: action.code
+			})
+		case changeCTheme:
+			return Object.assign({}, state, {
+				colorTheme: action.code
 			})
 		case TRP:
 			return Object.assign({}, state, {

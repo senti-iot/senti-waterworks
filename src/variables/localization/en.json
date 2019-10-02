@@ -869,6 +869,7 @@
 		}
 	},
 	"settings": {
+		"colorTheme": "Color Theme",
 		"alerts": "Alerts",
 		"breadcrumbs": "Breadcrumbs",
 		"calibration": {

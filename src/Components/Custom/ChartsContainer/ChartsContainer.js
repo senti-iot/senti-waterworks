@@ -5,12 +5,14 @@ import { TProvider } from 'Components/Providers/LocalizationProvider'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
 // import { Switch, Route, useHistory, useParams } from 'react-router-dom'
+// import { useHistory } from 'react-router'
 
 const ChartsContainer = (props) => {
 	const [chart, setChart] = useState('waterusage')
 	const t = useContext(TProvider)
 	const isActive = (c) => chart === c ? true : false
 	const handleSetChart = (c) => () => setChart(c)
+	// const history = useHistory()
 	return (
 		<ItemG spacing={1} container justify={'space-between'} alignItems={'flex-end'} style={{ height: '100%' }}>
 			<ItemG xs={12} >

@@ -1,26 +1,27 @@
 import React from 'react'
 import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components';
 import { Laptop } from 'variables/icons'
-import { Grid, ListItem, List, ListItemText, /* Switch */ } from '@material-ui/core';
+import { Grid, ListItem, List, ListItemText, colors, /* Switch */ } from '@material-ui/core';
 import { settingsStyles } from 'Styles/settingsStyle';
 import { changeLanguage } from 'Redux/localization';
-import { changeTheme } from 'Redux/settings'
+import { changeTheme, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
 
 function DisplaySettings(props) {
 	const lang = useSelector(state => state.localization.language)
 	const settings = useSelector(state => state.settings)
 	const dispatch = useDispatch()
-	const changeLang = (e) => dispatch(changeLanguage(e.target.value))
-	const changeTRP = (e) => props.changeTRP(e.target.value)
-	const changeThem = (e) => dispatch(changeTheme(e.target.value))
-	const changeSnackbarLocation = e => props.changeSnackbarLocation(e.target.value)
-	const changeHoverTime = e => props.changeHoverTime(e.target.value)
-
-
+	const redux = {
+		changeLanguage: e => dispatch(changeLanguage(e.target.value)),
+		changeTRP: e => dispatch(changeTRP(e.target.value)),
+		changeTheme: e => dispatch(changeTheme(e.target.value)),
+		changeSnackbarLocation: e => dispatch(changeSnackbarLocation(e.target.value)),
+		changeHoverTime: e => dispatch(changeHoverTime(e.target.value)),
+		changeColorTheme: e => dispatch(changeColorTheme(e.target.value))
+	}
 	const { t } = props
 	const { language, trp, sideBar, discSentiVal,
-		theme, hoverTime, snackbarLocation } = settings
+		theme, hoverTime, snackbarLocation, colorTheme } = settings
 
 	const classes = settingsStyles()
 
@@ -29,21 +30,33 @@ function DisplaySettings(props) {
 		{ value: 'da', label: t('settings.languages.da') }
 	]
 
-	// let mapThemes = [
-	// 	{ value: 0, label: props.t("map.themes.0") },
-	// 	{ value: 1, label: props.t("map.themes.1") },
-	// 	{ value: 2, label: props.t("map.themes.2") },
-	// 	{ value: 3, label: props.t("map.themes.3") },
-	// 	{ value: 4, label: props.t("map.themes.4") },
-	// 	{ value: 5, label: props.t("map.themes.5") },
-	// 	{ value: 6, label: props.t("map.themes.6") },
-	// 	{ value: 7, label: props.t("map.themes.7") }
-	// ]
-
 	let themes = [
 		{ value: 1, label: t('settings.themes.dark') },
 		{ value: 0, label: t('settings.themes.light') }
 	]
+	const renderColor = (color) => {
+		return <div style={{ background: color[500], width: 16, height: 16, borderRadius: 4 }} />
+	}
+
+	let colorThemes = [
+		{ value: 'lightBlue', label: t('settings.chart.weekendColors.lightBlue'), icon: renderColor(colors.lightBlue) },
+		{ value: 'cyan', label: t('settings.chart.weekendColors.cyan'), icon: renderColor(colors.cyan) },
+		{ value: 'teal', label: t('settings.chart.weekendColors.teal'), icon: renderColor(colors.teal) },
+		{ value: 'green', label: t('settings.chart.weekendColors.green'), icon: renderColor(colors.green) },
+		{ value: 'lightGreen', label: t('settings.chart.weekendColors.lightGreen'), icon: renderColor(colors.lightGreen) },
+		{ value: 'lime', label: t('settings.chart.weekendColors.lime'), icon: renderColor(colors.lime) },
+		{ value: 'yellow', label: t('settings.chart.weekendColors.yellow'), icon: renderColor(colors.yellow) },
+		{ value: 'amber', label: t('settings.chart.weekendColors.amber'), icon: renderColor(colors.amber) },
+		{ value: 'orange', label: t('settings.chart.weekendColors.orange'), icon: renderColor(colors.orange) },
+		{ value: 'deepOrange', label: t('settings.chart.weekendColors.deepOrange'), icon: renderColor(colors.deepOrange) },
+		{ value: 'red', label: t('settings.chart.weekendColors.red'), icon: renderColor(colors.red) },
+		{ value: 'pink', label: t('settings.chart.weekendColors.pink'), icon: renderColor(colors.pink) },
+		{ value: 'purple', label: t('settings.chart.weekendColors.purple'), icon: renderColor(colors.purple) },
+		{ value: 'deepPurple', label: t('settings.chart.weekendColors.deepPurple'), icon: renderColor(colors.deepPurple) },
+		{ value: 'indigo', label: t('settings.chart.weekendColors.indigo'), icon: renderColor(colors.indigo) },
+		{ value: 'blue', label: t('settings.chart.weekendColors.blue'), icon: renderColor(colors.blue) },
+	]
+
 	// rowsPerPageOptions: [autoheight, 5, 7, 8, 10, 15, 20, 25, 50, 100],
 	let autoheightStr = Math.round((window.innerHeight - 70 - 48 - 30 - 64 - 56 - 30 - 56 - 30) / 49) + ' - auto'
 	let autoheight = Math.round((window.innerHeight - 70 - 48 - 30 - 64 - 56 - 30 - 56 - 30) / 49)
@@ -64,14 +77,6 @@ function DisplaySettings(props) {
 		{ value: 'left', label: t('settings.snackbarLocations.left') },
 		{ value: 'right', label: t('settings.snackbarLocations.right') }
 	]
-	// let sideBarLocs = [
-	// 	{ value: 0, label: t('settings.sideBarLeft') },
-	// 	{ value: 1, label: t('settings.sideBarRight') }
-	// ]
-	// let drawerTypes = [
-	// 	{ value: 'permanent', label: t('settings.drawer.types.permanent') },
-	// 	{ value: 'persistent', label: t('settings.drawer.types.persistent') }
-	// ]
 	let hoverTimes = [
 		{ value: 0, label: t('settings.hover.values.0') },
 		{ value: 300, label: t('settings.hover.values.300') },
@@ -93,46 +98,38 @@ function DisplaySettings(props) {
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.language')}</ListItemText>
-									<DSelect menuItems={languages} value={lang} onChange={changeLang} />
+									<DSelect menuItems={languages} value={lang} onChange={redux.changeLanguage} />
 								</ItemGrid>
 							</ListItem>
-
-							{/* <ListItem divider>
-								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
-									<ListItemText secondary={t('settings.justForMobile')}>{t('settings.sideBarLoc')}</ListItemText>
-									<DSelect menuItems={sideBarLocs} value={sideBar} onChange={changeSideBarLoc} />
-								</ItemGrid>
-							</ListItem> */}
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.theme')}</ListItemText>
-									<DSelect menuItems={themes} value={theme} onChange={changeThem} />
+									<DSelect menuItems={themes} value={theme} onChange={redux.changeTheme} />
 								</ItemGrid>
 							</ListItem>
-
-							{/* <ListItem divider>
+							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
-									<ListItemText>{t('settings.map')}</ListItemText>
-									<DSelect menuItems={mapThemes} value={mapTheme} onChange={changeMapTheme} />
+									<ListItemText>{t('settings.colorTheme')}</ListItemText>
+									<DSelect leftIcon menuItems={colorThemes} value={colorTheme} onChange={redux.changeColorTheme} />
 								</ItemGrid>
-							</ListItem> */}
+							</ListItem>
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.snackbarLocation')}</ListItemText>
-									<DSelect menuItems={snackbarLocations} value={snackbarLocation} onChange={changeSnackbarLocation} />
+									<DSelect menuItems={snackbarLocations} value={snackbarLocation} onChange={redux.changeSnackbarLocation} />
 								</ItemGrid>
 							</ListItem>
 
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.tables.trp')}</ListItemText>
-									<DSelect menuItems={trps} value={trp} onChange={changeTRP} />
+									<DSelect menuItems={trps} value={trp} onChange={redux.changeTRP} />
 								</ItemGrid>
 							</ListItem>
 							<ListItem>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText primary={t('settings.tables.hover')} />
-									<DSelect menuItems={hoverTimes} value={hoverTime} onChange={changeHoverTime} />
+									<DSelect menuItems={hoverTimes} value={hoverTime} onChange={redux.changeHoverTime} />
 								</ItemGrid>
 							</ListItem>
 						</List>
@@ -142,43 +139,4 @@ function DisplaySettings(props) {
 	)
 }
 
-// const mapStateToProps = state => {
-// 	const s = state.settings
-// 	return ({
-// 		language: state.localization.language,
-// 		theme: s.theme,
-// 		trp: s.trp,
-// 		sideBar: s.sideBar,
-// 		discSentiVal: s.discSentiVal,
-// 		mapTheme: s.mapTheme,
-// 		snackbarLocation: s.snackbarLocation,
-// 		detailsPanel: s.detailsPanel,
-// 		drawer: s.drawer,
-// 		drawerState: s.drawerState,
-// 		drawerCloseOnNav: s.drawerCloseOnNav,
-// 		headerBorder: s.headerBorder,
-// 		hoverTime: s.hoverTime,
-// 		globalSearch: s.globalSearch,
-// 		dsTheme: s.dsTheme
-// 	})
-// }
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		changeDiscoverSenti: val => dispatch(changeDiscoverSenti(val)),
-// 		changeLanguage: code => dispatch(changeLanguage(code)),
-// 		changeTRP: nr => dispatch(changeTRP(nr)),
-// 		changeTheme: t => dispatch(changeTheme(t)),
-// 		changeSideBarLoc: loc => dispatch(changeSideBarLoc(loc)),
-// 		changeMapTheme: t => dispatch(changeMapTheme(t)),
-// 		changeSnackbarLocation: val => dispatch(changeSnackbarLocation(val)),
-// 		changeDetailsPanel: val => dispatch(changeDetailsPanel(val)),
-// 		changeDrawerType: val => dispatch(changeDrawerType(val)),
-// 		changeDrawerState: val => dispatch(changeDrawerState(val)),
-// 		changeDrawerCloseOnNav: val => dispatch(changeDrawerCloseOnNav(val)),
-// 		changeHeaderBorder: val => dispatch(changeHeaderBorder(val)),
-// 		changeHoverTime: val => dispatch(changeHoverTime(val)),
-// 		changeGlobalSearch: val => dispatch(changeGlobalSearch(val)),
-// 		changeDashboardTheme: val => dispatch(changeDashboardTheme(val))
-// 	}
-// }
 export default DisplaySettings

@@ -1,17 +1,18 @@
+import React from 'react';
 import { AppBar, Button, Hidden, Toolbar, ButtonBase } from '@material-ui/core';
-import React, { useContext } from 'react';
 import HeaderLinks from './HeaderLinks';
 import headerStyles from 'Styles/headerStyle';
 import logo from 'logo.svg'
-import { TProvider } from './Providers/LocalizationProvider';
 import { useHistory } from 'react-router'
+import { useLocalization } from 'Hooks';
 
 function Header({ ...props }) {
 	const classes = headerStyles()
-	const t = useContext(TProvider)
 	const history = useHistory()
-	// const navigateHome = () => navigate('/')
+	const t = useLocalization()
+
 	const goHome = () => history.push('/')
+
 	var brand = (
 		<ButtonBase
 			focusRipple
@@ -46,7 +47,7 @@ function Header({ ...props }) {
 					</Button>
 				</div>
 				<Hidden mdDown implementation='css'>
-					<HeaderLinks t={t} />
+					<HeaderLinks t={t} history={history} />
 				</Hidden>
 			</Toolbar>
 		</AppBar>
