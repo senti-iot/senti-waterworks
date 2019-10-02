@@ -26,7 +26,7 @@ function Login() {
 	const [error, setError] = useState(false)
 	const [user, setUser] = useState('')
 	const [pass, setPass] = useState('')
-	const [language, setLanguage] = useState('da')
+	// const [language, setLanguage] = useState('da')
 	const [loggingIn, setLoggingIn] = useState(false)
 	const [loggingInGoogle, setLoggingInGoogle] = useState(false)
 	const [cookies, setCookies] = useState(false)
@@ -131,7 +131,7 @@ function Login() {
 		}
 		if (location.pathname.includes('en')) {
 			redux.setLanguage('en')
-			setLanguage('en')
+			// setLanguage('en')
 		}
 	}, [location.pathname, history, redux])
 
@@ -216,13 +216,13 @@ function Login() {
 												{t('actions.login')}
 											</Button>
 										</ItemG>
-										<ItemG xs={12} container justify={'center'} style={{ margin: "8px 0px" }}>
-											<ItemG xs={12} container justify={'space-around'}>
-												<Link to={`/password/reset/${language}`}>
-													{t('login.forgotPassword')}
-												</Link>
-											</ItemG>
-										</ItemG>
+										{/* <ItemG xs={12} container justify={'center'} style={{ margin: "8px 0px" }}> */}
+										{/* <ItemG xs={12} container justify={'space-around'}> */}
+										{/* <Link to={`/password/reset/${language}`}> */}
+										{/* {t('login.forgotPassword')} */}
+										{/* </Link> */}
+										{/* </ItemG> */}
+										{/* </ItemG> */}
 										<ItemG xs={12} container justify={'center'}>
 											<GoogleLogin
 												clientId="1038408973194-qcb30o8t7opc83k158irkdiar20l3t2a.apps.googleusercontent.com"
