@@ -59,9 +59,9 @@ function HeaderLinks(props) {
 
 	const handleLogOut = async () => {
 		try {
-			redux.resetRedux()
 			await logOut().then(() => {
 				cookie.remove('SESSION', { path: '/' })
+				redux.resetRedux()
 			})
 		}
 		catch (e) {
