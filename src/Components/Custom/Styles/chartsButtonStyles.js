@@ -8,7 +8,9 @@ import { emphasize } from '@material-ui/core/styles';
 const chartsButtonStyles = makeStyles(theme => ({
 	mainButton: {
 		background: ({ active }) => active ? colors['orange'][500] : headerColor,
-		width: 300,
+		width: 'calc(100% - 16px)',
+		margin: 8,
+		minWidth: 100,
 		color: '#fff',
 		textTransform: 'none',
 		height: 46,

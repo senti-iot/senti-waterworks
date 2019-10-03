@@ -14,14 +14,22 @@ const ChartsContainer = (props) => {
 	const handleSetChart = (c) => () => setChart(c)
 	// const history = useHistory()
 	return (
-		<ItemG spacing={1} container justify={'space-between'} alignItems={'flex-end'} style={{ height: '100%' }}>
-			<ItemG xs={12} >
+		<ItemG container justify={'space-between'} alignItems={'flex-end'} style={{ height: '100%' }}>
+			<ItemG xs={12} style={{ margin: '0px 30px' }}>
 				<Hidden mdDown>
-					<ItemG container justify={'space-evenly'} style={{ margin: 8 }}>
-						<ChartsButton onClick={handleSetChart('waterusage')} active={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
-						<ChartsButton onClick={handleSetChart('temperature')} active={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
-						<ChartsButton onClick={handleSetChart('waterflow')} active={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
-						<ChartsButton onClick={handleSetChart('readings')} active={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+					<ItemG container justify={'space-evenly'}>
+						<ItemG xs={3}>
+							<ChartsButton onClick={handleSetChart('waterusage')} active={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
+						</ItemG>
+						<ItemG xs={3}>
+							<ChartsButton onClick={handleSetChart('temperature')} active={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
+						</ItemG>
+						<ItemG xs={3}>
+							<ChartsButton onClick={handleSetChart('waterflow')} active={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
+						</ItemG>
+						<ItemG xs={3}>
+							<ChartsButton onClick={handleSetChart('readings')} active={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+						</ItemG>
 					</ItemG>
 				</Hidden>
 			</ItemG>
