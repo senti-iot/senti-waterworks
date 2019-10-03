@@ -3,34 +3,33 @@ import { /* lineData,  */prevLineData, generateData } from './demoData'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
-import { Collapse, colors } from '@material-ui/core'
+import { /* Collapse, */ colors, Paper } from '@material-ui/core'
 import hexToRgba from 'hex-to-rgba'
 import moment from 'moment'
-const _ = require('lodash')
+// const _ = require('lodash')
 
-const isWeekend = (date) => {
-	return moment(date, 'YYYY-MM-DD HH:mm:ss').day() === 6 || moment(date).day() === 0 ? true : false
-}
+// const isWeekend = (date) => {
+// 	return moment(date, 'YYYY-MM-DD HH:mm:ss').day() === 6 || moment(date).day() === 0 ? true : false
+// }
 
 const lineStyles = makeStyles(theme => ({
-	area: {
-		fill: hexToRgba(colors['orange'][500], 0.3),
+	hiddenMedianLine: {
+		stroke: '#fff',
+		opacity: 0,
+		strokeWidth: '5px'
 	},
 	lineWeekend: {
-		// fill: hexToRgba(colors['orange'][500], 0.3),
 		fill: 'none',
 		stroke: colors['red'][500],
 		strokeWidth: '3px'
 	},
 	line: {
-		// fill: hexToRgba(colors['orange'][500], 0.3),
 		fill: 'none',
 		stroke: colors['orange'][500],
 		strokeWidth: '3px'
 	},
 	line2: {
 		fill: 'rgba(255,255,255, 0.1)',
-		// stroke: '#eee'
 	},
 	dot: {
 		fill: colors['orange'][500],
@@ -41,27 +40,51 @@ const lineStyles = makeStyles(theme => ({
 	tooltip: {
 		position: "absolute",
 		textAlign: "center",
-		width: 'auto',
-		minWidth: '60px',
-		height: 'auto',
-		background: "lightsteelblue",
+		width: '200px',
+		height: '200px',
+		background: theme.palette.type === 'light' ? '#eee' : '#424242',
 		border: 0,
-		borderRadius: 8,
+		borderRadius: 4,
+		zIndex: -1,
 		transition: '300ms all ease'
-		// pointerEvents: "none",
+	},
+	medianTooltip: {
+		position: "absolute",
+		textAlign: "center",
+		width: '72px',
+		height: '36px',
+		background: theme.palette.type === 'light' ? '#eee' : '#424242',
+		border: 0,
+		borderRadius: 4,
+		zIndex: -1,
+		transition: '300ms all ease'
+	},
+	area: {
+		fill: hexToRgba(colors['orange'][500], 0.3),
 	}
 }))
 
 
-const DASH_LENGTH = 2
-const DASH_SEPARATOR_LENGTH = 2
+// const DASH_LENGTH = 2
+// const DASH_SEPARATOR_LENGTH = 2
+
+const getMedianLineData = (data, prevData) => {
+	console.log(data)
+	let sum = data.map(d => d.nps).reduce((total, val) => total + val)
+	console.log(sum)
+	// sum.reduce()
+	let avrg = Math.round(sum / data.length)
+	let medianValues = [{ date: data[0].date, nps: avrg }, { date: prevData[prevData.length - 1].date, nps: avrg }]
+	return medianValues
+}
+
 
 const LineGraph = (props) => {
 	const lineData = generateData()
 	const lineChartContainer = useRef(null)
 	const classes = lineStyles()
 	const [value, setValue] = useState({ nps: null, date: null })
-	const [expand, setExpand] = useState(false)
+	// const [expand, setExpand] = useState(false)
 	let lastId = useRef('initial')
 	useEffect(() => {
 		if (lineChartContainer.current && lastId.current !== props.id) {
@@ -91,7 +114,7 @@ const LineGraph = (props) => {
 			y.domain([0, 100]);
 
 			//Define the area for the values
-			var valuearea = d3.area()
+			var valueArea = d3.area()
 				.x(function (d) { return x(d.date) })
 				.y0(y(0))
 				.y1(function (d) { return y(d.nps) })
@@ -104,116 +127,141 @@ const LineGraph = (props) => {
 			svg.append("path")
 				.data([prevLineData])
 				.attr("class", classes.line2)
-				.attr("d", valuearea);
+				.attr("d", valueArea);
 
 			svg.append("path")
 				.data([lineData])
 				.attr("class", classes.area)
-				.attr("d", valuearea);
-			// const defs = svg.append('defs')
-			// const bgGradient = defs
-			// 	.append('linearGradient')
-			// 	.attr("x1", "0%")
-			// 	.attr("y1", "0%")
-			// 	.attr("x2", "100%")
-			// 	.attr("y2", "0%")
-			// 	.attr('id', 'bg-gradient')
-			// 	.attr('gradientTransform', 'rotate(0)');
-			// lineData.forEach((d, i) => {
-			// 	bgGradient
-			// 		.append('stop')
-			// 		.attr('stop-color', isWeekend(d.date) ? '#ff0000' : '#00ffff')
-			// 		.attr('offset', `${(i / lineData.length) * 100}%`);
-			// })
-			// let arrayOfPaths = []
+				.attr("d", valueArea);
 
 			svg.append('path')
 				.data([lineData])
 				.attr('class', classes.line)
 				.attr('d', valueLine)
-				// .attr('stroke', 'url(#bg-gradient)')
-				.attr('stroke-dasharray', function (d) { return getDashArray(d, this) })
 
-			function getDashArray(data, path) {
-				const dashedRanges = getDashedRanges(data)
-				if (dashedRanges.length === 0) return null
+			var medianTooltip = d3.select(`#${props.id}medianTooltip`)
+				.attr("class", classes.medianTooltip)
+				.style("opacity", 0);
 
-				const lengths = data.map(d => getPathLengthAtX(path, x(d.date)))
-				return buildDashArray(dashedRanges, lengths)
-			}
+			let medianLine = svg.append('path')
+				.data([getMedianLineData(lineData, prevLineData)])
+				.attr('class', classes.lineWeekend)
+				.attr('d', valueLine)
+				.attr('stroke-dasharray', ("3, 3"))
 
-			function getDashedRanges(data) {
-				const hasOpenRange = (arr) => _.last(arr) && !('end' in _.last(arr))
-				const lastIndex = data.length - 1
+			svg.append('path')
+				.data([getMedianLineData(lineData, prevLineData)])
+				.attr('class', classes.hiddenMedianLine)
+				.attr('d', valueLine)
+				.on("mouseover", function (d) {
+					medianLine.transition()
+						.duration(100)
+						.style('stroke-width', '7px')
+					medianTooltip.transition()
+						.duration(200)
+						.style("opacity", 1)
+						.style('z-index', 1040);
+					medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+						.style("top", (d3.event.pageY) - 41 + "px");
+					setValue(d[0])
+				}).on("mouseout", function (d) {
+					// setExpand(false)
+					medianLine.transition()
+						.duration(100)
+						.style('stroke-width', '3px')
+					medianTooltip.transition()
+						.duration(500)
+						.style('z-index', -1)
+						.style("opacity", 0);
+				}).on('click', function (d) {
+					// setExpand(true)
+				});
 
-				return _.reduce(data, (res, d, i) => {
-					const isRangeStart = !hasOpenRange(res) && isDashed(d)
-					if (isRangeStart) res.push({ start: Math.max(0, i - 1) })
+			// .attr('stroke', 'url(#bg-gradient)')
+			// .attr('stroke-dasharray', function (d) { return getDashArray(d, this) })
 
-					const isRangeEnd = hasOpenRange(res) && (!isDashed(d) || i === lastIndex)
-					if (isRangeEnd) res[res.length - 1].end = i
+			//#region Dashed Section
 
-					return res
-				}, [])
-			}
+			// function getDashArray(data, path) {
+			// 	const dashedRanges = getDashedRanges(data)
+			// 	if (dashedRanges.length === 0) return null
 
+			// 	const lengths = data.map(d => getPathLengthAtX(path, x(d.date)))
+			// 	return buildDashArray(dashedRanges, lengths)
+			// }
 
-			function getPathLengthAtX(path, x) {
-				const EPSILON = 1
-				let point
-				let target
-				let start = 0
-				let end = path.getTotalLength()
+			// function getDashedRanges(data) {
+			// 	const hasOpenRange = (arr) => _.last(arr) && !('end' in _.last(arr))
+			// 	const lastIndex = data.length - 1
 
-				// Mad binary search, yo
-				while (true) {
-					target = Math.floor((start + end) / 2)
-					point = path.getPointAtLength(target)
+			// 	return _.reduce(data, (res, d, i) => {
+			// 		const isRangeStart = !hasOpenRange(res) && isDashed(d)
+			// 		if (isRangeStart) res.push({ start: Math.max(0, i - 1) })
 
-					if (Math.abs(point.x - x) <= EPSILON) break
+			// 		const isRangeEnd = hasOpenRange(res) && (!isDashed(d) || i === lastIndex)
+			// 		if (isRangeEnd) res[res.length - 1].end = i
 
-					if ((target >= end || target <= start) && point.x !== x) {
-						break
-					}
-
-					if (point.x > x) {
-						end = target
-					} else if (point.x < x) {
-						start = target
-					} else {
-						break
-					}
-				}
-
-				return target
-			}
-
-
-			function buildDashArray(dashedRanges, lengths) {
-				return _.reduce(dashedRanges, (res, { start, end }, i) => {
-					const prevEnd = i === 0 ? 0 : dashedRanges[i - 1].end
-
-					const normalSegment = lengths[start] - lengths[prevEnd]
-					const dashedSegment = getDashedSegment(lengths[end] - lengths[start])
-
-					return res.concat([normalSegment, dashedSegment])
-				}, [])
-			}
+			// 		return res
+			// 	}, [])
+			// }
 
 
-			function getDashedSegment(length) {
-				const totalDashLen = DASH_LENGTH + DASH_SEPARATOR_LENGTH
-				const dashCount = Math.floor(length / totalDashLen)
-				return _.range(dashCount)
-					.map(() => DASH_SEPARATOR_LENGTH + ',' + DASH_LENGTH)
-					.concat(length - dashCount * totalDashLen)
-					.join(',')
-			}
+			// function getPathLengthAtX(path, x) {
+			// 	const EPSILON = 1
+			// 	let point
+			// 	let target
+			// 	let start = 0
+			// 	let end = path.getTotalLength()
+
+			// 	// Mad binary search, yo
+			// 	while (true) {
+			// 		target = Math.floor((start + end) / 2)
+			// 		point = path.getPointAtLength(target)
+
+			// 		if (Math.abs(point.x - x) <= EPSILON) break
+
+			// 		if ((target >= end || target <= start) && point.x !== x) {
+			// 			break
+			// 		}
+
+			// 		if (point.x > x) {
+			// 			end = target
+			// 		} else if (point.x < x) {
+			// 			start = target
+			// 		} else {
+			// 			break
+			// 		}
+			// 	}
+
+			// 	return target
+			// }
 
 
-			function isDashed(d) {
-				return isWeekend(d.date)
-			}
+			// function buildDashArray(dashedRanges, lengths) {
+			// 	return _.reduce(dashedRanges, (res, { start, end }, i) => {
+			// 		const prevEnd = i === 0 ? 0 : dashedRanges[i - 1].end
+
+			// 		const normalSegment = lengths[start] - lengths[prevEnd]
+			// 		const dashedSegment = getDashedSegment(lengths[end] - lengths[start])
+
+			// 		return res.concat([normalSegment, dashedSegment])
+			// 	}, [])
+			// }
+
+			// function getDashedSegment(length) {
+			// 	const totalDashLen = DASH_LENGTH + DASH_SEPARATOR_LENGTH
+			// 	const dashCount = Math.floor(length / totalDashLen)
+			// 	return _.range(dashCount)
+			// 		.map(() => DASH_SEPARATOR_LENGTH + ',' + DASH_LENGTH)
+			// 		.concat(length - dashCount * totalDashLen)
+			// 		.join(',')
+			// }
+
+			// function isDashed(d) {
+			// 	return isWeekend(d.date)
+			// }
+
+			//#endregion
 
 			var xAxis_woy = d3.axisBottom(x).tickFormat(d3.timeFormat("%d %b'%y")).tickValues([...lineData.map(d => d.date)/* , ...prevLineData.map(d => d.date) */]);
 
@@ -246,17 +294,19 @@ const LineGraph = (props) => {
 				.on("mouseover", function (d) {
 					div.transition()
 						.duration(200)
-						.style("opacity", .9);
-					div.style("left", (d3.event.pageX) - 35 + "px")
-						.style("top", (d3.event.pageY) - 50 + "px");
+						.style("opacity", 1)
+						.style('z-index', 1040);
+					div.style("left", (d3.event.pageX) - 235 + "px")
+						.style("top", (d3.event.pageY) - 250 + "px");
 					setValue(d)
 				}).on("mouseout", function (d) {
-					setExpand(false)
+					// setExpand(false)
 					div.transition()
 						.duration(500)
+						.style('z-index', -1)
 						.style("opacity", 0);
 				}).on('click', function (d) {
-					setExpand(true)
+					// setExpand(true)
 				});
 			var oldSvg = d3.select(`#${lastId.current}`)
 			oldSvg.remove()
@@ -265,31 +315,23 @@ const LineGraph = (props) => {
 		else {
 			// console.log(svg)
 		}
-	}, [lineChartContainer, classes, props.id, lineData, lastId])
+		return () => {
+			// console.log(classes)
+		}
+	}, [lineChartContainer, props.id, lineData, lastId, classes.line2, classes.area, classes.line, classes.tooltip, classes.dot, classes])
+	console.log(value)
 	return (
 		<div style={{ width: '100%', height: '100%', }}>
-			<div id={props.id + 'tooltip'}>
+			<Paper id={props.id + 'tooltip'} style={{ width: '200px', height: '200px' }}>
 				<T>
-					{moment(value.date).format('LLL')}
+					{` ${moment(value.date).format('LLL')} ${value.nps} `}
 				</T>
-				<Collapse in={expand}>
-					<div>
-						<T>
-							{value.nps}
-						</T>
-						<T>
-							{value.nps}
-						</T>
-						<T>
-							{value.nps}
-						</T>	<T>
-							{value.nps}
-						</T>	<T>
-							{value.nps}
-						</T>
-					</div>
-				</Collapse>
-			</div>
+			</Paper>
+			<Paper id={props.id + 'medianTooltip'}>
+				<T>
+					{` ${value.nps} `}
+				</T>
+			</Paper>
 			<div id={props.id} ref={lineChartContainer} style={{ width: '100%', height: '100%', minHeight: 600, maxHeight: 600 }}></div>
 		</div>
 	)

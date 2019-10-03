@@ -22,5 +22,6 @@ function App() {
 		</Router>
 	);
 }
+App.whyDidYouRender = true
 
 export default App;
