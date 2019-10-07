@@ -7,6 +7,7 @@ import { /* Collapse, */ colors, Paper } from '@material-ui/core'
 import hexToRgba from 'hex-to-rgba'
 import moment from 'moment'
 import d3Line from './classes/d3Line'
+import { usePrevious } from 'Hooks'
 // const _ = require('lodash')
 
 // const isWeekend = (date) => {
@@ -14,6 +15,19 @@ import d3Line from './classes/d3Line'
 // }
 
 const lineStyles = makeStyles(theme => ({
+	axis: {
+		stroke: 'none'
+	},
+	axisText: {
+		fill: 'currentColor',
+		fontWeight: 600,
+		fontSize: '1rem'
+	},
+	axisTick: {
+		fill: 'currentColor',
+		fontWeight: 600,
+		fontSize: '0.75rem'
+	},
 	hiddenMedianLine: {
 		stroke: '#fff',
 		opacity: 0,
@@ -82,37 +96,48 @@ const lineStyles = makeStyles(theme => ({
 let line = null
 
 const LineGraph = (props) => {
-	const lineData = generateData()
+	let lineData = useRef(generateData())
 	const lineChartContainer = useRef(null)
 	const classes = lineStyles()
 	const [value, setValue] = useState({ nps: null, date: null })
 	const [medianValue, setMedianValue] = useState({ nps: null, date: null })
+	const prevId = usePrevious(props.id)
 	// const [expand, setExpand] = useState(false)
 	// const [width, setWidth] = useState(900);
 	// const [height, setHeight] = useState(600);
 
 	useEffect(() => {
-		if (lineChartContainer.current && !line) {
-			// setWidth(lineChartContainer.current.clientWidth);
-			// setHeight(lineChartContainer.current.clientHeight);
+		if ((props.id !== prevId) && line) {
+			lineData.current = generateData()
+			line.destroy()
 			line = new d3Line(lineChartContainer.current, {
 				id: props.id,
-				lineData: lineData, prevLineData: prevLineData, setTooltip: setValue,
+				lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
 				setMedianTooltip: setMedianValue
 			}, classes);
 
 		}
-	}, [classes, lineData, props.id]);
+	}, [classes, prevId, props.id])
+	useEffect(() => {
+		if ((lineChartContainer.current && !line)) {
+			lineData.current = generateData()
+			line = new d3Line(lineChartContainer.current, {
+				id: props.id,
+				lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
+				setMedianTooltip: setMedianValue
+			}, classes);
+
+		}
+	}, [classes, lineData, prevId, props.id]);
 	useEffect(() => {
 		let resizeTimer;
 		const handleResize = () => {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(function () {
-				console.log('BingBingBingBing', lineChartContainer.current)
 				line.destroy()
 				line = new d3Line(lineChartContainer.current, {
 					id: props.id,
-					lineData: lineData, prevLineData: prevLineData, setTooltip: setValue,
+					lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
 					setMedianTooltip: setMedianValue
 				}, classes);
 				// setWidth(lineChartContainer.current.clientWidth);
@@ -124,14 +149,6 @@ const LineGraph = (props) => {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, [classes, lineData, props.id]);
-
-	// useEffect(() => {
-
-	// 	if (lineChartContainer.current && line) {
-
-	//
-	// 	}
-	// }, [classes, lineData, props.id]);
 
 	return (
 		<div style={{ width: '100%', height: '100%', }}>

@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import moment from 'moment';
 
 const getMedianLineData = (data, prevData) => {
 	console.log(data)
@@ -10,7 +11,10 @@ const getMedianLineData = (data, prevData) => {
 	return medianValues
 }
 
-
+const toUppercase = str => str.charAt(0).toUpperCase() + str.slice(1);
+const getMax = (arr) => {
+	return Math.max(...arr.map(d => d.nps))
+}
 class d3Line {
 
 	containerEl;
@@ -51,9 +55,10 @@ class d3Line {
 		this.y = d3.scaleLinear().range([height, 0]);
 		// var y = d3.scaleLinear().range([height, 0]);
 
+		console.log(getMax(lineData) + 10)
 		//Set the graph ranges
 		this.x.domain(d3.extent([...lineData, ...prevLineData], function (d) { return d.date; }));
-		this.y.domain([0, 100]);
+		this.y.domain([0, getMax(lineData) + 10]);
 
 		//Define the area for the values
 		var valueArea = d3.area()
@@ -66,31 +71,38 @@ class d3Line {
 			.y(d => this.y(d.nps))
 
 
+		//Previous Data - Area
 		this.svg.append("path")
 			.data([prevLineData])
 			.attr("class", classes.line2)
 			.attr("d", valueArea);
 
+		// Current Data area
 		this.svg.append("path")
 			.data([lineData])
 			.attr("class", classes.area)
 			.attr("d", valueArea);
 
+		// Current Data line
 		this.svg.append('path')
 			.data([lineData])
 			.attr('class', classes.line)
 			.attr('d', valueLine)
 
+		//Median tooltip
+
 		var medianTooltip = d3.select(`#${props.id}medianTooltip`)
 			.attr("class", classes.medianTooltip)
 			.style("opacity", 0);
 
+		//Median line
 		let medianLine = this.svg.append('path')
 			.data([getMedianLineData(lineData, prevLineData)])
 			.attr('class', classes.lineWeekend)
 			.attr('d', valueLine)
 			.attr('stroke-dasharray', ("3, 3"))
 
+		// Hidden overlay for Median tooltip
 		this.svg.append('path')
 			.data([getMedianLineData(lineData, prevLineData)])
 			.attr('class', classes.hiddenMedianLine)
@@ -125,17 +137,56 @@ class d3Line {
 			});
 
 
-		var xAxis_woy = d3.axisBottom(this.x).tickFormat(d3.timeFormat("%d %b'%y")).tickValues([...lineData.map(d => d.date)]);
+		var xAxis_woy = d3.axisBottom(this.x)
+			// .ticks(Math.round(lineData.length / 5))
+			.tickFormat(d3.timeFormat("%d"))
+			.tickValues([...lineData.map((d, i) => {
+				switch (true) {
+					case i === 0:
+					case i === lineData.length - 1:
+						return d.date
+					case lineData.length > 7:
+						return (i + 1) % 5 ? null : d.date
+					case lineData.length <= 7:
+						return d.date
+					default:
+						return null;
+				}
+			})]);
 
 		//Add the X axis
-		this.svg.append("g")
-			.attr("class", "x axis")
+		let xAxis = this.svg.append("g")
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis_woy);
 
+
+		//Append style
+		xAxis.selectAll('path').attr('class', classes.axis)
+		xAxis.selectAll('line').attr('class', classes.axis)
+		xAxis.selectAll('text').attr('class', classes.axisTick)
+
+		xAxis.append('text')
+			.attr('transform', `translate(0,50)`)
+			.attr('class', classes.axisText)
+			.html(toUppercase(moment(lineData[0].date).format('MMMM')))
+
 		//  Add the Y Axis
-		this.svg.append("g").call(d3.axisLeft(this.y));
-		// Define the tooltip
+
+		let yAxis = this.svg.append("g").call(d3.axisLeft(this.y));
+
+
+
+		yAxis.selectAll('path').attr('class', classes.axis)
+		yAxis.selectAll('line').attr('class', classes.axis)
+		yAxis.selectAll('text').attr('class', classes.axisTick)
+
+		yAxis.append('text')
+			.attr('transform', `translate(-40,${height / 2})`)
+			.attr('class', classes.axisText)
+			// .html(props.unit)
+			.html('m3')
+
+		// Define the current data tooltip
 		var div = d3.select(`#${props.id}tooltip`)
 			.attr("class", classes.tooltip)
 			.style("opacity", 0);
