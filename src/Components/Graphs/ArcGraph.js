@@ -41,8 +41,13 @@ const arcStyles = makeStyles(theme => ({
 	},
 	prevText: {
 		color: 'rgba(255,255,255, 0.5)'
-	}
-
+	},
+	totalUsage: {
+		marginLeft: 16, marginTop: 16, fontWeight: 600, letterSpacing: 1, height: 32
+	},
+	totalUsageM: {
+		marginLeft: 16, marginBottom: 16, height: 32
+	},
 }))
 
 let arc = null
@@ -123,7 +128,7 @@ const ArcGraph = (props) => {
 		<div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100%', width: '100%' }}>
 
 			{/* // <div style={{ width: 'calc(100% - ', height: '100%', position: 'relative' }}> */}
-			<T variant={'h5'} style={{ marginLeft: 16, marginTop: 16, fontWeight: 600, letterSpacing: 1, height: 32 }}>{t('charts.totalUsage')}</T>
+			<T variant={'h5'} className={classes.totalUsage} style={{}}>{t('charts.totalUsage')}</T>
 			<div id={props.id} ref={arcChartContainer} style={{ width: '100%', height: '100%', /* minHeight: 250, */ position: 'relative' }} >
 				<div className={classes.textContainer}>
 					<T>{t(`charts.periods.${period}`)}</T>
@@ -131,7 +136,7 @@ const ArcGraph = (props) => {
 					<T variant='h5' className={classes.prevText}>{`/${formatNumber(arcPrevData.current)} ${unit()}`}</T>
 				</div>
 			</div>
-			<T>{arcData > arcPrevData ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T>
+			<T className={classes.totalUsageM}>{arcData.current > arcPrevData.current ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T>
 		</div>
 
 	)
