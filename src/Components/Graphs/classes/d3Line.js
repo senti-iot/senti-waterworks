@@ -26,7 +26,7 @@ class d3Line {
 		// const prevLineData = props.prevLineData
 		// const
 		// const classes = props.classes
-		var margin = { top: 50, right: 50, bottom: 75, left: 50 };
+		var margin = { top: 50, right: 75, bottom: 75, left: 75 };
 
 		//Get the height and width from the container
 		var height = containerEl.clientHeight;
@@ -43,9 +43,8 @@ class d3Line {
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
 			.append("g")
-		// .attr("width", width /* - margin.left - margin.right */)
-		// .attr("height", height/* - margin.top - margin.bottom */)
-		// .attr("transform", "translate(" + margin.left + "," + "-" + margin.top + ")");
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 		// Set the this.svg ranges
 		this.x = d3.scaleTime().range([0, width]);
 		// var x = d3.scaleTime().range([0, width]);
