@@ -95,6 +95,11 @@
 		}
 	},
 	"charts": {
+		"totalUsage": "Samlet forbrug",
+		"totalUsageMessages": {
+			"more": "Du har til dato forbrugt mere vand end sidste måned",
+			"less": "Der er til dato forbrugt mindre vand end sidste måned"
+		},
 		"controlPanel": "Data kontrolpanel",
 		"fields": {
 			"date": "Dato",
@@ -106,6 +111,9 @@
 			"thisDay": "Denne dag:",
 			"weather": "Vejr",
 			"windspeed": "Vindhastighed"
+		},
+		"periods": {
+			"month": "Måned til dag"
 		},
 		"types": {
 			"waterusage": "Vandforbrug",

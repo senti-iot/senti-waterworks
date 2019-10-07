@@ -10,6 +10,11 @@ lineData.push({ date: new Date(2019, 1, 7), nps: Math.random() * 100 });
 lineData.push({ date: new Date(2019, 1, 8), nps: Math.random() * 100 });
 
 
+const generateArcData = () => {
+	let arcData = 0
+	arcData = Math.random() * 100
+	return arcData.toFixed(3)
+}
 
 const generateData = () => {
 	let lineData = []
@@ -55,6 +60,7 @@ prevLineData.push({ date: new Date(2019, 9, 25), nps: Math.random() * 100 });
 
 
 export {
+	generateArcData,
 	generateData,
 	lineData,
 	prevLineData

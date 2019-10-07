@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { /* GridContainer, */ ItemG, T } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
 import { TProvider } from 'Components/Providers/LocalizationProvider'
@@ -8,7 +8,7 @@ import LineGraph from 'Components/Graphs/LineGraph'
 // import { useHistory } from 'react-router'
 
 const ChartsContainer = (props) => {
-	const [chart, setChart] = useState('waterusage')
+	const { chart, setChart } = props
 	const t = useContext(TProvider)
 	const isActive = (c) => chart === c ? true : false
 	const handleSetChart = (c) => () => setChart(c)

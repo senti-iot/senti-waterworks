@@ -80,19 +80,6 @@ const lineStyles = makeStyles(theme => ({
 }))
 
 
-// const DASH_LENGTH = 2
-// const DASH_SEPARATOR_LENGTH = 2
-
-// const getMedianLineData = (data, prevData) => {
-// 	console.log(data)
-// 	let sum = data.map(d => d.nps).reduce((total, val) => total + val)
-// 	console.log(sum)
-// 	// sum.reduce()
-// 	let avrg = Math.round(sum / data.length)
-// 	let medianValues = [{ date: data[0].date, nps: avrg }, { date: prevData[prevData.length - 1].date, nps: avrg }]
-// 	return medianValues
-// }
-
 let line = null
 
 const LineGraph = (props) => {

@@ -13,32 +13,37 @@ import cookie from 'react-cookies';
 import { useDispatch, useSelector } from 'Hooks';
 import { getSettings } from 'Redux/settings';
 import { CircularLoader } from 'Components';
+import ArcGraph from 'Components/Graphs/ArcGraph';
 
 const ChartContainer = (props) => {
 	const classes = props.classes
+	const [chart, setChart] = useState('waterusage')
 
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >
 			<Paper className={classes.gridItemBackground}>
-				<ChartsContainer />
+				<ChartsContainer chart={chart} setChart={setChart} />
 			</Paper>
 		</ItemG>
 		<ItemG xs={3}>
-			<ItemG container direction={'column'} style={{ height: '100%', width: '100%' }}>
-				<ItemG xs={3} style={{ maxWidth: '100%' }}>
+			<ItemG container direction={'row'} style={{ height: '100%', width: '100%' }}>
+				<ItemG xs={12} style={{ height: '30%' }}>
 					<Paper className={classes.gridItemBackground}>
+						<div>Test1</div>
 						{/* <div style={{ height: 100, width: 100 }} /> */}
 					</Paper>
 
 				</ItemG>
-				<ItemG xs={5} style={{ maxWidth: '100%' }}>
+				<ItemG xs={12} style={{ height: '45%' }}>
 					<Paper className={classes.gridItemBackground}>
-
+						<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
 					</Paper>
 
 				</ItemG>
-				<ItemG xs={4} style={{ maxWidth: '100%' }}>
+				<ItemG xs={12} style={{ height: '25%' }}>
 					<Paper className={classes.gridItemBackground}>
+						<div>Test</div>
+						{/* <ArcGraph id={'arc-graph-water3'} /> */}
 					</Paper>
 
 				</ItemG>
