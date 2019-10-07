@@ -95,12 +95,17 @@
 		}
 	},
 	"charts": {
+		"devices": "Målere",
 		"totalUsage": "Samlet forbrug",
 		"totalUsageMessages": {
 			"more": "Du har til dato forbrugt mere vand end sidste måned",
 			"less": "Der er til dato forbrugt mindre vand end sidste måned"
 		},
 		"controlPanel": "Data kontrolpanel",
+		"device": {
+			"active": "Aktiverede målere",
+			"inactive": "Målere ude af drift"
+		},
 		"fields": {
 			"date": "Dato",
 			"humidity": "Fugtighed",

@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'Hooks';
 import { getSettings } from 'Redux/settings';
 import { CircularLoader } from 'Components';
 import ArcGraph from 'Components/Graphs/ArcGraph';
+import DevicesWidget from 'Components/Custom/Devices/DevicesWidget';
 
 const ChartContainer = (props) => {
 	const classes = props.classes
@@ -42,8 +43,7 @@ const ChartContainer = (props) => {
 				</ItemG>
 				<ItemG xs={12} style={{ height: '25%' }}>
 					<Paper className={classes.gridItemBackground}>
-						<div>Test</div>
-						{/* <ArcGraph id={'arc-graph-water3'} /> */}
+						<DevicesWidget />
 					</Paper>
 
 				</ItemG>

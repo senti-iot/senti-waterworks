@@ -11,6 +11,7 @@ const containerStyles = makeStyles(theme => ({
 	},
 	gridItemBackground: props => {
 		return {
+			position: 'relative',
 			height: 'calc(100% - 32px)',
 			padding: '8px 16px',
 			margin: 8,

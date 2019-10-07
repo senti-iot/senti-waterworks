@@ -95,6 +95,7 @@
 		}
 	},
 	"charts": {
+		"devices": "Devices",
 		"totalUsage": "Total usage",
 		"totalUsageMessages": {
 			"more": "There is more consumed water to date than last month",
@@ -103,6 +104,10 @@
 			"readings": {},
 			"temperature": {},
 			"waterflow": {}
+		},
+		"device": {
+			"active": "Active devices",
+			"inactive": "Inactive devices"
 		},
 		"controlPanel": "Data control panel",
 		"fields": {
