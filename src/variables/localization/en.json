@@ -9,6 +9,7 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"filter": "Filter",
 		"accept": "Accept",
 		"add": "Add",
 		"addFilter": "Add filter",
@@ -96,7 +97,9 @@
 	},
 	"charts": {
 		"devices": "Devices",
+		"selectedDevices": "Selected devices",
 		"totalUsage": "Total usage",
+		"seeing": "Seeing",
 		"totalUsageMessages": {
 			"more": "There is more consumed water to date than last month",
 			"less": "To date, there is less water consumed than last month",

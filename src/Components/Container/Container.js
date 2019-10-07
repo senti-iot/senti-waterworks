@@ -15,6 +15,7 @@ import { getSettings } from 'Redux/settings';
 import { CircularLoader } from 'Components';
 import ArcGraph from 'Components/Graphs/ArcGraph';
 import DevicesWidget from 'Components/Custom/Devices/DevicesWidget';
+import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget';
 
 const ChartContainer = (props) => {
 	const classes = props.classes
@@ -28,14 +29,13 @@ const ChartContainer = (props) => {
 		</ItemG>
 		<ItemG xs={3}>
 			<ItemG container direction={'row'} style={{ height: '100%', width: '100%' }}>
-				<ItemG xs={12} style={{ height: '30%' }}>
+				<ItemG xs={12} style={{ height: '20%' }}>
 					<Paper className={classes.gridItemBackground}>
-						<div>Test1</div>
-						{/* <div style={{ height: 100, width: 100 }} /> */}
+						<DeviceTableWidget />
 					</Paper>
 
 				</ItemG>
-				<ItemG xs={12} style={{ height: '45%' }}>
+				<ItemG xs={12} style={{ height: '55%' }}>
 					<Paper className={classes.gridItemBackground}>
 						<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
 					</Paper>

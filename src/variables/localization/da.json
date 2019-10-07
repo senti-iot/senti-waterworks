@@ -9,6 +9,7 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"filter": "Filtrering",
 		"accept": "Godkend",
 		"add": "Tilføj",
 		"addFilter": "Tilføj filter",
@@ -96,7 +97,9 @@
 	},
 	"charts": {
 		"devices": "Målere",
+		"selectedDevices": "Valgte målere",
 		"totalUsage": "Samlet forbrug",
+		"seeing": "Viser",
 		"totalUsageMessages": {
 			"more": "Du har til dato forbrugt mere vand end sidste måned",
 			"less": "Der er til dato forbrugt mindre vand end sidste måned"
