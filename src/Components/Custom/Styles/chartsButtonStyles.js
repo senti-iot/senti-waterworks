@@ -7,7 +7,7 @@ import { emphasize } from '@material-ui/core/styles';
 
 const chartsButtonStyles = makeStyles(theme => ({
 	mainButton: {
-		background: ({ active }) => active ? colors['orange'][500] : headerColor,
+		background: ({ active }) => active ? colors['blue'][500] : headerColor,
 		width: 'calc(100% - 16px)',
 		margin: 8,
 		minWidth: 100,
@@ -17,7 +17,7 @@ const chartsButtonStyles = makeStyles(theme => ({
 		fontSize: '1.25rem',
 		borderRadius: 8,
 		"&:hover": {
-			backgroundColor: ({ active }) => active ? emphasize(colors['orange'][500], 0.2) : emphasize(headerColor, 0.2)
+			backgroundColor: ({ active }) => active ? emphasize(colors['blue'][500], 0.2) : emphasize(headerColor, 0.2)
 		}
 	}
 

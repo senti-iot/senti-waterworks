@@ -54,29 +54,28 @@ const ChartContainer = (props) => {
 
 
 function Container({ ...props }) {
-	// const t = useContext(TProvider)
-	// const history = useHistory()
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
+	const classes = containerStyles({ color: colorTheme })
 	const setHeader = useContext(HTitle)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
+
 	const redux = {
 		getSettings: async () => dispatch(await getSettings())
 	}
-	const classes = containerStyles({ color: colorTheme })
+
 	useEffect(() => {
 		setHeader('Header Title')
 	}, [setHeader])
+
 	useEffect(() => {
 		const loadSettings = async () => {
 			await redux.getSettings()
 			setLoading(false)
-			// 	 console.log(loading)
-			// 	// console.log(loading)
 		}
 		loadSettings()
-		// const settings = await loadSettings()
 	}, [loading, redux])
+
 	return (
 		cookie.load('SESSION') ?
 			<div>
