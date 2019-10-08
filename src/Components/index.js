@@ -36,8 +36,14 @@ import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 import TextF from 'Components/Input/TextF'
 import DSelect from 'Components/Input/DSelect'
 
+
+//Transitions 
+import SlideT from 'Components/Transitions/SlideT'
+
 //#endregion
 export {
+	//Transitions
+	SlideT,
 	//Containers
 	GridContainer,
 	ItemG,

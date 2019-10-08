@@ -1,10 +1,11 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
-import { useLocalization } from 'Hooks'
+import { useLocalization, useState } from 'Hooks'
 import { Button } from '@material-ui/core'
 import { orange } from '@material-ui/core/colors'
 import { emphasize } from '@material-ui/core/styles'
+import DeviceTableWrapper from './DeviceTableWrapper'
 
 const devicesTableWidgetStyles = makeStyles(theme => ({
 	title: {
@@ -36,11 +37,16 @@ const devicesTableWidgetStyles = makeStyles(theme => ({
 const DeviceTableWidget = () => {
 	const t = useLocalization()
 	const classes = devicesTableWidgetStyles()
+	const [openTable, setOpenTable] = useState(false)
+
+	const handleOpenTable = () => setOpenTable(true)
+
 	return (
 		<div>
+			<DeviceTableWrapper openTable={openTable} setOpenTable={setOpenTable}/>
 			<T variant={'h5'} className={classes.title}>{t('charts.selectedDevices')}</T>
 			<T className={classes.text}>{`${t('charts.seeing')}: ${2} ${t('charts.devices')}`}</T>
-			<Button variant={'contained'} className={classes.filterButton}>{t('actions.filter')}</Button>
+			<Button onClick={handleOpenTable} variant={'contained'} className={classes.filterButton}>{t('actions.filter')}</Button>
 		</div>
 	)
 }
