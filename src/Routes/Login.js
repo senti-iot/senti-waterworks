@@ -89,7 +89,6 @@ function Login() {
 					if (setToken()) {
 						await redux.getSettings()
 						var prevURL = location.state ? location.state.prevURL : null
-						console.log(prevURL)
 						history.push(prevURL ? prevURL : /* defaultRoute */ '/')
 					}
 				}

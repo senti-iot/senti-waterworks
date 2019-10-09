@@ -2,9 +2,10 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { settings } from './settings'
 import { localization } from './localization'
 import { appState } from './appState'
+import { data } from './data'
 import thunk from 'redux-thunk';
 
-let reducers = combineReducers({ settings, localization, appState })
+let reducers = combineReducers({ settings, localization, appState, data })
 /**
 *	 Debugging purposes
 **/

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, colors } from '@material-ui/core';
 import { bgColors } from 'Styles/backgroundColors';
 
 const deviceTableStyles = makeStyles(theme => ({
@@ -12,10 +12,15 @@ const deviceTableStyles = makeStyles(theme => ({
 	},
 	paperRoot: {
 		margin: theme.spacing(5),
-		borderRadius: 3
+		borderRadius: 3,
+		// overflow: 'hidden'
 	},
 	title: {
-		padding: 24
+		padding: 24,
+		borderRadius: "3px 3px 0px 0px",
+		background: props => colors[props.color][700],
+		color: '#fff'
+
 	},
 
 }))

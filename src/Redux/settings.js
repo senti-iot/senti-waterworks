@@ -83,7 +83,6 @@ export const saveOnServ = (user) => {
 }
 export const saveSettingsOnServ = () => {
 	return async (dispatch, getState) => {
-		console.log('Called Save Settings')
 		// return true
 		let user = getState().settings.user
 		let s = getState().settings
@@ -194,19 +193,19 @@ export const getSettings = async () => {
 			// 	dispatch(setDashboards(dashboards))
 			// }
 		}
-		else {
-			moment.locale('da')
-			let s = {
-				...getState().settings,
-			}
-			dispatch({
-				type: NOSETTINGS,
-				loading: false,
-				user,
-				settings: s
-			})
-			return false
-		}
+		// else {
+		// 	moment.locale('da')
+		// 	let s = {
+		// 		...getState().settings,
+		// 	}
+		// 	dispatch({
+		// 		type: NOSETTINGS,
+		// 		loading: false,
+		// 		user,
+		// 		settings: s
+		// 	})
+		// 	return false
+		// }
 	}
 }
 export const changeGlobalSearch = val => {

@@ -23,66 +23,10 @@ const tableStyles = makeStyles(theme => ({
 		background: props => darken(hexToRgba(colors[props.color][700], 0.7), 0.5),
 	},
 	header: {
-		[theme.breakpoints.down('sm')]: {
-			paddingRight: 4,
-			padding: 0,
-		},
-		background: props => darken(colors[props.color][500], 0.3),
-		// color: grey[200]
+		background: props => colors[props.color][700],
+		color: '#fff'
 	},
-	tablecellcheckbox: {
-		[theme.breakpoints.down("sm")]: {
-			width: '35px'
-		},
-		[theme.breakpoints.down("md")]: {
-			width: '45px'
-		},
-		fontSize: '0.875rem',
-		borderTop: "1px solid rgba(81, 81, 81, 1)",
-		/*padding: 0, */
-		width: '50px',
-	},
-	tableCell: {
-		// borderTop: "1px solid rgba(224, 224, 224, 1)",
-		// borderTop: "1px solid #eee",
-		borderTop: "1px solid rgba(81, 81, 81, 1)"
-	},
-	centered: {
-		textAlign: 'center'
-	},
-	noCheckbox: {
-		padding: 10
-	},
-	HeaderLabelActive: {
-		width: "100%",
-		color: '#eee',
-		// color: grey[800],
-		"&:hover": {
-			color: "#fff"
-		},
-		"&:focus": {
-			color: grey[900]
-		}
-	},
-	hideIcon: {
-		display: "none",
-		// position: 'absolute',
-		// left: '90%'
-	},
-	paragraphCell: {
-		color: "inherit",
-		margin: 0,
-		overflow: "hidden",
-		whiteSpace: "nowrap",
-		textOverflow: "ellipsis"
-	},
-	checkbox: {
-		color: grey[800],
-		'&$checked': {
-			color: primaryColor
-		},
-	},
-	checked: {},
+
 })
 )
 

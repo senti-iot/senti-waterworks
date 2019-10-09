@@ -8,6 +8,7 @@ const changeCPP = 'changeCardsPerPage'
 const changeEventHandler = 'changeEH'
 const changeSM = 'changeSmallmenu'
 const changeT = 'changeTabs'
+const sDevice = 'selectDevice'
 const getSettings = 'getSettings'
 
 export const changeSmallMenu = (val) => {
@@ -116,8 +117,45 @@ export const changeTabs = tabs => {
 		})
 	}
 }
+export const selectAllDevices = (b) => {
+	return (dispatch, getState) => {
+		if (b) {
+			let devices = getState().data.devices
+			let newSDevices = devices.map(d => d.id)
+			dispatch({
+				type: sDevice,
+				payload: newSDevices
+			})
+		}
+		else {
+			dispatch({
+				type: sDevice,
+				payload: []
+			})
+		}
+	}
+}
+export const selectDevice = (b, device) => {
+	return (dispatch, getState) => {
+		let newSDevices = []
+		let selectedDevices = getState().appState.selectedDevices
+		newSDevices = [...selectedDevices]
+		if (b) {
+			newSDevices = newSDevices.filter(d => d.toString() !== device)
+		}
+		else {
+			newSDevices.push(device)
+		}
+		dispatch({
+			type: sDevice,
+			payload: newSDevices
+		})
+
+	}
+}
 
 const initialState = {
+	selectedDevices: [],
 	tabs: {
 		id: '',
 		route: 0,
@@ -178,6 +216,8 @@ export const appState = (state = initialState, action) => {
 			return Object.assign({}, state, { trp: action.trp })
 		case updateFilters:
 			return Object.assign({}, state, { filters: { ...state.filters, ...action.filters } })
+		case sDevice:
+			return Object.assign({}, state, { selectedDevices: action.payload })
 		default:
 			return state
 	}

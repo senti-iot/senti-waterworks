@@ -16,6 +16,7 @@ import { CircularLoader } from 'Components';
 import ArcGraph from 'Components/Graphs/ArcGraph';
 import DevicesWidget from 'Components/Custom/Devices/DevicesWidget';
 import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget';
+import { getData } from 'Redux/data';
 
 const ChartContainer = (props) => {
 	const classes = props.classes
@@ -60,21 +61,19 @@ function Container({ ...props }) {
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
 
-	const redux = {
-		getSettings: async () => dispatch(await getSettings())
-	}
+	setHeader('Header Title')
 
 	useEffect(() => {
-		setHeader('Header Title')
-	}, [setHeader])
 
-	useEffect(() => {
+		const getSetting = async () => dispatch(await getSettings())
+		const getDevices = async () => dispatch(await getData())
 		const loadSettings = async () => {
-			await redux.getSettings()
+			await getSetting()
+			await getDevices()
 			setLoading(false)
 		}
 		loadSettings()
-	}, [loading, redux])
+	}, [dispatch])
 
 	return (
 		cookie.load('SESSION') ?

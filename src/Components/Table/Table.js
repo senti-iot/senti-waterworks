@@ -29,16 +29,11 @@ function CTable(props) {
 	// const accessLevel = useSelector(state => state.settings.user.privileges)
 
 
-	const handleRequestSort = (event, property) => {
-		props.handleRequestSort(event, property)
-	}
-
 	const handleChangePage = (event, page) => {
 		setPage(page)
 	};
 
 	const isSelected = id => {
-		console.log(props.selected.indexOf(id))
 		return props.selected.indexOf(id) !== -1
 	};
 
@@ -98,10 +93,12 @@ function CTable(props) {
 	// 			break;
 	// 	}
 	// }
-	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick } = props;
+	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort } = props;
+	const handleRequestSort = (event, property) => {
+		handleSort(event, property)
+	}
 	const { body, bodyStructure, bodyMobileStructure, mobile } = props
 	let emptyRows
-	console.log(body.map(row => bodyStructure(row)))
 	if (data)
 		emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 	return (
@@ -115,7 +112,7 @@ function CTable(props) {
 						orderBy={orderBy}
 						onSelectAllClick={handleSelectAllClick}
 						onRequestSort={handleRequestSort}
-						rowCount={data ? data.length : 0}
+						rowCount={body ? body.length : 0}
 						columns={columns}
 						classes={classes}
 						customColumn={[
@@ -152,40 +149,15 @@ function CTable(props) {
 											{bodyMobileStructure(row)}
 										</Fragment>
 									</Hidden> : null}
-									{/* <Hidden lgUp>
-										{bodyMobile.map(row => bodyMobileStructure(row))}
-										{/* <TC checkbox content={<Checkbox checked={isSelected} onClick={e => handleCheckboxClick(e, n.id)} />} />
-										<TC checkbox content={renderIcon(n.liveStatus)} />
-										<TC content={
-											<ItemG container alignItems={'center'}>
-												<ItemG xs={12}>
-													<Info noWrap paragraphCell={classes.noMargin}>
-														{n.name ? n.name : n.id}
-													</Info>
-												</ItemG>
-												<ItemG xs={12}>
-													<Caption noWrap className={classes.noMargin}>
-														{`${n.name ? n.id : t('devices.noName')} - ${n.org ? n.org.name : ''}`}
-													</Caption>
-												</ItemG>
-											</ItemG>} />
-									</Hidden> */}
+
 									<Hidden mdDown>
 
 										<Fragment>
-											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(e, row.id)} />} />
+											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(!e.target.checked, row.id)} />} />
 											{bodyStructure(row)}
 										</Fragment>
 
-										{/* <TC
-											onMouseEnter={e => { setHover(e, n) }}
-											onMouseLeave={unsetTimeout}
-											label={n.name ? n.name : t('devices.noName')} />
-										<TC label={n.id} />
-										<TC content={renderIcon(n.liveStatus)} />
-										<TC label={n.address ? n.address : t('devices.noAddress')} />
-										<TC label={n.org ? n.org.name : t('no.org')} />
-										<TC label={n.dataCollection ? t('devices.fields.notfree') : t('devices.fields.free')} /> */}
+
 									</Hidden>
 								</TableRow>
 							);
@@ -225,6 +197,7 @@ CTable.propTypes = {
 	handleClick: PropTypes.func.isRequired,
 	handleCheckboxClick: PropTypes.func.isRequired,
 	handleSelectAllClick: PropTypes.func.isRequired,
+	handleSort: PropTypes.func.isRequired,
 }
 
 export default CTable

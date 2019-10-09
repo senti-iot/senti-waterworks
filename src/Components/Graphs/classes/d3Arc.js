@@ -50,7 +50,7 @@ class d3Arc {
 		innerArcE = (Math.PI * 265) / 180 // Always this value
 		outerArcS = 0
 		outerArcE = (((arcData * 100) / arcPrevData) * 265) / 100
-		console.log('outerArcE', outerArcE, arcData, arcPrevData)
+		// console.log('outerArcE', outerArcE, arcData, arcPrevData)
 		if (outerArcE > 295) {
 			outerArcE = 295
 		}

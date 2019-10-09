@@ -68,7 +68,6 @@ function LoginImages() {
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
 	const [number] = useState(getRndInteger())
-	console.log(number)
 	return (
 		<div className={classes.container}>
 			<div className={classes.contentWrapper}>

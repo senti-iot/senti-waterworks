@@ -5,128 +5,62 @@ import { SlideT, T } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import deviceTableStyles from 'Components/Custom/Styles/deviceTableStyles'
-import { useSelector, useLocalization } from 'Hooks'
+import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
+import { selectDevice, selectAllDevices } from 'Redux/appState'
 
 const columns = [
-	{ id: 'name', label: 'Name' },
-	{ id: 'address', label: 'Address' },
-	{ id: 'type', label: 'Type' },
+	{ id: 'address', label: 'address' },
+	{ id: 'guid', label: 'guid' },
+	{ id: 'id', label: 'id' },
+	{ id: 'type', label: 'type' },
+	{ id: 'group', label: 'group' },
+	{ id: 'active', label: 'active' },
 	// { id: 'liveStatus', checkbox: true, label: <ItemG container justify={'center'} title={t('devices.fields.status')}><SignalWifi2Bar /></ItemG> },
 	// { id: 'address', label: t('devices.fields.address') },
 	// { id: 'org.name', label: t('devices.fields.org') },
 	// { id: 'dataCollection', label: t('devices.fields.availability') }
 ]
-const body = [{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-}, {
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-}, {
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-}, {
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-}, {
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-}, {
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-}, {
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-},
-{
-	name: 'Fake Device',
-	address: 'Fake street',
-	type: 'Fake'
-}]
+
 const bodyStructure = row => {
 	return <Fragment>
-		<TC FirstC label={row.name} />
+		{/* <TC FirstC label={row.name} /> */}
 		<TC label={row.address} />
+		<TC label={row.guid} />
+		<TC label={row.id} />
 		<TC label={row.type} />
+		<TC label={row.group} />
+		<TC label={row.active ? 'active' : 'inactive'} />
 	</Fragment>
 }
 const DeviceTableWrapper = (props) => {
-	const { openTable, setOpenTable } = props
 	const color = useSelector(s => s.settings.colorTheme)
+	const devices = useSelector(s => s.data.devices)
+	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const dispatch = useDispatch()
+	const redux = {
+		selectDevice: (b, device) => dispatch(selectDevice(b, device)),
+		selectAllDevices: (b) => dispatch(selectAllDevices(b))
+	}
 	const classes = deviceTableStyles({ color })
 	const t = useLocalization()
+	const [order, setOrder] = useState('asc')
+	const [orderBy, setOrderBy] = useState('id')
+
+	const { openTable, setOpenTable } = props
+
+	const handleRequestSort = key => (event, property, way) => {
+		let o = way ? way : order === 'desc' ? 'asc' : 'desc'
+		if (property !== orderBy) {
+			o = 'asc'
+		}
+		//TODO
+		// this.props.sortData(key, property, o)
+
+		// handleRequestSort(property, order, this.props.devices)
+		// this.setState({ order, orderBy: property })
+		setOrder(o)
+		setOrderBy(property)
+	}
 
 	const closeDialog = () => setOpenTable(false)
 	return (
@@ -138,7 +72,7 @@ const DeviceTableWrapper = (props) => {
 			// open={true}
 			color={'primary'}
 			TransitionComponent={SlideT}
-			disableBackdropClick
+			// disableBackdropClick
 			BackdropProps={{
 				classes: {
 					root: classes.dialogRoot
@@ -163,15 +97,16 @@ const DeviceTableWrapper = (props) => {
 				<CTable
 					order={'asc'}
 					orderBy={'name'}
-					body={body}
+					body={devices}
 					bodyStructure={bodyStructure}
 					mobile
 					bodyMobileStructure={() => { }}
-					selected={[]}
+					selected={selectedDevices}
 					columns={columns}
-					handleCheckboxClick={() => { }}
-					handleSelectAllClick={() => { }}
+					handleCheckboxClick={redux.selectDevice}
+					handleSelectAllClick={redux.selectAllDevices}
 					handleClick={() => { }}
+					handleSort={handleRequestSort}
 				/>
 			</Paper>
 		</Dialog>

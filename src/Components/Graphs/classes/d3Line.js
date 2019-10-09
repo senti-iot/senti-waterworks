@@ -2,9 +2,7 @@ import * as d3 from 'd3';
 import moment from 'moment';
 
 const getMedianLineData = (data, prevData) => {
-	console.log(data)
 	let sum = data.map(d => d.nps).reduce((total, val) => total + val)
-	console.log(sum)
 	// sum.reduce()
 	let avrg = Math.round(sum / data.length)
 	let medianValues = [{ date: data[0].date, nps: avrg }, { date: prevData[prevData.length - 1].date, nps: avrg }]
@@ -55,7 +53,6 @@ class d3Line {
 		this.y = d3.scaleLinear().range([height, 0]);
 		// var y = d3.scaleLinear().range([height, 0]);
 
-		console.log(getMax(lineData) + 10)
 		//Set the graph ranges
 		this.x.domain(d3.extent([...lineData, ...prevLineData], function (d) { return d.date; }));
 		this.y.domain([0, getMax(lineData) + 10]);
