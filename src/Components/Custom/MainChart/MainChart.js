@@ -7,7 +7,7 @@ import LineGraph from 'Components/Graphs/LineGraph'
 // import { Switch, Route, useHistory, useParams } from 'react-router-dom'
 // import { useHistory } from 'react-router'
 
-const ChartsContainer = (props) => {
+const MainChart = (props) => {
 	const { chart, setChart } = props
 	const t = useContext(TProvider)
 	const isActive = (c) => chart === c ? true : false
@@ -47,4 +47,4 @@ const ChartsContainer = (props) => {
 	)
 }
 
-export default ChartsContainer
+export default MainChart

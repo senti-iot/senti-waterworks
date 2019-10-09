@@ -97,6 +97,8 @@
 	},
 	"charts": {
 		"devices": "Devices",
+		"allDevices": "All",
+		"noDevices": "No",
 		"selectedDevices": "Selected devices",
 		"totalUsage": "Total usage",
 		"seeing": "Seeing",

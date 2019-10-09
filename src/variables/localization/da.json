@@ -96,6 +96,8 @@
 		}
 	},
 	"charts": {
+		"allDevices": "Alle",
+		"noDevices": "Ingen",
 		"devices": "Målere",
 		"selectedDevices": "Valgte målere",
 		"totalUsage": "Samlet forbrug",

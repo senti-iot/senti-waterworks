@@ -3,8 +3,6 @@ import { bgColors } from './backgroundColors'
 import { darken } from '@material-ui/core/styles'
 import hexToRgba from 'hex-to-rgba'
 import { colors } from '@material-ui/core'
-import { grey } from '@material-ui/core/colors'
-import { primaryColor } from './mainStyles'
 
 const tableStyles = makeStyles(theme => ({
 	backgroundColor: {

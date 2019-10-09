@@ -2,6 +2,7 @@ import { handleRequestSort } from 'data/functions'
 
 const sData = 'sortData'
 const deviceData = 'deviceData'
+
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
 		let data = getState().data[key]
@@ -19,6 +20,7 @@ export const sortData = (key, property, order) => {
 	}
 }
 let fakeDevice = {
+	nId: 0,
 	address: "fakestreet",
 	guid: "56970DF",
 	id: "348580",
@@ -31,6 +33,7 @@ export const getData = () => {
 		let i
 		for (i = 0; i < 30; i++) {
 			data.push({
+				nId: i,
 				address: fakeDevice.address + i,
 				guid: fakeDevice.guid + i,
 				id: fakeDevice.id + i,
@@ -41,6 +44,10 @@ export const getData = () => {
 		dispatch({
 			type: deviceData,
 			payload: data
+		})
+		dispatch({
+			type: 'selectDevice',
+			payload: data.map(d => d.id)
 		})
 	}
 }

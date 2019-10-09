@@ -34,14 +34,15 @@ const devicesTableWidgetStyles = makeStyles(theme => ({
 }))
 
 const renderDeviceCount = (t, dCount, selectedDCount) => {
+	console.log(dCount, selectedDCount)
 	if (dCount === selectedDCount) {
 		return t('charts.allDevices')
 	}
-	if (dCount !== selectedDCount) {
-		return selectedDCount
-	}
 	if (selectedDCount === 0) {
 		return t('charts.noDevices')
+	}
+	if (dCount !== selectedDCount) {
+		return selectedDCount
 	}
 }
 const DeviceTableWidget = () => {

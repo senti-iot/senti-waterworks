@@ -5,7 +5,7 @@ import containerStyles from 'Styles/containerStyle';
 import GridContainer from 'Components/Containers/GridContainer';
 import ItemG from 'Components/Containers/ItemG';
 import { Paper } from '@material-ui/core';
-import ChartsContainer from 'Components/Custom/ChartsContainer/ChartsContainer';
+import MainChart from 'Components/Custom/MainChart/MainChart';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Settings from 'Routes/Settings';
 import Header from 'Components/Header';
@@ -25,18 +25,18 @@ const ChartContainer = (props) => {
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >
 			<Paper className={classes.gridItemBackground}>
-				<ChartsContainer chart={chart} setChart={setChart} />
+				<MainChart chart={chart} setChart={setChart} />
 			</Paper>
 		</ItemG>
 		<ItemG xs={3}>
 			<ItemG container direction={'row'} style={{ height: '100%', width: '100%' }}>
-				<ItemG xs={12} style={{ height: '20%' }}>
+				<ItemG xs={12} style={{ height: '25%' }}>
 					<Paper className={classes.gridItemBackground}>
 						<DeviceTableWidget />
 					</Paper>
 
 				</ItemG>
-				<ItemG xs={12} style={{ height: '55%' }}>
+				<ItemG xs={12} style={{ height: '50%' }}>
 					<Paper className={classes.gridItemBackground}>
 						<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
 					</Paper>

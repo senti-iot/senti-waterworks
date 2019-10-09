@@ -29,7 +29,6 @@ const TH = (props) => {
 				</TableCell>}
 				<Hidden mdDown>
 					{columns.map((column, i) => {
-
 						return (
 							<TableCell
 								className={classes.header}

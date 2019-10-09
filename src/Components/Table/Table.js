@@ -93,9 +93,9 @@ function CTable(props) {
 	// 			break;
 	// 	}
 	// }
-	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort } = props;
+	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort, sortKey } = props;
 	const handleRequestSort = (event, property) => {
-		handleSort(event, property)
+		handleSort(sortKey, property)
 	}
 	const { body, bodyStructure, bodyMobileStructure, mobile } = props
 	let emptyRows
@@ -184,12 +184,12 @@ function CTable(props) {
 // const { selected, data, order, orderBy, handleClick, handleCheckboxClick, handleSelectAllClick } = props;
 CTable.propTypes = {
 	columns: PropTypes.array.isRequired,
-	columnsMobile: PropTypes.array.isRequired,
+	columnsMobile: PropTypes.array,
 	body: PropTypes.array.isRequired,
 	bodyStructure: PropTypes.func.isRequired,
 	mobile: PropTypes.bool,
-	bodyMobile: PropTypes.array.isRequired,
-	bodyMobileStructure: PropTypes.func.isRequired,
+	bodyMobile: PropTypes.array,
+	bodyMobileStructure: PropTypes.func,
 	selected: PropTypes.array,
 	data: PropTypes.array,
 	order: PropTypes.string,

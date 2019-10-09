@@ -7,10 +7,12 @@ import TC from 'Components/Table/TC'
 import deviceTableStyles from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { selectDevice, selectAllDevices } from 'Redux/appState'
+import { sortData } from 'Redux/data'
 
 const columns = [
 	{ id: 'address', label: 'address' },
 	{ id: 'guid', label: 'guid' },
+	{ id: 'nId', label: 'id' },
 	{ id: 'id', label: 'id' },
 	{ id: 'type', label: 'type' },
 	{ id: 'group', label: 'group' },
@@ -26,6 +28,7 @@ const bodyStructure = row => {
 		{/* <TC FirstC label={row.name} /> */}
 		<TC label={row.address} />
 		<TC label={row.guid} />
+		<TC label={row.nId} />
 		<TC label={row.id} />
 		<TC label={row.type} />
 		<TC label={row.group} />
@@ -39,27 +42,22 @@ const DeviceTableWrapper = (props) => {
 	const dispatch = useDispatch()
 	const redux = {
 		selectDevice: (b, device) => dispatch(selectDevice(b, device)),
-		selectAllDevices: (b) => dispatch(selectAllDevices(b))
+		selectAllDevices: (b) => dispatch(selectAllDevices(b)),
+		sortData: (key, property, o) => dispatch(sortData(key, property, order))
 	}
 	const classes = deviceTableStyles({ color })
 	const t = useLocalization()
-	const [order, setOrder] = useState('asc')
+	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
 
 	const { openTable, setOpenTable } = props
 
-	const handleRequestSort = key => (event, property, way) => {
-		let o = way ? way : order === 'desc' ? 'asc' : 'desc'
-		if (property !== orderBy) {
-			o = 'asc'
-		}
-		//TODO
-		// this.props.sortData(key, property, o)
+	const handleRequestSort = (key, property) => {
+		let o = property !== orderBy ? 'asc' : order === 'desc' ? 'asc' : 'desc'
 
-		// handleRequestSort(property, order, this.props.devices)
-		// this.setState({ order, orderBy: property })
 		setOrder(o)
 		setOrderBy(property)
+		redux.sortData(key, property, o)
 	}
 
 	const closeDialog = () => setOpenTable(false)
@@ -95,8 +93,9 @@ const DeviceTableWrapper = (props) => {
 					<T>Filter Toolbar</T>
 				</div>
 				<CTable
-					order={'asc'}
-					orderBy={'name'}
+					order={order}
+					orderBy={orderBy}
+					sortKey={'devices'}
 					body={devices}
 					bodyStructure={bodyStructure}
 					mobile
