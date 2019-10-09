@@ -5,7 +5,7 @@ import { SlideT, T } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import deviceTableStyles from 'Components/Custom/Styles/deviceTableStyles'
-import { useSelector } from 'Hooks'
+import { useSelector, useLocalization } from 'Hooks'
 
 const columns = [
 	{ id: 'name', label: 'Name' },
@@ -30,18 +30,103 @@ const body = [{
 	name: 'Fake Device',
 	address: 'Fake street',
 	type: 'Fake'
+}, {
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+}, {
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+}, {
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+}, {
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+}, {
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+}, {
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
+},
+{
+	name: 'Fake Device',
+	address: 'Fake street',
+	type: 'Fake'
 }]
-const bodyStructure = row => { 
+const bodyStructure = row => {
 	return <Fragment>
-		<TC FirstC label={row.name}/>
-		<TC label={row.address}/>
-		<TC label={row.type}/>
+		<TC FirstC label={row.name} />
+		<TC label={row.address} />
+		<TC label={row.type} />
 	</Fragment>
 }
 const DeviceTableWrapper = (props) => {
 	const { openTable, setOpenTable } = props
 	const color = useSelector(s => s.settings.colorTheme)
 	const classes = deviceTableStyles({ color })
+	const t = useLocalization()
 
 	const closeDialog = () => setOpenTable(false)
 	return (
@@ -50,6 +135,7 @@ const DeviceTableWrapper = (props) => {
 			style={{ top: 70 }}
 			onClose={closeDialog}
 			open={openTable}
+			// open={true}
 			color={'primary'}
 			TransitionComponent={SlideT}
 			disableBackdropClick
@@ -64,12 +150,15 @@ const DeviceTableWrapper = (props) => {
 				}
 			}}
 			classes={{
-				root: classes.dialogRoot + ' ' + classes.backgroundColor
+				root: classes.dialogRoot
 			}}
 		>
 			<Paper className={classes.paperRoot}>
-				<div>
-					<T variant={'h4'}>Devices</T>
+				<div className={classes.title}>
+					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
+				</div>
+				<div style={{ height: 48, background: '#ccc', color: '#000' }}>
+					<T>Filter Toolbar</T>
 				</div>
 				<CTable
 					order={'asc'}

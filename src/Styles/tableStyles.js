@@ -8,7 +8,7 @@ import { primaryColor } from './mainStyles'
 
 const tableStyles = makeStyles(theme => ({
 	backgroundColor: {
-		background: props => { return bgColors[props.color].background}
+		background: props => { return bgColors[props.color].background }
 		// return ({
 		// ...bgColors[props.color]
 		// })
@@ -27,7 +27,7 @@ const tableStyles = makeStyles(theme => ({
 			paddingRight: 4,
 			padding: 0,
 		},
-		backgroundColor: grey[400],
+		background: props => darken(colors[props.color][500], 0.3),
 		// color: grey[200]
 	},
 	tablecellcheckbox: {
@@ -38,12 +38,14 @@ const tableStyles = makeStyles(theme => ({
 			width: '45px'
 		},
 		fontSize: '0.875rem',
-		borderTop: "1px solid rgba(224, 224, 224, 1)",
+		borderTop: "1px solid rgba(81, 81, 81, 1)",
 		/*padding: 0, */
 		width: '50px',
 	},
 	tableCell: {
-		borderTop: "1px solid rgba(224, 224, 224, 1)",
+		// borderTop: "1px solid rgba(224, 224, 224, 1)",
+		// borderTop: "1px solid #eee",
+		borderTop: "1px solid rgba(81, 81, 81, 1)"
 	},
 	centered: {
 		textAlign: 'center'
@@ -53,7 +55,8 @@ const tableStyles = makeStyles(theme => ({
 	},
 	HeaderLabelActive: {
 		width: "100%",
-		color: grey[800],
+		color: '#eee',
+		// color: grey[800],
 		"&:hover": {
 			color: "#fff"
 		},

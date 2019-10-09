@@ -1,20 +1,24 @@
 import React from 'react'
 import { TablePagination } from '@material-ui/core'
 import cx from 'classnames'
-import { useLocalization, useState, useSelector } from 'Hooks';
+import { useLocalization, useSelector, useDispatch } from 'Hooks';
 import tableStyles from 'Styles/tableStyles';
+import { changeTableRows } from 'Redux/appState';
 
 const TP = (props) => {
 	const { count, page, disableRowsPerPage } = props
 	const color = useSelector(s => s.settings.colorTheme)
+	const dispatch = useDispatch()
+	const redux = {
+		setRowsPerPage: val => dispatch(changeTableRows(val))
+	}
 	const classes = tableStyles({ color: color })
 	const t = useLocalization()
-	const rowsPerPageDefault = useSelector(s => s.settings.trp)
+	const rowsPerPage = useSelector(s => s.appState.trp ? s.appState.trp : s.settings.trp)
 	const rowsPerPageOptions = useSelector(s => s.settings.rowsPerPageOptions)
-	const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageDefault)
 
 	const handleChangeRowsPerPage = e => {
-		setRowsPerPage(e.target.value)
+		redux.setRowsPerPage(e.target.value)
 	}
 	const handleChangePage = (e, page) => {
 		props.handleChangePage(e, page)

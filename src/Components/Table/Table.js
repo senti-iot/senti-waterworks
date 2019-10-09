@@ -24,7 +24,7 @@ function CTable(props) {
 	const t = useLocalization()
 
 	//Redux
-	const rowsPerPage = useSelector(state => state.settings.trp)
+	const rowsPerPage = useSelector(s => s.appState.trp ? s.appState.trp : s.settings.trp)
 	// const hoverTime = useSelector(state => state.settings.hoverTime)
 	// const accessLevel = useSelector(state => state.settings.user.privileges)
 
@@ -171,12 +171,12 @@ function CTable(props) {
 											</ItemG>} />
 									</Hidden> */}
 									<Hidden mdDown>
-										
-										 <Fragment>
+
+										<Fragment>
 											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(e, row.id)} />} />
 											{bodyStructure(row)}
 										</Fragment>
-									
+
 										{/* <TC
 											onMouseEnter={e => { setHover(e, n) }}
 											onMouseLeave={unsetTimeout}
@@ -199,7 +199,7 @@ function CTable(props) {
 				</Table>
 			</div>
 			<TP
-				count={data ? data.length : 0}
+				count={body ? body.length : 0}
 				classes={classes}
 				page={page}
 				t={t}
