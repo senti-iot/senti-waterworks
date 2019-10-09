@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import moment from 'moment'
 
 const sortFunc = (a, b, orderBy, way) => {
 	let newA = _.get(a, orderBy)
