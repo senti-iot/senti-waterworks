@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { T, ItemG } from 'Components'
-import { useLocalization } from 'Hooks'
+import { useLocalization, useSelector } from 'Hooks'
 import { green, red } from '@material-ui/core/colors'
 import { KeyboardArrowRight } from 'variables/icons'
 import { IconButton } from '@material-ui/core'
@@ -39,7 +39,9 @@ const devicesWidgetStyles = makeStyles(theme => ({
 const DevicesWidget = () => {
 	const classes = devicesWidgetStyles()
 	const t = useLocalization()
-
+	const devices = useSelector(s => s.data.devices)
+	const inactiveDevices = devices.filter(d => !d.active)
+	const activeDevices = devices.filter(d => d.active)
 	return (
 		<div>
 			<IconButton className={classes.widgetButton}><KeyboardArrowRight /></IconButton>
@@ -56,10 +58,10 @@ const DevicesWidget = () => {
 				<ItemG container direction={'column'} style={{ maxWidth: '45%' }}>
 					{/* <T variant={'h5'} className={classes.title}>{t('charts.devices')}</T> */}
 					<ItemG style={{ margin: 16 }} container alignItems={'center'}>
-						<T className={classes.devices + " " + classes.activeDevices}>0</T>
+						<T className={classes.devices + " " + classes.activeDevices}>{activeDevices.length}</T>
 					</ItemG>
 					<ItemG style={{ margin: 16 }} container alignItems={'center'}>
-						<T className={classes.devices + " " + classes.inactiveDevices}>0</T>
+						<T className={classes.devices + " " + classes.inactiveDevices}>{inactiveDevices.length}</T>
 					</ItemG>
 				</ItemG>
 			</ItemG>

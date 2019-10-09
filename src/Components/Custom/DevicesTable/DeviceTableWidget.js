@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
-import { useLocalization, useState } from 'Hooks'
+import { useLocalization, useState, useSelector } from 'Hooks'
 import { Button } from '@material-ui/core'
 import { orange } from '@material-ui/core/colors'
 import { emphasize } from '@material-ui/core/styles'
@@ -33,19 +33,31 @@ const devicesTableWidgetStyles = makeStyles(theme => ({
 	}
 }))
 
-
+const renderDeviceCount = (t, dCount, selectedDCount) => {
+	if (dCount === selectedDCount) {
+		return t('charts.allDevices')
+	}
+	if (dCount !== selectedDCount) {
+		return selectedDCount
+	}
+	if (selectedDCount === 0) {
+		return t('charts.noDevices')
+	}
+}
 const DeviceTableWidget = () => {
 	const t = useLocalization()
 	const classes = devicesTableWidgetStyles()
+	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const devices = useSelector(s => s.data.devices)
 	const [openTable, setOpenTable] = useState(false)
 
 	const handleOpenTable = () => setOpenTable(true)
 
 	return (
 		<div>
-			<DeviceTableWrapper openTable={openTable} setOpenTable={setOpenTable}/>
+			<DeviceTableWrapper openTable={openTable} setOpenTable={setOpenTable} />
 			<T variant={'h5'} className={classes.title}>{t('charts.selectedDevices')}</T>
-			<T className={classes.text}>{`${t('charts.seeing')}: ${2} ${t('charts.devices')}`}</T>
+			<T className={classes.text}>{`${t('charts.seeing')}: ${renderDeviceCount(t, devices.length, selectedDevices.length)} ${t('charts.devices')}`}</T>
 			<Button onClick={handleOpenTable} variant={'contained'} className={classes.filterButton}>{t('actions.filter')}</Button>
 		</div>
 	)

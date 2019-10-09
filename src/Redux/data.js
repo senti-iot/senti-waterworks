@@ -35,7 +35,7 @@ export const getData = () => {
 				guid: fakeDevice.guid + i,
 				id: fakeDevice.id + i,
 				type: fakeDevice.type + i,
-				active: i % 2 === 0 ? true : false
+				active: i % 3 === 0 ? true : false
 			})
 		}
 		dispatch({
