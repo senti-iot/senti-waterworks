@@ -8,6 +8,7 @@ import deviceTableStyles from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { selectDevice, selectAllDevices } from 'Redux/appState'
 import { sortData } from 'Redux/data'
+import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 
 const columns = [
 	{ id: 'address', label: 'address' },
@@ -25,7 +26,6 @@ const columns = [
 
 const bodyStructure = row => {
 	return <Fragment>
-		{/* <TC FirstC label={row.name} /> */}
 		<TC label={row.address} />
 		<TC label={row.guid} />
 		<TC label={row.nId} />
@@ -35,7 +35,44 @@ const bodyStructure = row => {
 		<TC label={row.active ? 'active' : 'inactive'} />
 	</Fragment>
 }
-const DeviceTableWrapper = (props) => {
+// dLiveStatus = () => {
+// 	const { t, classes } = this.props
+// 	return [
+// 		{ value: 0, label: t("devices.status.redShort"), icon: <SignalWifi2Bar className={classes.redSignal} /> },
+// 		{ value: 1, label: t("devices.status.yellowShort"), icon: <SignalWifi2Bar className={classes.yellowSignal} /> },
+// 		{ value: 2, label: t("devices.status.greenShort"), icon: <SignalWifi2Bar className={classes.greenSignal} /> }
+// 	]
+// }
+// dCalibrated = () => {
+// 	const { t } = this.props
+// 	return [
+// 		{ value: true, label: t("filters.devices.calibrated") },
+// 		{ value: false, label: t("filters.devices.notCalibrated") }
+// 	]
+// }
+// dLocationPlace = () => {
+// 	const { t } = this.props
+// 	return [
+// 		{ value: 1, label: t('devices.locationTypes.pedStreet') },
+// 		{ value: 2, label: t('devices.locationTypes.park') },
+// 		{ value: 3, label: t('devices.locationTypes.path') },
+// 		{ value: 4, label: t('devices.locationTypes.square') },
+// 		{ value: 5, label: t('devices.locationTypes.crossroads') },
+// 		{ value: 6, label: t('devices.locationTypes.road') },
+// 		{ value: 7, label: t('devices.locationTypes.motorway') },
+// 		{ value: 8, label: t('devices.locationTypes.port') },
+// 		{ value: 9, label: t('devices.locationTypes.office') },
+// 		{ value: 0, label: t('devices.locationTypes.unspecified') }]
+// }
+// dAvailable = () => {
+// 	const { t } = this.props
+// 	return [
+// 		{ value: true, label: t('devices.fields.notfree') },
+// 		{ value: false, label: t('devices.fields.free') }
+// 	]
+// }
+
+const DeviceTable = (props) => {
 	const color = useSelector(s => s.settings.colorTheme)
 	const devices = useSelector(s => s.data.devices)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
@@ -60,6 +97,20 @@ const DeviceTableWrapper = (props) => {
 		redux.sortData(key, property, o)
 	}
 
+	//#region  Filters
+	const deviceFilters = [
+		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
+		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
+		// { key: '', name: t('orgs.fields.name'), type: 'string' },
+		// { key: 'liveStatus', name: t('devices.fields.status'), type: 'dropDown', options: this.dLiveStatus() },
+		// { key: 'locationType', name: t('devices.fields.locType'), type: 'dropDown', options: this.dLocationPlace() },
+		// { key: 'lat', name: t('calibration.stepheader.calibration'), type: 'diff', options: { dropdown: this.dCalibrated(), values: { false: [0] } } },
+		// { key: 'dataCollection', name: t('devices.fields.availability'), type: 'dropDown', options: this.dAvailable() },
+		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
+	]
+
+	//#endregion
+
 	const closeDialog = () => setOpenTable(false)
 	return (
 		<Dialog
@@ -67,10 +118,8 @@ const DeviceTableWrapper = (props) => {
 			style={{ top: 70 }}
 			onClose={closeDialog}
 			open={openTable}
-			// open={true}
 			color={'primary'}
 			TransitionComponent={SlideT}
-			// disableBackdropClick
 			BackdropProps={{
 				classes: {
 					root: classes.dialogRoot
@@ -90,7 +139,8 @@ const DeviceTableWrapper = (props) => {
 					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
 				</div>
 				<div style={{ height: 48, background: '#ccc', color: '#000' }}>
-					<T>Filter Toolbar</T>
+					<FilterToolbar reduxKey={'devices'} filters={deviceFilters} />
+					{/* <T>Filter Toolbar</T> */}
 				</div>
 				<CTable
 					order={order}
@@ -112,9 +162,9 @@ const DeviceTableWrapper = (props) => {
 	)
 }
 
-DeviceTableWrapper.propTypes = {
+DeviceTable.propTypes = {
 	openTable: PropTypes.bool.isRequired,
 	setOpenTable: PropTypes.func.isRequired,
 }
 
-export default DeviceTableWrapper
+export default DeviceTable

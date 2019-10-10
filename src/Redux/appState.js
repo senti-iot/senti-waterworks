@@ -97,7 +97,6 @@ export const removeFilter = (f, type) => {
 	return (dispatch, getState) => {
 		let filters = []
 		filters = [...getState().appState.filters[type]]
-
 		filters = filters.filter(filter => {
 			return filter.id !== f.id
 		})

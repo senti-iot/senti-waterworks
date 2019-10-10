@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import moment from 'moment'
 
 const sortFunc = (a, b, orderBy, way) => {
 	let newA = _.get(a, orderBy)
@@ -25,4 +26,19 @@ export const handleRequestSort = (property, way, data) => {
 	let newData = []
 	newData = data.sort((a, b) => sortFunc(a, b, orderBy, way))
 	return newData
+}
+
+
+/**
+ * Date Time Formatter
+ * @param {Date} date
+ * @param {boolean} withSeconds
+ */
+export const dateTimeFormatter = (date, withSeconds) => {
+	var dt
+	if (withSeconds)
+		dt = moment(date).format('DD MMMM YYYY HH:mm:ss')
+	else
+		dt = moment(date).format('lll')
+	return dt
 }

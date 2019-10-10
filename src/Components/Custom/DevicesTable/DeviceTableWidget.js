@@ -5,7 +5,7 @@ import { useLocalization, useState, useSelector } from 'Hooks'
 import { Button } from '@material-ui/core'
 import { orange } from '@material-ui/core/colors'
 import { emphasize } from '@material-ui/core/styles'
-import DeviceTableWrapper from './DeviceTableWrapper'
+import DeviceTable from './DeviceTable'
 
 const devicesTableWidgetStyles = makeStyles(theme => ({
 	title: {
@@ -34,7 +34,6 @@ const devicesTableWidgetStyles = makeStyles(theme => ({
 }))
 
 const renderDeviceCount = (t, dCount, selectedDCount) => {
-	console.log(dCount, selectedDCount)
 	if (dCount === selectedDCount) {
 		return t('charts.allDevices')
 	}
@@ -56,7 +55,7 @@ const DeviceTableWidget = () => {
 
 	return (
 		<div>
-			<DeviceTableWrapper openTable={openTable} setOpenTable={setOpenTable} />
+			<DeviceTable openTable={openTable} setOpenTable={setOpenTable} />
 			<T variant={'h5'} className={classes.title}>{t('charts.selectedDevices')}</T>
 			<T className={classes.text}>{`${t('charts.seeing')}: ${renderDeviceCount(t, devices.length, selectedDevices.length)} ${t('charts.devices')}`}</T>
 			<Button onClick={handleOpenTable} variant={'contained'} className={classes.filterButton}>{t('actions.filter')}</Button>
