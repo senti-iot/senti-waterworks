@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import cx from 'classnames'
 import { Add } from 'variables/icons';
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import { usePrevious, useLocalization } from 'Hooks'
 
 const styles = makeStyles(theme => {

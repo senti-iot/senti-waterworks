@@ -1,5 +1,6 @@
-import { makeStyles, colors } from '@material-ui/core';
+import { colors } from '@material-ui/core';
 import { bgColors } from 'Styles/backgroundColors';
+import { makeStyles } from '@material-ui/styles';
 
 const deviceTableStyles = makeStyles(theme => ({
 	backgroundColor: {

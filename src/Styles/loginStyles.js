@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 // import { container, primaryColor } from "assets/jss/material-dashboard-react";
 // import teal from '@material-ui/core/colors/teal'

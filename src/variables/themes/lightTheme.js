@@ -3,10 +3,6 @@ import { primaryColor, secondaryColor, hoverColor, /* headerColor */ } from 'Sty
 import { teal, red, grey } from '@material-ui/core/colors'
 
 const theme = createMuiTheme({
-	typography: {
-		useNextVariants: true,
-		suppressDeprecationWarnings: true,
-	},
 	overrides: {
 		MuiTooltip: {
 			tooltipPlacementRight: {

@@ -19,12 +19,13 @@ import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget'
 import { getData } from 'Redux/data';
 
 const ChartContainer = (props) => {
-	const classes = props.classes
+	const colorTheme = useSelector((state) => state.settings.colorTheme)
+	const classes = containerStyles({ color: colorTheme })
 	const [chart, setChart] = useState('waterusage')
 
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >
-			<Paper className={classes.gridItemBackground}>
+			<Paper classes={{ root: classes.gridItemBackground }}>
 				<MainChart chart={chart} setChart={setChart} />
 			</Paper>
 		</ItemG>
