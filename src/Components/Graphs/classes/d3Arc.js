@@ -26,6 +26,7 @@ class d3Arc {
 		this.containerEl = containerEl;
 		this.props = props;
 		const { arcData, arcPrevData } = props
+		console.log(arcData, arcPrevData)
 		var margin = { top: 30, right: 10, bottom: 30, left: 10 };
 
 		//Get the height and width from the container

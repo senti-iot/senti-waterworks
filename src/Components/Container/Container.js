@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 import { HTitle } from 'App';
-import containerStyles from 'Styles/containerStyle';
+import containerStyles, { paperStyles } from 'Styles/containerStyle';
 import GridContainer from 'Components/Containers/GridContainer';
 import ItemG from 'Components/Containers/ItemG';
 import { Paper } from '@material-ui/core';
@@ -21,16 +21,17 @@ import { getData } from 'Redux/data';
 const ChartContainer = (props) => {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const classes = containerStyles({ color: colorTheme })
+	const paperClasses = paperStyles({ color: colorTheme })
 	const [chart, setChart] = useState('waterusage')
 
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >
-			<Paper classes={{ root: classes.gridItemBackground }}>
+			<Paper className={classes.gridItemBackground} classes={paperClasses}>
 				<MainChart chart={chart} setChart={setChart} />
 			</Paper>
 		</ItemG>
 		<ItemG xs={3}>
-			<ItemG container direction={'row'} style={{ height: '100%', width: '100%' }}>
+			<ItemG container direction={'row'} style={{ height: '100%' /* width: '100%' */ }}>
 				<ItemG xs={12} style={{ height: '25%' }}>
 					<Paper className={classes.gridItemBackground}>
 						<DeviceTableWidget />

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { generateArcData } from './demoData'
 import { makeStyles } from '@material-ui/styles'
 import { colors } from '@material-ui/core'
@@ -56,9 +56,11 @@ function formatNumber(num) {
 }
 const ArcGraph = (props) => {
 	const t = useLocalization()
-	let arcData = useRef(generateArcData())
+	// let arcData = useRef(generateArcData())
+	const [arcData, setArcData] = useState(generateArcData())
 	// let arcData = useRef(900)
-	let arcPrevData = useRef(generateArcData())
+	// let arcPrevData = useRef(generateArcData())
+	const [arcPrevData, setArcPrevData] = useState(generateArcData())
 	// let arcPrevData = useRef(1000)
 	const arcChartContainer = useRef(null)
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
@@ -80,38 +82,46 @@ const ArcGraph = (props) => {
 	}
 	const prevId = usePrevious(props.id)
 
+	// useWhyDidYouUpdate('props', props)
+	// useWhyDidYouUpdate('state', { arcData: arcData.toString() })
+
 	useEffect(() => {
 		if ((props.id !== prevId) && arc) {
-			arcData.current = generateArcData()
+			let newdata = generateArcData()
+			let newPrevData = generateArcData()
 			arc.destroy()
 			arc = new d3Arc(arcChartContainer.current, {
 				id: props.id,
-				arcData: arcData.current, arcPrevData: arcPrevData.current, /* setTooltip: setValue,
+				arcData: newdata, arcPrevData: newPrevData, /* setTooltip: setValue,
 				setMedianTooltip: setMedianValue */
 			}, classes);
-
+			setArcData(newdata)
+			setArcPrevData(newPrevData)
 		}
 	}, [classes, prevId, props.id])
 	useEffect(() => {
 		if ((arcChartContainer.current && !arc)) {
-			arcData.current = generateArcData()
+			// setArcData(generateArcData())
 			arc = new d3Arc(arcChartContainer.current, {
 				id: props.id,
-				arcData: arcData.current, arcPrevData: arcPrevData.current, /* setTooltip: setValue,
+				arcData: arcData, arcPrevData: arcPrevData, /* setTooltip: setValue,
 				setMedianTooltip: setMedianValue */
 			}, classes);
 
 		}
-	}, [classes, arcData, prevId, props.id]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	useEffect(() => {
 		let resizeTimer;
 		const handleResize = () => {
+			// let id = props.id
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(function () {
 				arc.destroy()
 				arc = new d3Arc(arcChartContainer.current, {
 					id: props.id,
-					arcData: arcData.current, arcPrevData: arcPrevData.current, /*  setTooltip: setValue,
+					arcData: arcData, arcPrevData: arcPrevData, /*  setTooltip: setValue,
 					setMedianTooltip: setMedianValue */
 				}, classes);
 				// setWidth(arcChartContainer.current.clientWidth);
@@ -122,7 +132,8 @@ const ArcGraph = (props) => {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [classes, arcData, props.id]);
+		//eslint-disable-next-line
+	}, [classes, props.id]);
 
 	return (
 		<div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100%', width: '100%' }}>
@@ -132,8 +143,8 @@ const ArcGraph = (props) => {
 			<div id={props.id} ref={arcChartContainer} style={{ width: '100%', height: '100%', /* minHeight: 250, */ position: 'relative' }} >
 				<div className={classes.textContainer}>
 					<T>{t(`charts.periods.${period}`)}</T>
-					<T variant='h5'>{`${formatNumber(arcData.current)} ${unit()}`}</T>
-					<T variant='h5' className={classes.prevText}>{`/${formatNumber(arcPrevData.current)} ${unit()}`}</T>
+					<T variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</T>
+					<T variant='h5' className={classes.prevText}>{`/${formatNumber(arcPrevData)} ${unit()}`}</T>
 				</div>
 			</div>
 			<T className={classes.totalUsageM}>{arcData.current > arcPrevData.current ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T>
