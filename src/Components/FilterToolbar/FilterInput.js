@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import Chip from '@material-ui/core/Chip'
-import teal from '@material-ui/core/colors/teal'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import cx from 'classnames'
@@ -21,10 +20,12 @@ const styles = makeStyles(theme => {
 		chips: {},
 		root: {},
 		inputRoot: {
-			position: 'absolute',
-			[theme.breakpoints.down('sm')]: {
-				position: 'relative'
-			},
+			flex: 1,
+			// position: 'absolute',
+			// [theme.breakpoints.down('sm')]: {
+			// 	position: 'relative'
+			// },
+			padding: 8,
 			display: 'inline-block',
 			marginTop: 0,
 		},
@@ -40,14 +41,16 @@ const styles = makeStyles(theme => {
 		},
 		chipContainer: {
 			cursor: 'text',
-			marginBottom: -2,
+			display: 'flex',
+			// marginBottom: -2,
 			minHeight: 40,
+			padding: 8,
 			'&$labeled': {
 				marginTop: 18
 			},
-			[theme.breakpoints.down('md')]: {
-				margin: 4
-			}
+			// [theme.breakpoints.down('md')]: {
+			// 	margin: 4
+			// }
 		},
 		labeled: {},
 		label: {
@@ -118,11 +121,16 @@ const styles = makeStyles(theme => {
 		},
 		chip: {
 			color: theme.palette.type === 'light' ? 'inherit' : '#fff',
-			margin: '0 8px 8px 0',
+			margin: 8,
 			float: 'left',
 			'&:focused': {
 				background: theme.palette.primary[light ? 'dark' : 'light']
 			}
+		},
+		chipSelected: {
+			background: theme.palette.primary[light ? 'dark' : 'light'] + ' !important',
+			color: '#fff'
+
 		}
 	})
 })
@@ -161,7 +169,7 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 	 */
 	const focus = () => {
 		if (focusedChip != null) {
-			focusedChip(null)
+			setFocusedChip(null)
 		}
 		// if (this.state.focusedChip != null) {
 		// this.setState({ focusedChip: null })
@@ -511,6 +519,7 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 						handleDelete: () => handleDeleteChip({ id: value }),
 						handleDoubleClick: () => onDoubleClick({ id: value }),
 						className: classes.chip,
+						classNameSelected: classes.chipSelected,
 						classes: {
 
 						}
@@ -614,13 +623,15 @@ FilterInput.propTypes = {
 
 export default FilterInput
 
-export const defaultChipRenderer = ({ value, handleDoubleClick, text, isFocused, isDisabled, handleClick, handleDelete, className, icon, iRef }, key) => (
+export const defaultChipRenderer = ({ value, handleDoubleClick, text, isFocused, isDisabled, handleClick, handleDelete, className, icon, iRef, classNameSelected }, key) => (
 	<Chip
 		innerRef={ref => iRef ? iRef(ref) : undefined}
 		key={key}
-		className={className}
+		className={`${className} ${isFocused ? classNameSelected : ""}`}
 		icon={icon}
-		style={{ pointerEvents: isDisabled ? 'none' : undefined, background: isFocused ? teal[500] : '', color: isFocused ? '#fff' : undefined }}
+		style={{
+			pointerEvents: isDisabled ? 'none' : undefined,
+		}}
 		onClick={handleClick}
 		onDoubleClick={handleDoubleClick}
 		onDelete={handleDelete}

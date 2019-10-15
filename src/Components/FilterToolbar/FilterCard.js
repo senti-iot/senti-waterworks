@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
-import { Card, IconButton, CardContent, Button, Popover, Typography, CardActions, Checkbox } from '@material-ui/core';
+import { Card, IconButton, CardContent, Button, Popover, Typography, CardActions, Checkbox, colors } from '@material-ui/core';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
 import { Close, DateRange, AccessTime, KeyboardArrowRight, KeyboardArrowLeft } from 'variables/icons';
@@ -8,7 +8,7 @@ import { dateTimeFormatter } from 'data/functions';
 import { TextF, DSelect, ItemG } from 'Components';
 import moment from 'moment'
 import cx from 'classnames'
-import { usePrevious, useLocalization } from 'Hooks';
+import { usePrevious, useLocalization, useSelector } from 'Hooks';
 import { makeStyles } from '@material-ui/styles';
 
 const styles = makeStyles(theme => ({
@@ -40,13 +40,13 @@ const styles = makeStyles(theme => ({
 		color: 'white',
 	},
 	header: {
-		background: '#00897b',
+		background: props => colors[props.color][400],
 		color: 'white',
 		padding: 8
 	},
 	menu: {
 		padding: 0,
-		background: '#00897b'
+		background: props => colors[props.color][400]
 	},
 	content: {
 		height: '100%'
@@ -61,7 +61,8 @@ const FilterCard = (props) => {
 	const { open, type, options, edit, pValue, handleButton, title, hidden, error, resetError, handleClose, anchorEl } = props
 	const t = useLocalization()
 	const prevOpen = usePrevious(open)
-	const classes = styles()
+	const color = useSelector(s => s.settings.colorTheme)
+	const classes = styles({ color })
 	useEffect(() => {
 		if (open && prevOpen !== open) {
 			let obj = null

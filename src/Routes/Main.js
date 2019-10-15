@@ -14,8 +14,9 @@ import Login from './Login';
 
 function Main(props) {
 	const theme = useSelector(state => state.settings.theme)
+	const colorTheme = useSelector(s => s.settings.colorTheme)
 	return (
-		<ThemeProvider theme={theme ? darkTheme : lightTheme}>
+		<ThemeProvider theme={theme ? darkTheme(colorTheme) : lightTheme}>
 			<div>
 				<Switch>
 					<Route path={'/login'}>

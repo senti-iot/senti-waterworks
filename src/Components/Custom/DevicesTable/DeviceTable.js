@@ -138,10 +138,10 @@ const DeviceTable = (props) => {
 				<div className={classes.title}>
 					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
 				</div>
-				<div style={{ height: 48, background: '#ccc', color: '#000' }}>
-					<FilterToolbar reduxKey={'devices'} filters={deviceFilters} />
-					{/* <T>Filter Toolbar</T> */}
-				</div>
+				{/* <div> */}
+				<FilterToolbar reduxKey={'devices'} filters={deviceFilters} />
+				{/* <T>Filter Toolbar</T> */}
+				{/* </div> */}
 				<CTable
 					order={order}
 					orderBy={orderBy}
