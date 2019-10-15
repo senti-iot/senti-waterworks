@@ -1,4 +1,6 @@
 import { handleRequestSort } from 'data/functions'
+import { getDevices, getDevicesData } from 'data/devices'
+import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
 const deviceData = 'deviceData'
@@ -27,32 +29,41 @@ let fakeDevice = {
 	type: "fakeDevice",
 	active: true
 }
-export const getData = () => {
-	return dispatch => {
-		let data = []
-		let i
-		for (i = 0; i < 30; i++) {
-			data.push({
-				nId: i,
-				address: fakeDevice.address + i,
-				guid: fakeDevice.guid + i,
-				id: fakeDevice.id + i,
-				type: fakeDevice.type + i,
-				active: i % 3 === 0 ? true : false
-			})
-		}
+export const getAllDevices = async () => {
+	return async (dispatch) => {
+		let devices = await getDevices()
 		dispatch({
 			type: deviceData,
-			payload: data
+			payload: devices
 		})
 		dispatch({
 			type: 'selectDevice',
-			payload: data.map(d => d.id)
+			payload: devices.map(d => d.id)
 		})
 	}
 }
+export const getData = async () => {
+	return async (dispatch, getState) => {
+		let data = await getDevicesData()
+		let benchmark = genBenchmarkAll(data)
+		// let data = []
+		// let i
+		// for (i = 0; i < 30; i++) {
+		// 	data.push({
+		// 		nId: i,
+		// 		address: fakeDevice.address + i,
+		// 		guid: fakeDevice.guid + i,
+		// 		id: fakeDevice.id + i,
+		// 		type: fakeDevice.type + i,
+		// 		active: i % 3 === 0 ? true : false
+		// 	})
+		// }
+
+	}
+}
 const initialState = {
-	devices: []
+	devices: [],
+	data: {}
 }
 
 export const data = (state = initialState, { type, payload }) => {
