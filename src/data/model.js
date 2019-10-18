@@ -1,4 +1,4 @@
-import { demoData } from './demodata'
+// import { demoData } from './demodata'
 import moment from 'moment';
 
 const genWaterUsage = (deviceData) => {
@@ -66,4 +66,4 @@ export const genBenchmarkAll = (deviceData) => {
 	return data
 }
 
-genBenchmarkAll(demoData)//?
+// genBenchmarkAll(demoData)//?
