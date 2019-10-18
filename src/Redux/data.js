@@ -1,6 +1,6 @@
 import { handleRequestSort } from 'data/functions'
-import { getDevices, getDevicesData } from 'data/devices'
-import { genBenchmarkAll } from 'data/model'
+import { getDevices, /* getDevicesData */ } from 'data/devices'
+// import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
 const deviceData = 'deviceData'
@@ -21,14 +21,14 @@ export const sortData = (key, property, order) => {
 
 	}
 }
-let fakeDevice = {
-	nId: 0,
-	address: "fakestreet",
-	guid: "56970DF",
-	id: "348580",
-	type: "fakeDevice",
-	active: true
-}
+// let fakeDevice = {
+// 	nId: 0,
+// 	address: "fakestreet",
+// 	guid: "56970DF",
+// 	id: "348580",
+// 	type: "fakeDevice",
+// 	active: true
+// }
 export const getAllDevices = async () => {
 	return async (dispatch) => {
 		let devices = await getDevices()
@@ -44,8 +44,8 @@ export const getAllDevices = async () => {
 }
 export const getData = async () => {
 	return async (dispatch, getState) => {
-		let data = await getDevicesData()
-		let benchmark = genBenchmarkAll(data)
+		// let data = await getDevicesData()
+		// let benchmark = genBenchmarkAll(data)
 		// let data = []
 		// let i
 		// for (i = 0; i < 30; i++) {
