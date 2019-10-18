@@ -19,7 +19,7 @@ const containerStyles = makeStyles(theme => ({
 
 export const paperStyles = makeStyles(theme => ({
 	root: {
-		background: props => darken(hexToRgba(colors[props.color][700], 0.7), 0.5),
+		background: props => darken(hexToRgba(colors[props.color][700], 0.7), 0.5) + ' !important',
 	}
 }), { name: 'MuiPaper' })
 export default containerStyles
