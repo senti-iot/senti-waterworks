@@ -12,7 +12,7 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 
 
-function Main(props) {
+function Main() {
 	const theme = useSelector(state => state.settings.theme)
 	const colorTheme = useSelector(s => s.settings.colorTheme)
 	return (
