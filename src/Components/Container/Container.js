@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, Fragment } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 import { HTitle } from 'App';
-import containerStyles, { paperStyles } from 'Styles/containerStyle';
+import containerStyles from 'Styles/containerStyle';
 import GridContainer from 'Components/Containers/GridContainer';
 import ItemG from 'Components/Containers/ItemG';
 import { Paper } from '@material-ui/core';
@@ -17,37 +17,54 @@ import ArcGraph from 'Components/Graphs/ArcGraph';
 import DevicesWidget from 'Components/Custom/Devices/DevicesWidget';
 import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget';
 import { getData } from 'Redux/data';
+import styled from 'styled-components'
+import { bgColors } from '../../Styles/backgroundColors';
+
 
 const ChartContainer = (props) => {
-	const colorTheme = useSelector((state) => state.settings.colorTheme)
-	const classes = containerStyles({ color: colorTheme })
-	const paperClasses = paperStyles({ color: colorTheme })
+	// const colorTheme = useSelector((state) => state.settings.colorTheme)
+	// const classes = containerStyles({ color: colorTheme })
+	// const paperClasses = paperStyles({ color: colorTheme })
 	const [chart, setChart] = useState('waterusage')
 
+	// const BPaper = styled(Paper)`
+	// position: 'relative';
+	// height: 'calc(100% - 32px)';
+	// padding: '8px 16px';
+	// margin: 8;
+	// background: ${props => darken(hexToRgba(colors[props.theme.primary][700], 0.7), 0.5)};
+	// `
+	const BPaper = styled(Paper)`
+	position: relative;
+	height: calc(100% - 32px);
+	padding: 8px 16px;
+	margin: 8px;
+	background: ${({ theme }) => theme.boxBackground};
+	`;
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >
-			<Paper className={classes.gridItemBackground} classes={paperClasses}>
+			<BPaper /* className={classes.gridItemBackground} classes={paperClasses} */>
 				<MainChart chart={chart} setChart={setChart} />
-			</Paper>
+			</BPaper>
 		</ItemG>
 		<ItemG xs={3}>
 			<ItemG container direction={'row'} style={{ height: '100%' /* width: '100%' */ }}>
 				<ItemG xs={12} style={{ height: '25%' }}>
-					<Paper className={classes.gridItemBackground}>
+					<BPaper /* className={classes.gridItemBackground} */>
 						<DeviceTableWidget />
-					</Paper>
+					</BPaper>
 
 				</ItemG>
 				<ItemG xs={12} style={{ height: '50%' }}>
-					<Paper className={classes.gridItemBackground}>
+					<BPaper /* className={classes.gridItemBackground} */>
 						<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
-					</Paper>
+					</BPaper>
 
 				</ItemG>
 				<ItemG xs={12} style={{ height: '25%' }}>
-					<Paper className={classes.gridItemBackground}>
+					<BPaper /* className={classes.gridItemBackground} */>
 						<DevicesWidget />
-					</Paper>
+					</BPaper>
 
 				</ItemG>
 			</ItemG>
@@ -76,24 +93,31 @@ function Container({ ...props }) {
 		}
 		loadSettings()
 	}, [dispatch])
+	const AppBackground = styled.div`
+	margin-top: 70px;
+	height: calc(100vh - 70px);
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	background: ${props => bgColors[props.color].background};
+	`
 
 	return (
 		cookie.load('SESSION') ?
-			<div>
+			<Fragment>
 				<Header title={props.title} />
 				{!loading ?
-					<div className={classes.backgroundColor} style={{ marginTop: 70, height: 'calc(100vh - 70px)', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}>
+					<AppBackground color={colorTheme}>
 						<Switch>
 							<Route path={'/settings'}>
 								<Settings classes={classes} />
 							</Route>
 							<Route exact path={'/'}>
-								<ChartContainer classes={classes} />
+								<ChartContainer />
 							</Route>
 						</Switch>
-					</div>
+					</AppBackground>
 					: <CircularLoader />}
-			</div>
+			</Fragment>
 			: <Redirect from={window.location.pathname} to={{
 				pathname: '/login', state: {
 					prevURL: window.location.pathname

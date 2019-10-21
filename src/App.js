@@ -5,6 +5,7 @@ import LocalizationProvider from 'Components/Providers/LocalizationProvider';
 import store from 'Redux/store';
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom';
+import { StylesProvider } from "@material-ui/styles";
 
 export const HTitle = React.createContext(null)
 
@@ -12,13 +13,15 @@ function App() {
 	const [title, setTitle] = useState('')
 	return (
 		<Router>
-			<Provider store={store}>
-				<LocalizationProvider>
-					<HTitle.Provider value={setTitle}>
-						<Main title={title} />
-					</HTitle.Provider>
-				</LocalizationProvider>
-			</Provider>
+			<StylesProvider injectFirst>
+				<Provider store={store}>
+					<LocalizationProvider>
+						<HTitle.Provider value={setTitle}>
+							<Main title={title} />
+						</HTitle.Provider>
+					</LocalizationProvider>
+				</Provider>
+			</StylesProvider>
 		</Router>
 	);
 }

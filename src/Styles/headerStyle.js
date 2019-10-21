@@ -20,9 +20,9 @@ const headerStyles = makeStyles(theme => ({
 		paddingLeft: '12px',
 		borderRadius: 4,
 		height: 48,
-		[theme.breakpoints.down('xs')]: {
-			width: 48
-		},
+		// [theme.breakpoints.down('xs')]: {
+		// 	width: 48
+		// },
 	},
 	appBar: {
 		backgroundColor: headerColor,
@@ -31,9 +31,9 @@ const headerStyles = makeStyles(theme => ({
 		marginBottom: "0",
 		position: 'fixed',
 		// padding: "0 !important",
-		[theme.breakpoints.down('xs')]: {
-			height: 48
-		},
+		// [theme.breakpoints.down('xs')]: {
+		// 	height: 48
+		// },
 		height: "70px",
 		zIndex: "1029",
 		color: "#ffffff",
@@ -46,9 +46,9 @@ const headerStyles = makeStyles(theme => ({
 		position: "relative",
 		height: 48,
 		borderRadius: 4,
-		[theme.breakpoints.down("xs")]: {
-			height: 48
-		},
+		// [theme.breakpoints.down("xs")]: {
+		// 	height: 48
+		// },
 		"&:hover, &$focusVisible": {
 			zIndex: 1
 		}
@@ -90,9 +90,9 @@ const headerStyles = makeStyles(theme => ({
 	title: {
 		maxWidth: "calc(100vw - 130px)",
 		fontWeight: 500,
-		[theme.breakpoints.down('sm')]: {
-			fontSize: "1rem",
-		},
+		// [theme.breakpoints.down('sm')]: {
+		// 	fontSize: "1rem",
+		// },
 		lineHeight: "1.16667em",
 		fontSize: "1.3125rem",
 		borderRadius: "3px",

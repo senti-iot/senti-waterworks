@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const styles = makeStyles(theme => ({
 	leftIcon: {
-		marginRight: theme.spacing(1)
+		// marginRight: theme.spacing(1)
 	},
 	underlineRev: {
 		background: '#fff'
@@ -55,7 +55,8 @@ const styles = makeStyles(theme => ({
 
 const TextF = (props) => {
 	const theme = useTheme()
-	let mobile = window.innerWidth <= theme.breakpoints.values.md ? true : false
+	// let mobile = window.innerWidth <= theme.breakpoints.values.md ? true : false
+	let mobile = false
 	const classes = styles()
 	let classNames = cx({
 		[props.className]: props.className ? true : false,

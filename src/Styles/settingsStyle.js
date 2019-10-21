@@ -11,17 +11,17 @@ export const settingsStyles = makeStyles(theme => ({
 		minWidth: 208,
 	},
 	iconColor: {
-		fill: theme.palette.type === 'light' ? "rgba(0, 0, 0, 0.54)" : '#fff',
+		// fill: theme.palette.type === 'light' ? "rgba(0, 0, 0, 0.54)" : '#fff',
 		cursor: "pointer"
 	},
 	p: {
-		marginBottom: theme.spacing(1)
+		// marginBottom: theme.spacing(1)
 	},
 	title: {
 		fontWeight: 500
 	},
 	icon: {
-		color: theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.54)' : '#fff',
+		// color: theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.54)' : '#fff',
 		marginRight: 4
 	},
 	red: {

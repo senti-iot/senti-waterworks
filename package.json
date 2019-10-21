@@ -31,7 +31,8 @@
 		"redux": "^4.0.4",
 		"redux-thunk": "^2.3.0",
 		"senti-apicore": "0.0.17",
-		"store": "^2.0.12"
+		"store": "^2.0.12",
+		"styled-components": "^4.4.0"
 	},
 	"scripts": {
 		"start": "react-scripts start",

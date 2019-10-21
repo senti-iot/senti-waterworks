@@ -12,7 +12,7 @@ const deviceTableStyles = makeStyles(theme => ({
 		background: 'rgba(0,0,0,0)',
 	},
 	paperRoot: {
-		margin: theme.spacing(5),
+		// margin: theme.spacing(5),
 		borderRadius: 3,
 		// overflow: 'hidden'
 	},

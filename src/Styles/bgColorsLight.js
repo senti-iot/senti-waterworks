@@ -2,7 +2,7 @@ import { colors } from '@material-ui/core';
 
 export const bgColorsLight = theme => ({
 	'': {
-		background: theme.palette.type === 'light' ? '#fff' : 'rgba(0,0,0,0.7)'
+		// background: theme.palette.type === 'light' ? '#fff' : 'rgba(0,0,0,0.7)'
 	},
 	lightBlue: {
 		background: `linear-gradient(to right bottom, ${colors.lightBlue[200]}, ${colors.lightBlue[200]})`

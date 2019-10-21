@@ -4,19 +4,21 @@ import React from 'react'
 // import { LocalizationProvider } from 'App';
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 import Container from 'Components/Container/Container';
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux'
-import { lightTheme, darkTheme } from 'variables/themes';
+// import { lightTheme, darkTheme } from 'variables/themes';
 // import Header from 'Components/Header';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
+import * as themes from 'Styles/themes'
 
 
 function Main() {
-	const theme = useSelector(state => state.settings.theme)
+	// const theme = useSelector(state => state.settings.theme)
 	const colorTheme = useSelector(s => s.settings.colorTheme)
+	// console.log(themes[colorTheme], themes, colorTheme)
 	return (
-		<ThemeProvider theme={theme ? darkTheme(colorTheme) : lightTheme}>
+		<ThemeProvider theme={themes[colorTheme]}>
 			<div>
 				<Switch>
 					<Route path={'/login'}>

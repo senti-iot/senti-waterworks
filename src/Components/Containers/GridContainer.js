@@ -5,12 +5,12 @@ import { makeStyles } from '@material-ui/styles';
 const gridStyles = makeStyles(theme => ({
 	grid: {
 
-		[theme.breakpoints.down('md')]: {
-			padding: '10px 10px 30px 10px',
-		},
-		[theme.breakpoints.down('sm')]: {
-			padding: '8px 8px 30px 8px'
-		},
+		// [theme.breakpoints.down('md')]: {
+		// 	padding: '10px 10px 30px 10px',
+		// },
+		// [theme.breakpoints.down('sm')]: {
+		// 	padding: '8px 8px 30px 8px'
+		// },
 		// padding: '16px 30px 16px 8px',
 		padding: 30,
 		width: 'auto',

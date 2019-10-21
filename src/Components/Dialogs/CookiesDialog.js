@@ -6,13 +6,13 @@ import { makeStyles } from '@material-ui/styles';
 const styles = makeStyles(theme => {
 	return ({
 		p: {
-			marginBottom: theme.spacing(1)
+			// marginBottom: theme.spacing(1)
 		},
 		dialogContent: {
 			padding: 24,
-			[theme.breakpoints.down('sm')]: {
-				padding: 16
-			}
+			// [theme.breakpoints.down('sm')]: {
+			// 	padding: 16
+			// }
 		},
 		title: {
 			fontWeight: 500

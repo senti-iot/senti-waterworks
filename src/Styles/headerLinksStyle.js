@@ -13,14 +13,14 @@ import { makeStyles } from '@material-ui/styles';
 
 const headerLinksStyle = makeStyles(theme => ({
 	expand: {
-		[theme.breakpoints.down('md')]: {
-			marginLeft: 18,
-			marginRight: 24,
-		},
+		// [theme.breakpoints.down('md')]: {
+		// 	marginLeft: 18,
+		// 	marginRight: 24,
+		// },
 		transform: 'rotate(0deg)',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest,
-		}),
+		// transition: theme.transitions.create('transform', {
+		// 	duration: theme.transitions.duration.shortest,
+		// }),
 	},
 	expandOpen: {
 		transform: 'rotate(180deg)',
@@ -48,14 +48,14 @@ const headerLinksStyle = makeStyles(theme => ({
 		// marginLeft: 10
 	},
 	leftIcon: {
-		marginRight: theme.spacing(1)
+		marginRight: 8
 	},
 	iconRoot: {
 		color: "#FFF",
-		[theme.breakpoints.down('md')]: {
-			justifyContent: 'left',
-			width: 260
-		}
+		// [theme.breakpoints.down('md')]: {
+		// 	justifyContent: 'left',
+		// 	width: 260
+		// }
 		// padding: "12px 2px"
 	},
 	menuItem: {
@@ -70,18 +70,18 @@ const headerLinksStyle = makeStyles(theme => ({
 		fontSize: "14px"
 	},
 	buttonLink: {
-		[theme.breakpoints.down("sm")]: {
-			display: "flex",
-			marginLeft: "30px",
-			width: "auto"
-		}
+		// [theme.breakpoints.down("sm")]: {
+		// 	display: "flex",
+		// 	marginLeft: "30px",
+		// 	width: "auto"
+		// }
 	},
 	searchButton: {
-		[theme.breakpoints.down("sm")]: {
-			top: "-50px !important",
-			marginRight: "22px",
-			float: "right"
-		}
+		// [theme.breakpoints.down("sm")]: {
+		// 	top: "-50px !important",
+		// 	marginRight: "22px",
+		// 	float: "right"
+		// }
 	},
 	margin: {
 		zIndex: "4",
@@ -95,37 +95,37 @@ const headerLinksStyle = makeStyles(theme => ({
 		width: "20px",
 		height: "20px",
 		zIndex: "4",
-		[theme.breakpoints.down("sm")]: {
-			display: "block",
-			width: "30px",
-			height: "30px",
-			color: "#a9afbb",
-			marginRight: "15px"
-		}
+		// [theme.breakpoints.down("sm")]: {
+		// 	display: "block",
+		// 	width: "30px",
+		// 	height: "30px",
+		// 	color: "#a9afbb",
+		// 	marginRight: "15px"
+		// }
 	},
 	notifications: {
 		zIndex: "4",
-		[theme.breakpoints.up("md")]: {
-			position: "absolute",
-			top: "5px",
-			border: "1px solid #FFF",
-			right: "10px",
-			fontSize: "9px",
-			background: dangerColor,
-			color: "#FFFFFF",
-			minWidth: "16px",
-			height: "16px",
-			borderRadius: "10px",
-			textAlign: "center",
-			lineHeight: "16px",
-			verticalAlign: "middle",
-			display: "block"
-		},
-		[theme.breakpoints.down("sm")]: {
-			...defaultFont,
-			fontSize: "14px",
-			marginRight: "8px"
-		}
+		// [theme.breakpoints.up("md")]: {
+		// 	position: "absolute",
+		// 	top: "5px",
+		// 	border: "1px solid #FFF",
+		// 	right: "10px",
+		// 	fontSize: "9px",
+		// 	background: dangerColor,
+		// 	color: "#FFFFFF",
+		// 	minWidth: "16px",
+		// 	height: "16px",
+		// 	borderRadius: "10px",
+		// 	textAlign: "center",
+		// 	lineHeight: "16px",
+		// 	verticalAlign: "middle",
+		// 	display: "block"
+		// },
+		// [theme.breakpoints.down("sm")]: {
+		// 	...defaultFont,
+		// 	fontSize: "14px",
+		// 	marginRight: "8px"
+		// }
 	},
 	dropdown: {
 		borderRadius: "3px",
@@ -143,17 +143,17 @@ const headerLinksStyle = makeStyles(theme => ({
 		backgroundClip: "padding-box"
 	},
 	pooperResponsive: {
-		[theme.breakpoints.down("sm")]: {
-			zIndex: "1640",
-			position: "static",
-			float: "none",
-			width: "auto",
-			marginTop: "0",
-			backgroundColor: "transparent",
-			border: "0",
-			boxShadow: "none",
-			color: "black"
-		}
+		// [theme.breakpoints.down("sm")]: {
+		// 	zIndex: "1640",
+		// 	position: "static",
+		// 	float: "none",
+		// 	width: "auto",
+		// 	marginTop: "0",
+		// 	backgroundColor: "transparent",
+		// 	border: "0",
+		// 	boxShadow: "none",
+		// 	color: "black"
+		// }
 	},
 	dropdownItem: {
 		...defaultFont,
