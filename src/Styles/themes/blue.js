@@ -1,10 +1,35 @@
-import blue from '@material-ui/core/colors/blue'
+import { createMuiTheme, darken } from '@material-ui/core/styles'
+import { red, orange, pink, blue } from '@material-ui/core/colors'
+import override from './override'
+import * as colors from '@material-ui/core/colors';
+import hexToRgba from 'hex-to-rgba';
+import { bgColors } from 'Styles/backgroundColors'; import {  /* headerColor */ } from 'Styles/mainStyles'
 
-const themeBlue = {
-	primary: blue[500]
-}
 
-export default themeBlue
+const theme = createMuiTheme({
+	...override('blue'),
+	palette: {
+		primary: {
+			main: blue[500],
+			light: blue[300],
+		},
+		secondary: {
+			main: orange[500],
+			light: orange[300],
+		},
+		error: {
+			main: red[400]
+		}
+	},
+	appBackground: bgColors['blue'].background,
+	boxBackground: darken(hexToRgba(colors['blue'][700], 0.7), 0.5),
+	textColor: '#fff',
+	primary: blue[500],
+	activeButton: orange[500],
+	mainButton: pink[500]
+});
+
+export default theme
 
 // background color: #F44336
 // Boxes color: #BA000D
@@ -73,7 +98,7 @@ export default themeBlue
 
 // not actives buttons:  # 790008
 // actives buttons: stays oranges
-// Skærmbillede 2019-10-08 kl. 11.09.33.png 
+// Skærmbillede 2019-10-08 kl. 11.09.33.png
 // Skærmbillede 2019-10-08 kl. 11.09.33.png
 // background color: #ffca28
 

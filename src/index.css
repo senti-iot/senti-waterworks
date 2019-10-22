@@ -1,6 +1,5 @@
 body {
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -130,7 +129,7 @@ body {
 	/* padding: 0px !important;
 	overflow: auto !important; */
 	background-color: #EEEEEE;
-	color: #3C4858;
+	/* color: #3C4858; */
 	margin: 0;
 	font-family: Roboto, Helvetica, Arial, sans-serif;
 	font-weight: 300;
@@ -139,11 +138,6 @@ body {
 
 blockquote footer:before, blockquote small:before {
 	content: '\2014 \00A0';
-}
-
-body {
-	background-color: #EEEEEE;
-	color: #3C4858;
 }
 
 blockquote p {
