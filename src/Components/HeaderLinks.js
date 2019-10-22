@@ -158,7 +158,7 @@ function HeaderLinks(props) {
 				<GoogleLogout
 					// onLogoutSuccess={() => logOut()}
 					clientId="1038408973194-qcb30o8t7opc83k158irkdiar20l3t2a.apps.googleusercontent.com"
-					render={renderProps => (<MenuItem onClick={() => { renderProps.onClick(); handleLogOut() }} className={classes.menuItem}>
+					render={renderProps => (<MenuItem onClick={() => { renderProps.onClick(); handleLogOut() }}>
 						<PowerSettingsNew className={classes.leftIcon} />{t('menus.user.signout')}
 					</MenuItem>)}
 				>

@@ -26,7 +26,7 @@ const headerLinksStyle = makeStyles(theme => ({
 		transform: 'rotate(180deg)',
 	},
 	nameAndEmail: {
-		height: 46,
+		// height: 46,
 		display: 'flex',
 		flexFlow: 'column',
 		alignItems: 'flex-start',
