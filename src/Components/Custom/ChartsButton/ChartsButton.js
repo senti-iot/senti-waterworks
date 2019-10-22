@@ -15,7 +15,9 @@ import { emphasize } from '@material-ui/core/styles';
 const ChartsButton = styled(props => <Button {...props} classes={{
 	root: 'root'
 }} />)`
-	background: ${({ theme, active }) => active ? theme.palette.secondary.main : theme.palette.primary.main};
+	background: ${({ theme, active }) => active ?
+		theme.activeChartButton
+		: theme.chartButton};
 	width: calc(100% - 16px);
 	margin: 8px;
 	min-width: 100px;
@@ -25,7 +27,7 @@ const ChartsButton = styled(props => <Button {...props} classes={{
 	font-size: 1.25rem;
 	border-radius: 8px;
 	&:hover {
-		background: ${({ theme, active }) => active ? emphasize(theme.palette.secondary.main, 0.2) : emphasize(theme.palette.primary.main, 0.2)};
+		background: ${({ theme, active }) => active ? emphasize(theme.activeChartButton, 0.2) : emphasize(theme.chartButton, 0.2)};
 	}
 `
 

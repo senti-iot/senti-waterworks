@@ -1,5 +1,5 @@
 import { handleRequestSort } from 'data/functions'
-import { getDevices, /* getDevicesData */ } from 'data/devices'
+import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -44,7 +44,9 @@ export const getAllDevices = async () => {
 }
 export const getData = async () => {
 	return async (dispatch, getState) => {
-		// let data = await getDevicesData()
+
+		let data = await getDevicesData('2019-10-04', '2019-10-07')
+		console.log(data)
 		// let benchmark = genBenchmarkAll(data)
 		// let data = []
 		// let i

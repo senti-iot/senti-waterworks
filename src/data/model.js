@@ -1,4 +1,4 @@
-// import { demoData } from './demodata'
+// import demoData from './demodata.json'
 import moment from 'moment';
 
 const genWaterUsage = (deviceData) => {
@@ -6,24 +6,27 @@ const genWaterUsage = (deviceData) => {
 	var dataByDay = deviceData.reduce((dataByMonth, datum) => {
 		var date = moment(datum.date);
 		var value = datum.value
-		// var day = date.format('DD');
-		// var month = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-		// var year = date.getFullYear();
-		// var group = year + '-' + month + '-' + day + ' 00:00:00';
 		let group = date.format('YYYY-MM-DD 00:00:00').toString()
-		// dataByMonth[group] = dataByMonth[group] || {};
-		// dataByMonth[group].totalValue = (dataByMonth[group].totalValue || 0) + value;
-		// dataByMonth[group].count = (dataByMonth[group].count || 0) + 1;
 		data[group] = data[group] || {};
 		data[group].totalValue = (data[group].totalValue || 0) + value;
 		data[group].count = (data[group].count || 0) + 1;
 		return data;
-	}, {});
-	let finalResult = {};
-	let index = Object.keys(dataByDay)//?
+	}, {})
+	// console.log(dataByDay)
+	// let avgS = dataByDay.forEach(d => {
+	// 	d.totalValue = d.totalValue / d.count
+	// })
+	let finalResult = [];
+	let index = Object.keys(dataByDay)
 	index.forEach((d, i) => {
-		if (i !== 0) {
-			finalResult[d] = (dataByDay[d].totalValue - dataByDay[index[i - 1]].totalValue).toFixed(3);
+		if (i !== index.length - 1) {
+			finalResult.push({
+				date: d,
+				value: (
+					(dataByDay[index[i + 1]].totalValue / dataByDay[index[i + 1]].count) -
+					(dataByDay[d].totalValue / dataByDay[d].count))
+					.toFixed(3)
+			})
 		}
 	});
 	return finalResult;
@@ -41,11 +44,16 @@ const genReading = (deviceData) => {
 		data[group].count = (data[group].count || 0) + 1;
 		return data;
 	}, {});
-	let finalResult = {};
+	// let finalResult = {};
+	let fResult = []
 	Object.keys(dataByDay).forEach(d => {
-		finalResult[d] = (dataByDay[d].totalValue / dataByDay[d].count).toFixed(3);
+		// finalResult[d] = (dataByDay[d].totalValue / dataByDay[d].count).toFixed(3);
+		fResult.push({
+			date: d,
+			value: (dataByDay[d].totalValue / dataByDay[d].count).toFixed(3)
+		})
 	});
-	return finalResult;
+	return fResult;
 
 }
 
@@ -59,10 +67,14 @@ export const genBenchmarkAll = (deviceData) => {
 	data.reading = genReading(deviceData.filter(d => d.data.value).map(d => ({ value: d.data.value, date: d.created })))
 	data.waterUsage = genWaterUsage(deviceData.filter(d => d.data.value).map(d => ({ value: d.data.value, date: d.created })))
 	data.waterFlow = {
-		maxFlow: genReading(deviceData.filter(d => d.data.maxFlow !== undefined).map(d => ({ value: d.data.maxFlow, date: d.date }))),
-		minFlow: genReading(deviceData.filter(d => d.data.minFlow !== undefined).map(d => ({ value: d.data.minFlow, date: d.date })))
+		maxFlow: genReading(deviceData.filter(d => d.data.maxFlow !== undefined).map(d => ({ value: d.data.maxFlow, date: d.created }))),
+		minFlow: genReading(deviceData.filter(d => d.data.minFlow !== undefined).map(d => ({ value: d.data.minFlow, date: d.created })))
 	}
-	data.temperature = genReading(deviceData.filter(d => d.data.minWTemp !== undefined).map(d => ({ value: d.data.minWTemp, date: d.date })))
+	let minATemp = deviceData.filter(d => d.data.minATemp !== undefined)//?
+	data.temperature = {
+		water: genReading(deviceData.filter(d => d.data.minWTemp !== undefined).map(d => ({ value: d.data.minWTemp, date: d.created }))),
+		ambient: genReading(minATemp.map(d => ({ value: d.data.minATemp, date: d.created })))
+	}
 	return data
 }
 

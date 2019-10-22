@@ -3,6 +3,7 @@ import override from './override'
 import * as colors from '@material-ui/core/colors';
 import hexToRgba from 'hex-to-rgba';
 import { bgColors } from 'Styles/backgroundColors';
+import { headerColor } from 'Styles/mainStyles';
 
 
 const theme = createMuiTheme({
@@ -25,9 +26,28 @@ const theme = createMuiTheme({
 	boxBackground: darken(hexToRgba(colors['blue'][700], 0.7), 0.5),
 	textColor: '#fff',
 	primary: colors.blue[500],
-	activeButton: colors.orange[500],
+	activeChartButton: colors.orange[500],
+	chartButton: headerColor,
+	chart: {
+		medianLine: colors.red[500],
+		readingLine: colors.yellow[400],
+		waterUsageLine: colors.orange[500],
+		minFlowLine: '#c432ff',
+		maxFlowLine: colors.cyan[500],
+		ambientTempLine: colors.red[500],
+		waterTempLine: colors.blue[400]
+	},
 });
-
+// export const chartColors = {
+// 	mainLine: colors.orange[500],
+// 	medianLine: colors.red[500],
+// 	readingLine: colors.yellow[400],
+// 	waterUsageLine: colors.orange[500],
+// 	minFlowLine: '#c432ff',
+// 	maxFlowLine: colors.cyan[500],
+// 	ambientTempLine: colors.red[500],
+// 	waterTempLine: colors.blue[400]
+// }
 export default theme
 
 // background color: #F44336

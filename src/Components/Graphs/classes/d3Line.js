@@ -23,11 +23,7 @@ class d3Line {
 
 		this.containerEl = containerEl;
 		this.props = props;
-		const { lineData, prevLineData, setTooltip, setMedianTooltip } = props
-		// const lineData = props.lineData
-		// const prevLineData = props.prevLineData
-		// const
-		// const classes = props.classes
+		const { lineData, prevLineData, setTooltip, secondaryLinePrevData, secondaryLineData, secondaryLine } = props
 		var margin = { top: 50, right: 75, bottom: 75, left: 75 };
 
 		//Get the height and width from the container
@@ -54,8 +50,14 @@ class d3Line {
 		// var y = d3.scaleLinear().range([height, 0]);
 
 		//Set the graph ranges
-		this.x.domain(d3.extent([...lineData, ...prevLineData], function (d) { return d.date; }));
-		this.y.domain([0, getMax(lineData) + 10]);
+		if (!secondaryLine) {
+			this.x.domain(d3.extent([...lineData, ...prevLineData], function (d) { return d.date; }));
+			this.y.domain([0, getMax(lineData) + 10]);
+		}
+		else {
+			this.x.domain(d3.extent([...lineData, ...prevLineData, ...secondaryLineData, ...secondaryLinePrevData], function (d) { return d.date; }));
+			this.y.domain([0, getMax([...lineData, ...secondaryLineData]) + 10]);
+		}
 
 		//Define the area for the values
 		var valueArea = d3.area()
@@ -86,54 +88,63 @@ class d3Line {
 			.attr('class', classes.line)
 			.attr('d', valueLine)
 
-		//Median tooltip
+		this.generateMedian(valueLine, props, classes)
 
-		var medianTooltip = d3.select(`#${props.id}medianTooltip`)
-			.attr("class", classes.medianTooltip)
-			.style("opacity", 0);
+		//#region secondaryLine
+		console.log(props)
+		if (props.secondaryLine) {
+			var valueSecArea = d3.area()
+				.x((d) => { return this.x(d.date) })
+				.y0(this.y(Math.min(...secondaryLineData.map(d => d.nps))))
+				.y1((d) => { return this.y(d.nps) })
+			this.svg.append("path")
+				.data([secondaryLinePrevData])
+				.attr("class", classes.line2)
+				.attr("d", valueSecArea);
 
-		//Median line
-		let medianLine = this.svg.append('path')
-			.data([getMedianLineData(lineData, prevLineData)])
-			.attr('class', classes.lineWeekend)
-			.attr('d', valueLine)
-			.attr('stroke-dasharray', ("3, 3"))
+			// Current Data area
+			this.svg.append("path")
+				.data([secondaryLineData])
+				.attr("class", classes.secondaryArea)
+				.attr("d", valueSecArea);
 
-		// Hidden overlay for Median tooltip
-		this.svg.append('path')
-			.data([getMedianLineData(lineData, prevLineData)])
-			.attr('class', classes.hiddenMedianLine)
-			.attr('d', valueLine)
-			.on("mouseover", function (d) {
+			// Current Data line
+			this.svg.append('path')
+				.data([secondaryLineData])
+				.attr('class', classes.secondLine)
+				.attr('d', valueLine)
+			// Add the dots
+			this.svg.selectAll(".dot")
+				.data(secondaryLineData)
+				.enter()
+				.append("circle") // Uses the enter().append() method
+				.attr("class", classes.secondaryDot) // Assign a class for styling
+				.attr("cx", (d) => { return this.x(d.date) })
+				.attr("cy", (d) => { return this.y(d.nps) })
+				.attr("r", 5)
+				.on("mouseover", function (d) {
+					div.transition()
+						.duration(200)
+						.style("opacity", 1)
+						.style('z-index', 1040);
+					div.style("left", (d3.event.pageX) - 235 + "px")
+						.style("top", (d3.event.pageY) - 250 + "px");
 
-				medianLine.transition()
-					.duration(100)
-					.style('stroke-width', '7px')
+					setTooltip(d)
 
-				medianTooltip.transition()
-					.duration(200)
-					.style("opacity", 1)
-					.style('z-index', 1040);
+				}).on("mouseout", function () {
+					// setExpand(false)
+					div.transition()
+						.duration(500)
+						.style('z-index', -1)
+						.style("opacity", 0);
+				}).on('click', function () {
+					// setExpand(true)
+				});
 
-				medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-					.style("top", (d3.event.pageY) - 41 + "px");
+		}
 
-				setMedianTooltip(d[0])
-
-			}).on("mouseout", function (d) {
-				// setExpand(false)
-				medianLine.transition()
-					.duration(100)
-					.style('stroke-width', '3px')
-				medianTooltip.transition()
-					.duration(500)
-					.style('z-index', -1)
-					.style("opacity", 0);
-			}).on('click', function (d) {
-				// setExpand(true)
-			});
-
-
+		//#region Ticks
 		var xAxis_woy = d3.axisBottom(this.x)
 			// .ticks(Math.round(lineData.length / 5))
 			.tickFormat(d3.timeFormat("%d"))
@@ -183,6 +194,8 @@ class d3Line {
 			// .html(props.unit)
 			.html('m3')
 
+		//#endregion
+
 		// Define the current data tooltip
 		var div = d3.select(`#${props.id}tooltip`)
 			.attr("class", classes.tooltip)
@@ -211,18 +224,69 @@ class d3Line {
 
 				setTooltip(d)
 
-			}).on("mouseout", function (d) {
+			}).on("mouseout", function () {
 				// setExpand(false)
 				div.transition()
+					.duration(500)
+					.style('z-index', -1)
+					.style("opacity", 0);
+			}).on('click', function () {
+				// setExpand(true)
+			});
+		// init other vis elements like scales and axes here.
+	}
+	generateMedian = (valueLine, props, classes) => {
+		const { lineData, prevLineData, setMedianTooltip } = props
+
+		//Median tooltip
+
+		var medianTooltip = d3.select(`#${props.id}medianTooltip`)
+			.attr("class", classes.medianTooltip)
+			.style("opacity", 0);
+
+		//Median line
+		let medianLine = this.svg.append('path')
+			.data([getMedianLineData(lineData, prevLineData)])
+			.attr('class', classes.medianLine)
+			.attr('d', valueLine)
+			.attr('stroke-dasharray', ("3, 3"))
+
+		// Hidden overlay for Median tooltip
+		this.svg.append('path')
+			.data([getMedianLineData(lineData, prevLineData)])
+			.attr('class', classes.hiddenMedianLine)
+			.attr('d', valueLine)
+			.on("mouseover", function (d) {
+
+				medianLine.transition()
+					.duration(100)
+					.style('stroke-width', '7px')
+
+				medianTooltip.transition()
+					.duration(200)
+					.style("opacity", 1)
+					.style('z-index', 1040);
+
+				medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+					.style("top", (d3.event.pageY) - 41 + "px");
+
+				setMedianTooltip(d[0])
+
+			}).on("mouseout", function (d) {
+				// setExpand(false)
+				medianLine.transition()
+					.duration(100)
+					.style('stroke-width', '3px')
+				medianTooltip.transition()
 					.duration(500)
 					.style('z-index', -1)
 					.style("opacity", 0);
 			}).on('click', function (d) {
 				// setExpand(true)
 			});
-		// init other vis elements like scales and axes here.
-	}
 
+
+	}
 	updateThings = (props) => { /*...*/ }
 
 	destroy = (id) => {

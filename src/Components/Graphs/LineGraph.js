@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { /* lineData,  */prevLineData, generateData } from './demoData'
+import { /* lineData,  */prevLineData, generateData, generateBigData } from './demoData'
 // import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
@@ -8,12 +8,35 @@ import hexToRgba from 'hex-to-rgba'
 import moment from 'moment'
 import d3Line from './classes/d3Line'
 import { usePrevious } from 'Hooks'
-// const _ = require('lodash')
 
-// const isWeekend = (date) => {
-// 	return moment(date, 'YYYY-MM-DD HH:mm:ss').day() === 6 || moment(date).day() === 0 ? true : false
-// }
-
+const selectSecondType = chId => {
+	switch (chId) {
+		case 'waterusage':
+			return 'waterUsageLine'
+		case 'temperature':
+			return 'ambientTempLine'
+		case 'waterflow':
+			return 'maxFlowLine'
+		case 'readings':
+			return 'readingLine'
+		default:
+			break;
+	}
+}
+const selectType = chId => {
+	switch (chId) {
+		case 'waterusage':
+			return 'waterUsageLine'
+		case 'temperature':
+			return 'waterTempLine'
+		case 'waterflow':
+			return 'minFlowLine'
+		case 'readings':
+			return 'readingLine'
+		default:
+			break;
+	}
+}
 const lineStyles = makeStyles(theme => ({
 	axis: {
 		stroke: 'none'
@@ -35,19 +58,32 @@ const lineStyles = makeStyles(theme => ({
 	},
 	lineWeekend: {
 		fill: 'none',
-		stroke: colors['red'][500],
+		stroke: props => theme.chart[selectType(props.id)],
+		strokeWidth: '3px'
+	},
+	medianLine: {
+		fill: 'none',
+		stroke: theme.chart.medianLine,
 		strokeWidth: '3px'
 	},
 	line: {
 		fill: 'none',
-		stroke: colors['orange'][500],
+		stroke: props => theme.chart[selectType(props.id)],
+		strokeWidth: '3px'
+	},
+	secondLine: {
+		fill: 'none',
+		stroke: props => theme.chart[selectSecondType(props.id)],
 		strokeWidth: '3px'
 	},
 	line2: {
 		fill: 'rgba(255,255,255, 0.1)',
 	},
 	dot: {
-		fill: colors['orange'][500],
+		fill: props => theme.chart[selectType(props.id)],
+	},
+	secondaryDot: {
+		fill: props => theme.chart[selectSecondType(props.id)],
 	},
 	dotLabel: {
 		fill: colors['orange'][500],
@@ -75,17 +111,34 @@ const lineStyles = makeStyles(theme => ({
 		transition: '300ms all ease'
 	},
 	area: {
-		fill: hexToRgba(colors['orange'][500], 0.3),
+		fill: ({ id }) => hexToRgba(theme.chart[selectType(id)], 0.1),
+	},
+	secondaryArea: {
+		fill: ({ id }) => hexToRgba(theme.chart[selectSecondType(id)], 0.1),
+
 	}
 }))
 
 
 let line = null
-
+const secondLineSwitch = (chId) => {
+	switch (chId) {
+		case 'waterusage':
+			return false;
+		case 'waterflow':
+			return true
+		case 'temperature':
+			return true
+		case 'reading':
+			return false
+		default:
+			return false
+	}
+}
 const LineGraph = (props) => {
 	let lineData = useRef(generateData())
 	const lineChartContainer = useRef(null)
-	const classes = lineStyles()
+	const classes = lineStyles({ id: props.id })
 	const [value, setValue] = useState({ nps: null, date: null })
 	const [medianValue, setMedianValue] = useState({ nps: null, date: null })
 	const prevId = usePrevious(props.id)
@@ -97,11 +150,15 @@ const LineGraph = (props) => {
 		if ((props.id !== prevId) && line) {
 			lineData.current = generateData()
 			line.destroy()
-			line = new d3Line(lineChartContainer.current, {
+			let cProps = {
 				id: props.id,
 				lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
+				secondaryLineData: generateBigData(),
+				secondaryLine: secondLineSwitch(props.id),
+				secondaryLinePrevData: generateBigData(),
 				setMedianTooltip: setMedianValue
-			}, classes);
+			}
+			line = new d3Line(lineChartContainer.current, cProps, classes);
 
 		}
 	}, [classes, prevId, props.id])
@@ -111,6 +168,9 @@ const LineGraph = (props) => {
 			line = new d3Line(lineChartContainer.current, {
 				id: props.id,
 				lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
+				secondaryLineData: generateBigData(),
+				secondaryLine: secondLineSwitch(props.id),
+				secondaryLinePrevData: generateBigData(),
 				setMedianTooltip: setMedianValue
 			}, classes);
 
@@ -125,10 +185,11 @@ const LineGraph = (props) => {
 				line = new d3Line(lineChartContainer.current, {
 					id: props.id,
 					lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
+					secondaryLineData: generateBigData(),
+					secondaryLine: secondLineSwitch(props.id),
+					secondaryLinePrevData: generateBigData(),
 					setMedianTooltip: setMedianValue
 				}, classes);
-				// setWidth(lineChartContainer.current.clientWidth);
-				// setHeight(lineChartContainer.current.clientHeight);
 			}, 300);
 		};
 		window.addEventListener('resize', handleResize);

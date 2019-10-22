@@ -15,7 +15,7 @@ import { CircularLoader } from 'Components';
 import ArcGraph from 'Components/Graphs/ArcGraph';
 import DevicesWidget from 'Components/Custom/Devices/DevicesWidget';
 import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget';
-import { getData } from 'Redux/data';
+import { getData, getAllDevices } from 'Redux/data';
 
 
 const ChartContainer = (props) => {
@@ -66,10 +66,12 @@ function Container({ ...props }) {
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())
-		const getDevices = async () => dispatch(await getData())
+		const getDevices = async () => dispatch(await getAllDevices())
+		const getDeviceData = async () => dispatch(await getData())
 		const loadSettings = async () => {
 			await getSetting()
 			await getDevices()
+			await getDeviceData()
 			setLoading(false)
 		}
 		loadSettings()

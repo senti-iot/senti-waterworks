@@ -15,6 +15,24 @@ const generateArcData = () => {
 	arcData = Math.random() * 100
 	return arcData.toFixed(3)
 }
+const generateBigData = () => {
+	let lineData = []
+	lineData.push({ date: new Date(2019, 9, 1), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 2), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 3), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 4), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 5), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 6), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 7), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 8), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 9), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 10), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 11), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 12), nps: Math.random() * 100 + 50 });
+	lineData.push({ date: new Date(2019, 9, 13), nps: Math.random() * 100 + 50 });
+
+	return lineData
+}
 
 const generateData = () => {
 	let lineData = []
@@ -61,6 +79,7 @@ prevLineData.push({ date: new Date(2019, 9, 25), nps: Math.random() * 100 });
 
 export {
 	generateArcData,
+	generateBigData,
 	generateData,
 	lineData,
 	prevLineData
