@@ -1,5 +1,4 @@
 import { createMuiTheme, darken } from '@material-ui/core/styles'
-import { red, orange, pink, blue } from '@material-ui/core/colors'
 import override from './override'
 import * as colors from '@material-ui/core/colors';
 import hexToRgba from 'hex-to-rgba';
@@ -9,24 +8,24 @@ import { bgColors } from 'Styles/backgroundColors'; import {  /* headerColor */ 
 const theme = createMuiTheme({
 	...override('blue'),
 	palette: {
+		type: "dark",
 		primary: {
-			main: blue[500],
-			light: blue[300],
+			main: colors.blue[500],
+			light: colors.blue[400],
 		},
 		secondary: {
-			main: orange[500],
-			light: orange[300],
+			main: colors.orange[500],
+			light: colors.orange[300],
 		},
 		error: {
-			main: red[400]
+			main: colors.red[400]
 		}
 	},
 	appBackground: bgColors['blue'].background,
 	boxBackground: darken(hexToRgba(colors['blue'][700], 0.7), 0.5),
 	textColor: '#fff',
-	primary: blue[500],
-	activeButton: orange[500],
-	mainButton: pink[500]
+	primary: colors.blue[500],
+	activeButton: colors.orange[500],
 });
 
 export default theme

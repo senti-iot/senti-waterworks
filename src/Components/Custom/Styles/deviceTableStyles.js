@@ -1,6 +1,7 @@
-import { colors } from '@material-ui/core';
+import { colors, Backdrop as MuiBackdrop, Paper } from '@material-ui/core';
 import { bgColors } from 'Styles/backgroundColors';
 import { makeStyles } from '@material-ui/styles';
+import styled from 'styled-components';
 
 const deviceTableStyles = makeStyles(theme => ({
 	backgroundColor: {
@@ -25,5 +26,23 @@ const deviceTableStyles = makeStyles(theme => ({
 	},
 
 }))
-
+export const TitleContainer = styled.div`
+	padding: 24px;
+	border-radius: 3px 3px 0px 0px;
+	/* background: ${({ theme }) => theme.boxBackground}; */
+`
+export const DPaper = styled(Paper)`
+	border-radius: 3;
+	background: ${({ theme }) => theme.appBackground};
+`
+export const Backdrop = styled(MuiBackdrop)`
+	top: 70px;
+	height: calc(100% - 70px);
+	background: rgba(0,0,0,0);
+`
+export const DBox = styled(Paper)`
+	margin: 30px;
+	padding: 8px;
+	background: ${({ theme }) => theme.boxBackground};
+`
 export default deviceTableStyles

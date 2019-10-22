@@ -4,7 +4,7 @@
 
 import {
 	defaultFont,
-	dangerColor,
+	// dangerColor,
 	primaryColor,
 	primaryBoxShadow,
 	headerColor

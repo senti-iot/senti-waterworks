@@ -55,8 +55,7 @@ const styles = makeStyles(theme => ({
 
 const TextF = (props) => {
 	const theme = useTheme()
-	// let mobile = window.innerWidth <= theme.breakpoints.values.md ? true : false
-	let mobile = false
+	let mobile = window.innerWidth <= theme.breakpoints.values.md ? true : false
 	const classes = styles()
 	let classNames = cx({
 		[props.className]: props.className ? true : false,

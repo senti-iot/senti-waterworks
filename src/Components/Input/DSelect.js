@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom'
 import { FormControl, Select, MenuItem, InputLabel, OutlinedInput, FormHelperText } from '@material-ui/core';
 import { ItemG } from 'Components';
 import { makeStyles } from '@material-ui/styles';
-// import { useTheme } from '@material-ui/styles';
+import { useTheme } from '@material-ui/styles';
 
 const styles = makeStyles(theme => ({
 	label: {
-		// color: theme.palette.type === 'dark' ? "#fff" : undefined,
+		color: theme.palette.type === 'dark' ? "#fff" : undefined,
 	},
 	formControl: {
 		marginTop: 16,
@@ -19,7 +19,7 @@ const styles = makeStyles(theme => ({
 const DSelect = (props) => {
 	const [labelWidth, setLabelWidth] = useState(null)
 	const InputRef = useRef(null)
-	// const theme = useTheme()
+	const theme = useTheme()
 	useEffect(() => {
 		setLabelWidth(ReactDOM.findDOMNode(InputRef.current).offsetWidth)
 	}, [InputRef])
@@ -34,8 +34,8 @@ const DSelect = (props) => {
 	}
 	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon } = props
 	//TO DO
-	// let mobile = window.innerWidth < theme.breakpoints.values.md ? true : false
-	let mobile = false
+	let mobile = window.innerWidth < theme.breakpoints.values.md ? true : false
+	// let mobile = false
 	const classes = styles()
 	return (
 		<FormControl variant="outlined" margin={margin} className={classes.formControl} fullWidth={mobile || fullWidth}>

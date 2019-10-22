@@ -7,12 +7,11 @@ import { bgColors } from 'Styles/backgroundColors'; import {  /* headerColor */ 
 
 const theme = createMuiTheme({
 	...override('red'),
-
 	palette: {
 		type: "dark",
 		primary: {
 			main: colors.red[500],
-			light: colors.red[300],
+			light: colors.red[400],
 		},
 		secondary: {
 			main: colors.orange[500],
@@ -27,7 +26,6 @@ const theme = createMuiTheme({
 	textColor: '#fff',
 	primary: colors.red[500],
 	activeButton: colors.orange[500],
-	mainButton: colors.pink[500]
 });
 
 export default theme

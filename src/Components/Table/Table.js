@@ -37,62 +37,7 @@ function CTable(props) {
 		return props.selected.indexOf(id) !== -1
 	};
 
-	// setHover = (e, n) => {
-	// 	// e.persist()
-	// 	const { hoverTime } = props
-	// 	const { rowHover } = state
-	// 	let target = e.target
-	// 	if (hoverTime > 0)
-	// 		timer = setTimeout(() => {
-	// 			if (rowHover !== null) {
-	// 				if (rowHover.id !== n.id) {
-	// 					setState({
-	// 						rowHover: null
-	// 					})
-	// 					setTimeout(() => {
-	// 						setState({ rowHover: target, hoverDevice: n })
-	// 					}, 200);
-	// 				}
-	// 			}
-	// 			else {
-	// 				setState({ rowHover: target, hoverDevice: n })
-	// 			}
-	// 		}, hoverTime);
-	// }
-	// unsetTimeout = () => {
-	// 	clearTimeout(timer)
-	// }
-	// unsetHover = () => {
-	// 	// console.trace()
-	// 	setState({
-	// 		rowHover: null
-	// 	})
-	// }
-	// renderHover = () => {
-	// 	return <DeviceHover anchorEl={state.rowHover} handleClose={unsetHover} device={state.hoverDevice} />
-	// }
 
-	// renderIcon = (status) => {
-	// 	// const { classes, t } = props
-	// 	switch (status) {
-	// 		case 1:
-	// 			return <ItemG container justify={'center'} title={t('devices.status.yellow')}>
-	// 				<SignalWifi2Bar className={classes.yellowSignal} />
-	// 			</ItemG>
-	// 		case 2:
-	// 			return <ItemG container justify={'center'} title={t('devices.status.green')}>
-	// 				<SignalWifi2Bar className={classes.greenSignal} />
-	// 			</ItemG>
-	// 		case 0:
-	// 			return <ItemG container justify={'center'} title={t('devices.status.red')}>
-	// 				<SignalWifi2Bar className={classes.redSignal} />
-	// 			</ItemG>
-	// 		case null:
-	// 			return <SignalWifi2BarLock />
-	// 		default:
-	// 			break;
-	// 	}
-	// }
 	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort, sortKey } = props;
 	const handleRequestSort = (event, property) => {
 		handleSort(sortKey, property)
@@ -103,8 +48,7 @@ function CTable(props) {
 		emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 	return (
 		<Fragment>
-			<div className={classes.tableWrapper} /* onMouseLeave={unsetHover} */>
-				{/* {renderHover()} */}
+			<div className={classes.tableWrapper}>
 				<Table className={classes.table} aria-labelledby='tableTitle'>
 					<TH
 						numSelected={selected.length}

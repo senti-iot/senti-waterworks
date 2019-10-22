@@ -20,10 +20,10 @@ const tableStyles = makeStyles(theme => ({
 		color: '#fff',
 		background: props => darken(hexToRgba(colors[props.color][700], 0.7), 0.5),
 	},
-	header: {
-		background: props => colors[props.color][700],
-		color: '#fff'
-	},
+	// header: {
+	// 	background: props => colors[props.color][700],
+	// 	color: '#fff'
+	// },
 
 })
 )

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TableCell, TableHead, TableRow, TableSortLabel, Checkbox, Hidden } from '@material-ui/core'
+import styled from 'styled-components'
 // import classNames from 'classnames'
 import tableStyles from 'Styles/tableStyles';
 import { useSelector } from 'Hooks';
@@ -16,22 +17,28 @@ const TH = (props) => {
 	const selectAllClick = e => {
 		onSelectAllClick(e.target.checked)
 	}
+
+	const TC = styled(TableCell)`
+	/* background: ${({ theme }) => theme.palette.primary.light}; */
+	border-bottom: 1px solid;
+	border-color: ${({ theme }) => theme.boxBackground};
+	color: #fff;
+	`
 	return (
 		<TableHead>
 			<TableRow>
-				{noCheckbox ? null : <TableCell className={classes.header}>
+				{noCheckbox ? null : <TC>
 					<Checkbox
 						indeterminate={numSelected > 0 && numSelected < rowCount}
 						checked={numSelected === rowCount && numSelected > 0}
 						disabled={rowCount === 0}
 						onChange={selectAllClick}
 					/>
-				</TableCell>}
+				</TC>}
 				<Hidden mdDown>
 					{columns.map((column, i) => {
 						return (
-							<TableCell
-								className={classes.header}
+							<TC
 								key={i}
 								sortDirection={orderBy === column.id ? order : false}
 							>
@@ -42,15 +49,15 @@ const TH = (props) => {
 									onClick={createSortHandler(column.id)}>
 									{column.checkbox ? column.label : <T>{column.label}</T>}
 								</TableSortLabel>
-							</TableCell>
+							</TC>
 						);
 					}, this)}
 				</Hidden>
 				<Hidden lgUp>
 					{
 						mdDown ? mdDown.map(c => {
-							return <TableCell
-								className={classes.header}
+							return <TC
+								// className={classes.header}
 								key={columns[c].id}
 								sortDirection={orderBy === columns[c].id ? order : false}
 							>
@@ -61,9 +68,9 @@ const TH = (props) => {
 								>
 									<T paragraph>{columns[c].label}</T>
 								</TableSortLabel>
-							</TableCell>
+							</TC>
 						}) : customColumn ? customColumn.map(c => {
-							return <TableCell
+							return <TC
 								className={classes.header}
 								key={c.id}
 								sortDirection={orderBy === c.id ? order : false}>
@@ -74,7 +81,7 @@ const TH = (props) => {
 								>
 									{c.label}
 								</TableSortLabel>
-							</TableCell>
+							</TC>
 						}) : null
 					}
 				</Hidden>

@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, Paper } from '@material-ui/core'
+import { Dialog } from '@material-ui/core'
 import { SlideT, T } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import deviceTableStyles from 'Components/Custom/Styles/deviceTableStyles'
+import { Backdrop, DPaper, TitleContainer, DBox } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { selectDevice, selectAllDevices } from 'Redux/appState'
 import { sortData } from 'Redux/data'
@@ -35,7 +35,7 @@ const bodyStructure = row => {
 		<TC label={row.active ? 'active' : 'inactive'} />
 	</Fragment>
 }
-// dLiveStatus = () => {
+/* // dLiveStatus = () => {
 // 	const { t, classes } = this.props
 // 	return [
 // 		{ value: 0, label: t("devices.status.redShort"), icon: <SignalWifi2Bar className={classes.redSignal} /> },
@@ -70,19 +70,17 @@ const bodyStructure = row => {
 // 		{ value: true, label: t('devices.fields.notfree') },
 // 		{ value: false, label: t('devices.fields.free') }
 // 	]
-// }
+// } */
 
 const DeviceTable = (props) => {
-	const color = useSelector(s => s.settings.colorTheme)
 	const devices = useSelector(s => s.data.devices)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const dispatch = useDispatch()
 	const redux = {
 		selectDevice: (b, device) => dispatch(selectDevice(b, device)),
 		selectAllDevices: (b) => dispatch(selectAllDevices(b)),
-		sortData: (key, property, o) => dispatch(sortData(key, property, order))
+		sortData: (key, property, order) => dispatch(sortData(key, property, order))
 	}
-	const classes = deviceTableStyles({ color })
 	const t = useLocalization()
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
@@ -120,24 +118,22 @@ const DeviceTable = (props) => {
 			open={openTable}
 			color={'primary'}
 			TransitionComponent={SlideT}
-			BackdropProps={{
-				classes: {
-					root: classes.dialogRoot
-				}
-			}}
-			PaperProps={{
-				classes: {
-					root: classes.backgroundColor
-				}
-			}}
-			classes={{
-				root: classes.dialogRoot
-			}}
+			BackdropComponent={Backdrop}
+			// BackdropProps={{
+			// classes: {
+			// root: classes.dialogRoot
+			// }
+			// }}
+			PaperComponent={DPaper}
+
+			// classes={{
+			// 	root: classes.dialogRoot
+			// }}
 		>
-			<Paper className={classes.paperRoot}>
-				<div className={classes.title}>
+			<DBox>
+				<TitleContainer>
 					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
-				</div>
+				</TitleContainer>
 				{/* <div> */}
 				<FilterToolbar reduxKey={'devices'} filters={deviceFilters} />
 				{/* <T>Filter Toolbar</T> */}
@@ -157,7 +153,7 @@ const DeviceTable = (props) => {
 					handleClick={() => { }}
 					handleSort={handleRequestSort}
 				/>
-			</Paper>
+			</DBox>
 		</Dialog>
 	)
 }
