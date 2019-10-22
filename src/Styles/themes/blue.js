@@ -2,7 +2,7 @@ import { createMuiTheme, darken } from '@material-ui/core/styles'
 import override from './override'
 import * as colors from '@material-ui/core/colors';
 import hexToRgba from 'hex-to-rgba';
-import { bgColors } from 'Styles/backgroundColors'; import {  /* headerColor */ } from 'Styles/mainStyles'
+import { bgColors } from 'Styles/backgroundColors';
 
 
 const theme = createMuiTheme({
