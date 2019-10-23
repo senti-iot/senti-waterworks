@@ -18,10 +18,9 @@ import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget'
 import { getData, getAllDevices } from 'Redux/data';
 
 
-const ChartContainer = (props) => {
+const ChartContainer = () => {
 
 	const [chart, setChart] = useState('waterusage')
-
 
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >

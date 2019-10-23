@@ -1,17 +1,19 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { /* GridContainer, */ ItemG, T } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
-import { TProvider } from 'Components/Providers/LocalizationProvider'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
+import { useLocalization, useSelector } from 'Hooks'
 // import { Switch, Route, useHistory, useParams } from 'react-router-dom'
 // import { useHistory } from 'react-router'
 
 const MainChart = (props) => {
 	const { chart, setChart } = props
-	const t = useContext(TProvider)
+	const t = useLocalization()
 	const isActive = (c) => chart === c ? true : false
 	const handleSetChart = (c) => () => setChart(c)
+	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+
 	// const history = useHistory()
 	return (
 		<ItemG container justify={'space-between'} alignItems={'flex-end'} style={{ height: '100%' }}>
@@ -28,7 +30,7 @@ const MainChart = (props) => {
 							<ChartsButton onClick={handleSetChart('waterflow')} active={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
 						</ItemG>
 						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('readings')} active={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+							<ChartsButton disabled={selectedDevices.length !== 1} onClick={handleSetChart('readings')} active={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
 						</ItemG>
 					</ItemG>
 				</Hidden>

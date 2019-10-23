@@ -45,7 +45,7 @@ export const getAllDevices = async () => {
 export const getData = async () => {
 	return async (dispatch, getState) => {
 
-		let data = await getDevicesData('2019-10-04', '2019-10-07')
+		let data = await getDevicesData('2019-10-10', '2019-10-20')
 		console.log(data)
 		// let benchmark = genBenchmarkAll(data)
 		// let data = []
