@@ -1,8 +1,10 @@
 import { handleRequestSort } from 'data/functions'
 import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
+import { genBenchmark } from 'data/model'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
+const GETDevice = 'devices'
 const deviceData = 'deviceData'
 
 export const sortData = (key, property, order) => {
@@ -33,7 +35,7 @@ export const getAllDevices = async () => {
 	return async (dispatch) => {
 		let devices = await getDevices()
 		dispatch({
-			type: deviceData,
+			type: GETDevice,
 			payload: devices
 		})
 		dispatch({
@@ -47,6 +49,13 @@ export const getData = async () => {
 
 		let data = await getDevicesData('2019-10-10', '2019-10-20')
 		console.log(data)
+		let finalData = genBenchmark(data)
+		console.log(finalData)
+		dispatch({
+			type: deviceData,
+			payload: finalData
+
+		})
 		// let benchmark = genBenchmarkAll(data)
 		// let data = []
 		// let i
@@ -72,8 +81,10 @@ export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case sData:
 			return Object.assign({}, state, { [payload.key]: payload.sortedData })
-		case deviceData:
+		case GETDevice:
 			return Object.assign({}, state, { devices: payload })
+		case deviceData:
+			return Object.assign({}, state, { deviceData: payload })
 		default:
 			return state;
 	}

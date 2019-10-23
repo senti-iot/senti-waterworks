@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { /* lineData,  */prevLineData, generateData, generateBigData } from './demoData'
 // import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/styles'
@@ -7,7 +7,7 @@ import { /* Collapse, */ colors, Paper } from '@material-ui/core'
 import hexToRgba from 'hex-to-rgba'
 import moment from 'moment'
 import d3Line from './classes/d3Line'
-import { usePrevious } from 'Hooks'
+import { usePrevious, useSelector } from 'Hooks'
 
 const selectSecondType = chId => {
 	switch (chId) {
@@ -136,7 +136,6 @@ const secondLineSwitch = (chId) => {
 	}
 }
 const LineGraph = (props) => {
-	let lineData = useRef(generateData())
 	const lineChartContainer = useRef(null)
 	const classes = lineStyles({ id: props.id })
 	const [value, setValue] = useState({ nps: null, date: null })
@@ -145,14 +144,31 @@ const LineGraph = (props) => {
 	// const [expand, setExpand] = useState(false)
 	// const [width, setWidth] = useState(900);
 	// const [height, setHeight] = useState(600);
+	const deviceData = useSelector(s => s.data.deviceData)
+	const selectData = () => {
+		switch (props.id) {
+			case 'waterusage':
+				return deviceData.waterUsage;
+			case 'waterflow':
+				return deviceData.waterFlow.minFlow
+			case 'temperature':
+				return deviceData.temperature.water
+			case 'reading':
+				return []
 
+			default:
+				break;
+		}
+	}
+	console.log(selectData())
 	useEffect(() => {
 		if ((props.id !== prevId) && line) {
-			lineData.current = generateData()
 			line.destroy()
 			let cProps = {
 				id: props.id,
-				lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
+				lineData: selectData(),
+				prevLineData: prevLineData,
+				setTooltip: setValue,
 				secondaryLineData: generateBigData(),
 				secondaryLine: secondLineSwitch(props.id),
 				secondaryLinePrevData: generateBigData(),
@@ -161,13 +177,12 @@ const LineGraph = (props) => {
 			line = new d3Line(lineChartContainer.current, cProps, classes);
 
 		}
-	}, [classes, prevId, props.id])
+	}, [classes, prevId, props.id, selectData])
 	useEffect(() => {
 		if ((lineChartContainer.current && !line)) {
-			lineData.current = generateData()
 			line = new d3Line(lineChartContainer.current, {
 				id: props.id,
-				lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
+				lineData: selectData(), prevLineData: prevLineData, setTooltip: setValue,
 				secondaryLineData: generateBigData(),
 				secondaryLine: secondLineSwitch(props.id),
 				secondaryLinePrevData: generateBigData(),
@@ -175,7 +190,7 @@ const LineGraph = (props) => {
 			}, classes);
 
 		}
-	}, [classes, lineData, prevId, props.id]);
+	}, [classes, prevId, props.id, selectData]);
 	useEffect(() => {
 		let resizeTimer;
 		const handleResize = () => {
@@ -184,7 +199,7 @@ const LineGraph = (props) => {
 				line.destroy()
 				line = new d3Line(lineChartContainer.current, {
 					id: props.id,
-					lineData: lineData.current, prevLineData: prevLineData, setTooltip: setValue,
+					lineData: selectData(), prevLineData: prevLineData, setTooltip: setValue,
 					secondaryLineData: generateBigData(),
 					secondaryLine: secondLineSwitch(props.id),
 					secondaryLinePrevData: generateBigData(),
@@ -196,7 +211,7 @@ const LineGraph = (props) => {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [classes, lineData, props.id]);
+	}, [classes, props.id, selectData]);
 
 	return (
 		<div style={{ width: '100%', height: '100%', }}>

@@ -1,6 +1,8 @@
 import moment from 'moment';
 
+
 const genWaterPerDevice = (data) => {
+	console.log(data)
 	let devData = {}
 	data.reduce((d) => {
 		devData[d.id] = devData[d.id] || {};
@@ -22,6 +24,7 @@ const genWaterPerDevice = (data) => {
 			}
 		})
 	})
+	console.log(devData)
 	var dataByDay = {}
 	deviceIds.forEach((d, ) => {
 		let dates = Object.keys(devData[d])
@@ -30,7 +33,10 @@ const genWaterPerDevice = (data) => {
 			dataByDay[de] = dataByDay[de] + devData[d][de]
 		})
 	})
-	return dataByDay
+	console.log(dataByDay)
+	let final = Object.keys(dataByDay).forEach(k => final.push({ date: k, nps: dataByDay[k] }))
+	console.log(final)
+	return final
 }
 // const genWaterUsageTotal = (deviceData) => {
 // 	let data = {}

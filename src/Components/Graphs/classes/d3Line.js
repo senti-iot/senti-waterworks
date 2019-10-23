@@ -51,6 +51,7 @@ class d3Line {
 
 		//Set the graph ranges
 		if (!secondaryLine) {
+			console.log(lineData)
 			this.x.domain(d3.extent([...lineData, ...prevLineData], function (d) { return d.date; }));
 			this.y.domain([0, getMax(lineData) + 10]);
 		}
