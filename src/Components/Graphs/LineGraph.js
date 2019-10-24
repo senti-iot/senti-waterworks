@@ -72,7 +72,7 @@ const lineStyles = makeStyles(theme => ({
 	secondLine: {
 		fill: 'none',
 		stroke: props => theme.chart[selectSecondType(props.id)],
-		strokeWidth: '4x'
+		strokeWidth: '4px'
 	},
 	line2: {
 		fill: 'rgba(255,255,255, 0.1)',
@@ -83,6 +83,7 @@ const lineStyles = makeStyles(theme => ({
 	},
 	secondaryDot: {
 		fill: props => theme.chart[selectSecondType(props.id)],
+		transition: '100ms all ease'
 	},
 	dotLabel: {
 		fill: colors['orange'][500],

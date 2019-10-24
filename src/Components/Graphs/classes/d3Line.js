@@ -132,6 +132,7 @@ class d3Line {
 				.attr("cy", (d) => { return this.y(d.value) })
 				.attr("r", 5)
 				.on("mouseover", function (d) {
+					d3.select(this).attr("r", 8);
 					div.transition()
 						.duration(200)
 						.style("opacity", 1)
@@ -142,7 +143,7 @@ class d3Line {
 					setTooltip(d)
 
 				}).on("mouseout", function () {
-					// setExpand(false)
+					d3.select(this).attr("r", 6)
 					div.transition()
 						.duration(500)
 						.style('z-index', -1)
