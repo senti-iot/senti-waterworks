@@ -11,7 +11,6 @@ const getMedianLineData = (data, prevData) => {
 	else {
 		medianValues = [{ date: data[0].date, value: avrg }, { date: data[data.length - 1].date, value: avrg }]
 	}
-	console.log(medianValues)
 	return medianValues
 }
 
@@ -102,9 +101,7 @@ class d3Line {
 			this.generateMedian(valueLine, props, classes)
 
 		//#region secondaryLine
-		console.log(props)
 		if (props.secondaryLine) {
-			console.log(Math.min(...secondaryLineData.map(d => d.value)))
 			var valueSecArea = d3.area()
 				.x((d) => { return this.x(moment(d.date).valueOf()) })
 				.y0(this.y(Math.min(...secondaryLineData.map(d => d.value))))
@@ -210,7 +207,7 @@ class d3Line {
 
 		// Define the current data tooltip
 		var div = d3.select(`#${props.id}tooltip`)
-			.attr("class", classes.tooltip)
+			// .attr("class", classes.tooltip)
 			.style("opacity", 0);
 
 
@@ -247,6 +244,7 @@ class d3Line {
 			});
 		// init other vis elements like scales and axes here.
 	}
+
 	generateMedian = (valueLine, props, classes) => {
 		const { lineData, prevLineData, setMedianTooltip } = props
 

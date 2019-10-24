@@ -21,16 +21,16 @@ const MainChart = (props) => {
 				<Hidden mdDown>
 					<ItemG container justify={'space-evenly'}>
 						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('waterusage')} active={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
+							<ChartsButton onClick={handleSetChart('waterusage')} isActive={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
 						</ItemG>
 						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('temperature')} active={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
+							<ChartsButton onClick={handleSetChart('temperature')} isActive={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
 						</ItemG>
 						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('waterflow')} active={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
+							<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
 						</ItemG>
 						<ItemG xs={3}>
-							<ChartsButton disabled={selectedDevices.length !== 1} onClick={handleSetChart('readings')} active={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+							<ChartsButton disabled={selectedDevices.length !== 1} onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
 						</ItemG>
 					</ItemG>
 				</Hidden>

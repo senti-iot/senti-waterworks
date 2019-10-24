@@ -10,7 +10,7 @@ import Language from '@material-ui/icons/Language'
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
 import InsertChart from '@material-ui/icons/InsertChart'
 import Wifi from '@material-ui/icons/Wifi'
-
+import Droplet from 'assets/icons/droplet.svg'
 import Google from 'assets/icons/google.svg'
 //#region weather Icons
 // import ClearDay from 'assets/weather/clear_day.svg'
@@ -116,6 +116,7 @@ import Https from '@material-ui/icons/Https'
 import Palette from '@material-ui/icons/Palette'
 import ImportExport from '@material-ui/icons/ImportExport'
 export {
+	Droplet,
 	ImportExport,
 	Share,
 	StorageIcon,

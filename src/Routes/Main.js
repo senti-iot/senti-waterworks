@@ -16,9 +16,7 @@ import * as themes from 'Styles/themes'
 
 
 function Main() {
-	// const theme = useSelector(state => state.settings.theme)
 	const colorTheme = useSelector(s => s.settings.colorTheme)
-	// console.log(themes[colorTheme], themes, colorTheme)
 	return (
 		<MuiThemeProvider theme={themes[colorTheme]}>
 

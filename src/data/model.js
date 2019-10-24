@@ -47,7 +47,6 @@ const genWaterPerDevice = (data) => {
 // 		data[group].count = (data[group].count || 0) + 1;
 // 		return data;
 // 	}, {})
-// 	console.log(dataByDay)
 // 	// let avgS = dataByDay.forEach(d => {
 // 	// 	d.totalValue = d.totalValue / d.count
 // 	// })
@@ -78,7 +77,6 @@ const genWaterPerDevice = (data) => {
 // 		data[group].count = (data[group].count || 0) + 1;
 // 		return data;
 // 	}, {})
-// 	// console.log(dataByDay)
 // 	// let avgS = dataByDay.forEach(d => {
 // 	// 	d.totalValue = d.totalValue / d.count
 // 	// })

@@ -48,9 +48,7 @@ export const getData = async () => {
 	return async (dispatch, getState) => {
 
 		let data = await getDevicesData('2019-10-10', '2019-10-20')
-		console.log(data)
 		let finalData = genBenchmark(data)
-		console.log(finalData)
 		dispatch({
 			type: deviceData,
 			payload: finalData

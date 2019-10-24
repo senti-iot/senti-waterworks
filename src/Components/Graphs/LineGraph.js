@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
 import { /* Collapse, */ colors, Paper } from '@material-ui/core'
 import hexToRgba from 'hex-to-rgba'
-import moment from 'moment'
 import d3Line from './classes/d3Line'
 import { usePrevious, useSelector } from 'Hooks'
+import Tooltip from './Tooltip'
 
 const selectSecondType = chId => {
 	switch (chId) {
@@ -85,17 +85,6 @@ const lineStyles = makeStyles(theme => ({
 	},
 	dotLabel: {
 		fill: colors['orange'][500],
-	},
-	tooltip: {
-		position: "absolute",
-		textAlign: "center",
-		width: '200px',
-		height: '200px',
-		// background: theme.palette.type === 'light' ? '#eee' : '#424242',
-		border: 0,
-		borderRadius: 4,
-		zIndex: -1,
-		transition: '300ms all ease'
 	},
 	medianTooltip: {
 		position: "absolute",
@@ -226,11 +215,7 @@ const LineGraph = (props) => {
 
 	return (
 		<div style={{ width: '100%', height: '100%', }}>
-			<Paper id={props.id + 'tooltip'} style={{ width: '200px', height: '200px' }}>
-				<T>
-					{` ${moment(value.date).format('LLL')} ${value.value} `}
-				</T>
-			</Paper>
+			<Tooltip tooltip={value} id={props.id} />
 			<Paper id={props.id + 'medianTooltip'}>
 				<T>
 					{` ${medianValue.value} `}

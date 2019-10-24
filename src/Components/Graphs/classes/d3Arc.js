@@ -2,9 +2,7 @@ import * as d3 from 'd3';
 // import moment from 'moment';
 
 // const getMedianLineData = (data, prevData) => {
-// 	console.log(data)
 // 	let sum = data.map(d => d.nps).reduce((total, val) => total + val)
-// 	console.log(sum)
 // 	// sum.reduce()
 // 	let avrg = Math.round(sum / data.length)
 // 	let medianValues = [{ date: data[0].date, nps: avrg }, { date: prevData[prevData.length - 1].date, nps: avrg }]
@@ -26,7 +24,6 @@ class d3Arc {
 		this.containerEl = containerEl;
 		this.props = props;
 		const { arcData, arcPrevData } = props
-		console.log(arcData, arcPrevData)
 		var margin = { top: 30, right: 10, bottom: 30, left: 10 };
 
 		//Get the height and width from the container
@@ -51,7 +48,6 @@ class d3Arc {
 		innerArcE = (Math.PI * 265) / 180 // Always this value
 		outerArcS = 0
 		outerArcE = (((arcData * 100) / arcPrevData) * 265) / 100
-		// console.log('outerArcE', outerArcE, arcData, arcPrevData)
 		if (outerArcE > 295) {
 			outerArcE = 295
 		}
