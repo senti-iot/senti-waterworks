@@ -222,8 +222,9 @@ class d3Line {
 			.attr("class", classes.dot) // Assign a class for styling
 			.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
 			.attr("cy", (d) => { return this.y(d.value) })
-			.attr("r", 5)
+			.attr("r", 6)
 			.on("mouseover", function (d) {
+				d3.select(this).attr("r", 8);
 				div.transition()
 					.duration(200)
 					.style("opacity", 1)
@@ -235,6 +236,7 @@ class d3Line {
 
 			}).on("mouseout", function () {
 				// setExpand(false)
+				d3.select(this).attr("r", 6)
 				div.transition()
 					.duration(500)
 					.style('z-index', -1)

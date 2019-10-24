@@ -52,39 +52,41 @@ const lineStyles = makeStyles(theme => ({
 	hiddenMedianLine: {
 		stroke: '#fff',
 		opacity: 0,
-		strokeWidth: '5px'
+		strokeWidth: '6px'
 	},
 	lineWeekend: {
 		fill: 'none',
 		stroke: props => theme.chart[selectType(props.id)],
-		strokeWidth: '3px'
+		strokeWidth: '4px'
 	},
 	medianLine: {
 		fill: 'none',
 		stroke: theme.chart.medianLine,
-		strokeWidth: '3px'
+		strokeWidth: '4px'
 	},
 	line: {
 		fill: 'none',
 		stroke: props => theme.chart[selectType(props.id)],
-		strokeWidth: '3px'
+		strokeWidth: '4px'
 	},
 	secondLine: {
 		fill: 'none',
 		stroke: props => theme.chart[selectSecondType(props.id)],
-		strokeWidth: '3px'
+		strokeWidth: '4x'
 	},
 	line2: {
 		fill: 'rgba(255,255,255, 0.1)',
 	},
 	dot: {
 		fill: props => theme.chart[selectType(props.id)],
+		transition: '100ms all ease'
 	},
 	secondaryDot: {
 		fill: props => theme.chart[selectSecondType(props.id)],
 	},
 	dotLabel: {
 		fill: colors['orange'][500],
+
 	},
 	medianTooltip: {
 		position: "absolute",
