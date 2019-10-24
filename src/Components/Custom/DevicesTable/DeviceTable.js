@@ -9,11 +9,12 @@ import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { selectDevice, selectAllDevices } from 'Redux/appState'
 import { sortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
+import { customFilterItems } from 'variables/functions/filters'
 
 const columns = [
 	{ id: 'address', label: 'address' },
 	{ id: 'guid', label: 'guid' },
-	{ id: 'nId', label: 'id' },
+	{ id: 'name', label: 'name' },
 	{ id: 'id', label: 'id' },
 	{ id: 'type', label: 'type' },
 	{ id: 'group', label: 'group' },
@@ -28,53 +29,18 @@ const bodyStructure = row => {
 	return <Fragment>
 		<TC label={row.address} />
 		<TC label={row.guid} />
-		<TC label={row.nId} />
+		<TC label={row.name} />
 		<TC label={row.id} />
 		<TC label={row.type} />
 		<TC label={row.group} />
-		<TC label={row.active ? 'active' : 'inactive'} />
+		<TC label={row.communication ? 'active' : 'inactive'} />
 	</Fragment>
 }
-/* // dLiveStatus = () => {
-// 	const { t, classes } = this.props
-// 	return [
-// 		{ value: 0, label: t("devices.status.redShort"), icon: <SignalWifi2Bar className={classes.redSignal} /> },
-// 		{ value: 1, label: t("devices.status.yellowShort"), icon: <SignalWifi2Bar className={classes.yellowSignal} /> },
-// 		{ value: 2, label: t("devices.status.greenShort"), icon: <SignalWifi2Bar className={classes.greenSignal} /> }
-// 	]
-// }
-// dCalibrated = () => {
-// 	const { t } = this.props
-// 	return [
-// 		{ value: true, label: t("filters.devices.calibrated") },
-// 		{ value: false, label: t("filters.devices.notCalibrated") }
-// 	]
-// }
-// dLocationPlace = () => {
-// 	const { t } = this.props
-// 	return [
-// 		{ value: 1, label: t('devices.locationTypes.pedStreet') },
-// 		{ value: 2, label: t('devices.locationTypes.park') },
-// 		{ value: 3, label: t('devices.locationTypes.path') },
-// 		{ value: 4, label: t('devices.locationTypes.square') },
-// 		{ value: 5, label: t('devices.locationTypes.crossroads') },
-// 		{ value: 6, label: t('devices.locationTypes.road') },
-// 		{ value: 7, label: t('devices.locationTypes.motorway') },
-// 		{ value: 8, label: t('devices.locationTypes.port') },
-// 		{ value: 9, label: t('devices.locationTypes.office') },
-// 		{ value: 0, label: t('devices.locationTypes.unspecified') }]
-// }
-// dAvailable = () => {
-// 	const { t } = this.props
-// 	return [
-// 		{ value: true, label: t('devices.fields.notfree') },
-// 		{ value: false, label: t('devices.fields.free') }
-// 	]
-// } */
 
 const DeviceTable = (props) => {
 	const devices = useSelector(s => s.data.devices)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const filters = useSelector(s => s.appState.filters.devices)
 	const dispatch = useDispatch()
 	const redux = {
 		selectDevice: (b, device) => dispatch(selectDevice(b, device)),
@@ -126,9 +92,9 @@ const DeviceTable = (props) => {
 			// }}
 			PaperComponent={DPaper}
 
-			// classes={{
-			// 	root: classes.dialogRoot
-			// }}
+		// classes={{
+		// 	root: classes.dialogRoot
+		// }}
 		>
 			<DBox>
 				<TitleContainer>
@@ -142,7 +108,7 @@ const DeviceTable = (props) => {
 					order={order}
 					orderBy={orderBy}
 					sortKey={'devices'}
-					body={devices}
+					body={customFilterItems(devices, filters)}
 					bodyStructure={bodyStructure}
 					mobile
 					bodyMobileStructure={() => { }}
