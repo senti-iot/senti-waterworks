@@ -1,5 +1,4 @@
 import moment from 'moment';
-// import model from './model.json'
 
 const genWaterPerDevice = (data) => {
 	let devData = {}
@@ -35,7 +34,6 @@ const genWaterPerDevice = (data) => {
 	let final = []
 	Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
 	final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
-	console.log(final)
 	return final
 }
 // const genWaterUsageTotal = (deviceData) => {
