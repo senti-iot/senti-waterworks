@@ -1,5 +1,5 @@
 import React from 'react'
-import { /* GridContainer, */ ItemG, T } from 'Components'
+import { /* GridContainer, */ ItemG, T, DateTimeFilter } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
@@ -13,7 +13,6 @@ const MainChart = (props) => {
 	const isActive = (c) => chart === c ? true : false
 	const handleSetChart = (c) => () => setChart(c)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
-
 	// const history = useHistory()
 	return (
 		<ItemG container justify={'space-between'} alignItems={'flex-end'} style={{ height: '100%' }}>
@@ -37,7 +36,12 @@ const MainChart = (props) => {
 			</ItemG>
 			<ItemG xs={12}>
 				<div style={{ margin: 30 }}>
-					<T variant={'h6'} style={{ fontWeight: 600, fontSize: '1.75rem', letterSpacing: 1.5 }}>{t(`charts.types.${chart}`)}</T>
+					<ItemG container justify={'space-between'}>
+
+						<T variant={'h6'} style={{ fontWeight: 600, fontSize: '1.75rem', letterSpacing: 1.5 }}>{t(`charts.types.${chart}`)}</T>
+						{/* TODO */}
+						<DateTimeFilter />
+					</ItemG>
 				</div>
 			</ItemG>
 			<ItemG container xs={12}>

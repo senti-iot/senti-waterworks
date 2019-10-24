@@ -35,9 +35,10 @@ import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 //#region Selectors/Switches/Inputs
 import TextF from 'Components/Input/TextF'
 import DSelect from 'Components/Input/DSelect'
+import CustomDateTime from 'Components/Input/CustomDateTime'
+import DateTimeFilter from 'Components/Input/DateTimeFilter'
 
-
-//Transitions 
+//Transitions
 import SlideT from 'Components/Transitions/SlideT'
 
 //#endregion
@@ -55,6 +56,8 @@ export {
 	//Inputs
 	TextF,
 	DSelect,
+	CustomDateTime,
+	DateTimeFilter,
 	//Cards
 	InfoCard,
 	//Loaders
