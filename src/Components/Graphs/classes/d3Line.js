@@ -2,16 +2,22 @@ import * as d3 from 'd3';
 import moment from 'moment';
 
 const getMedianLineData = (data, prevData) => {
-	let sum = data.map(d => d.nps).reduce((total, val) => total + val)
+	let sum = data.map(d => d.value).reduce((total, val) => parseFloat(total) + parseFloat(val))
 	// sum.reduce()
 	let avrg = Math.round(sum / data.length)
-	let medianValues = [{ date: data[0].date, nps: avrg }, { date: prevData[prevData.length - 1].date, nps: avrg }]
+	let medianValues = []
+	if (prevData.length > 1)
+		medianValues = [{ date: data[0].date, value: avrg }, { date: prevData[prevData.length - 1].date, value: avrg }]
+	else {
+		medianValues = [{ date: data[0].date, value: avrg }, { date: data[data.length - 1].date, value: avrg }]
+	}
+	console.log(medianValues)
 	return medianValues
 }
 
 const toUppercase = str => str.charAt(0).toUpperCase() + str.slice(1);
 const getMax = (arr) => {
-	return Math.max(...arr.map(d => d.nps))
+	return Math.max(...arr.map(d => d.value))
 }
 class d3Line {
 
@@ -35,7 +41,7 @@ class d3Line {
 
 		//Append the SVG to the container
 		this.container = d3.select(`#${props.id}`)
-
+		window.d3 = d3
 		this.svg = this.container.append("svg")
 			.attr("id", 'svg' + props.id)
 			.attr("width", width + margin.left + margin.right)
@@ -51,24 +57,28 @@ class d3Line {
 
 		//Set the graph ranges
 		if (!secondaryLine) {
-			console.log(lineData)
-			this.x.domain(d3.extent([...lineData, ...prevLineData], function (d) { return d.date; }));
+			this.x.domain(d3.extent([...lineData, ...prevLineData], function (d) {
+				return moment(d.date).valueOf();
+			}));
+
 			this.y.domain([0, getMax(lineData) + 10]);
 		}
 		else {
-			this.x.domain(d3.extent([...lineData, ...prevLineData, ...secondaryLineData, ...secondaryLinePrevData], function (d) { return d.date; }));
+			this.x.domain(d3.extent([...lineData, ...prevLineData, ...secondaryLineData, ...secondaryLinePrevData], function (d) {
+				return moment(d.date).valueOf();
+			}));
 			this.y.domain([0, getMax([...lineData, ...secondaryLineData]) + 10]);
 		}
 
 		//Define the area for the values
 		var valueArea = d3.area()
-			.x((d) => { return this.x(d.date) })
+			.x((d) => { return this.x(moment(d.date).valueOf()) })
 			.y0(this.y(0))
-			.y1((d) => { return this.y(d.nps) })
+			.y1((d) => { return this.y(d.value) })
 
 		var valueLine = d3.line()
-			.x((d) => this.x(d.date))
-			.y(d => this.y(d.nps))
+			.x((d) => this.x(moment(d.date).valueOf()))
+			.y(d => this.y(d.value))
 
 
 		//Previous Data - Area
@@ -88,16 +98,17 @@ class d3Line {
 			.data([lineData])
 			.attr('class', classes.line)
 			.attr('d', valueLine)
-
-		this.generateMedian(valueLine, props, classes)
+		if (!secondaryLine)
+			this.generateMedian(valueLine, props, classes)
 
 		//#region secondaryLine
 		console.log(props)
 		if (props.secondaryLine) {
+			console.log(Math.min(...secondaryLineData.map(d => d.value)))
 			var valueSecArea = d3.area()
-				.x((d) => { return this.x(d.date) })
-				.y0(this.y(Math.min(...secondaryLineData.map(d => d.nps))))
-				.y1((d) => { return this.y(d.nps) })
+				.x((d) => { return this.x(moment(d.date).valueOf()) })
+				.y0(this.y(Math.min(...secondaryLineData.map(d => d.value))))
+				.y1((d) => { return this.y(d.value) })
 			this.svg.append("path")
 				.data([secondaryLinePrevData])
 				.attr("class", classes.line2)
@@ -120,8 +131,8 @@ class d3Line {
 				.enter()
 				.append("circle") // Uses the enter().append() method
 				.attr("class", classes.secondaryDot) // Assign a class for styling
-				.attr("cx", (d) => { return this.x(d.date) })
-				.attr("cy", (d) => { return this.y(d.nps) })
+				.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
+				.attr("cy", (d) => { return this.y(d.value) })
 				.attr("r", 5)
 				.on("mouseover", function (d) {
 					div.transition()
@@ -153,11 +164,11 @@ class d3Line {
 				switch (true) {
 					case i === 0:
 					case i === lineData.length - 1:
-						return d.date
+						return moment(d.date).valueOf()
 					case lineData.length > 7:
-						return (i + 1) % 5 ? null : d.date
+						return (i + 1) % 5 ? null : moment(d.date).valueOf()
 					case lineData.length <= 7:
-						return d.date
+						return moment(d.date).valueOf()
 					default:
 						return null;
 				}
@@ -212,8 +223,8 @@ class d3Line {
 			.enter()
 			.append("circle") // Uses the enter().append() method
 			.attr("class", classes.dot) // Assign a class for styling
-			.attr("cx", (d) => { return this.x(d.date) })
-			.attr("cy", (d) => { return this.y(d.nps) })
+			.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
+			.attr("cy", (d) => { return this.y(d.value) })
 			.attr("r", 5)
 			.on("mouseover", function (d) {
 				div.transition()

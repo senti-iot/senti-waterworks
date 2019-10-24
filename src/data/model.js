@@ -1,12 +1,11 @@
 import moment from 'moment';
-
+// import model from './model.json'
 
 const genWaterPerDevice = (data) => {
-	console.log(data)
 	let devData = {}
-	data.reduce((d) => {
+	data.reduce((prev, d) => {
 		devData[d.id] = devData[d.id] || {};
-		var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss');
+		var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
 		devData[d.id][date] = devData[d.id][date] || {}
 		devData[d.id][date] = d.value
 		return devData
@@ -24,7 +23,7 @@ const genWaterPerDevice = (data) => {
 			}
 		})
 	})
-	console.log(devData)
+
 	var dataByDay = {}
 	deviceIds.forEach((d, ) => {
 		let dates = Object.keys(devData[d])
@@ -33,8 +32,9 @@ const genWaterPerDevice = (data) => {
 			dataByDay[de] = dataByDay[de] + devData[d][de]
 		})
 	})
-	console.log(dataByDay)
-	let final = Object.keys(dataByDay).forEach(k => final.push({ date: k, nps: dataByDay[k] }))
+	let final = []
+	Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
+	final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 	console.log(final)
 	return final
 }
@@ -119,7 +119,7 @@ const genReading = (deviceData) => {
 		// finalResult[d] = (dataByDay[d].totalValue / dataByDay[d].count).toFixed(3);
 		fResult.push({
 			date: d,
-			value: (dataByDay[d].totalValue / dataByDay[d].count).toFixed(3)
+			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(3))
 		})
 	});
 	return fResult;
@@ -153,3 +153,5 @@ export const genBenchmark = (deviceData) => {
 	return data
 }
 
+
+// genBenchmark(model)//?

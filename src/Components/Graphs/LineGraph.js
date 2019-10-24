@@ -1,6 +1,4 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
-import { /* lineData,  */prevLineData, generateData, generateBigData } from './demoData'
-// import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
 import { /* Collapse, */ colors, Paper } from '@material-ui/core'
@@ -138,14 +136,14 @@ const secondLineSwitch = (chId) => {
 const LineGraph = (props) => {
 	const lineChartContainer = useRef(null)
 	const classes = lineStyles({ id: props.id })
-	const [value, setValue] = useState({ nps: null, date: null })
-	const [medianValue, setMedianValue] = useState({ nps: null, date: null })
+	const [value, setValue] = useState({ value: null, date: null })
+	const [medianValue, setMedianValue] = useState({ value: null, date: null })
 	const prevId = usePrevious(props.id)
 	// const [expand, setExpand] = useState(false)
 	// const [width, setWidth] = useState(900);
 	// const [height, setHeight] = useState(600);
 	const deviceData = useSelector(s => s.data.deviceData)
-	const selectData = () => {
+	const selectData = useCallback(() => {
 		switch (props.id) {
 			case 'waterusage':
 				return deviceData.waterUsage;
@@ -159,38 +157,49 @@ const LineGraph = (props) => {
 			default:
 				break;
 		}
-	}
-	console.log(selectData())
+	}, [deviceData.temperature.water, deviceData.waterFlow.minFlow, deviceData.waterUsage, props.id])
+	const selectSecondData = useCallback(() => {
+		switch (props.id) {
+			case 'temperature':
+				return deviceData.temperature.ambient
+			case 'waterflow':
+				return deviceData.waterFlow.maxFlow
+			default:
+				return [];
+		}
+	}, [deviceData.temperature.ambient, deviceData.waterFlow.maxFlow, props.id])
 	useEffect(() => {
 		if ((props.id !== prevId) && line) {
 			line.destroy()
 			let cProps = {
 				id: props.id,
 				lineData: selectData(),
-				prevLineData: prevLineData,
+				prevLineData: [],
 				setTooltip: setValue,
-				secondaryLineData: generateBigData(),
+				secondaryLineData: selectSecondData(),
 				secondaryLine: secondLineSwitch(props.id),
-				secondaryLinePrevData: generateBigData(),
+				secondaryLinePrevData: [],
 				setMedianTooltip: setMedianValue
 			}
 			line = new d3Line(lineChartContainer.current, cProps, classes);
 
 		}
-	}, [classes, prevId, props.id, selectData])
+	}, [classes, prevId, props.id, selectData, selectSecondData])
 	useEffect(() => {
 		if ((lineChartContainer.current && !line)) {
 			line = new d3Line(lineChartContainer.current, {
 				id: props.id,
-				lineData: selectData(), prevLineData: prevLineData, setTooltip: setValue,
-				secondaryLineData: generateBigData(),
+				lineData: selectData(),
+				prevLineData: [],
+				setTooltip: setValue,
+				secondaryLineData: selectSecondData(),
 				secondaryLine: secondLineSwitch(props.id),
-				secondaryLinePrevData: generateBigData(),
+				secondaryLinePrevData: [],
 				setMedianTooltip: setMedianValue
 			}, classes);
 
 		}
-	}, [classes, prevId, props.id, selectData]);
+	}, [classes, prevId, props.id, selectData, selectSecondData]);
 	useEffect(() => {
 		let resizeTimer;
 		const handleResize = () => {
@@ -199,10 +208,12 @@ const LineGraph = (props) => {
 				line.destroy()
 				line = new d3Line(lineChartContainer.current, {
 					id: props.id,
-					lineData: selectData(), prevLineData: prevLineData, setTooltip: setValue,
-					secondaryLineData: generateBigData(),
+					lineData: selectData(),
+					prevLineData: [],
+					setTooltip: setValue,
+					secondaryLineData: selectSecondData(),
 					secondaryLine: secondLineSwitch(props.id),
-					secondaryLinePrevData: generateBigData(),
+					secondaryLinePrevData: [],
 					setMedianTooltip: setMedianValue
 				}, classes);
 			}, 300);
@@ -211,18 +222,18 @@ const LineGraph = (props) => {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [classes, props.id, selectData]);
+	}, [classes, props.id, selectData, selectSecondData]);
 
 	return (
 		<div style={{ width: '100%', height: '100%', }}>
 			<Paper id={props.id + 'tooltip'} style={{ width: '200px', height: '200px' }}>
 				<T>
-					{` ${moment(value.date).format('LLL')} ${value.nps} `}
+					{` ${moment(value.date).format('LLL')} ${value.value} `}
 				</T>
 			</Paper>
 			<Paper id={props.id + 'medianTooltip'}>
 				<T>
-					{` ${medianValue.nps} `}
+					{` ${medianValue.value} `}
 				</T>
 			</Paper>
 			<div id={props.id} ref={lineChartContainer} style={{ width: '100%', height: '100%', minHeight: 600, maxHeight: 600 }}></div>
