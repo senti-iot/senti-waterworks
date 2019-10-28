@@ -149,7 +149,7 @@ const LineGraph = (props) => {
 			default:
 				break;
 		}
-	}, [deviceData.temperature.water, deviceData.waterFlow.minFlow, deviceData.waterUsage, props.id])
+	}, [deviceData, props.id])
 	const selectSecondData = useCallback(() => {
 		switch (props.id) {
 			case 'temperature':
@@ -159,7 +159,7 @@ const LineGraph = (props) => {
 			default:
 				return [];
 		}
-	}, [deviceData.temperature.ambient, deviceData.waterFlow.maxFlow, props.id])
+	}, [deviceData, props.id])
 	useEffect(() => {
 		if ((props.id !== prevId) && line) {
 			line.destroy()

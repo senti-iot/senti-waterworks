@@ -14,9 +14,10 @@ import purple from './purple'
 import red from './red'
 import teal from './teal'
 import yellow from './yellow'
-
+import loginTheme from './loginTheme'
 
 export {
+	loginTheme,
 	blue,
 	red,
 	yellow,

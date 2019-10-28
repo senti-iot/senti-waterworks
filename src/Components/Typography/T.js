@@ -1,9 +1,8 @@
-import React from 'react'
-import { Typography, styled } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import styled from 'styled-components';
 
 
-const T = styled(({ bold, reversed, ...props }) => <Typography color={'textPrimary'} {...props}>{props.children}</Typography>)`
-	fontWeight: ${props => props.bold ? 600 : undefined};
-	color: ${props => props.reversed ? '#000' : '#fff'}
+const T = styled(Typography)`
+	font-weight: ${props => props.bold ? 600 : undefined};
 `
 export default T

@@ -50,9 +50,6 @@ const override = color => ({
 			}
 		},
 		MuiTypography: {
-			colorTextPrimary: {
-				color: '#fff'
-			},
 			body1: {
 				fontSize: '0.875rem',
 			}
@@ -82,7 +79,7 @@ const override = color => ({
 		MuiInput: {
 			underline: {
 				'&:hover:not($disabled):not($focused):not($error):before': {
-					borderBottom: '2px solid #4db6ac' /* + primaryColor */,
+					borderBottom: `2px solid ${colors[color][400]}'` /* + primaryColor */,
 				},
 				'&:after': {
 					borderBottomColor: colors[color][500],
@@ -99,11 +96,7 @@ const override = color => ({
 				padding: '12px 14px'
 			},
 		},
-		MuiPaper: {
-			root: {
-				color: '#fff'
-			}
-		}
+
 	}
 })
 export default override
