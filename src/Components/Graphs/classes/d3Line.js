@@ -93,10 +93,26 @@ class d3Line {
 			.attr("d", valueArea);
 
 		// Current Data line
-		this.svg.append('path')
+		let linePath = this.svg.append('path')
 			.data([lineData])
 			.attr('class', classes.line)
-			.attr('d', valueLine)
+		// .attr('d', valueLine)
+		// .attr({
+		// 	'd': valueLine,
+		// 	'stroke-dasharray': '385 385',
+		// 	'stroke-dashoffset': 385
+		// })
+		linePath.attr('d', valueLine)
+			// .attr('stroke-dasharray', `${linePath.node().get} ${width}`)
+			.attr("stroke-dasharray", function () {
+				return this.getTotalLength()
+			})
+			.attr("stroke-dashoffset", function () {
+				return this.getTotalLength()
+			})
+			.transition()
+			.duration(1500)
+			.attr('stroke-dashoffset', 0)
 		if (!secondaryLine)
 			this.generateMedian(valueLine, props, classes)
 
@@ -220,10 +236,6 @@ class d3Line {
 			.data(lineData)
 			.enter()
 			.append("circle") // Uses the enter().append() method
-			.attr("class", classes.dot) // Assign a class for styling
-			.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
-			.attr("cy", (d) => { return this.y(d.value) })
-			.attr("r", 6)
 			.on("mouseover", function (d) {
 				d3.select(this).attr("r", 8);
 				div.transition()
@@ -244,7 +256,16 @@ class d3Line {
 					.style("opacity", 0);
 			}).on('click', function () {
 				// setExpand(true)
-			});
+
+			})
+			.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
+			.attr("class", classes.dot) // Assign a class for styling
+			.attr("cy", (d) => { return this.y(d.value) })
+			.attr("r", 0)
+			.transition()
+			.delay(function (d, i) { return i * 150 })
+			.attr("r", 6)
+		// .duration(3000)
 		// init other vis elements like scales and axes here.
 	}
 

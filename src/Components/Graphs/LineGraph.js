@@ -79,11 +79,11 @@ const lineStyles = makeStyles(theme => ({
 	},
 	dot: {
 		fill: props => theme.chart[selectType(props.id)],
-		transition: '100ms all ease'
+		// transition: '100ms all ease'
 	},
 	secondaryDot: {
 		fill: props => theme.chart[selectSecondType(props.id)],
-		transition: '100ms all ease'
+		// transition: '100ms all ease'
 	},
 	dotLabel: {
 		fill: colors['orange'][500],
