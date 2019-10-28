@@ -8,116 +8,11 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 	border: none;
 	font-size: 1rem;
 	font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-	-webkit-text-fill-color: #278881;
 	transition: background-color 5000s ease-in-out 0s;
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-.react-grid-layout {
-	position: relative;
-	transition: height 200ms ease;
-}
-
-.react-grid-item {
-	transition: all 200ms ease;
-	transition-property: left, top;
-}
-
-.react-grid-item.cssTransforms {
-	transition-property: transform;
-}
-
-.react-grid-item.resizing {
-	z-index: 1;
-	will-change: width, height;
-}
-
-.react-grid-item.react-draggable-dragging {
-	transition: none;
-	z-index: 3;
-	will-change: transform;
-}
-
-.react-grid-item.react-grid-placeholder {
-	background: teal;
-	opacity: 0.2;
-	transition-duration: 100ms;
-	z-index: 2;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-}
-
-.react-grid-item>.react-resizable-handle {
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	bottom: 0;
-	right: 0;
-	z-index: 9999;
-	cursor: se-resize;
-}
-
-.react-grid-item>.react-resizable-handle::after {
-	content: "";
-	position: absolute;
-	right: 3px;
-	bottom: 3px;
-	width: 5px;
-	height: 5px;
-	border-right: 2px solid rgba(0, 0, 0, 0.4);
-	border-bottom: 2px solid rgba(0, 0, 0, 0.4);
-}
-
-.gauge-container {
-	width: 300px;
-	height: 175px;
-	display: block;
-	float: left;
-	padding: 10px;
-	/* background-color: ; */
-	margin: 7px;
-	border-radius: 3px;
-	position: relative;
-}
-
-.gauge-container>.gauge>.dial {
-	stroke: #ccc;
-	stroke-width: 13;
-}
-
-.gauge-container>.gauge>.value {
-	stroke: #278881;
-	stroke-dasharray: none;
-	stroke-width: 13;
-}
-
-.gauge-container>.gauge>.value-text {
-	fill: #000;
-	font-weight: 100;
-	font-size: 1em;
-}
-
-.leaflet-touch .leaflet-bar {
-	border: none!important;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65)!important;
-}
-
-.custom .leaflet-popup-tip, .custom .leaflet-popup-content-wrapper {
-	background: #ffffff;
-	color: #000;
-	border-radius: 3px;
-}
-
-.customDark .leaflet-popup-tip, .customDark .leaflet-popup-content-wrapper {
-	background: #424242;
-	color: #ffffff;
-	border-radius: 3px;
 }
 
 html * {
@@ -151,12 +46,10 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-	color: #37a891;
 	text-decoration: none;
 }
 
 a:hover, a:focus {
-	color: #37a891;
 	text-decoration: none;
 }
 
