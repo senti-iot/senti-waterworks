@@ -16,8 +16,8 @@ function FadeOutLoader(props) {
 					setLoading(true)
 					setTimeout(async () => {
 						setShowLoader(on)
-						await props.onChange()
 						setLoading(false)
+						await props.onChange()
 					}, 1000);
 				}
 				else {
