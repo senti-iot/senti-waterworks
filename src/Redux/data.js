@@ -75,6 +75,7 @@ export const getData = async () => {
 				{
 					name: 'tempAmbient',
 					median: true,
+					smallArea: true,
 					data: currentPeriodData.temperature.ambient
 				},
 				{

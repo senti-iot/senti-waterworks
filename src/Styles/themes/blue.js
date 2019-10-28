@@ -35,7 +35,8 @@ const theme = createMuiTheme({
 		minFlowLine: '#c432ff',
 		maxFlowLine: colors.cyan[500],
 		ambientTempLine: colors.red[500],
-		waterTempLine: colors.blue[400]
+		waterTempLine: colors.blue[400],
+		benchmarkLine: colors.yellow[500]
 	},
 });
 // export const chartColors = {

@@ -168,7 +168,7 @@ class d3Line {
 					// setExpand(true)
 				})
 				.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
-				.attr("class", classes.dot) // Assign a class for styling
+				.attr("class", classes[`${line.name}Dot`]) // Assign a class for styling
 				.attr("cy", (d) => { return this.y(d.value) })
 				.attr("r", 0)
 				.transition()
@@ -182,6 +182,7 @@ class d3Line {
 	generateLegend = () => {
 		const t = this.t;
 		let data = this.props.data[this.props.id]
+		// const classes = this.classes;
 		let counter = 0;
 		data.forEach((line, i) => {
 			this.state[line.name] = line.hidden
@@ -189,8 +190,8 @@ class d3Line {
 				.attr("x", 300 + 100 * (i + counter))
 				.attr("y", 50)
 				.attr("id", `${line.name}Legend`)
-				.attr("class", "legend")
-				.style("fill", this.state[line.name] ? 'steelblue' : "#fff")
+				// .attr("class", classes[`${line.name}Dot`])
+				.style("fill", this.state[line.name] ? 'steelblue' : '#fff')
 				.style('cursor', 'pointer')
 				.on("click", () => {
 					// Determine if current line is visible
@@ -216,7 +217,7 @@ class d3Line {
 				.text(t(`charts.names.${line.name}`));
 			if (line.median) {
 				counter += 1
-				this.state[line.name + 'Median'] = 0
+				this.state[line.name + 'Median'] = 1
 				this.xAxis.append("text")
 					.attr("x", 300 + 100 * (i + counter))
 					.attr("y", 50)
@@ -247,22 +248,30 @@ class d3Line {
 			}
 		})
 	}
+
 	generateLines = () => {
 		const classes = this.classes
 		let data = this.props.data[this.props.id]
+		let animArea0 = d3.area()
+			.y0(this.height - this.margin.bottom - this.margin.top)
+			.y1(0)
+			.x((d) => { return this.x(moment(d.date).valueOf()) })
 		data.forEach((line, i) => {
 
 			//#region Generate Line Area
 			if (!line.noArea) {
 				let defArea = d3.area()
 					.x((d) => { return this.x(moment(d.date).valueOf()) })
-					.y0(this.y(((i === 0) || (line.prev)) ? 0 : Math.min(...line.data.map(d => d.value))))
+					.y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : Math.min(...line.data.map(d => d.value))))
 					.y1((d) => { return this.y(d.value) })
 				this.svg.append("path")
 					.attr('id', line.name + 'Area')
 					.data([line.data])
 					.attr("opacity", line.hidden ? 0 : 1)
 					.attr("class", line.prev ? classes.prevArea : classes[line.name + 'Area'])
+					.attr("d", animArea0)
+					.transition()
+					.duration(1500)
 					.attr("d", defArea);
 			}
 			//#endregion
@@ -349,9 +358,7 @@ class d3Line {
 		})
 
 	}
-	updateThings = (props) => { /*...*/ }
-
-	destroy = (id) => {
+	destroy = () => {
 		this.container.select('svg').remove()
 	}
 
