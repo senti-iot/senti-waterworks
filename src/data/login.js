@@ -6,8 +6,8 @@ import cookie from 'react-cookies';
  * @param {String} username
  * @param {String} password
  */
-export const loginUser = async (username, password) => {
-	var session = await loginApi.post('odeum/auth/basic', JSON.stringify({ username: username, password: password })).then(rs => rs.data)
+export const loginUser = async (username, password, organisationId) => {
+	var session = await loginApi.post('odeum/auth/organization', JSON.stringify({ username: username, password: password, orgId: organisationId })).then(rs => rs.data)
 	return session
 }
 export const loginUserViaGoogle = async (token) => {

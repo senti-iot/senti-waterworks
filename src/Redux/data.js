@@ -47,8 +47,84 @@ export const getAllDevices = async () => {
 export const getData = async () => {
 	return async (dispatch, getState) => {
 
-		let data = await getDevicesData('2019-10-10', '2019-10-20')
-		let finalData = genBenchmark(data)
+		let currentPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
+		let previousPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
+		console.log(previousPeriodData)
+		let finalData = {
+			waterusage: [
+				{
+					name: 'waterusageL',
+					median: true,
+					data: currentPeriodData.waterUsage
+				},
+				{
+					name: 'waterusageP',
+					prev: true,
+					hidden: true,
+					data: previousPeriodData.waterUsage
+				},
+				{
+					name: 'benchmark',
+					hidden: true,
+					noArea: true,
+					dashed: true,
+					data: currentPeriodData.waterUsage
+				}
+			],
+			temperature: [
+				{
+					name: 'tempAmbient',
+					median: true,
+					data: currentPeriodData.temperature.ambient
+				},
+				{
+					name: 'tempWater',
+					median: true,
+					data: currentPeriodData.temperature.water
+				},
+				{
+					name: 'tempAmbient',
+					prev: true,
+					hidden: true,
+					noArea: true,
+					data: previousPeriodData.temperature.ambient
+				},
+				{
+					name: 'tempWater',
+					prev: true,
+					hidden: true,
+					noArea: true,
+					data: currentPeriodData.temperature.water
+				}
+			],
+			waterflow: [
+				{
+					name: 'maxFlow',
+					median: true,
+					data: currentPeriodData.waterFlow.maxFlow
+				},
+				{
+					name: 'minFlow',
+					median: true,
+					data: currentPeriodData.waterFlow.minFlow
+				},
+				{
+					name: 'maxFlow',
+					prev: true,
+					hidden: true,
+					noArea: true,
+					data: previousPeriodData.waterFlow.maxFlow
+				},
+				{
+					name: 'minFlow',
+					prev: true,
+					hidden: true,
+					noArea: true,
+					data: currentPeriodData.waterFlow.minFlow
+				}
+			]
+
+		}
 		dispatch({
 			type: deviceData,
 			payload: finalData

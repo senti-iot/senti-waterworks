@@ -8,7 +8,7 @@ import cookie from 'react-cookies';
 import { ItemG, CookiesDialog, PrivacyDialog, FadeOutLoader } from 'Components';
 import { Hidden, InputAdornment, Link as MuiLink } from '@material-ui/core';
 import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks';
-import { Person, Visibility, VisibilityOff } from 'variables/icons';
+import { Person, Visibility, VisibilityOff, Business } from 'variables/icons';
 
 // Data & Redux
 import { loginUser } from 'data/login';
@@ -25,6 +25,7 @@ function Login() {
 	const [error, setEError] = useState(false)
 	const [user, setUser] = useState('')
 	const [pass, setPass] = useState('')
+	const [orgId, setOrgId] = useState('')
 	// const [language, setLanguage] = useState('da')
 	const [loggingIn, setLoggingIn] = useState(false)
 	// const [loggingInGoogle, setLoggingInGoogle] = useState(false)
@@ -82,7 +83,7 @@ function Login() {
 	//TODO
 	const handleLoginUser = async () => {
 
-		await loginUser(user, pass).then(async rs => {
+		await loginUser(user, pass, orgId).then(async rs => {
 			if (rs) {
 				let exp = moment().add('1', 'day')
 				cookie.save('SESSION', rs, { path: '/', expires: exp.toDate() })
@@ -107,6 +108,9 @@ function Login() {
 				break;
 			case 'user':
 				setUser(e.target.value)
+				break;
+			case 'orgId':
+				setOrgId(e.target.value)
 				break;
 			default:
 				break;
@@ -201,6 +205,20 @@ function Login() {
 														>
 															{showPassword ? <Visibility /> : <VisibilityOff />}
 														</SmallActionButton>
+													</InputAdornment>
+												}}
+											/>
+											<LoginTF
+												id={'orgId'}
+												label={t('login.orgId')}
+												error={error}
+												type={'text'}
+												fullWidth
+												onChange={handleInput}
+												value={orgId}
+												InputProps={{
+													endAdornment: <InputAdornment>
+														<Business style={{ color: 'rgba(0, 0, 0, 0.54)' }} />
 													</InputAdornment>
 												}}
 											/>

@@ -1,132 +1,16 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
-import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
-import { /* Collapse, */ colors, Paper } from '@material-ui/core'
-import hexToRgba from 'hex-to-rgba'
+import { /* Collapse, */ Paper } from '@material-ui/core'
 import d3Line from './classes/d3Line'
-import { usePrevious, useSelector } from 'Hooks'
+import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import Tooltip from './Tooltip'
-
-const selectSecondType = chId => {
-	switch (chId) {
-		case 'waterusage':
-			return 'waterUsageLine'
-		case 'temperature':
-			return 'ambientTempLine'
-		case 'waterflow':
-			return 'maxFlowLine'
-		case 'readings':
-			return 'readingLine'
-		default:
-			break;
-	}
-}
-const selectType = chId => {
-	switch (chId) {
-		case 'waterusage':
-			return 'waterUsageLine'
-		case 'temperature':
-			return 'waterTempLine'
-		case 'waterflow':
-			return 'minFlowLine'
-		case 'readings':
-			return 'readingLine'
-		default:
-			break;
-	}
-}
-const lineStyles = makeStyles(theme => ({
-	axis: {
-		stroke: 'none'
-	},
-	axisText: {
-		fill: 'currentColor',
-		fontWeight: 600,
-		fontSize: '1rem'
-	},
-	axisTick: {
-		fill: 'currentColor',
-		fontWeight: 600,
-		fontSize: '0.75rem'
-	},
-	hiddenMedianLine: {
-		stroke: '#fff',
-		opacity: 0,
-		strokeWidth: '6px'
-	},
-	lineWeekend: {
-		fill: 'none',
-		stroke: props => theme.chart[selectType(props.id)],
-		strokeWidth: '4px'
-	},
-	medianLine: {
-		fill: 'none',
-		stroke: theme.chart.medianLine,
-		strokeWidth: '4px'
-	},
-	line: {
-		fill: 'none',
-		stroke: props => theme.chart[selectType(props.id)],
-		strokeWidth: '4px'
-	},
-	secondLine: {
-		fill: 'none',
-		stroke: props => theme.chart[selectSecondType(props.id)],
-		strokeWidth: '4px'
-	},
-	line2: {
-		fill: 'rgba(255,255,255, 0.1)',
-	},
-	dot: {
-		fill: props => theme.chart[selectType(props.id)],
-		// transition: '100ms all ease'
-	},
-	secondaryDot: {
-		fill: props => theme.chart[selectSecondType(props.id)],
-		// transition: '100ms all ease'
-	},
-	dotLabel: {
-		fill: colors['orange'][500],
-
-	},
-	medianTooltip: {
-		position: "absolute",
-		textAlign: "center",
-		width: '72px',
-		height: '36px',
-		// background: theme.palette.type === 'light' ? '#eee' : '#424242',
-		border: 0,
-		borderRadius: 4,
-		zIndex: -1,
-		transition: '300ms all ease'
-	},
-	area: {
-		fill: ({ id }) => hexToRgba(theme.chart[selectType(id)], 0.1),
-	},
-	secondaryArea: {
-		fill: ({ id }) => hexToRgba(theme.chart[selectSecondType(id)], 0.1),
-
-	}
-}))
-
+import lineStyles from 'Components/Custom/Styles/lineGraphStyles'
 
 let line = null
-const secondLineSwitch = (chId) => {
-	switch (chId) {
-		case 'waterusage':
-			return false;
-		case 'waterflow':
-			return true
-		case 'temperature':
-			return true
-		case 'reading':
-			return false
-		default:
-			return false
-	}
-}
+
 const LineGraph = (props) => {
 	const lineChartContainer = useRef(null)
+	const t = useLocalization()
 	const classes = lineStyles({ id: props.id })
 	const [value, setValue] = useState({ value: null, date: null })
 	const [medianValue, setMedianValue] = useState({ value: null, date: null })
@@ -161,60 +45,36 @@ const LineGraph = (props) => {
 		}
 	}, [deviceData, props.id])
 	useEffect(() => {
-		if ((props.id !== prevId) && line) {
-			line.destroy()
+		const genNewLine = () => {
 			let cProps = {
 				id: props.id,
-				lineData: selectData(),
-				prevLineData: [],
+				data: deviceData,
 				setTooltip: setValue,
-				secondaryLineData: selectSecondData(),
-				secondaryLine: secondLineSwitch(props.id),
-				secondaryLinePrevData: [],
-				setMedianTooltip: setMedianValue
+				setMedianTooltip: setMedianValue,
+				t: t
 			}
 			line = new d3Line(lineChartContainer.current, cProps, classes);
-
 		}
-	}, [classes, prevId, props.id, selectData, selectSecondData])
-	useEffect(() => {
+		if ((props.id !== prevId) && line) {
+			line.destroy()
+			genNewLine()
+		}
 		if ((lineChartContainer.current && !line)) {
-			line = new d3Line(lineChartContainer.current, {
-				id: props.id,
-				lineData: selectData(),
-				prevLineData: [],
-				setTooltip: setValue,
-				secondaryLineData: selectSecondData(),
-				secondaryLine: secondLineSwitch(props.id),
-				secondaryLinePrevData: [],
-				setMedianTooltip: setMedianValue
-			}, classes);
-
+			genNewLine()
 		}
-	}, [classes, prevId, props.id, selectData, selectSecondData]);
-	useEffect(() => {
 		let resizeTimer;
 		const handleResize = () => {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(function () {
 				line.destroy()
-				line = new d3Line(lineChartContainer.current, {
-					id: props.id,
-					lineData: selectData(),
-					prevLineData: [],
-					setTooltip: setValue,
-					secondaryLineData: selectSecondData(),
-					secondaryLine: secondLineSwitch(props.id),
-					secondaryLinePrevData: [],
-					setMedianTooltip: setMedianValue
-				}, classes);
+				genNewLine()
 			}, 300);
 		};
 		window.addEventListener('resize', handleResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [classes, props.id, selectData, selectSecondData]);
+	}, [classes, prevId, props.id, selectData, selectSecondData, deviceData, t])
 
 	return (
 		<div style={{ width: '100%', height: '100%', }}>

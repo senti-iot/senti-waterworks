@@ -9,7 +9,6 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
-		"filter": "Filtrering",
 		"accept": "Godkend",
 		"add": "Tilføj",
 		"addFilter": "Tilføj filter",
@@ -32,6 +31,7 @@
 		"editFilter": "Rediger filter",
 		"editLocation": "Rediger lokation",
 		"extendProfile": "Udvidet profil",
+		"filter": "Filtrering",
 		"finish": "Luk",
 		"forgotPass": "Glemt kodeord?",
 		"getLocation": "Hent lokation",
@@ -97,20 +97,12 @@
 	},
 	"charts": {
 		"allDevices": "Alle",
-		"noDevices": "Ingen",
-		"devices": "Målere",
-		"selectedDevices": "Valgte målere",
-		"totalUsage": "Samlet forbrug",
-		"seeing": "Viser",
-		"totalUsageMessages": {
-			"more": "Du har til dato forbrugt mere vand end sidste måned",
-			"less": "Der er til dato forbrugt mindre vand end sidste måned"
-		},
 		"controlPanel": "Data kontrolpanel",
 		"device": {
 			"active": "Aktiverede målere",
 			"inactive": "Målere ude af drift"
 		},
+		"devices": "Målere",
 		"fields": {
 			"date": "Dato",
 			"humidity": "Fugtighed",
@@ -122,20 +114,37 @@
 			"weather": "Vejr",
 			"windspeed": "Vindhastighed"
 		},
+		"names": {
+			"benchmark": "Benchmark",
+			"waterusageL": "Vandforbrug",
+			"waterusageP": "Sidste periode"
+		},
+		"noDevices": "Ingen",
 		"periods": {
 			"month": "Måned til dag"
 		},
-		"types": {
-			"waterusage": "Vandforbrug",
-			"temperature": "Temperatur",
-			"waterflow": "Gennemstrømning",
-			"readings": "Aflæsninger"
+		"seeing": "Viser",
+		"selectedDevices": "Valgte målere",
+		"totalUsage": "Samlet forbrug",
+		"totalUsageMessages": {
+			"less": "Der er til dato forbrugt mindre vand end sidste måned",
+			"more": "Du har til dato forbrugt mere vand end sidste måned",
+			"readings": {},
+			"temperature": {},
+			"waterflow": {},
+			"waterusage": {}
 		},
 		"type": {
 			"bar": "Søjle",
 			"donut": "Donut",
 			"line": "Linje",
 			"pie": "Lagkage"
+		},
+		"types": {
+			"readings": "Aflæsninger",
+			"temperature": "Temperatur",
+			"waterflow": "Gennemstrømning",
+			"waterusage": "Vandforbrug"
 		}
 	},
 	"cloudfunctions": {
@@ -259,16 +268,16 @@
 		},
 		"editGraph": "Rediger",
 		"fields": {
-			"name": "Navn",
-			"description": "Beskrivelse",
 			"cf": "Cloud Funktion",
 			"chartType": "Diagramtype",
 			"dataSource": "Datakilde",
 			"defaultPeriod": "Standard periode",
+			"description": "Beskrivelse",
 			"device": "Enhed",
 			"difference": "Difference",
 			"general": "General",
 			"label": "Overskrift",
+			"name": "Navn",
 			"percDifference": "Percentage Difference:",
 			"unit": "Måleenhed"
 		},
@@ -390,8 +399,8 @@
 		"dashboards": {
 			"close": {
 				"message": "Er du sikker på du ønsker at lukker denne Dashboard?",
-				"warning": "Eventuelle ikke-gemte ændringer vil gå tabt!",
-				"title": "Close dashboard?"
+				"title": "Close dashboard?",
+				"warning": "Eventuelle ikke-gemte ændringer vil gå tabt!"
 			},
 			"share": {
 				"title": "Eksporter dashboard"
@@ -595,7 +604,8 @@
 		"needAnAccount1": "Brug for en",
 		"needAnAccount2": "konto",
 		"pass": "Kodeord",
-		"username": "Brugernavn"
+		"username": "Brugernavn",
+		"orgId": "Organisation ID"
 	},
 	"map": {
 		"themes": {
@@ -932,6 +942,7 @@
 				"yellow": "Gul"
 			}
 		},
+		"colorTheme": "Tema",
 		"dashboardTheme": "Dashboard tema",
 		"default": "Standard",
 		"defaultDataSet": "Standard datasæt for diagrammer",
@@ -1073,7 +1084,6 @@
 		},
 		"createdFail": "Oprettelse fejlede!",
 		"createdSuccess": "Oprettet!",
-		"savedSuccess": "Gemt!",
 		"creating": "Opretter ...",
 		"deletedFail": "Sletning fejlede!",
 		"deletedSuccess": "Slettet!",
@@ -1106,6 +1116,7 @@
 		"redirect": "Omdirigerer ...",
 		"repairedOldDashboards": "Nogle grafikpaneler er blevet omordnet på grund af det nye træk & slip system!",
 		"resetDeviceSuccess": "Enhed er nulstillet",
+		"savedSuccess": "Gemt!",
 		"settingsSaved": "Indstillinger gemt!",
 		"unassign": {
 			"collectionFromProject": "Datasamlingen %{collection} er frigjort fra projektet %{project}",

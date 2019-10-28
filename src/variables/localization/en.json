@@ -9,7 +9,6 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
-		"filter": "Filter",
 		"accept": "Accept",
 		"add": "Add",
 		"addFilter": "Add filter",
@@ -32,6 +31,7 @@
 		"editFilter": "Edit filter",
 		"editLocation": "Edit location",
 		"extendProfile": "Extended Profile",
+		"filter": "Filter",
 		"finish": "Finish",
 		"forgotPass": "Password Forgotten?",
 		"getLocation": "Get location",
@@ -96,25 +96,13 @@
 		}
 	},
 	"charts": {
-		"devices": "Devices",
 		"allDevices": "All",
-		"noDevices": "No",
-		"selectedDevices": "Selected devices",
-		"totalUsage": "Total usage",
-		"seeing": "Seeing",
-		"totalUsageMessages": {
-			"more": "There is more consumed water to date than last month",
-			"less": "To date, there is less water consumed than last month",
-			"waterusage": {},
-			"readings": {},
-			"temperature": {},
-			"waterflow": {}
-		},
+		"controlPanel": "Data control panel",
 		"device": {
 			"active": "Active devices",
 			"inactive": "Inactive devices"
 		},
-		"controlPanel": "Data control panel",
+		"devices": "Devices",
 		"fields": {
 			"date": "Date",
 			"humidity": "Humidity",
@@ -126,20 +114,37 @@
 			"weather": "Weather",
 			"windspeed": "Windspeed"
 		},
+		"names": {
+			"benchmark": "Benchmark",
+			"waterusageL": "Water usage",
+			"waterusageP": "Previous Period"
+		},
+		"noDevices": "No",
 		"periods": {
 			"month": "Month to date"
 		},
-		"types": {
-			"waterusage": "Water usage",
-			"temperature": "Temperature",
-			"waterflow": "Water flow",
-			"readings": "Reading"
+		"seeing": "Seeing",
+		"selectedDevices": "Selected devices",
+		"totalUsage": "Total usage",
+		"totalUsageMessages": {
+			"less": "To date, there is less water consumed than last month",
+			"more": "There is more consumed water to date than last month",
+			"readings": {},
+			"temperature": {},
+			"waterflow": {},
+			"waterusage": {}
 		},
 		"type": {
 			"bar": "Bar",
 			"donut": "Donut",
 			"line": "Line",
 			"pie": "Pie"
+		},
+		"types": {
+			"readings": "Reading",
+			"temperature": "Temperature",
+			"waterflow": "Water flow",
+			"waterusage": "Water usage"
 		}
 	},
 	"cloudfunctions": {
@@ -263,16 +268,16 @@
 		},
 		"editGraph": "Edit",
 		"fields": {
-			"name": "Name",
-			"description": "Description",
 			"cf": "Cloud Function",
 			"chartType": "Chart type",
 			"dataSource": "Data source",
 			"defaultPeriod": "Default period",
+			"description": "Description",
 			"device": "Device",
 			"difference": "Difference",
 			"general": "General",
 			"label": "Header",
+			"name": "Name",
 			"percDifference": "Percentage Difference:",
 			"unit": "Measuring Unit"
 		},
@@ -394,8 +399,8 @@
 		"dashboards": {
 			"close": {
 				"message": "Are you sure you want to close the dashbord?",
-				"warning": "Any unsaved changes will be discarded!",
-				"title": "Close dashboard?"
+				"title": "Close dashboard?",
+				"warning": "Any unsaved changes will be discarded!"
 			},
 			"share": {
 				"title": "Export dashboard"
@@ -598,6 +603,7 @@
 		"forgotUsername": "Forgot username?",
 		"needAnAccount1": "Need a",
 		"needAnAccount2": "account",
+		"orgId": "Organisation ID",
 		"pass": "Password",
 		"username": "Username"
 	},
@@ -891,7 +897,6 @@
 		}
 	},
 	"settings": {
-		"colorTheme": "Color Theme",
 		"alerts": "Alerts",
 		"breadcrumbs": "Breadcrumbs",
 		"calibration": {
@@ -937,6 +942,7 @@
 				"yellow": "Yellow"
 			}
 		},
+		"colorTheme": "Color Theme",
 		"dashboardTheme": "Dashboard Theme",
 		"default": "Default",
 		"defaultDataSet": "Default data set for charts",
@@ -1078,7 +1084,6 @@
 		},
 		"createdFail": "Creation failed!",
 		"createdSuccess": "Created!",
-		"savedSuccess": "Saved!",
 		"creating": "Creating...",
 		"deletedFail": "Deletion failed!",
 		"deletedSuccess": "Deleted!",
@@ -1111,6 +1116,7 @@
 		"redirect": "Redirecting ...",
 		"repairedOldDashboards": "Some dashboards' graphs have been reordered due to the new drag & drop system!",
 		"resetDeviceSuccess": "Device reset",
+		"savedSuccess": "Saved!",
 		"settingsSaved": "Settings saved!",
 		"unassign": {
 			"collectionFromProject": "Data collection %{collection} unassigned from project %{project}",
