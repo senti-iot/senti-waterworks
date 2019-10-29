@@ -1,6 +1,7 @@
 import { handleRequestSort } from 'data/functions'
 import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
 import { genBenchmark } from 'data/model'
+import moment from 'moment'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -46,10 +47,16 @@ export const getAllDevices = async () => {
 }
 export const getData = async () => {
 	return async (dispatch, getState) => {
-
-		let currentPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
-		let previousPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
-		console.log(previousPeriodData)
+		let from = getState().dateTime.period.from
+		let to = getState().dateTime.period.to
+		let timeType = getState().dateTime.period.timeType
+		let prevFrom = moment(from).subtract(1, timeType === 2 ? 'month' : 'year')
+		let prevTo = moment(to).subtract(1, timeType === 2 ? 'month' : 'year')
+		let rawData = await getDevicesData(from, to)
+		let prevRawData = await getDevicesData(prevFrom, prevTo)
+		let currentPeriodData = genBenchmark(rawData)
+		let previousPeriodData = genBenchmark(prevRawData, true, timeType)
+		// let previousPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
 		let finalData = {
 			waterusage: [
 				{
@@ -61,6 +68,8 @@ export const getData = async () => {
 					name: 'waterusageP',
 					prev: true,
 					hidden: true,
+					noMedianLegend: true,
+					median: true,
 					data: previousPeriodData.waterUsage
 				},
 				{

@@ -168,6 +168,7 @@ export const servicesAPI = create({
 	timeout: 30000,
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
+		'Cache-Control': 'max-age=31536000',
 		'Accept': 'application/json',
 		'Content-Type': 'application/json'
 	}

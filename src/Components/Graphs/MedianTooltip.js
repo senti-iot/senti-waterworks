@@ -15,8 +15,10 @@ const TCard = styled(Card)`
 	transition: 300ms all ease;
 `
 
-const waterUsageTooltip = (props) => {
-	return <TCard id={props.id + 'tooltip'}>
+
+const MedianTooltip = (props) => {
+
+	return <TCard id={props.id + 'medianTooltip'}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
@@ -36,27 +38,13 @@ const waterUsageTooltip = (props) => {
 			{/* </ItemG> */}
 			<Divider />
 			<ItemG container xs={12}>
+				<ItemG>
+					Test
+				</ItemG>
 			</ItemG>
 
 		</CardContent>
 	</TCard>
 }
-// const waterFlowTooltip = (props) => { }
-// const waterTempTooltip = (props) => { }
-// const waterReadingTooltip = (props) => { }
-// const alarmTooltip = (props) => { }
 
-
-const Tooltip = (props) => {
-
-	switch (props.id) {
-		case 'waterusage':
-			return waterUsageTooltip(props)
-
-		default:
-			return null
-	}
-
-}
-
-export default Tooltip
+export default MedianTooltip

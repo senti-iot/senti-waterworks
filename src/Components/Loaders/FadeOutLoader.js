@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { Fade } from '@material-ui/core';
 import { CircularLoader } from 'Components';
 import { usePrevious } from 'Hooks';
+import PropTypes from 'prop-types'
 
 function FadeOutLoader(props) {
 	const [loading, setLoading] = useState(false)
@@ -51,5 +52,10 @@ function FadeOutLoader(props) {
 	)
 }
 
-
+FadeOutLoader.propTypes = {
+	on: PropTypes.bool.isRequired,
+	notCentered: PropTypes.bool,
+	circularClasses: PropTypes.object,
+	onChange: PropTypes.func.isRequired,
+}
 export default FadeOutLoader

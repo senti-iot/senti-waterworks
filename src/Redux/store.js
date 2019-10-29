@@ -3,9 +3,10 @@ import { settings } from './settings'
 import { localization } from './localization'
 import { appState } from './appState'
 import { data } from './data'
+import { dateTime } from './dateTime'
 import thunk from 'redux-thunk';
 
-let reducers = combineReducers({ settings, localization, appState, data })
+let reducers = combineReducers({ settings, localization, appState, data, dateTime })
 /**
 *	 Debugging purposes
 **/

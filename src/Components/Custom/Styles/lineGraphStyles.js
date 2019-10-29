@@ -73,18 +73,13 @@ const lineStyles = makeStyles(theme => ({
 		stroke: theme.chart.medianLine,
 		strokeWidth: '4px'
 	},
+	medianLinePrev: {
+		fill: 'none',
+		stroke: 'rgba(128, 128, 128, 0.6)',
+		strokeWidth: '4px'
+	},
 	prevArea: {
 		fill: 'rgba(255,255,255, 0.1)',
-	},
-	medianTooltip: {
-		position: "absolute",
-		textAlign: "center",
-		width: '72px',
-		height: '36px',
-		border: 0,
-		borderRadius: 4,
-		zIndex: -1,
-		transition: '300ms all ease'
 	},
 	waterusageLArea: {
 		fill: () => hexToRgba(theme.chart.waterUsageLine, 0.1)

@@ -5,44 +5,20 @@ import { T, CustomDateTime, ItemG, DSelect } from 'Components';
 import { dateTimeFormatter } from 'variables/functions';
 import moment from 'moment'
 import { DateRange } from 'variables/icons';
-import { useLocalization } from 'Hooks';
-// import teal from '@material-ui/core/colors/teal'
-// import { connect } from 'react-redux'
-// import { changeDate, changeHeatMapDate } from 'redux/dateTime';
-// import { changeSettingsDate } from 'redux/settings';
-// import { compose } from 'recompose';
-
-// const styles = theme => ({
-// 	selected: {
-// 		backgroundColor: `${teal[500]} !important`,
-// 		color: "#fff"
-// 	},
-
-// })
+import { useLocalization, useDispatch } from 'Hooks';
+import { changeDate } from 'Redux/dateTime';
 
 const DateFilterMenu = (props) => {
-	// constructor(props) {
-	// 	super(props)
 
-	// 	state = {
-	// 		timeType: props.period !== undefined ? props.period.timeType : 2,
-	// 	}
-	// }
 	const { period, label, icon, button, settings, inputType, buttonProps } = props
-
+	const dispatch = useDispatch()
 	const t = useLocalization()
 	const [openCustomDate, setOpenCustomDate] = useState(false)
 	const [actionAnchor, setActionAnchor] = useState(null)
-	// const [timeType, setTimeType] = useState(props.period !== undefined ? props.period.timeType : 2)
-	// const timeTypes = [
-	// 	{ id: 0, format: 'lll', chart: 'minute' },
-	// 	{ id: 1, format: 'lll', chart: 'hour' },
-	// 	{ id: 2, format: 'll', chart: 'day' },
-	// 	{ id: 3, format: 'll', chart: 'day' },
-	// ]
+
 	const dOptions = [
-		{ value: 0, label: t('filters.dateOptions.today') },
-		{ value: 1, label: t('filters.dateOptions.yesterday') },
+		// { value: 0, label: t('filters.dateOptions.today') },
+		// { value: 1, label: t('filters.dateOptions.yesterday') },
 		{ value: 2, label: t('filters.dateOptions.thisWeek') },
 		{ value: 3, label: t('filters.dateOptions.7days') },
 		{ value: 4, label: t('filters.dateOptions.30days') },
@@ -50,8 +26,8 @@ const DateFilterMenu = (props) => {
 		{ value: 6, label: t('filters.dateOptions.custom') },
 	]
 	const options = [
-		{ id: 0, label: t('filters.dateOptions.today') },
-		{ id: 1, label: t('filters.dateOptions.yesterday') },
+		// { id: 0, label: t('filters.dateOptions.today') },
+		// { id: 1, label: t('filters.dateOptions.yesterday') },
 		{ id: 2, label: t('filters.dateOptions.thisWeek') },
 		{ id: 3, label: t('filters.dateOptions.7days') },
 		{ id: 4, label: t('filters.dateOptions.30days') },
@@ -88,7 +64,7 @@ const DateFilterMenu = (props) => {
 			case 5: // last 90 days
 				from = moment().subtract(90, 'd').startOf('day')
 				to = moment()
-				defaultT = 2
+				defaultT = 3
 				break;
 			case 6:
 				from = moment(from)
@@ -98,18 +74,11 @@ const DateFilterMenu = (props) => {
 			default:
 				break;
 		}
-		// if (props.settings) {
-		// 	if (menuId === 6)
-		// 		return props.handleSetSettingsPeriod(menuId, to, from, defaultT, period ? period.id : -1)
-		// 	return props.handleSetSettingsPeriod(menuId, undefined, undefined, defaultT, period ? period.id : -1)
+
+		dispatch(changeDate(menuId, to, from, defaultT))
+		// if (props.customSetDate) {
+		// return props.customSetDate(menuId, to, from, defaultT)
 		// }
-		// if (props.heatmap) {
-		// 	return props.handleSetHeatmapDate(menuId, to, from, defaultT)
-		// }
-		if (props.customSetDate) {
-			return props.customSetDate(menuId, to, from, defaultT)
-		}
-		// props.handleSetDate(menuId, to, from, defaultT, period ? period.id : -1)
 
 	}
 
@@ -126,7 +95,6 @@ const DateFilterMenu = (props) => {
 	const handleDateFilter = (event) => {
 		let id = event.target.value
 		if (id !== 6) {
-			// this.setState({ actionAnchor: null }, () => this.handleSetDate(id))
 			setActionAnchor(null)
 			handleSetDate(id)
 		}

@@ -76,7 +76,8 @@ class d3Line {
 			.y(d => this.y(d.value))
 		this.div = d3.select(`#${props.id}tooltip`)
 			.style("opacity", 0);
-
+		this.medianTooltip = d3.select(`#${this.props.id}medianTooltip`)
+			.style("opacity", 0);
 
 		//#region Ticks
 		var xAxis_woy = d3.axisBottom(this.x)
@@ -88,7 +89,7 @@ class d3Line {
 					case i === allData.length - 1:
 						return moment(d.date).valueOf()
 					case allData.length > 7:
-						return (i + 1) % 5 ? null : moment(d.date).valueOf()
+						return i % 5 ? null : moment(d.date).valueOf()
 					case allData.length <= 7:
 						return moment(d.date).valueOf()
 					default:
@@ -196,7 +197,7 @@ class d3Line {
 				.on("click", () => {
 					// Determine if current line is visible
 					var active = this.state[line.name] ? false : true,
-						newOpacity = active ? 0 : 1, newColor = active ? 'steelblue' : '#fff';
+						newOpacity = active ? 0 : 1, display = active ? 'none' : undefined, newColor = active ? 'steelblue' : '#fff';
 
 					// Hide or show the elements
 
@@ -212,10 +213,16 @@ class d3Line {
 					d3.select(`#${line.name}Area`)
 						.transition().duration(200)
 						.style("opacity", newOpacity)
+					d3.select(`#${line.name}MArea`)
+						.transition().duration(200)
+						.style("opacity", newOpacity)
+					d3.select(`#${line.name}HArea`)
+						.transition().duration(200)
+						.style("display", display)
 					this.state[line.name] = active;
 				})
 				.text(t(`charts.names.${line.name}`));
-			if (line.median) {
+			if (line.median & !line.noMedianLegend) {
 				counter += 1
 				this.state[line.name + 'Median'] = 1
 				this.xAxis.append("text")
@@ -273,6 +280,52 @@ class d3Line {
 					.transition()
 					.duration(1500)
 					.attr("d", defArea);
+				if (line.noMedianLegend) {
+					let setMedianTooltip = this.props.setMedianTooltip
+					var medianTooltip = this.medianTooltip
+					let medianData = getMedianLineData(line.data)
+					let medianLine = this.svg.append('path')
+						.data([medianData])
+						.attr('class', classes.medianLinePrev)
+						.attr('d', this.valueLine)
+						.attr('id', line.name + 'MArea')
+						.style('opacity', 0)
+						.attr('stroke-dasharray', ("3, 3"))
+
+					// Hidden overlay for Median tooltip
+					this.svg.append('path')
+						.data([medianData])
+						.attr('class', classes.hiddenMedianLine)
+						.attr('d', this.valueLine)
+						.attr('id', line.name + 'HArea')
+						.on("mouseover", function (d) {
+							medianLine.transition()
+								.duration(100)
+								.style('stroke-width', '7px')
+
+							medianTooltip.transition()
+								.duration(200)
+								.style("opacity", 1)
+								.style('z-index', 1040);
+
+							medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+								.style("top", (d3.event.pageY) - 41 + "px");
+
+							setMedianTooltip(d[0])
+
+						}).on("mouseout", function () {
+							// setExpand(false)
+							medianLine.transition()
+								.duration(100)
+								.style('stroke-width', '4px')
+							medianTooltip.transition()
+								.duration(500)
+								.style('z-index', -1)
+								.style("opacity", 0);
+						}).on('click', function () {
+							// setExpand(true)
+						});
+				}
 			}
 			//#endregion
 			//#region Generate Line
@@ -304,9 +357,7 @@ class d3Line {
 		const classes = this.classes
 		//Median tooltip
 		let data = this.props.data[this.props.id]
-		var medianTooltip = d3.select(`#${this.props.id}medianTooltip`)
-			.attr("class", classes.medianTooltip)
-			.style("opacity", 0);
+		var medianTooltip = this.medianTooltip
 		data.forEach((line) => {
 
 			//Median line
@@ -326,8 +377,8 @@ class d3Line {
 					.attr('class', classes.hiddenMedianLine)
 					.attr('d', this.valueLine)
 					.attr('id', `${line.name}MedianH`)
+					.style('display', line.hidden ? 'none' : undefined)
 					.on("mouseover", function (d) {
-						console.log(d)
 						medianLine.transition()
 							.duration(100)
 							.style('stroke-width', '7px')
@@ -346,7 +397,7 @@ class d3Line {
 						// setExpand(false)
 						medianLine.transition()
 							.duration(100)
-							.style('stroke-width', '3px')
+							.style('stroke-width', '4px')
 						medianTooltip.transition()
 							.duration(500)
 							.style('z-index', -1)
