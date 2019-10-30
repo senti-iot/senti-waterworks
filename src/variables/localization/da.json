@@ -603,9 +603,9 @@
 		"forgotUsername": "Glemt brugernavn?",
 		"needAnAccount1": "Brug for en",
 		"needAnAccount2": "konto",
+		"nickname": "Organisation ID",
 		"pass": "Kodeord",
-		"username": "Brugernavn",
-		"orgId": "Organisation ID"
+		"username": "Brugernavn"
 	},
 	"map": {
 		"themes": {

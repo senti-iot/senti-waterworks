@@ -210,7 +210,7 @@ function Login() {
 											/>
 											<LoginTF
 												id={'orgId'}
-												label={t('login.orgId')}
+												label={t('login.nickname')}
 												error={error}
 												type={'text'}
 												fullWidth
