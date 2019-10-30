@@ -37,34 +37,35 @@ const DateFilterMenu = (props) => {
 	const handleSetDate = (menuId, to, from, timeType) => {
 		let defaultT = 0
 		switch (menuId) {
-			case 0: // Today
-				from = moment().startOf('day')
-				to = moment()
-				defaultT = 1
-				break;
-			case 1: // Yesterday
-				from = moment().subtract(1, 'd').startOf('day')
-				to = moment().subtract(1, 'd').endOf('day')
-				defaultT = 1
-				break;
+			// case 0: // Today
+			// 	from = moment().startOf('day')
+			// 	to = moment()
+			// 	defaultT = 1
+			// 	break;
+			// case 1: // Yesterday
+			// 	from = moment().subtract(1, 'd').startOf('day')
+			// 	to = moment().subtract(1, 'd').endOf('day')
+			// 	defaultT = 1
+			// 	break;
 			case 2: // This week
 				from = moment().startOf('week').startOf('day')
-				to = moment()
+				to = moment().endOf('day')
+				defaultT = 2
 				break;
 			case 3: // Last 7 days
 				from = moment().subtract(7, 'd').startOf('day')
-				to = moment()
+				to = moment().endOf('day')
 				defaultT = 2
 				break;
 			case 4: // last 30 days
 				from = moment().subtract(30, 'd').startOf('day')
-				to = moment()
-				defaultT = 2
+				to = moment().endOf('day')
+				defaultT = 3
 				break;
 			case 5: // last 90 days
 				from = moment().subtract(90, 'd').startOf('day')
-				to = moment()
-				defaultT = 3
+				to = moment().endOf('day')
+				defaultT = 4
 				break;
 			case 6:
 				from = moment(from)
@@ -84,7 +85,7 @@ const DateFilterMenu = (props) => {
 
 	const handleCloseDialog = (to, from, timeType) => {
 		// const { period } = props
-		this.setState({ openCustomDate: false, actionAnchor: null })
+		// this.setState({ openCustomDate: false, actionAnchor: null })
 		setOpenCustomDate(false)
 		setActionAnchor(null)
 		handleSetDate(6, to, from, timeType)
@@ -104,7 +105,7 @@ const DateFilterMenu = (props) => {
 		}
 	}
 
-	const handleCustomCheckBox = (e) => {
+	const handleCustomCheckBox = () => {
 		// this.setState({ timeType: parseInt(e.target.value, 10) })
 		// setTimeType(parseInt(e.target.value, 10))
 	}
@@ -192,15 +193,15 @@ const DateFilterMenu = (props) => {
 							</ItemG>
 							<Divider />
 						</Fragment>}
-						<MenuItem selected={isSelected(0)} /* classes={{ selected: classes.selected }} */ onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem>
-						<MenuItem selected={isSelected(1)} /* classes={{ selected: classes.selected }} */ onClick={handleDateFilter} value={1}>{t('filters.dateOptions.yesterday')}</MenuItem>
-						<MenuItem selected={isSelected(2)} /* classes={{ selected: classes.selected }} */ onClick={handleDateFilter} value={2}>{t('filters.dateOptions.thisWeek')}</MenuItem>
-						<MenuItem selected={isSelected(3)} /* classes={{ selected: classes.selected }} */ onClick={handleDateFilter} value={3}>{t('filters.dateOptions.7days')}</MenuItem>
-						<MenuItem selected={isSelected(4)} /* classes={{ selected: classes.selected }} */ onClick={handleDateFilter} value={4}>{t('filters.dateOptions.30days')}</MenuItem>
-						<MenuItem selected={isSelected(5)} /* classes={{ selected: classes.selected }} */ onClick={handleDateFilter} value={5}>{t('filters.dateOptions.90days')}</MenuItem>
+						{/* <MenuItem selected={isSelected(0)} onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem> */}
+						{/* <MenuItem selected={isSelected(1)} onClick={handleDateFilter} value={1}>{t('filters.dateOptions.yesterday')}</MenuItem> */}
+						<MenuItem selected={isSelected(2)} onClick={handleDateFilter} value={2}>{t('filters.dateOptions.thisWeek')}</MenuItem>
+						<MenuItem selected={isSelected(3)} onClick={handleDateFilter} value={3}>{t('filters.dateOptions.7days')}</MenuItem>
+						<MenuItem selected={isSelected(4)} onClick={handleDateFilter} value={4}>{t('filters.dateOptions.30days')}</MenuItem>
+						<MenuItem selected={isSelected(5)} onClick={handleDateFilter} value={5}>{t('filters.dateOptions.90days')}</MenuItem>
 
 						<Divider />
-						<MenuItem selected={isSelected(6)} /* classes={{ selected: classes.selected }} */ onClick={handleDateFilter} value={6}>{t('filters.dateOptions.custom')}</MenuItem>
+						<MenuItem selected={isSelected(6)} onClick={handleDateFilter} value={6}>{t('filters.dateOptions.custom')}</MenuItem>
 					</ItemG>
 					{renderCustomDateDialog()}
 				</Menu>

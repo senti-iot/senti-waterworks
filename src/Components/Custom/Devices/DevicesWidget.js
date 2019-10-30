@@ -17,8 +17,8 @@ const devicesWidgetStyles = makeStyles(theme => ({
 	devices: {
 		minWidth: '100px',
 		width: '100px',
-		borderBottom: '1px solid white',
 		textAlign: 'center',
+		marginTop: 4,
 		fontSize: '1.25rem',
 		fontWeight: 500
 	},
@@ -28,11 +28,7 @@ const devicesWidgetStyles = makeStyles(theme => ({
 	inactiveDevices: {
 		color: red[500]
 	},
-	widgetButton: {
-		position: 'absolute',
-		top: 2,
-		right: 2
-	}
+
 }))
 
 
@@ -40,11 +36,10 @@ const DevicesWidget = () => {
 	const classes = devicesWidgetStyles()
 	const t = useLocalization()
 	const devices = useSelector(s => s.data.devices)
-	const inactiveDevices = devices.filter(d => !d.active)
-	const activeDevices = devices.filter(d => d.active)
+	const inactiveDevices = devices.filter(d => !d.communication)
+	const activeDevices = devices.filter(d => d.communication)
 	return (
 		<div>
-			<IconButton className={classes.widgetButton}><KeyboardArrowRight /></IconButton>
 			<T variant={'h5'} className={classes.title}>{t('charts.devices')}</T>
 			<ItemG container>
 				<ItemG container direction={'column'} style={{ maxWidth: '45%' }}>

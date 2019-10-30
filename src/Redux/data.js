@@ -50,8 +50,9 @@ export const getData = async () => {
 		let from = getState().dateTime.period.from
 		let to = getState().dateTime.period.to
 		let timeType = getState().dateTime.period.timeType
-		let prevFrom = moment(from).subtract(1, timeType === 2 ? 'month' : 'year')
-		let prevTo = moment(to).subtract(1, timeType === 2 ? 'month' : 'year')
+		let subtr = timeType === 2 ? 1 : 3
+		let prevFrom = moment(from).subtract(subtr, 'month')
+		let prevTo = moment(to).subtract(subtr, 'month')
 		let rawData = await getDevicesData(from, to)
 		let prevRawData = await getDevicesData(prevFrom, prevTo)
 		let currentPeriodData = genBenchmark(rawData)

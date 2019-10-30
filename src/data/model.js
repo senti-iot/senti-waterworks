@@ -3,38 +3,40 @@ import moment from 'moment';
 
 const genWaterPerDevice = (data) => {
 	let devData = {}
-	data.reduce((prev, d) => {
-		devData[d.id] = devData[d.id] || {};
-		var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
-		devData[d.id][date] = devData[d.id][date] || {}
-		devData[d.id][date] = d.value
-		return devData
-	})
-	let deviceIds = Object.keys(devData)
-	deviceIds.forEach((d) => {
-		let dates = Object.keys(devData[d])
-		dates.forEach((de, di) => {
-
-			if (di < dates.length - 1 && devData[d][dates[di + 1]] && devData[d][de]) {
-				devData[d][de] = devData[d][dates[di + 1]] - devData[d][de]
-			}
-			else {
-				delete devData[d][de]
-			}
-		})
-	})
-
-	var dataByDay = {}
-	deviceIds.forEach((d, ) => {
-		let dates = Object.keys(devData[d])
-		dates.forEach((de) => {
-			dataByDay[de] = dataByDay[de] || 0
-			dataByDay[de] = dataByDay[de] + devData[d][de]
-		})
-	})
 	let final = []
-	Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
-	final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
+	if (data) {
+		data.reduce((prev, d) => {
+			devData[d.id] = devData[d.id] || {};
+			var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
+			devData[d.id][date] = devData[d.id][date] || {}
+			devData[d.id][date] = d.value
+			return devData
+		})
+		let deviceIds = Object.keys(devData)
+		deviceIds.forEach((d) => {
+			let dates = Object.keys(devData[d])
+			dates.forEach((de, di) => {
+
+				if (di < dates.length - 1 && devData[d][dates[di + 1]] && devData[d][de]) {
+					devData[d][de] = devData[d][dates[di + 1]] - devData[d][de]
+				}
+				else {
+					delete devData[d][de]
+				}
+			})
+		})
+
+		var dataByDay = {}
+		deviceIds.forEach((d, ) => {
+			let dates = Object.keys(devData[d])
+			dates.forEach((de) => {
+				dataByDay[de] = dataByDay[de] || 0
+				dataByDay[de] = dataByDay[de] + devData[d][de]
+			})
+		})
+		Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
+		final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
+	}
 	return final
 }
 
@@ -74,7 +76,7 @@ export const genBenchmark = (deviceData, prev, timeType) => {
 	}
 	if (prev) {
 		dData.forEach(d => {
-			d.created = moment(d.created).add(1, timeType === 2 ? 'month' : 'year')
+			d.created = moment(d.created).add(timeType === 2 ? 1 : 3, 'month')
 		})
 	}
 	let waterReading = dData.filter(d => d.data.value)

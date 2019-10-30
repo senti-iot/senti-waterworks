@@ -16,6 +16,7 @@ const LineGraph = (props) => {
 
 	const t = useLocalization()
 
+	const period = useSelector(s => s.dateTime.period)
 	const prevId = usePrevious(props.id)
 	const classes = lineStyles({ id: props.id })
 
@@ -27,6 +28,7 @@ const LineGraph = (props) => {
 				data: deviceData,
 				setTooltip: setValue,
 				setMedianTooltip: setMedianValue,
+				period: period,
 				t: t
 			}
 			line = new d3Line(lineChartContainer.current, cProps, classes);
@@ -50,7 +52,7 @@ const LineGraph = (props) => {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [classes, prevId, props.id, deviceData, t])
+	}, [classes, prevId, props.id, deviceData, t, period])
 
 	return (
 

@@ -12,7 +12,7 @@ const getMedianLineData = (data) => {
 	return medianValues
 }
 
-const toUppercase = str => str.charAt(0).toUpperCase() + str.slice(1);
+// const toUppercase = str => str.charAt(0).toUpperCase() + str.slice(1);
 const getMax = (arr) => {
 	return Math.max(...arr.map(d => d.value))
 }
@@ -29,7 +29,8 @@ class d3Line {
 		this.classes = classes;
 		this.containerEl = containerEl;
 		this.props = props;
-		var margin = this.margin = { top: 50, right: 75, bottom: 75, left: 75 };
+		this.period = props.period;
+		var margin = this.margin = { top: 50, right: 50, bottom: 75, left: 50 };
 		let data = props.data[props.id]
 
 		//Get the height and width from the container
@@ -46,8 +47,11 @@ class d3Line {
 			.attr("id", 'svg' + props.id)
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
+			.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+			// .attr("width", width)
+			// .attr("height", height)
 			.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+			.attr("transform", "translate(" + 63 + "," + 0 + ")")
 
 		// Set the this.svg ranges
 		this.x = d3.scaleTime().range([0, width]);
@@ -80,39 +84,8 @@ class d3Line {
 			.style("opacity", 0);
 
 		//#region Ticks
-		var xAxis_woy = d3.axisBottom(this.x)
-			// .ticks(Math.round(lineData.length / 5))
-			.tickFormat(d3.timeFormat("%d"))
-			.tickValues([...allData.map((d, i) => {
-				switch (true) {
-					case i === 0:
-					case i === allData.length - 1:
-						return moment(d.date).valueOf()
-					case allData.length > 7:
-						return i % 5 ? null : moment(d.date).valueOf()
-					case allData.length <= 7:
-						return moment(d.date).valueOf()
-					default:
-						return null;
-				}
-			})]);
 
-		// //Add the X axis
-		this.xAxis = this.svg.append("g")
-			.attr("transform", "translate(0," + height + ")")
-			.call(xAxis_woy);
-
-
-		// //Append style
-		this.xAxis.selectAll('path').attr('class', classes.axis)
-		this.xAxis.selectAll('line').attr('class', classes.axis)
-		this.xAxis.selectAll('text').attr('class', classes.axisTick)
-
-		this.xAxis.append('text')
-			.attr('transform', `translate(0,50)`)
-			.attr('class', classes.axisText)
-			.html(toUppercase(moment(allData[0].date).format('MMMM')))
-
+		this.generateXAxis()
 		// //  Add the Y Axis
 
 		let yAxis = this.svg.append("g").call(d3.axisLeft(this.y));
@@ -133,6 +106,65 @@ class d3Line {
 		this.generateLines()
 		this.generateDots()
 		this.generateMedian()
+	}
+	generateXAxis = () => {
+		let period = this.props.period
+		const classes = this.classes
+		const height = this.height
+		let from = moment(period.from).startOf('day')
+		let to = period.to.startOf('day')
+		let timeType = period.timeType
+		let counter = moment(from)
+		let ticks = []
+		let monthTicks = []
+		// ticks.push(counter.valueOf())
+		let add = timeType === 2 ? 1 : (timeType === 3 || timeType === 4) ? 10 : 1
+
+		monthTicks.push(counter.valueOf())
+
+		while (moment(counter).diff(to, 'day') < 0) {
+			ticks.push(counter.valueOf())
+			counter.add(add, 'day')
+			console.log(monthTicks.findIndex(f => moment(f).format('MMMM') === counter.format('MMMM')))
+			if (
+				monthTicks.findIndex(f => moment(f).format('MMMM') === counter.format('MMMM')) === -1
+			) {
+				monthTicks.push(counter.valueOf())
+			}
+		}
+		ticks.push(to.valueOf())
+		monthTicks.push(to.valueOf())
+		console.log(ticks)
+		console.log(monthTicks)
+
+		var xAxis_woy = d3.axisBottom(this.x)
+			.tickFormat(d3.timeFormat("%d"))
+			.tickValues(ticks);
+
+		// //Add the X axis
+		this.xAxis = this.svg.append("g")
+			.attr("transform", "translate(0," + (height - this.margin.top - this.margin.bottom) + ")")
+			.call(xAxis_woy);
+
+
+		// //Append style
+		this.xAxis.selectAll('path').attr('class', classes.axis)
+		this.xAxis.selectAll('line').attr('class', classes.axis)
+		this.xAxis.selectAll('text').attr('class', classes.axisTick)
+
+		var xAxis_months = d3.axisBottom(this.x)
+			.tickFormat(d => moment(d).format('MMM'))
+			.tickValues(monthTicks)
+		this.xAxisMonths = this.svg.append("g")
+			.attr("transform", "translate(-8," + (height - this.margin.top - this.margin.bottom + 16) + ")")
+			.call(xAxis_months);
+		this.xAxisMonths.selectAll('path').attr('class', classes.axis)
+		this.xAxisMonths.selectAll('line').attr('class', classes.axis)
+		this.xAxisMonths.selectAll('text').attr('class', classes.axisText)
+		// this.xAxis.append('text')
+		// 	.attr('transform', `translate(0,50)`)
+		// 	.attr('class', classes.axisText)
+		// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
 	}
 	generateDots = () => {
 		let data = this.props.data[this.props.id]

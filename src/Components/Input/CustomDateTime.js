@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
+import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import { Dialog, DialogTitle, DialogContent, FormControlLabel, DialogActions, Button, RadioGroup, Radio, FormControl } from '@material-ui/core';
 import { ItemG, Caption } from 'Components';
 import MomentUtils from '@date-io/moment';
@@ -7,24 +7,13 @@ import moment from 'moment'
 import { DateRange, AccessTime, KeyboardArrowRight, KeyboardArrowLeft } from 'variables/icons';
 import { useLocalization } from 'Hooks';
 
-// const styles = theme => ({
-// 	dialogWidth: {
-// 		maxWidth: 240,
-// 	},
-// 	checkbox: {
-// 		padding: 8
-// 	}
-// })
-/**
- * TODO: React Hooks for to and from,
- * on end call handleSetDate and remove handleCustomSetDate
- */
+
 const CustomDateTime = (props) => {
 	const { openCustomDate, handleCloseDialog,
 		timeType, handleCancelCustomDate, from, to
 	} = props
-	const [endDate, setEndDate] = useState(to ? moment(to) : moment())
-	const [startDate, setStartDate] = useState(from ? moment(from) : moment().subtract(7, 'days'))
+	const [endDate, setEndDate] = useState(to ? moment(to) : moment().endOf('day'))
+	const [startDate, setStartDate] = useState(from ? moment(from) : moment().subtract(7, 'days').startOf('day'))
 	const [time, setTime] = useState(timeType !== undefined ? timeType : 2)
 	const t = useLocalization()
 
@@ -35,10 +24,10 @@ const CustomDateTime = (props) => {
 			aria-labelledby='alert-dialog-title'
 			aria-describedby='alert-dialog-description'>
 			<DialogTitle disableTypography id='alert-dialog-title'>{t('filters.dateOptions.custom')}</DialogTitle>
-			<DialogContent>
+			<DialogContent style={{ maxWidth: 240 }}>
 				<ItemG container spacing={2}>
 					<ItemG xs={12}>
-						<DateTimePicker
+						<DatePicker
 							autoOk
 							ampm={false}
 							label={t('filters.startDate')}
@@ -57,7 +46,7 @@ const CustomDateTime = (props) => {
 						/>
 					</ItemG>
 					<ItemG xs={12}>
-						<DateTimePicker
+						<DatePicker
 							autoOk
 							disableFuture
 							ampm={false}
@@ -88,12 +77,14 @@ const CustomDateTime = (props) => {
 								value={time.toString()}
 							>
 								<FormControlLabel
+									disabled
 									value={'0'}
 									control={<Radio />}
 									label={t('filters.dateOptions.minutely')}
 								/>
 
 								<FormControlLabel
+									disabled
 									value={'1'}
 									control={<Radio />}
 									label={t('filters.dateOptions.hourly')}
