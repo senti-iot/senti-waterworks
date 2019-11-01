@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/styles'
 import { T, ItemG } from 'Components'
 import { useLocalization, useSelector } from 'Hooks'
 import { green, red } from '@material-ui/core/colors'
-import { KeyboardArrowRight } from 'variables/icons'
-import { IconButton } from '@material-ui/core'
+// import { KeyboardArrowRight } from 'variables/icons'
+// import { IconButton } from '@material-ui/core'
 
 const devicesWidgetStyles = makeStyles(theme => ({
 	title: {
