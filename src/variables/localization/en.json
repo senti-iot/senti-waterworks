@@ -524,6 +524,8 @@
 		"dateOptions": {
 			"30days": "Last 30 days",
 			"7days": "Last 7 days",
+			"month": "Month",
+			"year": "Year",
 			"90days": "Last 90 days",
 			"custom": "Custom range",
 			"daily": "Daily",

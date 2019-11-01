@@ -525,6 +525,8 @@
 			"30days": "Seneste 30 dage",
 			"7days": "Seneste 7 dage",
 			"90days": "Seneste 90 dage",
+			"month": "Måned",
+			"year": "År",
 			"custom": "Tilpasset interval",
 			"daily": "Hver dag",
 			"hourly": "Hver time",

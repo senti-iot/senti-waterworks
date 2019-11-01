@@ -5,6 +5,8 @@ import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
 import { useLocalization, useSelector, useDispatch, usePrevious } from 'Hooks'
 import { getData } from 'Redux/data'
+import DateTimeArrows from 'Components/Input/DateTimeArrows'
+import DateTimeDays from 'Components/Input/DateTimeDays'
 // import { Switch, Route, useHistory, useParams } from 'react-router-dom'
 // import { useHistory } from 'react-router'
 
@@ -57,10 +59,10 @@ const MainChart = (props) => {
 			</ItemG>
 			<ItemG xs={12}>
 				<div style={{ margin: 30 }}>
-					<ItemG container justify={'space-between'}>
-
+					<ItemG container alignItems={'center'} justify={'space-between'}>
 						<T variant={'h6'} style={{ fontWeight: 600, fontSize: '1.75rem', letterSpacing: 1.5 }}>{t(`charts.types.${chart}`)}</T>
-						{/* TODO */}
+						<DateTimeArrows />
+						<DateTimeDays />
 						<DateTimeFilter />
 					</ItemG>
 				</div>
