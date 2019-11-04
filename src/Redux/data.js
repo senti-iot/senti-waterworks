@@ -63,7 +63,8 @@ export const getData = async () => {
 				{
 					name: 'waterusageL',
 					median: true,
-					data: currentPeriodData.waterUsage
+					data: currentPeriodData.waterUsage,
+					color: 'red'
 				},
 				{
 					name: 'waterusageP',
@@ -78,7 +79,8 @@ export const getData = async () => {
 					hidden: true,
 					noArea: true,
 					dashed: true,
-					data: currentPeriodData.waterUsage
+					data: currentPeriodData.waterUsage,
+					color: 'yellow'
 				}
 			],
 			temperature: [
@@ -86,22 +88,24 @@ export const getData = async () => {
 					name: 'tempAmbient',
 					median: true,
 					smallArea: true,
-					data: currentPeriodData.temperature.ambient
+					data: currentPeriodData.temperature.ambient,
+					color: 'red'
 				},
 				{
 					name: 'tempWater',
 					median: true,
-					data: currentPeriodData.temperature.water
+					data: currentPeriodData.temperature.water,
+					color: 'blue'
 				},
 				{
-					name: 'tempAmbient',
+					name: 'tempAmbientPrev',
 					prev: true,
 					hidden: true,
 					noArea: true,
 					data: previousPeriodData.temperature.ambient
 				},
 				{
-					name: 'tempWater',
+					name: 'tempWaterPrev',
 					prev: true,
 					hidden: true,
 					noArea: true,
@@ -112,22 +116,24 @@ export const getData = async () => {
 				{
 					name: 'maxFlow',
 					median: true,
-					data: currentPeriodData.waterFlow.maxFlow
+					data: currentPeriodData.waterFlow.maxFlow,
+					color: 'lightBlue'
 				},
 				{
 					name: 'minFlow',
 					median: true,
-					data: currentPeriodData.waterFlow.minFlow
+					data: currentPeriodData.waterFlow.minFlow,
+					color: 'purple'
 				},
 				{
-					name: 'maxFlow',
+					name: 'maxFlowPrev',
 					prev: true,
 					hidden: true,
 					noArea: true,
 					data: previousPeriodData.waterFlow.maxFlow
 				},
 				{
-					name: 'minFlow',
+					name: 'minFlowPrev',
 					prev: true,
 					hidden: true,
 					noArea: true,

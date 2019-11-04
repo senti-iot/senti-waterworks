@@ -4,6 +4,7 @@ import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import Tooltip from './Tooltip'
 import lineStyles from 'Components/Custom/Styles/lineGraphStyles'
 import MedianTooltip from './MedianTooltip'
+import Legend from './Legend'
 
 let line = null
 
@@ -56,10 +57,16 @@ const LineGraph = (props) => {
 
 	return (
 
-		<div style={{ width: '100%', height: '100%' }}>
+		<div style={{ width: '100%', height: '100%', minHeight: 300 }}>
 			<Tooltip tooltip={value} id={props.id} />
 			<MedianTooltip tooltip={medianValue} id={props.id} />
-			<div id={props.id} ref={lineChartContainer} style={{ width: '100%', height: '100%', minHeight: 600, maxHeight: 600 }} />
+			<div id={props.id} ref={lineChartContainer}
+				style={{
+					width: '100%',
+					height: '100%',
+					minHeight: 500
+				}} />
+			<Legend id={props.id} data={deviceData} />
 		</div>
 	)
 }

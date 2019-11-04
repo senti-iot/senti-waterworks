@@ -38,8 +38,8 @@ const MainChart = (props) => {
 		}
 	})
 	return (
-		<ItemG container justify={'space-between'} alignItems={'flex-end'} style={{ height: '100%' }}>
-			<ItemG xs={12} style={{ margin: '0px 30px' }}>
+		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
+			<ItemG style={{ margin: '32px 32px 0px 32px' }}>
 				<Hidden mdDown>
 					<ItemG container justify={'space-evenly'}>
 						<ItemG xs={3}>
@@ -57,8 +57,8 @@ const MainChart = (props) => {
 					</ItemG>
 				</Hidden>
 			</ItemG>
-			<ItemG xs={12}>
-				<div style={{ margin: 30 }}>
+			<ItemG>
+				<div style={{ margin: '16px 32px' }}>
 					<ItemG container alignItems={'center'} justify={'space-between'}>
 						<T variant={'h6'} style={{ fontWeight: 600, fontSize: '1.75rem', letterSpacing: 1.5 }}>{t(`charts.types.${chart}`)}</T>
 						<DateTimeArrows />
@@ -68,10 +68,10 @@ const MainChart = (props) => {
 				</div>
 			</ItemG>
 			{loading ? <CircularLoader style={{ height: '60%' }} />
-				: <ItemG container xs={12}>
-					<div style={{ width: '100%', height: '100%' }}>
-						<LineGraph id={chart} />
-					</div>
+				: <ItemG container>
+					{/* <div style={{ width: '100%', height: '100%' }}> */}
+					<LineGraph id={chart} />
+					{/* </div> */}
 				</ItemG>
 			}
 		</ItemG>
