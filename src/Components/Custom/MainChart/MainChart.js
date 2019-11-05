@@ -67,11 +67,9 @@ const MainChart = (props) => {
 					</ItemG>
 				</div>
 			</ItemG>
-			{loading ? <CircularLoader style={{ height: '60%' }} />
-				: <ItemG container>
-					{/* <div style={{ width: '100%', height: '100%' }}> */}
+			{loading ? <CircularLoader style={{ height: '100%' }} />
+				: <ItemG container style={{ flex: 1 }}>
 					<LineGraph id={chart} />
-					{/* </div> */}
 				</ItemG>
 			}
 		</ItemG>

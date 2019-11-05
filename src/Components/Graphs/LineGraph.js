@@ -57,15 +57,17 @@ const LineGraph = (props) => {
 
 	return (
 
-		<div style={{ width: '100%', height: '100%', minHeight: 300 }}>
+		<div style={{ width: '100%', height: '100%'/* , minHeight: 300 */ }}>
 			<Tooltip tooltip={value} id={props.id} />
 			<MedianTooltip tooltip={medianValue} id={props.id} />
 			<div id={props.id} ref={lineChartContainer}
 				style={{
 					width: '100%',
-					height: '100%',
-					minHeight: 500
-				}} />
+					height: '90%',
+					// minHeight: 500
+				}}>
+
+			</div>
 			<Legend id={props.id} data={deviceData} />
 		</div>
 	)
