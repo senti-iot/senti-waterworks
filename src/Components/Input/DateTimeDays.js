@@ -11,7 +11,7 @@ const DayOption = styled(Button)`
 const DateTimeDays = () => {
 	const t = useLocalization()
 	return (
-		<ItemG container style={{ flex: 1 }} alignItems={'center'}>
+		<ItemG container style={{ width: 'auto' }} alignItems={'center'}>
 			<DayOption>{t('filters.dateOptions.7days')}</DayOption>
 			<DayOption>{t('filters.dateOptions.month')}</DayOption>
 			<DayOption>{t('filters.dateOptions.year')}</DayOption>

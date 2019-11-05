@@ -5,6 +5,19 @@ const genWaterPerDevice = (data) => {
 	let devData = {}
 	let final = []
 	if (data) {
+		/**
+		 * Reduce the data by Device
+		 * {
+		 * deviceId : {
+		 * 	date:value,
+		 * 	date: value
+		 * 	...
+		 * }
+		 * deviceId: {
+		 * ...}
+		 * ...
+		 * }
+		 */
 		data.reduce((prev, d) => {
 			devData[d.id] = devData[d.id] || {};
 			var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
@@ -12,22 +25,28 @@ const genWaterPerDevice = (data) => {
 			devData[d.id][date] = d.value
 			return devData
 		})
+		//Get the device Ids
 		let deviceIds = Object.keys(devData)
+		/**
+		 * Calculate the water usage
+		 */
 		deviceIds.forEach((d) => {
-			let dates = Object.keys(devData[d])
+			//For Each device id, transform the data
+			let dates = Object.keys(devData[d]).reverse()
 			dates.forEach((de, di) => {
 
 				if (di < dates.length - 1 && devData[d][dates[di + 1]] && devData[d][de]) {
-					devData[d][de] = devData[d][dates[di + 1]] - devData[d][de]
+					devData[d][de] = devData[d][de] - devData[d][dates[di + 1]]
 				}
 				else {
 					delete devData[d][de]
 				}
 			})
 		})
-
 		var dataByDay = {}
-		deviceIds.forEach((d, ) => {
+
+		//Sum up all the values by date
+		deviceIds.forEach((d) => {
 			let dates = Object.keys(devData[d])
 			dates.forEach((de) => {
 				dataByDay[de] = dataByDay[de] || 0

@@ -56,7 +56,7 @@ class d3Line {
 			.attr("transform", "translate(" + 63 + "," + 63 + ")")
 
 		// Set the this.svg ranges
-		this.x = d3.scaleTime().range([0, width]);
+		this.x = d3.scaleTime().range([0, width - margin.left]);
 		// var x = d3.scaleTime().range([0, width]);
 		this.y = d3.scaleLinear().range([height, 0]);
 		// var y = d3.scaleLinear().range([height, 0]);
