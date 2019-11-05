@@ -3,6 +3,7 @@ importScripts('/workbox-sw.js');
 // workbox.setConfig({ debug: true });
 // workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 workbox.core.skipWaiting();
+// self.skiWaiting();
 workbox.core.clientsClaim();
 // workbox.precaching.suppressWarnings();
 
