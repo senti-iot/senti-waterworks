@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog } from '@material-ui/core'
 import { SlideT, T } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { Backdrop, DPaper, TitleContainer, DBox } from 'Components/Custom/Styles/deviceTableStyles'
+import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
-import { selectDevice, selectAllDevices } from 'Redux/appState'
+import { setSelectedDevices } from 'Redux/appState'
 import { sortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
@@ -43,16 +43,20 @@ const DeviceTable = (props) => {
 	const filters = useSelector(s => s.appState.filters.devices)
 	const dispatch = useDispatch()
 	const redux = {
-		selectDevice: (b, device) => dispatch(selectDevice(b, device)),
-		selectAllDevices: (b) => dispatch(selectAllDevices(b)),
+		setSelDevices: devices => dispatch(setSelectedDevices(devices)),
 		sortData: (key, property, order) => dispatch(sortData(key, property, order))
 	}
+	const [selDev, setSelDev] = useState([])
 	const t = useLocalization()
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
 
 	const { openTable, setOpenTable } = props
 
+	useEffect(() => {
+		setSelDev(selectedDevices)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 	const handleRequestSort = (key, property) => {
 		let o = property !== orderBy ? 'asc' : order === 'desc' ? 'asc' : 'desc'
 
@@ -60,7 +64,24 @@ const DeviceTable = (props) => {
 		setOrderBy(property)
 		redux.sortData(key, property, o)
 	}
-
+	const selectDevice = (s, device) => {
+		let newSDevices = []
+		newSDevices = [...selDev]
+		if (s) {
+			newSDevices = newSDevices.filter(d => d !== device)
+		}
+		else {
+			newSDevices.push(device)
+		}
+		setSelDev(newSDevices)
+	}
+	const selectAllDevices = (s) => {
+		let newSDevices = []
+		if (!s)
+			setSelDev(newSDevices)
+		else
+			setSelDev(devices.map(d => d.id))
+	}
 	//#region  Filters
 	const deviceFilters = [
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
@@ -75,21 +96,21 @@ const DeviceTable = (props) => {
 
 	//#endregion
 
-	const closeDialog = () => setOpenTable(false)
+	const closeDialog = () => {
+		redux.setSelDevices(selDev)
+		setOpenTable(false)
+	}
+
 	return (
 		<Dialog
 			fullScreen
 			style={{ top: 70 }}
 			onClose={closeDialog}
 			open={openTable}
+			// open={true}
 			color={'primary'}
 			TransitionComponent={SlideT}
 			BackdropComponent={Backdrop}
-			// BackdropProps={{
-			// classes: {
-			// root: classes.dialogRoot
-			// }
-			// }}
 			PaperComponent={DPaper}
 
 		// classes={{
@@ -99,6 +120,7 @@ const DeviceTable = (props) => {
 			<DBox>
 				<TitleContainer>
 					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
+					<GetDevicesButton variant={'contained'} color={'secondary'} onClick={closeDialog}>{t('actions.get')}</GetDevicesButton>
 				</TitleContainer>
 				{/* <div> */}
 				<FilterToolbar reduxKey={'devices'} filters={deviceFilters} />
@@ -112,10 +134,10 @@ const DeviceTable = (props) => {
 					bodyStructure={bodyStructure}
 					mobile
 					bodyMobileStructure={() => { }}
-					selected={selectedDevices}
+					selected={selDev}
 					columns={columns}
-					handleCheckboxClick={redux.selectDevice}
-					handleSelectAllClick={redux.selectAllDevices}
+					handleCheckboxClick={selectDevice}
+					handleSelectAllClick={selectAllDevices}
 					handleClick={() => { }}
 					handleSort={handleRequestSort}
 				/>

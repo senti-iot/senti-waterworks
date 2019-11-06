@@ -19,10 +19,15 @@ const LineGraph = (props) => {
 
 	const period = useSelector(s => s.dateTime.period)
 	const prevId = usePrevious(props.id)
+	const prevData = usePrevious(deviceData)
 	const classes = lineStyles({ id: props.id })
 
 
 	useEffect(() => {
+		console.log("Updated something")
+		console.log("Props.id", (props.id !== prevId))
+		console.log("LineChart", (lineChartContainer.current && !line))
+		console.log("prevData", (prevData !== deviceData), prevData, deviceData)
 		const genNewLine = () => {
 			let cProps = {
 				id: props.id,
@@ -39,6 +44,11 @@ const LineGraph = (props) => {
 			genNewLine()
 		}
 		if ((lineChartContainer.current && !line)) {
+			// line.destroy()
+			genNewLine()
+		}
+		if (prevData !== deviceData) {
+			line.destroy()
 			genNewLine()
 		}
 		let resizeTimer;
@@ -52,8 +62,10 @@ const LineGraph = (props) => {
 		window.addEventListener('resize', handleResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);
+			line.destroy()
+			line = null
 		};
-	}, [classes, prevId, props.id, deviceData, t, period])
+	}, [classes, prevId, props.id, deviceData, t, period, prevData])
 
 	return (
 

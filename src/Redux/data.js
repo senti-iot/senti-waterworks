@@ -7,7 +7,7 @@ import moment from 'moment'
 const sData = 'sortData'
 const GETDevice = 'devices'
 const deviceData = 'deviceData'
-
+const rawDataStore = 'storeOldData'
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
 		let data = getState().data[key]
@@ -50,15 +50,29 @@ export const getData = async () => {
 		let from = getState().dateTime.period.from
 		let to = getState().dateTime.period.to
 		let timeType = getState().dateTime.period.timeType
+		let prevData = getState().data.prevData
+		let filterDevices = getState().appState.selectedDevices
 		let subtr = timeType === 2 ? 1 : 3
 		let prevFrom = moment(from).subtract(subtr, 'month')
 		let prevTo = moment(to).subtract(subtr, 'month')
-		let rawData = await getDevicesData(from, to)
-		let prevRawData = await getDevicesData(prevFrom, prevTo)
-		let currentPeriodData = genBenchmark(rawData)
-		let previousPeriodData = genBenchmark(prevRawData, true, timeType)
-		// let previousPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
-		let finalData = {
+		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData
+		if (prevData.from !== from && to !== prevData.to && prevData.rawData && prevData.filterDevices.length === filterDevices.length) {
+
+			rawData = prevData.rawData
+			prevRawData = prevData.prevRawData
+			currentPeriodData = genBenchmark(rawData, filterDevices)
+			benchMarkData = genBenchmark(rawData)
+			previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
+			// let previousPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
+		}
+		else {
+			rawData = await getDevicesData(from, to)
+			prevRawData = await getDevicesData(prevFrom, prevTo)
+			currentPeriodData = genBenchmark(rawData, filterDevices)
+			benchMarkData = genBenchmark(rawData)
+			previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
+		}
+		finalData = {
 			waterusage: [
 				{
 					name: 'waterusageL',
@@ -79,7 +93,7 @@ export const getData = async () => {
 					hidden: true,
 					noArea: true,
 					dashed: true,
-					data: currentPeriodData.waterUsage,
+					data: benchMarkData.waterUsage,
 					color: 'yellow'
 				}
 			],
@@ -145,7 +159,12 @@ export const getData = async () => {
 		dispatch({
 			type: deviceData,
 			payload: finalData
-
+		})
+		dispatch({
+			type: rawDataStore,
+			payload: {
+				prevRawData, rawData, from, to, filterDevices
+			}
 		})
 		// let benchmark = genBenchmarkAll(data)
 		// let data = []
@@ -165,7 +184,14 @@ export const getData = async () => {
 }
 const initialState = {
 	devices: [],
-	data: {}
+	data: {},
+	prevData: {
+		prevRawData: [],
+		rawData: [],
+		filterDevices: [],
+		from: null,
+		to: null
+	}
 }
 
 export const data = (state = initialState, { type, payload }) => {

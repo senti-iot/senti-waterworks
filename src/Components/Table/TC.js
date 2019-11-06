@@ -29,7 +29,7 @@ const TC = (props) => {
 TC.propTypes = {
 	checkbox: PropTypes.bool,
 	noCheckbox: PropTypes.bool,
-	label: PropTypes.string,
+	label: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	content: PropTypes.any,
 	className: PropTypes.string,
 	center: PropTypes.bool,

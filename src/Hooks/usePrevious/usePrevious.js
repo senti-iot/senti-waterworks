@@ -6,7 +6,7 @@ import { useRef, useEffect } from 'react';
  * @param value - Object to store previous and current values
  */
 function usePrevious(value) {
-	const ref = useRef();
+	const ref = useRef(value);
 	useEffect(() => {
 		ref.current = value;
 	});

@@ -5,8 +5,7 @@ import { colors } from '@material-ui/core';
 
 const getMedianLineData = (data) => {
 	let sum = data.map(d => d.value).reduce((total, val) => parseFloat(total) + parseFloat(val))
-	// sum.reduce()
-	let avrg = Math.round(sum / data.length)
+	let avrg = parseFloat((sum / data.length).toFixed(3))
 	let medianValues = []
 
 	medianValues = [{ date: data[0].date, value: avrg }, { date: data[data.length - 1].date, value: avrg }]
@@ -63,13 +62,14 @@ class d3Line {
 
 		//Set the graph ranges
 		// if (!secondaryLine) {
+		console.log(data)
 		let allData = [].concat(...data.map(d => d.data))
 
 		this.x.domain(d3.extent(allData, function (d) {
 			return moment(d.date).valueOf();
 		}));
 
-		this.y.domain([0, getMax(allData) + 10]);
+		this.y.domain([0, getMax(allData) + 1]);
 
 		//Define the area for the values
 		this.valueArea = d3.area()
@@ -221,17 +221,11 @@ class d3Line {
 	}
 	generateLegend = () => {
 		let data = this.props.data[this.props.id]
-		// const classes = this.classes;
-		// d3.select(`#${data[0].name}Legend`)
-		// 	.on("click", () => {
-		// 		alert('Test')
-		// 	})
-		// 	.attr('test', 'test')
-		// console.log(d3.select(`${data[0].name}Legend`), `${data[0].name}Legend`)
-		data.forEach((line, i) => {
+		data.forEach((line) => {
 
 			if (line.median & !line.noMedianLegend) {
-				let LegendMCheck = d3.select(`#${line.name}LegendMedian`)
+				let LegendMCheck = d3.select(`#${line.name}LegendMedianCheckbox`)
+				let LegendM = d3.select(`#${line.name}LegendMedian`)
 				let LegendMLabel = d3.select(`#${line.name}LegendMedianLabel`)
 				LegendMCheck.on('click', () => {
 
@@ -250,8 +244,10 @@ class d3Line {
 					d3.select(`#${line.name}MedianH`)
 						.transition().duration(200)
 						.style("display", display)
+
 					LegendMCheck
 						.attr('value', active)
+					LegendM
 						.style("color", active ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500])
 					LegendMLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
 					this.state[line.name + 'Median'] = active;
@@ -262,7 +258,6 @@ class d3Line {
 			let LegendCheck = d3.select(`#${line.name}LegendCheckbox`)
 			let LegendLabel = d3.select(`#${line.name}LegendLabel`)
 			LegendCheck.on('click', () => {
-				console.log('click')
 				let active = this.state[line.name] ? false : true,
 					newOpacity = active ? 0 : 1, display = active ? 'none' : undefined;
 

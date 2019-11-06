@@ -134,6 +134,14 @@ export const selectAllDevices = (b) => {
 		}
 	}
 }
+export const setSelectedDevices = (devices) => {
+	return (dispatch, getState) => {
+		dispatch({
+			type: sDevice,
+			payload: devices
+		})
+	}
+}
 export const selectDevice = (b, device) => {
 	return (dispatch, getState) => {
 		let newSDevices = []

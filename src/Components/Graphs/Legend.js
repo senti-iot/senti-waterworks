@@ -40,7 +40,7 @@ const Legend = props => {
 								color: 'rgba(255, 255, 255, 0.3)'
 							}}
 							control={
-								<CheckedBox color={'default'} id={line.name + 'LegendMedian'} />
+								<CheckedBox color={'default'} id={line.name + 'LegendMedianCheckbox'} />
 							}
 							label={<T
 								style={{

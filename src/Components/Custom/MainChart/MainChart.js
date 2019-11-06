@@ -21,12 +21,17 @@ const MainChart = (props) => {
 	const dispatch = useDispatch()
 	const period = useSelector(s => s.dateTime.period)
 	const prevPeriod = usePrevious(period)
+	const prevSelectedDevices = usePrevious(selectedDevices)
+	// console.log(selectedDevices, prevSelectedDevices)
 	// const history = useHistory()
 	useEffect(() => {
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
 		}
-	}, [loading, period, prevPeriod])
+		if (selectedDevices.length !== prevSelectedDevices.length && !loading) {
+			setLoading(true)
+		}
+	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
 	useEffect(() => {
 		if (loading) {
 			const getDeviceData = async () => dispatch(await getData(period.from, period.to))

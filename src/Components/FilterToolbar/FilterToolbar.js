@@ -194,7 +194,6 @@ const FilterToolbar = (props) => {
 					dataSourceConfig={{ id: 'id', text: 'displayValue', value: 'displayValue' }}
 					placeholder={t('actions.search')}
 					fullWidth
-					t={t}
 				/>
 				<Popper
 					open={actionAnchor ? true : false}

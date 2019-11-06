@@ -141,9 +141,17 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 	const [focusedChip, setFocusedChip] = useState(null)
 	const [inputValue, setInputValue] = useState('')
 
-	const { disabled, chips } = props
-	const prevChips = usePrevious(chips)
 
+	const {
+		disabled, chips, children, chipRenderer = defaultChipRenderer, className, dataSource,
+		disableUnderline, error, filter, FormHelperTextProps, fullWidth, fullWidthInput, helperText, id,
+		InputProps, InputLabelProps = {}, label, onBeforeAdd, onKeyPress, placeholder, required,
+		rootRef, handleClick, chipRef, dataSourceConfig, onAdd, onChange, handleDoubleClick,
+		onDelete, inputRef, onBeforeDelete, onKeyDown, onBlur, onFocus, onUpdateInput, onKeyUp,
+		...other
+	} = props
+
+	const prevChips = usePrevious(chips)
 
 	useEffect(() => {
 		if (disabled) {
@@ -175,7 +183,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 		// this.setState({ focusedChip: null })
 		// }
 	}
-	const { onBlur } = props
 	let inputBlurTimeout = null
 
 	useEffect(() => {
@@ -210,7 +217,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 			clearInput()
 		}
 	}
-	const { onFocus } = props
 	const handleInputFocus = (event) => {
 		setIsFocused(true)
 		if (onFocus) {
@@ -219,7 +225,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 	}
 	const [keyPressed, setKeyPressed] = useState(false)
 	const [preventChipCreation, setPreventChipCreation] = useState(false)
-	const { onKeyDown, onBeforeDelete } = props
 
 	const handleKeyDown = (event) => {
 		const nChips = chips
@@ -282,7 +287,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 			setFocusedChip(null)
 		}
 	}
-	const { onKeyUp } = props
 
 	const handleKeyUp = (event) => {
 		if (!preventChipCreation && newChipKeyCodes.indexOf(event.keyCode) > 0 && keyPressed) {
@@ -302,7 +306,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 		if (onKeyPress) { onKeyPress(event, { key: '', value: inputValue }) }
 	}
 
-	const { onUpdateInput } = props
 
 	const handleUpdateInput = (e) => {
 		setInputValue(e.target.value)
@@ -313,7 +316,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 		}
 	}
 
-	const { dataSourceConfig, onAdd, onChange } = props
 	/**
 	 * Handles adding a chip.
 	 * @param {string|object} chip Value of the chip, either a string or an object (if dataSourceConfig is set)
@@ -365,7 +367,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 		}
 		return true
 	}
-	const { onDelete } = props
 	const handleDeleteChip = (chip, i) => {
 		if (chips && chip) {
 			if (onDelete) {
@@ -415,7 +416,6 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 	 */
 	//TODO
 	let actualInput = useRef()
-	const { inputRef } = props
 
 	const setActualInputRef = (ref) => {
 		actualInput.current = ref
@@ -423,38 +423,11 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 			inputRef(ref)
 		}
 	}
-	const { handleDoubleClick } = props
 	const onDoubleClick = (chip) => {
 		if (handleDoubleClick)
 			handleDoubleClick(chip)
 	}
-	const {
 
-		children,
-		chipRenderer = defaultChipRenderer,
-		className,
-		dataSource,
-		disableUnderline,
-		error,
-		filter,
-		FormHelperTextProps,
-		fullWidth,
-		fullWidthInput,
-		helperText,
-		id,
-		InputProps,
-		// inputRef,
-		InputLabelProps = {},
-		label,
-		onBeforeAdd,
-		onKeyPress,
-		placeholder,
-		required,
-		rootRef,
-		handleClick,
-		chipRef,
-		...other
-	} = props
 
 	const hasInput = chips.length > 0 || inputValue.length > 0
 	const shrinkFloatingLabel = InputLabelProps.shrink != null
