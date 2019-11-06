@@ -19,9 +19,10 @@ const TH = (props) => {
 	}
 
 	const TC = styled(TableCell)`
+	padding: 4px 8px;
 	/* background: ${({ theme }) => theme.palette.primary.light}; */
-	border-bottom: 1px solid;
-	border-color: ${({ theme }) => theme.boxBackground};
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	/* border-color: ${({ theme }) => theme.boxBackground}; */
 	color: #fff;
 	`
 	return (

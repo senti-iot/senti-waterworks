@@ -51,7 +51,6 @@ const genWaterPerDevice = (data) => {
 				countByDate[de] += 1
 			})
 		})
-		console.log(countByDate)
 		var dataByDay = {}
 		//Sum up all data
 		deviceIds.forEach((d) => {
@@ -61,7 +60,6 @@ const genWaterPerDevice = (data) => {
 				dataByDay[de] = dataByDay[de] + devData[d][de]
 			})
 		})
-		console.log(dataByDay)
 		//Get the average
 		let dates = Object.keys(dataByDay)
 		dates.forEach((de) => {
@@ -70,7 +68,6 @@ const genWaterPerDevice = (data) => {
 			dataByDay[de] = dataByDay[de] / countByDate[de]
 			// console.log(dataByDay[de])
 		})
-		console.log(dataByDay)
 		Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
 		final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 	}
@@ -104,6 +101,7 @@ const genReading = (deviceData) => {
 }
 
 export const genBenchmark = (deviceData, filter, prev, timeType) => {
+	// console.trace()
 	let dData = deviceData
 	let data = {
 		waterUsage: [],

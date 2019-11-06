@@ -9,6 +9,7 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"get": "Retrieve",
 		"accept": "Accept",
 		"add": "Add",
 		"addFilter": "Add filter",

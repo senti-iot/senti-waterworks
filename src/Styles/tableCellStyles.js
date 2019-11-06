@@ -7,6 +7,7 @@ const tcStyles = makeStyles(theme => ({
 	tableCell: {
 		// paddingRight: "8px",
 		// padding: 0,
+		borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
 		[theme.breakpoints.down('sm')]: {
 			paddingRight: 4,
 			padding: 0,

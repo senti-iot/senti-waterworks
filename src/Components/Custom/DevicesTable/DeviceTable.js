@@ -100,12 +100,14 @@ const DeviceTable = (props) => {
 		redux.setSelDevices(selDev)
 		setOpenTable(false)
 	}
-
+	const exitDialog = () => {
+		setOpenTable(false)
+	}
 	return (
 		<Dialog
 			fullScreen
 			style={{ top: 70 }}
-			onClose={closeDialog}
+			onClose={exitDialog}
 			open={openTable}
 			// open={true}
 			color={'primary'}

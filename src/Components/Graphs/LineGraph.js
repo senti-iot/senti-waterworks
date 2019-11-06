@@ -24,10 +24,6 @@ const LineGraph = (props) => {
 
 
 	useEffect(() => {
-		console.log("Updated something")
-		console.log("Props.id", (props.id !== prevId))
-		console.log("LineChart", (lineChartContainer.current && !line))
-		console.log("prevData", (prevData !== deviceData), prevData, deviceData)
 		const genNewLine = () => {
 			let cProps = {
 				id: props.id,

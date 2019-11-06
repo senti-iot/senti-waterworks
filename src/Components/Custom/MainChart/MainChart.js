@@ -10,7 +10,7 @@ import DateTimeDays from 'Components/Input/DateTimeDays'
 // import { Switch, Route, useHistory, useParams } from 'react-router-dom'
 // import { useHistory } from 'react-router'
 
-const MainChart = (props) => {
+export const MainChart = (props) => {
 	const { chart, setChart } = props
 	const t = useLocalization()
 	const isActive = (c) => chart === c ? true : false
@@ -22,8 +22,7 @@ const MainChart = (props) => {
 	const period = useSelector(s => s.dateTime.period)
 	const prevPeriod = usePrevious(period)
 	const prevSelectedDevices = usePrevious(selectedDevices)
-	// console.log(selectedDevices, prevSelectedDevices)
-	// const history = useHistory()
+
 	useEffect(() => {
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
@@ -33,15 +32,17 @@ const MainChart = (props) => {
 		}
 	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
 	useEffect(() => {
+		console.log('Outside', loading)
 		if (loading) {
-			const getDeviceData = async () => dispatch(await getData(period.from, period.to))
+			console.log(loading)
+			const getDeviceData = async () => dispatch(await getData())
 			const loadData = async () => {
 				await getDeviceData()
 				setLoading(false)
 			}
 			loadData()
 		}
-	})
+	}, [dispatch, loading])
 	return (
 		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
 			<ItemG style={{ margin: '32px 32px 0px 32px' }}>
@@ -80,5 +81,5 @@ const MainChart = (props) => {
 		</ItemG>
 	)
 }
-
-export default MainChart
+MainChart.whyDidYouRender = true;
+// export default MainChart

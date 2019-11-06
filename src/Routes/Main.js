@@ -37,5 +37,6 @@ function Main() {
 
 	)
 }
+Main.whyDidYouRender = true;
 
 export default Main

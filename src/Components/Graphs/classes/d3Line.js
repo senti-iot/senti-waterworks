@@ -62,7 +62,6 @@ class d3Line {
 
 		//Set the graph ranges
 		// if (!secondaryLine) {
-		console.log(data)
 		let allData = [].concat(...data.map(d => d.data))
 
 		this.x.domain(d3.extent(allData, function (d) {

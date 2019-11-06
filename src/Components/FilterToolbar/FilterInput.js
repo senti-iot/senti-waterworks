@@ -18,7 +18,10 @@ const styles = makeStyles(theme => {
 		formControl: {
 		},
 		chips: {},
-		root: {},
+		root: {
+			background: "rgba(255, 255, 255, 0.1)",
+			borderRadius: "4px"
+		},
 		inputRoot: {
 			flex: 1,
 			// position: 'absolute',

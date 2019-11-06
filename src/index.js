@@ -3,10 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import whyDidYouRender from "@welldone-software/why-did-you-render";
 
 if (process.env.NODE_ENV !== 'production') {
-	const whyDidYouRender = require('@welldone-software/why-did-you-render');
-	whyDidYouRender(React);
+	whyDidYouRender(React, {
+		trackHooks: true,
+		onlyLogs: true,
+		titleColor: "green",
+		diffNameColor: "darkturquoise"
+	});
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

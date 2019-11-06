@@ -9,6 +9,7 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"get": "Anvend",
 		"accept": "Godkend",
 		"add": "Tilføj",
 		"addFilter": "Tilføj filter",

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState, Fragment } from 'react'
+import React, { /* useContext, */ useEffect, useState, Fragment } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
-import { HTitle } from 'App';
+// import { HTitle } from 'App';
 import { BPaper, AppBackground } from 'Styles/containerStyle';
 import GridContainer from 'Components/Containers/GridContainer';
 import ItemG from 'Components/Containers/ItemG';
-import MainChart from 'Components/Custom/MainChart/MainChart';
+import { MainChart } from 'Components/Custom/MainChart/MainChart';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Settings from 'Routes/Settings';
 import Header from 'Components/Header';
@@ -51,16 +51,18 @@ const ChartContainer = () => {
 		</ItemG>
 	</GridContainer>
 }
+ChartContainer.whyDidYouRender = true;
 
 
-function Container({ ...props }) {
+function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	// const classes = containerStyles({ color: colorTheme })
-	const setHeader = useContext(HTitle)
+	// const setHeader = useContext(HTitle)
+	// console.log(setHeader)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
 
-	setHeader('Header Title')
+	// setHeader('Header Title')
 
 	useEffect(() => {
 
@@ -100,5 +102,6 @@ function Container({ ...props }) {
 			}} />
 	)
 }
+Container.whyDidYouRender = true;
 
 export default Container
