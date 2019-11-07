@@ -19,9 +19,30 @@ const LineGraph = (props) => {
 
 	const period = useSelector(s => s.dateTime.period)
 	const prevId = usePrevious(props.id)
-	const prevData = usePrevious(deviceData)
+	let prevData = usePrevious(deviceData)
 	const classes = lineStyles({ id: props.id })
 
+	useEffect(() => {
+		const genNewLine = () => {
+			let cProps = {
+				id: props.id,
+				data: deviceData,
+				setTooltip: setValue,
+				setMedianTooltip: setMedianValue,
+				period: period,
+				t: t
+			}
+			line = new d3Line(lineChartContainer.current, cProps, classes);
+		}
+		if (line) {
+			line.destroy()
+		}
+		genNewLine()
+		return () => {
+
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	useEffect(() => {
 		const genNewLine = () => {
@@ -58,8 +79,8 @@ const LineGraph = (props) => {
 		window.addEventListener('resize', handleResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);
-			line.destroy()
-			line = null
+			// line.destroy()
+			// line = null
 		};
 	}, [classes, prevId, props.id, deviceData, t, period, prevData])
 
@@ -80,5 +101,5 @@ const LineGraph = (props) => {
 		</div>
 	)
 }
-
+LineGraph.whyDidYouUpdate = true
 export default LineGraph

@@ -1,10 +1,10 @@
 import React from 'react'
 import { T, ItemG } from 'Components'
 import Card from '@material-ui/core/Card'
-import { CardContent, Divider } from '@material-ui/core'
+import { CardContent, /* Divider */ } from '@material-ui/core'
 import moment from 'moment'
 import styled from 'styled-components';
-import { Droplet } from 'variables/icons'
+import { Droplet, Thermometer, Pipe } from 'variables/icons'
 
 const TCard = styled(Card)`
 	min-width: 300px;
@@ -34,17 +34,70 @@ const waterUsageTooltip = (props) => {
 				</ItemG>
 			</ItemG>
 			{/* </ItemG> */}
-			<Divider />
+			{/* <Divider />
 			<ItemG container xs={12}>
-			</ItemG>
+			</ItemG> */}
 
 		</CardContent>
 	</TCard>
 }
 // const waterFlowTooltip = (props) => { }
-// const waterTempTooltip = (props) => { }
-// const waterReadingTooltip = (props) => { }
-// const alarmTooltip = (props) => { }
+
+const waterFlowTooltip = (props) => {
+	return <TCard id={props.id + 'tooltip'}>
+		<CardContent>
+			{/* <ItemG container> */}
+			<ItemG container xs={12}>
+				<ItemG container xs={6}>
+					<ItemG xs={12}>
+						<T variant={'h6'}>{moment(props.tooltip.date).format('dddd')}</T>
+					</ItemG>
+					<ItemG xs={12}>
+						<T varinat={'body2'}>{moment(props.tooltip.date).format('lll')}</T>
+					</ItemG>
+				</ItemG>
+				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+					<T variant={'h5'}>{`${props.tooltip.value} L`}</T>
+					<img src={Pipe} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+				</ItemG>
+			</ItemG>
+			{/* </ItemG> */}
+			{/* <Divider />
+			<ItemG container xs={12}>
+			</ItemG> */}
+
+		</CardContent>
+	</TCard>
+}
+// const waterFlowTooltip = (props) => { }
+
+const temperatureTooltip = (props) => {
+	return <TCard id={props.id + 'tooltip'}>
+		<CardContent>
+			{/* <ItemG container> */}
+			<ItemG container xs={12}>
+				<ItemG container xs={6}>
+					<ItemG xs={12}>
+						<T variant={'h6'}>{moment(props.tooltip.date).format('dddd')}</T>
+					</ItemG>
+					<ItemG xs={12}>
+						<T varinat={'body2'}>{moment(props.tooltip.date).format('lll')}</T>
+					</ItemG>
+				</ItemG>
+				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+					<T variant={'h5'}>{`${props.tooltip.value} °C`}</T>
+					<img src={Thermometer} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+				</ItemG>
+			</ItemG>
+			{/* </ItemG> */}
+			{/* <Divider />
+			<ItemG container xs={12}>
+			</ItemG> */}
+
+		</CardContent>
+	</TCard>
+}
+
 
 
 const Tooltip = (props) => {
@@ -52,7 +105,10 @@ const Tooltip = (props) => {
 	switch (props.id) {
 		case 'waterusage':
 			return waterUsageTooltip(props)
-
+		case 'waterflow':
+			return waterFlowTooltip(props)
+		case 'temperature':
+			return temperatureTooltip(props)
 		default:
 			return null
 	}

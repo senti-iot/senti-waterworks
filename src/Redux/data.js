@@ -53,6 +53,7 @@ export const getData = async () => {
 		let prevData = getState().data.prevData
 		let filterDevices = getState().appState.selectedDevices
 		let subtr = timeType === 2 ? 1 : 3
+		console.log(subtr)
 		let prevFrom = moment(from).subtract(subtr, 'month')
 		let prevTo = moment(to).subtract(subtr, 'month')
 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData
@@ -73,6 +74,7 @@ export const getData = async () => {
 			previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
 		}
 		finalData = {
+			id: Math.random(),
 			waterusage: [
 				{
 					name: 'waterusageL',
@@ -101,7 +103,6 @@ export const getData = async () => {
 				{
 					name: 'tempAmbient',
 					median: true,
-					smallArea: true,
 					data: currentPeriodData.temperature.ambient,
 					color: 'red'
 				},
@@ -115,15 +116,17 @@ export const getData = async () => {
 					name: 'tempAmbientPrev',
 					prev: true,
 					hidden: true,
-					noArea: true,
+					noMedianLegend: true,
+					median: true,
 					data: previousPeriodData.temperature.ambient
 				},
 				{
 					name: 'tempWaterPrev',
 					prev: true,
 					hidden: true,
-					noArea: true,
-					data: currentPeriodData.temperature.water
+					noMedianLegend: true,
+					median: true,
+					data: previousPeriodData.temperature.water
 				}
 			],
 			waterflow: [
@@ -143,18 +146,32 @@ export const getData = async () => {
 					name: 'maxFlowPrev',
 					prev: true,
 					hidden: true,
-					noArea: true,
+					noMedianLegend: true,
+					median: true,
 					data: previousPeriodData.waterFlow.maxFlow
 				},
 				{
 					name: 'minFlowPrev',
 					prev: true,
 					hidden: true,
-					noArea: true,
-					data: currentPeriodData.waterFlow.minFlow
+					smallArea: true,
+					noMedianLegend: true,
+					median: true,
+					data: previousPeriodData.waterFlow.minFlow
 				}
 			]
 
+		}
+		if (filterDevices.length === 1) {
+			console.log(rawData.filter(d => d.data.value !== undefined && d.device_id === filterDevices[0]))
+			finalData.readings = [
+				{
+					name: 'readingL',
+					median: true,
+					color: 'yellow',
+					data: rawData.filter(d => d.data.value !== undefined && d.device_id === filterDevices[0]).map(d => ({ value: d.data.value, date: d.created }))
+				}
+			]
 		}
 		dispatch({
 			type: deviceData,

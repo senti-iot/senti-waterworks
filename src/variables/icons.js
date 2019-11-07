@@ -11,6 +11,8 @@ import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
 import InsertChart from '@material-ui/icons/InsertChart'
 import Wifi from '@material-ui/icons/Wifi'
 import Droplet from 'assets/icons/droplet.svg'
+import Thermometer from 'assets/icons/thermometer.svg'
+import Pipe from 'assets/icons/pipe.svg'
 import Google from 'assets/icons/google.svg'
 //#region weather Icons
 // import ClearDay from 'assets/weather/clear_day.svg'
@@ -117,6 +119,8 @@ import Palette from '@material-ui/icons/Palette'
 import ImportExport from '@material-ui/icons/ImportExport'
 export {
 	Droplet,
+	Thermometer,
+	Pipe,
 	ImportExport,
 	Share,
 	StorageIcon,

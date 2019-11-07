@@ -10,6 +10,7 @@ color: inherit;
 
 const Legend = props => {
 	const data = props.data[props.id]
+	console.log(props, data)
 	return (
 		<ItemG container justify={'center'} alignItems={'center'}>
 			{data.map(line => {

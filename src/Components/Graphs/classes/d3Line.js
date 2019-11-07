@@ -4,11 +4,12 @@ import hexToRgba from 'hex-to-rgba';
 import { colors } from '@material-ui/core';
 
 const getMedianLineData = (data) => {
-	let sum = data.map(d => d.value).reduce((total, val) => parseFloat(total) + parseFloat(val))
-	let avrg = parseFloat((sum / data.length).toFixed(3))
 	let medianValues = []
-
-	medianValues = [{ date: data[0].date, value: avrg }, { date: data[data.length - 1].date, value: avrg }]
+	if (data.length > 0) {
+		let sum = data.map(d => d.value).reduce((total, val) => parseFloat(total) + parseFloat(val))
+		let avrg = parseFloat((sum / data.length).toFixed(3))
+		medianValues = [{ date: data[0].date, value: avrg }, { date: data[data.length - 1].date, value: avrg }]
+	}
 
 	return medianValues
 }
@@ -179,7 +180,8 @@ class d3Line {
 			if (line.prev) {
 				return
 			}
-			let tooltipDiv = this.div
+			let tooltipDiv = d3.select(`#${this.props.id}tooltip`)
+			console.log(tooltipDiv)
 			this.svg.selectAll(".dot")
 				.data(line.data)
 				.enter()
@@ -192,7 +194,7 @@ class d3Line {
 						.style('z-index', 1040);
 					tooltipDiv.style("left", (d3.event.pageX) - 235 + "px")
 						.style("top", (d3.event.pageY) - 250 + "px");
-
+					console.log(d)
 					setTooltip(d)
 
 				}).on("mouseout", function () {
@@ -202,8 +204,9 @@ class d3Line {
 						.duration(500)
 						.style('z-index', -1)
 						.style("opacity", 0);
-				}).on('click', function () {
+				}).on('click', function (d) {
 					// setExpand(true)
+					alert(d.date + ' ' + d.value)
 				})
 				.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
 				// .attr("class", classes[`${line.name}Dot`]) // Assign a class for styling

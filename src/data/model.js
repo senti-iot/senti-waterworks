@@ -77,8 +77,7 @@ const genWaterPerDevice = (data) => {
 
 const genReading = (deviceData) => {
 	let data = {}
-	// var avgDataPerDevice = deviceData.reduce(())
-	var dataByDay = deviceData.reduce((dataByMonth, datum) => {
+	var dataByDay = deviceData.reduce((d, datum) => {
 		var date = moment(datum.date);
 		var value = datum.value
 		let group = date.format('YYYY-MM-DD 00:00:00').toString()
@@ -87,27 +86,22 @@ const genReading = (deviceData) => {
 		data[group].count = (data[group].count || 0) + 1;
 		return data;
 	}, {});
-	// let finalResult = {};
 	let fResult = []
 	Object.keys(dataByDay).forEach(d => {
-		// finalResult[d] = (dataByDay[d].totalValue / dataByDay[d].count).toFixed(3);
 		fResult.push({
 			date: d,
 			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(3))
 		})
 	});
 	return fResult;
-
 }
 
 export const genBenchmark = (deviceData, filter, prev, timeType) => {
-	// console.trace()
 	let dData = deviceData
 	let data = {
 		waterUsage: [],
-		temperature: [],
-		waterFlow: [],
-		// reading: []
+		temperature: {},
+		waterFlow: {},
 	}
 	if (prev) {
 		dData.forEach(d => {
@@ -141,6 +135,10 @@ export const genBenchmark = (deviceData, filter, prev, timeType) => {
 		water: genReading(minWTemp.map(d => ({ value: d.data.minWTemp, date: d.created }))),
 		ambient: genReading(minATemp.map(d => ({ value: d.data.minATemp, date: d.created })))
 	}
+	// data.temperature = {
+	// 	water: [],
+	// 	ambient: []
+	// }
 	return data
 }
 

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { T, ItemG } from 'Components'
 import Card from '@material-ui/core/Card'
-import { CardContent, Divider } from '@material-ui/core'
+import { CardContent, /* Divider */ } from '@material-ui/core'
 import moment from 'moment'
 import styled from 'styled-components';
-import { Droplet } from 'variables/icons'
+import { Droplet, Thermometer } from 'variables/icons'
 
 const TCard = styled(Card)`
 	min-width: 300px;
@@ -15,9 +15,39 @@ const TCard = styled(Card)`
 	transition: 300ms all ease;
 `
 
+const renderIcon = (id, tooltip) => {
+	// console.log(id)
+	switch (id) {
+		case 'waterusage':
+			return <Fragment>
+				<T variant={'h5'}>{`${tooltip.value} m³`}</T>
+				<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+			</Fragment>
+		case 'waterFlow':
+			return <Fragment>
+				<T variant={'h5'}>{`${tooltip.value} m³`}</T>
+				<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+			</Fragment>
+		case 'temperature':
+			return <Fragment>
+				<T variant={'h5'}>{`${tooltip.value} m³`}</T>
+				<img src={Thermometer} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+			</Fragment>
+		case 'reading':
+			return <Fragment>
+				<T variant={'h5'}>{`${tooltip.value} m³`}</T>
+				<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+			</Fragment>
+
+
+
+		default:
+			return null
+	}
+}
 
 const MedianTooltip = (props) => {
-
+	console.log('MT', props.id)
 	return <TCard id={props.id + 'medianTooltip'}>
 		<CardContent>
 			{/* <ItemG container> */}
@@ -31,17 +61,18 @@ const MedianTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
-					<T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
-					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+					{renderIcon(props.id, props.tooltip)}
+					{/* <T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
+					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} /> */}
 				</ItemG>
 			</ItemG>
 			{/* </ItemG> */}
-			<Divider />
+			{/* <Divider />
 			<ItemG container xs={12}>
 				<ItemG>
 					Test
 				</ItemG>
-			</ItemG>
+			</ItemG> */}
 
 		</CardContent>
 	</TCard>
