@@ -11,6 +11,7 @@ const devicesWidgetStyles = makeStyles(theme => ({
 		marginLeft: 16, marginTop: 16, fontWeight: 600, letterSpacing: 1, height: 32
 	},
 	text: {
+		whiteSpace: 'nowrap',
 		marginTop: 8,
 		fontSize: '1rem'
 	},

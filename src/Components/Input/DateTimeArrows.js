@@ -15,13 +15,14 @@ height: 1.75em;
 `
 const MonthYear = styled(T)`
     /* font-weight: 600; */
+	text-align: center;
     font-size: 1.50rem;
     /* letter-spacing: 1.5px; */
 `
 
 const DateTimeArrows = () => {
 	return (
-		<ItemG container justify={'center'} alignItems={'center'} style={{ flex: 1 }}>
+		<ItemG container justify={'center'} alignItems={'center'} style={{ flex: 1, flexWrap: 'nowrap' }}>
 			<IconButton>
 				<LeftArrow />
 			</IconButton>

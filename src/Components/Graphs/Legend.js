@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { T, ItemG } from 'Components'
 import { Checkbox, FormControlLabel, colors } from '@material-ui/core'
 import styled from 'styled-components';
+import { useLocalization } from 'Hooks/index';
 
 let CheckedBox = styled(Checkbox)`
 color: inherit;
@@ -10,6 +11,7 @@ color: inherit;
 
 const Legend = props => {
 	const data = props.data[props.id]
+	const t = useLocalization()
 	console.log(props, data)
 	return (
 		<ItemG container justify={'center'} alignItems={'center'}>
@@ -32,7 +34,7 @@ const Legend = props => {
 								style={{
 									color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : '#fff'
 								}}
-								id={line.name + 'LegendLabel'}>{line.name}</T>}
+								id={line.name + 'LegendLabel'}>{t('chartLines.' + line.name)}</T>}
 						/>
 						<FormControlLabel
 							defaultChecked={false}
@@ -47,7 +49,7 @@ const Legend = props => {
 								style={{
 									color: 'rgba(255, 255, 255, 0.3)'
 								}}
-								id={line.name + 'LegendMedianLabel'}>{line.name + 'Average'}</T>}
+								id={line.name + 'LegendMedianLabel'}>{t('chartLines.' + line.name) + ' ' + t('chartLines.average')}</T>}
 						/>
 					</Fragment>
 				}
@@ -67,7 +69,7 @@ const Legend = props => {
 						style={{
 							color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : '#fff'
 						}}
-						id={line.name + 'LegendLabel'}>{line.name}</T>}
+						id={line.name + 'LegendLabel'}>{t('chartLines.' + line.name)}</T>}
 				/>
 
 			})}

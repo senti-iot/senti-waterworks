@@ -136,8 +136,13 @@ class d3Line {
 			ticks.push(counter.valueOf())
 			counter.add(add, 'day')
 			if (
-				monthTicks.findIndex(f => moment(f).format('MMMM') === counter.format('MMMM')) === -1
+				monthTicks.findIndex(f => {
+					console.log(moment(f).format('MMMM').toLowerCase(), counter.format('MMMM').toLowerCase())
+					console.log(moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase())
+					return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
+				}) === -1
 			) {
+
 				monthTicks.push(counter.valueOf())
 			}
 		}
