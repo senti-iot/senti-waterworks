@@ -1,15 +1,16 @@
 import cookie from 'react-cookies';
 import { getUser, getValidSession } from 'data/users'
-import 'moment/locale/da'
-import 'moment/locale/en-gb'
+// import 'moment/locale/da'
+// import 'moment/locale/en-gb'
 import { saveSettings } from 'data/login';
 // import { setDates } from './dateTime';
 import { setPrefix, set, get } from 'data/storage';
 // import { getAllData } from './data';
 // import { setDashboards } from './dsSystem';
-
+require("moment/min/locales.min");
 var moment = require('moment')
 
+// window.moment = moment
 const acceptCookies = 'acceptCookies'
 
 const autoRowsPerPage = 'autoRowsPerPage'
@@ -149,6 +150,7 @@ export const getSettings = async () => {
 					user.aux.sentiWaterworks ?
 						user.aux.sentiWaterworks.settings ?
 							user.aux.sentiWaterworks.settings : null : null : null : null
+
 
 		moment.updateLocale('en-gb', {
 			week: {

@@ -1,6 +1,9 @@
 import moment from 'moment'
 
 const changePeriods = 'changeDate'
+const GetSettings = 'getSettings'
+const NOSETTINGS = 'noSettings'
+
 // const GetSettings = 'getSettings'
 
 /**
@@ -33,8 +36,8 @@ export const changeDate = (menuId, to, from, timeType) => {
 const initialState = {
 	period: {
 		menuId: 0,
-		from: moment().subtract(7, 'day').startOf('day'),
-		to: moment().endOf('day'),
+		from: null, /* moment().subtract(7, 'day').startOf('day'), */
+		to: null, /* moment().endOf('day'), */
 		timeType: 2
 	},
 
@@ -42,9 +45,20 @@ const initialState = {
 
 export const dateTime = (state = initialState, action) => {
 	switch (action.type) {
+		case GetSettings:
+		case NOSETTINGS:
+			if (!state.period.to && !state.period.from)
+				return Object.assign({}, state, {
+					period: {
+						menuId: 0,
+						from: moment().subtract(7, 'day').startOf('day'),
+						to: moment().endOf('day'),
+						timeType: 2
+					},
+				})
+			return state
 		case changePeriods:
 			return Object.assign({}, state, { period: action.payload })
-
 		default:
 			return state
 	}

@@ -16,7 +16,6 @@ const TCard = styled(Card)`
 `
 
 const renderIcon = (id, tooltip) => {
-	// console.log(id)
 	switch (id) {
 		case 'waterusage':
 			return <Fragment>
@@ -47,7 +46,6 @@ const renderIcon = (id, tooltip) => {
 }
 
 const MedianTooltip = (props) => {
-	console.log('MT', props.id)
 	return <TCard id={props.id + 'medianTooltip'}>
 		<CardContent>
 			{/* <ItemG container> */}

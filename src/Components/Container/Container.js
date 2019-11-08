@@ -15,17 +15,43 @@ import { CircularLoader } from 'Components';
 import ArcGraph from 'Components/Graphs/ArcGraph';
 import DevicesWidget from 'Components/Custom/Devices/DevicesWidget';
 import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget';
-import { getAllDevices } from 'Redux/data';
+import { getAllDevices, getData } from 'Redux/data';
+import { usePrevious } from 'Hooks/index';
 
 
 const ChartContainer = () => {
 
 	const [chart, setChart] = useState('waterusage')
+	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const [loading, setLoading] = useState(true)
 
+	const dispatch = useDispatch()
+	const period = useSelector(s => s.dateTime.period)
+	const prevPeriod = usePrevious(period)
+	const prevSelectedDevices = usePrevious(selectedDevices)
+
+	useEffect(() => {
+		if (prevPeriod && period !== prevPeriod && !loading) {
+			setLoading(true)
+		}
+		if (selectedDevices.length !== prevSelectedDevices.length && !loading) {
+			setLoading(true)
+		}
+	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
+	useEffect(() => {
+		if (loading) {
+			const getDeviceData = async () => dispatch(await getData())
+			const loadData = async () => {
+				await getDeviceData()
+				setLoading(false)
+			}
+			loadData()
+		}
+	}, [dispatch, loading])
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={9} >
 			<BPaper>
-				<MainChart chart={chart} setChart={setChart} />
+				<MainChart loading={loading} chart={chart} setChart={setChart} />
 			</BPaper>
 		</ItemG>
 		<ItemG xs={3}>
@@ -38,7 +64,9 @@ const ChartContainer = () => {
 				</ItemG>
 				<ItemG xs={12} style={{ height: '50%' }}>
 					<BPaper>
-						<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
+						{loading ? <CircularLoader fill /> :
+							<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
+						}
 					</BPaper>
 
 				</ItemG>
@@ -56,23 +84,16 @@ ChartContainer.whyDidYouRender = true;
 
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
-	// const classes = containerStyles({ color: colorTheme })
-	// const setHeader = useContext(HTitle)
-	// console.log(setHeader)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
-
-	// setHeader('Header Title')
 
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())
 		const getDevices = async () => dispatch(await getAllDevices())
-		// const getDeviceData = async () => dispatch(await getData())
 		const loadSettings = async () => {
 			await getSetting()
 			await getDevices()
-			// await getDeviceData()
 			setLoading(false)
 		}
 		loadSettings()

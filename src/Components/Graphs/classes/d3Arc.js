@@ -19,8 +19,8 @@ class d3Arc {
 	props;
 	svg;
 
-	constructor(containerEl, props, classes) {
-
+	constructor(containerEl, props) {
+		const classes = props.classes
 		this.containerEl = containerEl;
 		this.props = props;
 		const { arcData, arcPrevData } = props

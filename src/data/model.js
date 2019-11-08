@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-
+//#region Main Graph
 const genWaterPerDevice = (data) => {
 	let devData = {}
 	let final = []
@@ -63,10 +63,7 @@ const genWaterPerDevice = (data) => {
 		//Get the average
 		let dates = Object.keys(dataByDay)
 		dates.forEach((de) => {
-			// dataByDay[de] = dataByDay[de] || 0
-			// console.log(dataByDay[de])
 			dataByDay[de] = dataByDay[de] / countByDate[de]
-			// console.log(dataByDay[de])
 		})
 		Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
 		final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
@@ -141,6 +138,80 @@ export const genBenchmark = (deviceData, filter, prev, timeType) => {
 	// }
 	return data
 }
+//#endregion
 
+//#region Arc Graph
 
-// genBenchmark(model, true, 2)//?
+const sumUpData = (data) => {
+	let devData = {}
+	if (data) {
+		data.reduce((prev, d) => {
+			devData[d.id] = devData[d.id] || {};
+			var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
+			devData[d.id][date] = devData[d.id][date] || {}
+			devData[d.id][date] = d.value
+			return devData
+		})
+		//Get the device Ids
+		let deviceIds = Object.keys(devData)
+		/**
+		 * Calculate the water usage
+		 */
+		deviceIds.forEach((d) => {
+			//For Each device id, transform the data
+			let dates = Object.keys(devData[d]).reverse()
+			dates.forEach((de, di) => {
+
+				if (di < dates.length - 1 && devData[d][dates[di + 1]] && devData[d][de]) {
+					devData[d][de] = devData[d][de] - devData[d][dates[di + 1]]
+				}
+				else {
+					delete devData[d][de]
+				}
+			})
+		})
+		var countByDate = {}
+		deviceIds.forEach((d) => {
+			let dates = Object.keys(devData[d])
+			dates.forEach((de) => {
+				countByDate[de] = countByDate[de] || 0
+				countByDate[de] += 1
+			})
+		})
+		var dataByDay = {}
+		//Sum up all data
+		deviceIds.forEach((d) => {
+			let dates = Object.keys(devData[d])
+			dates.forEach((de) => {
+				dataByDay[de] = dataByDay[de] || 0
+				dataByDay[de] = dataByDay[de] + devData[d][de]
+			})
+		})
+		let total = 0;
+		Object.keys(dataByDay).forEach(d => {
+			total = total + dataByDay[d]
+		})
+		return parseFloat(total.toFixed(3));
+	}
+}
+
+export const genArcData = (deviceData, filter, timeType) => {
+	let data = {
+		waterusage: [],
+		temperature: {
+			water: [],
+			ambient: []
+		},
+		waterFlow: {
+			minFlow: [],
+			maxFlow: []
+		},
+		reading: []
+	}
+	let waterReading = deviceData.filter(d => d.data.value && filter.indexOf(d.device_id) > -1)
+	data.waterusage = sumUpData(waterReading.map(d => ({ id: d.device_id, value: d.data.value, date: d.created })))
+
+	return data
+}
+
+//#endregion

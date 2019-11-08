@@ -128,8 +128,8 @@
 		"selectedDevices": "Valgte målere",
 		"totalUsage": "Samlet forbrug",
 		"totalUsageMessages": {
-			"less": "Der er til dato forbrugt mindre vand end sidste måned",
-			"more": "Du har til dato forbrugt mere vand end sidste måned",
+			"less": "Der er til dato forbrugt mindre vand end sidste periode",
+			"more": "Du har til dato forbrugt mere vand end sidste periode",
 			"readings": {},
 			"temperature": {},
 			"waterflow": {},

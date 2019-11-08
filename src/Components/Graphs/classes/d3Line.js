@@ -137,8 +137,6 @@ class d3Line {
 			counter.add(add, 'day')
 			if (
 				monthTicks.findIndex(f => {
-					console.log(moment(f).format('MMMM').toLowerCase(), counter.format('MMMM').toLowerCase())
-					console.log(moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase())
 					return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
 				}) === -1
 			) {
@@ -186,7 +184,6 @@ class d3Line {
 				return
 			}
 			let tooltipDiv = d3.select(`#${this.props.id}tooltip`)
-			console.log(tooltipDiv)
 			this.svg.selectAll(".dot")
 				.data(line.data)
 				.enter()
@@ -199,7 +196,6 @@ class d3Line {
 						.style('z-index', 1040);
 					tooltipDiv.style("left", (d3.event.pageX) - 235 + "px")
 						.style("top", (d3.event.pageY) - 250 + "px");
-					console.log(d)
 					setTooltip(d)
 
 				}).on("mouseout", function () {

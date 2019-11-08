@@ -1,154 +1,110 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { generateArcData } from './demoData'
-import { makeStyles } from '@material-ui/styles'
-import { colors } from '@material-ui/core'
+import React, { useRef, useEffect } from 'react'
 import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import { T } from 'Components'
-
-const arcStyles = makeStyles(theme => ({
-	arc: {
-		transform: 'translate(-50%, -50%) rotate(180deg)',
-		transformOrigin: 'center'
-	},
-	innerArc: {
-		fill: 'rgba(255,255,255, 0.1)'
-	},
-	outerArc: {
-		// fill: props => colors[props.color][600]
-	},
-	outerArcG: {
-		fill: colors['green'][500]
-	},
-	outerArcR: {
-		fill: colors['red'][500]
-	},
-	label: {
-
-	},
-	textContainer: {
-		position: 'absolute',
-		top: '50%',
-		left: '50%',
-		// top: 0,
-		// left: 0,
-		transformOrigin: 'center',
-		transform: 'translate(-50%, -50%)',
-		display: 'flex',
-		flexFlow: 'column',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	prevText: {
-		color: 'rgba(255,255,255, 0.5)'
-	},
-	totalUsage: {
-		marginLeft: 16, marginTop: 16, fontWeight: 600, letterSpacing: 1, height: 32
-	},
-	totalUsageM: {
-		marginLeft: 16, marginBottom: 16, height: 32
-	},
-}))
-
+import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
+import moment from 'moment'
+window.m = moment
 let arc = null
+
 function formatNumber(num) {
+	// return num.toString()
 	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
+
 const ArcGraph = (props) => {
-	const t = useLocalization()
-	// let arcData = useRef(generateArcData())
-	const [arcData, setArcData] = useState(generateArcData())
-	// let arcData = useRef(900)
-	// let arcPrevData = useRef(generateArcData())
-	const [arcPrevData, setArcPrevData] = useState(generateArcData())
-	// let arcPrevData = useRef(1000)
 	const arcChartContainer = useRef(null)
+	const t = useLocalization()
+	const arcData = useSelector(s => s.data.middleChartData.current['waterusage'])
+	const arcPrevData = useSelector(s => s.data.middleChartData.previous['waterusage'])
+	const period = useSelector(s => s.dateTime.period)
+	// const [arcData, setArcData] = useState(generateArcData())
+
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const classes = arcStyles({ color: colorTheme })
-	const period = 'month'
+
 	const unit = () => {
 		switch (props.chart) {
 			case 'waterusage':
 				return 'm3'
-			case 'temperature':
-				return '\u2103'
-			case 'waterflow':
-				return 'L'
-			case 'readings':
-				return 'm3'
+			// case 'temperature':
+			// 	return '\u2103'
+			// case 'waterflow':
+			// 	return 'L'
+			// case 'readings':
+			// 	return 'm3'
 			default:
-				break;
+				return 'm3'
 		}
 	}
-	const prevId = usePrevious(props.id)
 
+	const prevId = usePrevious(props.id)
 	// useWhyDidYouUpdate('props', props)
 	// useWhyDidYouUpdate('state', { arcData: arcData.toString() })
-
 	useEffect(() => {
-		if ((props.id !== prevId) && arc) {
-			let newdata = generateArcData()
-			let newPrevData = generateArcData()
+		const genNewArc = () => {
+			let arcProps = {
+				id: props.id,
+				arcData: arcData,
+				arcPrevData: arcPrevData,
+				t: t,
+				classes: classes
+			}
+			arc = new d3Arc(arcChartContainer.current, arcProps)
+		}
+		if (arc) {
 			arc.destroy()
-			arc = new d3Arc(arcChartContainer.current, {
-				id: props.id,
-				arcData: newdata, arcPrevData: newPrevData, /* setTooltip: setValue,
-				setMedianTooltip: setMedianValue */
-			}, classes);
-			setArcData(newdata)
-			setArcPrevData(newPrevData)
+			genNewArc()
 		}
-	}, [classes, prevId, props.id])
+		//eslint-disable-next-line
+	}, [])
+
 	useEffect(() => {
+		const genNewArc = () => {
+			let arcProps = {
+				id: props.id,
+				arcData: arcData,
+				arcPrevData: arcPrevData,
+				t: t,
+				classes: classes
+			}
+			arc = new d3Arc(arcChartContainer.current, arcProps)
+		}
+		// if ((props.id !== prevId) && arc) {
+		// 	arc.destroy()
+		// 	genNewArc()
+		// }
 		if ((arcChartContainer.current && !arc)) {
-			// setArcData(generateArcData())
-			arc = new d3Arc(arcChartContainer.current, {
-				id: props.id,
-				arcData: arcData, arcPrevData: arcPrevData, /* setTooltip: setValue,
-				setMedianTooltip: setMedianValue */
-			}, classes);
-
+			genNewArc()
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	useEffect(() => {
 		let resizeTimer;
 		const handleResize = () => {
-			// let id = props.id
 			clearTimeout(resizeTimer);
-			resizeTimer = setTimeout(function () {
+			resizeTimer = setTimeout(() => {
 				arc.destroy()
-				arc = new d3Arc(arcChartContainer.current, {
-					id: props.id,
-					arcData: arcData, arcPrevData: arcPrevData, /*  setTooltip: setValue,
-					setMedianTooltip: setMedianValue */
-				}, classes);
-				// setWidth(arcChartContainer.current.clientWidth);
-				// setHeight(arcChartContainer.current.clientHeight);
+				genNewArc()
 			}, 300);
-		};
-		window.addEventListener('resize', handleResize);
+		}
+		window.addEventListener('resize', handleResize)
 		return () => {
-			window.removeEventListener('resize', handleResize);
-		};
-		//eslint-disable-next-line
-	}, [classes, props.id]);
+			window.removeEventListener('resize', handleResize)
+		}
 
+	}, [arcData, arcPrevData, classes, prevId, props.id, t])
 	return (
-		<div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100%', width: '100%' }}>
+		<ArcContainer>
 
-			{/* // <div style={{ width: 'calc(100% - ', height: '100%', position: 'relative' }}> */}
-			<T variant={'h5'} className={classes.totalUsage} style={{}}>{t('charts.totalUsage')}</T>
-			<div id={props.id} ref={arcChartContainer} style={{ width: '100%', height: '100%', /* minHeight: 250, */ position: 'relative' }} >
-				<div className={classes.textContainer}>
-					<T>{t(`charts.periods.${period}`)}</T>
-					<T variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</T>
-					<T variant='h5' className={classes.prevText}>{`/${formatNumber(arcPrevData)} ${unit()}`}</T>
-				</div>
-			</div>
-			<T className={classes.totalUsageM}>{arcData.current > arcPrevData.current ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T>
-		</div>
+			<TotalUsageText variant={'h5'}>{t('charts.totalUsage')}</TotalUsageText>
+			<Arc id={props.id} ref={arcChartContainer}>
+				<TextContainer >
+					<T>{period.from.format('l')} - {period.to.format('l')}</T>
+					<DataText variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</DataText>
+					<DataText variant='h5' prev>{`/${formatNumber(arcPrevData)} ${unit()}`}</DataText>
+				</TextContainer>
+			</Arc>
+			{/* <DataText></DataText> */}
+			{/* <T className={classes.totalUsageM}>{arcData.current > arcPrevData.current ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T> */}
+		</ArcContainer>
 
 	)
 }

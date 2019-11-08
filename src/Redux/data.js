@@ -1,6 +1,6 @@
 import { handleRequestSort } from 'data/functions'
 import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
-import { genBenchmark } from 'data/model'
+import { genBenchmark, genArcData } from 'data/model'
 import moment from 'moment'
 // import { genBenchmarkAll } from 'data/model'
 
@@ -8,6 +8,8 @@ const sData = 'sortData'
 const GETDevice = 'devices'
 const deviceData = 'deviceData'
 const rawDataStore = 'storeOldData'
+const middleChartData = 'middleChartData'
+
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
 		let data = getState().data[key]
@@ -53,10 +55,10 @@ export const getData = async () => {
 		let prevData = getState().data.prevData
 		let filterDevices = getState().appState.selectedDevices
 		let subtr = timeType === 2 ? 1 : 3
-		console.log(subtr)
 		let prevFrom = moment(from).subtract(subtr, 'month')
 		let prevTo = moment(to).subtract(subtr, 'month')
-		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData
+		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
+
 		if (prevData.from !== from && to !== prevData.to && prevData.rawData && prevData.filterDevices.length === filterDevices.length) {
 
 			rawData = prevData.rawData
@@ -72,7 +74,10 @@ export const getData = async () => {
 			currentPeriodData = genBenchmark(rawData, filterDevices)
 			benchMarkData = genBenchmark(rawData)
 			previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
+			middleData = genArcData(rawData, filterDevices)
+			prevMiddleData = genArcData(prevRawData, filterDevices)
 		}
+
 		finalData = {
 			id: Math.random(),
 			waterusage: [
@@ -163,7 +168,6 @@ export const getData = async () => {
 
 		}
 		if (filterDevices.length === 1) {
-			console.log(rawData.filter(d => d.data.value !== undefined && d.device_id === filterDevices[0]))
 			finalData.readings = [
 				{
 					name: 'readingL',
@@ -173,6 +177,13 @@ export const getData = async () => {
 				}
 			]
 		}
+		//#endregion
+		//#region Middle Widget
+		finalMiddleData = {
+			current: middleData,
+			previous: prevMiddleData
+		}
+		//#endregion
 		dispatch({
 			type: deviceData,
 			payload: finalData
@@ -182,6 +193,10 @@ export const getData = async () => {
 			payload: {
 				prevRawData, rawData, from, to, filterDevices
 			}
+		})
+		dispatch({
+			type: middleChartData,
+			payload: finalMiddleData
 		})
 		// let benchmark = genBenchmarkAll(data)
 		// let data = []
@@ -208,6 +223,14 @@ const initialState = {
 		filterDevices: [],
 		from: null,
 		to: null
+	},
+	middleChartData: {
+		current: {
+			waterusage: 0
+		},
+		previous: {
+			waterusage: 0
+		}
 	}
 }
 
@@ -219,6 +242,8 @@ export const data = (state = initialState, { type, payload }) => {
 			return Object.assign({}, state, { devices: payload })
 		case deviceData:
 			return Object.assign({}, state, { deviceData: payload })
+		case middleChartData:
+			return Object.assign({}, state, { middleChartData: payload })
 		default:
 			return state;
 	}
