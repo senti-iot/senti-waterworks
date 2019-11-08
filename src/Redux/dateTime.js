@@ -35,7 +35,7 @@ export const changeDate = (menuId, to, from, timeType) => {
  */
 const initialState = {
 	period: {
-		menuId: 0,
+		menuId: 1,
 		from: null, /* moment().subtract(7, 'day').startOf('day'), */
 		to: null, /* moment().endOf('day'), */
 		timeType: 2
@@ -50,7 +50,7 @@ export const dateTime = (state = initialState, action) => {
 			if (!state.period.to && !state.period.from)
 				return Object.assign({}, state, {
 					period: {
-						menuId: 0,
+						menuId: 1,
 						from: moment().subtract(7, 'day').startOf('day'),
 						to: moment().endOf('day'),
 						timeType: 2

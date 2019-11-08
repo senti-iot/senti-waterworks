@@ -103,7 +103,7 @@ const ArcGraph = (props) => {
 				</TextContainer>
 			</Arc>
 			{/* <DataText></DataText> */}
-			{/* <T className={classes.totalUsageM}>{arcData.current > arcPrevData.current ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T> */}
+			<T className={classes.totalUsageM}>{arcData.current > arcPrevData.current ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T>
 		</ArcContainer>
 
 	)
