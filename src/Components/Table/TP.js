@@ -26,6 +26,7 @@ const TP = styled((props) => {
 			component='div'
 			count={count}
 			rowsPerPage={rowsPerPage}
+			labelRowsPerPage={t('tables.rowsPerPage') + ':'}
 			page={page}
 			backIconButtonProps={{
 				'aria-label': t('actions.nextPage'),

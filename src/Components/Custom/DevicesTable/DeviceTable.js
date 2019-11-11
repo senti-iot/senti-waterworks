@@ -11,34 +11,13 @@ import { sortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 
-const columns = [
-	{ id: 'address', label: 'address' },
-	{ id: 'guid', label: 'guid' },
-	{ id: 'name', label: 'name' },
-	{ id: 'id', label: 'id' },
-	{ id: 'type', label: 'type' },
-	{ id: 'group', label: 'group' },
-	{ id: 'active', label: 'active' },
-	// { id: 'liveStatus', checkbox: true, label: <ItemG container justify={'center'} title={t('devices.fields.status')}><SignalWifi2Bar /></ItemG> },
-	// { id: 'address', label: t('devices.fields.address') },
-	// { id: 'org.name', label: t('devices.fields.org') },
-	// { id: 'dataCollection', label: t('devices.fields.availability') }
-]
 
-const bodyStructure = row => {
-	return <Fragment>
-		<TC label={row.address} />
-		<TC label={row.guid} />
-		<TC label={row.name} />
-		<TC label={row.id} />
-		<TC label={row.type} />
-		<TC label={row.group} />
-		<TC label={row.communication ? 'active' : 'inactive'} />
-	</Fragment>
-}
+
+
 
 const DeviceTable = (props) => {
 	const devices = useSelector(s => s.data.devices)
+	console.log(devices)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const filters = useSelector(s => s.appState.filters.devices)
 	const dispatch = useDispatch()
@@ -83,11 +62,17 @@ const DeviceTable = (props) => {
 			setSelDev(devices.map(d => d.id))
 	}
 	//#region  Filters
+	const dLiveStatus = () => {
+		return [
+			{ value: 0, label: t("devices.fields.state.inactive") },
+			{ value: 1, label: t("devices.fields.state.active") },
+		]
+	}
 	const deviceFilters = [
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
 		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
 		// { key: '', name: t('orgs.fields.name'), type: 'string' },
-		// { key: 'liveStatus', name: t('devices.fields.status'), type: 'dropDown', options: this.dLiveStatus() },
+		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
 		// { key: 'locationType', name: t('devices.fields.locType'), type: 'dropDown', options: this.dLocationPlace() },
 		// { key: 'lat', name: t('calibration.stepheader.calibration'), type: 'diff', options: { dropdown: this.dCalibrated(), values: { false: [0] } } },
 		// { key: 'dataCollection', name: t('devices.fields.availability'), type: 'dropDown', options: this.dAvailable() },
@@ -95,7 +80,30 @@ const DeviceTable = (props) => {
 	]
 
 	//#endregion
-
+	const columns = [
+		{ id: 'address', label: t('devices.fields.address') },
+		{ id: 'uuid', label: t('devices.fields.uuid') },
+		{ id: 'name', label: t('devices.fields.name') },
+		{ id: 'id', label: t('devices.fields.id') },
+		{ id: 'type', label: t('devices.fields.type') },
+		{ id: 'group', label: t('devices.fields.group') },
+		{ id: 'communication', label: t('devices.fields.status') },
+		// { id: 'liveStatus', checkbox: true, label: <ItemG container justify={'center'} title={t('devices.fields.status')}><SignalWifi2Bar /></ItemG> },
+		// { id: 'address', label: t('devices.fields.address') },
+		// { id: 'org.name', label: t('devices.fields.org') },
+		// { id: 'dataCollection', label: t('devices.fields.availability') }
+	]
+	const bodyStructure = row => {
+		return <Fragment>
+			<TC label={row.address} />
+			<TC label={row.uuid} />
+			<TC label={row.name} />
+			<TC label={row.id} />
+			<TC label={row.type} />
+			<TC label={row.group} />
+			<TC label={row.communication ? t('devices.fields.state.active') : t('devices.fields.state.inactive')} />
+		</Fragment>
+	}
 	const closeDialog = () => {
 		redux.setSelDevices(selDev)
 		setOpenTable(false)

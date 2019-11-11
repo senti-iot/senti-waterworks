@@ -9,7 +9,6 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
-		"get": "Retrieve",
 		"accept": "Accept",
 		"add": "Add",
 		"addFilter": "Add filter",
@@ -35,6 +34,7 @@
 		"filter": "Filter",
 		"finish": "Finish",
 		"forgotPass": "Password Forgotten?",
+		"get": "Retrieve",
 		"getLocation": "Get location",
 		"goTo": "Go to",
 		"goToDevice": "Go to device(s)",
@@ -308,6 +308,7 @@
 			"coordsW": "Coordinates: %{lat} %{long}",
 			"description": "Description",
 			"free": "Free",
+			"group": "Gruppe",
 			"id": "Device ID",
 			"lastData": "Last time device sent data to server",
 			"lastStats": "Last time device was connected to server",
@@ -322,8 +323,14 @@
 			"notfree": "Busy",
 			"org": "Organisation",
 			"project": "Project",
+			"state": {
+				"active": "Active",
+				"inactive": "Inactive"
+			},
 			"status": "Status",
 			"temp": "CPU temperature",
+			"type": "Type",
+			"uuid": "SigFox ID",
 			"weather": "Weather",
 			"wifiModule": "Wi-Fi module"
 		},
@@ -525,16 +532,16 @@
 		"dateOptions": {
 			"30days": "Last 30 days",
 			"7days": "Last 7 days",
-			"month": "Month",
-			"year": "Year",
 			"90days": "Last 90 days",
 			"custom": "Custom range",
 			"daily": "Daily",
 			"hourly": "Hourly",
 			"minutely": "Minutely",
+			"month": "Month",
 			"summary": "Summary",
 			"thisWeek": "This week",
 			"today": "Today",
+			"year": "Year",
 			"yesterday": "Yesterday"
 		},
 		"devices": {

@@ -9,7 +9,6 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
-		"get": "Anvend",
 		"accept": "Godkend",
 		"add": "Tilføj",
 		"addFilter": "Tilføj filter",
@@ -35,6 +34,7 @@
 		"filter": "Filtrering",
 		"finish": "Luk",
 		"forgotPass": "Glemt kodeord?",
+		"get": "Anvend",
 		"getLocation": "Hent lokation",
 		"goTo": "Gå til",
 		"goToDevice": "Gå til enhed(er)",
@@ -308,6 +308,7 @@
 			"coordsW": "Koordinater: %{lat} %{long}",
 			"description": "Beskrivelse",
 			"free": "Ledig",
+			"group": "Gruppe",
 			"id": "Enhed ID",
 			"lastData": "Sidste gang enheden sendte data til server",
 			"lastStats": "Sidste gang enheden havde kontakt med server",
@@ -322,8 +323,14 @@
 			"notfree": "Optaget",
 			"org": "Organisation",
 			"project": "Projekt",
-			"status": "Status",
+			"state": {
+				"active": "Aktiveret",
+				"inactive": "Ikke aktiv"
+			},
+			"status": "Driftstatus",
 			"temp": "CPU temperatur",
+			"type": "Type",
+			"uuid": "SigFox ID",
 			"weather": "Vejr",
 			"wifiModule": "Wi-Fi model"
 		},
@@ -526,15 +533,15 @@
 			"30days": "Seneste 30 dage",
 			"7days": "Seneste 7 dage",
 			"90days": "Seneste 90 dage",
-			"month": "Måned",
-			"year": "År",
 			"custom": "Tilpasset interval",
 			"daily": "Hver dag",
 			"hourly": "Hver time",
 			"minutely": "Hver minut",
+			"month": "Måned",
 			"summary": "Resumé",
 			"thisWeek": "Denne uge",
 			"today": "I dag",
+			"year": "År",
 			"yesterday": "I går"
 		},
 		"devices": {
