@@ -24,15 +24,17 @@ const LineGraph = (props) => {
 
 	useEffect(() => {
 		const genNewLine = () => {
-			let cProps = {
-				id: props.id,
-				data: deviceData,
-				setTooltip: setValue,
-				setMedianTooltip: setMedianValue,
-				period: period,
-				t: t
+			if (period.from && period.to && deviceData) {
+				let cProps = {
+					id: props.id,
+					data: deviceData,
+					setTooltip: setValue,
+					setMedianTooltip: setMedianValue,
+					period: period,
+					t: t
+				}
+				line = new d3Line(lineChartContainer.current, cProps, classes);
 			}
-			line = new d3Line(lineChartContainer.current, cProps, classes);
 		}
 		if (line) {
 			line.destroy()
@@ -46,15 +48,17 @@ const LineGraph = (props) => {
 
 	useEffect(() => {
 		const genNewLine = () => {
-			let cProps = {
-				id: props.id,
-				data: deviceData,
-				setTooltip: setValue,
-				setMedianTooltip: setMedianValue,
-				period: period,
-				t: t
+			if (period.from && period.to && deviceData) {
+				let cProps = {
+					id: props.id,
+					data: deviceData,
+					setTooltip: setValue,
+					setMedianTooltip: setMedianValue,
+					period: period,
+					t: t
+				}
+				line = new d3Line(lineChartContainer.current, cProps, classes);
 			}
-			line = new d3Line(lineChartContainer.current, cProps, classes);
 		}
 		if ((props.id !== prevId) && line) {
 			line.destroy()

@@ -201,6 +201,8 @@ const initialState = {
 
 export const appState = (state = initialState, action) => {
 	switch (action.type) {
+		case 'RESET_APP':
+			return initialState
 		case changeT:
 			return Object.assign({}, state, { tabs: action.tabs })
 		case getSettings:

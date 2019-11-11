@@ -17,9 +17,9 @@ let reducers = combineReducers({ settings, localization, appState, data, dateTim
 // 	return result
 // }
 const rootReducer = (state, action) => {
-	if (action.type === 'RESET_APP') {
-		state = undefined
-	}
+	// if (action.type === 'RESET_APP') {
+	// 	state = undefined
+	// }
 	return reducers(state, action)
 }
 let composeMiddleware = compose(

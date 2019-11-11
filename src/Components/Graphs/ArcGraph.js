@@ -97,7 +97,7 @@ const ArcGraph = (props) => {
 			<TotalUsageText variant={'h5'}>{t('charts.totalUsage')}</TotalUsageText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
-					<T>{period.from.format('l')} - {period.to.format('l')}</T>
+					{period.from && period.to ? <T>{period.from.format('l')} - {period.to.format('l')}</T> : null}
 					<DataText variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</DataText>
 					<DataText variant='h5' prev>{`/${formatNumber(arcPrevData)} ${unit()}`}</DataText>
 				</TextContainer>

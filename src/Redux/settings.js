@@ -586,6 +586,8 @@ export let initialState = {
 }
 export const settings = (state = initialState, action) => {
 	switch (action.type) {
+		case 'RESET_APP':
+			return initialState
 		case autoRowsPerPage:
 			let newRowsPerPage = [...initialState.rowsPerPageOptions]
 			newRowsPerPage[0] = action.payload + ' - auto'

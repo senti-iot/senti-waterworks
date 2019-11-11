@@ -1,5 +1,5 @@
 import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core';
-import { AccountBox, Business, PowerSettingsNew, SettingsRounded, ExpandMore, /* Notifications */ } from 'variables/icons';
+import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, /* Notifications */ } from 'variables/icons';
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
 import React, { useState } from 'react';
 import cookie from 'react-cookies';
@@ -45,17 +45,17 @@ function HeaderLinks(props) {
 	// }
 	const classes = headerLinksStyle()
 
-	const handleRedirectToOwnProfile = () => {
-		handleProfileClose()
-		// if (user)
-		// history.push(`/management/user/${user.id}`)
+	// const handleRedirectToOwnProfile = () => {
+	// 	handleProfileClose()
+	// 	// if (user)
+	// 	// history.push(`/management/user/${user.id}`)
 
-	}
-	const handleRedirectToOwnOrg = () => {
-		handleProfileClose()
-		// if (user)
-		// history.push(`/management/org/${user.org.id}`)
-	}
+	// }
+	// const handleRedirectToOwnOrg = () => {
+	// 	handleProfileClose()
+	// 	// if (user)
+	// 	// history.push(`/management/org/${user.org.id}`)
+	// }
 
 	const handleLogOut = async () => {
 		try {
@@ -146,12 +146,12 @@ function HeaderLinks(props) {
 					</MenuItem>
 					: null}
 				<Divider />
-				<MenuItem onClick={handleRedirectToOwnProfile}>
+				{/* <MenuItem onClick={handleRedirectToOwnProfile}>
 					<AccountBox className={classes.leftIcon} />{t('menus.user.profile')}
 				</MenuItem>
 				{user ? user.privileges.apiorg.editusers ? <MenuItem onClick={handleRedirectToOwnOrg}>
 					<Business className={classes.leftIcon} />{t('menus.user.account')}
-				</MenuItem> : null : null}
+				</MenuItem> : null : null} */}
 				<MenuItem onClick={handleSettingsOpen}>
 					<SettingsRounded className={classes.leftIcon} />{t('sidebar.settings')}
 				</MenuItem>

@@ -236,6 +236,8 @@ const initialState = {
 
 export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
+		case 'RESET_APP':
+			return initialState
 		case sData:
 			return Object.assign({}, state, { [payload.key]: payload.sortedData })
 		case GETDevice:

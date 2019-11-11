@@ -33,7 +33,7 @@ class d3Line {
 		this.props = props;
 		this.period = props.period;
 		var margin = this.margin = { top: 50, right: 50, bottom: 75, left: 50 };
-		let data = props.data[props.id]
+		let data = props.data ? props.data[props.id] : []
 
 		//Get the height and width from the container
 		var height = this.height = containerEl.clientHeight;

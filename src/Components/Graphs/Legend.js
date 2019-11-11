@@ -10,7 +10,7 @@ color: inherit;
 `
 
 const Legend = props => {
-	const data = props.data[props.id]
+	const data = props.data ? props.data[props.id] : []
 	const t = useLocalization()
 	return (
 		<ItemG container justify={'center'} alignItems={'center'}>

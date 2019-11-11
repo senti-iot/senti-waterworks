@@ -45,6 +45,8 @@ const initialState = {
 
 export const dateTime = (state = initialState, action) => {
 	switch (action.type) {
+		case 'RESET_APP':
+			return initialState
 		case GetSettings:
 		case NOSETTINGS:
 			if (!state.period.to && !state.period.from)
