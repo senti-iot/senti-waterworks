@@ -64,11 +64,12 @@ class d3Line {
 		//Set the graph ranges
 		// if (!secondaryLine) {
 		let allData = [].concat(...data.map(d => d.data))
+		let period = this.props.period
 
-		this.x.domain(d3.extent(allData, function (d) {
-			return moment(d.date).valueOf();
-		}));
-
+		// this.x.domain(d3.extent(allData, function (d) {
+		// 	return moment(d.date).valueOf();
+		// }));
+		this.x.domain([period.from, period.to])
 		this.y.domain([0, getMax(allData) + 1]);
 
 		//Define the area for the values
@@ -102,7 +103,7 @@ class d3Line {
 			.attr('transform', `translate(-40,${height / 2})`)
 			.attr('class', classes.axisText)
 			// .html(props.unit)
-			.html('m3')
+			.html('m³')
 		data.forEach(line => {
 			if (!line.noMedianLegend && line.median) {
 				this.state[line.name + 'Median'] = true
@@ -128,24 +129,57 @@ class d3Line {
 		let ticks = []
 		let monthTicks = []
 		// ticks.push(counter.valueOf())
-		let add = timeType === 2 ? 1 : (timeType === 3 || timeType === 4) ? 10 : 1
+		let add = 1
+		if (moment(counter).diff(to, 'day') > 14) {
 
-		monthTicks.push(counter.valueOf())
-
-		while (moment(counter).diff(to, 'day') < 0) {
-			ticks.push(counter.valueOf())
-			counter.add(add, 'day')
-			if (
-				monthTicks.findIndex(f => {
-					return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
-				}) === -1
-			) {
-
-				monthTicks.push(counter.valueOf())
-			}
+			add = 3
 		}
-		ticks.push(to.valueOf())
-		monthTicks.push(to.valueOf())
+		if (timeType === 4) {
+			monthTicks.push(counter.valueOf())
+			let lb = 0
+			while (moment(counter).diff(to, 'day') < 0) {
+				ticks.push(counter.valueOf())
+				if (moment().format('MMMM')) {
+
+				}
+				if (lb === 0) {
+					counter.add(16, 'day')
+					lb = 1
+				}
+				else {
+					counter.add(15, 'day')
+					lb = 0
+				}
+				if (
+					monthTicks.findIndex(f => {
+						return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
+					}) === -1
+				) {
+
+					monthTicks.push(counter.valueOf())
+				}
+			}
+			ticks.push(to.valueOf())
+			monthTicks.push(to.valueOf())
+		}
+		else {
+
+			monthTicks.push(counter.valueOf())
+			while (moment(counter).diff(to, 'day') < 0) {
+				ticks.push(counter.valueOf())
+				counter.add(add, 'day')
+				if (
+					monthTicks.findIndex(f => {
+						return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
+					}) === -1
+				) {
+
+					monthTicks.push(counter.valueOf())
+				}
+			}
+			ticks.push(to.valueOf())
+			monthTicks.push(to.valueOf())
+		}
 
 		var xAxis_woy = d3.axisBottom(this.x)
 			.tickFormat(d3.timeFormat("%d"))
@@ -296,7 +330,13 @@ class d3Line {
 	}
 
 	generateLines = () => {
+		let period = this.props.period
 		let data = this.props.data[this.props.id]
+		data.forEach(d => {
+			d.data = d.data.filter(f => moment(f.date).diff(period.from) >= 0)
+		})
+		window.moment = moment
+		window.data = data
 		let animArea0 = d3.area()
 			.y0(this.height - this.margin.bottom - this.margin.top)
 			.y1(0)

@@ -26,7 +26,7 @@ const ArcGraph = (props) => {
 	const unit = () => {
 		switch (props.chart) {
 			case 'waterusage':
-				return 'm3'
+				return 'm³'
 			// case 'temperature':
 			// 	return '\u2103'
 			// case 'waterflow':
@@ -34,7 +34,7 @@ const ArcGraph = (props) => {
 			// case 'readings':
 			// 	return 'm3'
 			default:
-				return 'm3'
+				return 'm³'
 		}
 	}
 

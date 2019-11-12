@@ -4,7 +4,7 @@ import moment from 'moment';
 const genWaterPerDevice = (data) => {
 	let devData = {}
 	let final = []
-	if (data) {
+	if (data.length > 0) {
 		/**
 		 * Reduce the data by Device
 		 * {

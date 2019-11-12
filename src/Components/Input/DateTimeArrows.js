@@ -48,13 +48,18 @@ const DateTimeArrows = () => {
 			to = futureTester(to, 'day') ? moment() : to
 
 		}
-		if ([2, 3, 4, 5].indexOf(period.menuId) !== -1) {
+		if (period.menuId === 3) {
+			from = moment(period.from).add(1, 'month').startOf('month')
+			to = from.endOf('month')
+			to = futureTester(to, 'day') ? moment().startOf('day') : to
+		}
+		if ([2, 4, 5].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
 			from = moment(period.from).add(diff + 1, 'minute').startOf('day')
 			to = moment(period.to).add(diff + 1, 'minute').endOf('day')
 			to = futureTester(to, 'day') ? moment() : to
 		}
-		handleSetDate(6, to, from, period.timeType)
+		handleSetDate(period.timeType, to, from, period.timeType)
 	}
 	const handlePreviousPeriod = () => {
 		let from, to, diff;
@@ -73,14 +78,18 @@ const DateTimeArrows = () => {
 		// 	from = moment(period.from).subtract(1, 'week').startOf('day')
 		// 	to = moment(period.to).subtract(1, 'week').endOf('day')
 		// }
+		if (period.menuId === 3) {
+			from = moment(period.from).subtract(1, 'month').startOf('month')
+			to = moment(from).endOf('month')
+		}
 
-		if ([0, 1, 2, 3, 4, 5].indexOf(period.menuId) !== -1) {
+		if ([0, 1, 2, 4, 5].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'day')
 			from = moment(period.from).subtract(diff, 'day').startOf(timeTypes[period.timeType].chart)
 			to = moment(period.to).subtract(diff, 'day').endOf(timeTypes[period.timeType].chart)
 		}
 
-		handleSetDate(6, to, from, period.timeType, period.id)
+		handleSetDate(period.timeType, to, from, period.timeType, period.id)
 	}
 	return (
 		<ItemG container justify={'center'} alignItems={'center'} style={{ flex: 1, flexWrap: 'nowrap' }}>
