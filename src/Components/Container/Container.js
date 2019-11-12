@@ -34,7 +34,7 @@ const ChartContainer = () => {
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
 		}
-		if (selectedDevices.length !== prevSelectedDevices.length && !loading) {
+		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
 			setLoading(true)
 		}
 	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
