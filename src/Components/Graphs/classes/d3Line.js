@@ -207,7 +207,7 @@ class d3Line {
 						.style("opacity", 0);
 				}).on('click', function (d) {
 					// setExpand(true)
-					alert(d.date + ' ' + d.value)
+					// alert(d.date + ' ' + d.value)
 				})
 				.attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
 				// .attr("class", classes[`${line.name}Dot`]) // Assign a class for styling

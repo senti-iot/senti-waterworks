@@ -581,6 +581,7 @@
 		"phoneTo": "Call"
 	},
 	"login": {
+		"text": "The new smart way of controlling your water consumption",
 		"cards": {
 			"0": "**Senti** is a managed IoT service to easily and securely connect, manage, and ingest data from citywide dispersed devices.",
 			"1": "**Senti** is a managed IoT service to easily and securely connect, manage, and ingest data from citywide dispersed devices.",

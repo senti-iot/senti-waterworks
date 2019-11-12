@@ -581,6 +581,7 @@
 		"phoneTo": "Ring til"
 	},
 	"login": {
+		"text": "Den nye smarte måde at styre dit vandforbrug",
 		"cards": {
 			"0": "**Senti** er en open source Internet of Things platform, der **gør dig i stand til at sanse og opsamle** viden om mennesker og tilstande i dit bymæssige eller industrielle miljø.",
 			"1": "**Senti** er den infrastruktur du har brug for til at opbygge, implementere og styre din portefølje af **IoT-enheder** i stor skala.",
