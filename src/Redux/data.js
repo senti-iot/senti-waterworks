@@ -50,6 +50,7 @@ export const getAllDevices = async () => {
 export const getData = async () => {
 	return async (dispatch, getState) => {
 		let from = getState().dateTime.period.from
+		from.subtract(1, 'day')
 		let to = getState().dateTime.period.to
 		let timeType = getState().dateTime.period.timeType
 		let prevData = getState().data.prevData
@@ -66,7 +67,6 @@ export const getData = async () => {
 			currentPeriodData = genBenchmark(rawData, filterDevices)
 			benchMarkData = genBenchmark(rawData)
 			previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
-			// let previousPeriodData = genBenchmark(await getDevicesData('2019-10-10', '2019-10-20'))
 		}
 		else {
 			rawData = await getDevicesData(from, to)
@@ -191,7 +191,7 @@ export const getData = async () => {
 		dispatch({
 			type: rawDataStore,
 			payload: {
-				prevRawData, rawData, from, to, filterDevices
+				prevRawData, rawData, from: from.add(1, 'day'), to, filterDevices
 			}
 		})
 		dispatch({
