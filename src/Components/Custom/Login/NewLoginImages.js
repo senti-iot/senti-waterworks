@@ -42,7 +42,9 @@ const styles = makeStyles(() => ({
 		fontWeight: 600
 	},
 	message: {
+		color: '#fff',
 		padding: 25,
+		paddingTop: 0,
 		maxWidth: 615,
 		marginBottom: 30
 	},
@@ -59,12 +61,13 @@ const styles = makeStyles(() => ({
 		boxShadow: 'none'
 	},
 	img: {
-		height: 500,
+		height: 650,
 	},
 	sentiDots: {
 		height: 75,
-		marginTop: '100',
-		margin: 50
+		margin: 50,
+		marginTop: 100,
+		marginBottom: 0
 	}
 }))
 
@@ -82,19 +85,13 @@ function LoginImages() {
 	return (
 		<Background color={colorTheme}>
 			<div className={classes.contentWrapper}>
-				<T reversed variant={'h5'} className={classes.message}>
-					{t(`login.cards.${1}`, { type: 'markdown' })}
-				</T>
-				{/* <Button color='primary' variant={'contained'} component={'a'} target={'_blank'} href={"https://senti.io"} className={classes.button}>
-					<span className={classes.overcomplicatedButtonTextLight}>
-						{t('actions.learn')}
-					</span>
-					<span className={classes.overcomplicatedButtonTextRegular}>
-						{t('actions.more')}
-					</span>
-				</Button> */}
+
 				<img src={sentiIpadIMG} className={classes.img} alt="" />
 				<img src={sentiWaterWorks} className={classes.sentiDots} alt='' />
+				<T variant={'h5'} className={classes.message}>
+					{t(`login.text`)}
+				</T>
+
 			</div>
 		</Background>
 	)
