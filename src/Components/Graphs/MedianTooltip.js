@@ -22,7 +22,7 @@ const renderIcon = (id, tooltip) => {
 				<T variant={'h5'}>{`${tooltip.value} m³`}</T>
 				<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 			</Fragment>
-		case 'waterFlow':
+		case 'waterflow':
 			return <Fragment>
 				<T variant={'h5'}>{`${tooltip.value} m³`}</T>
 				<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
@@ -46,7 +46,7 @@ const renderIcon = (id, tooltip) => {
 }
 
 const MedianTooltip = (props) => {
-	return <TCard id={props.id + 'medianTooltip'}>
+	return <TCard id={props.id + 'medianTooltip'} style={{ zIndex: -1 }}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>

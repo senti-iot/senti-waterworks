@@ -7,7 +7,7 @@ import { changeDate } from 'Redux/dateTime';
 import moment from 'moment';
 import { orange } from '@material-ui/core/colors';
 
-const DayOption = styled(Button)`
+const DayOption = styled(({ isSelected, ...props }) => <Button {...props} />)`
 	color: ${(props) => !props.isSelected ? '#fff' : orange[500]}
 	text-transform: none;
 `

@@ -107,10 +107,10 @@ class d3Line {
 		data.forEach(line => {
 			if (!line.noMedianLegend && line.median) {
 				this.state[line.name + 'Median'] = true
-				this.state[line.name] = line.hidden
+				this.state[line.name] = line.hidden ? true : false
 			}
 			else {
-				this.state[line.name] = line.hidden
+				this.state[line.name] = line.hidden ? true : false
 			}
 		})
 		this.generateLines()
@@ -383,20 +383,23 @@ class d3Line {
 						.attr('stroke-width', '7px')
 						.attr('d', this.valueLine)
 						.attr('id', line.name + 'HArea')
-						.on("mouseover", function (d) {
-							medianLine.transition()
-								.duration(100)
-								.style('stroke-width', '7px')
+						.on("mouseover", (d) => {
+							if (!this.state[`${line.name}`]) {
 
-							medianTooltip.transition()
-								.duration(200)
-								.style("opacity", 1)
-								.style('z-index', 1040);
+								medianLine.transition()
+									.duration(100)
+									.style('stroke-width', '7px')
 
-							medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-								.style("top", (d3.event.pageY) - 41 + "px");
+								medianTooltip.transition()
+									.duration(200)
+									.style("opacity", 1)
+									.style('z-index', 1040);
 
-							setMedianTooltip(d[0])
+								medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+									.style("top", (d3.event.pageY) - 41 + "px");
+
+								setMedianTooltip(d[0])
+							}
 
 						}).on("mouseout", function () {
 							// setExpand(false)
@@ -466,20 +469,23 @@ class d3Line {
 					.attr('d', this.valueLine)
 					.attr('id', `${line.name}MedianH`)
 					.style('display', line.hidden ? 'none' : undefined)
-					.on("mouseover", function (d) {
-						medianLine.transition()
-							.duration(100)
-							.style('stroke-width', '7px')
+					.on("mouseover", (d) => {
+						if (!this.state[`${line.name}Median`]) {
 
-						medianTooltip.transition()
-							.duration(200)
-							.style("opacity", 1)
-							.style('z-index', 1040);
+							medianLine.transition()
+								.duration(100)
+								.style('stroke-width', '7px')
 
-						medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-							.style("top", (d3.event.pageY) - 41 + "px");
+							medianTooltip.transition()
+								.duration(200)
+								.style("opacity", 1)
+								.style('z-index', 1040);
 
-						setMedianTooltip(d[0])
+							medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+								.style("top", (d3.event.pageY) - 41 + "px");
+
+							setMedianTooltip(d[0])
+						}
 
 					}).on("mouseout", function () {
 						// setExpand(false)
