@@ -95,7 +95,7 @@ const DateTimeArrows = () => {
 					<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 				</ItemG>
 			</ItemG>
-			<IconButton onClick={handleNextPeriod}>
+			<IconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
 				<RightArrow />
 			</IconButton>
 		</ItemG>
