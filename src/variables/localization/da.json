@@ -530,6 +530,8 @@
 		"beforeDate": "Før dato",
 		"contains": "Indeholder",
 		"dateOptions": {
+			"monthToDate": "Måned til dato",
+			"yearToDate": "År til dato",
 			"30days": "Seneste 30 dage",
 			"7days": "Seneste 7 dage",
 			"90days": "Seneste 90 dage",

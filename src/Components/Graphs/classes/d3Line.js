@@ -130,26 +130,27 @@ class d3Line {
 		let monthTicks = []
 		// ticks.push(counter.valueOf())
 		let add = 1
+		let lb = 0
 		if (moment(counter).diff(to, 'day') > 14) {
 
 			add = 3
 		}
 		if (timeType === 4) {
 			monthTicks.push(counter.valueOf())
-			let lb = 0
 			while (moment(counter).diff(to, 'day') < 0) {
 				ticks.push(counter.valueOf())
-				if (moment().format('MMMM')) {
-
-				}
 				if (lb === 0) {
-					counter.add(16, 'day')
+					counter.add(14, 'day')
 					lb = 1
 				}
 				else {
-					counter.add(15, 'day')
+					let diff = -1 * moment(counter).diff(moment(counter).endOf('month'), 'days')
+					console.log(diff, moment(counter).format('lll'))
+					counter.add(diff + 1, 'day')
 					lb = 0
 				}
+				// counter.add(Math.round(moment(counter).daysInMonth() / 2) - 1, 'day')
+
 				if (
 					monthTicks.findIndex(f => {
 						return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
@@ -182,7 +183,8 @@ class d3Line {
 		}
 
 		var xAxis_woy = d3.axisBottom(this.x)
-			.tickFormat(d3.timeFormat("%d"))
+			// .tickFormat(d3.timeFormat("%d"))
+			.tickFormat(f => moment(f).format('D'))
 			.tickValues(ticks);
 
 		// //Add the X axis

@@ -530,6 +530,8 @@
 		"beforeDate": "Before date",
 		"contains": "Contains",
 		"dateOptions": {
+			"monthToDate": "Month to date",
+			"yearToDate": "Year to date",
 			"30days": "Last 30 days",
 			"7days": "Last 7 days",
 			"90days": "Last 90 days",

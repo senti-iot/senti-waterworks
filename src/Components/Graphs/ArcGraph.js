@@ -91,13 +91,28 @@ const ArcGraph = (props) => {
 		}
 
 	}, [arcData, arcPrevData, classes, prevId, props.id, t])
+
+	const displayTime = () => {
+		switch (period.timeType) {
+			case 1:
+				return t('filters.dateOptions.thisWeek')
+			case 2:
+				return t('filters.dateOptions.7days')
+			case 3:
+				return t('filters.dateOptions.monthToDate')
+			case 4:
+				return t('filters.dateOptions.yearToDate')
+			default:
+				break;
+		}
+	}
 	return (
 		<ArcContainer>
 
 			<TotalUsageText variant={'h5'}>{t('charts.totalUsage')}</TotalUsageText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
-					{period.from && period.to ? <T>{period.from.format('l')} - {period.to.format('l')}</T> : null}
+					{period.from && period.to ? <T>{displayTime()}</T> : null}
 					<DataText variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</DataText>
 					<DataText variant='h5' prev>{`/${formatNumber(arcPrevData)} ${unit()}`}</DataText>
 				</TextContainer>

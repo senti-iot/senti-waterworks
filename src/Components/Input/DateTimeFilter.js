@@ -19,18 +19,20 @@ const DateFilterMenu = (props) => {
 	const dOptions = [
 		// { value: 0, label: t('filters.dateOptions.today') },
 		// { value: 1, label: t('filters.dateOptions.yesterday') },
-		{ value: 2, label: t('filters.dateOptions.thisWeek') },
-		{ value: 3, label: t('filters.dateOptions.7days') },
-		{ value: 4, label: t('filters.dateOptions.30days') },
+		{ value: 1, label: t('filters.dateOptions.thisWeek') },
+		{ value: 2, label: t('filters.dateOptions.7days') },
+		{ value: 3, label: t('filters.dateOptions.30days') },
 		{ value: 5, label: t('filters.dateOptions.90days') },
+		{ value: 4, label: t('filters.dateOptions.year') },
 		{ value: 6, label: t('filters.dateOptions.custom') },
 	]
 	const options = [
 		// { id: 0, label: t('filters.dateOptions.today') },
 		// { id: 1, label: t('filters.dateOptions.yesterday') },
-		{ id: 2, label: t('filters.dateOptions.thisWeek') },
-		{ id: 3, label: t('filters.dateOptions.7days') },
-		{ id: 4, label: t('filters.dateOptions.30days') },
+		{ id: 1, label: t('filters.dateOptions.thisWeek') },
+		{ id: 2, label: t('filters.dateOptions.7days') },
+		{ id: 3, label: t('filters.dateOptions.30days') },
+		{ id: 4, label: t('filters.dateOptions.year') },
 		{ id: 5, label: t('filters.dateOptions.90days') },
 		{ id: 6, label: t('filters.dateOptions.custom') },
 	]
