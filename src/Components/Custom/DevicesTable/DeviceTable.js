@@ -17,7 +17,6 @@ import { customFilterItems } from 'variables/functions/filters'
 
 const DeviceTable = (props) => {
 	const devices = useSelector(s => s.data.devices)
-	console.log(devices)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const filters = useSelector(s => s.appState.filters.devices)
 	const dispatch = useDispatch()

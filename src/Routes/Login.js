@@ -33,7 +33,6 @@ function Login() {
 	const [privacy, setPrivacy] = useState(false)
 	const [showPassword, setShowPassword] = useState(false)
 	const setError = val => {
-		console.trace()
 		setEError(val)
 	}
 	// const inputRef = useRef(null)
@@ -82,7 +81,6 @@ function Login() {
 
 	//TODO
 	const handleLoginUser = async () => {
-
 		await loginUser(user, pass, orgId).then(async rs => {
 			if (rs) {
 				let exp = moment().add('1', 'day')
@@ -229,27 +227,6 @@ function Login() {
 												{t('actions.login')}
 											</LoginButton>
 										</ItemG>
-										{/* <ItemG xs={12} container justify={'center'} style={{ margin: "8px 0px" }}> */}
-										{/* <ItemG xs={12} container justify={'space-around'}> */}
-										{/* <Link to={`/password/reset/${language}`}> */}
-										{/* {t('login.forgotPassword')} */}
-										{/* </Link> */}
-										{/* </ItemG> */}
-										{/* </ItemG> */}
-										{/* <ItemG xs={12} container justify={'center'}>
-												<GoogleLogin
-													clientId="1038408973194-qcb30o8t7opc83k158irkdiar20l3t2a.apps.googleusercontent.com"
-													render={renderProps => (
-														<Button fullWidth className={classes.loginButton} variant={'outlined'} color={'primary'} onClick={
-															() => { renderProps.onClick(); setLoggingInGoogle(true); }}>
-															<img src={Google} alt={'google-logo'} style={{ marginRight: 8 }} />
-															{t('actions.loginWithGoogle')}
-														</Button>)}
-													buttonText="Login"
-													onSuccess={googleSignIn}
-													onFailure={googleSignIn}
-												/>
-											</ItemG> */}
 									</ItemG>
 								</FadeOutLoader>
 								{/* </FadeOutLoader> */}

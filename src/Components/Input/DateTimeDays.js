@@ -14,7 +14,6 @@ const DateTimeDays = () => {
 	const t = useLocalization()
 	const dispatch = useDispatch()
 	const setDateTime = (menuId, to, from, timeType) => () => {
-		// console.log(menuId, to, from, timeType)
 		dispatch(changeDate(menuId, to, from, timeType))
 	}
 	return (
