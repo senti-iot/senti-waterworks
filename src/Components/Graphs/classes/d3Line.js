@@ -251,7 +251,7 @@ class d3Line {
 				.transition()
 				.attr("id", `${line.name}Dots`)
 				.style("opacity", line.hidden ? 0 : 1)
-				.delay(function (d, i) { return i * 150 })
+				.delay((d, i) => { return i * (1500 / line.data.length) })
 				.attr("r", 6)
 		})
 		// .duration(3000)
