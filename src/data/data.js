@@ -44,7 +44,8 @@ export const dawaApi = create({
 	timeout: 30000,
 	header: {
 		'Accept': 'application/json',
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
+		'Cache-Control': 'public, max-age=86400'
 	}
 })
 export const customerDoIApi = create({
@@ -53,7 +54,8 @@ export const customerDoIApi = create({
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
 		'Accept': 'application/json',
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
+		'Cache-Control': 'public, max-age=86400'
 	}
 })
 /* const apiRoute = '/holidays/v1/2018-01-01/2018-12-31/da' */
@@ -63,7 +65,8 @@ export const holidayApi = create({
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
 		'Accept': 'application/json',
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
+		'Cache-Control': 'public, max-age=86400'
 	}
 })
 export const getHolidays = async (lang) => {
@@ -99,7 +102,8 @@ export const weatherApi = create({
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
 		'Accept': 'application/json',
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
+		'Cache-Control': 'public, max-age=86400'
 	}
 })
 export const mapApi = create({
@@ -143,7 +147,8 @@ export const api = create({
 	headers: {
 		'Accept': 'application/json',
 		'Content-Type': 'application/json',
-		'ODEUMAuthToken': ''
+		'ODEUMAuthToken': '',
+		'Cache-Control': 'public, max-age=86400'
 	},
 })
 
@@ -168,9 +173,9 @@ export const servicesAPI = create({
 	timeout: 30000,
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
-		'Cache-Control': 'max-age=31536000',
 		'Accept': 'application/json',
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
+		'Cache-Control': 'public, max-age=86400'
 	}
 })
 
