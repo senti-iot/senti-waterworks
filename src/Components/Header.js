@@ -2,7 +2,8 @@ import React from 'react';
 import { AppBar, Button, Hidden, Toolbar, ButtonBase } from '@material-ui/core';
 import HeaderLinks from './HeaderLinks';
 import headerStyles from 'Styles/headerStyle';
-import logo from 'logo.svg'
+// import logo from 'logo.svg'
+import logo from 'assets/senti.waterworks.svg'
 import { useHistory } from 'react-router'
 import { useLocalization } from 'Hooks';
 
@@ -19,7 +20,7 @@ function Header({ ...props }) {
 			className={classes.image}
 			focusVisibleClassName={classes.focusVisible}
 			style={{
-				width: '120px'
+				width: '200px'
 			}}
 			onClick={goHome}
 		// onClick={() => props.history.push(defaultRoute ? defaultRoute : '/')}

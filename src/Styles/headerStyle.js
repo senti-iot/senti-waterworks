@@ -60,7 +60,7 @@ const headerStyles = makeStyles(theme => ({
 		right: 0,
 		top: 0,
 		bottom: 0,
-		backgroundSize: "100px 50px",
+		backgroundSize: "200px 50px",
 		backgroundRepeat: "no-repeat",
 		backgroundPosition: "50% 50%",
 	},
