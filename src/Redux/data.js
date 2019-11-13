@@ -195,7 +195,7 @@ export const getData = async () => {
 		dispatch({
 			type: rawDataStore,
 			payload: {
-				prevRawData, rawData, from: from.add(1, 'day'), to, filterDevices
+				prevRawData, rawData, from: from ? from.add(1, 'day') : null, to, filterDevices
 			}
 		})
 		dispatch({
