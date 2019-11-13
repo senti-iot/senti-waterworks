@@ -144,7 +144,7 @@ export const genBenchmark = (deviceData, filter, prev, timeType) => {
 
 const sumUpData = (data) => {
 	let devData = {}
-	if (data) {
+	if (data.length > 0) {
 		data.reduce((prev, d) => {
 			devData[d.id] = devData[d.id] || {};
 			var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')

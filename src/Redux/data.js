@@ -171,7 +171,7 @@ export const getData = async () => {
 			finalData.readings = [
 				{
 					name: 'readingL',
-					median: true,
+					// median: true,
 					color: 'yellow',
 					data: rawData.filter(d => d.data.value !== undefined && d.device_id === filterDevices[0]).map(d => ({ value: d.data.value, date: d.created }))
 				}

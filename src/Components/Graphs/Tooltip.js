@@ -99,6 +99,33 @@ const temperatureTooltip = (props) => {
 }
 
 
+const readingTooltip = (props) => {
+	return <TCard id={props.id + 'tooltip'}>
+		<CardContent>
+			{/* <ItemG container> */}
+			<ItemG container xs={12}>
+				<ItemG container xs={6}>
+					<ItemG xs={12}>
+						<T variant={'h6'}>{moment(props.tooltip.date).format('dddd')}</T>
+					</ItemG>
+					<ItemG xs={12}>
+						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
+					</ItemG>
+				</ItemG>
+				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+					<T variant={'h5'}>{`${props.tooltip.value} °C`}</T>
+					{/* <img src={Thermometer} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} /> */}
+				</ItemG>
+			</ItemG>
+			{/* </ItemG> */}
+			{/* <Divider />
+			<ItemG container xs={12}>
+			</ItemG> */}
+
+		</CardContent>
+	</TCard>
+}
+
 
 const Tooltip = (props) => {
 
@@ -109,6 +136,8 @@ const Tooltip = (props) => {
 			return waterFlowTooltip(props)
 		case 'temperature':
 			return temperatureTooltip(props)
+		case 'reading':
+			return readingTooltip(props)
 		default:
 			return null
 	}

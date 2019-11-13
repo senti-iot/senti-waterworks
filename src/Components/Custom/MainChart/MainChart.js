@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemG, T, DateTimeFilter, CircularLoader } from 'Components'
+import { ItemG, T, DateTimeFilter } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
@@ -44,11 +44,10 @@ export const MainChart = (props) => {
 					</ItemG>
 				</div>
 			</ItemG>
-			{props.loading ? <CircularLoader style={{ height: '100%' }} />
-				: <ItemG container style={{ flex: 1 }}>
-					<LineGraph id={chart} />
-				</ItemG>
-			}
+			<ItemG container style={{ flex: 1 }}>
+				<LineGraph loading={props.loading} id={chart} />
+			</ItemG>
+
 		</ItemG>
 	)
 }

@@ -44,19 +44,19 @@ class d3Line {
 		// this.generateLines()
 		//Append the SVG to the container
 		this.container = d3.select(`#${props.id}`)
-		window.d3 = d3
-		this.svg = this.container.append("svg")
-			.attr("id", 'svg' + props.id)
+		this.svg = d3.select(`#${props.id}`)
+			// .attr("id", props.id)
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
 			.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
 			// .attr("width", width)
 			// .attr("height", height)
 			.append("g")
-			.attr("transform", "translate(" + 63 + "," + 63 + ")")
-
+			.attr("transform", "translate(" + 70 + "," + 63 + ")")
+		console.log(this.svg, `#${props.id}`)
 		// Set the this.svg ranges
-		this.x = d3.scaleTime().range([0, width - margin.left]);
+
+		this.x = d3.scaleTime().range([0, width]);
 		// var x = d3.scaleTime().range([0, width]);
 		this.y = d3.scaleLinear().range([height, 0]);
 		// var y = d3.scaleLinear().range([height, 0]);
@@ -102,8 +102,7 @@ class d3Line {
 		yAxis.append('text')
 			.attr('transform', `translate(-40,${height / 2})`)
 			.attr('class', classes.axisText)
-			// .html(props.unit)
-			.html('m³')
+			.html(props.unit)
 		data.forEach(line => {
 			if (!line.noMedianLegend && line.median) {
 				this.state[line.name + 'Median'] = true
@@ -506,9 +505,11 @@ class d3Line {
 
 	}
 	destroy = () => {
-		this.container.select('svg').remove()
+		// this.svg.remove()
+		this.svg.selectAll("*").remove()
+		console.log(this.svg.selectAll("*"))
 	}
 
 }
-
+window.d3 = d3
 export default d3Line;
