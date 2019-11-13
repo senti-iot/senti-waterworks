@@ -544,6 +544,8 @@
 			"thisWeek": "This week",
 			"today": "Today",
 			"year": "Year",
+			"thisYear": "This year",
+			"thisMonth": "This month",
 			"yesterday": "Yesterday"
 		},
 		"devices": {

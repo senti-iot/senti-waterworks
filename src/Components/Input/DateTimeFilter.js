@@ -21,9 +21,9 @@ const DateFilterMenu = (props) => {
 		// { value: 1, label: t('filters.dateOptions.yesterday') },
 		{ value: 1, label: t('filters.dateOptions.thisWeek') },
 		{ value: 2, label: t('filters.dateOptions.7days') },
-		{ value: 3, label: t('filters.dateOptions.30days') },
-		{ value: 5, label: t('filters.dateOptions.90days') },
+		{ value: 3, label: t('filters.dateOptions.month') },
 		{ value: 4, label: t('filters.dateOptions.year') },
+		{ value: 5, label: t('filters.dateOptions.90days') },
 		{ value: 6, label: t('filters.dateOptions.custom') },
 	]
 	const options = [
@@ -31,10 +31,11 @@ const DateFilterMenu = (props) => {
 		// { id: 1, label: t('filters.dateOptions.yesterday') },
 		{ id: 1, label: t('filters.dateOptions.thisWeek') },
 		{ id: 2, label: t('filters.dateOptions.7days') },
-		{ id: 3, label: t('filters.dateOptions.30days') },
+		{ id: 3, label: t('filters.dateOptions.month') },
 		{ id: 4, label: t('filters.dateOptions.year') },
 		{ id: 5, label: t('filters.dateOptions.90days') },
 		{ id: 6, label: t('filters.dateOptions.custom') },
+		{ id: 7, label: t('filters.dateOptions.30days') },
 	]
 	const handleSetDate = (menuId, to, from, timeType) => {
 		let defaultT = 0
@@ -46,28 +47,39 @@ const DateFilterMenu = (props) => {
 			// 	break;
 			// case 1: // Yesterday
 			// 	from = moment().subtract(1, 'd').startOf('day')
-			// 	to = moment().subtract(1, 'd').endOf('day')
+			// 	to = moment().subtract(1, 'd').startOf('day')
 			// 	defaultT = 1
 			// 	break;
-			case 2: // This week
+			case 1: // This week
 				from = moment().startOf('week').startOf('day')
-				to = moment().endOf('day')
+				to = moment().startOf('day')
 				defaultT = 2
 				break;
-			case 3: // Last 7 days
+			case 2: // Last 7 days
 				from = moment().subtract(7, 'd').startOf('day')
-				to = moment().endOf('day')
+				to = moment().startOf('day')
 				defaultT = 2
 				break;
-			case 4: // last 30 days
-				from = moment().subtract(30, 'd').startOf('day')
-				to = moment().endOf('day')
+			case 3: // this month
+				// from = moment().subtract(30, 'd').startOf('day')
+				from = moment().startOf('month').startOf('day')
+				to = moment().startOf('day')
 				defaultT = 3
+				break;
+			case 4: // this year
+				from = moment().startOf('year')
+				to = moment()
+				defaultT = 4
 				break;
 			case 5: // last 90 days
 				from = moment().subtract(90, 'd').startOf('day')
-				to = moment().endOf('day')
+				to = moment().startOf('day')
 				defaultT = 4
+				break;
+			case 7: // last 30 days
+				from = moment().subtract(30, 'd').startOf('day')
+				to = moment().startOf('day')
+				defaultT = 3;
 				break;
 			case 6:
 				from = moment(from)
@@ -196,11 +208,12 @@ const DateFilterMenu = (props) => {
 							<Divider />
 						</Fragment>}
 						{/* <MenuItem selected={isSelected(0)} onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem> */}
-						{/* <MenuItem selected={isSelected(1)} onClick={handleDateFilter} value={1}>{t('filters.dateOptions.yesterday')}</MenuItem> */}
-						<MenuItem selected={isSelected(2)} onClick={handleDateFilter} value={2}>{t('filters.dateOptions.thisWeek')}</MenuItem>
-						<MenuItem selected={isSelected(3)} onClick={handleDateFilter} value={3}>{t('filters.dateOptions.7days')}</MenuItem>
-						<MenuItem selected={isSelected(4)} onClick={handleDateFilter} value={4}>{t('filters.dateOptions.30days')}</MenuItem>
+						<MenuItem selected={isSelected(1)} onClick={handleDateFilter} value={1}>{t('filters.dateOptions.thisWeek')}</MenuItem>
+						<MenuItem selected={isSelected(2)} onClick={handleDateFilter} value={2}>{t('filters.dateOptions.7days')}</MenuItem>
+						<MenuItem selected={isSelected(3)} onClick={handleDateFilter} value={3}>{t('filters.dateOptions.thisMonth')}</MenuItem>
+						<MenuItem selected={isSelected(7)} onClick={handleDateFilter} value={7}>{t('filters.dateOptions.30days')}</MenuItem>
 						<MenuItem selected={isSelected(5)} onClick={handleDateFilter} value={5}>{t('filters.dateOptions.90days')}</MenuItem>
+						<MenuItem selected={isSelected(4)} onClick={handleDateFilter} value={4}>{t('filters.dateOptions.thisYear')}</MenuItem>
 
 						<Divider />
 						<MenuItem selected={isSelected(6)} onClick={handleDateFilter} value={6}>{t('filters.dateOptions.custom')}</MenuItem>

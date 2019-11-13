@@ -50,11 +50,15 @@ export const getAllDevices = async () => {
 export const getData = async () => {
 	return async (dispatch, getState) => {
 		let from = getState().dateTime.period.from
-		from.subtract(1, 'day')
+
 		let to = getState().dateTime.period.to
 		let timeType = getState().dateTime.period.timeType
 		let prevData = getState().data.prevData
 		let filterDevices = getState().appState.selectedDevices
+		// let prevTo = moment(from)
+		// let prevFrom = moment(from).subtract(moment(to).diff(moment(from), "day") + 1, "day")
+		if (from)
+			from.subtract(1, 'day')
 		let subtr = timeType === 2 ? 1 : 3
 		let prevFrom = moment(from).subtract(subtr, 'month')
 		let prevTo = moment(to).subtract(subtr, 'month')

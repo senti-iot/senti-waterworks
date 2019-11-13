@@ -61,10 +61,10 @@ const genWaterPerDevice = (data) => {
 			})
 		})
 		//Get the average
-		let dates = Object.keys(dataByDay)
-		dates.forEach((de) => {
-			dataByDay[de] = dataByDay[de] / countByDate[de]
-		})
+		// let dates = Object.keys(dataByDay)
+		// dates.forEach((de) => {
+		// 	dataByDay[de] = dataByDay[de] / countByDate[de]
+		// })
 		Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
 		final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 	}

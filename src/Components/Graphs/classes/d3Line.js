@@ -53,7 +53,6 @@ class d3Line {
 			// .attr("height", height)
 			.append("g")
 			.attr("transform", "translate(" + 70 + "," + 63 + ")")
-		console.log(this.svg, `#${props.id}`)
 		// Set the this.svg ranges
 
 		this.x = d3.scaleTime().range([0, width]);
@@ -105,17 +104,32 @@ class d3Line {
 			.html(props.unit)
 		data.forEach(line => {
 			if (!line.noMedianLegend && line.median) {
-				this.state[line.name + 'Median'] = true
-				this.state[line.name] = line.hidden ? true : false
+				this.setState(line.name + 'Median', true)
+				this.setState(line.name, line.hidden ? true : false)
+				// this.state[line.name + 'Median'] = true
+				// this.state[line.name] = line.hidden ? true : false
 			}
 			else {
-				this.state[line.name] = line.hidden ? true : false
+				this.setState(line.name, line.hidden ? true : false)
+				// this.state[line.name] = line.hidden ? true : false
 			}
 		})
 		this.generateLines()
-		this.generateDots()
 		this.generateMedian()
 		this.generateLegend()
+		this.generateDots()
+	}
+	setState = (key, value) => {
+		// let data = this.props.data ? this.props.data[this.props.id] : []
+		// let newData = data.filter(f => this.state[f.name])
+		// console.log(newData)
+		// let allData = [].concat(...newData.map(d => d.data))
+		this.state[key] = value
+		// console.log(allData)
+
+		// this.y.domain(0, getMax(allData))
+		// this.generateLines()
+
 	}
 	generateXAxis = () => {
 		let period = this.props.period
@@ -144,7 +158,6 @@ class d3Line {
 				}
 				else {
 					let diff = -1 * moment(counter).diff(moment(counter).endOf('month'), 'days')
-					console.log(diff, moment(counter).format('lll'))
 					counter.add(diff + 1, 'day')
 					lb = 0
 				}
@@ -288,7 +301,8 @@ class d3Line {
 					LegendM
 						.style("color", active ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500])
 					LegendMLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
-					this.state[line.name + 'Median'] = active;
+					this.setState(line.name + 'Median', active)
+					// this.state[line.name + 'Median'] = active;
 				})
 			}
 
@@ -322,7 +336,9 @@ class d3Line {
 					.style("color", active ? 'rgba(255,255,255,0.3)' : line.prev ? '#fff' : colors[line.color][500])
 				LegendLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
 
-				this.state[line.name] = active
+				//Modified here
+				// this.state[line.name] = active
+				this.setState(line.name, active)
 			})
 
 
@@ -507,7 +523,6 @@ class d3Line {
 	destroy = () => {
 		// this.svg.remove()
 		this.svg.selectAll("*").remove()
-		console.log(this.svg.selectAll("*"))
 	}
 
 }

@@ -112,12 +112,9 @@ const LineGraph = (props) => {
 				genNewLine()
 			}, 300);
 		};
-		const logResize = () => console.log('resized')
 		window.addEventListener('resize', handleResize);
-		window.addEventListener('resize', logResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);
-			window.removeEventListener('resize', logResize);
 			// line.destroy()
 			// line = null
 		};

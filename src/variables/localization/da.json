@@ -544,6 +544,8 @@
 			"thisWeek": "Denne uge",
 			"today": "I dag",
 			"year": "År",
+			"thisYear": "Denne år",
+			"thisMonth": "Denne måned",
 			"yesterday": "I går"
 		},
 		"devices": {

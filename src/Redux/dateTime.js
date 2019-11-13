@@ -16,6 +16,7 @@ const NOSETTINGS = 'noSettings'
 // const removePeriod = 'chartRemovePeriod'
 
 export const changeDate = (menuId, to, from, timeType) => {
+	console.log(menuId)
 	return (dispatch) => {
 		let period = {
 			menuId, to, from, timeType
@@ -35,7 +36,7 @@ export const changeDate = (menuId, to, from, timeType) => {
  */
 const initialState = {
 	period: {
-		menuId: 1,
+		menuId: 2,
 		from: null, /* moment().subtract(7, 'day').startOf('day'), */
 		to: null, /* moment().endOf('day'), */
 		timeType: 2
@@ -52,7 +53,7 @@ export const dateTime = (state = initialState, action) => {
 			if (!state.period.to && !state.period.from)
 				return Object.assign({}, state, {
 					period: {
-						menuId: 1,
+						menuId: 2,
 						from: moment().subtract(7, 'day').startOf('day'),
 						to: moment().endOf('day'),
 						timeType: 2

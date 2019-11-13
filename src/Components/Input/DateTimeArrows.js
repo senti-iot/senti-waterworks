@@ -22,7 +22,10 @@ const MonthYear = styled(T)`
 	white-space: nowrap;
     /* letter-spacing: 1.5px; */
 `
-const futureTester = (date, unit) => moment().diff(date, unit) <= 0
+const futureTester = (date, unit) => {
+	console.log('FutureTester', moment().diff(date, unit) <= 0, moment().diff(date, unit))
+	return moment().diff(date, unit) <= 0
+}
 
 const DateTimeArrows = () => {
 	const timeTypes = [
@@ -36,24 +39,15 @@ const DateTimeArrows = () => {
 	const handleSetDate = (id, to, from, timeType) => dispatch(changeDate(id, to, from, timeType))
 	const handleNextPeriod = () => {
 		let from, to, diff;
-		if (period.menuId === 6) {
-			diff = moment(period.to).diff(moment(period.from), 'minute')
-			from = moment(period.from).add(diff + 1, 'minute').startOf(timeTypes[period.timeType].chart)
-			to = moment(period.to).add(diff + 1, 'minute').endOf(timeTypes[period.timeType].chart)
-			to = futureTester(to, timeTypes[period.timeType].chart) ? moment() : to
-		}
-		if ([0, 1].indexOf(period.menuId) !== -1) {
-			from = moment(period.from).add(1, 'week').startOf('week').startOf('day')
-			to = moment(period.to).add(1, 'week').endOf('week').endOf('day')
-			to = futureTester(to, 'day') ? moment() : to
-
-		}
 		if (period.menuId === 3) {
 			from = moment(period.from).add(1, 'month').startOf('month')
-			to = from.endOf('month')
-			to = futureTester(to, 'day') ? moment().startOf('day') : to
+			to = !futureTester(to, 'day') ? moment(from).endOf('month') : moment()
 		}
-		if ([2, 4, 5].indexOf(period.menuId) !== -1) {
+		if (period.menuId === 2) {
+			from = moment(period.to)
+			to = futureTester(to, 'day') ? moment(period.to).add(7, 'day') : moment()
+		}
+		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
 			from = moment(period.from).add(diff + 1, 'minute').startOf('day')
 			to = moment(period.to).add(diff + 1, 'minute').endOf('day')
@@ -63,32 +57,20 @@ const DateTimeArrows = () => {
 	}
 	const handlePreviousPeriod = () => {
 		let from, to, diff;
-
-		if (period.menuId === 6) {
-			diff = moment(period.to).diff(moment(period.from), 'minute')
-			from = moment(period.from).subtract(diff + 1, 'minute').startOf(timeTypes[period.timeType].chart)
-			to = moment(period.to).subtract(diff + 1, 'minute').endOf(timeTypes[period.timeType].chart)
-		}
-
-		// if ([0].indexOf(period.menuId) !== -1) {
-		// 	from = moment(period.from).subtract(1, 'week').startOf('week').startOf('day')
-		// 	to = moment(period.to).subtract(1, 'week').endOf('week').endOf('day')
-		// }
-		// if ([1].indexOf(period.menuId) !== -1) {
-		// 	from = moment(period.from).subtract(1, 'week').startOf('day')
-		// 	to = moment(period.to).subtract(1, 'week').endOf('day')
-		// }
 		if (period.menuId === 3) {
 			from = moment(period.from).subtract(1, 'month').startOf('month')
 			to = moment(from).endOf('month')
 		}
-
-		if ([0, 1, 2, 4, 5].indexOf(period.menuId) !== -1) {
+		if (period.menuId === 2) {
+			from = moment(period.from).subtract(7, 'day').startOf('day')
+			to = moment(period.from)
+		}
+		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'day')
 			from = moment(period.from).subtract(diff, 'day').startOf(timeTypes[period.timeType].chart)
 			to = moment(period.to).subtract(diff, 'day').endOf(timeTypes[period.timeType].chart)
 		}
-
+		console.log(from.format('lll', to.format('lll')))
 		handleSetDate(period.timeType, to, from, period.timeType, period.id)
 	}
 	return (
