@@ -122,10 +122,8 @@ class d3Line {
 	setState = (key, value) => {
 		// let data = this.props.data ? this.props.data[this.props.id] : []
 		// let newData = data.filter(f => this.state[f.name])
-		// console.log(newData)
 		// let allData = [].concat(...newData.map(d => d.data))
 		this.state[key] = value
-		// console.log(allData)
 
 		// this.y.domain(0, getMax(allData))
 		// this.generateLines()

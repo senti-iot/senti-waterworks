@@ -57,7 +57,7 @@ const waterFlowTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
-					<T variant={'h5'}>{`${props.tooltip.value} L`}</T>
+					<T variant={'h5'}>{`${props.tooltip.value} m³/t`}</T>
 					<img src={Pipe} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
 			</ItemG>
@@ -85,7 +85,7 @@ const temperatureTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
-					<T variant={'h5'}>{`${props.tooltip.value} °C`}</T>
+					<T variant={'h5'}>{`${parseFloat(props.tooltip.value).toFixed(1)} °C`}</T>
 					<img src={Thermometer} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
 			</ItemG>
@@ -113,8 +113,8 @@ const readingTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
-					<T variant={'h5'}>{`${props.tooltip.value} °C`}</T>
-					{/* <img src={Thermometer} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} /> */}
+					<T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
+					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
 			</ItemG>
 			{/* </ItemG> */}
@@ -128,7 +128,7 @@ const readingTooltip = (props) => {
 
 
 const Tooltip = (props) => {
-
+	console.log(props)
 	switch (props.id) {
 		case 'waterusage':
 			return waterUsageTooltip(props)
@@ -136,7 +136,7 @@ const Tooltip = (props) => {
 			return waterFlowTooltip(props)
 		case 'temperature':
 			return temperatureTooltip(props)
-		case 'reading':
+		case 'readings':
 			return readingTooltip(props)
 		default:
 			return null

@@ -16,7 +16,6 @@ const NOSETTINGS = 'noSettings'
 // const removePeriod = 'chartRemovePeriod'
 
 export const changeDate = (menuId, to, from, timeType) => {
-	console.log(menuId)
 	return (dispatch) => {
 		let period = {
 			menuId, to, from, timeType

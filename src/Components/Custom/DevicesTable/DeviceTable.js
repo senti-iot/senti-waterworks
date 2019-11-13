@@ -58,7 +58,7 @@ const DeviceTable = (props) => {
 		if (!s)
 			setSelDev(newSDevices)
 		else
-			setSelDev(devices.map(d => d.id))
+			setSelDev(customFilterItems(devices, filters).map(d => d.id))
 	}
 	//#region  Filters
 	const dLiveStatus = () => {

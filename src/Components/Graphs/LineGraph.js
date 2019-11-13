@@ -49,7 +49,6 @@ const LineGraph = (props) => {
 	// 				period: period,
 	// 				t: t
 	// 			}
-	// 			console.log(lineChartContainer.current.clientWidth)
 	// 			line = new d3Line(lineChartContainer.current, cProps, classes);
 	// 		}
 	// 	}
@@ -79,7 +78,6 @@ const LineGraph = (props) => {
 			}
 		}
 		const genNewLine = () => {
-			console.log('generateNewLine', lineChartContainer.current)
 			let cProps = {
 				unit: unitType(),
 				id: props.id,

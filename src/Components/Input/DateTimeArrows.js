@@ -23,7 +23,6 @@ const MonthYear = styled(T)`
     /* letter-spacing: 1.5px; */
 `
 const futureTester = (date, unit) => {
-	console.log('FutureTester', moment().diff(date, unit) <= 0, moment().diff(date, unit))
 	return moment().diff(date, unit) <= 0
 }
 
@@ -70,7 +69,6 @@ const DateTimeArrows = () => {
 			from = moment(period.from).subtract(diff, 'day').startOf(timeTypes[period.timeType].chart)
 			to = moment(period.to).subtract(diff, 'day').endOf(timeTypes[period.timeType].chart)
 		}
-		console.log(from.format('lll', to.format('lll')))
 		handleSetDate(period.timeType, to, from, period.timeType, period.id)
 	}
 	return (
