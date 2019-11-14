@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useState, useLayoutEffect } from 'react'
 import d3Line from './classes/d3Line'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import Tooltip from './Tooltip'
@@ -23,46 +23,11 @@ const LineGraph = (props) => {
 	let prevData = usePrevious(deviceData)
 	const classes = lineStyles({ id: props.id })
 	let prevLoading = usePrevious(props.loading)
-	// useEffect(() => {
-	// 	const unitType = () => {
-	// 		switch (props.id) {
-	// 			case 'waterusage':
-	// 				return 'm³'
-	// 			case 'temperature':
-	// 				return '°C'
-	// 			case 'waterflow':
-	// 				return 'm³/t'
-	// 			case 'reading':
-	// 				return 'm³'
-	// 			default:
-	// 				break;
-	// 		}
-	// 	}
-	// 	const genNewLine = () => {
-	// 		if (period.from && period.to && deviceData && lineChartContainer.current) {
-	// 			let cProps = {
-	// 				unit: unitType(),
-	// 				id: props.id,
-	// 				data: deviceData,
-	// 				setTooltip: setValue,
-	// 				setMedianTooltip: setMedianValue,
-	// 				period: period,
-	// 				t: t
-	// 			}
-	// 			line = new d3Line(lineChartContainer.current, cProps, classes);
-	// 		}
-	// 	}
-	// 	if (line) {
-	// 		line.destroy()
-	// 	}
-	// 	genNewLine()
-	// 	return () => {
 
-	// 	};
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [])
 
-	useEffect(() => {
+	useLayoutEffect(() => {
+		console.log(lineChartContainer.current ? lineChartContainer.current.getBoundingClientRect() : 'not loaded yet')
+		console.log(line)
 		const unitType = () => {
 			switch (props.id) {
 				case 'waterusage':
@@ -87,39 +52,50 @@ const LineGraph = (props) => {
 				period: period,
 				t: t
 			}
+
 			line = new d3Line(lineChartContainer.current, cProps, classes);
 
 		}
 		if ((props.id !== prevId) && line) {
+			console.log('Id changed', lineChartContainer.current.clientHeight, lineChartContainer.current.clientWidth)
 			line.destroy()
 			genNewLine()
 		}
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
+			console.log('notLoading', lineChartContainer.current.clientHeight, lineChartContainer.current.clientWidth)
 			// line.destroy()
-			genNewLine()
+			setTimeout(() => {
+
+				genNewLine()
+				line.destroy()
+				genNewLine()
+			}, 300);
+			// clearTimeout(debounce)
 		}
 		// if (prevData !== deviceData) {
 		// 	line.destroy()
 		// 	genNewLine()
 		// }
-		let resizeTimer;
-		const handleResize = () => {
-			clearTimeout(resizeTimer);
-			resizeTimer = setTimeout(() => {
-				line.destroy()
-				genNewLine()
-			}, 300);
-		};
-		window.addEventListener('resize', handleResize);
-		return () => {
-			window.removeEventListener('resize', handleResize);
-			// line.destroy()
-			// line = null
-		};
+		// let resizeTimer;
+		// const handleResize = () => {
+		// 	clearTimeout(resizeTimer);
+		// 	resizeTimer = setTimeout(() => {
+		// 		console.log('Resized', lineChartContainer.current.clientHeight, lineChartContainer.current.clientWidth)
+
+		// 		line.destroy()
+		// 		genNewLine()
+		// 	}, 300);
+		// };
+		// window.addEventListener('resize', handleResize);
+		// return () => {
+		// 	window.removeEventListener('resize', handleResize);
+		// 	// line.destroy()
+		// 	// line = null
+		// };
 	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading])
 
 	return (
-		props.loading ? <CircularLoader /> :
+		props.loading ? <CircularLoader fill /> :
 			<div style={{ width: '100%', height: '100%'/* , minHeight: 300 */ }}>
 				<Tooltip tooltip={value} id={props.id} />
 				<MedianTooltip tooltip={medianValue} id={props.id} />

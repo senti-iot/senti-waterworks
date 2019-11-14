@@ -32,44 +32,20 @@ class d3Line {
 		this.containerEl = containerEl;
 		this.props = props;
 		this.period = props.period;
-		var margin = this.margin = { top: 50, right: 50, bottom: 75, left: 50 };
+		this.margin = { top: 50, right: 50, bottom: 50, left: 50 };
 		let data = props.data ? props.data[props.id] : []
 
 		//Get the height and width from the container
 		var height = this.height = containerEl.clientHeight;
 		var width = this.width = containerEl.clientWidth;
 
-		height = height - margin.top - margin.bottom;
-		width = width - margin.left - margin.right;
-		// this.generateLines()
-		//Append the SVG to the container
-		this.container = d3.select(`#${props.id}`)
+		console.log(height, width)
+
 		this.svg = d3.select(`#${props.id}`)
-			// .attr("id", props.id)
-			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom)
-			.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-			// .attr("width", width)
-			// .attr("height", height)
-			.append("g")
-			.attr("transform", "translate(" + 70 + "," + 63 + ")")
-		// Set the this.svg ranges
 
-		this.x = d3.scaleTime().range([0, width]);
-		// var x = d3.scaleTime().range([0, width]);
-		this.y = d3.scaleLinear().range([height, 0]);
-		// var y = d3.scaleLinear().range([height, 0]);
 
-		//Set the graph ranges
-		// if (!secondaryLine) {
-		let allData = [].concat(...data.map(d => d.data))
-		let period = this.props.period
-
-		// this.x.domain(d3.extent(allData, function (d) {
-		// 	return moment(d.date).valueOf();
-		// }));
-		this.x.domain([period.from, period.to])
-		this.y.domain([0, getMax(allData) + 1]);
+		this.generateXAxis()
+		this.generateYAxis()
 
 		//Define the area for the values
 		this.valueArea = d3.area()
@@ -87,33 +63,17 @@ class d3Line {
 
 		//#region Ticks
 
-		this.generateXAxis()
-		// //  Add the Y Axis
 
-		let yAxis = this.svg.append("g").call(d3.axisLeft(this.y));
-
-
-
-		yAxis.selectAll('path').attr('class', classes.axis)
-		yAxis.selectAll('line').attr('class', classes.axis)
-		yAxis.selectAll('text').attr('class', classes.axisTick)
-
-		yAxis.append('text')
-			.attr('transform', `translate(-40,${height / 2})`)
-			.attr('class', classes.axisText)
-			.html(props.unit)
 		data.forEach(line => {
 			if (!line.noMedianLegend && line.median) {
 				this.setState(line.name + 'Median', true)
 				this.setState(line.name, line.hidden ? true : false)
-				// this.state[line.name + 'Median'] = true
-				// this.state[line.name] = line.hidden ? true : false
 			}
 			else {
 				this.setState(line.name, line.hidden ? true : false)
-				// this.state[line.name] = line.hidden ? true : false
 			}
 		})
+
 		this.generateLines()
 		this.generateMedian()
 		this.generateLegend()
@@ -129,8 +89,38 @@ class d3Line {
 		// this.generateLines()
 
 	}
+	generateYAxis = () => {
+
+		const classes = this.classes
+		const height = this.height
+		let data = this.props.data ? this.props.data[this.props.id] : []
+		let allData = [].concat(...data.map(d => d.data))
+		console.log('Y Range', height - this.margin.top, this.margin.bottom)
+		this.y = d3.scaleLinear().range([height - this.margin.top, this.margin.bottom]);
+		this.y.domain([0, getMax(allData) + 1]);
+
+		let yAxis = this.svg.append("g")
+			.attr('transform', `translate(${this.margin.top + 40}, 0)`)
+			.call(d3.axisLeft(this.y));
+
+		yAxis.selectAll('path').attr('class', classes.axis)
+		yAxis.selectAll('line').attr('class', classes.axis)
+		yAxis.selectAll('text').attr('class', classes.axisTick)
+
+		yAxis.append('text')
+			.attr('transform', `translate(-40, ${height / 2})`)
+			.attr('class', classes.axisText)
+			.html(this.props.unit)
+	}
 	generateXAxis = () => {
+		const width = this.width
+		console.log('X Range', this.margin.left + 45, width)
+
+		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right]);
 		let period = this.props.period
+
+		this.x.domain([period.from, period.to])
+
 		const classes = this.classes
 		const height = this.height
 		let from = moment(period.from).startOf('day')
@@ -199,10 +189,11 @@ class d3Line {
 
 		// //Add the X axis
 		this.xAxis = this.svg.append("g")
-			.attr("transform", "translate(0," + (height - this.margin.top - this.margin.bottom + 5) + ")")
+
+			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
 			.call(xAxis_woy);
 
-
+		console.log(height - this.margin.bottom + 5)
 		// //Append style
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
@@ -212,7 +203,7 @@ class d3Line {
 			.tickFormat(d => moment(d).format('MMM'))
 			.tickValues(monthTicks)
 		this.xAxisMonths = this.svg.append("g")
-			.attr("transform", "translate(-8," + (height - this.margin.top - this.margin.bottom + 21) + ")")
+			.attr("transform", "translate(-8," + (height - this.margin.bottom + 26) + ")")
 			.call(xAxis_months);
 		this.xAxisMonths.selectAll('path').attr('class', classes.axis)
 		this.xAxisMonths.selectAll('line').attr('class', classes.axis)
@@ -357,7 +348,6 @@ class d3Line {
 			.y1(0)
 			.x((d) => { return this.x(moment(d.date).valueOf()) })
 		data.forEach((line, i) => {
-
 			//#region Generate Line Area
 			if (!line.noArea) {
 				let defArea = d3.area()
@@ -516,6 +506,10 @@ class d3Line {
 					});
 			}
 		})
+
+	}
+	update = () => {
+		// let gContainer = d3.select('#g-container').selectAll('*').remove()
 
 	}
 	destroy = () => {
