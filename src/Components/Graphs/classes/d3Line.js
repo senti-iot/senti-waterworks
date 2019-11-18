@@ -16,7 +16,10 @@ const getMedianLineData = (data) => {
 
 // const toUppercase = str => str.charAt(0).toUpperCase() + str.slice(1);
 const getMax = (arr) => {
-	return Math.max(...arr.map(d => d.value))
+	if (arr.length > 0)
+		return Math.max(...arr.map(d => d.value))
+	else
+		return 0
 }
 class d3Line {
 
@@ -79,27 +82,44 @@ class d3Line {
 		this.generateLegend()
 		this.generateDots()
 	}
-	setState = (key, value) => {
-		// let data = this.props.data ? this.props.data[this.props.id] : []
-		// let newData = data.filter(f => this.state[f.name])
-		// let allData = [].concat(...newData.map(d => d.data))
+	setState = (key, value, noUpdate) => {
 		this.state[key] = value
+		if (!noUpdate) {
 
-		// this.y.domain(0, getMax(allData))
-		// this.generateLines()
+			this.update()
+		}
 
 	}
-	generateYAxis = () => {
+	update = () => {
+		// this.xAxis.call(this.xAxis_days)
+		//#region Update Y-Axis
+		let data = this.props.data ? this.props.data[this.props.id] : []
+		let newData = data.filter(f => !this.state[f.name])
+		let allData = [].concat(...newData.map(d => d.data))
+		console.log(this.state)
+		this.y.domain([0, getMax(allData)])
+		this.yAxis.remove()
+		this.svg.selectAll("*").remove()
+		this.generateXAxis()
+		this.generateYAxis()
+		this.generateLines()
+		this.generateMedian()
+		this.generateLegend()
+		this.generateDots()
+		// this.yAxis.call(d3.axisLeft(this.y))
+	}
+	generateYAxis = (noDomain) => {
 
 		const classes = this.classes
 		const height = this.height
 		let data = this.props.data ? this.props.data[this.props.id] : []
-		let allData = [].concat(...data.map(d => d.data))
-		console.log('Y Range', height - this.margin.top, this.margin.bottom)
-		this.y = d3.scaleLinear().range([height - this.margin.top, this.margin.bottom]);
-		this.y.domain([0, getMax(allData) + 1]);
+		if (this.y === undefined) {
+			let allData = [].concat(...data.map(d => d.data))
+			this.y = d3.scaleLinear().range([height - this.margin.top, this.margin.bottom]);
+			this.y.domain([0, getMax(allData) + 1]);
+		}
 
-		let yAxis = this.svg.append("g")
+		let yAxis = this.yAxis = this.svg.append("g")
 			.attr('transform', `translate(${this.margin.top + 40}, 0)`)
 			.call(d3.axisLeft(this.y));
 
@@ -182,14 +202,13 @@ class d3Line {
 			monthTicks.push(to.valueOf())
 		}
 
-		var xAxis_woy = d3.axisBottom(this.x)
+		var xAxis_woy = this.xAxis_days = d3.axisBottom(this.x)
 			// .tickFormat(d3.timeFormat("%d"))
 			.tickFormat(f => moment(f).format('D'))
 			.tickValues(ticks);
 
 		// //Add the X axis
 		this.xAxis = this.svg.append("g")
-
 			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
 			.call(xAxis_woy);
 
@@ -199,7 +218,7 @@ class d3Line {
 		this.xAxis.selectAll('line').attr('class', classes.axis)
 		this.xAxis.selectAll('text').attr('class', classes.axisTick)
 
-		var xAxis_months = d3.axisBottom(this.x)
+		var xAxis_months = this.xAxis_months = d3.axisBottom(this.x)
 			.tickFormat(d => moment(d).format('MMM'))
 			.tickValues(monthTicks)
 		this.xAxisMonths = this.svg.append("g")
@@ -251,9 +270,10 @@ class d3Line {
 				.attr("cy", (d) => { return this.y(d.value) })
 				.attr("r", 0)
 				.attr("fill", line.color ? colors[line.color][500] : "#fff")
+				.style('opacity', 0)
 				.transition()
 				.attr("id", `${line.name}Dots`)
-				.style("opacity", line.hidden ? 0 : 1)
+				.style("opacity", this.state[line.name] ? 0 : 1)
 				.delay((d, i) => { return i * (1500 / line.data.length) })
 				.attr("r", 6)
 		})
@@ -344,8 +364,8 @@ class d3Line {
 		window.moment = moment
 		window.data = data
 		let animArea0 = d3.area()
-			.y0(this.height - this.margin.bottom - this.margin.top)
-			.y1(0)
+			.y0(this.height - this.margin.bottom)
+			.y1(this.height - this.margin.bottom)
 			.x((d) => { return this.x(moment(d.date).valueOf()) })
 		data.forEach((line, i) => {
 			//#region Generate Line Area
@@ -357,7 +377,7 @@ class d3Line {
 				this.svg.append("path")
 					.attr('id', line.name + 'Area')
 					.data([line.data])
-					.attr("opacity", line.hidden ? 0 : 1)
+					.attr("opacity", this.state[line.name] ? 0 : 1)
 					.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
 					// .attr("class", line.prev ? classes.prevArea : classes[line.name + 'Area'])
 					.attr("d", animArea0)
@@ -423,27 +443,86 @@ class d3Line {
 			//#endregion
 			//#region Generate Line
 			if (!line.prev)
-				this.svg.append('path')
-					.data([line.data])
-					.attr('id', line.name)
-					// .attr('class', classes[line.name])
-					.attr('fill', 'none')
-					.attr('stroke', colors[line.color][500])
-					.attr('stroke-width', '4px')
-					.attr('d', this.valueLine)
-					.attr("stroke-dasharray", function () {
-						return this.getTotalLength()
-					})
-					.attr("stroke-dashoffset", function () {
-						return this.getTotalLength()
-					})
-					.style("stroke-dasharray", line.dashed ? "3, 3" : undefined)
-					.attr("opacity", line.hidden ? 0 : 1)
-					.transition()
-					.duration(1500)
-					.attr('stroke-dashoffset', 0)
+				if (line.dashed) {
+					//Set up your path as normal
+					var path = this.svg.append("path")
+						.data([line.data])
+						.attr('id', line.name)
+						.attr('fill', 'none')
+						.attr('stroke', colors[line.color][500])
+						.attr('stroke-width', '4px')
+						.attr('d', this.valueLine)
+						.attr("opacity", this.state[line.name] ? 0 : 1)
 
-			//#endregion
+
+					//Get the total length of the path
+					var totalLength = path.node().getTotalLength();
+
+					/////// Create the required stroke-dasharray to animate a dashed pattern ///////
+
+					//Create a (random) dash pattern
+					//The first number specifies the length of the visible part, the dash
+					//The second number specifies the length of the invisible part
+					var dashing = "6, 6"
+
+					//This returns the length of adding all of the numbers in dashing
+					//(the length of one pattern in essence)
+					//So for "6,6", for example, that would return 6+6 = 12
+					var dashLength =
+						dashing
+							.split(/[\s,]/)
+							.map(function (a) { return parseFloat(a) || 0 })
+							.reduce(function (a, b) { return a + b });
+
+					//How many of these dash patterns will fit inside the entire path?
+					var dashCount = Math.ceil(totalLength / dashLength);
+
+					//Create an array that holds the pattern as often
+					//so it will fill the entire path
+					var newDashes = new Array(dashCount).join(dashing + " ");
+					//Then add one more dash pattern, namely with a visible part
+					//of length 0 (so nothing) and a white part
+					//that is the same length as the entire path
+					var dashArray = newDashes + " 0, " + totalLength;
+
+					/////// END ///////
+
+					//Now offset the entire dash pattern, so only the last white section is
+					//visible and then decrease this offset in a transition to show the dashes
+					path
+						.attr("stroke-dashoffset", totalLength)
+						//This is where it differs with the solid line example
+						.attr("stroke-dasharray", dashArray)
+						.transition().duration(1500)
+						.attr("stroke-dashoffset", 0);
+				}
+				else {
+
+					this.svg.append('path')
+						.data([line.data])
+						.attr('id', line.name)
+						// .attr('class', classes[line.name])
+						.attr('fill', 'none')
+						.attr('stroke', colors[line.color][500])
+						.attr('stroke-width', '4px')
+						.attr('d', this.valueLine)
+						.attr("stroke-dasharray", function () {
+							return this.getTotalLength()
+						})
+						.attr("stroke-dashoffset", function () {
+							return this.getTotalLength()
+						})
+						.attr("opacity", this.state[line.name] ? 0 : 1)
+						.transition()
+						.duration(1500)
+						.attr('stroke-dashoffset', 0)
+						.transition()
+						.duration(100)
+						.style("stroke-dasharray", undefined)
+
+
+					//#endregion
+				}
 		})
 
 	}
@@ -473,7 +552,7 @@ class d3Line {
 					.attr('class', classes.hiddenMedianLine)
 					.attr('d', this.valueLine)
 					.attr('id', `${line.name}MedianH`)
-					.style('display', line.hidden ? 'none' : undefined)
+					.style('display', this.state[line.name] ? 'none' : undefined)
 					.on("mouseover", (d) => {
 						if (!this.state[`${line.name}Median`]) {
 
@@ -506,10 +585,6 @@ class d3Line {
 					});
 			}
 		})
-
-	}
-	update = () => {
-		// let gContainer = d3.select('#g-container').selectAll('*').remove()
 
 	}
 	destroy = () => {
