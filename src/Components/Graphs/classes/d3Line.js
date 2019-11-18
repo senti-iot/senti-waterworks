@@ -270,7 +270,7 @@ class d3Line {
 				.attr("cy", (d) => { return this.y(d.value) })
 				.attr("r", 0)
 				.attr("fill", line.color ? colors[line.color][500] : "#fff")
-				.style('opacity', 0)
+				.attr('opacity', 0)
 				.transition()
 				.attr("id", `${line.name}Dots`)
 				.style("opacity", this.state[line.name] ? 0 : 1)
@@ -388,6 +388,7 @@ class d3Line {
 					let setMedianTooltip = this.props.setMedianTooltip
 					var medianTooltip = this.medianTooltip
 					let medianData = getMedianLineData(line.data)
+
 					let medianLine = this.svg.append('path')
 						.data([medianData])
 						.attr('fill', 'none')
@@ -395,8 +396,8 @@ class d3Line {
 						.attr('stroke-width', '4px')
 						// .attr('class', classes.medianLinePrev)
 						.attr('d', this.valueLine)
-						.attr('id', line.name + 'MArea')
-						.style('opacity', 0)
+						.attr('id', line.name + 'Median')
+						.attr('opacity', this.state[`${line.name}`] ? 0 : 1)
 						.attr('stroke-dasharray', ("3, 3"))
 
 					// Hidden overlay for Median tooltip
@@ -536,14 +537,14 @@ class d3Line {
 		data.forEach((line) => {
 
 			//Median line
-			if (line.median) {
+			if (line.median & !line.noMedianLegend) {
 				let medianData = getMedianLineData(line.data)
 				let medianLine = this.svg.append('path')
 					.data([medianData])
 					.attr('class', classes.medianLine)
 					.attr('d', this.valueLine)
 					.attr('id', `${line.name}MedianL`)
-					.style('opacity', 0)
+					.attr('opacity', this.state[`${line.name}Median`] ? 0 : 1)
 					.attr('stroke-dasharray', ("3, 3"))
 
 				// Hidden overlay for Median tooltip
