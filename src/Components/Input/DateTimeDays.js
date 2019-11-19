@@ -21,7 +21,7 @@ const DateTimeDays = () => {
 	}
 	return (
 		<ItemG container style={{ width: 'auto' }} alignItems={'center'}>
-			<DayOption isSelected={period.timeType === 2} onClick={setDateTime(2, moment().startOf('day'), moment().subtract(7, 'day').startOf('day'), 2)}>{t('filters.dateOptions.7days')}</DayOption>
+			<DayOption isSelected={period.timeType === 2} onClick={setDateTime(2, moment().startOf('day'), moment().subtract(6, 'day').startOf('day'), 2)}>{t('filters.dateOptions.7days')}</DayOption>
 			<DayOption isSelected={period.timeType === 3} onClick={setDateTime(3, moment().startOf('day'), moment().startOf('month').startOf('day'), 3)}>{t('filters.dateOptions.month')}</DayOption>
 			<DayOption isSelected={period.timeType === 4} onClick={setDateTime(4, moment().startOf('day'), moment().startOf('year').startOf('day'), 4)}>{t('filters.dateOptions.year')}</DayOption>
 		</ItemG>
