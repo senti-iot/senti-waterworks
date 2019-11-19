@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 // import whyDidYouRender from "@welldone-software/why-did-you-render";
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
 	console.log = () => { }
 }
 // if (process.env.NODE_ENV !== 'production') {
