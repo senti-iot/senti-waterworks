@@ -92,7 +92,7 @@ export const genReading = (deviceData) => {
 	return fResult;
 }
 
-export const genBenchmark = (deviceData, filter, prev, timeType) => {
+export const genBenchmark = (deviceData, filter, prev, diff) => {
 	let dData = deviceData
 	let data = {
 		waterUsage: [],
@@ -100,9 +100,13 @@ export const genBenchmark = (deviceData, filter, prev, timeType) => {
 		waterFlow: {},
 	}
 	if (prev) {
+		console.groupCollapsed('Prev Dates')
+		console.log(diff)
 		dData.forEach(d => {
-			d.created = moment(d.created).add(timeType === 2 ? 1 : 3, 'month')
+			d.created = moment(d.created).add(diff, 'day')
+			console.log(d.created.format('lll'))
 		})
+		console.groupEnd()
 	}
 	let waterReading, maxFlow, minFlow, minATemp, minWTemp;
 	if (filter && filter.length > 0) {
@@ -199,16 +203,7 @@ const sumUpData = (data) => {
 
 export const genArcData = (deviceData, filter, timeType) => {
 	let data = {
-		waterusage: [],
-		temperature: {
-			water: [],
-			ambient: []
-		},
-		waterFlow: {
-			minFlow: [],
-			maxFlow: []
-		},
-		reading: []
+		waterusage: []
 	}
 	let waterReading = deviceData.filter(d => d.data.value && filter.indexOf(d.device_id) > -1)
 	data.waterusage = sumUpData(waterReading.map(d => ({ id: d.device_id, value: d.data.value, date: d.created })))

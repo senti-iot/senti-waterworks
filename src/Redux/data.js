@@ -52,21 +52,25 @@ export const getData = async () => {
 	return async (dispatch, getState) => {
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
-		let timeType = getState().dateTime.period.timeType
+		console.log(from.format('lll'), to.format('lll'))
+		// let timeType = getState().dateTime.period.timeType
 		let filterDevices = getState().appState.selectedDevices
 
 		if (from)
 			from.subtract(1, 'day')
-		let subtr = timeType === 2 ? 1 : 3
-		let prevFrom = moment(from).subtract(subtr, 'month')
-		let prevTo = moment(to).subtract(subtr, 'month')
+		// let subtr = timeType === 2 ? 1 : 3
+		let subtr = moment(to).diff(from, 'day')
+		console.log(subtr)
+		let prevFrom = moment(from).subtract(subtr, 'day')
+		let prevTo = moment(to).subtract(subtr, 'day')
+
 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
 
 		rawData = await getDevicesData(from, to)
 		prevRawData = await getDevicesData(prevFrom, prevTo)
 		currentPeriodData = genBenchmark(rawData, filterDevices)
 		benchMarkData = genBenchmark(rawData)
-		previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
+		previousPeriodData = genBenchmark(prevRawData, filterDevices, true, subtr)
 		middleData = genArcData(rawData, filterDevices)
 		prevMiddleData = genArcData(prevRawData, filterDevices)
 
@@ -171,6 +175,14 @@ export const getData = async () => {
 		}
 		//#endregion
 		//#region Middle Widget
+		console.group('Arc Data')
+		console.log(middleData)
+		console.log(prevMiddleData)
+		console.log("Current Period")
+		console.log(from.format("YYYY-MM-DD HH:mm:ss") + ' - ' + to.format("YYYY-MM-DD HH:mm:ss"))
+		console.log("Previous Period")
+		console.log(prevFrom.format("YYYY-MM-DD HH:mm:ss") + ' - ' + prevTo.format("YYYY-MM-DD HH:mm:ss"))
+		console.groupEnd()
 		finalMiddleData = {
 			current: middleData,
 			previous: prevMiddleData
@@ -180,29 +192,11 @@ export const getData = async () => {
 			type: deviceData,
 			payload: finalData
 		})
-		// dispatch({
-		// 	type: rawDataStore,
-		// 	payload: {
-		// 		prevRawData, rawData, from: from ? from.add(1, 'day') : null, to, filterDevices
-		// 	}
-		// })
+
 		dispatch({
 			type: middleChartData,
 			payload: finalMiddleData
 		})
-		// let benchmark = genBenchmarkAll(data)
-		// let data = []
-		// let i
-		// for (i = 0; i < 30; i++) {
-		// 	data.push({
-		// 		nId: i,
-		// 		address: fakeDevice.address + i,
-		// 		guid: fakeDevice.guid + i,
-		// 		id: fakeDevice.id + i,
-		// 		type: fakeDevice.type + i,
-		// 		active: i % 3 === 0 ? true : false
-		// 	})
-		// }
 
 	}
 }
