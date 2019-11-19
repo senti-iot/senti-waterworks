@@ -39,10 +39,8 @@ class d3Line {
 		let data = props.data ? props.data[props.id] : []
 
 		//Get the height and width from the container
-		var height = this.height = containerEl.clientHeight;
-		var width = this.width = containerEl.clientWidth;
-
-		console.log(height, width)
+		this.height = containerEl.clientHeight;
+		this.width = containerEl.clientWidth;
 
 		this.svg = d3.select(`#${props.id}`)
 
@@ -96,7 +94,6 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state[f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		console.log(this.state)
 		this.y.domain([0, getMax(allData)])
 		this.yAxis.remove()
 		this.svg.selectAll("*").remove()
@@ -134,7 +131,6 @@ class d3Line {
 	}
 	generateXAxis = () => {
 		const width = this.width
-		console.log('X Range', this.margin.left + 45, width)
 
 		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right]);
 		let period = this.props.period
@@ -143,8 +139,8 @@ class d3Line {
 
 		const classes = this.classes
 		const height = this.height
-		let from = moment(period.from).startOf('day')
-		let to = period.to.startOf('day')
+		let from = moment(period.from)
+		let to = moment(period.to)
 		let timeType = period.timeType
 		let counter = moment(from)
 		let ticks = []
@@ -212,7 +208,6 @@ class d3Line {
 			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
 			.call(xAxis_woy);
 
-		console.log(height - this.margin.bottom + 5)
 		// //Append style
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		this.xAxis.selectAll('line').attr('class', classes.axis)

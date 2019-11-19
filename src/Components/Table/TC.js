@@ -19,7 +19,7 @@ const TC = (props) => {
 			{...rest}
 		>
 			{(label !== null || label !== undefined) ? <T variant={'body1'} classes={{ root: classes.paragraphCell + ' ' + (center ? classes.center : '') }}>
-				{label}
+				{label ? label : ""}
 			</T> : null}
 			{content ? content : null}
 		</TableCell>

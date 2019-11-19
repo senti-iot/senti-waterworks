@@ -7,7 +7,7 @@ import moment from 'moment'
 const sData = 'sortData'
 const GETDevice = 'devices'
 const deviceData = 'deviceData'
-const rawDataStore = 'storeOldData'
+// const rawDataStore = 'storeOldData'
 const middleChartData = 'middleChartData'
 
 export const sortData = (key, property, order) => {
@@ -44,19 +44,17 @@ export const getAllDevices = async () => {
 		dispatch({
 			type: 'selectDevice',
 			payload: devices ? devices.map(d => d.id) : []
+			// payload: devices ? [devices[0].id] : []
 		})
 	}
 }
 export const getData = async () => {
 	return async (dispatch, getState) => {
-		let from = getState().dateTime.period.from
-
-		let to = getState().dateTime.period.to
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
 		let timeType = getState().dateTime.period.timeType
-		let prevData = getState().data.prevData
 		let filterDevices = getState().appState.selectedDevices
-		// let prevTo = moment(from)
-		// let prevFrom = moment(from).subtract(moment(to).diff(moment(from), "day") + 1, "day")
+
 		if (from)
 			from.subtract(1, 'day')
 		let subtr = timeType === 2 ? 1 : 3
@@ -64,23 +62,13 @@ export const getData = async () => {
 		let prevTo = moment(to).subtract(subtr, 'month')
 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
 
-		if (prevData.from !== from && to !== prevData.to && prevData.rawData && prevData.filterDevices.length === filterDevices.length) {
-
-			rawData = prevData.rawData
-			prevRawData = prevData.prevRawData
-			currentPeriodData = genBenchmark(rawData, filterDevices)
-			benchMarkData = genBenchmark(rawData)
-			previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
-		}
-		else {
-			rawData = await getDevicesData(from, to)
-			prevRawData = await getDevicesData(prevFrom, prevTo)
-			currentPeriodData = genBenchmark(rawData, filterDevices)
-			benchMarkData = genBenchmark(rawData)
-			previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
-			middleData = genArcData(rawData, filterDevices)
-			prevMiddleData = genArcData(prevRawData, filterDevices)
-		}
+		rawData = await getDevicesData(from, to)
+		prevRawData = await getDevicesData(prevFrom, prevTo)
+		currentPeriodData = genBenchmark(rawData, filterDevices)
+		benchMarkData = genBenchmark(rawData)
+		previousPeriodData = genBenchmark(prevRawData, filterDevices, true, timeType)
+		middleData = genArcData(rawData, filterDevices)
+		prevMiddleData = genArcData(prevRawData, filterDevices)
 
 		finalData = {
 			id: Math.random(),
@@ -192,12 +180,12 @@ export const getData = async () => {
 			type: deviceData,
 			payload: finalData
 		})
-		dispatch({
-			type: rawDataStore,
-			payload: {
-				prevRawData, rawData, from: from ? from.add(1, 'day') : null, to, filterDevices
-			}
-		})
+		// dispatch({
+		// 	type: rawDataStore,
+		// 	payload: {
+		// 		prevRawData, rawData, from: from ? from.add(1, 'day') : null, to, filterDevices
+		// 	}
+		// })
 		dispatch({
 			type: middleChartData,
 			payload: finalMiddleData
@@ -221,13 +209,6 @@ export const getData = async () => {
 const initialState = {
 	devices: [],
 	data: {},
-	prevData: {
-		prevRawData: [],
-		rawData: [],
-		filterDevices: [],
-		from: null,
-		to: null
-	},
 	middleChartData: {
 		current: {
 			waterusage: 0

@@ -26,8 +26,6 @@ const LineGraph = (props) => {
 
 
 	useLayoutEffect(() => {
-		console.log(lineChartContainer.current ? lineChartContainer.current.getBoundingClientRect() : 'not loaded yet')
-		console.log(line)
 		const unitType = () => {
 			switch (props.id) {
 				case 'waterusage':
@@ -57,12 +55,10 @@ const LineGraph = (props) => {
 
 		}
 		if ((props.id !== prevId) && line) {
-			console.log('Id changed', lineChartContainer.current.clientHeight, lineChartContainer.current.clientWidth)
 			line.destroy()
 			genNewLine()
 		}
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
-			console.log('notLoading', lineChartContainer.current.clientHeight, lineChartContainer.current.clientWidth)
 			// line.destroy()
 			setTimeout(() => {
 
@@ -80,7 +76,6 @@ const LineGraph = (props) => {
 		// const handleResize = () => {
 		// 	clearTimeout(resizeTimer);
 		// 	resizeTimer = setTimeout(() => {
-		// 		console.log('Resized', lineChartContainer.current.clientHeight, lineChartContainer.current.clientWidth)
 
 		// 		line.destroy()
 		// 		genNewLine()

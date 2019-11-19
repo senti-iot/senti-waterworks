@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 //#region Main Graph
-const genWaterPerDevice = (data) => {
+export const genWaterPerDevice = (data) => {
 	let devData = {}
 	let final = []
 	if (data.length > 0) {
@@ -18,12 +18,11 @@ const genWaterPerDevice = (data) => {
 		 * ...
 		 * }
 		 */
-		data.reduce((prev, d) => {
+		data.forEach(d => {
 			devData[d.id] = devData[d.id] || {};
 			var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
 			devData[d.id][date] = devData[d.id][date] || {}
 			devData[d.id][date] = d.value
-			return devData
 		})
 		//Get the device Ids
 		let deviceIds = Object.keys(devData)
@@ -72,7 +71,7 @@ const genWaterPerDevice = (data) => {
 }
 
 
-const genReading = (deviceData) => {
+export const genReading = (deviceData) => {
 	let data = {}
 	var dataByDay = deviceData.reduce((d, datum) => {
 		var date = moment(datum.date);
@@ -132,10 +131,7 @@ export const genBenchmark = (deviceData, filter, prev, timeType) => {
 		water: genReading(minWTemp.map(d => ({ value: d.data.minWTemp, date: d.created }))),
 		ambient: genReading(minATemp.map(d => ({ value: d.data.minATemp, date: d.created })))
 	}
-	// data.temperature = {
-	// 	water: [],
-	// 	ambient: []
-	// }
+
 	return data
 }
 //#endregion
@@ -145,12 +141,18 @@ export const genBenchmark = (deviceData, filter, prev, timeType) => {
 const sumUpData = (data) => {
 	let devData = {}
 	if (data.length > 0) {
-		data.reduce((prev, d) => {
+		// data.reduce((prev, d) => {
+		// 	devData[d.id] = devData[d.id] || {};
+		// 	var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
+		// 	devData[d.id][date] = devData[d.id][date] || {}
+		// 	devData[d.id][date] = d.value
+		// 	return devData
+		// })
+		data.forEach(d => {
 			devData[d.id] = devData[d.id] || {};
 			var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
 			devData[d.id][date] = devData[d.id][date] || {}
 			devData[d.id][date] = d.value
-			return devData
 		})
 		//Get the device Ids
 		let deviceIds = Object.keys(devData)

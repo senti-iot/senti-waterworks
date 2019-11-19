@@ -346,7 +346,7 @@ const FilterCard = (props) => {
 					autoFocus
 					onKeyDown={handleKeyDown}
 					label={t('filters.contains')}
-					value={value}
+					value={value ? value : ""}
 					onChange={handleInput} />
 			default:
 				break;

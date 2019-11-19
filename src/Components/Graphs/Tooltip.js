@@ -128,7 +128,6 @@ const readingTooltip = (props) => {
 
 
 const Tooltip = (props) => {
-	console.log(props)
 	switch (props.id) {
 		case 'waterusage':
 			return waterUsageTooltip(props)

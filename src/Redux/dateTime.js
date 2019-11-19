@@ -54,7 +54,7 @@ export const dateTime = (state = initialState, action) => {
 					period: {
 						menuId: 2,
 						from: moment().subtract(7, 'day').startOf('day'),
-						to: moment().endOf('day'),
+						to: moment().startOf('day'),
 						timeType: 2
 					},
 				})
