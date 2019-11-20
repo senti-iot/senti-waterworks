@@ -14,7 +14,7 @@ const getMedianLineData = (data) => {
 	return medianValues
 }
 
-// const toUppercase = str => str.charAt(0).toUpperCase() + str.slice(1);
+
 const getMax = (arr) => {
 	if (arr.length > 0)
 		return Math.max(...arr.map(d => d.value))

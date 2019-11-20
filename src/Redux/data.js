@@ -53,11 +53,10 @@ export const getData = async () => {
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		console.log(from.format('lll'), to.format('lll'))
-		// let timeType = getState().dateTime.period.timeType
 		let filterDevices = getState().appState.selectedDevices
 
 		// let subtr = timeType === 2 ? 1 : 3
-		let subtr = moment(to).diff(from, 'day')
+		let subtr = moment(to).diff(moment(from), 'day')
 		// if (from)
 		// 	from.subtract(1, 'day')
 		console.log(subtr)
@@ -71,6 +70,9 @@ export const getData = async () => {
 		currentPeriodData = genBenchmark(rawData, filterDevices)
 		benchMarkData = genBenchmark(rawData)
 		previousPeriodData = genBenchmark(prevRawData, filterDevices, true, subtr)
+		/**
+		 * TODO: Do not call the API for another set of data, filter it based on from
+		 */
 		let rawArcData = await getDevicesData(from, to)
 		let prevRawArcData = await getDevicesData(prevFrom, prevTo)
 		middleData = genArcData(rawArcData, filterDevices)
