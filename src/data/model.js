@@ -203,11 +203,12 @@ const sumUpData = (data) => {
 
 export const genArcData = (deviceData, filter, timeType) => {
 	let data = {
-		waterusage: []
+		waterusage: [],
+		values: []
 	}
 	let waterReading = deviceData.filter(d => d.data.value && filter.indexOf(d.device_id) > -1)
 	data.waterusage = sumUpData(waterReading.map(d => ({ id: d.device_id, value: d.data.value, date: d.created })))
-
+	data.values = waterReading.map(d => ({ id: d.device_id, value: d.data.value, date: d.created }))
 	return data
 }
 

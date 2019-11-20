@@ -44,7 +44,7 @@ const DateTimeArrows = () => {
 		}
 		if (period.menuId === 2) {
 			from = moment(period.to)
-			to = futureTester(to, 'day') ? moment(period.to).add(7, 'day') : moment()
+			to = futureTester(to, 'day') ? moment(period.to).add(6, 'day') : moment()
 		}
 		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
@@ -61,7 +61,7 @@ const DateTimeArrows = () => {
 			to = moment(from).endOf('month')
 		}
 		if (period.menuId === 2) {
-			from = moment(period.from).subtract(7, 'day').startOf('day')
+			from = moment(period.from).subtract(6, 'day').startOf('day')
 			to = moment(period.from)
 		}
 		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {

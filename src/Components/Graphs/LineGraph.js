@@ -33,7 +33,7 @@ const LineGraph = (props) => {
 				case 'temperature':
 					return '°C'
 				case 'waterflow':
-					return 'm³/t'
+					return 'l/t'
 				case 'reading':
 					return 'm³'
 				default:

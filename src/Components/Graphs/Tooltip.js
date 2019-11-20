@@ -57,7 +57,7 @@ const waterFlowTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
-					<T variant={'h5'}>{`${props.tooltip.value} m³/t`}</T>
+					<T variant={'h5'}>{`${props.tooltip.value} l/t`}</T>
 					<img src={Pipe} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
 			</ItemG>

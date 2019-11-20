@@ -56,23 +56,25 @@ export const getData = async () => {
 		// let timeType = getState().dateTime.period.timeType
 		let filterDevices = getState().appState.selectedDevices
 
-		if (from)
-			from.subtract(1, 'day')
 		// let subtr = timeType === 2 ? 1 : 3
 		let subtr = moment(to).diff(from, 'day')
+		// if (from)
+		// 	from.subtract(1, 'day')
 		console.log(subtr)
 		let prevFrom = moment(from).subtract(subtr, 'day')
 		let prevTo = moment(to).subtract(subtr, 'day')
 
 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
 
-		rawData = await getDevicesData(from, to)
-		prevRawData = await getDevicesData(prevFrom, prevTo)
+		rawData = await getDevicesData(from.clone().subtract(1, 'day'), to)
+		prevRawData = await getDevicesData(prevFrom.clone().subtract(1, 'day'), prevTo)
 		currentPeriodData = genBenchmark(rawData, filterDevices)
 		benchMarkData = genBenchmark(rawData)
 		previousPeriodData = genBenchmark(prevRawData, filterDevices, true, subtr)
-		middleData = genArcData(rawData, filterDevices)
-		prevMiddleData = genArcData(prevRawData, filterDevices)
+		let rawArcData = await getDevicesData(from, to)
+		let prevRawArcData = await getDevicesData(prevFrom, prevTo)
+		middleData = genArcData(rawArcData, filterDevices)
+		prevMiddleData = genArcData(prevRawArcData, filterDevices)
 
 		finalData = {
 			id: Math.random(),
