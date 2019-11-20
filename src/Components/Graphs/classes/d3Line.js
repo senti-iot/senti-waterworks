@@ -16,8 +16,19 @@ const getMedianLineData = (data) => {
 
 
 const getMax = (arr) => {
-	if (arr.length > 0)
-		return Math.max(...arr.map(d => d.value))
+	if (arr.length > 0) {
+
+		let max = Math.max(...arr.map(d => d.value))
+		return max > 1 ? max + 10 : max + 0.1
+	}
+	else
+		return 0
+}
+const getMin = (arr) => {
+	if (arr.length > 0) {
+		let max = Math.min(...arr.map(d => d.value))
+		return max > 1 ? max - 10 : max - 0.1
+	}
 	else
 		return 0
 }
@@ -94,7 +105,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state[f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		this.y.domain([0, getMax(allData)])
+		this.y.domain([getMin(allData), getMax(allData)])
 		this.yAxis.remove()
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
@@ -113,7 +124,7 @@ class d3Line {
 		if (this.y === undefined) {
 			let allData = [].concat(...data.map(d => d.data))
 			this.y = d3.scaleLinear().range([height - this.margin.top, this.margin.bottom]);
-			this.y.domain([0, getMax(allData) + 1]);
+			this.y.domain([getMin(allData), getMax(allData)]);
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
@@ -367,7 +378,8 @@ class d3Line {
 			if (!line.noArea) {
 				let defArea = d3.area()
 					.x((d) => { return this.x(moment(d.date).valueOf()) })
-					.y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : Math.min(...line.data.map(d => d.value))))
+					// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
+					.y0(this.height - this.margin.bottom)
 					.y1((d) => { return this.y(d.value) })
 				this.svg.append("path")
 					.attr('id', line.name + 'Area')
