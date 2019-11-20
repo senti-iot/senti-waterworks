@@ -54,27 +54,58 @@ class d3Arc {
 		window.width = width
 		window.height = height
 		let median = Math.round((width + height) / 2)
+
 		var innerArc = d3.arc()
 			.innerRadius(`${(median / 3) - 25}`)
 			.outerRadius(`${(median / 3) - 10}`)
-			.startAngle(innerArcS) //converting from degs to radians
-			.endAngle(innerArcE) //just radians
+		// .startAngle(innerArcS) //converting from degs to radians
+		// .endAngle(innerArcE) //just radians
+
 		var outerArc = d3.arc()
 			.innerRadius(`${(median / 3) - 5}`)
 			.outerRadius(`${(median / 3) + 10}`)
-			.startAngle(outerArcS)
-			.endAngle((Math.PI * outerArcE) / 180)
+		// .startAngle(outerArcS)
+		// .endAngle((Math.PI * outerArcE) / 180)
+		// .endAngle(outerArcS)
 
 		this.svg.append("path")
+			.datum({ startAngle: 0, endAngle: 0 })
 			.attr("d", innerArc)
 			.attr('class', classes.arc + " " + classes.innerArc)
+			.transition()
+			.duration(2000)
+			.call(arcTween, innerArcS, innerArcE, innerArc)
 
 		this.svg.append("path")
+			.datum({ startAngle: 0, endAngle: 0 })
 			.attr("d", outerArc)
 			.attr('class', `${classes.arc} ${classes.outerArc} ${arcData < arcPrevData ? classes.outerArcG : classes.outerArcR}`)
+			.transition()
+			.duration(2000)
+			.call(arcTween, outerArcS, (Math.PI * outerArcE) / 180, outerArc)
 
-		// .attr("transform", `translate(-50%, -50%); rotate(180deg)`)
-		// .attr('transform-origin', "center")
+		function arcTween(transition, newStartAngle, newFinishAngle, arc) {
+
+			transition.attrTween("d", function (d) {
+				var interpolateStart = d3.interpolate(d.startAngle, newStartAngle);
+				var interpolateEnd = d3.interpolate(d.endAngle, newFinishAngle);
+
+				return function (t) {
+					d.endAngle = interpolateEnd(t);
+					d.startAngle = interpolateStart(t);
+					return arc(d);
+				};
+			});
+		}
+		// function arcTween(d) {
+		// 	var i = d3.interpolate(outerArcS, outerArcE);
+		// 	return function (t) {
+
+		// 		d.endAngle = i(t);
+		// 		console.log(d)
+		// 		return (d);
+		// 	};
+		// }
 	}
 
 	destroy = (id) => {

@@ -43,8 +43,8 @@ export const getAllDevices = async () => {
 		})
 		dispatch({
 			type: 'selectDevice',
-			payload: devices ? devices.map(d => d.id) : []
-			// payload: devices ? [devices[0].id] : []
+			// payload: devices ? devices.map(d => d.id) : []
+			payload: devices ? [devices[0].id] : []
 		})
 	}
 }
