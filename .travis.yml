@@ -17,6 +17,12 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
+  - domain: https://waterworks-senti.surge.sh
+    project: "./build"
+    provider: surge
+    skip_cleanup: true
+    on:
+      branch: beta
 language: node_js
 node_js:
   - stable
