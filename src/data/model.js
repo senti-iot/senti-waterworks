@@ -76,13 +76,9 @@ export const genBenchmark = (deviceData, filter, prev, diff) => {
 		waterFlow: {},
 	}
 	if (prev) {
-		// console.groupCollapsed('Prev Dates')
-		// console.log(diff)
 		dData.forEach(d => {
 			d.created = moment(d.created).add(diff, 'day')
-			// console.log(d.created.format('lll'))
 		})
-		// console.groupEnd()
 	}
 	let waterReading, maxFlow, minFlow, minATemp, minWTemp;
 	if (filter && filter.length > 0) {
@@ -99,7 +95,6 @@ export const genBenchmark = (deviceData, filter, prev, diff) => {
 		minATemp = dData.filter(d => d.data.minATemp !== undefined)
 		minWTemp = dData.filter(d => d.data.minWTemp !== undefined)
 	}
-	console.log(waterReading)
 	data.waterUsage = genWaterPerDevice(waterReading.map(d => ({ id: d.device_id, value: d.data.value, date: d.created })))
 
 	data.waterFlow = {

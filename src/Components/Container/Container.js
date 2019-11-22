@@ -29,7 +29,6 @@ const ChartContainer = () => {
 	const period = useSelector(s => s.dateTime.period)
 	const prevPeriod = usePrevious(period)
 	const prevSelectedDevices = usePrevious(selectedDevices)
-
 	useEffect(() => {
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
@@ -114,7 +113,7 @@ function Container(props) {
 							</Route>
 						</Switch>
 					</AppBackground>
-					: <CircularLoader />}
+					: <CircularLoader fill />}
 			</Fragment>
 			: <Redirect from={window.location.pathname} to={{
 				pathname: '/login', state: {

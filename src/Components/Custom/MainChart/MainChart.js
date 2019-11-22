@@ -7,7 +7,7 @@ import { useLocalization, useSelector } from 'Hooks'
 import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
 
-export const MainChart = (props) => {
+export const MainChart = React.memo((props) => {
 	const { chart, setChart } = props
 	const t = useLocalization()
 	const isActive = (c) => chart === c ? true : false
@@ -50,6 +50,6 @@ export const MainChart = (props) => {
 
 		</ItemG>
 	)
-}
+})
 MainChart.whyDidYouRender = true;
 // export default MainChart

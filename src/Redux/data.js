@@ -43,8 +43,8 @@ export const getAllDevices = async () => {
 		})
 		dispatch({
 			type: 'selectDevice',
-			// payload: devices ? devices.map(d => d.id) : []
-			payload: devices ? [devices[0].id] : []
+			payload: devices ? devices.map(d => d.id) : []
+			// payload: devices ? [devices[0].id] : []
 		})
 	}
 }
@@ -52,14 +52,9 @@ export const getData = async () => {
 	return async (dispatch, getState) => {
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
-		console.log(from.format('lll'), to.format('lll'))
 		let filterDevices = getState().appState.selectedDevices
 
-		// let subtr = timeType === 2 ? 1 : 3
 		let subtr = moment(to).diff(moment(from), 'day')
-		// if (from)
-		// 	from.subtract(1, 'day')
-		console.log(subtr)
 		let prevFrom = moment(from).subtract(subtr, 'day')
 		let prevTo = moment(to).subtract(subtr, 'day')
 
@@ -179,14 +174,6 @@ export const getData = async () => {
 		}
 		//#endregion
 		//#region Middle Widget
-		console.group('Arc Data')
-		console.log(middleData)
-		console.log(prevMiddleData)
-		console.log("Current Period")
-		console.log(from.format("YYYY-MM-DD HH:mm:ss") + ' - ' + to.format("YYYY-MM-DD HH:mm:ss"))
-		console.log("Previous Period")
-		console.log(prevFrom.format("YYYY-MM-DD HH:mm:ss") + ' - ' + prevTo.format("YYYY-MM-DD HH:mm:ss"))
-		console.groupEnd()
 		finalMiddleData = {
 			current: middleData,
 			previous: prevMiddleData

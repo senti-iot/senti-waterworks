@@ -97,15 +97,6 @@ class d3Arc {
 				};
 			});
 		}
-		// function arcTween(d) {
-		// 	var i = d3.interpolate(outerArcS, outerArcE);
-		// 	return function (t) {
-
-		// 		d.endAngle = i(t);
-		// 		console.log(d)
-		// 		return (d);
-		// 	};
-		// }
 	}
 
 	destroy = (id) => {

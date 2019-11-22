@@ -9,7 +9,7 @@ import CircularLoader from 'Components/Loaders/CircularLoader'
 
 let line = null
 
-const LineGraph = (props) => {
+const LineGraph = React.memo((props) => {
 	const lineChartContainer = useRef(null)
 	// const loading = useRef(false)
 	const [value, setValue] = useState({ value: null, date: null })
@@ -105,6 +105,6 @@ const LineGraph = (props) => {
 				<Legend id={props.id} data={deviceData} />
 			</div>
 	)
-}
-LineGraph.whyDidYouUpdate = true
+})
+LineGraph.whyDidYouRender = true
 export default LineGraph
