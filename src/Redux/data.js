@@ -51,7 +51,7 @@ export const getAllDevices = async () => {
 export const getData = async () => {
 	return async (dispatch, getState) => {
 		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone()
+		let to = getState().dateTime.period.to.clone().endOf('day')
 		let filterDevices = getState().appState.selectedDevices
 
 		let subtr = moment(to).diff(moment(from), 'day')
@@ -68,8 +68,12 @@ export const getData = async () => {
 		/**
 		 * TODO: Do not call the API for another set of data, filter it based on from
 		 */
-		let rawArcData = await getDevicesData(from, to)
-		let prevRawArcData = await getDevicesData(prevFrom, prevTo)
+		// let rawArcData = await getDevicesData(from, to)
+		// let prevRawArcData = await getDevicesData(prevFrom, prevTo)
+
+		let rawArcData = rawData.filter(f => moment(f.created) > from)
+		let prevRawArcData = prevRawData.filter(f => moment(f.created) > prevFrom)
+
 		middleData = genArcData(rawArcData, filterDevices)
 		prevMiddleData = genArcData(prevRawArcData, filterDevices)
 
@@ -168,7 +172,7 @@ export const getData = async () => {
 					name: 'readingL',
 					// median: true,
 					color: 'yellow',
-					data: rawData.filter(d => d.data.value !== undefined && d.device_id === filterDevices[0]).map(d => ({ value: d.data.value, date: d.created }))
+					data: rawData.filter(d => d.value !== undefined && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: d.time }))
 				}
 			]
 		}

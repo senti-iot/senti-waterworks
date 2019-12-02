@@ -60,33 +60,33 @@ const LineGraph = React.memo((props) => {
 		}
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
 			// line.destroy()
-			setTimeout(() => {
+			genNewLine()
+			// line.destroy()
+			// genNewLine()
+			// setTimeout(() => {
 
-				genNewLine()
-				line.destroy()
-				genNewLine()
-			}, 300);
+			// }, 100);
 			// clearTimeout(debounce)
 		}
 		// if (prevData !== deviceData) {
 		// 	line.destroy()
 		// 	genNewLine()
 		// }
-		// let resizeTimer;
-		// const handleResize = () => {
-		// 	clearTimeout(resizeTimer);
-		// 	resizeTimer = setTimeout(() => {
+		let resizeTimer;
+		const handleResize = () => {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
 
-		// 		line.destroy()
-		// 		genNewLine()
-		// 	}, 300);
-		// };
-		// window.addEventListener('resize', handleResize);
-		// return () => {
-		// 	window.removeEventListener('resize', handleResize);
-		// 	// line.destroy()
-		// 	// line = null
-		// };
+				line.destroy()
+				genNewLine()
+			}, 300);
+		};
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+			// line.destroy()
+			// line = null
+		};
 	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading])
 
 	return (
