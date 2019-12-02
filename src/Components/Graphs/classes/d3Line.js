@@ -146,12 +146,17 @@ class d3Line {
 		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right]);
 		let period = this.props.period
 
-		this.x.domain([period.from, period.to])
+		let data = this.props.data ? this.props.data[this.props.id] : []
+		let newData = data.filter(f => !this.state[f.name])
+		let allData = [].concat(...newData.map(d => d.data))
+		let from = moment.min(allData.map(d => moment(d.date)))
+		let to = moment.max(allData.map(d => moment(d.date)))
+
+		this.x.domain([from, to])
+
 
 		const classes = this.classes
 		const height = this.height
-		let from = moment(period.from)
-		let to = moment(period.to)
 		let timeType = period.timeType
 		let counter = moment(from)
 		let ticks = []
@@ -362,11 +367,11 @@ class d3Line {
 	}
 
 	generateLines = () => {
-		let period = this.props.period
+		// let period = this.props.period
 		let data = this.props.data[this.props.id]
-		data.forEach(d => {
-			d.data = d.data.filter(f => moment(f.date).diff(period.from) >= 0)
-		})
+		// data.forEach(d => {
+		// 	d.data = d.data.filter(f => moment(f.date).diff(period.from) >= 0)
+		// })
 		window.moment = moment
 		window.data = data
 		let animArea0 = d3.area()

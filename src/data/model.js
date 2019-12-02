@@ -77,34 +77,34 @@ export const genBenchmark = (deviceData, filter, prev, diff) => {
 	}
 	if (prev) {
 		dData.forEach(d => {
-			d.created = moment(d.created).add(diff, 'day')
+			d.time = moment(d.time).add(diff, 'day')
 		})
 	}
 	let waterReading, maxFlow, minFlow, minATemp, minWTemp;
 	if (filter && filter.length > 0) {
-		waterReading = dData.filter(d => d.value && filter.indexOf(d.device_id) > -1)
+		waterReading = dData.filter(d => d.value !== undefined && filter.indexOf(d.device_id) > -1)
 		maxFlow = dData.filter(d => d.maxFlow !== undefined && filter.indexOf(d.device_id) > -1)
 		minFlow = dData.filter(d => d.minFlow !== undefined && filter.indexOf(d.device_id) > -1)
 		minATemp = dData.filter(d => d.minATemp !== undefined && filter.indexOf(d.device_id) > -1)
 		minWTemp = dData.filter(d => d.minWTemp !== undefined && filter.indexOf(d.device_id) > -1)
 	}
 	else {
-		waterReading = dData.filter(d => d.value)
+		waterReading = dData.filter(d => d.value !== undefined)
 		maxFlow = dData.filter(d => d.maxFlow !== undefined)
 		minFlow = dData.filter(d => d.minFlow !== undefined)
 		minATemp = dData.filter(d => d.minATemp !== undefined)
 		minWTemp = dData.filter(d => d.minWTemp !== undefined)
 	}
-	data.waterUsage = genWaterPerDevice(waterReading.map(d => ({ id: d.device_id, value: d.value, date: d.created })))
+	data.waterUsage = genWaterPerDevice(waterReading.map(d => ({ id: d.device_id, value: d.value, date: d.time })))
 
 	data.waterFlow = {
-		maxFlow: genReading(maxFlow.map(d => ({ value: d.maxFlow, date: d.created }))),
-		minFlow: genReading(minFlow.map(d => ({ value: d.minFlow, date: d.created })))
+		maxFlow: genReading(maxFlow.map(d => ({ value: d.maxFlow, date: d.time }))),
+		minFlow: genReading(minFlow.map(d => ({ value: d.minFlow, date: d.time })))
 	}
 
 	data.temperature = {
-		water: genReading(minWTemp.map(d => ({ value: d.minWTemp, date: d.created }))),
-		ambient: genReading(minATemp.map(d => ({ value: d.minATemp, date: d.created })))
+		water: genReading(minWTemp.map(d => ({ value: d.minWTemp, date: d.time }))),
+		ambient: genReading(minATemp.map(d => ({ value: d.minATemp, date: d.time })))
 	}
 
 	return data
@@ -166,8 +166,8 @@ export const genArcData = (deviceData, filter, timeType) => {
 		values: []
 	}
 	let waterReading = deviceData.filter(d => d.value && filter.indexOf(d.device_id) > -1)
-	data.waterusage = sumUpData(waterReading.map(d => ({ id: d.device_id, value: d.value, date: d.created })))
-	data.values = waterReading.map(d => ({ id: d.device_id, value: d.value, date: d.created }))
+	data.waterusage = sumUpData(waterReading.map(d => ({ id: d.device_id, value: d.value, date: d.time })))
+	data.values = waterReading.map(d => ({ id: d.device_id, value: d.value, date: d.time }))
 	return data
 }
 window.genBenchmark = genBenchmark
