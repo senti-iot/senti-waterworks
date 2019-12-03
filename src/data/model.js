@@ -15,7 +15,6 @@ export const genWaterPerDevice = (data) => {
 		deviceIds.forEach((d) => {
 			let dates = Object.keys(devData[d]).reverse()
 			dates.forEach((de, di) => {
-
 				if (di < dates.length - 1 && devData[d][dates[di + 1]] && devData[d][de]) {
 					devData[d][de] = devData[d][de] - devData[d][dates[di + 1]]
 				}
@@ -82,20 +81,22 @@ export const genBenchmark = (deviceData, filter, prev, diff) => {
 	}
 	let waterReading, maxFlow, minFlow, minATemp, minWTemp;
 	if (filter && filter.length > 0) {
-		waterReading = dData.filter(d => d.value !== undefined && filter.indexOf(d.device_id) > -1)
-		maxFlow = dData.filter(d => d.maxFlow !== undefined && filter.indexOf(d.device_id) > -1)
-		minFlow = dData.filter(d => d.minFlow !== undefined && filter.indexOf(d.device_id) > -1)
-		minATemp = dData.filter(d => d.minATemp !== undefined && filter.indexOf(d.device_id) > -1)
-		minWTemp = dData.filter(d => d.minWTemp !== undefined && filter.indexOf(d.device_id) > -1)
+		waterReading = dData.filter(d => d.value && filter.indexOf(d.device_id) > -1)
+		maxFlow = dData.filter(d => d.maxFlow && filter.indexOf(d.device_id) > -1)
+		minFlow = dData.filter(d => d.minFlow && filter.indexOf(d.device_id) > -1)
+		minATemp = dData.filter(d => d.minATemp && filter.indexOf(d.device_id) > -1)
+		minWTemp = dData.filter(d => d.minWTemp && filter.indexOf(d.device_id) > -1)
 	}
 	else {
-		waterReading = dData.filter(d => d.value !== undefined)
-		maxFlow = dData.filter(d => d.maxFlow !== undefined)
-		minFlow = dData.filter(d => d.minFlow !== undefined)
-		minATemp = dData.filter(d => d.minATemp !== undefined)
-		minWTemp = dData.filter(d => d.minWTemp !== undefined)
+		waterReading = dData.filter(d => d.value)
+		maxFlow = dData.filter(d => d.maxFlow)
+		minFlow = dData.filter(d => d.minFlow)
+		minATemp = dData.filter(d => d.minATemp)
+		minWTemp = dData.filter(d => d.minWTemp)
 	}
-	data.waterUsage = genWaterPerDevice(waterReading.map(d => ({ id: d.device_id, value: d.value, date: d.time })))
+	console.log(waterReading)
+
+	data.waterUsage = genWaterPerDevice(waterReading.map(d => ({ id: d.device_id, value: d.value, date: moment(d.time) })))
 
 	data.waterFlow = {
 		maxFlow: genReading(maxFlow.map(d => ({ value: d.maxFlow, date: d.time }))),
