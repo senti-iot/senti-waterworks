@@ -70,9 +70,10 @@ export const getData = async () => {
 		 */
 		// let rawArcData = await getDevicesData(from, to)
 		// let prevRawArcData = await getDevicesData(prevFrom, prevTo)
-
-		let rawArcData = rawData.filter(f => moment(f.created) > from)
-		let prevRawArcData = prevRawData.filter(f => moment(f.created) > prevFrom)
+		let clone = [...rawData]
+		let prevClone = [...prevRawData]
+		let rawArcData = clone.filter(f => moment(f.created) > from)
+		let prevRawArcData = prevClone.filter(f => moment(f.created) > prevFrom)
 
 		middleData = genArcData(rawArcData, filterDevices)
 		prevMiddleData = genArcData(prevRawArcData, filterDevices)
