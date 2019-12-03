@@ -94,7 +94,6 @@ export const genBenchmark = (deviceData, filter, prev, diff) => {
 		minATemp = dData.filter(d => d.minATemp)
 		minWTemp = dData.filter(d => d.minWTemp)
 	}
-	console.log(waterReading)
 
 	data.waterUsage = genWaterPerDevice(waterReading.map(d => ({ id: d.device_id, value: d.value, date: moment(d.time) })))
 

@@ -70,10 +70,9 @@ export const getData = async () => {
 		 */
 		// let rawArcData = await getDevicesData(from, to)
 		// let prevRawArcData = await getDevicesData(prevFrom, prevTo)
-		let clone = [...rawData]
-		let prevClone = [...prevRawData]
-		let rawArcData = clone.filter(f => moment(f.created) > from)
-		let prevRawArcData = prevClone.filter(f => moment(f.created) > prevFrom)
+
+		let rawArcData = rawData.filter(f => moment(f.created) > from)
+		let prevRawArcData = prevRawData.filter(f => moment(f.created) > prevFrom)
 
 		middleData = genArcData(rawArcData, filterDevices)
 		prevMiddleData = genArcData(prevRawArcData, filterDevices)
@@ -173,7 +172,7 @@ export const getData = async () => {
 					name: 'readingL',
 					// median: true,
 					color: 'yellow',
-					data: rawData.filter(d => d.value !== undefined && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: d.time }))
+					data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
 				}
 			]
 		}
