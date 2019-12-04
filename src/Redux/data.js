@@ -1,6 +1,6 @@
 import { handleRequestSort } from 'data/functions'
 import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
-import { genBenchmark, genArcData } from 'data/model'
+import { genBenchmark, genArcData, genData } from 'data/model'
 import moment from 'moment'
 // import { genBenchmarkAll } from 'data/model'
 
@@ -44,7 +44,7 @@ export const getAllDevices = async () => {
 		dispatch({
 			type: 'selectDevice',
 			payload: devices ? devices.map(d => d.id) : []
-			// payload: devices ? [devices[0].id] : []
+			// payload: devices ? [devices[0].id, devices[1].id, devices[2].id] : []
 		})
 	}
 }
@@ -53,17 +53,22 @@ export const getData = async () => {
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone().endOf('day')
 		let filterDevices = getState().appState.selectedDevices
+		let noOfDevices = getState().data.devices.length
 
 		let subtr = moment(to).diff(moment(from), 'day')
 		let prevFrom = moment(from).subtract(subtr, 'day')
 		let prevTo = moment(from).subtract(1, 'day')
 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
 
+		/**
+		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
+		 */
 		rawData = await getDevicesData(from.clone().subtract(1, 'day'), to)
 		prevRawData = await getDevicesData(prevFrom.clone().subtract(1, 'day'), prevTo)
-		currentPeriodData = genBenchmark(rawData, filterDevices)
-		benchMarkData = genBenchmark(rawData)
-		previousPeriodData = genBenchmark(prevRawData, filterDevices, true, subtr)
+
+		currentPeriodData = genData(rawData, filterDevices)
+		benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
+		previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
 		/**
 		 * TODO: Do not call the API for another set of data, filter it based on from
 		 */
@@ -99,6 +104,8 @@ export const getData = async () => {
 					color: 'yellow'
 				}
 			],
+			// temperature: [],
+			// waterflow: []
 			temperature: [
 				{
 					name: 'tempAmbient',
