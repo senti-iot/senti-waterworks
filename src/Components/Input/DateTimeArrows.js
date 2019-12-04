@@ -23,7 +23,7 @@ const MonthYear = styled(T)`
     /* letter-spacing: 1.5px; */
 `
 const futureTester = (date, unit) => {
-	return moment().diff(date, unit) <= 0
+	return moment().subtract(1, 'day').diff(date, unit) <= 0
 }
 
 const DateTimeArrows = () => {
@@ -40,17 +40,17 @@ const DateTimeArrows = () => {
 		let from, to, diff;
 		if (period.menuId === 3) {
 			from = moment(period.from).add(1, 'month').startOf('month')
-			to = !futureTester(to, 'day') ? moment(from).endOf('month') : moment()
+			to = !futureTester(to, 'day') ? moment(from).endOf('month') : moment().subtract(1, 'day')
 		}
 		if (period.menuId === 2) {
 			from = moment(period.to)
-			to = futureTester(to, 'day') ? moment(period.to).add(6, 'day') : moment()
+			to = futureTester(to, 'day') ? moment(period.to).add(6, 'day') : moment().subtract(1, 'day')
 		}
 		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
 			from = moment(period.from).add(diff + 1, 'minute').startOf('day')
 			to = moment(period.to).add(diff + 1, 'minute').endOf('day')
-			to = futureTester(to, 'day') ? moment() : to
+			to = futureTester(to, 'day') ? moment().subtract(1, 'day') : to
 		}
 		handleSetDate(period.timeType, to, from, period.timeType)
 	}

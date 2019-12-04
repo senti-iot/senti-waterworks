@@ -56,8 +56,7 @@ export const getData = async () => {
 
 		let subtr = moment(to).diff(moment(from), 'day')
 		let prevFrom = moment(from).subtract(subtr, 'day')
-		let prevTo = moment(to).subtract(subtr, 'day')
-
+		let prevTo = moment(from).subtract(1, 'day')
 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
 
 		rawData = await getDevicesData(from.clone().subtract(1, 'day'), to)
@@ -68,8 +67,6 @@ export const getData = async () => {
 		/**
 		 * TODO: Do not call the API for another set of data, filter it based on from
 		 */
-		// let rawArcData = await getDevicesData(from, to)
-		// let prevRawArcData = await getDevicesData(prevFrom, prevTo)
 
 		let rawArcData = rawData.filter(f => moment(f.created) > from)
 		let prevRawArcData = prevRawData.filter(f => moment(f.created) > prevFrom)
@@ -78,7 +75,6 @@ export const getData = async () => {
 		prevMiddleData = genArcData(prevRawArcData, filterDevices)
 
 		finalData = {
-			id: Math.random(),
 			waterusage: [
 				{
 					name: 'waterusageL',
