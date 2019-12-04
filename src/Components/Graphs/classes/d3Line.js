@@ -563,10 +563,12 @@ class d3Line {
 				let medianData = getMedianLineData(line.data)
 				let medianLine = this.svg.append('path')
 					.data([medianData])
-					.attr('class', classes.medianLine)
+					// .attr('class', classes.medianLine)
 					.attr('d', this.valueLine)
 					.attr('id', `${line.name}MedianL`)
 					.attr('opacity', this.state[`${line.name}Median`] ? 0 : 1)
+					.attr('stroke-width', '4px')
+					.attr('stroke', colors[line.color][500])
 					.attr('stroke-dasharray', ("3, 3"))
 
 				// Hidden overlay for Median tooltip
