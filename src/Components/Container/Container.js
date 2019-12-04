@@ -114,6 +114,7 @@ function Container(props) {
 							<Route exact path={'/'}>
 								<ChartContainer />
 							</Route>
+							<Redirect path={'*'} to={'/'}></Redirect>
 						</Switch>
 					</AppBackground>
 					: <CircularLoader fill />}
