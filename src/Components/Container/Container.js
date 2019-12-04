@@ -92,11 +92,8 @@ function Container(props) {
 		const getDevices = async () => dispatch(await getAllDevices())
 		const loadSettings = async () => {
 			await getSetting()
-			// console.log('got settings')
 			await getDevices()
-			// console.log('got devices')
 			setLoading(false)
-			// console.log('set loading false')
 		}
 		loadSettings()
 	}, [dispatch])

@@ -73,15 +73,11 @@ export const genBenchmark = (deviceData, noOfDevices, noOfSelectedDevices) => {
 		waterUsage: []
 	}
 	data.waterUsage = genWaterPerDevice(waterReading)
-	console.log(noOfDevices, noOfSelectedDevices, noOfDevices - noOfSelectedDevices)
 	if (noOfDevices - noOfSelectedDevices !== 0) {
 		Object.keys(data.waterUsage).forEach(f => {
-			console.log(data.waterUsage[f], f, noOfDevices, noOfDevices - noOfSelectedDevices)
-			console.log(data.waterUsage[f].value / noOfDevices, (noOfDevices - noOfSelectedDevices))
 			data.waterUsage[f].value = parseFloat(((data.waterUsage[f].value / noOfDevices) * (noOfSelectedDevices)).toFixed(3))
 		})
 	}
-	console.log(data)
 	return data
 }
 export const genData = (deviceData, filter, prev, diff) => {
@@ -123,7 +119,6 @@ export const genData = (deviceData, filter, prev, diff) => {
 		water: genReading(minWTemp.map(d => ({ value: d.minWTemp, date: d.time }))),
 		ambient: genReading(minATemp.map(d => ({ value: d.minATemp, date: d.time })))
 	}
-	console.log(data)
 	return data
 }
 //#endregion

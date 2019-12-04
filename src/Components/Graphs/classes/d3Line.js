@@ -18,16 +18,13 @@ const getMedianLineData = (data) => {
 const getMax = (arr) => {
 	if (arr.length > 0) {
 		let max = Math.max(...arr.map(d => d.value))
-		// console.log('Max', max)
 		if (max < 1) {
 			return max + 0.1
 		}
 		if (max < 5) {
 			return max + 1
 		}
-		// if (max <= 10) {
 		return max + 10
-		// }
 		// return max > 1 ? max + 10 : max + 0.1
 	}
 }
@@ -40,11 +37,9 @@ const getMin = (arr) => {
 		if (min > 5) {
 			min = min - 1
 		}
-		// if (min >= 10) {
 		min = min - 10
 
 		// return min > 1 ? min - 10 : min - 0.1
-		// console.log('Min', min)
 		return min > 0 ? min : 0
 	}
 }
@@ -64,7 +59,6 @@ class d3Line {
 		this.period = props.period;
 		this.margin = { top: 50, right: 50, bottom: 50, left: 50 };
 		let data = props.data ? props.data[props.id] : []
-		console.log(data)
 		//Get the height and width from the container
 		this.height = containerEl.clientHeight;
 		this.width = containerEl.clientWidth;
