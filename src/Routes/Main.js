@@ -18,9 +18,10 @@ import * as themes from 'Styles/themes'
 function Main() {
 	const colorTheme = useSelector(s => s.settings.colorTheme)
 	return (
-		<MuiThemeProvider theme={themes[colorTheme]}>
 
-			<ThemeProvider theme={themes[colorTheme]}>
+
+		<ThemeProvider theme={themes[colorTheme]}>
+			<MuiThemeProvider theme={themes[colorTheme]}>
 				<div>
 					<Switch>
 						<Route path={'/login'}>
@@ -31,9 +32,8 @@ function Main() {
 						</Route>
 					</Switch>
 				</div>
-
-			</ThemeProvider>
-		</MuiThemeProvider>
+			</MuiThemeProvider>
+		</ThemeProvider>
 
 	)
 }

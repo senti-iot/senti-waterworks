@@ -4,12 +4,13 @@ import { Dialog } from '@material-ui/core'
 import { SlideT, T } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton } from 'Components/Custom/Styles/deviceTableStyles'
+import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { setSelectedDevices } from 'Redux/appState'
 import { sortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
+import ItemG from 'Components/Containers/ItemG'
 
 
 
@@ -129,12 +130,16 @@ const DeviceTable = (props) => {
 			<DBox>
 				<TitleContainer>
 					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
-					<GetDevicesButton variant={'contained'} color={'secondary'} onClick={closeDialog}>{t('actions.get')}</GetDevicesButton>
+					<ItemG container style={{ width: 'auto' }}>
+						<ItemG>
+							<DevicesSelected>{selDev.length}</DevicesSelected>
+						</ItemG>
+						<ItemG>
+							<GetDevicesButton variant={'contained'} color={'secondary'} onClick={closeDialog}>{t('actions.get')}</GetDevicesButton>
+						</ItemG>
+					</ItemG>
 				</TitleContainer>
-				{/* <div> */}
 				<FilterToolbar reduxKey={'devices'} filters={deviceFilters} />
-				{/* <T>Filter Toolbar</T> */}
-				{/* </div> */}
 				<CTable
 					order={order}
 					orderBy={orderBy}

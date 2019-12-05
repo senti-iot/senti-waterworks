@@ -5,6 +5,7 @@ import { CardContent, /* Divider */ } from '@material-ui/core'
 import moment from 'moment'
 import styled from 'styled-components';
 import { Droplet, Thermometer, Pipe } from 'variables/icons'
+import { capitalizeFL } from 'data/functions'
 
 const TCard = styled(Card)`
 	min-width: 300px;
@@ -22,14 +23,15 @@ const waterUsageTooltip = (props) => {
 			<ItemG container xs={12}>
 				<ItemG container xs={6}>
 					<ItemG xs={12}>
-						<T variant={'h6'}>{moment(props.tooltip.date).format('dddd')}</T>
+						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format('dddd'))}</T>
 					</ItemG>
 					<ItemG xs={12}>
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
 					</ItemG>
 				</ItemG>
-				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 					<T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
+
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
 			</ItemG>
