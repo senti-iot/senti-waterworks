@@ -1,6 +1,9 @@
 import _ from 'lodash'
 import moment from 'moment'
 
+/**
+ * Helper function for sorting
+ */
 const sortFunc = (a, b, orderBy, way) => {
 	let newA = _.get(a, orderBy)
 	let newB = _.get(b, orderBy)
@@ -42,3 +45,10 @@ export const dateTimeFormatter = (date, withSeconds) => {
 		dt = moment(date).format('lll')
 	return dt
 }
+
+/**
+ * Capitalize first letter
+ * @param {String} string
+ */
+
+export const capitalizeFL = str => str.charAt(0).toUpperCase() + str.substring(1);

@@ -1,6 +1,6 @@
 import { handleRequestSort } from 'data/functions'
 import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
-import { genBenchmark, genArcData, genData } from 'data/model'
+import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF } from 'data/model'
 import moment from 'moment'
 // import { genBenchmarkAll } from 'data/model'
 
@@ -54,27 +54,72 @@ export const getData = async () => {
 		let to = getState().dateTime.period.to.clone().endOf('day')
 		let filterDevices = getState().appState.selectedDevices
 		let noOfDevices = getState().data.devices.length
-
+		let fromM1 = from.clone().subtract(1, 'day')
 		let subtr = moment(to).diff(moment(from), 'day')
-		let prevFrom = moment(from).subtract(subtr, 'day')
-		let prevTo = moment(from).subtract(1, 'day')
+		let prevFrom = moment(from).subtract(1, 'day').subtract(subtr, 'day')
+
+		let prevTo = moment(from)
+		if (moment().diff(moment(to), 'day') === 0) {
+			prevTo = moment(fromM1)
+		}
 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
 
 		/**
 		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
 		 */
-		rawData = await getDevicesData(from.clone().subtract(1, 'day'), to)
-		prevRawData = await getDevicesData(prevFrom.clone().subtract(1, 'day'), prevTo)
+		let completeRawData = await getDevicesData(prevFrom, to)
+		rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
+		prevRawData = completeRawData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
 
-		currentPeriodData = genData(rawData, filterDevices)
+		currentPeriodData = {
+			waterUsage: genWR(rawData, filterDevices),
+			temperature: {
+				ambient: genMinATemp(rawData, filterDevices),
+				water: genMinWTemp(rawData, filterDevices)
+			},
+			waterFlow: {
+				maxFlow: genMaxF(rawData, filterDevices),
+				minFlow: genMinF(rawData, filterDevices)
+			}
+		}
 		benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
-		previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
+
+		// previousPeriodData = {
+		// 	waterUsage: [],
+		// 	temperature: {
+		// 		ambient: [],
+		// 		water: [],
+		// 	},
+		// 	waterFlow: {
+		// 		maxFlow: [],
+		// 		minFlow: []
+		// 	}
+
+		// }
+		prevRawData.forEach(d => {
+			d.time = moment(d.time).add(subtr, 'day')
+		})
+
+		previousPeriodData = {
+			waterUsage: genWR(prevRawData, filterDevices),
+			temperature: {
+				ambient: genMinATemp(prevRawData, filterDevices),
+				water: genMinWTemp(prevRawData, filterDevices)
+			},
+			waterFlow: {
+				maxFlow: genMaxF(prevRawData, filterDevices),
+				minFlow: genMinF(prevRawData, filterDevices)
+			}
+		}
+		// currentPeriodData = genData(rawData, filterDevices)
+		// previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
+
 		/**
 		 * TODO: Do not call the API for another set of data, filter it based on from
 		 */
 
-		let rawArcData = rawData.filter(f => moment(f.created) > from)
-		let prevRawArcData = prevRawData.filter(f => moment(f.created) > prevFrom)
+		let rawArcData = currentPeriodData.waterUsage
+		let prevRawArcData = previousPeriodData.waterUsage/* .filter(f => moment(f.created) > prevFrom) */
 
 		middleData = genArcData(rawArcData, filterDevices)
 		prevMiddleData = genArcData(prevRawArcData, filterDevices)
@@ -100,7 +145,7 @@ export const getData = async () => {
 					hidden: true,
 					noArea: true,
 					dashed: true,
-					data: benchMarkData.waterUsage,
+					data: benchMarkData,
 					color: 'yellow'
 				}
 			],

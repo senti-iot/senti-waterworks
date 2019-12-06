@@ -67,11 +67,11 @@ const lineStyles = makeStyles(theme => ({
 		opacity: 0,
 		strokeWidth: '6px'
 	},
-	medianLine: {
-		fill: 'none',
-		stroke: theme.chart.medianLine,
-		strokeWidth: '4px'
-	},
+	// medianLine: {
+	// 	fill: 'none',
+	// 	stroke: theme.chart.medianLine,
+	// 	strokeWidth: '4px'
+	// },
 	// medianLinePrev: {
 	// 	fill: 'none',
 	// 	stroke: 'rgba(128, 128, 128, 0.6)',
