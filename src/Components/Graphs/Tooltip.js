@@ -52,7 +52,7 @@ const waterFlowTooltip = (props) => {
 			<ItemG container xs={12}>
 				<ItemG container xs={6}>
 					<ItemG xs={12}>
-						<T variant={'h6'}>{moment(props.tooltip.date).format('dddd')}</T>
+						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format('dddd'))}</T>
 					</ItemG>
 					<ItemG xs={12}>
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
@@ -80,7 +80,7 @@ const temperatureTooltip = (props) => {
 			<ItemG container xs={12}>
 				<ItemG container xs={6}>
 					<ItemG xs={12}>
-						<T variant={'h6'}>{moment(props.tooltip.date).format('dddd')}</T>
+						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format('dddd'))}</T>
 					</ItemG>
 					<ItemG xs={12}>
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
@@ -108,7 +108,7 @@ const readingTooltip = (props) => {
 			<ItemG container xs={12}>
 				<ItemG container xs={6}>
 					<ItemG xs={12}>
-						<T variant={'h6'}>{moment(props.tooltip.date).format('dddd')}</T>
+						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format('dddd'))}</T>
 					</ItemG>
 					<ItemG xs={12}>
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
