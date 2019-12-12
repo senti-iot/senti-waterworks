@@ -35,6 +35,7 @@ import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 //#region Selectors/Switches/Inputs
 import TextF from 'Components/Input/TextF'
 import DSelect from 'Components/Input/DSelect'
+import DMenu from 'Components/Input/DMenu'
 import CustomDateTime from 'Components/Input/CustomDateTime'
 import DateTimeFilter from 'Components/Input/DateTimeFilter'
 
@@ -56,6 +57,7 @@ export {
 	//Inputs
 	TextF,
 	DSelect,
+	DMenu,
 	CustomDateTime,
 	DateTimeFilter,
 	//Cards

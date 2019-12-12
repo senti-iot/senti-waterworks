@@ -9,6 +9,7 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"export": "Eksporter data",
 		"accept": "Godkend",
 		"add": "Tilføj",
 		"addFilter": "Tilføj filter",
@@ -544,7 +545,7 @@
 			"thisWeek": "Denne uge",
 			"today": "I dag",
 			"year": "År",
-			"thisYear": "Denne år",
+			"thisYear": "Dette år",
 			"thisMonth": "Denne måned",
 			"yesterday": "I går"
 		},

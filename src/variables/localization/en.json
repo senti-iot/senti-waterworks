@@ -9,6 +9,7 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"export": "Export data",
 		"accept": "Accept",
 		"add": "Add",
 		"addFilter": "Add filter",
