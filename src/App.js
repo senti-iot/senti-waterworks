@@ -6,6 +6,8 @@ import store from 'Redux/store';
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom';
 import { StylesProvider } from "@material-ui/styles";
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 export const HTitle = React.createContext(null)
 
@@ -16,9 +18,11 @@ function App() {
 			<StylesProvider injectFirst>
 				<Provider store={store}>
 					<LocalizationProvider>
-						<HTitle.Provider value={setTitle}>
-							<Main title={title} />
-						</HTitle.Provider>
+						<MuiPickersUtilsProvider utils={MomentUtils}>
+							<HTitle.Provider value={setTitle}>
+								<Main title={title} />
+							</HTitle.Provider>
+						</MuiPickersUtilsProvider>
 					</LocalizationProvider>
 				</Provider>
 			</StylesProvider>

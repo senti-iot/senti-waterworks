@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
 import { Card, IconButton, CardContent, Button, Popover, Typography, CardActions, Checkbox, colors } from '@material-ui/core';
-import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { Close, DateRange, AccessTime, KeyboardArrowRight, KeyboardArrowLeft } from 'variables/icons';
 import { dateTimeFormatter } from 'data/functions';

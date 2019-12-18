@@ -6,6 +6,7 @@ import LineGraph from 'Components/Graphs/LineGraph'
 import { useLocalization, useSelector } from 'Hooks'
 import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
+import { ExportModule } from 'Components/ExportModule/ExportModule'
 
 export const MainChart = React.memo((props) => {
 	const { chart, setChart } = props
@@ -41,6 +42,7 @@ export const MainChart = React.memo((props) => {
 						<DateTimeArrows />
 						<DateTimeDays />
 						<DateTimeFilter />
+						<ExportModule />
 					</ItemG>
 				</div>
 			</ItemG>

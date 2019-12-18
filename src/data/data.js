@@ -179,4 +179,13 @@ export const servicesAPI = create({
 	}
 })
 
+export const dataExportAPI = create({
+	baseURL: 'https://services.senti.cloud/data-export',
+	timeout: 300000,
+	headers: {
+		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	}
+})
 //#endregion

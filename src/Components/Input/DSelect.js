@@ -79,4 +79,7 @@ const DSelect = (props) => {
 	)
 }
 
+DSelect.propTypes = {
+
+}
 export default DSelect
