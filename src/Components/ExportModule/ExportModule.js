@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { DMenu, ItemG } from 'Components'
 import { ImportExport, Close, DateRange, AccessTime, KeyboardArrowRight, KeyboardArrowLeft } from 'variables/icons'
-import { useLocalization } from 'Hooks'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormGroup, FormControlLabel, FormLabel } from '@material-ui/core'
+import { useLocalization, useSelector } from 'Hooks'
+import { Dialog, DialogContent, DialogActions, Button, Checkbox, FormGroup, FormControlLabel, FormLabel, DialogTitle } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
 import { getDevicesDataCSV } from 'data/devices'
 import DeviceTableExportWidget from 'Components/Custom/DevicesTable/DeviceTableExportWidget'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
+import styled from 'styled-components'
+
+const MDialogHeader = styled(DialogTitle)`
+	background: ${({ theme }) => theme.chartButton}
+`
+
+const MDialogContent = styled(DialogContent)`
+	background: ${({ theme }) => theme.boxBackground}
+`
+const MDialogActions = styled(DialogActions)`
+	background: ${({ theme }) => theme.boxBackground}
+`
 
 const columns = [
+	{ id: 9, field: 'device_id', label: 'deviceId', isReq: true, hidden: true },
 	{ id: 0, field: 'name', label: 'DeviceName', type: 'device', isReq: true },
 	{ id: 1, field: 'uuid', label: 'SigfoxID', type: 'device', isReq: true },
 	{ id: 2, field: 'time', label: 'Date', type: 'json', isReq: true, hidden: true },
@@ -22,6 +35,8 @@ const columns = [
 	{ id: 8, field: 'maxFlow', label: 'maxWaterFlow', type: 'json' },
 
 ]
+
+
 export const ExportModule = () => {
 	const t = useLocalization()
 	const [openDialog, setOpenDialog] = useState(true)
@@ -29,6 +44,7 @@ export const ExportModule = () => {
 	const [sColumns, setSColumns] = useState([]) //selected columns
 	const [from, setFrom] = useState(moment().subtract(6, 'day'))
 	const [to, setTo] = useState(moment())
+	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
 	const menuPoints = [{
 		dontShow: false,
 		icon: <ImportExport />,
@@ -40,7 +56,6 @@ export const ExportModule = () => {
 	//#region Handlers
 
 	const handleCheckboxClick = (c) => (e) => {
-		console.log(c, e)
 		let newSColumns = [...sColumns]
 		if (newSColumns.indexOf(c.id) !== -1) {
 			newSColumns.splice(newSColumns.indexOf(c.id), 1)
@@ -62,44 +77,43 @@ export const ExportModule = () => {
 	}
 	const getData = async () => {
 		// setLoading(true)
-		setTimeout(async () => {
-			let config = {
-				type: 'deviceData',
-				config: {
-					customerId: 138230100010117,
-					columns: columns.filter(f => sColumns.indexOf(f.id) !== -1),
-					period: {
-						from: from.clone().subtract(1, 'day'),
-						to: to
-					},
-					filters: {
-						pre: [{
-							"key": "device_id",
-							"value": 45,
-							"type": "higher"
-						}],
-						post: [
-							{
-								type: "datetime",
-								key: "time",
-								from: "2019-12-11",
-								to: "2019-12-17"
-							}
-						]
-					}
+		let config = {
+			type: 'deviceData',
+			config: {
+				customerId: 138230100010117,
+				columns: columns.filter(f => sColumns.indexOf(f.id) !== -1),
+				period: {
+					from: from.clone().subtract(1, 'day'),
+					to: to
+				},
+				filters: {
+					pre: selectedDevices.map(s => ({
+						"key": "device_id",
+						"value": s,
+						"type": "equal"
+					})),
+					post: [
+						{
+							type: "datetime",
+							key: "Date",
+							from: "2019-12-11",
+							to: "2019-12-17"
+						}
+					]
 				}
 			}
-			await getDevicesDataCSV(config).then(rs => {
-				const url = window.URL.createObjectURL(new Blob([rs]));
-				const link = document.createElement('a');
-				link.href = url;
-				link.setAttribute('download', `senti-waterworks-${moment().valueOf()}.csv`);
-				document.body.appendChild(link);
-				link.click();
-			})
-			setOpenDialog(false)
-			setLoading(false)
-		}, 10000);
+		}
+		await getDevicesDataCSV(config).then(rs => {
+			const url = window.URL.createObjectURL(new Blob([rs]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', `senti-waterworks-${moment().valueOf()}.csv`);
+			document.body.appendChild(link);
+			link.click();
+		})
+		setOpenDialog(false)
+		setLoading(false)
+
 
 
 	}
@@ -114,18 +128,17 @@ export const ExportModule = () => {
 				onClose={loading ? undefined : handleCloseDialog}
 				open={openDialog}
 			>
-				<DialogTitle>
+				<MDialogHeader>
 					{t('actions.export')}
-				</DialogTitle>
+				</MDialogHeader>
 				<FadeOutLoader overlay on={loading} onChange={getData}>
-					<DialogContent >
+					<MDialogContent >
 
 						<GridContainer>
 							<ItemG xs={6}>
 								<FormGroup>
 									<FormLabel>Columns</FormLabel>
 									{columns.map((c, i) => {
-										console.log(sColumns.indexOf(c.id), sColumns)
 										return c.hidden ? null :
 											<FormControlLabel
 												key={i}
@@ -189,9 +202,9 @@ export const ExportModule = () => {
 								</ItemG>
 							</ItemG>
 						</GridContainer>
-					</DialogContent>
+					</MDialogContent>
 				</FadeOutLoader>
-				<DialogActions>
+				<MDialogActions>
 					<Button onClick={handleCloseDialog}>
 						<Close />
 						{t('actions.cancel')}
@@ -200,7 +213,7 @@ export const ExportModule = () => {
 						<ImportExport />
 						{t('actions.export')}
 					</Button>
-				</DialogActions>
+				</MDialogActions>
 			</Dialog>
 		</>
 	)

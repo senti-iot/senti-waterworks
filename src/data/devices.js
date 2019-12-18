@@ -18,6 +18,5 @@ export const getDevicesData = async (from, to) => {
 
 export const getDevicesDataCSV = async (config) => {
 	let response = await dataExportAPI.post(`v1/export`, config)
-	console.log(response)
 	return response.data
 }
