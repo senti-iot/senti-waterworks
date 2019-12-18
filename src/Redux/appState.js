@@ -9,6 +9,7 @@ const changeEventHandler = 'changeEH'
 const changeSM = 'changeSmallmenu'
 const changeT = 'changeTabs'
 const sDevice = 'selectDevice'
+const sExportDevice = 'selectExportDevice'
 const getSettings = 'getSettings'
 
 export const changeSmallMenu = (val) => {
@@ -134,6 +135,14 @@ export const selectAllDevices = (b) => {
 		}
 	}
 }
+export const setSelectedExportDevices = (devices) => {
+	return (dispatch, getState) => {
+		dispatch({
+			type: sExportDevice,
+			payload: devices
+		})
+	}
+}
 export const setSelectedDevices = (devices) => {
 	return (dispatch, getState) => {
 		dispatch({
@@ -162,6 +171,7 @@ export const selectDevice = (b, device) => {
 }
 
 const initialState = {
+	selectedExportDevices: [],
 	selectedDevices: [],
 	tabs: {
 		id: '',
@@ -227,6 +237,8 @@ export const appState = (state = initialState, action) => {
 			return Object.assign({}, state, { filters: { ...state.filters, ...action.filters } })
 		case sDevice:
 			return Object.assign({}, state, { selectedDevices: action.payload })
+		case sExportDevice:
+			return Object.assign({}, state, { selectedExportDevices: action.payload })
 		default:
 			return state
 	}

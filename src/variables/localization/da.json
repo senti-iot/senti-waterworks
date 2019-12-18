@@ -9,6 +9,7 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"select": "Vælg",
 		"export": "Eksporter data",
 		"accept": "Godkend",
 		"add": "Tilføj",

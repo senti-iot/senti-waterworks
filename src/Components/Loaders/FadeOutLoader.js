@@ -3,6 +3,7 @@ import { Fade } from '@material-ui/core';
 import { CircularLoader } from 'Components';
 import { usePrevious } from 'Hooks';
 import PropTypes from 'prop-types'
+import CircularOverlay from './CircularOverlay';
 
 function FadeOutLoader(props) {
 	const [loading, setLoading] = useState(false)
@@ -39,15 +40,23 @@ function FadeOutLoader(props) {
 		}
 	}, [on, prevOn, props])
 
-	const { children, notCentered, circularClasses } = props
+	const { children, notCentered, circularClasses, overlay } = props
 
 	return (
 		<Fragment>
-			<Fade in={!loading}>
-				{!showLoader ?
-					children
-					: <CircularLoader notCentered={notCentered} className={circularClasses} />}
-			</Fade>
+			{!overlay ?
+
+				<Fade in={!loading}>
+					{!showLoader ?
+						children
+						: <CircularLoader notCentered={notCentered} className={circularClasses} />}
+				</Fade>
+				: <div>
+					<CircularOverlay overlay={showLoader} className={circularClasses} />
+					{children}
+				</div>
+
+			}
 		</Fragment>
 	)
 }
