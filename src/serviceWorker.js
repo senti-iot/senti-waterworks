@@ -1,6 +1,3 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import NewContent from 'Components/Loaders/NewContent';
 
 // This optional code is used to register a service worker.
 // register() is not called by default.
@@ -77,8 +74,6 @@ function registerValidSW(swUrl, config) {
 								'New content is available and will be used when all ' +
 								'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
 							);
-							var rootUpdate = document.getElementById('update')
-							ReactDOM.render(<NewContent />, rootUpdate)
 							// Execute callback
 							if (config && config.onUpdate) {
 								config.onUpdate(registration);

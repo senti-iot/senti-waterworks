@@ -20,6 +20,7 @@ function App() {
 					<LocalizationProvider>
 						<MuiPickersUtilsProvider utils={MomentUtils}>
 							<HTitle.Provider value={setTitle}>
+
 								<Main title={title} />
 							</HTitle.Provider>
 						</MuiPickersUtilsProvider>

@@ -1,14 +1,14 @@
 /* eslint-disable no-func-assign */
 import store from 'store';
 
-let PREFIX = 'sentiWaterworks';
+let PREFIX = 'sentiWaterworks.';
 
 export const setPrefix = (id) => {
 	if (PREFIX.includes(id)) {
 		PREFIX = 'sentiWaterworks.' + id + '.'
 	}
 	else {
-		PREFIX = PREFIX + '.' + id + '.'
+		PREFIX = PREFIX + id + '.'
 	}
 }
 export function del(key) {
@@ -22,6 +22,12 @@ export const setAll = (key, value) => {
 }
 export const getAll = (key) => {
 	return store.get('sentiWaterworks.' + key)
+}
+export function rGet(key) {
+	return store.get(key)
+}
+export function rSet(key, value) {
+	return store.set(key, value)
 }
 export function set(key, value) {
 	return store.set(PREFIX + key, value);

@@ -13,6 +13,7 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
+import NewContent from 'Components/Loaders/NewContent';
 
 
 function Main() {
@@ -22,6 +23,8 @@ function Main() {
 
 		<ThemeProvider theme={themes[colorTheme]}>
 			<MuiThemeProvider theme={themes[colorTheme]}>
+
+				<NewContent />
 				<Switch>
 					<Route path={'/login'}>
 						<Login />

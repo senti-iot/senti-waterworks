@@ -5,6 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import whyDidYouRender from "@welldone-software/why-did-you-render";
+import store from 'Redux/store';
+import { updateServiceworker } from 'Redux/serviceWorkerRedux';
 // import NewContent from 'Components/Loaders/NewContent';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -15,8 +17,10 @@ if (process.env.NODE_ENV !== 'production') {
 		diffNameColor: "darkturquoise"
 	});
 }
-
-serviceWorker.register();
+const onUpdate = () => {
+	store.dispatch(updateServiceworker())
+}
+serviceWorker.register({ onUpdate: onUpdate });
 
 // ReactDOM.render(<NewContent />, document.getElementById('update'));
 
