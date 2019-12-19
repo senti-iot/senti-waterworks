@@ -39,7 +39,7 @@ const columns = [
 
 export const ExportModule = () => {
 	const t = useLocalization()
-	const [openDialog, setOpenDialog] = useState(true)
+	const [openDialog, setOpenDialog] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [sColumns, setSColumns] = useState([]) //selected columns
 	const [from, setFrom] = useState(moment().subtract(6, 'day'))
