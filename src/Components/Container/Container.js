@@ -9,7 +9,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Settings from 'Routes/Settings';
 import Header from 'Components/Header';
 import cookie from 'react-cookies';
-import { useDispatch, useSelector, useTheme } from 'Hooks';
+import { useDispatch, useSelector } from 'Hooks';
 import { getSettings } from 'Redux/settings';
 import { CircularLoader } from 'Components';
 import ArcGraph from 'Components/Graphs/ArcGraph';
@@ -85,8 +85,6 @@ function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
-	const theme = useTheme()
-	console.log(theme)
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())

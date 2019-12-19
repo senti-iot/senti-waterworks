@@ -505,7 +505,20 @@
 	"exports": {
 		"columns": "Kolonne",
 		"customColumns": "Vælg kolonner",
-		"standardColumns": "Standard kolonner"
+		"standardColumns": "Standard kolonner",
+		"period": "Periode",
+		"fields": {
+			"deviceId": "Senti Device ID",
+			"meterNumber": "Meter Nummer",
+			"SigfoxID": "Sigfox ID",
+			"Date": "Dato",
+			"waterUsage": "Vandforbrug",
+			"waterReading": "Aflæsninger",
+			"minWaterTemperature": "Mindste vandtemperatur",
+			"minAmbientTemperature": "Mindste omgivelsestemperatur",
+			"minWaterFlow": "Mindste vandgennemstrømning",
+			"maxWaterFlow": "Maksimal vandgennemstrømning"
+		}
 	},
 	"favorites": {
 		"fields": {
