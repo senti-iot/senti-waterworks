@@ -22,16 +22,14 @@ function Main() {
 
 		<ThemeProvider theme={themes[colorTheme]}>
 			<MuiThemeProvider theme={themes[colorTheme]}>
-				<div>
-					<Switch>
-						<Route path={'/login'}>
-							<Login />
-						</Route>
-						<Route path={'/'}>
-							<Container />
-						</Route>
-					</Switch>
-				</div>
+				<Switch>
+					<Route path={'/login'}>
+						<Login />
+					</Route>
+					<Route path={'/'}>
+						<Container />
+					</Route>
+				</Switch>
 			</MuiThemeProvider>
 		</ThemeProvider>
 

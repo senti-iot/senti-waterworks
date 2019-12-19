@@ -29,7 +29,7 @@ import Caption from 'Components/Typography/Caption'
 
 import CircularLoader from 'Components/Loaders/CircularLoader'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
-
+import CircularOverlay from 'Components/Loaders/CircularOverlay'
 //#endregion
 
 //#region Selectors/Switches/Inputs
@@ -65,6 +65,7 @@ export {
 	//Loaders
 	FadeOutLoader,
 	CircularLoader,
+	CircularOverlay,
 	//Dialogs
 	CookiesDialog,
 	PrivacyDialog
