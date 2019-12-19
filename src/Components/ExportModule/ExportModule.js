@@ -23,7 +23,7 @@ const MDialogActions = styled(DialogActions)`
 `
 
 const columns = [
-	{ id: 9, field: 'device_id', label: 'sentiId', isReq: true, hidden: true },
+	{ id: 9, field: 'device_id', label: 'device_id', isReq: true, hidden: true },
 	{ id: 0, field: 'name', label: 'meterNumber', type: 'device', isReq: true },
 	{ id: 1, field: 'uuid', label: 'SigfoxID', type: 'device', isReq: true },
 	{ id: 2, field: 'time', label: 'Date', type: 'json', isReq: true, hidden: true },
@@ -42,8 +42,8 @@ export const ExportModule = () => {
 	const [openDialog, setOpenDialog] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [sColumns, setSColumns] = useState([]) //selected columns
-	const [from, setFrom] = useState(moment().subtract(6, 'day'))
-	const [to, setTo] = useState(moment())
+	const [from, setFrom] = useState(moment().subtract(6, 'day').startOf('day'))
+	const [to, setTo] = useState(moment().startOf('day'))
 	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
 	const menuPoints = [{
 		dontShow: false,
@@ -96,8 +96,8 @@ export const ExportModule = () => {
 						{
 							type: "datetime",
 							key: "Date",
-							from: "2019-12-11",
-							to: "2019-12-17"
+							from: from,
+							to: to
 						}
 					]
 				}
