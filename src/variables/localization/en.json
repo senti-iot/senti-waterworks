@@ -505,7 +505,20 @@
 	"exports": {
 		"columns": "Columns",
 		"customColumns": "Select Columns",
-		"standardColumns": "Default Columns"
+		"standardColumns": "Default Columns",
+		"period": "Period",
+		"fields": {
+			"sentiId": "Senti Device ID",
+			"meterNumber": "Meter Number",
+			"SigfoxID": "Sigfox ID",
+			"Date": "Date",
+			"waterUsage": "Water Usage",
+			"waterReading": "Water Reading",
+			"minWaterTemperature": "Min. Water Temperature",
+			"minAmbientTemperature": "Min. Ambient Temperature",
+			"minWaterFlow": "Min. Water Flow",
+			"maxWaterFlow": "Max. Water Flow"
+		}
 	},
 	"favorites": {
 		"fields": {

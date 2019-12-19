@@ -5,8 +5,8 @@ import { appState } from './appState'
 import { data } from './data'
 import { dateTime } from './dateTime'
 import thunk from 'redux-thunk';
-
-let reducers = combineReducers({ settings, localization, appState, data, dateTime })
+import { serviceWorkerReducer } from './serviceWorkerRedux'
+let reducers = combineReducers({ settings, localization, appState, data, dateTime, serviceWorkerReducer })
 /**
 *	 Debugging purposes
 **/

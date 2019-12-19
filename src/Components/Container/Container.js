@@ -85,7 +85,6 @@ function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
-
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())

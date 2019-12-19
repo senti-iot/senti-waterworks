@@ -12,19 +12,19 @@ import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 import styled from 'styled-components'
 
 const MDialogHeader = styled(DialogTitle)`
-	background: ${({ theme }) => theme.chartButton}
+	background: ${({ theme }) => theme.chartButton};
 `
 
 const MDialogContent = styled(DialogContent)`
-	background: ${({ theme }) => theme.boxBackground}
+	background: ${({ theme }) => theme.boxBackground};
 `
 const MDialogActions = styled(DialogActions)`
-	background: ${({ theme }) => theme.boxBackground}
+	background: ${({ theme }) => theme.boxBackground};
 `
 
 const columns = [
-	{ id: 9, field: 'device_id', label: 'deviceId', isReq: true, hidden: true },
-	{ id: 0, field: 'name', label: 'DeviceName', type: 'device', isReq: true },
+	{ id: 9, field: 'device_id', label: 'device_id', isReq: true, hidden: true },
+	{ id: 0, field: 'name', label: 'meterNumber', type: 'device', isReq: true },
 	{ id: 1, field: 'uuid', label: 'SigfoxID', type: 'device', isReq: true },
 	{ id: 2, field: 'time', label: 'Date', type: 'json', isReq: true, hidden: true },
 	{ id: 3, field: 'value', label: 'waterUsage', type: 'json', cf: 53 },
@@ -39,11 +39,11 @@ const columns = [
 
 export const ExportModule = () => {
 	const t = useLocalization()
-	const [openDialog, setOpenDialog] = useState(true)
+	const [openDialog, setOpenDialog] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [sColumns, setSColumns] = useState([]) //selected columns
-	const [from, setFrom] = useState(moment().subtract(6, 'day'))
-	const [to, setTo] = useState(moment())
+	const [from, setFrom] = useState(moment().subtract(6, 'day').startOf('day'))
+	const [to, setTo] = useState(moment().startOf('day'))
 	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
 	const menuPoints = [{
 		dontShow: false,
@@ -96,8 +96,8 @@ export const ExportModule = () => {
 						{
 							type: "datetime",
 							key: "Date",
-							from: "2019-12-11",
-							to: "2019-12-17"
+							from: from,
+							to: to
 						}
 					]
 				}
@@ -137,7 +137,7 @@ export const ExportModule = () => {
 						<GridContainer>
 							<ItemG xs={6}>
 								<FormGroup>
-									<FormLabel>Columns</FormLabel>
+									<FormLabel>{t('exports.columns')}</FormLabel>
 									{columns.map((c, i) => {
 										return c.hidden ? null :
 											<FormControlLabel
@@ -147,7 +147,8 @@ export const ExportModule = () => {
 													id={c.field}
 													disabled={c.isReq}
 													checked={c.isReq ? true : sColumns.indexOf(c.id) !== -1 ? true : false} />}
-												label={c.label}
+												label={t("exports.fields." + c.label) + ` (${c.label})`}
+												style={{ marginTop: 8 }}
 											/>
 									})}
 								</FormGroup>
@@ -156,7 +157,7 @@ export const ExportModule = () => {
 								<ItemG container spacing={2}>
 									<ItemG xs={12}>
 										<FormGroup>
-											<FormLabel>Period</FormLabel>
+											<FormLabel>{t('exports.period')}</FormLabel>
 											<DatePicker
 												autoOk
 												ampm={false}
