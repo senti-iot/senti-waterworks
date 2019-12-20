@@ -28,7 +28,7 @@ const columns = [
 	{ id: 1, field: 'uuid', label: 'SigfoxID', type: 'device', isReq: true },
 	{ id: 2, field: 'time', label: 'Date', type: 'json', isReq: true, hidden: true },
 	{ id: 3, field: 'value', label: 'waterUsage', type: 'json', cf: 53 },
-	{ id: 4, field: 'value', label: 'waterReading', type: 'json' },
+	{ id: 4, field: 'value', label: 'waterReading', type: 'json', cf: 56 },
 	{ id: 5, field: 'minWTemp', label: 'minWaterTemperature', type: 'json' },
 	{ id: 6, field: 'minATemp', label: 'minAmbientTemperature', type: 'json' },
 	{ id: 7, field: 'minFlow', label: 'minWaterFlow', type: 'json' },
@@ -83,8 +83,8 @@ export const ExportModule = () => {
 				customerId: 138230100010117,
 				columns: columns.filter(f => sColumns.indexOf(f.id) !== -1),
 				period: {
-					from: from.clone().subtract(1, 'day'),
-					to: to
+					from: from.clone().subtract(1, 'day').format('YYYY-MM-DD'),
+					to: to.format('YYYY-MM-DD')
 				},
 				filters: {
 					pre: selectedDevices.map(s => ({
@@ -96,8 +96,8 @@ export const ExportModule = () => {
 						{
 							type: "datetime",
 							key: "Date",
-							from: from,
-							to: to
+							from: from.format('YYYY-MM-DD'),
+							to: to.format('YYYY-MM-DD')
 						}
 					]
 				}
