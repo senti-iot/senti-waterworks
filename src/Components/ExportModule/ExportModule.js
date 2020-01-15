@@ -23,10 +23,10 @@ const MDialogActions = styled(DialogActions)`
 `
 
 const columns = [
-	{ id: 9, field: 'device_id', label: 'device_id', isReq: true, hidden: true },
+	{ id: 9, field: 'device_id', label: 'deviceId', isReq: true, hidden: true },
 	{ id: 0, field: 'name', label: 'meterNumber', type: 'device', isReq: true },
 	{ id: 1, field: 'uuid', label: 'SigfoxID', type: 'device', isReq: true },
-	{ id: 2, field: 'time', label: 'Date', type: 'json', isReq: true, hidden: true },
+	{ id: 2, field: 'time', label: 'time', type: 'json', isReq: true, hidden: true },
 	{ id: 3, field: 'value', label: 'waterUsage', type: 'json', cf: 53 },
 	{ id: 4, field: 'value', label: 'waterReading', type: 'json', cf: 56 },
 	{ id: 5, field: 'minWTemp', label: 'minWaterTemperature', type: 'json' },
@@ -95,7 +95,7 @@ export const ExportModule = () => {
 					post: [
 						{
 							type: "datetime",
-							key: "Date",
+							key: "time",
 							from: from.format('YYYY-MM-DD'),
 							to: to.format('YYYY-MM-DD')
 						}
