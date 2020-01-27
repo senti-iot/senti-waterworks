@@ -1,37 +1,58 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/styles'
 import { T } from 'Components'
 import { useLocalization, useState, useSelector } from 'Hooks'
 import { Button } from '@material-ui/core'
 import { orange } from '@material-ui/core/colors'
 import { emphasize } from '@material-ui/core/styles'
 import DeviceTable from './DeviceTable'
+import styled from 'styled-components'
+import size from 'Styles/themes/mediaQueries'
 
-const devicesTableWidgetStyles = makeStyles(theme => ({
-	title: {
-		marginLeft: 16, marginTop: 16, fontWeight: 600, letterSpacing: 1, height: 32
-	},
-	text: {
-		marginLeft: 16,
-		marginTop: 16,
-		fontSize: '1.25rem'
-	},
-	filterButton: {
-		position: 'absolute',
-		bottom: 16,
-		right: 16,
-		background: orange[500],
-		minWidth: 150,
-		width: 150,
-		color: '#fff',
-		textTransform: 'none',
-		borderRadius: 8,
-		fontSize: "1rem",
-		"&:hover": {
-			backgroundColor: emphasize(orange[500], 0.2)
-		}
+const Title = styled(T)`
+	@media ${size.down.md} {
+		margin-top: 8px;
+		margin-left: 8px;
+		font-size: 1em;
 	}
-}))
+	margin: 16px;
+	font-weight: 600;
+	font-size: 1.5em;
+	letter-spacing: 1.5px;
+`
+const FilterButton = styled(Button)`
+	position: absolute;
+	@media ${size.down.md} {
+		min-width: 50px;
+		height: 28px;
+		padding: 0px;
+		width: 100px;
+		bottom: 8px;
+		font-size: 0.875em;
+	}
+	bottom: 16px;
+	right: 16px;
+	background: ${orange[500]};
+	min-width: 150px;
+	width: 150px;
+	color: #fff;
+	text-transform: none;
+	border-radius: 8px;
+	font-size: 1em;
+	&:hover {
+		background: ${emphasize(orange[500], 0.2)}
+	}
+`
+
+const Text = styled(T)`
+	@media ${size.down.md} {
+		margin-left: 8px;
+		margin-top: 8px;
+		font-size: 0.875em;
+	}
+	margin-left: 16px;
+	margin-top: 16px;
+	font-size: 1.25rem;
+`
 
 const renderDeviceCount = (t, dCount, selectedDCount) => {
 	if (dCount === selectedDCount) {
@@ -46,7 +67,6 @@ const renderDeviceCount = (t, dCount, selectedDCount) => {
 }
 const DeviceTableWidget = () => {
 	const t = useLocalization()
-	const classes = devicesTableWidgetStyles()
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const devices = useSelector(s => s.data.devices)
 	const [openTable, setOpenTable] = useState(false)
@@ -54,12 +74,12 @@ const DeviceTableWidget = () => {
 	const handleOpenTable = () => setOpenTable(true)
 
 	return (
-		<div>
+		<>
 			<DeviceTable openTable={openTable} setOpenTable={setOpenTable} />
-			<T variant={'h5'} className={classes.title}>{t('charts.selectedDevices')}</T>
-			<T className={classes.text}>{`${t('charts.seeing')}: ${renderDeviceCount(t, devices.length, selectedDevices.length)} ${t('charts.devices')}`}</T>
-			<Button onClick={handleOpenTable} variant={'contained'} className={classes.filterButton}>{t('actions.filter')}</Button>
-		</div>
+			<Title variant={'h5'}>{t('charts.selectedDevices')}</Title>
+			<Text>{`${t('charts.seeing')}: ${renderDeviceCount(t, devices.length, selectedDevices.length)} ${t('charts.devices')}`}</Text>
+			<FilterButton onClick={handleOpenTable} variant={'contained'}>{t('actions.filter')}</FilterButton>
+		</>
 	)
 }
 

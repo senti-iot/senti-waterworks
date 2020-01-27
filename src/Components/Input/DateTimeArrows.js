@@ -6,20 +6,32 @@ import { T, ItemG } from 'Components'
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'Hooks'
 import { changeDate } from 'Redux/dateTime'
+import size from 'Styles/themes/mediaQueries'
 
 const LeftArrow = styled(KeyboardArrowLeft)`
 width: 1.75em;
 height: 1.75em;
+@media ${size.down.xl} {
+	width: 1.5em;
+	height: 1.5em;
+}
 `
 const RightArrow = styled(KeyboardArrowRight)`
 width: 1.75em;
 height: 1.75em;
+@media ${size.down.xl} {
+	width: 1.5em;
+	height: 1.5em;
+}
 `
 const MonthYear = styled(T)`
     /* font-weight: 600; */
 	text-align: center;
     font-size: 1.50rem;
 	white-space: nowrap;
+	@media ${size.down.md} {
+  		font-size: 1em;
+}
     /* letter-spacing: 1.5px; */
 `
 const futureTester = (date, unit) => {
@@ -71,22 +83,29 @@ const DateTimeArrows = () => {
 		}
 		handleSetDate(period.timeType, to, from, period.timeType, period.id)
 	}
+
 	return (
 		<ItemG container justify={'center'} alignItems={'center'} style={{ flex: 1, flexWrap: 'nowrap' }}>
-			<IconButton onClick={handlePreviousPeriod} >
-				<LeftArrow />
-			</IconButton>
-			<ItemG container xs={3}>
-				<ItemG xs>
+			<ItemG xs={3} lg={1} xl={1} container justify={'center'}>
+				<IconButton onClick={handlePreviousPeriod} >
+					<LeftArrow />
+				</IconButton>
+			</ItemG>
+			<ItemG container xs={5} lg={5} xl={3} justify={'center'} alignItems={'center'}>
+				<ItemG xs={12}>
+
 					<MonthYear>{moment(period.from).format('ll')}</MonthYear>
 				</ItemG>
-				<ItemG xs>
+				<ItemG xs={12}>
+
 					<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 				</ItemG>
 			</ItemG>
-			<IconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
-				<RightArrow />
-			</IconButton>
+			<ItemG xs={3} lg={1} xl={1} container justify={'center'}>
+				<IconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
+					<RightArrow />
+				</IconButton>
+			</ItemG>
 		</ItemG>
 	)
 }

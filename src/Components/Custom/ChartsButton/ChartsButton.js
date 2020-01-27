@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button'
 // import chartsButtonStyles from '../Styles/chartsButtonStyles'
 import styled from 'styled-components';
 import { emphasize } from '@material-ui/core/styles';
+import size from 'Styles/themes/mediaQueries';
 // const ChartsButton = ({ active, ...rest }) => {
 // 	const classes = chartsButtonStyles({ active })
 // 	return (
@@ -18,6 +19,11 @@ const ChartsButton = styled(({ isActive, ...props }) => <Button {...props} class
 	background: ${({ theme, isActive }) => isActive ? theme.activeChartButton : theme.chartButton};
 	width: calc(100% - 16px);
 	margin: 8px;
+	@media ${size.down.md} {
+		font-size: 0.87rem;
+		height: 36px;
+		min-width: 50px;
+	}
 	min-width: 100px;
 	color: #fff;
 	text-transform: none;
