@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemG, T, DateTimeFilter } from 'Components'
+import { ItemG, DateTimeFilter } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
