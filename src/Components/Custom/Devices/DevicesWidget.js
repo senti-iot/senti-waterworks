@@ -19,7 +19,7 @@ const Title = styled(T)`
 	@media ${size.down.md} {
 		margin-top: 8px;
 		margin-left: 8px;
-		font-size: 1em;
+		font-size: 0.875em;
 	}
 	margin: 16px;
 	font-weight: 600;

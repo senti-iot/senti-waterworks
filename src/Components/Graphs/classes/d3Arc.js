@@ -24,7 +24,7 @@ class d3Arc {
 		this.containerEl = containerEl;
 		this.props = props;
 		const { arcData, arcPrevData } = props
-		var margin = { top: 30, right: 10, bottom: 30, left: 10 };
+		var margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
 		//Get the height and width from the container
 		var height = containerEl.clientHeight;
@@ -54,16 +54,16 @@ class d3Arc {
 		window.width = width
 		window.height = height
 		let median = Math.round((width + height) / 2)
-
+		console.log(median)
 		var innerArc = d3.arc()
-			.innerRadius(`${(median / 3) - 25}`)
-			.outerRadius(`${(median / 3) - 10}`)
+			.innerRadius(`${(median / 2.5) - 25}`)
+			.outerRadius(`${(median / 2.5) - 10}`)
 		// .startAngle(innerArcS) //converting from degs to radians
 		// .endAngle(innerArcE) //just radians
 
 		var outerArc = d3.arc()
-			.innerRadius(`${(median / 3) - 5}`)
-			.outerRadius(`${(median / 3) + 10}`)
+			.innerRadius(`${(median / 2.5) - 5}`)
+			.outerRadius(`${(median / 2.5) + 10}`)
 		// .startAngle(outerArcS)
 		// .endAngle((Math.PI * outerArcE) / 180)
 		// .endAngle(outerArcS)

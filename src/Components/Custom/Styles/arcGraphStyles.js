@@ -51,7 +51,7 @@ export const TotalUsageText = styled(T)`
 export const DataText = styled(({ prev, ...props }) => <T {...props} />)`
 	color: ${({ prev }) => prev ? 'rgba(255,255,255,0.5)' : undefined};
 	@media ${size.down.md} {
-		font-size: 1em;
+		font-size: ${({ prev }) => prev ? "0.875em" : "1em"};
 	}
 	white-space: nowrap;
 `
