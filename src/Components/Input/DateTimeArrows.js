@@ -91,15 +91,13 @@ const DateTimeArrows = () => {
 					<LeftArrow />
 				</IconButton>
 			</ItemG>
-			<ItemG container xs={5} lg={5} xl={3} justify={'center'} alignItems={'center'}>
-				<ItemG xs={12}>
+			<ItemG container xs={5} lg={7} xl={5} justify={'center'} alignItems={'center'} style={{ whiteSpace: 'nowrap' }}>
 
-					<MonthYear>{moment(period.from).format('ll')}</MonthYear>
-				</ItemG>
-				<ItemG xs={12}>
-
-					<MonthYear>{moment(period.to).format('ll')}</MonthYear>
-				</ItemG>
+				<MonthYear>{moment(period.from).format('ll')}</MonthYear>
+				&nbsp;&nbsp;&nbsp;
+				<MonthYear>{` - `}</MonthYear>
+				&nbsp;&nbsp;&nbsp;
+				<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 			</ItemG>
 			<ItemG xs={3} lg={1} xl={1} container justify={'center'}>
 				<IconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
