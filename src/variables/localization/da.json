@@ -119,7 +119,7 @@
 		},
 		"names": {
 			"benchmark": "Benchmark",
-			"waterusageL": "Vandforbrug",
+			"waterusageL": "Forbrug",
 			"waterusageP": "Sidste periode"
 		},
 		"noDevices": "Ingen",

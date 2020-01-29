@@ -159,12 +159,6 @@ export const getData = async () => {
 					color: 'red'
 				},
 				{
-					name: 'tempWater',
-					median: true,
-					data: currentPeriodData.temperature.water,
-					color: 'blue'
-				},
-				{
 					name: 'tempAmbientPrev',
 					prev: true,
 					hidden: true,
@@ -172,6 +166,13 @@ export const getData = async () => {
 					median: true,
 					data: previousPeriodData.temperature.ambient
 				},
+				{
+					name: 'tempWater',
+					median: true,
+					data: currentPeriodData.temperature.water,
+					color: 'blue'
+				},
+
 				{
 					name: 'tempWaterPrev',
 					prev: true,
@@ -189,18 +190,18 @@ export const getData = async () => {
 					color: 'lightBlue'
 				},
 				{
-					name: 'minFlow',
-					median: true,
-					data: currentPeriodData.waterFlow.minFlow,
-					color: 'purple'
-				},
-				{
 					name: 'maxFlowPrev',
 					prev: true,
 					hidden: true,
 					noMedianLegend: true,
 					median: true,
 					data: previousPeriodData.waterFlow.maxFlow
+				},
+				{
+					name: 'minFlow',
+					median: true,
+					data: currentPeriodData.waterFlow.minFlow,
+					color: 'purple'
 				},
 				{
 					name: 'minFlowPrev',

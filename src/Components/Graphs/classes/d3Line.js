@@ -382,8 +382,8 @@ class d3Line {
 		// data.forEach(d => {
 		// 	d.data = d.data.filter(f => moment(f.date).diff(period.from) >= 0)
 		// })
-		window.moment = moment
-		window.data = data
+		// window.moment = moment
+		// window.data = data
 		let animArea0 = d3.area()
 			.y0(this.height - this.margin.bottom)
 			.y1(this.height - this.margin.bottom)

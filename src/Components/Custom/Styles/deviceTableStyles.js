@@ -40,6 +40,7 @@ export const GetDevicesButton = styled(Button)`
 `
 export const TitleContainer = styled.div`
 	display: flex;
+	align-items:center;
 	justify-content: space-between;
 	padding: 24px;
 	border-radius: 3px 3px 0px 0px;

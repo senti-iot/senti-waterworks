@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemG, T, DateTimeFilter } from 'Components'
+import { ItemG, DateTimeFilter } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
@@ -7,6 +7,9 @@ import { useLocalization, useSelector } from 'Hooks'
 import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
 import { ExportModule } from 'Components/ExportModule/ExportModule'
+import ChartsButtonContainer from '../ChartsButton/ChartsButtonContainer'
+import ChartsDateNavContainer from '../ChartsButton/ChartsDateNavContainer'
+import ChartTitle from '../ChartTitle/ChartTitle'
 
 export const MainChart = React.memo((props) => {
 	const { chart, setChart } = props
@@ -17,7 +20,7 @@ export const MainChart = React.memo((props) => {
 
 	return (
 		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
-			<ItemG style={{ margin: '32px 32px 0px 32px' }}>
+			<ChartsButtonContainer>
 				<Hidden mdDown>
 					<ItemG container justify={'space-evenly'}>
 						<ItemG xs={3}>
@@ -34,17 +37,15 @@ export const MainChart = React.memo((props) => {
 						</ItemG>
 					</ItemG>
 				</Hidden>
-			</ItemG>
+			</ChartsButtonContainer>
 			<ItemG>
-				<div style={{ margin: '16px 32px' }}>
-					<ItemG container alignItems={'center'} justify={'space-between'}>
-						<T variant={'h6'} style={{ fontWeight: 600, fontSize: '1.75rem', letterSpacing: 1.5 }}>{t(`charts.types.${chart}`)}</T>
-						<DateTimeArrows />
-						<DateTimeDays />
-						<DateTimeFilter />
-						<ExportModule />
-					</ItemG>
-				</div>
+				<ChartsDateNavContainer container alignItems={'center'} justify={'space-between'}>
+					<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
+					<DateTimeArrows />
+					<DateTimeDays />
+					<DateTimeFilter />
+					<ExportModule />
+				</ChartsDateNavContainer>
 			</ItemG>
 			<ItemG container style={{ flex: 1 }}>
 				<LineGraph loading={props.loading} id={chart} />
