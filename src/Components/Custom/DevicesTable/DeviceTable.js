@@ -11,7 +11,17 @@ import { sortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import ItemG from 'Components/Containers/ItemG'
+import styled from 'styled-components'
+import size from 'Styles/themes/mediaQueries'
 
+const Title = styled(T)`
+	font-weight: 600;
+	font-size: 1.75em;
+	letter-spacing: 1.5px;
+	@media ${size.down.md} {
+		font-size: 1.25em;
+	}
+`
 
 
 
@@ -129,7 +139,7 @@ const DeviceTable = (props) => {
 		>
 			<DBox>
 				<TitleContainer>
-					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
+					<Title variant={'h6'}>{t('charts.selectedDevices')}</Title>
 					<ItemG container style={{ width: 'auto' }}>
 						<ItemG>
 							<DevicesSelected>{selDev.length}</DevicesSelected>

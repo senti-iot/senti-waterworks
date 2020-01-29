@@ -6,7 +6,7 @@ import { useLocalization } from 'Hooks/index';
 
 let CheckedBox = styled(Checkbox)`
 color: inherit;
-
+padding:4px;
 `
 
 const Legend = props => {
@@ -16,7 +16,7 @@ const Legend = props => {
 		<ItemG container justify={'center'} alignItems={'center'}>
 			{data.map(line => {
 				if (line.median && !line.noMedianLegend) {
-					return <Fragment key={line.name + 'Legend5412451234'}>
+					return <Fragment key={line.name + 'Legend54124'}>
 						<FormControlLabel
 							key={line.name + 'Legend'}
 							id={line.name + 'Legend'}

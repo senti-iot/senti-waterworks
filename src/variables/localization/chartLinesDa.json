@@ -1,17 +1,17 @@
 {
 	"chartLines": {
 		"average": "Gns.",
-		"waterusageL": "Vandforbrug",
-		"waterusageP": "Forrige Periode Vandforbrug",
+		"waterusageL": "Forbrug",
+		"waterusageP": "Forrige Periode",
 		"benchmark": "Benchmark",
-		"tempAmbient": "Omgivelsestemp.",
-		"tempAmbientPrev": "Forrige Periode Omgivelsestemp.",
+		"tempAmbient": "Omgivelse",
+		"tempAmbientPrev": "Omgivelse forrige periode",
 		"tempWater": "Vandtemp.",
-		"tempWaterPrev": "Forrige Period Vandtemp.",
-		"maxFlow": "Max. Gennemstrømning",
-		"maxFlowPrev": "Forrige Periode Max. Gennemstrømning",
-		"minFlow": "Min. Gennemstrømning",
-		"minFlowPrev": "Forrige Periode Min. Gennemstrømning",
-		"readingL": "Aflæsning"
+		"tempWaterPrev": "Vandtemp. forrige periode",
+		"maxFlow": "Max",
+		"maxFlowPrev": "Max forrige periode ",
+		"minFlow": "Min",
+		"minFlowPrev": "Min forrige periode",
+		"readingL": "Målerstand"
 	}
 }
