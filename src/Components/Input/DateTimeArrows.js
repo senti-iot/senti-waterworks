@@ -95,7 +95,7 @@ const DateTimeArrows = () => {
 
 				<MonthYear>{moment(period.from).format('ll')}</MonthYear>
 				&nbsp;&nbsp;&nbsp;
-				<MonthYear>{` - `}</MonthYear>
+				<MonthYear>{` — `}</MonthYear>
 				&nbsp;&nbsp;&nbsp;
 				<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 			</ItemG>
