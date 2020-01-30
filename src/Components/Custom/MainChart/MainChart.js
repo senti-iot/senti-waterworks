@@ -38,15 +38,20 @@ export const MainChart = React.memo((props) => {
 					</ItemG>
 				</Hidden>
 			</ChartsButtonContainer>
-			<ItemG>
-				<ChartsDateNavContainer container alignItems={'center'} justify={'space-between'}>
+			{/* <ItemG> */}
+			<ChartsDateNavContainer container alignItems={'center'} justify={'space-between'}>
+				<ItemG xs={2}>
 					<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
-					<DateTimeArrows />
+				</ItemG>
+				<DateTimeArrows />
+				<ItemG container xs alignItems={'center'} justify={'flex-end'}>
 					<DateTimeDays />
 					<DateTimeFilter />
 					<ExportModule />
-				</ChartsDateNavContainer>
-			</ItemG>
+				</ItemG>
+
+			</ChartsDateNavContainer>
+			{/* </ItemG> */}
 			<ItemG container style={{ flex: 1 }}>
 				<LineGraph loading={props.loading} id={chart} />
 			</ItemG>
