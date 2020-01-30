@@ -85,13 +85,13 @@ const DateTimeArrows = () => {
 	}
 
 	return (
-		<ItemG container justify={'center'} alignItems={'center'} style={{ flex: 1, flexWrap: 'nowrap' }}>
-			<ItemG xs={3} lg={1} xl={1} container justify={'center'}>
+		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', width: '50%' }}>
+			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
 				<IconButton onClick={handlePreviousPeriod} >
 					<LeftArrow />
 				</IconButton>
 			</ItemG>
-			<ItemG container xs={5} lg={7} xl={5} justify={'center'} alignItems={'center'} style={{ whiteSpace: 'nowrap' }}>
+			<ItemG container /* xs={9} lg={9} xl={5} */ justify={'center'} alignItems={'center'} style={{ width: 'fit-content', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 
 				<MonthYear>{moment(period.from).format('ll')}</MonthYear>
 				&nbsp;&nbsp;&nbsp;
@@ -99,7 +99,7 @@ const DateTimeArrows = () => {
 				&nbsp;&nbsp;&nbsp;
 				<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 			</ItemG>
-			<ItemG xs={3} lg={1} xl={1} container justify={'center'}>
+			<ItemG xs={2}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
 				<IconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
 					<RightArrow />
 				</IconButton>
