@@ -44,11 +44,11 @@ function Main() {
 					<Route path={'/login'}>
 						<Login />
 					</Route>
-					<Route path={'/'}>
-						<Container />
-					</Route>
 					<Route path={'/mobile-onboarding'}>
 						<div>Here Pavel</div>
+					</Route>
+					<Route path={'/'}>
+						<Container />
 					</Route>
 				</Switch>
 			</MuiThemeProvider>
