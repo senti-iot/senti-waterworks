@@ -47,6 +47,9 @@ function Main() {
 					<Route path={'/'}>
 						<Container />
 					</Route>
+					<Route path={'/mobile-onboarding'}>
+						<div>Here Pavel</div>
+					</Route>
 				</Switch>
 			</MuiThemeProvider>
 		</ThemeProvider>
