@@ -11,6 +11,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 // import Header from 'Components/Header';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
+import MobileOnboarding from './MobileOnboarding'
 import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
 import NewContent from 'Components/Loaders/NewContent';
@@ -45,7 +46,7 @@ function Main() {
 						<Login />
 					</Route>
 					<Route path={'/mobile-onboarding'}>
-						<div>Here Pavel</div>
+						<MobileOnboarding />
 					</Route>
 					<Route path={'/'}>
 						<Container />
