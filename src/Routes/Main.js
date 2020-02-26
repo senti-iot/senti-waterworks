@@ -12,6 +12,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import MobileOnboarding from './MobileOnboarding'
+import BottomNavGuide from '../Components/MobileOnboarding/InAppScreens/BottomNavGuide' // temp
 import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
 import NewContent from 'Components/Loaders/NewContent';
@@ -48,6 +49,8 @@ function Main() {
 					<Route path={'/mobile-onboarding'}>
 						<MobileOnboarding />
 					</Route>
+					{/* temporary route just so that I can see the component rendered: */}
+					<Route path="/onboarding-inapp" component={BottomNavGuide} />
 					<Route path={'/'}>
 						<Container />
 					</Route>

@@ -1,5 +1,7 @@
 /* eslint-disable indent */
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { handleContactInfo } from '../../Redux/mobileOnboarding'
 import { Container, Paper, makeStyles, TextField, Select, MenuItem, InputLabel, FormControl, Typography, Button } from '@material-ui/core'
 import BoldText from 'Components/Typography/T'
 
@@ -41,13 +43,15 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ContactInfo = props => {
-  const [name, setName] = useState('')
-  const [surname, setSurname] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
-  const [postalCode, setPostalCode] = useState('')
-  const [country, setCountry] = useState('')
+  const dispatch = useDispatch()
+  const contact = useSelector(state => state.mobileOnboarding.contact)
+
+  // to fix the label line-through ---------------------- //
+  const inputLabel = useRef(null);                        //
+  const [labelWidth, setLabelWidth] = useState(0)         //
+  useEffect(() => {                                       //
+    setLabelWidth(inputLabel.current.offsetWidth);        //
+  }, []);//---------------------------------------------- //
 
   const classes = useStyles()
 
@@ -58,67 +62,72 @@ const ContactInfo = props => {
         indtastede installationsnummer:</BoldText>
 
         <TextField
+          name="name"
           variant="outlined"
           label="Fornavn"
           fullWidth
-          value={name}
-          onChange={e => setName(e.target.value)}
+          value={contact.name}
+          onChange={e => dispatch(handleContactInfo(e.target.name, e.target.value))}
           className={classes.field}
         />
         <TextField
+          name="surname"
           variant="outlined"
           label="Efternavn"
           fullWidth
-          value={surname}
-          onChange={e => setSurname(e.target.value)}
+          value={contact.surname}
+          onChange={e => dispatch(handleContactInfo(e.target.name, e.target.value))}
           className={classes.field}
         />
         <TextField
+          name="email"
           type="email"
           variant="outlined"
           label="E-mail"
           fullWidth
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          value={contact.email}
+          onChange={e => dispatch(handleContactInfo(e.target.name, e.target.value))}
           className={classes.field}
         />
         <TextField
+          name="phone"
           type="number"
           variant="outlined"
           label="Telefonnr."
           fullWidth
-          value={phone}
-          onChange={e => setPhone(e.target.value)}
+          value={contact.phone}
+          onChange={e => dispatch(handleContactInfo(e.target.name, e.target.value))}
           className={classes.field}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <TextField
+            name="address"
             style={{ minWidth: 80, width: 'calc(67% - 16px)' }}
             variant="outlined"
             label="Adresse"
-            value={address}
-            onChange={e => setAddress(e.target.value)}
+            value={contact.address}
+            onChange={e => dispatch(handleContactInfo(e.target.name, e.target.value))}
             className={classes.field}
           />
           <TextField
+            name="postCode"
             type="number"
             style={{ minWidth: 80, width: '33%' }}
             variant="outlined"
             label="Postnr."
-            value={postalCode}
-            onChange={e => setPostalCode(e.target.value)}
+            value={contact.postCode}
+            onChange={e => dispatch(handleContactInfo(e.target.name, e.target.value))}
             className={classes.field}
           />
         </div>
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="country-label">Land</InputLabel>
+          <InputLabel ref={inputLabel} id="country-label">Land</InputLabel>
           <Select
-            // labelId="country-label"
+            labelWidth={labelWidth}
+            name="country"
             label="Land"
-            // fullWidth
-            // variant="outlined"
-            value={country}
-            onChange={e => setCountry(e.target.value)}
+            value={contact.country}
+            onChange={e => dispatch(handleContactInfo(e.target.name, e.target.value))}
           >
             <MenuItem value="denmark">Denmark</MenuItem>
             <MenuItem value="sweden">Sweden</MenuItem>

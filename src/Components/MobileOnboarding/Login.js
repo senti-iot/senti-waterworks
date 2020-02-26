@@ -1,5 +1,7 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { handleLoginInfo } from '../../Redux/mobileOnboarding'
 import logo from 'assets/senti.waterworks.black.svg'
 import { Paper, makeStyles, Container, TextField, Button, InputAdornment, IconButton } from '@material-ui/core'
 // import { LoginTF } from 'Styles/loginStyles'
@@ -35,11 +37,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Login = props => {
-  const [number, setNumber] = useState('')
-  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+  const login = useSelector(state => state.mobileOnboarding.login)
+
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault()
     props.setStep(prevStep => prevStep + 1)
   }
 
@@ -51,23 +55,25 @@ const Login = props => {
         <img src={logo} alt="senti-logo" style={{ marginTop: 50 }} />
         <p style={{ marginTop: 0 }}>Indtast installationsnummer og engangskode du har faet tilsendt af dit vandmaerk.</p>
 
-        <div className={classes.form}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
+            name="number"
             fullWidth
             className={classes.textField}
             variant="outlined"
             label="Installationsnummer"
-            value={number}
-            onChange={e => setNumber(e.target.value)}
+            value={login.number}
+            onChange={e => dispatch(handleLoginInfo(e.target.name, e.target.value))}
           />
           <TextField
+            name="password"
             fullWidth
             type={showPassword ? 'text' : 'password'}
             className={classes.textField}
             variant="outlined"
             label="Adgangskode"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
+            value={login.password}
+            onChange={e => dispatch(handleLoginInfo(e.target.name, e.target.value))}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -78,7 +84,13 @@ const Login = props => {
               )
             }}
           />
-          <Button color="secondary" className={classes.button} variant="contained" onClick={handleSubmit}>Log ind</Button>
+          <Button
+            color="secondary"
+            className={classes.button}
+            variant="contained"
+            onClick={handleSubmit}
+            type="submit"
+          >Log ind</Button>
           <Caption>
             &copy; 2016-2019 All rights reserved. Senti is an open source IoT Service Platform designed
             and developed with <span style={{ color: 'red' }}>❤</span> in Aalborg, Denmark
@@ -92,7 +104,7 @@ const Login = props => {
               <Caption>Persondatapolitik</Caption>
             </a>
           </div>
-        </div>
+        </form>
       </Paper>
     </Container>
   )

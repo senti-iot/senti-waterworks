@@ -72,6 +72,7 @@ const WelcomeScreen = props => {
 
   const handleSkip = () => {
     console.log('handle skip')
+    setCurrStep(4)
   }
 
   const handleChangeIndex = value => setCurrStep(value)

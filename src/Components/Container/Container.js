@@ -48,12 +48,12 @@ const ChartContainer = () => {
 		}
 	}, [dispatch, loading])
 	return <GridContainer style={{ height: '100%' }}>
-		<ItemG xs={9} >
+		<ItemG xs={12} md={9} >
 			<BPaper>
 				<MainChart loading={loading} chart={chart} setChart={setChart} />
 			</BPaper>
 		</ItemG>
-		<ItemG xs={3}>
+		<ItemG xs={12} md={3}>
 			<ItemG container direction={'row'} style={{ height: '100%' }}>
 				<ItemG xs={12} style={{ height: '25%' }}>
 					<BPaper>

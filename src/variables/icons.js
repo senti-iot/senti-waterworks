@@ -117,7 +117,10 @@ import Airplay from '@material-ui/icons/Airplay'
 import Https from '@material-ui/icons/Https'
 import Palette from '@material-ui/icons/Palette'
 import ImportExport from '@material-ui/icons/ImportExport'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+
 export {
+	AccountCircle,
 	Droplet,
 	Thermometer,
 	Pipe,
