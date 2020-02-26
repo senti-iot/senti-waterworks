@@ -20,8 +20,8 @@ export const MainChart = React.memo((props) => {
 
 	return (
 		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
-			<ChartsButtonContainer>
-				<Hidden mdDown>
+			<Hidden smDown>
+				<ChartsButtonContainer>
 					<ItemG container justify={'space-evenly'}>
 						<ItemG xs={3}>
 							<ChartsButton onClick={handleSetChart('waterusage')} isActive={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
@@ -36,21 +36,22 @@ export const MainChart = React.memo((props) => {
 							<ChartsButton disabled={selectedDevices.length !== 1} onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
 						</ItemG>
 					</ItemG>
-				</Hidden>
-			</ChartsButtonContainer>
-			{/* <ItemG> */}
-			<ChartsDateNavContainer container alignItems={'center'} justify={'space-between'}>
-				<ItemG xs={2}>
-					<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
-				</ItemG>
-				<DateTimeArrows />
-				<ItemG container xs alignItems={'center'} justify={'flex-end'}>
-					<DateTimeDays />
-					<DateTimeFilter />
-					<ExportModule />
-				</ItemG>
+				</ChartsButtonContainer>
+				{/* <ItemG> */}
+				<ChartsDateNavContainer container alignItems={'center'} justify={'space-between'}>
+					<ItemG xs={2}>
+						<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
+					</ItemG>
+					<DateTimeArrows />
+					<ItemG container xs alignItems={'center'} justify={'flex-end'}>
+						<DateTimeDays />
+						<DateTimeFilter />
+						<ExportModule />
+					</ItemG>
 
-			</ChartsDateNavContainer>
+				</ChartsDateNavContainer>
+			</Hidden>
+
 			{/* </ItemG> */}
 			<ItemG container style={{ flex: 1 }}>
 				<LineGraph loading={props.loading} id={chart} />
@@ -59,5 +60,5 @@ export const MainChart = React.memo((props) => {
 		</ItemG>
 	)
 })
-MainChart.whyDidYouRender = true;
+MainChart.whyDidYouRender = true
 // export default MainChart
