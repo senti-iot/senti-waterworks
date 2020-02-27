@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="414px" height="256px" viewBox="0 0 414 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polyline id="path-1" points="8 150.620189 72.6775244 205 88.1824104 185.387609 108.560261 143.042674 136.026059 93 161.71987 129.73926 220.748026 115.860212 254.749186 137.693841 278.228013 118.887985 301.70684 93 333.077424 125.213228 350.936696 118.887985 375.2443 133.236479 401.824104 115.860212 416 139.476785"></polyline>
+        <filter x="-2.0%" y="-7.0%" width="104.0%" height="115.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="1.25" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feMorphology radius="1.25" operator="erode" in="SourceAlpha" result="shadowInner"></feMorphology>
+            <feOffset dx="0" dy="1" in="shadowInner" result="shadowInner"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M9.7816092,169.5 L416.218391,169.5" id="path-3"></path>
+        <filter x="-1.0%" y="-325.0%" width="101.9%" height="950.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feMorphology radius="1.25" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feMorphology radius="1.25" operator="erode" in="SourceAlpha" result="shadowInner"></feMorphology>
+            <feOffset dx="0" dy="1" in="shadowInner" result="shadowInner"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-11-Copy-6" transform="translate(0.000000, -472.000000)">
+            <g id="Group" transform="translate(-7.000000, 472.000000)">
+                <g id="Group-18">
+                    <polygon id="Line-8" fill="#4C84BF" opacity="0.442847842" points="0 180.330479 67.2678762 45.8529376 91.2921178 128.531722 155.677085 207.225987 171.0526 81.2155503 187.389084 111.273276 206.922096 8 246.969203 139.489152 313.276109 183.318869 344.027138 72.7484458 373.817198 116.531707 384.203592 92.9229958 418 176.729779 418 256 0 256"></polygon>
+                    <path d="M4,128.928799 L62.5260718,234 L85.7568182,234 L112.594798,163.412664 L136.336575,146.021722 L164.706837,163.412664 L186.932194,150.496952 L241.137933,15 C243.160804,26.171565 246.56119,44.9506369 251.339091,71.3372158 C256.116992,97.7237947 260.894894,124.110374 265.672795,150.496952 L291.353418,52.0106468 L316.341378,156.579115 L343.160323,146.021722 L367.146371,192.053296 L396.892236,156.579115 L418,176.763886" id="Line-3" stroke="#FF9E00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M4.7957131,127.947194 L63.3034129,232.113107 L86.5268668,232.113107 L113.356421,162.133948 L137.090746,144.892845 L165.452102,162.133948 L187.670482,149.329517 L241.859206,15 C243.881441,26.0753113 247.28076,44.6925837 252.057161,70.8518171 C256.833563,97.0110505 261.609964,123.170284 266.386366,149.329517 L292.058928,51.6917649 L317.039043,155.359276 L343.849569,144.892845 L367.828087,190.527814 L381.215953,174.69437 L397.564616,155.359276 L418.665753,175.370137 L419,256 L0,256 L0,127.947194 L4.7957131,127.947194 Z" id="Line-3" fill-opacity="0.14966674" fill="#FF9E00"></path>
+                    <ellipse id="Oval" fill="#FFFFFF" cx="240" cy="13" rx="11" ry="13"></ellipse>
+                    <path d="M240.5,0 C233.048,0 227,5.824 227,13 C227,20.176 233.048,26 240.5,26 C247.952,26 254,20.176 254,13 C254,5.824 247.952,0 240.5,0 L240.5,0 Z M242.1875,19.5 L238.8125,19.5 L238.8125,16.25 L242.1875,16.25 L242.1875,19.5 L242.1875,19.5 Z M242.1875,14.625 L238.8125,14.625 L238.8125,6.5 L242.1875,6.5 L242.1875,14.625 L242.1875,14.625 Z" id="Shape" fill="#FF5050"></path>
+                </g>
+                <g id="Line-27" stroke-linecap="round" stroke-dasharray="5">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use stroke="#F7E100" stroke-width="2.5" xlink:href="#path-1"></use>
+                </g>
+                <g id="Line" stroke-linecap="round" stroke-dasharray="6">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                    <use stroke="#FA6400" stroke-width="2.5" xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

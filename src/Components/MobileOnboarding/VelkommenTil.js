@@ -2,6 +2,7 @@
 import React from 'react'
 import { Container, Typography, makeStyles } from '@material-ui/core'
 import logo from 'assets/senti.waterworks.svg'
+import mobile from './images/mobile2.png'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -27,6 +28,11 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     marginTop: 20,
     color: '#fff'
+  },
+  mobile: {
+    maxWidth: 200,
+    height: 'auto',
+    marginTop: 20
   }
 }))
 
@@ -38,13 +44,13 @@ const VelkommenTil = props => {
       <Typography className={classes.welcomeText} variant="body1">Velkommen til</Typography>
       <img src={logo} alt="senti-logo" />
 
-      <div className={classes.placeholder}>
-        <p style={{ margin: 'auto' }}>Placeholder</p>
-      </div>
+      <img src={mobile} alt="senti-mobile-phone" className={classes.mobile} />
 
-      <Typography variant="body1" className={classes.description}>
-        Du er nu klar til at opleve den nye smarte måde at styre dit vandforbrug
-      </Typography>
+      <div style={{ padding: '0 32px' }}>
+        <Typography variant="body1" className={classes.description}>
+          Du er nu klar til at opleve den nye smarte måde at styre dit vandforbrug
+        </Typography>
+      </div>
     </Container>
   )
 }

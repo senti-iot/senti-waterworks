@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import React from 'react'
 import { Container, makeStyles, Typography } from '@material-ui/core'
+import graphs from './images/graf.png'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -21,16 +22,16 @@ const useStyles = makeStyles(theme => ({
     background: '#eee',
     border: '1px solid red',
     display: 'flex'
+  },
+  graphs: {
+    maxWidth: '100%',
+    height: 'auto',
+    marginTop: 20
   }
 }))
 
 const PieCharts = props => {
   const classes = useStyles()
-  const tempStyle = {
-    alignSelf: 'flex-end',
-    position: 'relative',
-    top: '-150px'
-  }
 
   return (
     <Container fixed className={classes.container}>
@@ -38,15 +39,7 @@ const PieCharts = props => {
         Hold styr på dit forbrug
       </Typography>
 
-      {/* will be replaced with the actual graphs */}
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div className={classes.placeholder}>
-          <p style={{ margin: 'auto' }}>placeholder</p>
-        </div>
-        <div className={classes.placeholder} style={tempStyle}>
-          <p style={{ margin: 'auto' }}>placeholder</p>
-        </div>
-      </div>
+      <img src={graphs} alt="senti-usage-graphs" className={classes.graphs} />
     </Container>
   )
 }

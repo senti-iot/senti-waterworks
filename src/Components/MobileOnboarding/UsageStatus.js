@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import React from 'react'
 import { Container, makeStyles, Typography } from '@material-ui/core'
+import usage from './images/benchmark.pictore.svg'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -16,10 +17,9 @@ const useStyles = makeStyles(theme => ({
     margin: '40px 0 40px 0'
   },
   waterUsage: {
-    marginTop: 100,
-    height: 250,
-    background: '#eee',
-    display: 'flex'
+    marginTop: 30,
+    maxWidth: '100%',
+    height: 'auto'
   }
 }))
 
@@ -32,9 +32,10 @@ const UsageStatus = props => {
         Benchmark og målret den grønne omstilling
       </Typography>
 
-      <div className={classes.waterUsage}>
+      <img src={usage} alt="senti-usage-status" className={classes.waterUsage} />
+      {/* <div className={classes.waterUsage}>
         <Typography style={{ margin: 'auto' }}>Placeholder</Typography>
-      </div>
+      </div> */}
     </Container>
   )
 }

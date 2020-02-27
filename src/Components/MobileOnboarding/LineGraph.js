@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import React from 'react'
 import { makeStyles, Container, Typography } from '@material-ui/core'
+import lineGraph from './images/graf2.svg'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -16,11 +17,9 @@ const useStyles = makeStyles(theme => ({
     margin: '40px 0 40px 0'
   },
   lineGraph: {
-    marginTop: 100,
     width: '100%',
-    height: 250,
-    background: '#eee',
-    display: 'flex'
+    height: 'auto',
+    marginTop: 70
   }
 }))
 
@@ -33,9 +32,7 @@ const LineGraph = props => {
         Hold dig opdateret<br />gennem alarmer
       </Typography>
 
-      <div className={classes.lineGraph}>
-        <Typography style={{ margin: 'auto' }}>Placeholder</Typography>
-      </div>
+      <img src={lineGraph} alt="senti-line-graph" className={classes.lineGraph} />
     </Container>
   )
 }
