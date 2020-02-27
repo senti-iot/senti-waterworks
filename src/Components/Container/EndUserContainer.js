@@ -12,8 +12,7 @@ import DevicesWidget from 'Components/Custom/Devices/DevicesWidget'
 import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget'
 import { getData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
-import { makeStyles } from '@material-ui/core'
-import { Redirect } from 'react-router'
+import { makeStyles, Hidden } from '@material-ui/core'
 
 const styles = makeStyles(theme => ({
 	smallWidget: {
@@ -31,7 +30,7 @@ const styles = makeStyles(theme => ({
 }))
 
 
-const ChartContainer = () => {
+const EndUserContainer = () => {
 	//Hooks
 	const dispatch = useDispatch()
 	const classes = styles()
@@ -39,7 +38,7 @@ const ChartContainer = () => {
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const period = useSelector(s => s.dateTime.period)
-	const isAdmin = useSelector(s => s.auth.isAdmin)
+
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
@@ -59,6 +58,7 @@ const ChartContainer = () => {
 			setLoading(true)
 		}
 	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
+
 	useEffect(() => {
 		if (loading) {
 			const getDeviceData = async () => dispatch(await getData())
@@ -72,39 +72,77 @@ const ChartContainer = () => {
 
 	//Handlers
 
-	console.log(isAdmin)
-	return isAdmin ? <GridContainer style={{ height: '100%' }}>
-		<ItemG xs={12} md={9} className={classes.screenWidget}>
-			<BPaper>
-				<MainChart loading={loading} chart={chart} setChart={setChart} />
-			</BPaper>
-		</ItemG>
-		<ItemG xs={12} md={3}>
-			<ItemG container direction={'row'} style={{ height: '100%' }}>
-				<ItemG xs={12} className={classes.smallWidget}>
+
+	return <GridContainer style={{ height: '100%' }}>
+		<Hidden smDown>
+			<ItemG xs={12} md={9} container>
+				<ItemG xs={12} style={{ height: "80%" }}>
 					<BPaper>
-						<DeviceTableWidget />
+						<MainChart loading={loading} chart={chart} setChart={setChart} />
 					</BPaper>
 
 				</ItemG>
-				<ItemG xs={12} style={{ height: '50%' }}>
-					<BPaper>
-						{loading ? <CircularLoader fill /> :
-							<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
-						}
-					</BPaper>
-
-				</ItemG>
-				<ItemG xs={12} className={classes.smallWidget}>
-					<BPaper>
-						<DevicesWidget />
-					</BPaper>
+				<ItemG xs={12} container style={{ height: "20%" }}>
+					<ItemG xs={6}>
+						<BPaper>
+							Here Pavel
+						</BPaper>
+					</ItemG>
+					<ItemG xs={6}>
+						<BPaper>
+							Test
+						</BPaper>
+					</ItemG>
 				</ItemG>
 			</ItemG>
-		</ItemG>
+			<ItemG xs={12} md={3}>
+				<ItemG container direction={'row'} style={{ height: '100%' }}>
+					<ItemG xs={12} style={{ height: '50%' }} className={classes.smallWidget}>
+						<BPaper>
+							"Charts v2"
+						</BPaper>
+					</ItemG>
+					<ItemG xs={12} style={{ height: '50%' }}>
+						<BPaper>
+							{loading ? <CircularLoader fill /> :
+								<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
+							}
+						</BPaper>
 
-	</GridContainer> : <Redirect to={'/'} />
+					</ItemG>
+				</ItemG>
+			</ItemG>
+		</Hidden>
+		<Hidden mdUp>
+			<ItemG xs={12} md={9} className={classes.screenWidget}>
+				<BPaper>
+					<MainChart loading={loading} chart={chart} setChart={setChart} />
+				</BPaper>
+			</ItemG>
+
+			<ItemG xs={12} className={classes.smallWidget}>
+				<BPaper>
+					<DeviceTableWidget />
+				</BPaper>
+
+			</ItemG>
+			<ItemG xs={12} style={{ height: '50%' }}>
+				<BPaper>
+					{loading ? <CircularLoader fill /> :
+						<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
+					}
+				</BPaper>
+
+			</ItemG>
+			<ItemG xs={12} className={classes.smallWidget}>
+				<BPaper>
+					<DevicesWidget />
+				</BPaper>
+
+			</ItemG>
+		</Hidden>
+	</GridContainer>
 }
-ChartContainer.whyDidYouRender = true
+EndUserContainer.whyDidYouRender = true
 
-export default ChartContainer
+export default EndUserContainer

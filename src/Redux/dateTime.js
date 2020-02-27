@@ -36,8 +36,8 @@ export const changeDate = (menuId, to, from, timeType) => {
 const initialState = {
 	period: {
 		menuId: 2,
-		from: null, /* moment().subtract(7, 'day').startOf('day'), */
-		to: null, /* moment().endOf('day'), */
+		from: moment().subtract(7, 'day').startOf('day'),
+		to: moment().endOf('day'),
 		timeType: 2
 	},
 

@@ -11,14 +11,13 @@ import { getSettings } from 'Redux/settings'
 import { CircularLoader } from 'Components'
 import { getAllDevices } from 'Redux/data'
 import ChartContainer from 'Components/Container/ChartContainer'
-
-
-
+import EndUserContainer from 'Components/Container/EndUserContainer'
 
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
+
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())
@@ -41,8 +40,11 @@ function Container(props) {
 							<Route path={'/settings'}>
 								<Settings />
 							</Route>
-							<Route exact path={'/'}>
+							<Route path={'/admin'}>
 								<ChartContainer />
+							</Route>
+							<Route exact path={'/'}>
+								<EndUserContainer />
 							</Route>
 							<Redirect path={'*'} to={'/'}></Redirect>
 						</Switch>
