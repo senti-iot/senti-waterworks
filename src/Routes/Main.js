@@ -16,6 +16,7 @@ import BottomNavGuide from '../Components/MobileOnboarding/InAppScreens/BottomNa
 import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
 import NewContent from 'Components/Loaders/NewContent'
+
 // import size from 'Styles/themes/mediaQueries'
 
 
@@ -35,6 +36,7 @@ function Main() {
 	// 	//eslint-disable-next-line
 	// }, [])
 	const colorTheme = useSelector(s => s.settings.colorTheme)
+
 	return (
 
 
@@ -62,6 +64,7 @@ function Main() {
 						<Container />
 					</Route>
 				</Switch>
+
 			</MuiThemeProvider>
 		</ThemeProvider>
 

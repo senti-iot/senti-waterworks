@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import moment from 'moment';
+import moment from 'moment'
 import logo from 'assets/senti.waterworks.black.svg'
 import { Link } from 'react-router-dom'
-import cookie from 'react-cookies';
+import cookie from 'react-cookies'
 
 // Components
-import { ItemG, CookiesDialog, PrivacyDialog, FadeOutLoader } from 'Components';
-import { Hidden, InputAdornment, Link as MuiLink } from '@material-ui/core';
-import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks';
-import { Person, Visibility, VisibilityOff, Business } from 'variables/icons';
+import { ItemG, CookiesDialog, PrivacyDialog, FadeOutLoader } from 'Components'
+import { Hidden, InputAdornment, Link as MuiLink } from '@material-ui/core'
+import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks'
+import { Person, Visibility, VisibilityOff, Business } from 'variables/icons'
 
 // Data & Redux
-import { loginUser } from 'data/login';
-import { getSettings } from 'Redux/settings';
-import { changeLanguage } from 'Redux/localization';
-import { setToken } from 'data/data';
-import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, NeedAccountT, LoginButton, LoginTF } from 'Styles/loginStyles';
-import LoginImages from 'Components/Custom/Login/NewLoginImages';
-import { ThemeProvider } from '@material-ui/styles';
-import { loginTheme } from 'Styles/themes';
+import { loginUser } from 'data/login'
+import { getSettings } from 'Redux/settings'
+import { changeLanguage } from 'Redux/localization'
+import { setToken } from 'data/data'
+import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, NeedAccountT, LoginButton, LoginTF } from 'Styles/loginStyles'
+import LoginImages from 'Components/Custom/Login/NewLoginImages'
+import { ThemeProvider } from '@material-ui/styles'
+import { loginTheme } from 'Styles/themes'
+// import { setAccessLevel } from 'Redux/auth'
 
 
 function Login() {
@@ -88,8 +89,14 @@ function Login() {
 				if (rs.isLoggedIn) {
 					if (setToken()) {
 						await redux.getSettings()
+						// dispatch(setAccessLevel({ id: 0, name: 'Admin', priority: 10 }))
 						var prevURL = location.state ? location.state.prevURL : null
-						history.push(prevURL ? prevURL : /* defaultRoute */ '/')
+						if ("isAdmin") {
+							history.push('/admin')
+						}
+						else {
+							history.push(prevURL ? prevURL : /* defaultRoute */ '/')
+						}
 					}
 				}
 			}
@@ -103,15 +110,15 @@ function Login() {
 		switch (e.target.id) {
 			case 'pass':
 				setPass(e.target.value)
-				break;
+				break
 			case 'user':
 				setUser(e.target.value)
-				break;
+				break
 			case 'orgId':
 				setOrgId(e.target.value)
-				break;
+				break
 			default:
-				break;
+				break
 		}
 		// if (error) {
 		// 	setError(false)

@@ -1,11 +1,11 @@
-import React from 'react';
-import { AppBar, Button, Hidden, Toolbar, ButtonBase } from '@material-ui/core';
-import HeaderLinks from './HeaderLinks';
-import headerStyles from 'Styles/headerStyle';
+import React from 'react'
+import { AppBar, Button, Hidden, Toolbar, ButtonBase } from '@material-ui/core'
+import HeaderLinks from './HeaderLinks'
+import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
 import logo from 'assets/senti.waterworks.svg'
 import { useHistory } from 'react-router'
-import { useLocalization } from 'Hooks';
+import { useLocalization } from 'Hooks'
 
 function Header({ ...props }) {
 	const classes = headerStyles()
@@ -32,16 +32,16 @@ function Header({ ...props }) {
 				}}
 			/>
 		</ButtonBase>
-	);
+	)
 
 	return (
 		<AppBar className={classes.appBar} >
 			<Toolbar className={classes.container}>
-				<Hidden mdDown>
-					<div className={classes.logoContainer}>
-						{brand}
-					</div>
-				</Hidden>
+				{/* <Hidden mdDown> */}
+				<div className={classes.logoContainer}>
+					{brand}
+				</div>
+				{/* </Hidden> */}
 				<div className={classes.flex}>
 					<Button className={classes.title}>
 						{props.title ? t(props.title, props.title.options) ? t(props.title, props.title.options) : props.title : ''}
@@ -52,7 +52,7 @@ function Header({ ...props }) {
 				</Hidden>
 			</Toolbar>
 		</AppBar>
-	);
+	)
 }
 
 export default Header
