@@ -1,14 +1,14 @@
 import React from 'react'
-import { T } from 'Components';
+import { T } from 'Components'
 // import loginImages from 'assets/imgs/loginImages/loader'
 import sentiIpadIMG from 'assets/imgs/senti-ipad.png'
 import ImgTexture from 'assets/imgs/texture_inverted2.png'
 import sentiWaterWorks from 'assets/senti.waterworks.svg'
-import { useLocalization, useSelector } from 'Hooks';
-import { makeStyles } from '@material-ui/styles';
-import { sideBarColor } from 'Styles/mainStyles';
-import styled from 'styled-components';
-import { bgColors } from 'Styles/backgroundColors';
+import { useLocalization, useSelector } from 'Hooks'
+import { makeStyles } from '@material-ui/styles'
+import { sideBarColor } from 'Styles/mainStyles'
+import styled from 'styled-components'
+import { bgColors } from 'Styles/backgroundColors'
 
 const Background = styled.div`
 	width: 100%;
@@ -18,7 +18,7 @@ const Background = styled.div`
 	align-items: center;
 	background: ${props => bgColors[props.color].background};
 `
-const styles = makeStyles(() => ({
+const styles = makeStyles(theme => ({
 	container: {
 		backgroundImage: `url(${ImgTexture})`,
 		backgroundRepeat: "no-repeat",
@@ -36,7 +36,10 @@ const styles = makeStyles(() => ({
 		justifyContent: "center",
 		alignItems: "center",
 		flexFlow: "column",
-		margin: '15px 150px'
+		margin: '15px 150px',
+		[theme.breakpoints.down('md')]: {
+			margin: "15px 0px"
+		}
 	},
 	bold: {
 		fontWeight: 600
@@ -46,7 +49,8 @@ const styles = makeStyles(() => ({
 		padding: 25,
 		paddingTop: 0,
 		maxWidth: 615,
-		marginBottom: 30
+		marginBottom: 30,
+		whiteSpace: "nowrap"
 	},
 	overcomplicatedButtonTextLight: {
 		fontWeight: 300,
@@ -62,6 +66,9 @@ const styles = makeStyles(() => ({
 	},
 	img: {
 		height: 650,
+		[theme.breakpoints.down('md')]: {
+			height: 450
+		}
 	},
 	sentiDots: {
 		height: 75,

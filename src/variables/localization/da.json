@@ -9,6 +9,8 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"confirm": "Bekræft",
+		"nextStep": "Næste trin",
 		"select": "Vælg",
 		"export": "Eksporter data",
 		"accept": "Godkend",
@@ -1233,6 +1235,9 @@
 	"users": {
 		"editUser": "Rediger bruger",
 		"fields": {
+			"address": "Adresse",
+			"postnr": "Postnr.",
+			"country": "Land",
 			"accessLevel": "Adgangsniveau",
 			"active": "Aktiv",
 			"bio": "Biografi",
@@ -1287,6 +1292,22 @@
 			"noEmail": "E-mail mangler",
 			"noOrg": "Organisation mangler",
 			"userAlreadyExists": "E-mail er allerede tilknyttet en bruger konto!"
+		}
+	},
+	"signup": {
+		"form": {
+			"installationNrB": "Installationsnummer",
+			"deviceNr": "Måler nummer",
+			"insertDeviceNumber": "Indtast måler nummer, installationsnummer, og organisation ID for at tilslutte din vandmåler med senti.waterworks.Kender du ikke disse numre kontakt venligst dit vandværk.",
+			"dataAutoFill": "Følgende stamdata er registreret for det indtastede måler nummer:",
+			"completeMissingFields": "Udfyld venligst alle nødvendige felter:",
+			"finishProfileTitle": "Færdiggør din brugerprofil",
+			"selectPassword": "Vælg en adgangskode til login",
+			"addPeopleCount": "Tilføj venligst husstandens antal beboere",
+			"adultNr": "Antal voksne",
+			"childNr": "Antal børn",
+			"personalDataTitle": "Persondata tilladelse",
+			"personalDataConfirm": "Ja, jeg accepter vilkår og betingelser for"
 		}
 	}
 }

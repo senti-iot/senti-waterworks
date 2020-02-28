@@ -145,16 +145,12 @@ function Login() {
 	}, [location.pathname, history, redux])
 
 	const handleShowPassword = () => setShowPassword(!showPassword)
-	// const IconEndAd = cx({
-	// [classes.IconEndAd]: true,
-	// [classes.inputIconsColor]: !error,
-	// [classes.iconError]: error
-	// })
+
 	return (
 		<ThemeProvider theme={loginTheme}>
 
 			<LoginWrapper>
-				<ItemG xs={12} sm={12} md={4} lg={4} xl={3} container>
+				<ItemG xs={12} sm={12} md={5} lg={4} xl={3} container>
 					<MobileContainer>
 						<LeftPanel /* className={classes.paper} */>
 							<InputContainer>
@@ -172,7 +168,7 @@ function Login() {
 												</span>
 												<span>
 
-													<MuiLink component={Link} to={'/login'}>
+													<MuiLink component={Link} to={'/signup/da/step1'}>
 														{t('login.createAccount')}
 													</MuiLink>
 												</span>
@@ -234,6 +230,8 @@ function Login() {
 												{t('actions.login')}
 											</LoginButton>
 										</ItemG>
+										<ItemG xs={12} container justify={'center'}>
+										</ItemG>
 									</ItemG>
 								</FadeOutLoader>
 								{/* </FadeOutLoader> */}
@@ -251,7 +249,7 @@ function Login() {
 				<CookiesDialog read t={t} open={cookies} handleClose={handleCookies} handleAcceptCookies={handleCookies} />
 				<PrivacyDialog t={t} open={privacy} handleClose={handlePrivacy} />
 				<Hidden smDown>
-					<ItemG md={8} lg={8} xl={9}>
+					<ItemG md={7} lg={8} xl={9}>
 						<LoginImages />
 					</ItemG>
 				</Hidden>

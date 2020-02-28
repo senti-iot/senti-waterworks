@@ -9,6 +9,8 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"confirm": "Confirm",
+		"nextStep": "Next step",
 		"select": "Select",
 		"export": "Export data",
 		"accept": "Accept",
@@ -1233,6 +1235,9 @@
 	"users": {
 		"editUser": "Edit user",
 		"fields": {
+			"address": "Address",
+			"postnr": "Zip",
+			"country": "Country",
 			"accessLevel": "Access Level",
 			"active": "Active",
 			"bio": "Bio",
@@ -1287,6 +1292,22 @@
 			"noEmail": "E-mail is missing",
 			"noOrg": "Organisation is missing",
 			"userAlreadyExists": "E-mail is already assigned to a user account!"
+		}
+	},
+	"signup": {
+		"form": {
+			"installationNrB": "Installation No.",
+			"deviceNr": "Device No.",
+			"insertDeviceNumber": "Insert device number, installation number and organisation ID to connect your water meter with senti.waterworks.If you do not know these codes please contact your waterworks.",
+			"dataAutoFill": "The following data is registered for the selected device number:",
+			"completeMissingFields": "Please complete all empty or incorrect fields:",
+			"finishProfileTitle": "Finish your profile",
+			"selectPassword": "Select a password for logging in",
+			"addPeopleCount": "Please fill the number of persons living in the house",
+			"adultNr": "No. of adults",
+			"childNr": "No. of children",
+			"personalDataTitle": "Use of personal data agreement",
+			"personalDataConfirm": "Yes, I accept the terms and conditions"
 		}
 	}
 }

@@ -16,6 +16,7 @@ import BottomNavGuide from '../Components/MobileOnboarding/InAppScreens/BottomNa
 import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
 import NewContent from 'Components/Loaders/NewContent'
+import Onboarding from 'Routes/Onboarding'
 
 // import size from 'Styles/themes/mediaQueries'
 
@@ -45,7 +46,10 @@ function Main() {
 
 				<NewContent />
 				<Switch>
-					<Route path={'/login'}>
+					<Route path={'/signup/:language/:step'}>
+						<Onboarding />
+					</Route>
+					<Route path={'/login/:language?'}>
 						<Login />
 					</Route>
 					<Route path={'/mobile-onboarding'}>

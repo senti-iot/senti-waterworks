@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { FormControl, Select, MenuItem, InputLabel, OutlinedInput, FormHelperText } from '@material-ui/core';
-import { ItemG } from 'Components';
-import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/styles';
+import { FormControl, Select, MenuItem, InputLabel, OutlinedInput, FormHelperText } from '@material-ui/core'
+import { ItemG } from 'Components'
+import { makeStyles } from '@material-ui/styles'
+import { useTheme } from '@material-ui/styles'
 
 const styles = makeStyles(theme => ({
 	label: {
@@ -38,7 +38,7 @@ const DSelect = (props) => {
 	// let mobile = false
 	const classes = styles()
 	return (
-		<FormControl variant="outlined" margin={margin} className={classes.formControl} fullWidth={mobile || fullWidth}>
+		<FormControl variant="outlined" margin={margin} className={classes.formControl} fullWidth={mobile || fullWidth} styles={props.styles}>
 			<InputLabel
 				ref={InputRef}
 				classes={{ asterisk: classes.label }}
@@ -55,6 +55,7 @@ const DSelect = (props) => {
 				onChange={onChange}
 				input={<OutlinedInput labelWidth={lWidth()} variant={'outlined'} classes={{ root: classes.label }} />}
 				onKeyPress={onKeyPress}
+				styles={props.styles}
 			>
 				{!simple && menuItems.map((m, i) => {
 					return <MenuItem key={i} value={m.value}>
