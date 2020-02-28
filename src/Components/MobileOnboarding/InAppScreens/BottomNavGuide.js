@@ -1,8 +1,9 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
 import { makeStyles, Container, Typography } from '@material-ui/core'
-import { AccountCircle, Notifications, Timeline, Search } from '../../../variables/icons'
-import BottomNavigation from './BottomNavigation'
+import { AccountCircle, Notifications, Timeline, Search, Close } from '../../../variables/icons'
+import BottomNavigation from './BottomNavigation' // temporary
+import Dropdown from './Dropdown' // temporary
 
 const useStyles = makeStyles(theme => ({
   background: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-start'
   },
   container: {
     height: 60,
@@ -99,9 +100,7 @@ const BottomNavGuide = props => {
     <div className={classes.textBox}>
       <Container fixed>
         <div className={classes.textboxHeader}>
-          <div className={classes.cross}>
-            <span onClick={() => setTextBoxOpen(false)} style={{ fontSize: 24, margin: 'auto' }}>X</span>
-          </div>
+          <Close onClick={() => setTextBoxOpen(false)} />
           <Typography onClick={() => setCurrentIcon(prevIcon => prevIcon + 1)} variant="body1">Næste</Typography>
         </div>
 
@@ -115,6 +114,7 @@ const BottomNavGuide = props => {
 
   return (
     <div className={classes.background}>
+      <Dropdown />
       <BottomNavigation /> {/* temporary */}
       {textBoxOpen && textBox}
       <Container fixed className={classes.container}>

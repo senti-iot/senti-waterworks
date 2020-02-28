@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   field: {
     marginBottom: 16,
-    minWidth: '45vw'
+    minWidth: '65vw'
   },
   checkbox: {
     // padding: 0
@@ -121,12 +121,12 @@ const Profile = props => {
             </Select>
           </FormControl>
           <FormControl variant="outlined" className={classes.field}>
-            <InputLabel ref={inputLabelChildren} id="adults-label">Antal børn</InputLabel>
+            <InputLabel ref={inputLabelChildren} id="adults-label">Antal børn under 18</InputLabel>
             <Select
               labelWidth={labelWidthChildren}
               name="children"
               size="small"
-              label="Antal børn"
+              label="Antal børn under 18"
               value={profile.children}
               onChange={e => dispatch(handleProfileInfo(e.target.name, e.target.value))}
             >

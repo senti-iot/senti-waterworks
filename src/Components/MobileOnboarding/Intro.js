@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import React from 'react'
 import logo from 'assets/senti.waterworks.svg'
+import mobile from './images/mobile1.png'
 import { Container, makeStyles, Button } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +18,10 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     color: '#fff'
+  },
+  mobile: {
+    maxWidth: 120,
+    height: 'auto'
   }
 }))
 
@@ -26,7 +31,7 @@ const Intro = props => {
   return (
     <div className={classes.wrapper}>
       <Container fixed className={classes.container}>
-        <p>image</p>
+        <img src={mobile} alt="senti-mobile-phone" className={classes.mobile} />
         <img src={logo} alt="senti-logo" />
         <Button
           variant="contained"

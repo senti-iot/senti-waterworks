@@ -60,14 +60,14 @@ const BottomNavigation = props => {
     <Container fixed className={classes.container}>
       {icons.map(({ icon: Icon }, index) =>
         currentIcon === index ? (
-          <div className={classes.icon} style={{ backgroundColor: 'white', color: 'black' }}>
+          <div key={index} className={classes.icon} style={{ backgroundColor: 'white', color: 'black' }}>
             <Icon
               onClick={() => setCurrentIcon(index)}
               style={index === currentIcon ? pickedStyle : defaultStyle}
             />
           </div>
         ) : (
-            <div className={classes.icon}>
+            <div key={index} className={classes.icon}>
               <Icon
                 onClick={() => setCurrentIcon(index)}
                 style={index === currentIcon ? pickedStyle : defaultStyle}
