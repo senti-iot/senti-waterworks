@@ -1,8 +1,9 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
 import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@material-ui/core'
-// import GridContainer from 'Components/Containers/GridContainer'
+import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
+import { BPaper } from 'Styles/containerStyle'
 import { CallMade, Close } from '../../../variables/icons'
 import familyIcon from './familie.svg'
 import waterdrop from './water.drop.blue.svg'
@@ -50,9 +51,17 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 30,
     height: 'auto'
   },
+  dialogRoot: {
+    height: 'calc(100vh - 70px)',
+    marginTop: 70,
+  },
   fullscreenDialog: {
     width: '100%',
-    height: 'calc(100vh - 70px)'
+    height: 'calc(100vh - 70px)',
+    background: 'transparent'
+  },
+  bPaper: { // doesn't work
+    background: '#3799F1'
   }
 }))
 
@@ -108,17 +117,29 @@ const Usage = props => {
       <Dialog
         fullScreen
         hideBackdrop // hides the dark overlay and makes it 'clickable-through'
-        style={{ height: 'calc(100vh - 70px)', marginTop: 70 }}
+        className={classes.dialogRoot}
         open={fsDialogOpen}
         onChange={() => setFsDialogOpen(false)}
         TransitionComponent={SlideT}
+        PaperProps={{
+          style: {
+            // colors converted from hexadecimal to RGBA in order to have an opacity effect
+            background: 'linear-gradient(to bottom,rgba(7,96,167,.8),rgba(1,39,96,.8))'
+          }
+        }}
       >
         {/* fullscreen dialog content */}
         <Paper className={classes.fullscreenDialog}>
-          <IconButton onClick={() => setFsDialogOpen(false)}>
-            <Close />
-          </IconButton>
-          <Typography variant="h2">Oh, hello there!</Typography>
+          <GridContainer style={{ height: '100%' }}>
+            <ItemG xs={12} md={9}>
+              <BPaper style={{ background: '#3799F1' }}>{/* className doesn't work */}
+                <IconButton onClick={() => setFsDialogOpen(false)}>
+                  <Close />
+                </IconButton>
+                <Typography variant="h2">Oh, hello there!</Typography>
+              </BPaper>
+            </ItemG>
+          </GridContainer>
         </Paper>
       </Dialog>
     </Grid >
