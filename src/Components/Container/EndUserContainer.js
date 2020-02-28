@@ -10,6 +10,8 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import DevicesWidget from 'Components/Custom/Devices/DevicesWidget'
 import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget'
+import Usage from 'Components/Custom/Pavel/Usage'
+import PriceChart from 'Components/Custom/Pavel/PriceChart'
 import { getData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, Hidden } from '@material-ui/core'
@@ -85,12 +87,12 @@ const EndUserContainer = () => {
 				<ItemG xs={12} container style={{ height: "20%" }}>
 					<ItemG xs={6}>
 						<BPaper>
-							Here Pavel
+							<Usage />
 						</BPaper>
 					</ItemG>
 					<ItemG xs={6}>
 						<BPaper>
-							Test
+							<PriceChart />
 						</BPaper>
 					</ItemG>
 				</ItemG>
