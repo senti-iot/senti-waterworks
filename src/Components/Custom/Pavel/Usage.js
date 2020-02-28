@@ -1,11 +1,13 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
-import { makeStyles, Grid, Dialog, AppBar, Toolbar, DialogContent, Typography, IconButton, Slide } from '@material-ui/core'
-// import GridContainer from 'Components/Containers/GridContainer'
+import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@material-ui/core'
+import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
+import { BPaper } from 'Styles/containerStyle'
 import { CallMade, Close } from '../../../variables/icons'
 import familyIcon from './familie.svg'
 import waterdrop from './water.drop.blue.svg'
+import SlideT from 'Components/Transitions/SlideT'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -48,6 +50,18 @@ const useStyles = makeStyles(theme => ({
     right: 16,
     maxWidth: 30,
     height: 'auto'
+  },
+  dialogRoot: {
+    height: 'calc(100vh - 70px)',
+    marginTop: 70,
+  },
+  fullscreenDialog: {
+    width: '100%',
+    height: 'calc(100vh - 70px)',
+    background: 'transparent'
+  },
+  bPaper: { // doesn't work
+    background: '#3799F1'
   }
 }))
 
@@ -80,11 +94,6 @@ const Usage = props => {
     position: 'relative'
   }
 
-  // does not work when clicking the close icon inside dialog and opens only once
-  // const Transition = React.forwardRef(function Transition(props, ref) {
-  //   return <Slide direction="up" ref={ref} {...props} />;
-  // });
-
   return (
     <Grid container className={classes.container}>
       {columns.map(({ familyIcon, headline, cubicMetres }, index) => (
@@ -105,22 +114,33 @@ const Usage = props => {
       ))}
       <CallMade className={classes.callMade} onClick={() => setFsDialogOpen(true)} />
 
-      <Dialog fullScreen open={fsDialogOpen}
+      <Dialog
+        fullScreen
+        hideBackdrop // hides the dark overlay and makes it 'clickable-through'
+        className={classes.dialogRoot}
+        open={fsDialogOpen}
         onChange={() => setFsDialogOpen(false)}
-      // TransitionComponent={Transition}
+        TransitionComponent={SlideT}
+        PaperProps={{
+          style: {
+            // colors converted from hexadecimal to RGBA in order to have an opacity effect
+            background: 'linear-gradient(to bottom,rgba(7,96,167,.8),rgba(1,39,96,.8))'
+          }
+        }}
       >
-        <AppBar>
-          <Toolbar>
-            <IconButton edge="start" onClick={() => setFsDialogOpen(false)}>
-              <Close style={{ color: '#fff' }} />
-            </IconButton>
-            <Typography className={classes.dialogTitle} variant="h6">Hi I'm a dialog title</Typography>
-          </Toolbar>
-        </AppBar>
-
-        <DialogContent style={{ marginTop: 64 }}>{/* because of fixed AppBar */}
-          <p>I'm a dialog content</p>
-        </DialogContent>
+        {/* fullscreen dialog content */}
+        <Paper className={classes.fullscreenDialog}>
+          <GridContainer style={{ height: '100%' }}>
+            <ItemG xs={12} md={9}>
+              <BPaper style={{ background: '#3799F1' }}>{/* className doesn't work */}
+                <IconButton onClick={() => setFsDialogOpen(false)}>
+                  <Close />
+                </IconButton>
+                <Typography variant="h2">Oh, hello there!</Typography>
+              </BPaper>
+            </ItemG>
+          </GridContainer>
+        </Paper>
       </Dialog>
     </Grid >
   )
