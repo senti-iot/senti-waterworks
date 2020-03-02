@@ -23,6 +23,12 @@ deploy:
     skip_cleanup: true
     on:
       branch: beta
+  - domain: https://sw-onboarding.surge.sh
+    project: "./build"
+    provider: surge
+    skip_cleanup: true
+    on:
+      branch: beta-onboarding
 language: node_js
 node_js:
   - stable

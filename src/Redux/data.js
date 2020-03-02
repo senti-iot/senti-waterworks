@@ -130,7 +130,7 @@ export const getData = async () => {
 					name: 'waterusageL',
 					median: true,
 					data: currentPeriodData.waterUsage,
-					color: 'red'
+					color: 'orange'
 				},
 				{
 					name: 'waterusageP',

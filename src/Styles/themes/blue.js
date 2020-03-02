@@ -9,7 +9,7 @@ import { headerColor } from 'Styles/mainStyles';
 const theme = createMuiTheme({
 	...override('blue'),
 	palette: {
-		type: 'light', // here
+		type: 'dark', // here
 		primary: {
 			main: colors.blue[500],
 			light: colors.blue[400],
