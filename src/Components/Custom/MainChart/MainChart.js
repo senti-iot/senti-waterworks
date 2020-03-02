@@ -17,6 +17,7 @@ export const MainChart = React.memo((props) => {
 	const isActive = (c) => chart === c ? true : false
 	const handleSetChart = (c) => () => setChart(c)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const isAdmin = useSelector(s => s.auth.isAdmin)
 
 	return (
 		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
@@ -33,7 +34,7 @@ export const MainChart = React.memo((props) => {
 							<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
 						</ItemG>
 						<ItemG xs={3}>
-							<ChartsButton disabled={selectedDevices.length !== 1} onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+							<ChartsButton disabled={isAdmin ? selectedDevices.length !== 1 : undefined} onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
 						</ItemG>
 					</ItemG>
 				</ChartsButtonContainer>

@@ -8,13 +8,12 @@ import { MainChart } from 'Components/Custom/MainChart/MainChart'
 import { useDispatch, useSelector } from 'Hooks'
 import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
-import DevicesWidget from 'Components/Custom/Devices/DevicesWidget'
-import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget'
 import Usage from 'Components/Custom/Pavel/Usage'
 import PriceChart from 'Components/Custom/Pavel/PriceChart'
 import { getData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, Hidden } from '@material-ui/core'
+import BarsContainer from 'Components/Custom/Bars/BarsContainer'
 
 const styles = makeStyles(theme => ({
 	smallWidget: {
@@ -101,7 +100,7 @@ const EndUserContainer = () => {
 				<ItemG container direction={'row'} style={{ height: '100%' }}>
 					<ItemG xs={12} style={{ height: '50%' }} className={classes.smallWidget}>
 						<BPaper>
-							"Charts v2"
+							<BarsContainer chart={chart} />
 						</BPaper>
 					</ItemG>
 					<ItemG xs={12} style={{ height: '50%' }}>
@@ -122,12 +121,6 @@ const EndUserContainer = () => {
 				</BPaper>
 			</ItemG>
 
-			<ItemG xs={12} className={classes.smallWidget}>
-				<BPaper>
-					<DeviceTableWidget />
-				</BPaper>
-
-			</ItemG>
 			<ItemG xs={12} style={{ height: '50%' }}>
 				<BPaper>
 					{loading ? <CircularLoader fill /> :
@@ -136,12 +129,7 @@ const EndUserContainer = () => {
 				</BPaper>
 
 			</ItemG>
-			<ItemG xs={12} className={classes.smallWidget}>
-				<BPaper>
-					<DevicesWidget />
-				</BPaper>
 
-			</ItemG>
 		</Hidden>
 	</GridContainer>
 }

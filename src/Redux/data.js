@@ -2,6 +2,7 @@ import { handleRequestSort } from 'data/functions'
 import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
 import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF } from 'data/model'
 import moment from 'moment'
+import { colors } from 'variables/colors'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -43,8 +44,8 @@ export const getAllDevices = async () => {
 		})
 		dispatch({
 			type: 'selectDevice',
-			payload: devices ? devices.map(d => d.id) : []
-			// payload: devices ? [devices[0].id, devices[1].id, devices[2].id] : []
+			// payload: devices ? devices.map(d => d.id) : []
+			payload: devices ? [devices[0].id, devices[1].id, devices[2].id] : []
 		})
 	}
 }
@@ -84,18 +85,7 @@ export const getData = async () => {
 		}
 		benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
 
-		// previousPeriodData = {
-		// 	waterUsage: [],
-		// 	temperature: {
-		// 		ambient: [],
-		// 		water: [],
-		// 	},
-		// 	waterFlow: {
-		// 		maxFlow: [],
-		// 		minFlow: []
-		// 	}
 
-		// }
 		prevRawData.forEach(d => {
 			d.time = moment(d.time).add(subtr, 'day')
 		})
@@ -149,8 +139,6 @@ export const getData = async () => {
 					color: 'yellow'
 				}
 			],
-			// temperature: [],
-			// waterflow: []
 			temperature: [
 				{
 					name: 'tempAmbient',
@@ -215,15 +203,26 @@ export const getData = async () => {
 			]
 
 		}
-		if (filterDevices.length === 1) {
-			finalData.readings = [
-				{
-					name: 'readingL',
-					// median: true,
-					color: 'yellow',
-					data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
-				}
-			]
+		if (filterDevices.length < 11) {
+			let devices = getState().data.devices
+			let dataLines = filterDevices.map((dev, i) => ({
+				name: "" + devices[devices.findIndex(d => d.id === dev)].name,
+				color: colors[i],
+				noArea: true,
+				data: rawData.filter(d => d.value && d.device_id === dev).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
+			}))
+			finalData.readings = dataLines
+			// finalData.readings = [
+			// 	{
+			// 		name: 'readingL',
+			// 		// median: true,
+			// 		color: 'yellow',
+			// 		data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
+			// 	}
+			// ]
+		}
+		else {
+			finalData.readings = []
 		}
 		//#endregion
 		//#region Middle Widget
@@ -270,6 +269,6 @@ export const data = (state = initialState, { type, payload }) => {
 		case middleChartData:
 			return Object.assign({}, state, { middleChartData: payload })
 		default:
-			return state;
+			return state
 	}
 }

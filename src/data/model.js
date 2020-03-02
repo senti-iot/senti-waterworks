@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment'
 
 //#region Main Graph
 
@@ -7,7 +7,7 @@ export const genWaterPerDevice = (data) => {
 	let final = []
 	if (data.length > 0) {
 		data.forEach(d => {
-			devData[d.id] = devData[d.id] || {};
+			devData[d.id] = devData[d.id] || {}
 			var date = moment(d.date).format('YYYY-MM-DD HH:mm:ss')
 			devData[d.id][date] = devData[d.id][date] || {}
 			devData[d.id][date] = d.value
@@ -38,26 +38,26 @@ export const genWaterPerDevice = (data) => {
 export const genReading = (deviceData) => {
 	let data = {}
 	var dataByDay = deviceData.reduce((d, datum) => {
-		var date = moment(datum.date);
+		var date = moment(datum.date)
 		var value = datum.value
 		let group = date.format('YYYY-MM-DD 00:00:00').toString()
-		data[group] = data[group] || {};
-		data[group].totalValue = (data[group].totalValue || 0) + value;
-		data[group].count = (data[group].count || 0) + 1;
-		return data;
-	}, {});
+		data[group] = data[group] || {}
+		data[group].totalValue = (data[group].totalValue || 0) + value
+		data[group].count = (data[group].count || 0) + 1
+		return data
+	}, {})
 	let fResult = []
 	Object.keys(dataByDay).forEach(d => {
 		fResult.push({
 			date: d,
 			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(3))
 		})
-	});
-	return fResult;
+	})
+	return fResult
 }
 //#endregion
 export const genMinWTemp = (deviceData, filter, prev, diff) => {
-	let minWTemp;
+	let minWTemp
 	if (filter && filter.length > 0) {
 		minWTemp = deviceData.filter(d => d.minWTemp && filter.indexOf(d.device_id) > -1)
 	}
@@ -72,7 +72,7 @@ export const genMinWTemp = (deviceData, filter, prev, diff) => {
 }
 
 export const genMinF = (deviceData, filter, prev, diff) => {
-	let minFlow;
+	let minFlow
 	if (filter && filter.length > 0) {
 		minFlow = deviceData.filter(d => d.minFlow && filter.indexOf(d.device_id) > -1)
 	}
@@ -87,7 +87,7 @@ export const genMinF = (deviceData, filter, prev, diff) => {
 }
 
 export const genMinATemp = (deviceData, filter, prev, diff) => {
-	let minATemp;
+	let minATemp
 	if (filter && filter.length > 0) {
 		minATemp = deviceData.filter(d => d.minATemp && filter.indexOf(d.device_id) > -1)
 	}
@@ -102,7 +102,7 @@ export const genMinATemp = (deviceData, filter, prev, diff) => {
 }
 
 export const genMaxF = (deviceData, filter, prev, diff) => {
-	let maxFlow;
+	let maxFlow
 	if (filter && filter.length > 0) {
 		maxFlow = deviceData.filter(d => d.maxFlow && filter.indexOf(d.device_id) > -1)
 	}
@@ -117,7 +117,7 @@ export const genMaxF = (deviceData, filter, prev, diff) => {
 }
 export const genBenchmark = (deviceData, noOfDevices, noOfSelectedDevices) => {
 	let waterReading = deviceData.filter(d => d.value).map(d => ({ id: d.device_id, value: d.value, date: moment(d.time) }))
-	window.bench = deviceData.filter(d => d.value).map(d => ({ id: d.device_id, value: d.value, date: moment(d.time) }))
+	// window.bench = deviceData.filter(d => d.value).map(d => ({ id: d.device_id, value: d.value, date: moment(d.time) }))
 	let data = []
 	data = genWaterPerDevice(waterReading)
 	if (noOfDevices - noOfSelectedDevices !== 0) {
@@ -152,11 +152,11 @@ export const genWR = (deviceData, filter, prev, diff) => {
 //#region Arc Graph
 
 const sumUpData = (data) => {
-	let total = 0;
+	let total = 0
 	Object.keys(data).forEach(d => {
 		total = total + data[d].value
 	})
-	return parseFloat(total.toFixed(3));
+	return parseFloat(total.toFixed(3))
 
 }
 
