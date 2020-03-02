@@ -34,7 +34,7 @@ export const MainChart = React.memo((props) => {
 							<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
 						</ItemG>
 						<ItemG xs={3}>
-							<ChartsButton disabled={isAdmin ? selectedDevices.length !== 1 : undefined} onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+							<ChartsButton disabled={isAdmin ? selectedDevices.length < 11 : undefined} onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
 						</ItemG>
 					</ItemG>
 				</ChartsButtonContainer>
