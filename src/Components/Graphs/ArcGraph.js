@@ -3,8 +3,7 @@ import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import { T } from 'Components'
 import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
-import moment from 'moment'
-window.m = moment
+
 let arc = null
 
 function formatNumber(num) {
@@ -78,13 +77,13 @@ const ArcGraph = (props) => {
 		if ((arcChartContainer.current && !arc)) {
 			genNewArc()
 		}
-		let resizeTimer;
+		let resizeTimer
 		const handleResize = () => {
-			clearTimeout(resizeTimer);
+			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
 				arc.destroy()
 				genNewArc()
-			}, 300);
+			}, 300)
 		}
 		window.addEventListener('resize', handleResize)
 		return () => {
@@ -104,7 +103,7 @@ const ArcGraph = (props) => {
 			case 4:
 				return t('filters.dateOptions.yearToDate')
 			default:
-				break;
+				break
 		}
 	}
 	return (
@@ -118,8 +117,6 @@ const ArcGraph = (props) => {
 					<DataText variant='h5' prev>{`/${formatNumber(arcPrevData)} ${unit()}`}</DataText>
 				</TextContainer>
 			</Arc>
-			{/* <DataText></DataText> */}
-			{/* <T className={classes.totalUsageM}>{arcData.current > arcPrevData.current ? t('charts.totalUsageMessages.more') : t('charts.totalUsageMessages.less')}</T> */}
 		</ArcContainer>
 
 	)

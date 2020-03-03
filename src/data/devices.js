@@ -3,7 +3,11 @@ import moment from 'moment'
 
 
 
-
+/**
+ * v2/devices - ALL devices
+ * v2/devices/orgUUID - All devices under that org
+ * v2/device/deviceUUID - get that device if you have access to it (403)
+ */
 export const getDevices = async () => {
 	let response = await servicesAPI.get('v1/138230100010117/devices').then(rs => rs)
 	return response.data

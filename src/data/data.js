@@ -16,18 +16,18 @@ const encrypt = (text) => {
 	return iv.toString('hex') + ':' + encrypted.toString('hex')
 }
 
-let backendHost, sentiAPI;
+let backendHost, sentiAPI
 
-const hostname = window && window.location && window.location.hostname;
+const hostname = window && window.location && window.location.hostname
 
 if (hostname === 'console.senti.cloud') {
-	backendHost = 'https://senti.cloud/rest/';
+	backendHost = 'https://senti.cloud/rest/'
 	sentiAPI = 'https://api.senti.cloud/'
 } else if (hostname === 'beta.senti.cloud') {
-	backendHost = 'https://betabackend.senti.cloud/rest/';
+	backendHost = 'https://betabackend.senti.cloud/rest/'
 	sentiAPI = 'https://dev.api.senti.cloud/'
 } else {
-	backendHost = 'https://betabackend.senti.cloud/rest/';
+	backendHost = 'https://betabackend.senti.cloud/rest/'
 	sentiAPI = 'https://dev.api.senti.cloud/'
 }
 export const loginApi = create({
@@ -122,25 +122,6 @@ export const imageApi = create({
 		'ODEUMAuthToken': ''
 	},
 })
-export const makeCancelable = (promise) => {
-	let hasCanceled_ = false;
-
-	const wrappedPromise = new Promise((resolve, reject) => {
-		promise.then((val) =>
-			hasCanceled_ ? reject({ isCanceled: true }) : resolve(val)
-		);
-		promise.catch((error) =>
-			hasCanceled_ ? reject({ isCanceled: true }) : reject(error)
-		);
-	});
-
-	return {
-		promise: wrappedPromise,
-		cancel() {
-			hasCanceled_ = true;
-		},
-	};
-};
 export const api = create({
 	baseURL: backendHost,
 	timeout: 30000,
@@ -167,9 +148,11 @@ export const setToken = () => {
 setToken()
 
 //#region Senti Services
+// const sentiServicesAPI = 'https://dev.services.senti.cloud/databroker'
+const sentiServicesAPI = 'https://services.senti.cloud/databroker'
 
 export const servicesAPI = create({
-	baseURL: 'https://services.senti.cloud/databroker',
+	baseURL: sentiServicesAPI,
 	timeout: 30000,
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
@@ -180,7 +163,7 @@ export const servicesAPI = create({
 })
 
 export const dataExportAPI = create({
-	baseURL: 'https://services.senti.cloud/data-export',
+	baseURL: sentiServicesAPI,
 	// baseURL: 'localhost:3021',
 	timeout: 300000,
 	headers: {

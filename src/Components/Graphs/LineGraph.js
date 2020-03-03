@@ -76,8 +76,9 @@ const LineGraph = React.memo((props) => {
 		const handleResize = () => {
 			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
-
-				line.destroy()
+				if (line) {
+					line.destroy()
+				}
 				genNewLine()
 			}, 300)
 		}

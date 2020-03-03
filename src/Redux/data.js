@@ -38,6 +38,7 @@ export const sortData = (key, property, order) => {
 export const getAllDevices = async () => {
 	return async (dispatch) => {
 		let devices = await getDevices()
+		console.log(devices)
 		dispatch({
 			type: GETDevice,
 			payload: devices
@@ -45,7 +46,7 @@ export const getAllDevices = async () => {
 		dispatch({
 			type: 'selectDevice',
 			// payload: devices ? devices.map(d => d.id) : []
-			payload: devices ? [devices[0].id, devices[1].id, devices[2].id] : []
+			payload: devices.length > 0 ? [devices[0].id, devices[1].id, devices[2].id] : []
 		})
 	}
 }
