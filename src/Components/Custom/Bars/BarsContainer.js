@@ -27,7 +27,7 @@ const BarsContainer = props => {
 			case 0:
 				return <ChartTable chart={props.chart} />
 			case 1:
-				return <BarGraph />
+				return <BarGraph chart={props.chart} />
 			default:
 				return null
 		}

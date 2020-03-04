@@ -57,7 +57,7 @@ class d3Arc {
 		 * Generate the domains
 		 */
 
-		this.x.domain(barsData.map((d) => { return d.letter }))
+		this.x.domain(barsData.map((d) => { return d.type }))
 		this.y.domain([0, d3.max(barsData, (d) => { return d.value })])
 
 		/**
@@ -104,8 +104,8 @@ class d3Arc {
 
 		bars
 			.enter().append("rect")
-			.attr("class", d => { return this.rcolor(d.letter) + ' .bar' })
-			.attr("x", (d) => { return this.x(d.letter) })
+			.attr("class", d => { return d.className + ' .bar' })
+			.attr("x", (d) => { return this.x(d.type) })
 			.attr("y", (d) => { return this.y(d.value) })
 			.attr("width", this.x.bandwidth())
 			.attr("height", (d) => { return rHeight - this.y(d.value) })
@@ -129,10 +129,10 @@ class d3Arc {
 			.append("text")
 			.attr('text-anchor', 'middle')
 			.attr("class", `label ${classes.textLabel}`)
-			.attr("x", (d) => { return this.x(d.letter) + this.x.bandwidth() / 2 })
+			.attr("x", (d) => { return this.x(d.type) + this.x.bandwidth() / 2 })
 			.attr("y", (d) => { return this.y(d.value) })
 			.attr("dy", "-.2em")
-			.text((d) => { return d.value })
+			.text((d) => { return `${d.value} ${d.unit}` })
 	}
 	generateXAxis = () => {
 		const { classes } = this.props
