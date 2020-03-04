@@ -101,7 +101,9 @@ const WelcomeScreen = props => {
           />
         ))}
       </div>
-      <Typography onClick={handleSkip} variant="body1" className={classes.skip}>Skip</Typography>
+      <Typography onClick={handleSkip}
+        variant="body1" className={classes.skip}
+      >Skip</Typography>
     </div>
   )
 }

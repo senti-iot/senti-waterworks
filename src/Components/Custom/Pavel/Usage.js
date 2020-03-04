@@ -9,6 +9,9 @@ import familyIcon from './familie.svg'
 import waterdrop from './water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
 
+import DialogDetails from './DialogDetails'
+import DialogPics from './DialogPics'
+
 const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
@@ -17,10 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
   callMade: {
     position: 'absolute',
-    top: 0,
-    right: -8,
-    color: '#fff',
-    cursor: 'pointer'
+    top: -4,
+    right: -12,
+    color: '#fff'
   },
   itemG: {
     flex: 1
@@ -58,10 +60,16 @@ const useStyles = makeStyles(theme => ({
   fullscreenDialog: {
     width: '100%',
     height: 'calc(100vh - 70px)',
+    maxHeight: 'calc(100vh - 70px)',
     background: 'transparent'
   },
   bPaper: { // doesn't work
     background: '#3799F1'
+  },
+  closeDialog: {
+    position: 'absolute',
+    top: 8,
+    right: 8
   }
 }))
 
@@ -112,7 +120,9 @@ const Usage = props => {
           <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
         </ItemG>
       ))}
-      <CallMade className={classes.callMade} onClick={() => setFsDialogOpen(true)} />
+      <IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
+        <CallMade />
+      </IconButton>
 
       <Dialog
         fullScreen
@@ -129,14 +139,16 @@ const Usage = props => {
         }}
       >
         {/* fullscreen dialog content */}
+        {/* the styling is very temporary and kinda f-ed up for whatever reason */}
         <Paper className={classes.fullscreenDialog}>
-          <GridContainer style={{ height: '100%' }}>
-            <ItemG xs={12} md={9}>
-              <BPaper style={{ background: '#3799F1' }}>{/* className doesn't work */}
-                <IconButton onClick={() => setFsDialogOpen(false)}>
+          <GridContainer style={{ height: '100%', overflow: 'hidden' }}>
+            <ItemG xs={12} md={9} style={{ height: 'calc(100% + 16px)' }}>
+              <BPaper style={{ background: '#3799F1', height: '100%', padding: 0, marginTop: 8, position: 'relative' }}>
+                <DialogDetails />
+                <DialogPics />
+                <IconButton size="small" className={classes.closeDialog} onClick={() => setFsDialogOpen(false)}>
                   <Close />
                 </IconButton>
-                <Typography variant="h2">Oh, hello there!</Typography>
               </BPaper>
             </ItemG>
           </GridContainer>

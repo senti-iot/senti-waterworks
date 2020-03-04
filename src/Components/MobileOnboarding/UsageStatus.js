@@ -33,9 +33,6 @@ const UsageStatus = props => {
       </Typography>
 
       <img src={usage} alt="senti-usage-status" className={classes.waterUsage} />
-      {/* <div className={classes.waterUsage}>
-        <Typography style={{ margin: 'auto' }}>Placeholder</Typography>
-      </div> */}
     </Container>
   )
 }
