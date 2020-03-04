@@ -28,7 +28,7 @@ const BarLegend = props => {
 	}
 	return (
 		<ItemG container justify={'space-between'} alignItems={'center'} xs={12}>
-			{data.map(d => <ItemG container alignItems={'center'} xs={6}>
+			{data.map(d => <ItemG key={d.className} container alignItems={'center'} xs={6}>
 				<ItemG xs={3} container justify={'center'}>
 					{renderBullet(d.className)}
 				</ItemG>

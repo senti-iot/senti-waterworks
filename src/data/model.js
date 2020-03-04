@@ -58,8 +58,10 @@ export const genReading = (deviceData) => {
 //#endregion
 export const genMinWTemp = (deviceData, filter, prev, diff) => {
 	let minWTemp
+	console.log(deviceData.filter(d => filter.indexOf(d.device_id) > -1).map(d => ({ minWTemp: d.minWTemp, date: d.time })))
+
 	if (filter && filter.length > 0) {
-		minWTemp = deviceData.filter(d => d.minWTemp && filter.indexOf(d.device_id) > -1)
+		minWTemp = deviceData.filter(d => (d.minWTemp) && filter.indexOf(d.device_id) > -1)
 	}
 	else {
 		minWTemp = deviceData.filter(d => d.minWTemp)
@@ -67,19 +69,18 @@ export const genMinWTemp = (deviceData, filter, prev, diff) => {
 
 
 	minWTemp = genReading(minWTemp.map(d => ({ value: d.minWTemp, date: d.time })))
-
+	console.log('minWTemp', minWTemp)
 	return minWTemp
 }
 
 export const genMinF = (deviceData, filter, prev, diff) => {
 	let minFlow
 	if (filter && filter.length > 0) {
-		minFlow = deviceData.filter(d => d.minFlow && filter.indexOf(d.device_id) > -1)
+		minFlow = deviceData.filter(d => (d.minFlow !== null || d.minFlow !== undefined) && filter.indexOf(d.device_id) > -1)
 	}
 	else {
-		minFlow = deviceData.filter(d => d.minFlow)
+		minFlow = deviceData.filter(d => d.minFlow !== null || d.minFlow !== undefined)
 	}
-
 
 	minFlow = genReading(minFlow.map(d => ({ value: d.minFlow, date: d.time })))
 
@@ -94,7 +95,6 @@ export const genMinATemp = (deviceData, filter, prev, diff) => {
 	else {
 		minATemp = deviceData.filter(d => d.minATemp)
 	}
-
 
 	minATemp = genReading(minATemp.map(d => ({ value: d.minATemp, date: d.time })))
 
@@ -171,3 +171,64 @@ export const genArcData = (deviceData) => {
 	return data
 }
 //#endregion
+
+
+//#region Bar Graph
+const getValues = arr => arr.map(a => a.value)
+export const genBarData = (currentData, prevData) => {
+	// let dataModel = {
+	// 	minUsage: 0,
+	// 	maxUsage: 0,
+	// 	average: 0,
+	// 	perPerson: 0
+	// }
+	let waterusage = []
+	//#region WaterUsage/Reading
+	let values = getValues(currentData.waterUsage)
+	console.log('values', values)
+	/**
+	 * Min WaterUsage
+	 */
+	let minUsage = {}
+	minUsage.className = 'waterUsageA'
+	minUsage.value = values.reduce((min, p) => p < min ? p : min, values[0])
+	minUsage.unit = 'm³'
+	minUsage.type = 'chartTable.waterusage.line1'
+	waterusage.push(minUsage)
+	/**
+	 *  Max WaterUsage
+	 */
+	let maxUsage = {}
+	maxUsage.className = 'waterUsageB'
+	maxUsage.value = values.reduce((max, p) => p > max ? p : max, values[0])
+	maxUsage.unit = 'm³'
+	maxUsage.type = 'chartTable.waterusage.line2'
+	waterusage.push(maxUsage)
+	/**
+	 * Average
+	 */
+	let average = {}
+	average.className = 'waterUsageC'
+	average.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	average.unit = 'm³'
+	average.type = 'chartTable.waterusage.line3'
+	waterusage.push(average)
+	/**
+	 * Usage Per person
+	 */
+	let perPerson = {}
+	perPerson.className = 'waterUsageD'
+	perPerson.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	perPerson.unit = 'm³'
+	perPerson.type = 'chartTable.waterusage.line4'
+	waterusage.push(perPerson)
+	//#endregion
+
+	return {
+		waterusage: waterusage,
+		readings: waterusage,
+		temperature: [],
+		waterflow: []
+	}
+
+}

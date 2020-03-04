@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import d3Bar from './classes/d3Bar'
-import { useEventListener, useLocalization } from 'Hooks'
+import { useEventListener, useLocalization, useSelector } from 'Hooks'
 
 import ItemG from 'Components/Containers/ItemG'
 import useBarStyles from 'Components/Custom/Styles/barStyles'
 import BarLegend from 'Components/Graphs/BarLegend'
+import CircularLoader from 'Components/Loaders/CircularLoader'
 let bars = null
 
 
@@ -12,27 +13,34 @@ let bars = null
 const BarGraph = props => {
 	//Hooks
 	const classes = useBarStyles()
-	const barsChartContainer = useRef(null)
+	const barsChartContainer = useRef(React.createRef())
 	const t = useLocalization()
-	//Redux
-
-	//State
 
 	//Const
-	const { chart } = props
-	const barsData = [
-		{ className: classes.A, type: t(`chartTable.${chart}.line1`), value: 100, unit: 'm³' },
-		{ className: classes.B, type: t(`chartTable.${chart}.line2`), value: 200, unit: 'm³' },
-		{ className: classes.C, type: t(`chartTable.${chart}.line3`), value: 50, unit: 'm³' },
-		{ className: classes.D, type: t(`chartTable.${chart}.line4`), value: 400, unit: 'm³' }
-	]
+	const { chart, loading } = props
+
+	//Redux
+	const barsData = useSelector(s => [...s.data.barData[chart].map(d => ({
+		className: classes[d.className],
+		type: t(d.type),
+		value: d.value,
+		unit: d.unit
+	}))])
+	//State
+
 	//useCallbacks
 	const handleRedraw = useCallback(
 		() => {
+			console.log('resized')
 			if (bars) {
-				bars.destroy()
-				bars.draw()
-				bars.generateXAxis()
+				setTimeout(() => {
+					bars.destroy()
+					console.log('destroyed')
+					bars.draw(barsChartContainer.current)
+					console.log('redrawn')
+				}, 300)
+				// console.log('redrawn')
+				// bars.generateXAxis()
 			}
 		},
 		[],
@@ -47,6 +55,7 @@ const BarGraph = props => {
 				barsData: barsData,
 				classes: classes,
 				id: 'bars',
+				t: t
 			}
 			// draw()
 			if (bars) {
@@ -56,8 +65,14 @@ const BarGraph = props => {
 				bars = new d3Bar(barsChartContainer.current, barProps)
 			}
 		}
-		if (!bars)
+		if (!bars && !props.loading)
 			genNewBar()
+		else {
+			if (bars && !props.loading) {
+				bars.destroy()
+				bars.draw(barsChartContainer.current)
+			}
+		}
 		return () => {
 			if (bars) {
 				bars.destroy()
@@ -65,13 +80,13 @@ const BarGraph = props => {
 			bars = null
 		}
 
-	}, [barsData, classes])
+	}, [barsData, classes, props.loading, t])
 	//Handlers
 
 	return (
-		<ItemG container style={{ width: '100%', height: '100%' }} >
+		loading ? <CircularLoader fill /> : <ItemG container style={{ width: '100%', height: '100%' }} >
 			<div style={{ height: 75, width: '100%' }}><BarLegend data={barsData} /></div>
-			<div style={{ width: '100%', height: 'calc(100% - 75px)' }} id={"bars"} ref={barsChartContainer} />
+			<div style={{ width: '100%', height: 'calc(100% - 100px)' }} id={"bars"} ref={barsChartContainer} />
 		</ItemG>
 	)
 }

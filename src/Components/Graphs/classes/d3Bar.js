@@ -64,22 +64,29 @@ class d3Arc {
 		 * Draw the bars and the axis
 		 */
 
-		this.draw()
-		this.generateXAxis()
-		this.generateLabels()
+		this.draw(containerEl)
 
 	}
 	rcolor = (name) => {
 		const { classes } = this.props
 		return classes[name]
 	}
-	draw = () => {
+	draw = (containerEl) => {
 		const { barsData, id } = this.props
+
+		this.height = containerEl.clientHeight
+		this.width = containerEl.clientWidth
 		const { width, margin, height } = this
+
+		console.log(this.height, this.width)
+
+		this.height = this.height - margin.top - margin.bottom
+		this.width = this.width - margin.left - margin.right
 		/**
 		 * Append the SVG to the main container
 		 */
 		this.container = d3.select(`#${id}`)
+
 		this.svg = this.container.append("svg")
 			.attr("id", 'svg' + id)
 			.attr("width", width + margin.left + margin.right)
@@ -115,6 +122,8 @@ class d3Arc {
 		this.g.select(".axis--y")
 			.call(d3.axisLeft(this.y).ticks(1, "%"))
 
+		this.generateXAxis()
+		this.generateLabels()
 
 		// EXIT
 		bars.exit()

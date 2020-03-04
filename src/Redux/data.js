@@ -1,6 +1,6 @@
 import { handleRequestSort } from 'data/functions'
 import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
-import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF } from 'data/model'
+import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData } from 'data/model'
 import moment from 'moment'
 import { colors } from 'variables/colors'
 // import { genBenchmarkAll } from 'data/model'
@@ -10,6 +10,7 @@ const GETDevice = 'devices'
 const deviceData = 'deviceData'
 // const rawDataStore = 'storeOldData'
 const middleChartData = 'middleChartData'
+const barData = 'barData'
 
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
@@ -64,7 +65,7 @@ export const getData = async () => {
 		if (moment().diff(moment(to), 'day') === 0) {
 			prevTo = moment(fromM1)
 		}
-		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
+		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData, finalBarData
 
 		/**
 		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
@@ -72,7 +73,7 @@ export const getData = async () => {
 		let completeRawData = await getDevicesData(prevFrom, to)
 		rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
 		prevRawData = completeRawData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
-
+		//#region Current Period
 		currentPeriodData = {
 			waterUsage: genWR(rawData, filterDevices),
 			temperature: {
@@ -86,6 +87,8 @@ export const getData = async () => {
 		}
 		benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
 
+		//#endregion
+		//#region Previous period
 
 		prevRawData.forEach(d => {
 			d.time = moment(d.time).add(subtr, 'day')
@@ -105,6 +108,7 @@ export const getData = async () => {
 		// currentPeriodData = genData(rawData, filterDevices)
 		// previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
 
+		//#endregion
 		/**
 		 * TODO: Do not call the API for another set of data, filter it based on from
 		 */
@@ -226,12 +230,19 @@ export const getData = async () => {
 			finalData.readings = []
 		}
 		//#endregion
-		//#region Middle Widget
+		//#region Middle Widget Final Data
+
 		finalMiddleData = {
 			current: middleData,
 			previous: prevMiddleData
 		}
+
 		//#endregion
+		//#region Bar Chart Final Data
+		finalBarData = genBarData(currentPeriodData, previousPeriodData)
+
+		//#endregion
+		//#region Dispatch the calculated data
 		dispatch({
 			type: deviceData,
 			payload: finalData
@@ -241,10 +252,15 @@ export const getData = async () => {
 			type: middleChartData,
 			payload: finalMiddleData
 		})
-
+		dispatch({
+			type: barData,
+			payload: finalBarData
+		})
+		//#endregion
 	}
 }
 const initialState = {
+	barData: {},
 	devices: [],
 	data: {},
 	middleChartData: {
@@ -267,6 +283,8 @@ export const data = (state = initialState, { type, payload }) => {
 			return Object.assign({}, state, { devices: payload })
 		case deviceData:
 			return Object.assign({}, state, { deviceData: payload })
+		case barData:
+			return Object.assign({}, state, { barData: payload })
 		case middleChartData:
 			return Object.assign({}, state, { middleChartData: payload })
 		default:
