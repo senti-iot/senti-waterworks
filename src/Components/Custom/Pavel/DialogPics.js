@@ -33,7 +33,8 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		boxSizing: 'border-box',
-		borderRadius: 4
+		borderRadius: 4,
+		cursor: 'pointer'
 	},
 	img: {
 		// flex: 1,
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-const DialogPics = () => {
+const DialogPics = props => {
 	const picsAndText = [
 		{
 			imgSrc: 'toilet.svg',
@@ -72,7 +73,10 @@ const DialogPics = () => {
 
 			<div className={classes.flex}>
 				{picsAndText.map(({ imgSrc, text }, index) => (
-					<div key={index} className={classes.imgBox}>
+					<div key={index} className={classes.imgBox} onClick={() => {
+						props.setDescriptionOpen(true)
+						props.setChosenDescription(index)
+					}}>
 						<img src={require(`./${imgSrc}`)} alt="" className={classes.img} />
 						<Typography variant="h6" style={{ color: '#fff', marginTop: 8 }}>{text}</Typography>
 					</div>

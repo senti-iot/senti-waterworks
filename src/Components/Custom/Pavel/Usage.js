@@ -4,13 +4,11 @@ import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@materi
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
-import { CallMade, Close } from '../../../variables/icons'
+import { CallMade } from '../../../variables/icons'
 import familyIcon from './familie.svg'
 import waterdrop from './water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
-
-import DialogDetails from './DialogDetails'
-import DialogPics from './DialogPics'
+import FullscreenDialog from './FullscreenDialog'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -145,11 +143,7 @@ const Usage = props => {
           <GridContainer style={{ flex: 1, overflow: 'hidden' }}>
             <ItemG xs={12} md={9} style={{ height: '100% + 16px' }}>
               <BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
-                <DialogDetails />
-                <DialogPics />
-                <IconButton size="small" className={classes.closeDialog} onClick={() => setFsDialogOpen(false)}>
-                  <Close />
-                </IconButton>
+                <FullscreenDialog closeDialog={setFsDialogOpen} />
               </BPaper>
             </ItemG>
           </GridContainer>
