@@ -18,7 +18,7 @@ import Step1 from 'Components/Onboarding/Step1'
 import { useParams } from 'react-router'
 import Step2 from 'Components/Onboarding/Step2'
 import Step3 from 'Components/Onboarding/Step3'
-import { getOnboardingData } from 'data/onboarding'
+import { getOnboardingData, createOnboardingUser } from 'data/onboarding'
 
 
 const Onboarding = props => {
@@ -44,6 +44,7 @@ const Onboarding = props => {
 
 	//#region Step 2
 	const [org, setOrg] = useState('')
+	const [role, setRole] = useState(0)
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
@@ -75,16 +76,17 @@ const Onboarding = props => {
 	const handlePrivacy = () => setPrivacy(!privacy)
 
 
-	const handleInput = (e) => {
+	const handleInput = (e, id) => {
+		console.log(e)
 		//#region Step1
 		switch (e.target.id) {
-			case orgIdent:
+			case 'orgIdent':
 				setOrgIdent(e.target.value)
 				break
-			case installationId:
+			case 'installationId':
 				setInstallationId(e.target.value)
 				break
-			case deviceIdent:
+			case 'deviceIdent':
 				setDeviceIdent(e.target.value)
 				break
 			default:
@@ -119,22 +121,29 @@ const Onboarding = props => {
 				break
 		}
 		//#endregion
+		//#region Step 3
+		switch (e.target.id) {
+			case 'pass':
+				setPass(e.target.value)
+				break
+			case 'confirmPass':
+				setConfirmPass(e.target.value)
+				break
+			default:
+				break
+		}
 
-		// case 'pass':
-		// 	// setPass(e.target.value)
-		// 	break
-		// case 'user':
-		// 	// setUser(e.target.value)
-		// 	break
-		// case 'orgId':
-		// 	// setOrgId(e.target.value)
-		// 	break
-		// default:
-		// 	break
-		// }
-		// if (error) {
-		// 	setError(false)
-		// }
+		switch (id) {
+			case 'noOfChildren':
+				setNoOfChildren(e.target.value)
+				break
+			case 'noOfAdults':
+				setNoOfAdults(e.target.value)
+				break
+			default:
+				break
+		}
+		//#endregion
 	}
 
 	useEffect(() => {
@@ -150,8 +159,54 @@ const Onboarding = props => {
 			// setLanguage('en')
 		}
 	}, [location.pathname, history, dispatch])
+
+	const handleCreateUser = async () => {
+
+		let user = {
+			firstName: firstName,
+			lastName: lastName,
+			phone: phone,
+			email: email,
+			userName: email,
+			password: pass,
+			image: "",
+			aux: {},
+			internal: {
+				sentiWaterworks: {
+					settings: {
+						language: "da",
+						dsTheme: 0,
+						weekendColor: "red",
+						theme: 0,
+						colorTheme: "blue",
+						trp: 10,
+						cookies: false,
+						snackbarLocation: 'left',
+						hoverTime: 1000,
+					},
+					extendedProfile: {
+						address: address,
+						city: city,
+						postnr: postnr,
+						noOfChildren: noOfChildren,
+						noOfAdults: noOfAdults
+					}
+				}
+			},
+			org: {
+				uuid: org
+			},
+			role: {
+				uuid: role
+			},
+			state: 4
+		}
+		let result = await createOnboardingUser(user)
+		console.log(result)
+	}
 	const handleAutoComplete = data => {
 		setOrg(data.orgUUID ? data.orgUUID : "")
+		setRole(data.roleUUID ? data.roleUUID : "")
 		setFirstName(data.firstName ? data.firstName : "")
 		setLastName(data.lastName ? data.lastName : "")
 		setEmail(data.email ? data.email : "")
@@ -160,12 +215,7 @@ const Onboarding = props => {
 		setPostnr(data.postnr ? data.postnr : "")
 		setCity(data.city ? data.city : "")
 		setNoOfAdults(data.adults ? data.adults : 1)
-		set
-		//TODO
-		/**
-		 * Set Number of Children
-		 * Set Number of Adults
-		 */
+		setNoOfChildren(data.children ? data.children : 0)
 	}
 
 	const handleNextStep = async () => {
@@ -184,6 +234,9 @@ const Onboarding = props => {
 			 * Check that at least the name & e-mail are filled up and correct format
 			 */
 			history.push('/signup/da/step3')
+		}
+		if (step === 'step3') {
+			handleCreateUser()
 		}
 	}
 
@@ -221,6 +274,10 @@ const Onboarding = props => {
 						t={t}
 						goToNextStep={handleNextStep}
 						handleInput={handleInput}
+						pass={pass}
+						confirmPass={confirmPass}
+						noOfChildren={noOfChildren}
+						noOfAdults={noOfAdults}
 					/>)
 			default:
 				break
