@@ -1,35 +1,46 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import d3Bar from './classes/d3Bar'
-import { useEventListener } from 'Hooks'
+import { useEventListener, useLocalization, useSelector } from 'Hooks'
 
 import ItemG from 'Components/Containers/ItemG'
 import useBarStyles from 'Components/Custom/Styles/barStyles'
+import BarLegend from 'Components/Graphs/BarLegend'
+import CircularLoader from 'Components/Loaders/CircularLoader'
 let bars = null
 
 
 
-const BarGraph = () => {
+const BarGraph = props => {
 	//Hooks
 	const classes = useBarStyles()
-	const barsChartContainer = useRef(null)
-	//Redux
-
-	//State
+	const barsChartContainer = useRef(React.createRef())
+	const t = useLocalization()
 
 	//Const
-	const barsData = [
-		{ letter: "A", value: 100 },
-		{ letter: "B", value: 200 },
-		{ letter: "C", value: 50 },
-		{ letter: "D", value: 400 }
-	]
+	const { chart, loading } = props
+
+	//Redux
+	const barsData = useSelector(s => [...s.data.barData[chart].map(d => ({
+		className: classes[d.className],
+		type: t(d.type),
+		value: d.value,
+		unit: d.unit
+	}))])
+	//State
+
 	//useCallbacks
 	const handleRedraw = useCallback(
 		() => {
+			console.log('resized')
 			if (bars) {
-				bars.destroy()
-				bars.draw()
-				bars.generateXAxis()
+				setTimeout(() => {
+					bars.destroy()
+					console.log('destroyed')
+					bars.draw(barsChartContainer.current)
+					console.log('redrawn')
+				}, 300)
+				// console.log('redrawn')
+				// bars.generateXAxis()
 			}
 		},
 		[],
@@ -44,6 +55,7 @@ const BarGraph = () => {
 				barsData: barsData,
 				classes: classes,
 				id: 'bars',
+				t: t
 			}
 			// draw()
 			if (bars) {
@@ -53,8 +65,14 @@ const BarGraph = () => {
 				bars = new d3Bar(barsChartContainer.current, barProps)
 			}
 		}
-		if (!bars)
+		if (!bars && !props.loading)
 			genNewBar()
+		else {
+			if (bars && !props.loading) {
+				bars.destroy()
+				bars.draw(barsChartContainer.current)
+			}
+		}
 		return () => {
 			if (bars) {
 				bars.destroy()
@@ -62,13 +80,13 @@ const BarGraph = () => {
 			bars = null
 		}
 
-	}, [barsData, classes])
+	}, [barsData, classes, props.loading, t])
 	//Handlers
 
 	return (
-		<ItemG container style={{ width: '100%', height: '100%' }} >
-			<div style={{ height: 75 }}>Legend</div>
-			<div style={{ width: '100%', height: 'calc(100% - 75px)' }} id={"bars"} ref={barsChartContainer} />
+		loading ? <CircularLoader fill /> : <ItemG container style={{ width: '100%', height: '100%' }} >
+			<div style={{ height: 75, width: '100%' }}><BarLegend data={barsData} /></div>
+			<div style={{ width: '100%', height: 'calc(100% - 100px)' }} id={"bars"} ref={barsChartContainer} />
 		</ItemG>
 	)
 }

@@ -12,7 +12,7 @@ import Usage from 'Components/Custom/Pavel/Usage'
 import PriceChart from 'Components/Custom/Pavel/PriceChart'
 import { getData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
-import { makeStyles, Hidden } from '@material-ui/core'
+import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
 
 const styles = makeStyles(theme => ({
@@ -75,52 +75,32 @@ const EndUserContainer = () => {
 
 
 	return <GridContainer style={{ height: '100%' }}>
-		<Hidden smDown>
-			<ItemG xs={12} md={9} container>
-				<ItemG xs={12} style={{ height: "80%" }}>
-					<BPaper>
-						<MainChart loading={loading} chart={chart} setChart={setChart} />
-					</BPaper>
-
-				</ItemG>
-				<ItemG xs={12} container style={{ height: "20%" }}>
-					<ItemG xs={6}>
-						<BPaper>
-							<Usage />
-						</BPaper>
-					</ItemG>
-					<ItemG xs={6}>
-						<BPaper>
-							<PriceChart />
-						</BPaper>
-					</ItemG>
-				</ItemG>
-			</ItemG>
-			<ItemG xs={12} md={3}>
-				<ItemG container direction={'row'} style={{ height: '100%' }}>
-					<ItemG xs={12} style={{ height: '50%' }} className={classes.smallWidget}>
-						<BPaper>
-							<BarsContainer chart={chart} />
-						</BPaper>
-					</ItemG>
-					<ItemG xs={12} style={{ height: '50%' }}>
-						<BPaper>
-							{loading ? <CircularLoader fill /> :
-								<ArcGraph chart={chart} id={`arc-graph-${chart}`} />
-							}
-						</BPaper>
-
-					</ItemG>
-				</ItemG>
-			</ItemG>
-		</Hidden>
-		<Hidden mdUp>
-			<ItemG xs={12} md={9} className={classes.screenWidget}>
+		<ItemG xs={12} md={9} container style={{ height: "100%" }}>
+			<ItemG xs={12} style={{ height: "80%" }}>
 				<BPaper>
 					<MainChart loading={loading} chart={chart} setChart={setChart} />
 				</BPaper>
-			</ItemG>
 
+			</ItemG>
+			<ItemG xs={12} container style={{ height: "20%" }}>
+				<ItemG xs={6}>
+					<BPaper>
+						<Usage />
+					</BPaper>
+				</ItemG>
+				<ItemG xs={6}>
+					<BPaper>
+						<PriceChart />
+					</BPaper>
+				</ItemG>
+			</ItemG>
+		</ItemG>
+		<ItemG xs={12} md={3} container style={{ height: "100%" }}>
+			<ItemG xs={12} style={{ height: '50%' }} className={classes.smallWidget}>
+				<BPaper>
+					<BarsContainer loading={loading} chart={chart} />
+				</BPaper>
+			</ItemG>
 			<ItemG xs={12} style={{ height: '50%' }}>
 				<BPaper>
 					{loading ? <CircularLoader fill /> :
@@ -129,8 +109,8 @@ const EndUserContainer = () => {
 				</BPaper>
 
 			</ItemG>
+		</ItemG>
 
-		</Hidden>
 	</GridContainer>
 }
 EndUserContainer.whyDidYouRender = true

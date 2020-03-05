@@ -6,6 +6,7 @@ import { useLocalization } from 'Hooks'
 import { SettingsIcon } from 'variables/icons'
 import Dropdown from 'Components/Dropdown/Dropdown'
 import BarGraph from 'Components/Graphs/BarGraph'
+import CircularLoader from 'Components/Loaders/CircularLoader'
 
 const BarsContainer = props => {
 	//Hooks
@@ -16,7 +17,7 @@ const BarsContainer = props => {
 	const [chartType, setChartType] = useState(1)
 
 	//Const
-	const { chart } = props
+	const { chart, loading } = props
 	//useCallbacks
 
 	//useEffects
@@ -25,9 +26,9 @@ const BarsContainer = props => {
 	const renderChart = () => {
 		switch (chartType) {
 			case 0:
-				return <ChartTable chart={props.chart} />
+				return <ChartTable loading={loading} chart={chart} />
 			case 1:
-				return <BarGraph />
+				return <BarGraph loading={loading} chart={chart} />
 			default:
 				return null
 		}
@@ -48,7 +49,7 @@ const BarsContainer = props => {
 		</ItemG>
 		<ItemG xs={12} style={{ height: '100%' }}>
 
-			{renderChart()}
+			{loading ? <CircularLoader fill /> : renderChart()}
 		</ItemG>
 	</ItemG>
 

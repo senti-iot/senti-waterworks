@@ -57,29 +57,36 @@ class d3Arc {
 		 * Generate the domains
 		 */
 
-		this.x.domain(barsData.map((d) => { return d.letter }))
+		this.x.domain(barsData.map((d) => { return d.type }))
 		this.y.domain([0, d3.max(barsData, (d) => { return d.value })])
 
 		/**
 		 * Draw the bars and the axis
 		 */
 
-		this.draw()
-		this.generateXAxis()
-		this.generateLabels()
+		this.draw(containerEl)
 
 	}
 	rcolor = (name) => {
 		const { classes } = this.props
 		return classes[name]
 	}
-	draw = () => {
+	draw = (containerEl) => {
 		const { barsData, id } = this.props
+
+		this.height = containerEl.clientHeight
+		this.width = containerEl.clientWidth
 		const { width, margin, height } = this
+
+		console.log(this.height, this.width)
+
+		this.height = this.height - margin.top - margin.bottom
+		this.width = this.width - margin.left - margin.right
 		/**
 		 * Append the SVG to the main container
 		 */
 		this.container = d3.select(`#${id}`)
+
 		this.svg = this.container.append("svg")
 			.attr("id", 'svg' + id)
 			.attr("width", width + margin.left + margin.right)
@@ -104,8 +111,8 @@ class d3Arc {
 
 		bars
 			.enter().append("rect")
-			.attr("class", d => { return this.rcolor(d.letter) + ' .bar' })
-			.attr("x", (d) => { return this.x(d.letter) })
+			.attr("class", d => { return d.className + ' .bar' })
+			.attr("x", (d) => { return this.x(d.type) })
 			.attr("y", (d) => { return this.y(d.value) })
 			.attr("width", this.x.bandwidth())
 			.attr("height", (d) => { return rHeight - this.y(d.value) })
@@ -115,6 +122,8 @@ class d3Arc {
 		this.g.select(".axis--y")
 			.call(d3.axisLeft(this.y).ticks(1, "%"))
 
+		this.generateXAxis()
+		this.generateLabels()
 
 		// EXIT
 		bars.exit()
@@ -129,10 +138,10 @@ class d3Arc {
 			.append("text")
 			.attr('text-anchor', 'middle')
 			.attr("class", `label ${classes.textLabel}`)
-			.attr("x", (d) => { return this.x(d.letter) + this.x.bandwidth() / 2 })
+			.attr("x", (d) => { return this.x(d.type) + this.x.bandwidth() / 2 })
 			.attr("y", (d) => { return this.y(d.value) })
 			.attr("dy", "-.2em")
-			.text((d) => { return d.value })
+			.text((d) => { return `${d.value} ${d.unit}` })
 	}
 	generateXAxis = () => {
 		const { classes } = this.props

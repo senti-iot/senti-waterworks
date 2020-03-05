@@ -103,7 +103,6 @@ class d3Line {
 	}
 	setState = (key, value, noUpdate) => {
 		this.state[key] = value
-		console.log(this.state)
 		if (!noUpdate) {
 
 			this.update()
@@ -577,7 +576,6 @@ class d3Line {
 					.attr('id', `MedianH${line.name}`)
 					.style('display', this.state['Median' + line.name] ? 'none' : undefined)
 					.on("mouseover", (d) => {
-						console.log(!this.state[`Median${line.name}`], this.state, `Median${line.name}`, line.name)
 						if (!this.state[`Median${line.name}`]) {
 
 							medianLine.transition()
