@@ -6,45 +6,78 @@ const useStyles = makeStyles(theme => ({
 		background: 'transparent',
 		opacity: '0.9',
 		height: '50%',
-		padding: 20
+		padding: 32,
+		boxSizing: 'border-box',
+		display: 'flex',
+		flexDirection: 'column'
 	},
 	textBox: {
 		textAlign: 'center',
 		color: '#fff'
 	},
 	flex: {
-		marginTop: 32,
+		// margin: '32px 0',
 		display: 'flex',
-		padding: '0 32px',
+		padding: 32,
 		justifyContent: 'space-between',
-		height: '100%'
+		flex: 1,
+		boxSizing: 'border-box'
 	},
 	imgBox: {
 		flex: 1,
 		background: 'rgba(12,59,105,0.7)',
-		margin: '0 24px'
+		margin: '0 24px',
+		padding: 16,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		boxSizing: 'border-box',
+		borderRadius: 4
+	},
+	img: {
+		// flex: 1,
+		maxWidth: 150,
+		maxHeight: 150
 	}
 }))
 
 const DialogPics = () => {
-	const picsPaths = ['familie.svg', 'familie.svg', 'familie.svg', 'familie.svg']
+	const picsAndText = [
+		{
+			imgSrc: 'toilet.svg',
+			text: 'Toilet'
+		},
+		{
+			imgSrc: 'bath.svg',
+			text: 'Bad'
+		},
+		{
+			imgSrc: 'washmachine.svg',
+			text: 'Tøjvask'
+		},
+		{
+			imgSrc: 'dishwasher.svg',
+			text: 'Opvask'
+		}
+	]
 
 	const classes = useStyles()
 
 	return (
 		<div className={classes.container}>
-			{/* <div style={{ height: '100%', padding: 32 }}>
-				<div className={classes.textBox}>
-					<Typography variant="h4">Sådan kan du spare vand</Typography>
-				</div>
-				<div className={classes.flex}>
-					{picsPaths.map((pic, index) => (
-						<div key={index} className={classes.imgBox}>
-							<img src={require(`./${pic}`)} alt="" />
-						</div>
-					))}
-				</div>
-			</div> */}
+			<Typography variant="h4" className={classes.textBox}
+				style={{ marginBottom: 16, fontWeight: 'bolder' }}
+			>Sådan kan du spare vand</Typography>
+
+			<div className={classes.flex}>
+				{picsAndText.map(({ imgSrc, text }, index) => (
+					<div key={index} className={classes.imgBox}>
+						<img src={require(`./${imgSrc}`)} alt="" className={classes.img} />
+						<Typography variant="h6" style={{ color: '#fff', marginTop: 8 }}>{text}</Typography>
+					</div>
+				))}
+			</div>
 		</div>
 	)
 }

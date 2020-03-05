@@ -60,8 +60,8 @@ const useStyles = makeStyles(theme => ({
   fullscreenDialog: {
     width: '100%',
     height: 'calc(100vh - 70px)',
-    maxHeight: 'calc(100vh - 70px)',
-    background: 'transparent'
+    background: 'transparent',
+    display: 'flex'
   },
   bPaper: { // doesn't work
     background: '#3799F1'
@@ -140,10 +140,11 @@ const Usage = props => {
       >
         {/* fullscreen dialog content */}
         {/* the styling is very temporary and kinda f-ed up for whatever reason */}
+        {/* I've found that I can somewhat fix it with 'flex: 1' */}
         <Paper className={classes.fullscreenDialog}>
-          <GridContainer style={{ height: '100%', overflow: 'hidden' }}>
-            <ItemG xs={12} md={9} style={{ height: 'calc(100% + 16px)' }}>
-              <BPaper style={{ background: '#3799F1', height: '100%', padding: 0, marginTop: 8, position: 'relative' }}>
+          <GridContainer style={{ flex: 1, overflow: 'hidden' }}>
+            <ItemG xs={12} md={9} style={{ height: '100% + 16px' }}>
+              <BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
                 <DialogDetails />
                 <DialogPics />
                 <IconButton size="small" className={classes.closeDialog} onClick={() => setFsDialogOpen(false)}>
