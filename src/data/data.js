@@ -133,26 +133,23 @@ export const api = create({
 	},
 })
 
-export const setToken = () => {
-	try {
-		var OAToken = cookie.load('SESSION').sessionID
-		api.setHeader('ODEUMAuthToken', OAToken)
-		imageApi.setHeader('ODEUMAuthToken', OAToken)
-		return true
-	}
-	catch (error) {
-		return false
-	}
 
-}
-setToken()
 
 //#region Senti Services
-// const sentiServicesAPI = 'https://dev.services.senti.cloud/databroker'
-const sentiServicesAPI = 'https://services.senti.cloud/databroker'
-
+const sentiServicesAPI = 'https://dev.services.senti.cloud/'
+// const sentiServicesAPI = 'https://services.senti.cloud/databroker'
+export const servicesCoreAPI = create({
+	baseURL: sentiServicesAPI + 'core',
+	timeout: 30000,
+	headers: {
+		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+		// 'Cache-Control': 'public, max-age=86400'
+	}
+})
 export const servicesAPI = create({
-	baseURL: sentiServicesAPI,
+	baseURL: sentiServicesAPI + 'databroker',
 	timeout: 30000,
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
@@ -172,4 +169,35 @@ export const dataExportAPI = create({
 		'Content-Type': 'application/json'
 	}
 })
+const waterWorksEndPoint = 'https://waterworks.senti.cloud/'
+export const waterworksAPI = create({
+	baseURL: waterWorksEndPoint,
+	timeout: 300000,
+	headers: {
+		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	}
+})
 //#endregion
+
+//Always the last
+
+export const setToken = () => {
+	try {
+		let session = cookie.load('SESSION')
+		servicesAPI.setHeader('Authorization', `Bearer ${session.token}`)
+		servicesAPI.setHeader('wlHost', window.location.hostname)
+		servicesCoreAPI.setHeader('Authorization', `Bearer ${session.token}`)
+		servicesCoreAPI.setHeader('wlHost', window.location.hostname)
+		waterworksAPI.setHeader('Authorization', `Bearer ${session.token}`)
+		waterworksAPI.setHeader('wlHost', window.location.hostname)
+		return true
+	}
+	catch (error) {
+		console.log(error)
+		return false
+	}
+
+}
+setToken()

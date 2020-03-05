@@ -1,8 +1,8 @@
 import cookie from 'react-cookies'
-import { getUser, getValidSession } from 'data/users'
+import { getUser } from 'data/users'
 // import 'moment/locale/da'
 // import 'moment/locale/en-gb'
-import { saveSettings } from 'data/login'
+import { saveSettings, getValidSession, getAuthUser, saveInternal } from 'data/login'
 // import { setDates } from './dateTime';
 import { setPrefix, set, get } from 'data/storage'
 // import { getAllData } from './data';
@@ -88,37 +88,20 @@ export const saveSettingsOnServ = () => {
 		let user = getState().settings.user
 		let s = getState().settings
 		let settings = {
+			language: s.language,
 			dsTheme: s.dsTheme,
 			weekendColor: s.weekendColor,
-			// count: s.count,
-			// tcount: s.tcount,
-			// chartType: s.chartType,
-			// discSentiVal: s.discSentiVal,
-			// sideBar: s.sideBar,
 			theme: s.theme,
 			colorTheme: s.colorTheme,
 			trp: s.trp,
-			// alerts: s.alerts,
-			// didKnow: s.didKnow,
-			// rawData: s.rawData,
-			// mapTheme: s.mapTheme,
-			// defaultRoute: s.defaultRoute,
 			cookies: s.cookies,
-			// periods: s.periods,
 			snackbarLocation: s.snackbarLocation,
-			// detailsPanel: s.detailsPanel,
-			// drawer: s.drawer,
-			// drawerState: s.drawerState,
-			// drawerCloseOnNav: s.drawerCloseOnNav,
-			// headerBorder: s.headerBorder,
-			// breadcrumbs: s.breadcrumbs,
 			hoverTime: s.hoverTime,
 		}
-		user.aux = user.aux ? user.aux : {}
-		user.aux.sentiWaterworks = user.aux.sentiWaterworks ? user.aux.sentiWaterworks : {}
-		user.aux.sentiWaterworks.settings = settings
-		user.aux.odeum.language = s.language
-		var saved = await saveSettings(user)
+		console.log(user)
+		user.internal.sentiWaterworks.settings = settings
+		var saved = await saveInternal(user.internal, user.uuid)
+		console.log(saved)
 		dispatch({
 			type: SAVESETTINGS,
 			saved: saved ? true : false
@@ -129,57 +112,49 @@ export const getSettings = async () => {
 	return async (dispatch, getState) => {
 		var sessionCookie = cookie.load('SESSION') ? cookie.load('SESSION') : null
 		if (sessionCookie) {
-			let vSession = await getValidSession(sessionCookie.userID).then(rs => rs.status)
-			if (vSession === 200) {
-
-				let exp = moment().add('1', 'day')
-				cookie.save('SESSION', sessionCookie, { path: '/', expires: exp.toDate() })
-				setPrefix(sessionCookie.userID)
+			let vSession = await getValidSession()
+			console.log(vSession)
+			if (vSession.status === 200) {
+				// let exp = moment().add('1', 'day')
+				cookie.save('SESSION', sessionCookie, { path: '/', expires: moment(vSession.data.expires).toDate() })
+				setPrefix(sessionCookie.uuid)
 			}
 			else {
+				console.log('Deleted')
 				return cookie.remove('SESSION')
 			}
 		}
 
-		var userId = cookie.load('SESSION') ? cookie.load('SESSION').userID : 0
-		var user = userId !== 0 ? await getUser(userId) : null
+		var userId = sessionCookie.uuid
+		var user = userId !== 0 ? await getAuthUser(userId) : null
 
-		var settings = get('settings') ? get('settings') :
-			user ?
-				user.aux ?
-					user.aux.sentiWaterworks ?
-						user.aux.sentiWaterworks.settings ?
-							user.aux.sentiWaterworks.settings : null : null : null : null
-		var extendedProfile = user ?
-			user.aux ?
-				user.aux.sentiWaterworks ?
-					user.aux.sentiWaterworks.extendedProfile ?
-						user.aux.sentiWaterworks.extendedProfile : {} : {} : {} : {}
-		user.aux.sentiWaterworks.extendedProfile = extendedProfile
+
 
 		moment.updateLocale('en-gb', {
 			week: {
 				dow: 1
 			}
 		})
+
 		if (user) {
-			// dispatch(await getAllData(true, user.org.id, user.privileges.apisuperuser ? true : false))
+			user.internal = user.internal || {}
+			user.internal.sentiWaterworks = user.internal.sentiWaterworks || {}
+			user.internal.sentiWaterworks.extendedProfile = user.internal.sentiWaterworks.extendedProfile || {}
+			let settings = user.internal.sentiWaterworks.settings = user.internal.sentiWaterworks.settings || {}
+
 			if (settings) {
-				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
+				moment.locale(settings.language === 'en' ? 'en-gb' : settings.language)
 				dispatch({
 					type: GetSettings,
 					settings: {
-						...user.aux.sentiWaterworks.settings,
-						language: user.aux.odeum.language
+						...settings,
 					},
 					user
 				})
 			}
 			else {
-				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
 				let s = {
 					...getState().settings,
-					language: user.aux.odeum.language
 				}
 				dispatch({
 					type: NOSETTINGS,
@@ -188,31 +163,7 @@ export const getSettings = async () => {
 					settings: s
 				})
 			}
-			// if (favorites) {
-			// 	dispatch({
-			// 		type: GETFAVS,
-			// 		payload:
-			// 			[...favorites]
-
-			// 	})
-			// }
-			// if (dashboards) {
-			// 	dispatch(setDashboards(dashboards))
-			// }
 		}
-		// else {
-		// 	moment.locale('da')
-		// 	let s = {
-		// 		...getState().settings,
-		// 	}
-		// 	dispatch({
-		// 		type: NOSETTINGS,
-		// 		loading: false,
-		// 		user,
-		// 		settings: s
-		// 	})
-		// 	return false
-		// }
 	}
 }
 export const changeGlobalSearch = val => {

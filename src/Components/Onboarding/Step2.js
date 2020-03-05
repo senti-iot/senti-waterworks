@@ -3,8 +3,10 @@ import ItemG from 'Components/Containers/ItemG'
 import { NeedAccountT, LoginTF, LoginButton, AdressTF } from 'Styles/loginStyles'
 
 const Step2 = props => {
-	const { t, handleInput, firstName, country, lastName, email, phone, address, postnr, history } = props
-	const handleNextStep = () => history.push('/signup/da/step3')
+	const { t, handleInput, firstName, city, lastName, email, phone, address, postnr, goToNextStep } = props
+	const handleNextStep = () => {
+		goToNextStep()
+	}
 	return (
 		<ItemG xs={12} container justify={'center'}>
 			<ItemG xs={12} container justify={'center'}>
@@ -73,12 +75,12 @@ const Step2 = props => {
 					</ItemG>
 				</ItemG>
 				<LoginTF
-					id={'country'}
+					id={'city'}
 					autoFocus
-					label={t('users.fields.country')}
+					label={t('users.fields.city')}
 					fullWidth
 					onChange={handleInput}
-					value={country}
+					value={city}
 				/>
 				{/* </ItemG> */}
 			</ItemG>

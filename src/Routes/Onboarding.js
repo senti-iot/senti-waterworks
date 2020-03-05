@@ -3,7 +3,7 @@ import logo from 'assets/senti.waterworks.black.svg'
 import cookie from 'react-cookies'
 
 // Components
-import { ItemG, CookiesDialog, PrivacyDialog } from 'Components'
+import { ItemG, CookiesDialog, PrivacyDialog, CircularLoader } from 'Components'
 import { Hidden } from '@material-ui/core'
 import { useDispatch, useHistory, useLocation, useLocalization } from 'Hooks'
 
@@ -18,6 +18,7 @@ import Step1 from 'Components/Onboarding/Step1'
 import { useParams } from 'react-router'
 import Step2 from 'Components/Onboarding/Step2'
 import Step3 from 'Components/Onboarding/Step3'
+import { getOnboardingData } from 'data/onboarding'
 
 
 const Onboarding = props => {
@@ -33,7 +34,32 @@ const Onboarding = props => {
 
 	const [cookies, setCookies] = useState(false)
 	const [privacy, setPrivacy] = useState(false)
+	const [loading, setLoading] = useState(false)
 
+	//#region Step 1
+	const [orgIdent, setOrgIdent] = useState('hfsundbyvester')
+	const [installationId, setInstallationId] = useState('56')
+	const [deviceIdent, setDeviceIdent] = useState('axioma5003405')
+	//#endregion
+
+	//#region Step 2
+	const [org, setOrg] = useState('')
+	const [firstName, setFirstName] = useState('')
+	const [lastName, setLastName] = useState('')
+	const [email, setEmail] = useState('')
+	const [phone, setPhone] = useState('')
+	const [address, setAddress] = useState('')
+	const [postnr, setPostnr] = useState('')
+	const [city, setCity] = useState('')
+	//#endregion
+
+	//#region Step 3
+	const [pass, setPass] = useState('')
+	const [confirmPass, setConfirmPass] = useState('')
+	const [noOfChildren, setNoOfChildren] = useState(0)
+	const [noOfAdults, setNoOfAdults] = useState(1)
+
+	//#endregion
 	//Const
 
 	//useCallbacks
@@ -50,19 +76,62 @@ const Onboarding = props => {
 
 
 	const handleInput = (e) => {
+		//#region Step1
 		switch (e.target.id) {
-			case 'pass':
-				// setPass(e.target.value)
+			case orgIdent:
+				setOrgIdent(e.target.value)
 				break
-			case 'user':
-				// setUser(e.target.value)
+			case installationId:
+				setInstallationId(e.target.value)
 				break
-			case 'orgId':
-				// setOrgId(e.target.value)
+			case deviceIdent:
+				setDeviceIdent(e.target.value)
 				break
 			default:
 				break
 		}
+
+		//#endregion
+		//#region Step2
+		switch (e.target.id) {
+			case 'firstName':
+				setFirstName(e.target.value)
+				break
+			case 'lastName':
+				setLastName(e.target.value)
+				break
+			case 'email':
+				setEmail(e.target.value)
+				break
+			case 'phone':
+				setPhone(e.target.value)
+				break
+			case 'address':
+				setAddress(e.target.value)
+				break
+			case 'postnr':
+				setPostnr(e.target.value)
+				break
+			case 'city':
+				setCity(e.target.value)
+				break
+			default:
+				break
+		}
+		//#endregion
+
+		// case 'pass':
+		// 	// setPass(e.target.value)
+		// 	break
+		// case 'user':
+		// 	// setUser(e.target.value)
+		// 	break
+		// case 'orgId':
+		// 	// setOrgId(e.target.value)
+		// 	break
+		// default:
+		// 	break
+		// }
 		// if (error) {
 		// 	setError(false)
 		// }
@@ -81,6 +150,42 @@ const Onboarding = props => {
 			// setLanguage('en')
 		}
 	}, [location.pathname, history, dispatch])
+	const handleAutoComplete = data => {
+		setOrg(data.orgUUID ? data.orgUUID : "")
+		setFirstName(data.firstName ? data.firstName : "")
+		setLastName(data.lastName ? data.lastName : "")
+		setEmail(data.email ? data.email : "")
+		setPhone(data.telefon ? data.telefon : "")
+		setAddress(data.address ? data.address : "")
+		setPostnr(data.postnr ? data.postnr : "")
+		setCity(data.city ? data.city : "")
+		setNoOfAdults(data.adults ? data.adults : 1)
+		set
+		//TODO
+		/**
+		 * Set Number of Children
+		 * Set Number of Adults
+		 */
+	}
+
+	const handleNextStep = async () => {
+		let step = params.step
+		if (step === 'step1') {
+			setLoading(true)
+			let autoCompleteData = await getOnboardingData(orgIdent, installationId, deviceIdent)
+			console.log(autoCompleteData)
+			handleAutoComplete(autoCompleteData)
+			setLoading(false)
+			history.push('/signup/da/step2')
+		}
+		if (step === 'step2') {
+			/**
+			 * TODO
+			 * Check that at least the name & e-mail are filled up and correct format
+			 */
+			history.push('/signup/da/step3')
+		}
+	}
 
 	const renderStep = () => {
 		let step = params.step
@@ -89,21 +194,32 @@ const Onboarding = props => {
 				return (
 					<Step1
 						t={t}
-						history={history}
 						handleInput={handleInput}
+						orgIdent={orgIdent}
+						installationId={installationId}
+						deviceIdent={deviceIdent}
+						goToNextStep={handleNextStep}
 					/>)
 			case "step2":
 				return (
 					<Step2
 						t={t}
-						history={history}
 						handleInput={handleInput}
+						firstName={firstName}
+						lastName={lastName}
+						email={email}
+						phone={phone}
+						address={address}
+						postnr={postnr}
+						city={city}
+						goToNextStep={handleNextStep}
+
 					/>)
 			case "step3":
 				return (
 					<Step3
 						t={t}
-						history={history}
+						goToNextStep={handleNextStep}
 						handleInput={handleInput}
 					/>)
 			default:
@@ -121,7 +237,8 @@ const Onboarding = props => {
 								<ItemG xs={12} container justify={'center'}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
-								{renderStep()}
+
+								{loading ? <CircularLoader fill /> : renderStep()}
 							</InputContainer>
 							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
 								<FooterText>

@@ -21,7 +21,7 @@ const BarGraph = props => {
 
 	//Redux
 	const barsData = useSelector(s => [...s.data.barData[chart].map(d => ({
-		className: classes[d.className],
+		className: classes[d ? d.className : ''],
 		type: t(d.type),
 		value: d.value,
 		unit: d.unit
