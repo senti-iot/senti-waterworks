@@ -58,7 +58,6 @@ export const genReading = (deviceData) => {
 //#endregion
 export const genMinWTemp = (deviceData, filter, prev, diff) => {
 	let minWTemp
-	console.log(deviceData.filter(d => filter.indexOf(d.device_id) > -1).map(d => ({ minWTemp: d.minWTemp, date: d.time })))
 
 	if (filter && filter.length > 0) {
 		minWTemp = deviceData.filter(d => (d.minWTemp) && filter.indexOf(d.device_id) > -1)
@@ -69,7 +68,6 @@ export const genMinWTemp = (deviceData, filter, prev, diff) => {
 
 
 	minWTemp = genReading(minWTemp.map(d => ({ value: d.minWTemp, date: d.time })))
-	console.log('minWTemp', minWTemp)
 	return minWTemp
 }
 
@@ -176,16 +174,10 @@ export const genArcData = (deviceData) => {
 //#region Bar Graph
 const getValues = arr => arr.map(a => a.value)
 export const genBarData = (currentData, prevData) => {
-	// let dataModel = {
-	// 	minUsage: 0,
-	// 	maxUsage: 0,
-	// 	average: 0,
-	// 	perPerson: 0
-	// }
 	let waterusage = []
+
 	//#region WaterUsage/Reading
 	let values = getValues(currentData.waterUsage)
-	console.log('values', values)
 	/**
 	 * Min WaterUsage
 	 */

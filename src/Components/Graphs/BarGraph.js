@@ -31,16 +31,11 @@ const BarGraph = props => {
 	//useCallbacks
 	const handleRedraw = useCallback(
 		() => {
-			console.log('resized')
 			if (bars) {
 				setTimeout(() => {
 					bars.destroy()
-					console.log('destroyed')
 					bars.draw(barsChartContainer.current)
-					console.log('redrawn')
 				}, 300)
-				// console.log('redrawn')
-				// bars.generateXAxis()
 			}
 		},
 		[],

@@ -54,7 +54,6 @@ class d3Arc {
 		window.width = width
 		window.height = height
 		let median = Math.round((width + height) / 2)
-		console.log(median)
 		var innerArc = d3.arc()
 			.innerRadius(`${(median / 2.5) - 25}`)
 			.outerRadius(`${(median / 2.5) - 10}`)

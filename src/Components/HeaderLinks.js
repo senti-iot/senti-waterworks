@@ -1,19 +1,19 @@
-import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core';
-import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, /* Notifications */ } from 'variables/icons';
+import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core'
+import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, Person, /* Notifications */ } from 'variables/icons'
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
-import React, { useState } from 'react';
-import cookie from 'react-cookies';
+import React, { useState } from 'react'
+import cookie from 'react-cookies'
 // import { withRouter } from 'react-router-dom';
 // import { connect } from 'react-redux';
 import Gravatar from 'react-gravatar'
-import { logOut } from 'data/login';
+import { logOut } from 'data/login'
 // import moment from 'moment'
 // import christmas from 'assets/img/christmas'
-import { /* ItemG, */ T, Muted } from 'Components';
-import { GoogleLogout } from 'react-google-login';
+import { /* ItemG, */ T, Muted } from 'Components'
+import { GoogleLogout } from 'react-google-login'
 import cx from 'classnames'
-import headerLinksStyle from 'Styles/headerLinksStyle';
-import { useDispatch, useSelector } from 'Hooks';
+import headerLinksStyle from 'Styles/headerLinksStyle'
+import { useDispatch, useSelector } from 'Hooks'
 // import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
@@ -40,6 +40,7 @@ function HeaderLinks(props) {
 		if (props.onClose)
 			props.onClose()
 	}
+
 	// const handleRedirectToChristmas = () => {
 	// 	props.history.push(`/holiday`)
 	// }
@@ -77,6 +78,11 @@ function HeaderLinks(props) {
 		// if (user)
 		// props.history.push(`/settings`)
 	}
+	const handleMyProfileOpen = () => {
+		handleProfileClose()
+		history.push('/my-profile')
+
+	}
 	// renderChristmasIcon = () => {
 	// 	const { classes } = props
 	// 	if (moment().format('MM') === '12') {
@@ -105,7 +111,7 @@ function HeaderLinks(props) {
 	// 	</ItemG>
 	// }
 	const renderUserMenu = () => {
-		const { t } = props;
+		const { t } = props
 		const openProfile = Boolean(anchorProfile)
 
 		return <div>
@@ -152,6 +158,9 @@ function HeaderLinks(props) {
 				{user ? user.privileges.apiorg.editusers ? <MenuItem onClick={handleRedirectToOwnOrg}>
 					<Business className={classes.leftIcon} />{t('menus.user.account')}
 				</MenuItem> : null : null} */}
+				<MenuItem onClick={handleMyProfileOpen}>
+					<Person className={classes.leftIcon} />{t('sidebar.myprofile')}
+				</MenuItem>
 				<MenuItem onClick={handleSettingsOpen}>
 					<SettingsRounded className={classes.leftIcon} />{t('sidebar.settings')}
 				</MenuItem>
@@ -180,7 +189,7 @@ function HeaderLinks(props) {
 			{renderUserMenu()}
 			{/* {renderNotifications()} */}
 		</Grid>
-	);
+	)
 
 }
 // const mapStateToProps = (state) => ({

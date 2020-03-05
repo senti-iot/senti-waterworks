@@ -10,7 +10,6 @@ padding:4px;
 `
 
 const Legend = props => {
-	console.log(props)
 	const data = props.data ? props.data[props.id] : []
 	const t = useLocalization()
 	return (

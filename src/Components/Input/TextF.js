@@ -1,10 +1,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core'
 import cx from 'classnames'
-import { useTheme } from 'Hooks';
-import { makeStyles } from '@material-ui/styles';
+import { useTheme } from 'Hooks'
+import { makeStyles } from '@material-ui/styles'
 
 const styles = makeStyles(theme => ({
 	leftIcon: {
@@ -68,7 +68,7 @@ const TextF = (props) => {
 	return (
 		<TextField
 			style={{ maxWidth: props.fullWidth !== undefined ? undefined : mobile ? undefined : 230, ...props.style }}
-			variant={'outlined'}
+			variant={props.variant ? props.variant : 'outlined'}
 			autoFocus={props.autoFocus ? props.autoFocus : undefined}
 			placeholder={props.placeholder ? props.placeholder : undefined}
 			id={props.id}
@@ -78,6 +78,7 @@ const TextF = (props) => {
 			onChange={props.onChange}
 			fullWidth={props.fullWidth !== undefined ? props.fullWidth : mobile ? true : false}
 			// fullWidth={props.fullWidth || mobile ? true : false}
+			autoComplete={props.autoComplete}
 			multiline={props.multiline ? props.multiline : undefined}
 			rows={props.rows ? props.rows : undefined}
 			className={classNames}

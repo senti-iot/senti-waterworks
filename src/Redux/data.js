@@ -39,7 +39,6 @@ export const sortData = (key, property, order) => {
 export const getAllDevices = async () => {
 	return async (dispatch) => {
 		let devices = await getDevices()
-		console.log(devices)
 		dispatch({
 			type: GETDevice,
 			payload: devices

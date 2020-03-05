@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const DialogPics = () => {
-	const picsPaths = ['familie.svg', 'familie.svg', 'familie.svg', 'familie.svg']
+	// const picsPaths = ['familie.svg', 'familie.svg', 'familie.svg', 'familie.svg']
 
 	const classes = useStyles()
 

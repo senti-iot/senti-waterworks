@@ -1,13 +1,13 @@
-import cookie from 'react-cookies';
+import cookie from 'react-cookies'
 import { getUser, getValidSession } from 'data/users'
 // import 'moment/locale/da'
 // import 'moment/locale/en-gb'
-import { saveSettings } from 'data/login';
+import { saveSettings } from 'data/login'
 // import { setDates } from './dateTime';
-import { setPrefix, set, get } from 'data/storage';
+import { setPrefix, set, get } from 'data/storage'
 // import { getAllData } from './data';
 // import { setDashboards } from './dsSystem';
-require("moment/min/locales.min");
+require("moment/min/locales.min")
 var moment = require('moment')
 
 // window.moment = moment
@@ -75,7 +75,7 @@ export const resetSettings = () => {
 }
 export const saveOnServ = (user) => {
 	return async (dispatch) => {
-		var saved = await saveSettings(user);
+		var saved = await saveSettings(user)
 		dispatch({
 			type: SAVESETTINGS,
 			saved: saved ? true : false
@@ -118,7 +118,7 @@ export const saveSettingsOnServ = () => {
 		user.aux.sentiWaterworks = user.aux.sentiWaterworks ? user.aux.sentiWaterworks : {}
 		user.aux.sentiWaterworks.settings = settings
 		user.aux.odeum.language = s.language
-		var saved = await saveSettings(user);
+		var saved = await saveSettings(user)
 		dispatch({
 			type: SAVESETTINGS,
 			saved: saved ? true : false
@@ -150,7 +150,12 @@ export const getSettings = async () => {
 					user.aux.sentiWaterworks ?
 						user.aux.sentiWaterworks.settings ?
 							user.aux.sentiWaterworks.settings : null : null : null : null
-
+		var extendedProfile = user ?
+			user.aux ?
+				user.aux.sentiWaterworks ?
+					user.aux.sentiWaterworks.extendedProfile ?
+						user.aux.sentiWaterworks.extendedProfile : {} : {} : {} : {}
+		user.aux.sentiWaterworks.extendedProfile = extendedProfile
 
 		moment.updateLocale('en-gb', {
 			week: {

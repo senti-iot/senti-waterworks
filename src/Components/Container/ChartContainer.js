@@ -72,7 +72,6 @@ const ChartContainer = () => {
 
 	//Handlers
 
-	console.log(isAdmin)
 	return isAdmin ? <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={12} md={9} className={classes.screenWidget}>
 			<BPaper>
