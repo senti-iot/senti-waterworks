@@ -24,3 +24,14 @@ export const getDevicesDataCSV = async (config) => {
 	let response = await dataExportAPI.post(`v1/export/csv`, config)
 	return response.data
 }
+
+/**
+ * Get water usage data
+ */
+export const getWaterUsage = async (from, to) => {
+	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
+	let response = await servicesAPI.get(`/v2/waterworks/data/usage/${startDate}/${endDate}`)
+	console.log(response)
+	return response.data
+}

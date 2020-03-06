@@ -1,5 +1,5 @@
 import { handleRequestSort } from 'data/functions'
-import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
+import { getDevices, getDevicesData, getWaterUsage, /* getDevicesData */ } from 'data/devices'
 import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData } from 'data/model'
 import moment from 'moment'
 import { colors } from 'variables/colors'
@@ -90,7 +90,23 @@ export const getData = async () => {
 		/**
 		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
 		 */
-		let completeRawData = await getDevicesData(prevFrom, to)
+		// let completeRawData = await getDevicesData(prevFrom, to)
+		let completeRawData = []
+		let waterUsageData = await getWaterUsage(prevFrom, to)
+		console.log('newData', waterUsageData)
+		//#region WaterUsage
+		if (waterUsageData) {
+			let currentWUD = waterUsageData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
+			let prevWUD = waterUsageData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
+			currentPeriodData = {
+				waterUsage: currentWUD.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
+			}
+			previousPeriodData = {
+
+			}
+			console.log(currentPeriodData)
+		}
+		//#endregion
 		if (completeRawData) {
 
 			rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
@@ -98,7 +114,7 @@ export const getData = async () => {
 
 			//#region Current Period
 			currentPeriodData = {
-				waterUsage: genWR(rawData, filterDevices),
+				// waterUsage: genWR(rawData, filterDevices),
 				temperature: {
 					ambient: genMinATemp(rawData, filterDevices),
 					water: genMinWTemp(rawData, filterDevices)
@@ -106,7 +122,8 @@ export const getData = async () => {
 				waterFlow: {
 					maxFlow: genMaxF(rawData, filterDevices),
 					minFlow: genMinF(rawData, filterDevices)
-				}
+				},
+				...currentPeriodData
 			}
 			benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
 
@@ -141,7 +158,7 @@ export const getData = async () => {
 
 			middleData = genArcData(rawArcData, filterDevices)
 			prevMiddleData = genArcData(prevRawArcData, filterDevices)
-
+			console.log(currentPeriodData)
 			finalData = {
 				waterusage: [
 					{
