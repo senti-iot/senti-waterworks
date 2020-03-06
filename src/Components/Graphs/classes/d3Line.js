@@ -254,7 +254,7 @@ class d3Line {
 		// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
 	}
 	generateDots = () => {
-		let data = this.props.data[this.props.id]
+		let data = this.props.data ? this.props.data[this.props.id] : []
 		const setTooltip = this.props.setTooltip
 		data.forEach((line) => {
 			if (line.prev) {
@@ -375,6 +375,7 @@ class d3Line {
 
 	generateLines = () => {
 		// let period = this.props.period
+		console.log(this.props.data)
 		let data = this.props.data[this.props.id]
 		// data.forEach(d => {
 		// 	d.data = d.data.filter(f => moment(f.date).diff(period.from) >= 0)

@@ -64,7 +64,28 @@ export const getData = async () => {
 		if (moment().diff(moment(to), 'day') === 0) {
 			prevTo = moment(fromM1)
 		}
-		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData, finalBarData
+		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, middleData,
+			prevMiddleData,
+			finalData = {
+				waterusage: [],
+				temperature: [],
+				waterflow: [],
+				readings: []
+			},
+			finalMiddleData = {
+				current: {
+					waterUsage: 0
+				},
+				previous: {
+					waterUsage: 0
+				}
+			},
+			finalBarData = {
+				waterusage: [],
+				readings: [],
+				temperature: [],
+				waterflow: []
+			}
 
 		/**
 		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model

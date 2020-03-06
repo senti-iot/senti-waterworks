@@ -1,10 +1,9 @@
 import cookie from 'react-cookies'
-import { getUser } from 'data/users'
 // import 'moment/locale/da'
 // import 'moment/locale/en-gb'
 import { saveSettings, getValidSession, getAuthUser, saveInternal } from 'data/login'
 // import { setDates } from './dateTime';
-import { setPrefix, set, get } from 'data/storage'
+import { setPrefix, set } from 'data/storage'
 // import { getAllData } from './data';
 // import { setDashboards } from './dsSystem';
 require("moment/min/locales.min")
@@ -111,6 +110,7 @@ export const saveSettingsOnServ = () => {
 export const getSettings = async () => {
 	return async (dispatch, getState) => {
 		var sessionCookie = cookie.load('SESSION') ? cookie.load('SESSION') : null
+		var userId, user
 		if (sessionCookie) {
 			let vSession = await getValidSession()
 			console.log(vSession)
@@ -123,10 +123,10 @@ export const getSettings = async () => {
 				console.log('Deleted')
 				return cookie.remove('SESSION')
 			}
+			userId = sessionCookie.uuid
+			user = userId !== 0 ? await getAuthUser(userId) : null
 		}
 
-		var userId = sessionCookie.uuid
-		var user = userId !== 0 ? await getAuthUser(userId) : null
 
 
 
