@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import logo from 'assets/senti.waterworks.black.svg'
 import cookie from 'react-cookies'
 
 // Components
-import { ItemG, CookiesDialog, PrivacyDialog, CircularLoader } from 'Components'
+import { ItemG, CookiesDialog, PrivacyDialog, CircularLoader, Warning } from 'Components'
 import { Hidden } from '@material-ui/core'
-import { useDispatch, useHistory, useLocation, useLocalization } from 'Hooks'
+import { useDispatch, useHistory, useLocation, useLocalization, useEventListener } from 'Hooks'
 
 // Data & Redux
 import { changeLanguage } from 'Redux/localization'
@@ -35,14 +35,25 @@ const Onboarding = props => {
 	const [cookies, setCookies] = useState(false)
 	const [privacy, setPrivacy] = useState(false)
 	const [loading, setLoading] = useState(false)
-
+	const [error, setError] = useState(false)
+	const [antiCheat, setAntiCheat] = useState(true)
+	useEffect(() => {
+		if (params.step === 'step1') {
+			setAntiCheat(false)
+		}
+		if (antiCheat) {
+			history.push(`/signup/${params.language}/step1`)
+		}
+		// eslint-disable-next-line
+	}, [])
 	//#region Step 1
 	const [orgIdent, setOrgIdent] = useState('hfsundbyvester')
-	const [installationId, setInstallationId] = useState('56')
-	const [deviceIdent, setDeviceIdent] = useState('axioma5003405')
+	const [installationId, setInstallationId] = useState('59')
+	const [deviceIdent, setDeviceIdent] = useState('axioma5003403')
 	//#endregion
 
 	//#region Step 2
+	const [authUUID, setAuthUUID] = useState('')
 	const [org, setOrg] = useState('')
 	const [role, setRole] = useState(0)
 	const [firstName, setFirstName] = useState('')
@@ -64,7 +75,93 @@ const Onboarding = props => {
 	//Const
 
 	//useCallbacks
+	const handleCreateUser = useCallback(async () => {
 
+		let user = {
+			firstName: firstName,
+			lastName: lastName,
+			phone: phone,
+			email: email,
+			userName: email,
+			password: pass,
+			image: "",
+			aux: {},
+			internal: {
+				sentiWaterworks: {
+					settings: {
+						language: "da",
+						dsTheme: 0,
+						weekendColor: "red",
+						theme: 0,
+						colorTheme: "blue",
+						trp: 10,
+						cookies: false,
+						snackbarLocation: 'left',
+						hoverTime: 1000,
+					},
+					extendedProfile: {
+						address: address,
+						city: city,
+						postnr: postnr,
+						noOfChildren: noOfChildren,
+						noOfAdults: noOfAdults
+					}
+				}
+			},
+			org: {
+				uuid: org
+			},
+			role: {
+				uuid: role
+			},
+			state: 4
+		}
+		let result = await createOnboardingUser(user, authUUID)
+		console.log(result)
+	}, [address, authUUID, city, email, firstName, lastName, noOfAdults, noOfChildren, org, pass, phone, postnr, role])
+
+	const handleNextStep = useCallback(async () => {
+		let step = params.step
+		if (step === 'step1') {
+
+			setLoading(true)
+			let autoCompleteData = await getOnboardingData(orgIdent, installationId, deviceIdent)
+			if (autoCompleteData === 404) {
+				setError('signup.error.missingDevice')
+				setLoading(false)
+			}
+			else {
+				if (error) {
+					setError(null)
+				}
+				handleAutoComplete(autoCompleteData)
+				setLoading(false)
+				history.push(`/signup/${params.language}/step2`)
+			}
+		}
+		if (step === 'step2') {
+			/**
+			 * TODO
+			 * Check that at least the name & e-mail are filled up and correct format
+			 */
+			history.push(`/signup/${params.language}/step3`)
+		}
+		if (step === 'step3') {
+			if (confirmPass !== pass) {
+				setError('signup.error.passwordMismatch')
+			}
+			else {
+				handleCreateUser()
+			}
+		}
+	}, [confirmPass, deviceIdent, error, handleCreateUser, history, installationId, orgIdent, params, pass])
+	const handleKeyPress = useCallback((event) => {
+		if (event.key === 'Enter') {
+			handleNextStep()
+		}
+	}, [handleNextStep])
+	//useEventListener
+	useEventListener('keypress', handleKeyPress)
 	//useEffects
 
 	//Handlers
@@ -77,7 +174,9 @@ const Onboarding = props => {
 
 
 	const handleInput = (e, id) => {
-		console.log(e)
+		if (error) {
+			setError(null)
+		}
 		//#region Step1
 		switch (e.target.id) {
 			case 'orgIdent':
@@ -129,6 +228,7 @@ const Onboarding = props => {
 			case 'confirmPass':
 				setConfirmPass(e.target.value)
 				break
+
 			default:
 				break
 		}
@@ -160,53 +260,8 @@ const Onboarding = props => {
 		}
 	}, [location.pathname, history, dispatch])
 
-	const handleCreateUser = async () => {
 
-		let user = {
-			firstName: firstName,
-			lastName: lastName,
-			phone: phone,
-			email: email,
-			userName: email,
-			password: pass,
-			image: "",
-			aux: {},
-			internal: {
-				sentiWaterworks: {
-					settings: {
-						language: "da",
-						dsTheme: 0,
-						weekendColor: "red",
-						theme: 0,
-						colorTheme: "blue",
-						trp: 10,
-						cookies: false,
-						snackbarLocation: 'left',
-						hoverTime: 1000,
-					},
-					extendedProfile: {
-						address: address,
-						city: city,
-						postnr: postnr,
-						noOfChildren: noOfChildren,
-						noOfAdults: noOfAdults
-					}
-				}
-			},
-			org: {
-				uuid: org
-			},
-			role: {
-				uuid: role
-			},
-			state: 4
-		}
-		let result = await createOnboardingUser(user)
-		console.log(result)
-	}
 	const handleAutoComplete = data => {
-		setOrg(data.orgUUID ? data.orgUUID : "")
-		setRole(data.roleUUID ? data.roleUUID : "")
 		setFirstName(data.firstName ? data.firstName : "")
 		setLastName(data.lastName ? data.lastName : "")
 		setEmail(data.email ? data.email : "")
@@ -216,29 +271,18 @@ const Onboarding = props => {
 		setCity(data.city ? data.city : "")
 		setNoOfAdults(data.adults ? data.adults : 1)
 		setNoOfChildren(data.children ? data.children : 0)
+		if (!data.orgUUID || !data.roleUUID || !data.uuid) {
+			setError('signup.error.missingData')
+		}
+		else {
+			setError(false)
+			setOrg(data.orgUUID ? data.orgUUID : "")
+			setRole(data.roleUUID ? data.roleUUID : "")
+			setAuthUUID(data.uuid ? data.uuid : '')
+		}
 	}
 
-	const handleNextStep = async () => {
-		let step = params.step
-		if (step === 'step1') {
-			setLoading(true)
-			let autoCompleteData = await getOnboardingData(orgIdent, installationId, deviceIdent)
-			console.log(autoCompleteData)
-			handleAutoComplete(autoCompleteData)
-			setLoading(false)
-			history.push('/signup/da/step2')
-		}
-		if (step === 'step2') {
-			/**
-			 * TODO
-			 * Check that at least the name & e-mail are filled up and correct format
-			 */
-			history.push('/signup/da/step3')
-		}
-		if (step === 'step3') {
-			handleCreateUser()
-		}
-	}
+
 
 	const renderStep = () => {
 		let step = params.step
@@ -272,6 +316,7 @@ const Onboarding = props => {
 				return (
 					<Step3
 						t={t}
+						error={error === 'signup.error.passwordMismatch' ? true : false}
 						goToNextStep={handleNextStep}
 						handleInput={handleInput}
 						pass={pass}
@@ -285,7 +330,6 @@ const Onboarding = props => {
 	}
 	return (
 		<ThemeProvider theme={loginTheme}>
-
 			<LoginWrapper>
 				<ItemG xs={12} sm={12} md={5} lg={4} xl={3} container>
 					<MobileContainer>
@@ -294,7 +338,7 @@ const Onboarding = props => {
 								<ItemG xs={12} container justify={'center'}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
-
+								<Warning open={Boolean(error)} type={'error'} label={t(error)} />
 								{loading ? <CircularLoader fill /> : renderStep()}
 							</InputContainer>
 							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>

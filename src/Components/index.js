@@ -22,7 +22,7 @@ import InfoCard from 'Components/Cards/InfoCard'
 import T from 'Components/Typography/T'
 import Muted from 'Components/Typography/Muted'
 import Caption from 'Components/Typography/Caption'
-
+import Warning from 'Components/Typography/Warning'
 //#endregion
 
 //#region Loaders
@@ -44,6 +44,7 @@ import SlideT from 'Components/Transitions/SlideT'
 
 //#endregion
 export {
+
 	//Transitions
 	SlideT,
 	//Containers
@@ -53,6 +54,7 @@ export {
 	//Typography
 	T,
 	Muted,
+	Warning,
 	Caption,
 	//Inputs
 	TextF,

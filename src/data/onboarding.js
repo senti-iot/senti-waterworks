@@ -7,17 +7,16 @@ import { waterworksAPI } from 'data/data'
  * @param {String} deviceIdent - device identifier
  */
 export const getOnboardingData = async (orgIdent, installationId, deviceIdent) => {
-	let data = await waterworksAPI.get(`/onboarding/installation/${orgIdent}/${installationId}/${deviceIdent}`).then(rs => rs.data)
-	console.log(data)
-	return data
+	let data = await waterworksAPI.get(`/onboarding/installation/${orgIdent}/${installationId}/${deviceIdent}`).then(rs => rs)
+	return data.data ? data.data : data.status
 }
 
 /**
  * Create a new basic user
  * @param {object} user
  */
-export const createOnboardingUser = async (user) => {
-	let data = await waterworksAPI.post('/onboarding/user', user).then(rs => rs)
+export const createOnboardingUser = async (user, authUUID) => {
+	let data = await waterworksAPI.post(`/onboarding/user/${authUUID}`, user).then(rs => rs)
 	console.log(data)
 	return data
 }

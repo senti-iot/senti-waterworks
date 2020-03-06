@@ -123,8 +123,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import CallMade from '@material-ui/icons/CallMade'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import ArrowBack from '@material-ui/icons/ArrowBack'
-
+import WarningIcon from '@material-ui/icons/Warning'
+import ErrorIcon from '@material-ui/icons/Error'
 export {
+	ErrorIcon,
+	WarningIcon,
 	ArrowBack,
 	TableIcon,
 	SettingsIcon,

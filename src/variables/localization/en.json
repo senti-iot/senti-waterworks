@@ -1298,6 +1298,11 @@
 		}
 	},
 	"signup": {
+		"error": {
+			"missingData": "Error! Important data is missing and the signup process cannot continue...",
+			"missingDevice": "Error! Device identification failed...",
+			"passwordMismatch": "Error! Passwords do not match"
+		},
 		"form": {
 			"installationNrB": "Installation No.",
 			"deviceNr": "Device No.",

@@ -1298,6 +1298,11 @@
 		}
 	},
 	"signup": {
+		"error": {
+			"missingData": "Error! Vigtige data mangler, og tilmeldingsprocessen kan ikke fortsætte ...",
+			"missingDevice": "Error! Enhedsidentifikation mislykkedes...",
+			"passwordMismatch": "Error! Kodeordene er ikke ens..."
+		},
 		"form": {
 			"installationNrB": "Installationsnummer",
 			"deviceNr": "Måler nummer",
