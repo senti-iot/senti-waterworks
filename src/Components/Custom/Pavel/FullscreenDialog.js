@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { Fragment, useState } from 'react'
 import { makeStyles, IconButton } from '@material-ui/core'
 import { Close } from '../../../variables/icons'

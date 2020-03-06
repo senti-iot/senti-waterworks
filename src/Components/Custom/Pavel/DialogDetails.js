@@ -66,42 +66,42 @@ const DialogDetails = () => {
 	const classes = useStyles()
 
 	// the JSX should map these panels instead of hardcoding it
-	// const panels = [
-	// 	{
-	// 		headline: 'Daglight forbrug',
-	// 		descriptions: [
-	// 			'Mit gennemsnitlige daglige vandforbrug',
-	// 			'Forbrug pr. person',
-	// 			'Mit gennemsnitlige månedlige vandforbrug. Dette svarer til ca. 1,182 kg CO2 pr. måned'
-	// 		],
-	// 		style: {
-	// 			dataColor: '#6DD400',
-	// 			textBelowHeadline: true
-	// 		},
-	// 		data: {
-	// 			cubicMetres: 0.197,
-	// 			forbrugPerson: 49.25,
-	// 			manedlige: 5910
-	// 		}
-	// 	},
-	// 	{
-	// 		headline: 'Benchmark',
-	// 		descriptions: [
-	// 			'Gennemsnitligt daglige vandforbrug for andre boliger',
-	// 			'Forbrug pr. person',
-	// 			'Gennemsnitlig månedlige vandforbrug for andre boliger. Dette svarer til ca. 1,506 kg CO2 pr. måned'
-	// 		],
-	// 		style: {
-	// 			dataColor: '#32FFE1',
-	// 			textBelowHeadline: false
-	// 		},
-	// 		data: {
-	// 			cubicMetres: 0.251,
-	// 			forbrugPerson: 53.75,
-	// 			manedlige: 7530
-	// 		}
-	// 	}
-	// ]
+	const panels = [
+		{
+			headline: 'Daglight forbrug',
+			descriptions: [
+				'Mit gennemsnitlige daglige vandforbrug',
+				'Forbrug pr. person',
+				'Mit gennemsnitlige månedlige vandforbrug. Dette svarer til ca. 1,182 kg CO2 pr. måned'
+			],
+			style: {
+				dataColor: '#6DD400',
+				textBelowHeadline: true
+			},
+			data: {
+				cubicMetres: 0.197,
+				forbrugPerson: 49.25,
+				manedlige: 5910
+			}
+		},
+		{
+			headline: 'Benchmark',
+			descriptions: [
+				'Gennemsnitligt daglige vandforbrug for andre boliger',
+				'Forbrug pr. person',
+				'Gennemsnitlig månedlige vandforbrug for andre boliger. Dette svarer til ca. 1,506 kg CO2 pr. måned'
+			],
+			style: {
+				dataColor: '#32FFE1',
+				textBelowHeadline: false
+			},
+			data: {
+				cubicMetres: 0.251,
+				forbrugPerson: 53.75,
+				manedlige: 7530
+			}
+		}
+	]
 
 	return (
 		<div className={classes.container}>
