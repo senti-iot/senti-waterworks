@@ -32,7 +32,7 @@ const DSelect = (props) => {
 			return 100
 		}
 	}
-	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon } = props
+	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon, id } = props
 	//TO DO
 	let mobile = window.innerWidth < theme.breakpoints.values.md ? true : false
 	// let mobile = false
@@ -48,17 +48,18 @@ const DSelect = (props) => {
 				{label}
 			</InputLabel>
 			<Select
+				id={id}
 				variant={'outlined'}
 				fullWidth={mobile || fullWidth}
 				value={value}
 				error={error}
-				onChange={onChange}
-				input={<OutlinedInput labelWidth={lWidth()} variant={'outlined'} classes={{ root: classes.label }} />}
+				onChange={event => onChange(event, id)}
+				input={<OutlinedInput id={id} labelWidth={lWidth()} variant={'outlined'} classes={{ root: classes.label }} />}
 				onKeyPress={onKeyPress}
 				styles={props.styles}
 			>
 				{!simple && menuItems.map((m, i) => {
-					return <MenuItem key={i} value={m.value}>
+					return <MenuItem id={id} key={i} value={m.value}>
 						<ItemG container justify={'space-between'} alignItems={'center'}>
 							{leftIcon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon ? m.icon : null}</ItemG> : null}
 							<ItemG xs>{m.label}</ItemG>
@@ -67,7 +68,7 @@ const DSelect = (props) => {
 					</MenuItem>
 				})}
 				{simple && menuItems.map((m, i) => {
-					return <MenuItem key={i} value={m}>
+					return <MenuItem id={id} key={i} value={m}>
 						<ItemG container justify={'space-between'} alignItems={'center'}>
 							<ItemG xs>{m}</ItemG>
 						</ItemG>

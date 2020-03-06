@@ -80,25 +80,25 @@ function Login() {
 	// }
 	const logUser = () => setLoggingIn(true)
 
-	//TODO
 	const handleLoginUser = async () => {
 		await loginUser(user, pass, orgId).then(async rs => {
 			if (rs) {
 				let exp = moment().add('1', 'day')
+				console.log(rs)
 				cookie.save('SESSION', rs, { path: '/', expires: exp.toDate() })
-				if (rs.isLoggedIn) {
-					if (setToken()) {
-						await redux.getSettings()
-						// dispatch(setAccessLevel({ id: 0, name: 'Admin', priority: 10 }))
-						var prevURL = location.state ? location.state.prevURL : null
-						if ("isAdmin") {
-							history.push('/admin')
-						}
-						else {
-							history.push(prevURL ? prevURL : /* defaultRoute */ '/')
-						}
+				if (setToken()) {
+					console.log(cookie.load('SESSION'))
+					await redux.getSettings()
+					// dispatch(setAccessLevel({ id: 0, name: 'Admin', priority: 10 }))
+					var prevURL = location.state ? location.state.prevURL : null
+					if ("isAdmin") {
+						history.push('/admin')
+					}
+					else {
+						history.push(prevURL ? prevURL : /* defaultRoute */ '/')
 					}
 				}
+
 			}
 			else {
 				setError(true)

@@ -23,6 +23,7 @@
 		"back": "Previous",
 		"call": "Ring",
 		"cancel": "Cancel",
+		"change": "Change",
 		"changeLanguage": "Skift til Dansk",
 		"changePassword": "Change Password",
 		"close": "Close",
@@ -1071,6 +1072,7 @@
 		}
 	},
 	"sidebar": {
+		"myprofile": "My Profile",
 		"api": "API",
 		"cloudfunction": "Cloud function",
 		"cloudfunctions": "Cloud functions",
@@ -1236,6 +1238,7 @@
 		"editUser": "Edit user",
 		"fields": {
 			"address": "Address",
+			"city": "City",
 			"postnr": "Zip",
 			"country": "Country",
 			"accessLevel": "Access Level",

@@ -23,6 +23,7 @@
 		"back": "Forrige",
 		"call": "Ring",
 		"cancel": "Anuller",
+		"change": "Skift",
 		"changeLanguage": "Change to English",
 		"changePassword": "Skift kodeord",
 		"close": "Luk",
@@ -1071,6 +1072,7 @@
 		}
 	},
 	"sidebar": {
+		"myprofile": "Min Profil",
 		"api": "API",
 		"cloudfunction": "Cloud funktion",
 		"cloudfunctions": "Cloud funktioner",
@@ -1237,6 +1239,7 @@
 		"fields": {
 			"address": "Adresse",
 			"postnr": "Postnr.",
+			"city": "By",
 			"country": "Land",
 			"accessLevel": "Adgangsniveau",
 			"active": "Aktiv",

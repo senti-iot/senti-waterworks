@@ -21,7 +21,7 @@ const BarGraph = props => {
 
 	//Redux
 	const barsData = useSelector(s => [...s.data.barData[chart].map(d => ({
-		className: classes[d.className],
+		className: classes[d ? d.className : ''],
 		type: t(d.type),
 		value: d.value,
 		unit: d.unit
@@ -31,16 +31,11 @@ const BarGraph = props => {
 	//useCallbacks
 	const handleRedraw = useCallback(
 		() => {
-			console.log('resized')
 			if (bars) {
 				setTimeout(() => {
 					bars.destroy()
-					console.log('destroyed')
 					bars.draw(barsChartContainer.current)
-					console.log('redrawn')
 				}, 300)
-				// console.log('redrawn')
-				// bars.generateXAxis()
 			}
 		},
 		[],

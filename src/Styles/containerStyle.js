@@ -21,6 +21,7 @@ export const BPaper = styled(Paper)`
 	height: calc(100% - 32px);
 	padding: 8px 16px;
 	margin: 8px;
+	color: #fff;
 	background: ${({ theme }) => theme.boxBackground};
 	`
 export const AppBackground = styled.div`

@@ -4,8 +4,9 @@ import { NeedAccountT, LoginTF, LoginButton } from 'Styles/loginStyles'
 import DSelect from 'Components/Input/DSelect'
 
 const Step3 = props => {
-	const { t, handleInput, orgId, deviceNr, installationNrB, history } = props
-	const handleNextStep = () => history.push('/signup/da/step2')
+	const { t, handleInput, noOfAdults, deviceNr, installationNrB, noOfChildren, goToNextStep } = props
+	const handleNextStep = () => goToNextStep()
+
 	const handleGenMenuItems = () => {
 		let array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 		return array.map(a => ({ value: a, label: a }))
@@ -23,7 +24,7 @@ const Step3 = props => {
 					{t('signup.form.selectPassword')}:
 				</NeedAccountT>
 				<LoginTF
-					id={'password'}
+					id={'pass'}
 					autoFocus
 					label={t('confirmUser.password')}
 					fullWidth
@@ -32,7 +33,7 @@ const Step3 = props => {
 					value={deviceNr}
 				/>
 				<LoginTF
-					id={'confirmPassword'}
+					id={'confirmPass'}
 					label={t('confirmUser.passwordConfirm')}
 					type={'password'}
 					fullWidth
@@ -43,23 +44,23 @@ const Step3 = props => {
 					{t('signup.form.addPeopleCount')}:
 				</NeedAccountT>
 				<DSelect
-					id={'orgId'}
+					id={'noOfAdults'}
 					label={t('signup.form.adultNr')}
 					type={'text'}
 					fullWidth
 					onChange={handleInput}
-					value={orgId}
+					value={noOfAdults}
 					// margin={'normal'}
 					styles={{ margin: 16 }}
 					menuItems={handleGenMenuItems()}
 				/>
 				<DSelect
-					id={'orgId'}
+					id={'noOfChildren'}
 					label={t('signup.form.childNr')}
 					type={'text'}
 					fullWidth
 					onChange={handleInput}
-					value={orgId}
+					value={noOfChildren}
 					// margin={'normal'}
 					styles={{ margin: 16 }}
 					menuItems={handleGenMenuItems()}

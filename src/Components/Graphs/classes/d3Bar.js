@@ -78,7 +78,6 @@ class d3Arc {
 		this.width = containerEl.clientWidth
 		const { width, margin, height } = this
 
-		console.log(this.height, this.width)
 
 		this.height = this.height - margin.top - margin.bottom
 		this.width = this.width - margin.left - margin.right

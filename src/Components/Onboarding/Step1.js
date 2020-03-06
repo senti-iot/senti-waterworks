@@ -5,8 +5,10 @@ import { InputAdornment } from '@material-ui/core'
 import { Business } from 'variables/icons'
 
 const Step1 = props => {
-	const { t, handleInput, orgId, deviceNr, installationNrB, history } = props
-	const handleNextStep = () => history.push('/signup/da/step2')
+	const { t, handleInput, orgIdent, deviceIdent, installationId, goToNextStep } = props
+	const handleNextStep = () => {
+		goToNextStep()
+	}
 	return (
 		<ItemG xs={12} container justify={'center'}>
 			<ItemG xs={12} container justify={'center'}>
@@ -17,13 +19,13 @@ const Step1 = props => {
 
 			<ItemG container xs={12} style={{ marginTop: 48 }}>
 				<LoginTF
-					id={'deviceNr'}
+					id={'deviceIdent'}
 					autoFocus
 					label={t('signup.form.deviceNr')}
 					fullWidth
 					type={'email'}
 					onChange={handleInput}
-					value={deviceNr}
+					value={deviceIdent}
 					InputProps={{
 						endAdornment: <InputAdornment>
 							<Business style={{ color: 'rgba(0, 0, 0, 0.54)' }} />
@@ -31,11 +33,11 @@ const Step1 = props => {
 					}}
 				/>
 				<LoginTF
-					id={'installationNrB'}
+					id={'installationId'}
 					label={t('signup.form.installationNrB')}
 					fullWidth
 					onChange={handleInput}
-					value={installationNrB}
+					value={installationId}
 					InputProps={{
 						endAdornment: <InputAdornment>
 							<Business style={{ color: 'rgba(0, 0, 0, 0.54)' }} />
@@ -43,12 +45,12 @@ const Step1 = props => {
 					}}
 				/>
 				<LoginTF
-					id={'orgId'}
+					id={'orgIdent'}
 					label={t('login.nickname')}
 					type={'text'}
 					fullWidth
 					onChange={handleInput}
-					value={orgId}
+					value={orgIdent}
 					InputProps={{
 						endAdornment: <InputAdornment>
 							<Business style={{ color: 'rgba(0, 0, 0, 0.54)' }} />

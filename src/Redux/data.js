@@ -39,7 +39,6 @@ export const sortData = (key, property, order) => {
 export const getAllDevices = async () => {
 	return async (dispatch) => {
 		let devices = await getDevices()
-		console.log(devices)
 		dispatch({
 			type: GETDevice,
 			payload: devices
@@ -71,177 +70,180 @@ export const getData = async () => {
 		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
 		 */
 		let completeRawData = await getDevicesData(prevFrom, to)
-		rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
-		prevRawData = completeRawData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
-		//#region Current Period
-		currentPeriodData = {
-			waterUsage: genWR(rawData, filterDevices),
-			temperature: {
-				ambient: genMinATemp(rawData, filterDevices),
-				water: genMinWTemp(rawData, filterDevices)
-			},
-			waterFlow: {
-				maxFlow: genMaxF(rawData, filterDevices),
-				minFlow: genMinF(rawData, filterDevices)
-			}
-		}
-		benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
+		if (completeRawData) {
 
-		//#endregion
-		//#region Previous period
+			rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
+			prevRawData = completeRawData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
 
-		prevRawData.forEach(d => {
-			d.time = moment(d.time).add(subtr, 'day')
-		})
-
-		previousPeriodData = {
-			waterUsage: genWR(prevRawData, filterDevices),
-			temperature: {
-				ambient: genMinATemp(prevRawData, filterDevices),
-				water: genMinWTemp(prevRawData, filterDevices)
-			},
-			waterFlow: {
-				maxFlow: genMaxF(prevRawData, filterDevices),
-				minFlow: genMinF(prevRawData, filterDevices)
-			}
-		}
-		// currentPeriodData = genData(rawData, filterDevices)
-		// previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
-
-		//#endregion
-		/**
-		 * TODO: Do not call the API for another set of data, filter it based on from
-		 */
-
-		let rawArcData = currentPeriodData.waterUsage
-		let prevRawArcData = previousPeriodData.waterUsage/* .filter(f => moment(f.created) > prevFrom) */
-
-		middleData = genArcData(rawArcData, filterDevices)
-		prevMiddleData = genArcData(prevRawArcData, filterDevices)
-
-		finalData = {
-			waterusage: [
-				{
-					name: 'waterusageL',
-					median: true,
-					data: currentPeriodData.waterUsage,
-					color: 'orange'
+			//#region Current Period
+			currentPeriodData = {
+				waterUsage: genWR(rawData, filterDevices),
+				temperature: {
+					ambient: genMinATemp(rawData, filterDevices),
+					water: genMinWTemp(rawData, filterDevices)
 				},
-				{
-					name: 'waterusageP',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.waterUsage
+				waterFlow: {
+					maxFlow: genMaxF(rawData, filterDevices),
+					minFlow: genMinF(rawData, filterDevices)
+				}
+			}
+			benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
+
+			//#endregion
+			//#region Previous period
+
+			prevRawData.forEach(d => {
+				d.time = moment(d.time).add(subtr, 'day')
+			})
+
+			previousPeriodData = {
+				waterUsage: genWR(prevRawData, filterDevices),
+				temperature: {
+					ambient: genMinATemp(prevRawData, filterDevices),
+					water: genMinWTemp(prevRawData, filterDevices)
 				},
-				{
-					name: 'benchmark',
-					hidden: true,
+				waterFlow: {
+					maxFlow: genMaxF(prevRawData, filterDevices),
+					minFlow: genMinF(prevRawData, filterDevices)
+				}
+			}
+			// currentPeriodData = genData(rawData, filterDevices)
+			// previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
+
+			//#endregion
+			/**
+			 * TODO: Do not call the API for another set of data, filter it based on from
+			 */
+
+			let rawArcData = currentPeriodData.waterUsage
+			let prevRawArcData = previousPeriodData.waterUsage/* .filter(f => moment(f.created) > prevFrom) */
+
+			middleData = genArcData(rawArcData, filterDevices)
+			prevMiddleData = genArcData(prevRawArcData, filterDevices)
+
+			finalData = {
+				waterusage: [
+					{
+						name: 'waterusageL',
+						median: true,
+						data: currentPeriodData.waterUsage,
+						color: 'orange'
+					},
+					{
+						name: 'waterusageP',
+						prev: true,
+						hidden: true,
+						noMedianLegend: true,
+						median: true,
+						data: previousPeriodData.waterUsage
+					},
+					{
+						name: 'benchmark',
+						hidden: true,
+						noArea: true,
+						dashed: true,
+						data: benchMarkData,
+						color: 'yellow'
+					}
+				],
+				temperature: [
+					{
+						name: 'tempAmbient',
+						median: true,
+						data: currentPeriodData.temperature.ambient,
+						color: 'red'
+					},
+					{
+						name: 'tempAmbientPrev',
+						prev: true,
+						hidden: true,
+						noMedianLegend: true,
+						median: true,
+						data: previousPeriodData.temperature.ambient
+					},
+					{
+						name: 'tempWater',
+						median: true,
+						data: currentPeriodData.temperature.water,
+						color: 'blue'
+					},
+
+					{
+						name: 'tempWaterPrev',
+						prev: true,
+						hidden: true,
+						noMedianLegend: true,
+						median: true,
+						data: previousPeriodData.temperature.water
+					}
+				],
+				waterflow: [
+					{
+						name: 'maxFlow',
+						median: true,
+						data: currentPeriodData.waterFlow.maxFlow,
+						color: 'lightBlue'
+					},
+					{
+						name: 'maxFlowPrev',
+						prev: true,
+						hidden: true,
+						noMedianLegend: true,
+						median: true,
+						data: previousPeriodData.waterFlow.maxFlow
+					},
+					{
+						name: 'minFlow',
+						median: true,
+						data: currentPeriodData.waterFlow.minFlow,
+						color: 'purple'
+					},
+					{
+						name: 'minFlowPrev',
+						prev: true,
+						hidden: true,
+						smallArea: true,
+						noMedianLegend: true,
+						median: true,
+						data: previousPeriodData.waterFlow.minFlow
+					}
+				]
+
+			}
+			if (filterDevices.length < 11) {
+				let devices = getState().data.devices
+				let dataLines = filterDevices.map((dev, i) => ({
+					name: "" + devices[devices.findIndex(d => d.id === dev)].name,
+					color: colors[i],
 					noArea: true,
-					dashed: true,
-					data: benchMarkData,
-					color: 'yellow'
-				}
-			],
-			temperature: [
-				{
-					name: 'tempAmbient',
-					median: true,
-					data: currentPeriodData.temperature.ambient,
-					color: 'red'
-				},
-				{
-					name: 'tempAmbientPrev',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.temperature.ambient
-				},
-				{
-					name: 'tempWater',
-					median: true,
-					data: currentPeriodData.temperature.water,
-					color: 'blue'
-				},
+					data: rawData.filter(d => d.value && d.device_id === dev).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
+				}))
+				finalData.readings = dataLines
+				// finalData.readings = [
+				// 	{
+				// 		name: 'readingL',
+				// 		// median: true,
+				// 		color: 'yellow',
+				// 		data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
+				// 	}
+				// ]
+			}
+			else {
+				finalData.readings = []
+			}
+			//#endregion
+			//#region Middle Widget Final Data
 
-				{
-					name: 'tempWaterPrev',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.temperature.water
-				}
-			],
-			waterflow: [
-				{
-					name: 'maxFlow',
-					median: true,
-					data: currentPeriodData.waterFlow.maxFlow,
-					color: 'lightBlue'
-				},
-				{
-					name: 'maxFlowPrev',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.waterFlow.maxFlow
-				},
-				{
-					name: 'minFlow',
-					median: true,
-					data: currentPeriodData.waterFlow.minFlow,
-					color: 'purple'
-				},
-				{
-					name: 'minFlowPrev',
-					prev: true,
-					hidden: true,
-					smallArea: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.waterFlow.minFlow
-				}
-			]
+			finalMiddleData = {
+				current: middleData,
+				previous: prevMiddleData
+			}
 
+			//#endregion
+			//#region Bar Chart Final Data
+			finalBarData = genBarData(currentPeriodData, previousPeriodData)
+			//#endregion
 		}
-		if (filterDevices.length < 11) {
-			let devices = getState().data.devices
-			let dataLines = filterDevices.map((dev, i) => ({
-				name: "" + devices[devices.findIndex(d => d.id === dev)].name,
-				color: colors[i],
-				noArea: true,
-				data: rawData.filter(d => d.value && d.device_id === dev).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
-			}))
-			finalData.readings = dataLines
-			// finalData.readings = [
-			// 	{
-			// 		name: 'readingL',
-			// 		// median: true,
-			// 		color: 'yellow',
-			// 		data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
-			// 	}
-			// ]
-		}
-		else {
-			finalData.readings = []
-		}
-		//#endregion
-		//#region Middle Widget Final Data
-
-		finalMiddleData = {
-			current: middleData,
-			previous: prevMiddleData
-		}
-
-		//#endregion
-		//#region Bar Chart Final Data
-		finalBarData = genBarData(currentPeriodData, previousPeriodData)
-
-		//#endregion
 		//#region Dispatch the calculated data
 		dispatch({
 			type: deviceData,
