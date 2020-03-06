@@ -122,8 +122,10 @@ import ImportExport from '@material-ui/icons/ImportExport'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import CallMade from '@material-ui/icons/CallMade'
 import ChevronRight from '@material-ui/icons/ChevronRight'
+import ArrowBack from '@material-ui/icons/ArrowBack'
 
 export {
+	ArrowBack,
 	TableIcon,
 	SettingsIcon,
 	ChevronRight,

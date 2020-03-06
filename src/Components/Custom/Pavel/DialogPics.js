@@ -34,12 +34,15 @@ const useStyles = makeStyles(theme => ({
 		alignItems: 'center',
 		boxSizing: 'border-box',
 		borderRadius: 4,
-		cursor: 'pointer'
+		cursor: 'pointer',
+		width: '25%'
 	},
 	img: {
 		// flex: 1,
+		width: '100%',
+		height: 'auto',
 		maxWidth: 150,
-		maxHeight: 150
+		maxHeight: 120
 	}
 }))
 
