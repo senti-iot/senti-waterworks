@@ -1,28 +1,73 @@
-import React from 'react'
-import { makeStyles, IconButton, CircularProgress } from '@material-ui/core'
-import { Close } from '../../../variables/icons'
+import React, { Fragment } from 'react'
+import { makeStyles, IconButton, Typography } from '@material-ui/core'
+import { Close, ArrowBack } from '../../../variables/icons'
 
 const useStyles = makeStyles(theme => ({
 	closeDialog: {
-		position: 'absolute',
-		top: 8,
-		right: 8
+		color: '#fff'
+	},
+	navigationBox: {
+		padding: 16,
+		display: 'flex',
+		justifyContent: 'space-between'
+	},
+	header: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		padding: '0 40px'
+	},
+	headlineBox: {
+		width: '60%'
+	},
+	imageBox: {
+		width: '30%',
+		display: 'flex',
+		justifyContent: 'center'
+	},
+	subheadline: {
+		marginTop: 16,
+		fontSize: 22,
+		fontWeight: 300
 	}
 }))
 
 const DialogDescription = props => {
-	console.log(props)
+	const { content, chosenDescription, setChosenDescription, setDescriptionOpen } = props
+
+	const handleStepChange = () => {
+		if (chosenDescription === 0) return // avoid crashing
+
+		setChosenDescription(prev => prev - 1)
+	}
+
 	const classes = useStyles()
 
 	return (
-		<div style={{ position: 'relative' }}>
-			<p style={{ margin: 0 }}>You chose {props.content.headline}</p>
-			<p style={{ margin: 0 }}>Pavel is working on this...</p>
-			<CircularProgress color="secondary" />
-			<IconButton size="small" className={classes.closeDialog} onClick={() => props.setDescriptionOpen(false)}>
-				<Close />
-			</IconButton>
-		</div>
+		<Fragment>
+			{/* container for back and cancel buttons */}
+			<div className={classes.navigationBox}>
+				<IconButton size="small" className={classes.closeDialog} onClick={handleStepChange}>
+					<ArrowBack />
+				</IconButton>
+				<IconButton size="small" className={classes.closeDialog} onClick={() => setDescriptionOpen(false)}>
+					<Close />
+				</IconButton>
+			</div>
+
+			{/* container for headline, subheadline, and image */}
+			<div className={classes.header}>
+				<div className={classes.headlineBox}>
+					<Typography variant="h4" style={{ fontWeight: 500 }}>{content.headline}</Typography>
+					<Typography variant="body1" className={classes.subheadline}>{content.subheadline}</Typography>
+				</div>
+				<div className={classes.imageBox}>
+					{/* edit CSS for the image if necessary */}
+					<img src={require(`./${content.imgSrc}`)} alt="" style={{ maxWidth: '100%', height: "auto" }} />
+				</div>
+			</div>
+
+
+		</Fragment>
 	)
 }
 

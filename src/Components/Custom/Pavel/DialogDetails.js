@@ -68,7 +68,7 @@ const DialogDetails = () => {
 	// the JSX should map these panels instead of hardcoding it
 	const panels = [
 		{
-			headline: 'Daglight forbrug',
+			headline: 'Dagligt forbrug',
 			descriptions: [
 				'Mit gennemsnitlige daglige vandforbrug',
 				'Forbrug pr. person',
