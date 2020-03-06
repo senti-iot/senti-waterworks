@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const MyProfile = () => {
+const MyProfileEdit = () => {
 	//Hooks
 	const t = useLocalization()
 	const classes = useStyles()
@@ -236,8 +236,8 @@ const MyProfile = () => {
 							</ItemG>
 						</ItemG>
 						<ItemG xs={12} container justify={'center'} alignItems={'center'}>
-							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.edit')}</Button>
-							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
+							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.cancel')}</Button>
+							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>Change Password </Button>
 
 						</ItemG>
 					</ItemG>
@@ -248,4 +248,4 @@ const MyProfile = () => {
 	)
 }
 
-export default MyProfile
+export default MyProfileEdit

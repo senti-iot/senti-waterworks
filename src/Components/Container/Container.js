@@ -13,6 +13,7 @@ import { getAllDevices } from 'Redux/data'
 import ChartContainer from 'Components/Container/ChartContainer'
 import EndUserContainer from 'Components/Container/EndUserContainer'
 import MyProfile from 'Components/Custom/MyProfile/MyProfile'
+import MyProfileEdit from 'Components/Custom/MyProfile/MyProfileEdit'
 
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
@@ -46,6 +47,10 @@ function Container(props) {
 							</Route>
 							<Route path={'/my-profile'}>
 								<MyProfile />
+							</Route>
+							<Route path={'/my-profile/edit'}>
+								<MyProfileEdit
+								/>
 							</Route>
 							<Route exact path={'/'}>
 								<EndUserContainer />
