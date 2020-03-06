@@ -1,5 +1,5 @@
-import React from 'react'
-import { ItemG, DateTimeFilter } from 'Components'
+import React, { useState } from 'react'
+import { ItemG, DateTimeFilter, DMenu } from 'Components'
 import ChartsButton from '../ChartsButton/ChartsButton'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
@@ -10,14 +10,41 @@ import { ExportModule } from 'Components/ExportModule/ExportModule'
 import ChartsButtonContainer from '../ChartsButton/ChartsButtonContainer'
 import ChartsDateNavContainer from '../ChartsButton/ChartsDateNavContainer'
 import ChartTitle from '../ChartTitle/ChartTitle'
+import { DateRange, ImportExport, MoreVert } from 'variables/icons'
+import styled from 'styled-components'
 
+const DateRangeIcon = styled(DateRange)`
+color: #fff;
+`
+const MoreVertIcon = styled(MoreVert)`
+color: #fff;
+`
 export const MainChart = React.memo((props) => {
-	const { chart, setChart } = props
+	//Hooks
 	const t = useLocalization()
-	const isActive = (c) => chart === c ? true : false
-	const handleSetChart = (c) => () => setChart(c)
+
+	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const isAdmin = useSelector(s => s.auth.isAdmin)
+
+	//State
+	const [openExport, setOpenExport] = useState(false)
+	//Const
+	const { chart, setChart } = props
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+	const handleOpenExport = () => {
+		setOpenExport(true)
+	}
+	const handleCloseExport = () => {
+		setOpenExport(false)
+	}
+	const isActive = (c) => chart === c ? true : false
+	const handleSetChart = (c) => () => setChart(c)
 
 	return (
 		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
@@ -44,13 +71,25 @@ export const MainChart = React.memo((props) => {
 						<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
 					</ItemG>
 					<DateTimeArrows />
-					<ItemG container xs alignItems={'center'} justify={'flex-end'}>
+					<ItemG container wrap={"nowrap"} xs alignItems={'center'} justify={'flex-end'}>
 						<DateTimeDays />
-						<DateTimeFilter />
-						<ExportModule />
+						<DateTimeFilter icon={<DateRangeIcon />} />
+						<DMenu
+							icon={<MoreVertIcon />}
+							onChange={handleOpenExport}
+							menuItems={[{
+								dontShow: false,
+								icon: <ImportExport />,
+								label: t('actions.export')
+							}]}
+						/>
 					</ItemG>
 
 				</ChartsDateNavContainer>
+				<ExportModule open={openExport}
+					handleOpenExport={handleOpenExport}
+					handleCloseExport={handleCloseExport}
+				/>
 			</Hidden>
 
 			{/* </ItemG> */}
