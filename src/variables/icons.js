@@ -15,6 +15,7 @@ import Thermometer from 'assets/icons/thermometer.svg'
 import Pipe from 'assets/icons/pipe.svg'
 import Google from 'assets/icons/google.svg'
 import SettingsIcon from '@material-ui/icons/Settings'
+import TableIcon from '@material-ui/icons/TableChart'
 //#region weather Icons
 // import ClearDay from 'assets/weather/clear_day.svg'
 // import ClearNight from 'assets/weather/clear_night.svg'
@@ -123,6 +124,7 @@ import CallMade from '@material-ui/icons/CallMade'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 
 export {
+	TableIcon,
 	SettingsIcon,
 	ChevronRight,
 	CallMade,

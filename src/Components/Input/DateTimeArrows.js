@@ -3,12 +3,13 @@ import { IconButton } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from 'variables/icons'
 import moment from 'moment'
 import { T, ItemG } from 'Components'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import { useSelector, useDispatch } from 'Hooks'
 import { changeDate } from 'Redux/dateTime'
 import size from 'Styles/themes/mediaQueries'
 
 const LeftArrow = styled(KeyboardArrowLeft)`
+color: #fff;
 width: 1.75em;
 height: 1.75em;
 @media ${size.down.xl} {
@@ -17,6 +18,7 @@ height: 1.75em;
 }
 `
 const RightArrow = styled(KeyboardArrowRight)`
+color: #fff;
 width: 1.75em;
 height: 1.75em;
 @media ${size.down.xl} {
@@ -49,7 +51,7 @@ const DateTimeArrows = () => {
 	const dispatch = useDispatch()
 	const handleSetDate = (id, to, from, timeType) => dispatch(changeDate(id, to, from, timeType))
 	const handleNextPeriod = () => {
-		let from, to, diff;
+		let from, to, diff
 		if (period.menuId === 3) {
 			from = moment(period.from).add(1, 'month').startOf('month')
 			to = !futureTester(to, 'day') ? moment(from).endOf('month') : moment().subtract(1, 'day')
@@ -67,7 +69,7 @@ const DateTimeArrows = () => {
 		handleSetDate(period.timeType, to, from, period.timeType)
 	}
 	const handlePreviousPeriod = () => {
-		let from, to, diff;
+		let from, to, diff
 		if (period.menuId === 3) {
 			from = moment(period.from).subtract(1, 'month').startOf('month')
 			to = moment(from).endOf('month')

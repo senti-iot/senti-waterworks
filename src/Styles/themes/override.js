@@ -5,6 +5,11 @@ import hexToRgba from 'hex-to-rgba'
 
 const override = (color, type) => ({
 	overrides: {
+		MuiPaper: {
+			root: {
+				backgroundColor: !type ? "#fff" : darken(hexToRgba(colors[color][700], 1), 0.5),
+			}
+		},
 		MuiTooltip: {
 			tooltipPlacementRight: {
 				background: grey[700],
