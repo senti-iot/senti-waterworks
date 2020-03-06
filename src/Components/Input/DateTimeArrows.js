@@ -87,7 +87,7 @@ const DateTimeArrows = () => {
 	}
 
 	return (
-		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', width: '50%' }}>
+		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
 			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
 				<IconButton onClick={handlePreviousPeriod} >
 					<LeftArrow />

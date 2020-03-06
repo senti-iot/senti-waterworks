@@ -48,7 +48,7 @@ export const MainChart = React.memo((props) => {
 
 	return (
 		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
-			<Hidden smDown>
+			<Hidden xsDown>
 				<ChartsButtonContainer>
 					<ItemG container justify={'space-evenly'}>
 						<ItemG xs={3}>
@@ -65,14 +65,18 @@ export const MainChart = React.memo((props) => {
 						</ItemG>
 					</ItemG>
 				</ChartsButtonContainer>
-				{/* <ItemG> */}
 				<ChartsDateNavContainer container alignItems={'center'} justify={'space-between'}>
-					<ItemG xs={2}>
+					<ItemG xs={3} md={3} lg={3} >
 						<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
 					</ItemG>
-					<DateTimeArrows />
-					<ItemG container wrap={"nowrap"} xs alignItems={'center'} justify={'flex-end'}>
-						<DateTimeDays />
+					<ItemG xs={7} md={7} lg={5}>
+						<DateTimeArrows />
+					</ItemG>
+					<ItemG xs={2} md={2} lg={4} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
+						<Hidden mdDown>
+
+							<DateTimeDays />
+						</Hidden>
 						<DateTimeFilter icon={<DateRangeIcon />} />
 						<DMenu
 							icon={<MoreVertIcon />}
