@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { makeStyles, IconButton, Typography } from '@material-ui/core'
 import { Close, ArrowBack } from '../../../variables/icons'
+// import waterDropBlue from './familie.svg'
 
 const useStyles = makeStyles(theme => ({
 	closeDialog: {
@@ -28,6 +29,15 @@ const useStyles = makeStyles(theme => ({
 		marginTop: 16,
 		fontSize: 22,
 		fontWeight: 300
+	},
+	list: {
+		listStyleImage: `url(./water.drop.blue.svg)`
+	},
+	listItem: {
+		fontSize: 19,
+		marginTop: 48,
+		fontWeight: 300,
+		lineHeight: 1.25
 	}
 }))
 
@@ -66,7 +76,13 @@ const DialogDescription = props => {
 				</div>
 			</div>
 
-
+			<div style={{ width: '70%' }}>
+				<ul className={classes.list}>
+					{content.listItems.map((item, index) => (
+						<Typography key={index} variant="body1" className={classes.listItem}>{item}</Typography>
+					))}
+				</ul>
+			</div>
 		</Fragment>
 	)
 }
