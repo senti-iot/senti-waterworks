@@ -375,7 +375,6 @@ class d3Line {
 
 	generateLines = () => {
 		// let period = this.props.period
-		console.log(this.props.data)
 		let data = this.props.data[this.props.id]
 		// data.forEach(d => {
 		// 	d.data = d.data.filter(f => moment(f.date).diff(period.from) >= 0)

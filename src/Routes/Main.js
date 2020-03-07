@@ -25,7 +25,6 @@ function Main() {
 
 	const colorTheme = useSelector(s => s.settings.colorTheme)
 	const themeType = useSelector(s => s.settings.theme)
-	console.log(themes[colorTheme])
 	return (
 
 

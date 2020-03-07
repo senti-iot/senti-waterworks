@@ -26,7 +26,8 @@ export const MainChart = React.memo((props) => {
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const isAdmin = useSelector(s => s.auth.isAdmin)
-
+	const data = useSelector(s => s.data.deviceData)
+	console.log(data)
 	//State
 	const [openExport, setOpenExport] = useState(false)
 	//Const
@@ -54,14 +55,16 @@ export const MainChart = React.memo((props) => {
 						<ItemG xs={3}>
 							<ChartsButton onClick={handleSetChart('waterusage')} isActive={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
 						</ItemG>
-						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('temperature')} isActive={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
-						</ItemG>
+						{data ? data.temperature ?
+							<ItemG xs={3}>
+								<ChartsButton onClick={handleSetChart('temperature')} isActive={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
+							</ItemG> : null : null
+						}
 						<ItemG xs={3}>
 							<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
 						</ItemG>
 						<ItemG xs={3}>
-							<ChartsButton disabled={isAdmin ? selectedDevices.length < 11 : undefined} onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+							<ChartsButton onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
 						</ItemG>
 					</ItemG>
 				</ChartsButtonContainer>

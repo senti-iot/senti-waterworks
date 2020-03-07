@@ -85,7 +85,17 @@ const Onboarding = props => {
 			userName: email,
 			password: pass,
 			image: "",
-			aux: {},
+			aux: {
+				sentiWaterworks: {
+					extendedProfile: {
+						address: address,
+						city: city,
+						postnr: postnr,
+						noOfChildren: noOfChildren,
+						noOfAdults: noOfAdults
+					}
+				}
+			},
 			internal: {
 				sentiWaterworks: {
 					settings: {
@@ -98,13 +108,6 @@ const Onboarding = props => {
 						cookies: false,
 						snackbarLocation: 'left',
 						hoverTime: 1000,
-					},
-					extendedProfile: {
-						address: address,
-						city: city,
-						postnr: postnr,
-						noOfChildren: noOfChildren,
-						noOfAdults: noOfAdults
 					}
 				}
 			},

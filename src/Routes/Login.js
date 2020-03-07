@@ -19,7 +19,6 @@ import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, Foot
 import LoginImages from 'Components/Custom/Login/NewLoginImages'
 import { ThemeProvider } from '@material-ui/styles'
 import { loginTheme } from 'Styles/themes'
-// import { setAccessLevel } from 'Redux/auth'
 
 
 function Login() {
@@ -83,13 +82,13 @@ function Login() {
 	const handleLoginUser = async () => {
 		await loginUser(user, pass, orgId).then(async rs => {
 			if (rs) {
+				console.log('LoginUser', rs)
 				let exp = moment().add('1', 'day')
 				console.log(rs)
 				cookie.save('SESSION', rs, { path: '/', expires: exp.toDate() })
 				if (setToken()) {
 					console.log(cookie.load('SESSION'))
 					await redux.getSettings()
-					// dispatch(setAccessLevel({ id: 0, name: 'Admin', priority: 10 }))
 					var prevURL = location.state ? location.state.prevURL : null
 					if ("isAdmin") {
 						history.push('/admin')

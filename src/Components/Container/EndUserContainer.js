@@ -10,7 +10,7 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import Usage from 'Components/Custom/Pavel/Usage'
 import PriceChart from 'Components/Custom/Pavel/PriceChart'
-import { getData } from 'Redux/data'
+import { getData, getNData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
@@ -62,9 +62,11 @@ const EndUserContainer = () => {
 
 	useEffect(() => {
 		if (loading) {
-			const getDeviceData = async () => dispatch(await getData())
+			// const getDeviceData = async () => dispatch(await getData())
+			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
-				await getDeviceData()
+				// await getDeviceData()
+				await getNewData()
 				setLoading(false)
 			}
 			loadData()

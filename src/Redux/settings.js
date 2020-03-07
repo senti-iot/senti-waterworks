@@ -4,6 +4,7 @@ import cookie from 'react-cookies'
 import { saveSettings, getValidSession, getAuthUser, saveInternal } from 'data/login'
 // import { setDates } from './dateTime';
 import { setPrefix, set } from 'data/storage'
+import { setAccessLevel } from 'Redux/auth'
 // import { getAllData } from './data';
 // import { setDashboards } from './dsSystem';
 require("moment/min/locales.min")
@@ -125,6 +126,7 @@ export const getSettings = async () => {
 			}
 			userId = sessionCookie.uuid
 			user = userId !== 0 ? await getAuthUser(userId) : null
+			dispatch(setAccessLevel(user.role))
 		}
 
 

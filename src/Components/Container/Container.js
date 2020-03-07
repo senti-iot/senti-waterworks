@@ -9,7 +9,7 @@ import cookie from 'react-cookies'
 import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { CircularLoader } from 'Components'
-import { getAllDevices } from 'Redux/data'
+// import { getAllDevices } from 'Redux/data'
 import ChartContainer from 'Components/Container/ChartContainer'
 import EndUserContainer from 'Components/Container/EndUserContainer'
 import MyProfile from 'Components/Custom/MyProfile/MyProfile'
@@ -23,10 +23,10 @@ function Container(props) {
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())
-		const getDevices = async () => dispatch(await getAllDevices())
+		// const getDevices = async () => dispatch(await getAllDevices())
 		const loadSettings = async () => {
 			await getSetting()
-			await getDevices()
+			// await getDevices()
 			setLoading(false)
 		}
 		loadSettings()

@@ -10,7 +10,7 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import DevicesWidget from 'Components/Custom/Devices/DevicesWidget'
 import DeviceTableWidget from 'Components/Custom/DevicesTable/DeviceTableWidget'
-import { getData } from 'Redux/data'
+import { getData, getNData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles } from '@material-ui/core'
 import { Redirect } from 'react-router'
@@ -62,8 +62,10 @@ const ChartContainer = () => {
 	useEffect(() => {
 		if (loading) {
 			const getDeviceData = async () => dispatch(await getData())
+			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
 				await getDeviceData()
+				await getNewData
 				setLoading(false)
 			}
 			loadData()

@@ -1,5 +1,5 @@
 import { handleRequestSort } from 'data/functions'
-import { getDevices, getDevicesData, getWaterUsage, /* getDevicesData */ } from 'data/devices'
+import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, /* getDevicesData */ } from 'data/devices'
 import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData } from 'data/model'
 import moment from 'moment'
 import { colors } from 'variables/colors'
@@ -28,14 +28,7 @@ export const sortData = (key, property, order) => {
 
 	}
 }
-// let fakeDevice = {
-// 	nId: 0,
-// 	address: "fakestreet",
-// 	guid: "56970DF",
-// 	id: "348580",
-// 	type: "fakeDevice",
-// 	active: true
-// }
+
 export const getAllDevices = async () => {
 	return async (dispatch) => {
 		let devices = await getDevices()
@@ -48,6 +41,112 @@ export const getAllDevices = async () => {
 			// payload: devices ? devices.map(d => d.id) : []
 			payload: devices.length > 0 ? [devices[0].id, devices[1].id, devices[2].id] : []
 		})
+	}
+}
+export const getNData = async () => {
+	return async (dispatch, getState) => {
+		let orgId = getState().settings.user.org.uuid
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone().endOf('day')
+		let fromM1 = from.clone().subtract(1, 'day')
+		let subtr = moment(to).diff(moment(from), 'day')
+		let prevFrom = moment(from).subtract(1, 'day').subtract(subtr, 'day')
+
+		let prevTo = moment(from)
+		if (moment().diff(moment(to), 'day') === 0) {
+			prevTo = moment(fromM1)
+		}
+		let currentPeriodData = {},
+			previousPeriodData = {}
+		let finalData = {
+			waterusage: [],
+			temperature: [],
+			waterflow: [],
+			readings: []
+		}
+		let waterUsageData = await getWaterUsage(from, to)
+		waterUsageData = waterUsageData.filter(d => d.did === waterUsageData[0].did)
+		let waterUsagePrevData = await getWaterUsage(prevFrom, prevTo)
+		waterUsagePrevData = waterUsagePrevData.filter(d => d.did === waterUsagePrevData[0].did)
+		let readingsData = await getReadingUsage(prevFrom, to)
+		readingsData = readingsData.filter(d => d.uuid === readingsData[0].uuid)
+
+		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
+		//#region WaterUsage
+		if (waterUsageData.length > 0) {
+
+			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
+			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: d.averageFlowPerDay, date: moment(d.t).add(subtr, 'day') }))
+
+		}
+		if (benchmarkData.length > 0) {
+			// let prevB = benchmarkData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
+			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: d.averageFlowPerDay, date: d.d }))
+
+			// previousPeriodData = {
+			// 	benchmark: prevB.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
+			// }
+		}
+		//#endregion
+		//#region Readings
+		if (readingsData) {
+			let currentRD = readingsData.filter(f => moment(f.t) >= fromM1 && moment(f.t) <= to)
+			let prevRD = readingsData.filter(f => moment(f.t) >= prevFrom && moment(f.t) <= prevTo)
+			currentPeriodData.readings = currentRD.map(d => ({ value: d.val, date: d.t }))
+			previousPeriodData.readings = prevRD.map(d => ({ value: d.val, date: moment(d.d).add(subtr, 'day') }))
+
+		}
+		//#endregion
+		//#region temperature
+		//#endregion
+		//#region waterFlow
+		//#endregion
+		//#region Final Data Creation
+		if (currentPeriodData.waterusage) {
+			finalData.waterusage.push({
+				name: 'waterusageL',
+				median: true,
+				data: currentPeriodData.waterusage,
+				color: 'orange'
+			})
+		}
+		if (previousPeriodData.waterusage) {
+			finalData.waterusage.push({
+				name: 'waterusageP',
+				prev: true,
+				hidden: true,
+				noMedianLegend: true,
+				median: true,
+				data: previousPeriodData.waterusage
+			})
+		}
+		if (currentPeriodData.benchmark) {
+			finalData.waterusage.push({
+				name: 'benchmark',
+				hidden: true,
+				noArea: true,
+				dashed: true,
+				data: currentPeriodData.benchmark,
+				color: 'yellow'
+			})
+
+		}
+		if (currentPeriodData.readings) {
+			finalData.readings.push({
+				name: 'readings',
+				color: 'yellow',
+				noArea: true,
+				data: currentPeriodData.readings
+			})
+		}
+
+		dispatch({
+			type: deviceData,
+			payload: finalData
+		})
+
+		//#endregion
+
 	}
 }
 export const getData = async () => {
@@ -92,21 +191,7 @@ export const getData = async () => {
 		 */
 		// let completeRawData = await getDevicesData(prevFrom, to)
 		let completeRawData = []
-		let waterUsageData = await getWaterUsage(prevFrom, to)
-		console.log('newData', waterUsageData)
-		//#region WaterUsage
-		if (waterUsageData) {
-			let currentWUD = waterUsageData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
-			let prevWUD = waterUsageData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
-			currentPeriodData = {
-				waterUsage: currentWUD.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
-			}
-			previousPeriodData = {
 
-			}
-			console.log(currentPeriodData)
-		}
-		//#endregion
 		if (completeRawData) {
 
 			rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
@@ -158,7 +243,6 @@ export const getData = async () => {
 
 			middleData = genArcData(rawArcData, filterDevices)
 			prevMiddleData = genArcData(prevRawArcData, filterDevices)
-			console.log(currentPeriodData)
 			finalData = {
 				waterusage: [
 					{

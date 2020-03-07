@@ -11,10 +11,17 @@ const initialState = {
 	isAdmin: 0
 }
 const checkIsAdmin = (role) => {
+	let isAdmin = 0
+	if (role.priority <= 100) {
+		isAdmin = 1
+	}
+	else {
+		isAdmin = 0
+	}
+	return isAdmin
 	/**
 	 * TODO: Check if it is an admin
 	 */
-	return 1
 }
 // const setState = (key, payload, state) => Object.assign({}, state, { [key]: payload })
 
@@ -24,7 +31,7 @@ export const auth = (state = initialState, { type, payload }) => {
 		case sAL:
 			return Object.assign({}, state, {
 				role: payload.role,
-				isAdmin: checkIsAdmin(payload.role)
+				isAdmin: checkIsAdmin(payload)
 			})
 
 		default:

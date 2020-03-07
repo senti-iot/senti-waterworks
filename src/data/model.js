@@ -151,9 +151,10 @@ export const genWR = (deviceData, filter, prev, diff) => {
 
 const sumUpData = (data) => {
 	let total = 0
-	Object.keys(data).forEach(d => {
-		total = total + data[d].value
-	})
+	if (data)
+		Object.keys(data).forEach(d => {
+			total = total + data[d].value
+		})
 	return parseFloat(total.toFixed(3))
 
 }
@@ -172,7 +173,7 @@ export const genArcData = (deviceData) => {
 
 
 //#region Bar Graph
-const getValues = arr => arr.map(a => a.value)
+const getValues = arr => arr ? arr.map(a => a.value) : []
 export const genBarData = (currentData, prevData) => {
 	let waterusage = []
 
