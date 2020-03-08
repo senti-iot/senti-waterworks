@@ -37,7 +37,7 @@ const styles = makeStyles(theme => ({
 		alignItems: "center",
 		flexFlow: "column",
 		margin: '15px 150px',
-		[theme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('lg')]: {
 			margin: "15px 0px"
 		}
 	},
@@ -46,10 +46,10 @@ const styles = makeStyles(theme => ({
 	},
 	message: {
 		color: '#fff',
-		padding: 25,
+		// padding: 25,
 		paddingTop: 0,
 		maxWidth: 615,
-		marginBottom: 30,
+		// marginBottom: 30,
 		whiteSpace: "nowrap"
 	},
 	overcomplicatedButtonTextLight: {
@@ -66,6 +66,9 @@ const styles = makeStyles(theme => ({
 	},
 	img: {
 		height: 650,
+		[theme.breakpoints.down('lg')]: {
+			height: 550
+		},
 		[theme.breakpoints.down('md')]: {
 			height: 450
 		}
@@ -74,7 +77,10 @@ const styles = makeStyles(theme => ({
 		height: 75,
 		margin: 50,
 		marginTop: 100,
-		marginBottom: 0
+		marginBottom: 0,
+		[theme.breakpoints.down('lg')]: {
+			marginTop: 50
+		}
 	}
 }))
 
