@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: 32
 	},
 	descriptionBox: {
+		color: '#fff',
 		width: '50%',
 		flex: 1,
 		display: 'flex',

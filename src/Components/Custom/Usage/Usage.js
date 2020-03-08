@@ -140,20 +140,21 @@ const Usage = props => {
 				{/* fullscreen dialog content */}
 				{/* the styling is very temporary and kinda f-ed up for whatever reason */}
 				{/* I've found that I can somewhat fix it with 'flex: 1' */}
-				<GridContainer style={{ height: '100%' }}>
+				{/* <GridContainer style={{ height: '100%' }}>
 
 					<DPaper style={{ background: '#3799F1' }}>
 						<FullscreenDialog closeDialog={setFsDialogOpen} />
 					</DPaper>
-				</GridContainer>
-				{/* <Paper className={classes.fullscreenDialog}>
+				</GridContainer> */}
+				<Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
 						<ItemG xs={12} md={9} style={{ height: '100% + 16px' }}>
 							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
+								<FullscreenDialog closeDialog={setFsDialogOpen} />
 							</BPaper>
 						</ItemG>
 					</GridContainer>
-				</Paper> */}
+				</Paper>
 			</Dialog>
 		</Grid >
 	)
