@@ -4,11 +4,12 @@ import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@materi
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
-import { CallMade } from '../../../variables/icons'
-import familyIcon from './familie.svg'
-import waterdrop from './water.drop.blue.svg'
+import { CallMade } from 'variables/icons'
+import familyIcon from 'assets/icons/familie.svg'
+import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
 import FullscreenDialog from './FullscreenDialog'
+import { DPaper } from 'Components/Custom/Styles/deviceTableStyles'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -139,15 +140,20 @@ const Usage = props => {
 				{/* fullscreen dialog content */}
 				{/* the styling is very temporary and kinda f-ed up for whatever reason */}
 				{/* I've found that I can somewhat fix it with 'flex: 1' */}
-				<Paper className={classes.fullscreenDialog}>
+				<GridContainer style={{ height: '100%' }}>
+
+					<DPaper style={{ background: '#3799F1' }}>
+						<FullscreenDialog closeDialog={setFsDialogOpen} />
+					</DPaper>
+				</GridContainer>
+				{/* <Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
 						<ItemG xs={12} md={9} style={{ height: '100% + 16px' }}>
 							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
-								<FullscreenDialog closeDialog={setFsDialogOpen} />
 							</BPaper>
 						</ItemG>
 					</GridContainer>
-				</Paper>
+				</Paper> */}
 			</Dialog>
 		</Grid >
 	)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
-import familyIcon from './familie.svg'
-import waterDrop from './water.drop.blue.svg'
+import familyIcon from 'assets/icons/familie.svg'
+import waterDrop from 'assets/icons/water.drop.blue.svg'
 
 const useStyles = makeStyles(theme => ({
 	container: {

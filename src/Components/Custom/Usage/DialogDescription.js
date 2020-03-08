@@ -72,7 +72,7 @@ const DialogDescription = props => {
 				</div>
 				<div className={classes.imageBox}>
 					{/* edit CSS for the image if necessary */}
-					<img src={require(`./${content.imgSrc}`)} alt="" style={{ maxWidth: '100%', height: "auto" }} />
+					<img src={content.imgSrc} alt="" style={{ maxWidth: '100%', height: "auto" }} />
 				</div>
 			</div>
 

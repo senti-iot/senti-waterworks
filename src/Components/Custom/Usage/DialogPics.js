@@ -1,6 +1,10 @@
 import React from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
-
+import Toilet from "assets/icons/toilet.svg"
+import Bathroom from "assets/icons/bath.svg"
+import Dishwasher from "assets/icons/dishwasher.svg"
+import WashingMachine from "assets/icons/washmachine.svg"
+import { useLocalization } from 'Hooks'
 const useStyles = makeStyles(theme => ({
 	container: {
 		background: 'transparent',
@@ -13,7 +17,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	textBox: {
 		textAlign: 'center',
-		color: '#fff'
+		color: '#fff',
+		marginBottom: 16,
+		fontWeight: 500
 	},
 	flex: {
 		// margin: '32px 0',
@@ -43,26 +49,44 @@ const useStyles = makeStyles(theme => ({
 		height: 'auto',
 		maxWidth: 150,
 		maxHeight: 120
+	},
+	groupLabel: {
+		color: '#fff',
+		marginTop: 8
 	}
 }))
 
 const DialogPics = props => {
+	//Hooks
+	const t = useLocalization()
+	//Redux
+
+	//State
+
+	//Const
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 	const picsAndText = [
 		{
-			imgSrc: 'toilet.svg',
-			text: 'Toilet'
+			imgSrc: Toilet,
+			text: t('groups.toilet')
 		},
 		{
-			imgSrc: 'bath.svg',
-			text: 'Bad'
+			imgSrc: Bathroom,
+			text: t('groups.bathroom')
 		},
 		{
-			imgSrc: 'washmachine.svg',
-			text: 'Tøjvask'
+			imgSrc: WashingMachine,
+			text: t('groups.washmachine')
 		},
 		{
-			imgSrc: 'dishwasher.svg',
-			text: 'Opvask'
+			imgSrc: Dishwasher,
+			text: t('groups.dishwasher')
 		}
 	]
 
@@ -70,9 +94,9 @@ const DialogPics = props => {
 
 	return (
 		<div className={classes.container}>
-			<Typography variant="h4" className={classes.textBox}
-				style={{ marginBottom: 16, fontWeight: 'bolder' }}
-			>Sådan kan du spare vand</Typography>
+			<Typography variant="h4" className={classes.textBox} style={{}}>
+				{t('tipsAndTricks.title')}
+			</Typography>
 
 			<div className={classes.flex}>
 				{picsAndText.map(({ imgSrc, text }, index) => (
@@ -80,8 +104,8 @@ const DialogPics = props => {
 						props.setDescriptionOpen(true)
 						props.setChosenDescription(index)
 					}}>
-						<img src={require(`./${imgSrc}`)} alt="" className={classes.img} />
-						<Typography variant="h6" style={{ color: '#fff', marginTop: 8 }}>{text}</Typography>
+						<img src={imgSrc} alt="" className={classes.img} />
+						<Typography variant="h6" className={classes.groupLabel}>{text}</Typography>
 					</div>
 				))}
 			</div>

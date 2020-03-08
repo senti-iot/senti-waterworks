@@ -1,0 +1,11 @@
+{
+	"tipsAndTricks": {
+		"title": "Sådan kan du spare vand"
+	},
+	"groups": {
+		"toilet": "Toilet",
+		"bathroom": "Bad",
+		"washmachine": "Tøjvask",
+		"dishwasher": "Opvask"
+	}
+}
