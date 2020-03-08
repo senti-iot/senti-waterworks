@@ -32,7 +32,6 @@ export const getWaterUsage = async (from, to) => {
 	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
 	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
 	let response = await servicesAPI.get(`/v2/waterworks/data/usage/${startDate}/${endDate}`)
-	console.log(response)
 	return response.data
 }
 
@@ -44,7 +43,6 @@ export const getReadingUsage = async (from, to) => {
 	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
 	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
 	let response = await servicesAPI.get(`/v2/waterworks/data/volume/${startDate}/${endDate}`)
-	console.log(response.ok, response.status, response.data)
 	return response.data
 }
 /**
@@ -57,7 +55,6 @@ export const getBenchmarkUsage = async (orgUuid, from, to) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
 	let response = await servicesAPI.get(`/v2/waterworks/data/benchmark/${orgUuid}/${startDate}/${endDate}`)
-	console.log(response.ok, response.status, response.data)
 	return response.data
 
 }

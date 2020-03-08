@@ -66,7 +66,6 @@ const Warning = (props) => {
 				break
 		}
 	}
-	console.log(open)
 	return (
 		<Collapse in={open}>
 			<Fade in={open}>

@@ -37,6 +37,7 @@ const PriceChart = props => {
 	const classes = useStyles()
 
 	const handleClick = () => {
+		//TODO
 		console.log('arrow clicked')
 	}
 

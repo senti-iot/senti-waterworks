@@ -178,13 +178,14 @@ export const genBarData = (currentData, prevData) => {
 	let waterusage = []
 
 	//#region WaterUsage/Reading
-	let values = getValues(currentData.waterUsage)
+	let values = getValues(currentData.waterusage)
+	console.log('Got Values', currentData, values)
 	/**
 	 * Min WaterUsage
 	 */
 	let minUsage = {}
 	minUsage.className = 'waterUsageA'
-	minUsage.value = values.reduce((min, p) => p < min ? p : min, values[0])
+	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0])).toFixed(3)
 	minUsage.unit = 'm³'
 	minUsage.type = 'chartTable.waterusage.line1'
 	waterusage.push(minUsage)
@@ -193,7 +194,7 @@ export const genBarData = (currentData, prevData) => {
 	 */
 	let maxUsage = {}
 	maxUsage.className = 'waterUsageB'
-	maxUsage.value = values.reduce((max, p) => p > max ? p : max, values[0])
+	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0])).toFixed(3)
 	maxUsage.unit = 'm³'
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)
@@ -217,6 +218,59 @@ export const genBarData = (currentData, prevData) => {
 	waterusage.push(perPerson)
 	//#endregion
 
+	return {
+		waterusage: waterusage,
+		readings: waterusage,
+		temperature: [],
+		waterflow: []
+	}
+
+}
+export const genNBarData = (waterusageData, benchmarkData, noOfAdults = 1, noOfChildren = 0) => {
+	let waterusage = []
+	console.log(waterusageData, benchmarkData)
+	//#region WaterUsage/Reading
+	let values = getValues(waterusageData)
+	let benchmarkValues = getValues(benchmarkData)
+	console.log('Got Values', waterusageData, values)
+	/**
+	 * Min WaterUsage
+	 */
+	let minUsage = {}
+	minUsage.className = 'waterUsageA'
+	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0])).toFixed(3)
+	minUsage.unit = 'm³'
+	minUsage.type = 'chartTable.waterusage.line1'
+	waterusage.push(minUsage)
+	/**
+	 *  Max WaterUsage
+	 */
+	let maxUsage = {}
+	maxUsage.className = 'waterUsageB'
+	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0])).toFixed(3)
+	maxUsage.unit = 'm³'
+	maxUsage.type = 'chartTable.waterusage.line2'
+	waterusage.push(maxUsage)
+	/**
+	 * Average
+	 */
+	let average = {}
+	average.className = 'waterUsageC'
+	average.value = parseFloat((benchmarkValues.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	average.unit = 'm³'
+	average.type = 'chartTable.waterusage.line3'
+	console.log('average', average)
+	waterusage.push(average)
+	/**
+	 * Usage Per person
+	 */
+	let perPerson = {}
+	perPerson.className = 'waterUsageD'
+	perPerson.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	perPerson.unit = 'm³'
+	perPerson.type = 'chartTable.waterusage.line4'
+	waterusage.push(perPerson)
+	//#endregion
 	return {
 		waterusage: waterusage,
 		readings: waterusage,

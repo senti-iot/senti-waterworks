@@ -15,8 +15,8 @@ function formatNumber(num) {
 const ArcGraph = (props) => {
 	const arcChartContainer = useRef(null)
 	const t = useLocalization()
-	const arcData = useSelector(s => s.data.middleChartData.current['waterusage'])
-	const arcPrevData = useSelector(s => s.data.middleChartData.previous['waterusage'])
+	const arcData = useSelector(s => s.data.middleChartData.current)
+	const arcPrevData = useSelector(s => s.data.middleChartData.previous)
 	const period = useSelector(s => s.dateTime.period)
 	// const [arcData, setArcData] = useState(generateArcData())
 

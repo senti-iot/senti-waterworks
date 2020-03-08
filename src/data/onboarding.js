@@ -17,6 +17,5 @@ export const getOnboardingData = async (orgIdent, installationId, deviceIdent) =
  */
 export const createOnboardingUser = async (user, authUUID) => {
 	let data = await waterworksAPI.post(`/onboarding/user/${authUUID}`, user).then(rs => rs)
-	console.log(data)
 	return data
 }

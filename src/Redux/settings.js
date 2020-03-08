@@ -98,10 +98,8 @@ export const saveSettingsOnServ = () => {
 			snackbarLocation: s.snackbarLocation,
 			hoverTime: s.hoverTime,
 		}
-		console.log(user)
 		user.internal.sentiWaterworks.settings = settings
 		var saved = await saveInternal(user.internal, user.uuid)
-		console.log(saved)
 		dispatch({
 			type: SAVESETTINGS,
 			saved: saved ? true : false
@@ -114,14 +112,12 @@ export const getSettings = async () => {
 		var userId, user
 		if (sessionCookie) {
 			let vSession = await getValidSession()
-			console.log(vSession)
 			if (vSession.status === 200) {
 				// let exp = moment().add('1', 'day')
 				cookie.save('SESSION', sessionCookie, { path: '/', expires: moment(vSession.data.expires).toDate() })
 				setPrefix(sessionCookie.uuid)
 			}
 			else {
-				console.log('Deleted')
 				return cookie.remove('SESSION')
 			}
 			userId = sessionCookie.uuid

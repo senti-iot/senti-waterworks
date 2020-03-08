@@ -50,7 +50,6 @@ const LineGraph = React.memo((props) => {
 				period: period,
 				t: t
 			}
-			console.log(deviceData)
 			line = new d3Line(lineChartContainer.current, cProps, classes)
 
 		}

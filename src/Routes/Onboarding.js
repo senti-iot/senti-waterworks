@@ -75,6 +75,7 @@ const Onboarding = props => {
 	//Const
 
 	//useCallbacks
+
 	const handleCreateUser = useCallback(async () => {
 
 		let user = {
@@ -120,8 +121,10 @@ const Onboarding = props => {
 			state: 4
 		}
 		let result = await createOnboardingUser(user, authUUID)
-		console.log(result)
-	}, [address, authUUID, city, email, firstName, lastName, noOfAdults, noOfChildren, org, pass, phone, postnr, role])
+		if (result) {
+			history.push(`/signup/${params.language}/done`)
+		}
+	}, [address, authUUID, city, email, firstName, history, lastName, noOfAdults, noOfChildren, org, params.language, pass, phone, postnr, role])
 
 	const handleNextStep = useCallback(async () => {
 		let step = params.step
@@ -158,6 +161,7 @@ const Onboarding = props => {
 			}
 		}
 	}, [confirmPass, deviceIdent, error, handleCreateUser, history, installationId, orgIdent, params, pass])
+
 	const handleKeyPress = useCallback((event) => {
 		if (event.key === 'Enter') {
 			handleNextStep()
