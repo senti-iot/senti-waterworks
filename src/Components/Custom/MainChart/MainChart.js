@@ -27,6 +27,7 @@ export const MainChart = React.memo((props) => {
 	// const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
 	const data = useSelector(s => s.data.deviceData)
+	console.log(data)
 	//State
 	const [openExport, setOpenExport] = useState(false)
 	//Const
@@ -50,18 +51,19 @@ export const MainChart = React.memo((props) => {
 		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
 				<ChartsButtonContainer>
-					<ItemG container justify={'space-evenly'}>
+					<ItemG container /* justify={'space-evenly'} */>
 						<ItemG xs={3}>
 							<ChartsButton onClick={handleSetChart('waterusage')} isActive={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
 						</ItemG>
-						{data ? data.temperature ?
+						{data ? data.temperature.length > 0 ?
 							<ItemG xs={3}>
 								<ChartsButton onClick={handleSetChart('temperature')} isActive={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
 							</ItemG> : null : null
 						}
-						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
-						</ItemG>
+						{data ? data.waterflow.length > 0 ?
+							<ItemG xs={3}>
+								<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
+							</ItemG> : null : null}
 						<ItemG xs={3}>
 							<ChartsButton onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
 						</ItemG>
