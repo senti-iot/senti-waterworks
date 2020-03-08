@@ -26,10 +26,18 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: 8,
 		color: '#6DD400',
 		fontSize: 26,
+
 		// textDecoration: 'underline #fff',
 		// paddingBottom: 2,
 		borderBottom: '2px solid #fff',
 		// textDecorationStyle: 'solid'
+	},
+	title: {
+		margin: '8px 0 16px 0',
+		fontWeight: 500,
+		[theme.breakpoints.down('lg')]: {
+			margin: '8px 0px 8px 0px'
+		}
 	}
 }))
 
@@ -44,13 +52,13 @@ const PriceChart = props => {
 	return (
 		<Fragment>
 			<div className={classes.flex}>
-				<Typography variant="h5" style={{ margin: '8px 0 16px 0', fontWeight: 'bolder' }}>Afregning</Typography>
+				<Typography variant="h5" style={{}}>Afregning</Typography>
 				<ChevronRight className={classes.chevronRight} onClick={handleClick} />
 			</div>
-			<Typography variant="body1" className={classes.body1}>Vand: Kr. 78,00</Typography>
+			<Typography variant="body1" gutterBottom={false} className={classes.body1}>Vand: Kr. 78,00</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
-				<Typography variant="body1" className={classes.body1}>Spildevand: Kr. 234,00</Typography>
-				<Typography variant="body1" className={classes.body1}>
+				<Typography variant="body1" gutterBottom={false} className={classes.body1}>Spildevand: Kr. 234,00</Typography>
+				<Typography variant="body1" gutterBottom={false} className={classes.body1}>
 					Total:
           <span className={classes.priceTag}>
 						Kr. 312,00

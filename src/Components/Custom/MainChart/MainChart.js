@@ -73,10 +73,10 @@ export const MainChart = React.memo((props) => {
 					<ItemG xs={3} md={3} lg={3} >
 						<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
 					</ItemG>
-					<ItemG xs={7} md={7} lg={5}>
+					<ItemG xs={7} md={5} lg={4}>
 						<DateTimeArrows />
 					</ItemG>
-					<ItemG xs={2} md={2} lg={4} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
+					<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
 						<Hidden mdDown>
 
 							<DateTimeDays />

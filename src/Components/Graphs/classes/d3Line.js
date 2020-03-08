@@ -57,7 +57,7 @@ class d3Line {
 		this.containerEl = containerEl
 		this.props = props
 		this.period = props.period
-		this.margin = { top: 50, right: 50, bottom: 50, left: 50 }
+		this.margin = { top: 0, right: 50, bottom: 50, left: 50 }
 		let data = props.data ? props.data[props.id] : []
 		//Get the height and width from the container
 		this.height = containerEl.clientHeight
@@ -133,12 +133,12 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.top, this.margin.bottom])
+			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 5])
 			this.y.domain([getMin(allData), getMax(allData)])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
-			.attr('transform', `translate(${this.margin.top + 40}, 0)`)
+			.attr('transform', `translate(${this.margin.left + 40}, 0)`)
 			.call(d3.axisLeft(this.y))
 
 		yAxis.selectAll('path').attr('class', classes.axis)

@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 	textBox: {
 		textAlign: 'center',
 		color: '#fff',
-		marginBottom: 16,
+		// marginBottom: 16,
 		fontWeight: 500
 	},
 	flex: {

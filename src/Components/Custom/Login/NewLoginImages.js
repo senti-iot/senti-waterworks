@@ -38,7 +38,7 @@ const styles = makeStyles(theme => ({
 		flexFlow: "column",
 		margin: '15px 150px',
 		[theme.breakpoints.down('lg')]: {
-			margin: "15px 0px"
+			margin: "0px 0px"
 		}
 	},
 	bold: {
@@ -67,7 +67,7 @@ const styles = makeStyles(theme => ({
 	img: {
 		height: 650,
 		[theme.breakpoints.down('lg')]: {
-			height: 550
+			height: 500
 		},
 		[theme.breakpoints.down('md')]: {
 			height: 450
@@ -79,7 +79,7 @@ const styles = makeStyles(theme => ({
 		marginTop: 100,
 		marginBottom: 0,
 		[theme.breakpoints.down('lg')]: {
-			marginTop: 50
+			marginTop: 30
 		}
 	}
 }))

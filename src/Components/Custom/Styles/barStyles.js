@@ -13,8 +13,8 @@ const useBarStyles = makeStyles(theme => ({
 	},
 	textLabel: {
 		fill: '#fff',
-		fontWeight: 500,
-		fontSize: 14
+		// fontWeight: 500,
+		fontSize: 12
 	},
 	xAxisPath: {
 		rx: 8,

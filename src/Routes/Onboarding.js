@@ -4,7 +4,7 @@ import cookie from 'react-cookies'
 
 // Components
 import { ItemG, CookiesDialog, PrivacyDialog, CircularLoader, Warning } from 'Components'
-import { Hidden } from '@material-ui/core'
+import { Hidden, Divider } from '@material-ui/core'
 import { useDispatch, useHistory, useLocation, useLocalization, useEventListener } from 'Hooks'
 
 // Data & Redux
@@ -346,10 +346,11 @@ const Onboarding = props => {
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
 								<Warning open={Boolean(error)} type={'error'} label={t(error)} />
-								{loading ? <CircularLoader fill /> : renderStep()}
+								{loading ? <CircularLoader /> : renderStep()}
 							</InputContainer>
+							<Divider style={{ width: '100%' }} />
 							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
-								<FooterText>
+								<FooterText style={{ flex: 1 }}>
 									{`${t('login.footer')} `}
 									<MutedButton onClick={handlePrivacy}>{t('settings.t&c.privacyPolicy')}</MutedButton>
 									<MutedButton onClick={handleCookies}>{t('settings.t&c.cookiesPolicy')}</MutedButton>

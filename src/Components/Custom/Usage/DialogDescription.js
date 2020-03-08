@@ -37,7 +37,10 @@ const useStyles = makeStyles(theme => ({
 		fontSize: 19,
 		marginTop: 48,
 		fontWeight: 300,
-		lineHeight: 1.25
+		lineHeight: 1.25,
+		[theme.breakpoints.down('lg')]: {
+			marginTop: 16
+		}
 	}
 }))
 

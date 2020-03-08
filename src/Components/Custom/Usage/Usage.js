@@ -9,12 +9,11 @@ import familyIcon from 'assets/icons/familie.svg'
 import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
 import FullscreenDialog from './FullscreenDialog'
-import { DPaper } from 'Components/Custom/Styles/deviceTableStyles'
 
 const useStyles = makeStyles(theme => ({
 	container: {
 		position: 'relative',
-		padding: '8px 0',
+		padding: '0px 0',
 		height: '100%'
 	},
 	callMade: {
@@ -43,11 +42,14 @@ const useStyles = makeStyles(theme => ({
 	},
 	cubicValue: {
 		fontSize: 42,
-		marginTop: 16
+		marginTop: 16,
+		[theme.breakpoints.down('lg')]: {
+			fontSize: 30
+		}
 	},
 	blueWaterdrop: {
 		position: 'absolute',
-		bottom: -16,
+		bottom: -4,
 		right: 16,
 		maxWidth: 30,
 		height: 'auto'
@@ -148,7 +150,7 @@ const Usage = props => {
 				</GridContainer> */}
 				<Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
-						<ItemG xs={12} md={9} style={{ height: '100% + 16px' }}>
+						<ItemG xs={12} md={9} style={{ height: '100%' }}>
 							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
 								<FullscreenDialog closeDialog={setFsDialogOpen} />
 							</BPaper>

@@ -1,6 +1,6 @@
 import React from 'react'
 import ItemG from 'Components/Containers/ItemG'
-import { NeedAccountT, LoginTF, LoginButton } from 'Styles/loginStyles'
+import { NeedAccountT, LoginTF, NextStepButton } from 'Styles/loginStyles'
 import DSelect from 'Components/Input/DSelect'
 
 const Step3 = props => {
@@ -19,7 +19,7 @@ const Step3 = props => {
 				</NeedAccountT>
 			</ItemG>
 
-			<ItemG container xs={12} style={{ marginTop: 48 }}>
+			<ItemG container xs={12}>
 				<NeedAccountT>
 					{t('signup.form.selectPassword')}:
 				</NeedAccountT>
@@ -70,9 +70,9 @@ const Step3 = props => {
 				{/* </ItemG> */}
 			</ItemG>
 			<ItemG xs={12} container justify={'center'}>
-				<LoginButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
+				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
 					{t('actions.confirm')}
-				</LoginButton>
+				</NextStepButton>
 			</ItemG>
 		</ItemG>
 	)

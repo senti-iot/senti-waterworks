@@ -1,6 +1,6 @@
 import React from 'react'
 import ItemG from 'Components/Containers/ItemG'
-import { NeedAccountT, LoginTF, LoginButton } from 'Styles/loginStyles'
+import { NeedAccountT, LoginTF, NextStepButton } from 'Styles/loginStyles'
 import { InputAdornment } from '@material-ui/core'
 import { Business } from 'variables/icons'
 
@@ -60,9 +60,9 @@ const Step1 = props => {
 				{/* </ItemG> */}
 			</ItemG>
 			<ItemG xs={12} container justify={'center'}>
-				<LoginButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
+				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
 					{t('actions.nextStep')}
-				</LoginButton>
+				</NextStepButton>
 			</ItemG>
 			<ItemG xs={12} container justify={'center'}>
 			</ItemG>

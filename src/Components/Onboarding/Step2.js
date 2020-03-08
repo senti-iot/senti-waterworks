@@ -1,6 +1,6 @@
 import React from 'react'
 import ItemG from 'Components/Containers/ItemG'
-import { NeedAccountT, LoginTF, LoginButton, AdressTF } from 'Styles/loginStyles'
+import { NeedAccountT, LoginTF, NextStepButton, AdressTF } from 'Styles/loginStyles'
 
 const Step2 = props => {
 	const { t, handleInput, firstName, city, lastName, email, phone, address, postnr, goToNextStep } = props
@@ -9,14 +9,11 @@ const Step2 = props => {
 	}
 	return (
 		<ItemG xs={12} container justify={'center'}>
-			<ItemG xs={12} container justify={'center'}>
-			</ItemG>
-
-			<ItemG container xs={12} style={{ marginTop: 48 }}>
-				<NeedAccountT style={{ width: 300 }}>
+			<ItemG container xs={12}>
+				{/* <NeedAccountT style={{ width: 300 }}>
 					{t('signup.form.dataAutoFill')}
-				</NeedAccountT>
-				<NeedAccountT style={{ width: 300 }}>
+				</NeedAccountT> */}
+				<NeedAccountT >
 					{t('signup.form.completeMissingFields')}
 				</NeedAccountT>
 				<LoginTF
@@ -51,21 +48,20 @@ const Step2 = props => {
 					onChange={handleInput}
 					value={phone}
 				/>
+				<LoginTF
+					id={'address'}
+					autoFocus
+					label={t('users.fields.address')}
+					fullWidth
+					onChange={handleInput}
+					value={address}
+				/>
 				<ItemG xs={12} container>
-					<ItemG xs={9} container>
-						<AdressTF
-							id={'address'}
-							autoFocus
-							label={t('users.fields.address')}
-							fullWidth
-							onChange={handleInput}
-							value={address}
-						/>
-					</ItemG>
+
 					<ItemG xs={3} container>
 
 						<AdressTF
-							style={{ marginLeft: 8 }}
+
 							id={'postnr'}
 							autoFocus
 							label={t('users.fields.postnr')}
@@ -73,21 +69,26 @@ const Step2 = props => {
 							value={postnr}
 						/>
 					</ItemG>
+					<ItemG xs={9} container>
+						<AdressTF
+							style={{ marginLeft: 8 }}
+							id={'city'}
+							autoFocus
+							label={t('users.fields.city')}
+							fullWidth
+							onChange={handleInput}
+							value={city}
+						/>
+					</ItemG>
 				</ItemG>
-				<LoginTF
-					id={'city'}
-					autoFocus
-					label={t('users.fields.city')}
-					fullWidth
-					onChange={handleInput}
-					value={city}
-				/>
+
+
 				{/* </ItemG> */}
 			</ItemG>
-			<ItemG xs={12} container justify={'center'} style={{ marginTop: 36 }}>
-				<LoginButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
+			<ItemG xs={12} container justify={'center'}>
+				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
 					{t('actions.nextStep')}
-				</LoginButton>
+				</NextStepButton>
 			</ItemG>
 		</ItemG>
 	)

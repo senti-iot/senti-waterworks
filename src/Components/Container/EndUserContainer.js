@@ -85,12 +85,12 @@ const EndUserContainer = () => {
 
 			</ItemG>
 			<ItemG xs={12} container style={{ height: "20%" }}>
-				<ItemG xs={6}>
+				<ItemG xs={6} style={{ height: '100%' }}>
 					<BPaper>
 						<Usage />
 					</BPaper>
 				</ItemG>
-				<ItemG xs={6}>
+				<ItemG xs={6} style={{ height: '100%' }}>
 					<BPaper>
 						<PriceChart />
 					</BPaper>

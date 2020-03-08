@@ -1299,16 +1299,19 @@
 	},
 	"signup": {
 		"error": {
-			"missingData": "Error! Vigtige data mangler, og tilmeldingsprocessen kan ikke fortsætte ...",
-			"missingDevice": "Error! Enhedsidentifikation mislykkedes...",
-			"passwordMismatch": "Error! Kodeordene er ikke ens..."
+			"missingData": "Fejl! Vigtige data mangler, og tilmeldingsprocessen kan ikke fortsætte ...",
+			"missingDevice": "Fejl! Enhedsidentifikation mislykkedes...",
+			"passwordMismatch": "Fejl! Adgangskoden er ikke identisk.",
+			"emptyName": "",
+			"emptyPassword": "",
+			"emptyEmail": ""
 		},
 		"form": {
 			"installationNrB": "Installationsnummer",
 			"deviceNr": "Måler nummer",
-			"insertDeviceNumber": "Indtast måler nummer, installationsnummer, og organisation ID for at tilslutte din vandmåler med senti.waterworks.Kender du ikke disse numre kontakt venligst dit vandværk.",
+			"insertDeviceNumber": "Indtast måler nummer, installationsnummer, og organisation ID for at tilslutte din vandmåler med senti.waterworks.  Kender du ikke disse numre kontakt venligst dit vandværk.",
 			"dataAutoFill": "Følgende stamdata er registreret for det indtastede måler nummer:",
-			"completeMissingFields": "Udfyld venligst alle nødvendige felter:",
+			"completeMissingFields": "Udfyld venligst alle nødvendige stamdata:",
 			"finishProfileTitle": "Færdiggør din brugerprofil",
 			"selectPassword": "Vælg en adgangskode til login",
 			"addPeopleCount": "Tilføj venligst husstandens antal beboere",

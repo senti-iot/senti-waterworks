@@ -37,7 +37,10 @@ const useStyles = makeStyles(theme => ({
 		marginTop: 12,
 		fontWeight: 300,
 		color: '#fff',
-		marginBottom: 32
+		marginBottom: 32,
+		[theme.breakpoints.down('lg')]: {
+			marginBottom: 8
+		}
 	},
 	descriptionBox: {
 		color: '#fff',
