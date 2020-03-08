@@ -7,10 +7,18 @@ import { SettingsIcon, BarChart, TableIcon } from 'variables/icons'
 import Dropdown from 'Components/Dropdown/Dropdown'
 import BarGraph from 'Components/Graphs/BarGraph'
 import CircularLoader from 'Components/Loaders/CircularLoader'
+import { makeStyles } from '@material-ui/styles'
+
+const useStyles = makeStyles(theme => ({
+	whiteIcon: {
+		color: '#fff'
+	}
+}))
 
 const BarsContainer = props => {
 	//Hooks
 	const t = useLocalization()
+	const classes = useStyles()
 	//Redux
 
 	//State
@@ -35,10 +43,10 @@ const BarsContainer = props => {
 	}
 	return <ItemG container style={{ height: '100%', flexFlow: 'column', }}>
 
-		<ItemG container xs={1} justify={'space-between'} alignItems={'flex-start'} style={{ maxWidth: '100%' }}>
+		<ItemG container xs={1} justify={'space-between'} alignItems={'center'} style={{ maxWidth: '100%' }}>
 			<ChartSmallTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartSmallTitle>
 			<Dropdown
-				icon={<SettingsIcon />}
+				icon={<SettingsIcon className={classes.whiteIcon} />}
 				menuItems={
 					[
 						{ icon: TableIcon, label: "Text", func: () => setChartType(0) },
