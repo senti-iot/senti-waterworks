@@ -1302,10 +1302,10 @@
 			"missingData": "Error! Important data is missing and the signup process cannot continue...",
 			"missingDevice": "Error! Device identification failed...",
 			"passwordMismatch": "Error! Passwords do not match",
-			"emptyName": "Fejl! Fornavn/Efternavn kan ikke være tom.",
-			"emptyPassword": "Fejl! Adgangskoden kan ikke være tom.",
-			"emptyEmail": "Fejl! Email kan ikke være tom.",
-			"min8char": "Adgangskoden skal være minimum 8 tegn."
+			"emptyName": "Error! First name/Last name cannot be empty.",
+			"emptyPassword": "Error! Password cannot be empty.",
+			"emptyEmail": "Error! Email cannot be empty.",
+			"passwordTooShort": "Password must have at least 8 characters."
 		},
 		"form": {
 			"installationNrB": "Installation No.",

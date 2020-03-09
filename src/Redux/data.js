@@ -69,7 +69,7 @@ export const getNData = async () => {
 		waterUsagePrevData = waterUsagePrevData.filter(d => d.did === waterUsagePrevData[0].did)
 		let readingsData = await getReadingUsage(prevFrom, to)
 		readingsData = readingsData.filter(d => d.uuid === readingsData[0].uuid)
-		let benchmarkData = await getBenchmarkUsage(orgId, from.add(1, 'day'), to)
+		let benchmarkData = await getBenchmarkUsage(orgId, from, to.add(1, 'day'))
 		//#region WaterUsage
 		if (waterUsageData.length > 0) {
 

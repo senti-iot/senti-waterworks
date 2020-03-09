@@ -19,6 +19,7 @@ import { useParams } from 'react-router'
 import Step2 from 'Components/Onboarding/Step2'
 import Step3 from 'Components/Onboarding/Step3'
 import { getOnboardingData, createOnboardingUser } from 'data/onboarding'
+import { validateEmail } from 'data/functions'
 
 
 const Onboarding = props => {
@@ -121,13 +122,17 @@ const Onboarding = props => {
 			state: 4
 		}
 		let result = await createOnboardingUser(user, authUUID)
-		if (result) {
-			history.push(`/signup/${params.language}/done`)
+		if (result.ok) {
+			return true
 		}
-	}, [address, authUUID, city, email, firstName, history, lastName, noOfAdults, noOfChildren, org, params.language, pass, phone, postnr, role])
+		else {
+			return false
+		}
+	}, [address, authUUID, city, email, firstName, lastName, noOfAdults, noOfChildren, org, pass, phone, postnr, role])
 
 	const handleNextStep = useCallback(async () => {
 		let step = params.step
+		let err = 0
 		if (step === 'step1') {
 
 			setLoading(true)
@@ -146,21 +151,59 @@ const Onboarding = props => {
 			}
 		}
 		if (step === 'step2') {
-			/**
-			 * TODO
-			 * Check that at least the name & e-mail are filled up and correct format
-			 */
-			history.push(`/signup/${params.language}/step3`)
-		}
-		if (step === 'step3') {
-			if (confirmPass !== pass) {
-				setError('signup.error.passwordMismatch')
+			switch (true) {
+				case lastName.length === 0:
+				case firstName.length === 0:
+					err = 1
+					setError('signup.error.emptyName')
+					break
+				case email.length === 0:
+					err = 1
+					setError('signup.error.emptyEmail')
+					break
+				case !validateEmail(email):
+					err = 1
+					setError('signup.error.invalidEmail')
+					break
+				default:
+					break
+			}
+			if (err) {
+				return
 			}
 			else {
-				handleCreateUser()
+				history.push(`/signup/${params.language}/step3`)
 			}
 		}
-	}, [confirmPass, deviceIdent, error, handleCreateUser, history, installationId, orgIdent, params, pass])
+		if (step === 'step3') {
+			switch (true) {
+				case confirmPass !== pass:
+					setError('signup.error.passwordMismatch')
+					err = 1
+					break
+				case pass.length < 8:
+					setError('signup.error.passwordTooShort')
+					err = 1
+					break
+				default:
+					break
+			}
+			if (err) {
+				return
+			}
+			else {
+				setError(null)
+				let result = handleCreateUser()
+				if (result) {
+					history.push(`/signup/${params.language}/done`)
+				}
+				else {
+					setError('signup.error.missingData')
+				}
+
+			}
+		}
+	}, [confirmPass, deviceIdent, email, error, firstName.length, handleCreateUser, history, installationId, lastName, orgIdent, params.language, params.step, pass])
 
 	const handleKeyPress = useCallback((event) => {
 		if (event.key === 'Enter') {
@@ -345,7 +388,7 @@ const Onboarding = props => {
 								<ItemG xs={12} container justify={'center'}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
-								<Warning open={Boolean(error)} type={'error'} label={t(error)} />
+								<Warning open={Boolean(error)} type={'error'} label={t(error, { disableMissing: true })} />
 								{loading ? <CircularLoader /> : renderStep()}
 							</InputContainer>
 							<Divider style={{ width: '100%' }} />

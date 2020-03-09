@@ -1299,12 +1299,14 @@
 	},
 	"signup": {
 		"error": {
-			"missingData": "Fejl! Vigtige data mangler, og tilmeldingsprocessen kan ikke fortsætte ...",
-			"missingDevice": "Fejl! Enhedsidentifikation mislykkedes...",
+			"missingData": "Fejl! Vigtige data mangler, og tilmeldingsprocessen kan ikke fortsætte.",
+			"missingDevice": "Fejl! Enhedsidentifikation mislykkedes.",
 			"passwordMismatch": "Fejl! Adgangskoden er ikke identisk.",
-			"emptyName": "",
-			"emptyPassword": "",
-			"emptyEmail": ""
+			"emptyName": "Fejl! Fornavn/Efternavn kan ikke være tom.",
+			"emptyPassword": "Fejl! Adgangskoden kan ikke være tom.",
+			"emptyEmail": "Fejl! Email kan ikke være tom.",
+			"invalidEmail": "Fejl! Email er ugyldig",
+			"passwordTooShort": "Adgangskoden skal være minimum 8 tegn."
 		},
 		"form": {
 			"installationNrB": "Installationsnummer",

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocalization } from 'Hooks'
+import { useLocalization, useSelector } from 'Hooks'
 import { ItemG } from 'Components'
 import T from 'Components/Typography/T'
 import { Divider } from '@material-ui/core'
@@ -17,12 +17,15 @@ const ChartTable = props => {
 	//Hooks
 	const t = useLocalization()
 	const classes = useStyles()
-	//Redux
-
-	//State
 
 	//Const
 	const { chart } = props
+
+	//Redux
+	const barsData = useSelector(s => s.data.barData[chart])
+	console.log(barsData)
+	//State
+
 	//useCallbacks
 
 	//useEffects
@@ -32,106 +35,34 @@ const ChartTable = props => {
 	//Renders
 	const renderWaterUsageTable = () => {
 		return <ItemG container>
-			<ItemG className={classes.lineMargin} container xs={12}>
-				<ItemG xs={5}>
-					<T>
-						{t('chartTable.waterusage.line1')}
+			{barsData.map(d => <>
+				<ItemG className={classes.lineMargin} container xs={12}>
+					<ItemG xs={5}>
+						<T>
+							{t(d.type)}
+						</T>
+					</ItemG>
+					<ItemG xs={5} container justify={'center'}>
+						<T>
+							{d.value}
+						</T>
+					</ItemG>
+					<ItemG container xs={2} justify={'center'}>
+						<T>
+							{d.unit}
+						</T>
+					</ItemG>
+					{/* <ItemG container xs={2} justify={'center'}>
+						<T>
+							11%
 					</T>
+					</ItemG> */}
 				</ItemG>
-				<ItemG xs={3} container justify={'center'}>
-					<T>
-						0,2
-					</T>
+				<ItemG xs={12}>
+					<Divider />
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						m3
-					</T>
-				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						11%
-					</T>
-				</ItemG>
-			</ItemG>
-			<ItemG xs={12}>
-				<Divider />
-			</ItemG>
-			<ItemG className={classes.lineMargin} xs={12} container>
-				<ItemG xs={5}>
-					<T>
-						{t('chartTable.waterusage.line2')}
-					</T>
-				</ItemG>
-				<ItemG xs={3} container justify={'center'}>
-					<T>
-						0,2
-					</T>
-				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						m3
-					</T>
-				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						11%
-					</T>
-				</ItemG>
-			</ItemG>
-			<ItemG xs={12}>
-				<Divider />
-			</ItemG>
-			<ItemG className={classes.lineMargin} xs={12} container>
-				<ItemG xs={5}>
-					<T>
-						{t('chartTable.waterusage.line3')}
-					</T>
-				</ItemG>
-				<ItemG xs={3} container justify={'center'}>
-					<T>
-						0,2
-					</T>
-				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						m3
-					</T>
-				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						11%
-					</T>
-				</ItemG>
-			</ItemG>
-			<ItemG xs={12}>
-				<Divider />
-			</ItemG>
-			<ItemG className={classes.lineMargin} xs={12} container>
-				<ItemG xs={5}>
-					<T>
-						{t('chartTable.waterusage.line4')}
-					</T>
-				</ItemG>
-				<ItemG xs={3} container justify={'center'}>
-					<T>
-						0,2
-					</T>
-				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						m3
-					</T>
-				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
-					<T>
-						11%
-					</T>
-				</ItemG>
-			</ItemG>
-			<ItemG xs={12}>
-				<Divider />
-			</ItemG>
+			</>
+			)}
 		</ItemG>
 	}
 	const renderTemperatureTable = () => {
