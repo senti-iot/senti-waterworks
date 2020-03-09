@@ -7,6 +7,11 @@ import DialogDetails from './DialogDetails'
 import DialogPics from './DialogPics'
 import DialogDescription from './DialogDescription'
 
+import toilet from 'assets/icons/toilet.svg'
+import bath from 'assets/icons/bath.svg'
+import washmachine from 'assets/icons/washmachine.svg'
+import dishwasher from 'assets/icons/dishwasher.svg'
+
 const useStyles = makeStyles(theme => ({
 	closeDialog: {
 		position: 'absolute',
@@ -26,7 +31,7 @@ const FullscreenDialog = props => {
 			subheadline: `27 procent af vandforbruget går til toiletskyl - en person
 			bruger i gennemsnit 10.841 liter vand om året på at skylle. Du kan derfor
 			spare meget vand ved at følge disse råd:`,
-			imgSrc: 'toilet.svg',
+			imgSrc: toilet,
 			listItems: [
 				`Hvis du har et nyt toilet med 2-skyl, og konsekvent bruger det store
 				skyl, hver gang du her på toilet, bruger du 3 liter mere pr. gang end nødvendigt.`,
@@ -43,7 +48,7 @@ const FullscreenDialog = props => {
 			headline: 'Sådan kan du spare vand når du bader',
 			subheadline: `Karbad og brusebad repræsenterer mellem 35% og 45% af dit
 			daglige forbrug. Du kan derfor spare meget vand ved at følge disse råd:`,
-			imgSrc: 'bath.svg',
+			imgSrc: bath,
 			listItems: [
 				`Vælg et brusebad frem for et karbad. Et karbad forbruger nemt 200 liter
 				vand, mens du kun bruger ca. 35 liter på et brusebad.`,
@@ -58,7 +63,7 @@ const FullscreenDialog = props => {
 			headline: 'Sådan kan du spare vand når du vasker tøj',
 			subheadline: `Vidste du at vandudgiften til at vaske ligger på cirka 600-700
 			kroner om året. Du kan derfor spare meget vand ved at følge disse råd:`,
-			imgSrc: 'washmachine.svg',
+			imgSrc: washmachine,
 			listItems: [
 				`Spring forvasken over. Tøjet et sjældent så snavset, at den er nødvendigt
 				med forvask.`,
@@ -75,7 +80,7 @@ const FullscreenDialog = props => {
 			headline: 'Sådan kan du spare vand når du vasker op eller bruger opvaskemaskinen',
 			subheadline: `Vidste du at vandudgiften til at vaske ligger på cirka 600-700 kroner
 			om året. Du kan derfor spare meget vand vet at følge disse råd:`,
-			imgSrc: 'dishwasher.svg',
+			imgSrc: dishwasher,
 			listItems: [
 				`Brug altid en balje frem for at vaske op under rindende vand, hvis du vasker op
 				i hånden.`,
