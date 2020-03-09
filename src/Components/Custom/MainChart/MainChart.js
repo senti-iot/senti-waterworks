@@ -27,7 +27,6 @@ export const MainChart = React.memo((props) => {
 	// const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
 	const data = useSelector(s => s.data.deviceData)
-	console.log(data)
 	//State
 	const [openExport, setOpenExport] = useState(false)
 	//Const

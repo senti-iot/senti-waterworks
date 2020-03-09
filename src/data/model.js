@@ -179,7 +179,6 @@ export const genBarData = (currentData, prevData) => {
 
 	//#region WaterUsage/Reading
 	let values = getValues(currentData.waterusage)
-	console.log('Got Values', currentData, values)
 	/**
 	 * Min WaterUsage
 	 */
@@ -228,11 +227,9 @@ export const genBarData = (currentData, prevData) => {
 }
 export const genNBarData = (waterusageData, benchmarkData, noOfAdults = 1, noOfChildren = 0) => {
 	let waterusage = []
-	console.log(waterusageData, benchmarkData)
 	//#region WaterUsage/Reading
 	let values = getValues(waterusageData)
 	let benchmarkValues = getValues(benchmarkData)
-	console.log('Got Values', waterusageData, values)
 	/**
 	 * Min WaterUsage
 	 */
@@ -259,7 +256,6 @@ export const genNBarData = (waterusageData, benchmarkData, noOfAdults = 1, noOfC
 	average.value = parseFloat((benchmarkValues.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
 	average.unit = 'm³'
 	average.type = 'chartTable.waterusage.line3'
-	console.log('average', average)
 	waterusage.push(average)
 	/**
 	 * Usage Per person

@@ -9,6 +9,7 @@ import familyIcon from 'assets/icons/familie.svg'
 import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
 import FullscreenDialog from './FullscreenDialog'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -75,8 +76,23 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Usage = props => {
-	const [fsDialogOpen, setFsDialogOpen] = useState(false)
+	//Hooks
 	const classes = useStyles()
+
+	//Redux
+	const avgData = useSelector(s => s.data.avgData)
+	console.log('BarData', avgData)
+	//State
+	const [fsDialogOpen, setFsDialogOpen] = useState(false)
+
+	//Const
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 
 	const columns = [
 		{

@@ -11,6 +11,8 @@ const deviceData = 'deviceData'
 // const rawDataStore = 'storeOldData'
 const middleChartData = 'middleChartData'
 const barData = 'barData'
+const averageData = 'averageData'
+// const
 
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
@@ -43,15 +45,19 @@ export const getAllDevices = async () => {
 		})
 	}
 }
+let gD = date => moment(date).format('YYYY-MM-DD')
 export const getNData = async () => {
 	return async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
-		let from = getState().dateTime.period.from.clone().subtract(1, 'day').startOf('day')
-		let to = getState().dateTime.period.to.clone().endOf('day')
+		let from = getState().dateTime.period.from.clone().subtract(1, 'day')
+		let to = getState().dateTime.period.to.clone().add(1, 'day')
 		let subtr = moment(to).diff(moment(from), 'day')
-		let prevFrom = moment(from).subtract(subtr, 'day')
+		console.log(subtr)
+		let prevFrom = moment(from).subtract(subtr, 'day').add(1, 'day')
+		let prevTo = moment(from).add(1, 'day')
 
-		let prevTo = moment(from)
+		console.log(gD(to), gD(from))
+		console.log(gD(prevTo), gD(prevFrom))
 		if (moment().diff(moment(to), 'day') === 0) {
 			prevTo = moment(from)
 		}
@@ -64,17 +70,15 @@ export const getNData = async () => {
 			readings: []
 		}
 		let waterUsageData = await getWaterUsage(from, to)
-		waterUsageData = waterUsageData.filter(d => d.did === waterUsageData[0].did)
 		let waterUsagePrevData = await getWaterUsage(prevFrom, prevTo)
-		waterUsagePrevData = waterUsagePrevData.filter(d => d.did === waterUsagePrevData[0].did)
 		let readingsData = await getReadingUsage(prevFrom, to)
-		readingsData = readingsData.filter(d => d.uuid === readingsData[0].uuid)
-		let benchmarkData = await getBenchmarkUsage(orgId, from, to.add(1, 'day'))
+		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
+
 		//#region WaterUsage
 		if (waterUsageData.length > 0) {
 
-			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
-			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: d.averageFlowPerDay, date: moment(d.t).add(subtr, 'day') }))
+			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: d.averageFlowPerDay, date: d.d }))
+			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: d.averageFlowPerDay, date: moment(d.d).add(subtr - 1, 'day') }))
 
 		}
 		if (benchmarkData.length > 0) {
@@ -165,8 +169,18 @@ export const getNData = async () => {
 		//#region Generate bars Data
 
 		let finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark)
-		console.log(finalBarData)
 
+		//#endregion
+		//#region Generate Average Data
+		let finalAverageData = {
+			waterusagem3: 0,
+			waterusageL: 0,
+			benchmarkm3: 0,
+			benchmarkL: 0
+		}
+		let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
+		finalAverageData.waterusagem3 = avgValue
+		finalAverageData.waterusageL = avgValue * 1000
 		//#endregion
 		//#region Dispatch the data
 		dispatch({
@@ -181,6 +195,11 @@ export const getNData = async () => {
 		dispatch({
 			type: barData,
 			payload: finalBarData
+		})
+
+		dispatch({
+			type: averageData,
+			payload: finalAverageData
 		})
 		//#endregion
 
@@ -446,6 +465,8 @@ export const data = (state = initialState, { type, payload }) => {
 			return Object.assign({}, state, { deviceData: payload })
 		case barData:
 			return Object.assign({}, state, { barData: payload })
+		case averageData:
+			return Object.assign({}, state, { avgData: payload })
 		case middleChartData:
 			return Object.assign({}, state, { middleChartData: payload })
 		default:

@@ -23,7 +23,6 @@ const ChartTable = props => {
 
 	//Redux
 	const barsData = useSelector(s => s.data.barData[chart])
-	console.log(barsData)
 	//State
 
 	//useCallbacks

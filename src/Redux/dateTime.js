@@ -53,7 +53,7 @@ export const dateTime = (state = initialState, action) => {
 				return Object.assign({}, state, {
 					period: {
 						menuId: 2,
-						from: moment().subtract(6, 'day').startOf('day'),
+						from: moment().subtract(7, 'day').startOf('day'),
 						to: moment().startOf('day'),
 						timeType: 2
 					},

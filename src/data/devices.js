@@ -14,8 +14,8 @@ export const getDevices = async () => {
 }
 
 export const getDevicesData = async (from, to) => {
-	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
-	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
 	let response = await servicesAPI.get(`v1/deviceDataByCustomerID/138230100010117/${startDate}/${endDate}/-1`)
 	return response.data
 }
@@ -29,19 +29,20 @@ export const getDevicesDataCSV = async (config) => {
  * Get water usage data
  */
 export const getWaterUsage = async (from, to) => {
-	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
-	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
-	let response = await servicesAPI.get(`/v2/waterworks/data/usage/${startDate}/${endDate}`)
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response = await servicesAPI.get(`/v2/waterworks/data/usagebyday/${startDate}/${endDate}`)
 	return response.data
 }
+
 
 /**
  * Get Reading data
  */
 
 export const getReadingUsage = async (from, to) => {
-	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
-	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
 	let response = await servicesAPI.get(`/v2/waterworks/data/volume/${startDate}/${endDate}`)
 	return response.data
 }
