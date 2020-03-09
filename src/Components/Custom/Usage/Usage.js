@@ -137,7 +137,7 @@ const Usage = props => {
 						<Typography variant="body1" className={classes.headline} style={{ color: index % 2 === 0 ? '#fff' : '#32FFE1' }}>{headline}</Typography>
 					</div>
 					<Typography variant="h2" className={classes.cubicValue} style={{ color: index % 2 === 0 ? '#6DD400' : '#32FFE1' }}>
-						{cubicMetres.toLocaleString()}<span style={{ fontSize: 14 }}>m3</span>
+						{cubicMetres.toLocaleString()}<span style={{ fontSize: 14 }}> m3</span>
 					</Typography>
 					<Typography variant="body2" style={{ color: index % 2 === 0 ? '#6DD400' : '#32FFE1', marginLeft: 72 }}>
 						{(liters).toFixed(0)} L

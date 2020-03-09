@@ -22,6 +22,7 @@ import { getOnboardingData, createOnboardingUser, confirmOnboardingUser } from '
 import { validateEmail } from 'data/functions'
 import OnboardingDone from 'Components/Onboarding/OnboardingDone'
 import OnboardingConfirm from 'Components/Onboarding/OnboardingConfirm'
+import { Link } from 'react-router-dom'
 
 
 const Onboarding = props => {
@@ -432,7 +433,10 @@ const Onboarding = props => {
 						<LeftPanel /* className={classes.paper} */>
 							<InputContainer>
 								<ItemG xs={12} container justify={'center'}>
-									<ImgLogo src={logo} alt={'sentiLogo'} />
+									<Link to={'/login'}>
+
+										<ImgLogo src={logo} alt={'sentiLogo'} />
+									</Link>
 								</ItemG>
 								<Warning
 									open={Boolean(error) || Boolean(success)}
