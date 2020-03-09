@@ -62,7 +62,6 @@ const PriceChart = props => {
 
 	// const handleClick = () => {
 	// 	//TODO
-	// 	console.log('arrow clicked')
 	// }
 
 	return (

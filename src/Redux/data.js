@@ -46,7 +46,6 @@ export const getAllDevices = async () => {
 		})
 	}
 }
-let gD = date => moment(date).format('YYYY-MM-DD')
 export const getNData = async () => {
 	return async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
@@ -58,9 +57,6 @@ export const getNData = async () => {
 		let noOfAdults = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults
 		let noOfChildren = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren
 		let noOfPersons = noOfAdults + noOfChildren
-		console.log('noOfPersons', noOfPersons)
-		console.log(gD(to), gD(from))
-		console.log(gD(prevTo), gD(prevFrom))
 		if (moment().diff(moment(to), 'day') === 0) {
 			prevTo = moment(from)
 		}

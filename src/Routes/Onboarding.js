@@ -214,7 +214,6 @@ const Onboarding = props => {
 			else {
 				setSuccess('confirmUser.welcomeMessage')
 			}
-			// console.log(tokenParam)
 		}
 	}, [confirmPass, deviceIdent, email, error, firstName.length, handleCreateUser, history, installationId, lastName.length, orgIdent, params.language, params.step, pass, success, token])
 
@@ -250,7 +249,6 @@ const Onboarding = props => {
 			setAntiCheat(true)
 		}
 		if (params.step.includes('confirm')) {
-			console.log(params)
 			setConfirmToken(params.token)
 		}
 		//eslint-disable-next-line

@@ -210,7 +210,6 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	 * Usage Per person
 	 */
 	let nOP = noOfPersons > 0 ? noOfPersons : 1
-	console.log(nOP)
 	let perPerson = {}
 	perPerson.className = 'waterUsageD'
 	perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
