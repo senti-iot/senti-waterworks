@@ -10,6 +10,7 @@ import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
 import FullscreenDialog from './FullscreenDialog'
 import { useSelector } from 'react-redux'
+import cx from 'classnames'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -72,6 +73,16 @@ const useStyles = makeStyles(theme => ({
 		position: 'absolute',
 		top: 8,
 		right: 8
+	},
+	rightColumnStyle: {
+		borderLeft: '1px solid #fff',
+		paddingLeft: 16,
+		position: 'relative'
+	},
+	leftColumnStyle: {
+		borderRight: '1px solid #fff',
+		paddingRight: 16,
+		position: 'relative'
 	}
 }))
 
@@ -98,7 +109,7 @@ const Usage = props => {
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
 			headline: 'Dagligt forbrug',
-			cubicMetres: 0.197
+			cubicMetres: avgData.waterusagem3
 		},
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
@@ -107,22 +118,18 @@ const Usage = props => {
 		}
 	]
 
-	const leftColumnStyle = {
-		borderRight: '1px solid #fff',
-		paddingRight: 16,
-		position: 'relative'
-	}
+	const columnClasses = (index) => {
+		return cx({
+			[classes.itemG]: true,
+			[classes.leftColumnStyle]: index % 2 === 0,
+			[classes.rightColumnStyle]: index % 2 !== 0,
 
-	const rightColumnStyle = {
-		borderLeft: '1px solid #fff',
-		paddingLeft: 16,
-		position: 'relative'
+		})
 	}
-
 	return (
 		<Grid container className={classes.container}>
 			{columns.map(({ familyIcon, headline, cubicMetres }, index) => (
-				<ItemG key={index} className={classes.itemG} style={index % 2 === 0 ? leftColumnStyle : rightColumnStyle}>
+				<ItemG key={index} className={columnClasses(index)}>
 					<div style={{ display: 'flex' }}>
 						{familyIcon}
 						<Typography variant="body1" className={classes.headline} style={{ color: index % 2 === 0 ? '#fff' : '#32FFE1' }}>{headline}</Typography>

@@ -23,9 +23,8 @@ deploy:
     skip_cleanup: true
     on:
       branch: beta
-  - domain: https://sw-onboarding.surge.sh
-    project: "./build"
-    provider: surge
+  - provider: script
+    script: bash scripts/deploy.sh master $TRAVIS_BUILD_DIR
     skip_cleanup: true
     on:
       branch: beta-onboarding
