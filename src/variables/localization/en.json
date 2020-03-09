@@ -1308,6 +1308,9 @@
 			"passwordTooShort": "Password must have at least 8 characters."
 		},
 		"form": {
+			"token": "Token",
+			"finish": "Insert the token received on your email to finish creating your senti.waterworks account.",
+			"finishConfirmEmail": "Please check your email for completing your senti.waterworks account creation.",
 			"installationNrB": "Installation No.",
 			"deviceNr": "Device No.",
 			"insertDeviceNumber": "Insert device number, installation number and organisation ID to connect your water meter with senti.waterworks.If you do not know these codes please contact your waterworks.",

@@ -33,7 +33,7 @@ function Main() {
 
 				<NewContent />
 				<Switch>
-					<Route path={'/signup/:language/:step'}>
+					<Route path={'/signup/:language/:step/:token?'}>
 						<Onboarding />
 					</Route>
 					<Route path={'/login/:language?'}>

@@ -1,4 +1,4 @@
-import { waterworksAPI } from 'data/data'
+import { waterworksAPI, servicesCoreAPI } from 'data/data'
 
 /**
  * Auto fill information that we already have regarding the user
@@ -17,5 +17,17 @@ export const getOnboardingData = async (orgIdent, installationId, deviceIdent) =
  */
 export const createOnboardingUser = async (user, authUUID) => {
 	let data = await waterworksAPI.post(`/onboarding/user/${authUUID}`, user).then(rs => rs)
+	return data
+}
+
+
+/**
+ * Confirm Onboarding user
+ * @param {object} token - confirm token
+ */
+
+export const confirmOnboardingUser = async (token) => {
+	let data = await servicesCoreAPI.post(`/v2/entity/user/confirmwithpassword`, { token: token })
+	console.log(data)
 	return data
 }

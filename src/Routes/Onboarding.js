@@ -5,7 +5,7 @@ import cookie from 'react-cookies'
 // Components
 import { ItemG, CookiesDialog, PrivacyDialog, CircularLoader, Warning } from 'Components'
 import { Hidden, Divider } from '@material-ui/core'
-import { useDispatch, useHistory, useLocation, useLocalization, useEventListener } from 'Hooks'
+import { useDispatch, useHistory, useLocalization, useEventListener } from 'Hooks'
 
 // Data & Redux
 import { changeLanguage } from 'Redux/localization'
@@ -18,15 +18,16 @@ import Step1 from 'Components/Onboarding/Step1'
 import { useParams } from 'react-router'
 import Step2 from 'Components/Onboarding/Step2'
 import Step3 from 'Components/Onboarding/Step3'
-import { getOnboardingData, createOnboardingUser } from 'data/onboarding'
+import { getOnboardingData, createOnboardingUser, confirmOnboardingUser } from 'data/onboarding'
 import { validateEmail } from 'data/functions'
+import OnboardingDone from 'Components/Onboarding/OnboardingDone'
+import OnboardingConfirm from 'Components/Onboarding/OnboardingConfirm'
 
 
 const Onboarding = props => {
 	//Hooks
 	const t = useLocalization()
 	const params = useParams()
-	const location = useLocation()
 	const history = useHistory()
 	const dispatch = useDispatch()
 	//Redux
@@ -37,16 +38,10 @@ const Onboarding = props => {
 	const [privacy, setPrivacy] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(false)
-	const [antiCheat, setAntiCheat] = useState(true)
-	useEffect(() => {
-		if (params.step === 'step1') {
-			setAntiCheat(false)
-		}
-		if (antiCheat) {
-			history.push(`/signup/${params.language}/step1`)
-		}
-		// eslint-disable-next-line
-	}, [])
+	const [token, setConfirmToken] = useState('')
+	const [antiCheat, setAntiCheat] = useState(false)
+	const [success, setSuccess] = useState(false)
+
 	//#region Step 1
 	const [orgIdent, setOrgIdent] = useState('hfsundbyvester')
 	const [installationId, setInstallationId] = useState('59')
@@ -203,7 +198,25 @@ const Onboarding = props => {
 
 			}
 		}
-	}, [confirmPass, deviceIdent, email, error, firstName.length, handleCreateUser, history, installationId, lastName, orgIdent, params.language, params.step, pass])
+		if (step === 'done') {
+			history.push('/login')
+		}
+		if (step === 'confirm') {
+			if (success) {
+				history.push('/login')
+			}
+			if (error) {
+				setError(null)
+			}
+			let confirmation = await confirmOnboardingUser(token)
+			if (confirmation.status === 404)
+				setError('signup.error.missingData')
+			else {
+				setSuccess('confirmUser.welcomeMessage')
+			}
+			// console.log(tokenParam)
+		}
+	}, [confirmPass, deviceIdent, email, error, firstName.length, handleCreateUser, history, installationId, lastName.length, orgIdent, params.language, params.step, pass, success, token])
 
 	const handleKeyPress = useCallback((event) => {
 		if (event.key === 'Enter') {
@@ -212,7 +225,42 @@ const Onboarding = props => {
 	}, [handleNextStep])
 	//useEventListener
 	useEventListener('keypress', handleKeyPress)
+
+
 	//useEffects
+	useEffect(() => {
+		var loginData = cookie.load('SESSION')
+		//Login Data is valid
+		if (loginData) {
+			if (setToken()) {
+				history.push('/')
+			}
+		}
+		if (params.language === 'en') {
+			dispatch(changeLanguage('en', true))
+			// setLanguage('en')
+		}
+	}, [params.language, history, dispatch])
+
+	/**
+	 * AntiCheat
+	 */
+	useEffect(() => {
+		if (params.step.includes('step') && params.step !== 'step1') {
+			setAntiCheat(true)
+		}
+		if (params.step.includes('confirm')) {
+			console.log(params)
+			setConfirmToken(params.token)
+		}
+		//eslint-disable-next-line
+	}, [])
+	useEffect(() => {
+		if (antiCheat) {
+			history.push(`/signup/${params.language}/step1`)
+		}
+		//eslint-disable-next-line
+	}, [antiCheat])
 
 	//Handlers
 
@@ -296,19 +344,6 @@ const Onboarding = props => {
 		//#endregion
 	}
 
-	useEffect(() => {
-		var loginData = cookie.load('SESSION')
-		//Login Data is valid
-		if (loginData) {
-			if (setToken()) {
-				history.push('/')
-			}
-		}
-		if (location.pathname.includes('en')) {
-			dispatch(changeLanguage('en', true))
-			// setLanguage('en')
-		}
-	}, [location.pathname, history, dispatch])
 
 
 	const handleAutoComplete = data => {
@@ -374,6 +409,19 @@ const Onboarding = props => {
 						noOfChildren={noOfChildren}
 						noOfAdults={noOfAdults}
 					/>)
+			case "done":
+				return <OnboardingDone
+					t={t}
+					goToNextStep={handleNextStep}
+				/>
+			case 'confirm':
+				return <OnboardingConfirm
+					success={success}
+					t={t}
+					goToNextStep={handleNextStep}
+					handleInput={handleInput}
+					token={token}
+				/>
 			default:
 				break
 		}
@@ -388,7 +436,11 @@ const Onboarding = props => {
 								<ItemG xs={12} container justify={'center'}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
-								<Warning open={Boolean(error)} type={'error'} label={t(error, { disableMissing: true })} />
+								<Warning
+									open={Boolean(error) || Boolean(success)}
+									type={success ? 'success' : 'error'}
+									label={t(success ? success : error, { disableMissing: true })}
+								/>
 								{loading ? <CircularLoader /> : renderStep()}
 							</InputContainer>
 							<Divider style={{ width: '100%' }} />

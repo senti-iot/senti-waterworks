@@ -1309,6 +1309,9 @@
 			"passwordTooShort": "Adgangskoden skal være minimum 8 tegn."
 		},
 		"form": {
+			"token": "Token",
+			"finish": "Indsæt det token, der er modtaget i din e-mail for at afslutte oprettelsen af din senti.waterworks konto.",
+			"finishConfirmEmail": "Check venligst din mail for at bekræfte oprettelse af din senti.waterworks konto.",
 			"installationNrB": "Installationsnummer",
 			"deviceNr": "Måler nummer",
 			"insertDeviceNumber": "Indtast måler nummer, installationsnummer, og organisation ID for at tilslutte din vandmåler med senti.waterworks.  Kender du ikke disse numre kontakt venligst dit vandværk.",
