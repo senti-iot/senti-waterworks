@@ -1,4 +1,4 @@
-import { servicesAPI, dataExportAPI } from './data'
+import { servicesAPI, dataExportAPI, waterworksAPI } from './data'
 import moment from 'moment'
 
 
@@ -58,4 +58,12 @@ export const getBenchmarkUsage = async (orgUuid, from, to) => {
 	let response = await servicesAPI.get(`/v2/waterworks/data/benchmark/${orgUuid}/${startDate}/${endDate}`)
 	return response.data
 
+}
+
+/**
+ * Get Price list for the org
+ */
+export const getPriceList = async (orgId) => {
+	let data = await waterworksAPI.get(`/settings/price/${orgId}`).then(rs => rs.data)
+	return data
 }

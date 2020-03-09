@@ -87,12 +87,8 @@ function Login() {
 				if (setToken()) {
 					await redux.getSettings()
 					var prevURL = location.state ? location.state.prevURL : null
-					if ("isAdmin") {
-						history.push('/admin')
-					}
-					else {
-						history.push(prevURL ? prevURL : /* defaultRoute */ '/')
-					}
+					history.push(prevURL ? prevURL : /* defaultRoute */ '/')
+
 				}
 
 			}

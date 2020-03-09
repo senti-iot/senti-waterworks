@@ -72,8 +72,12 @@ const DialogDetails = () => {
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
-	const noOfAdults = useSelector(s => s.settings.user)
-	console.log(noOfAdults)
+	const noOfAdults = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults)
+	const noOfChildren = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren)
+	let noOfPeople = noOfAdults + noOfChildren
+	if (noOfPeople === 0) {
+		noOfPeople = 1
+	}
 	//State
 
 	//Const
@@ -101,7 +105,7 @@ const DialogDetails = () => {
 			},
 			data: {
 				cubicMetres: avgData.waterusagem3,
-				forbrugPerson: 49.25,
+				forbrugPerson: (avgData.waterusagem3) / noOfPeople,
 			}
 		},
 		{
@@ -117,7 +121,7 @@ const DialogDetails = () => {
 			},
 			data: {
 				cubicMetres: avgData.benchmarkm3,
-				forbrugPerson: 53.75,
+				forbrugPerson: (avgData.benchmarkm3) / noOfPeople,
 			}
 		}
 	]

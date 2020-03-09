@@ -43,9 +43,9 @@ const Onboarding = props => {
 	const [success, setSuccess] = useState(false)
 
 	//#region Step 1
-	const [orgIdent, setOrgIdent] = useState('hfsundbyvester')
-	const [installationId, setInstallationId] = useState('59')
-	const [deviceIdent, setDeviceIdent] = useState('axioma5003403')
+	const [orgIdent, setOrgIdent] = useState('')
+	const [installationId, setInstallationId] = useState('')
+	const [deviceIdent, setDeviceIdent] = useState('')
 	//#endregion
 
 	//#region Step 2

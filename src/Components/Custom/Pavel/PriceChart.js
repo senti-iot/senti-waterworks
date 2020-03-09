@@ -1,7 +1,8 @@
 /* eslint-disable indent */
 import React, { Fragment } from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
-import { ChevronRight } from '../../../variables/icons'
+// import { ChevronRight } from '../../../variables/icons'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
 	flex: {
@@ -42,27 +43,42 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const PriceChart = props => {
+	//Hooks
 	const classes = useStyles()
 
-	const handleClick = () => {
-		//TODO
-		console.log('arrow clicked')
-	}
+	//Redux
+	const priceData = useSelector(s => s.data.priceData)
+
+	//State
+
+	//Const
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
+
+	// const handleClick = () => {
+	// 	//TODO
+	// 	console.log('arrow clicked')
+	// }
 
 	return (
 		<Fragment>
 			<div className={classes.flex}>
 				<Typography variant="h5" style={{}}>Afregning</Typography>
-				<ChevronRight className={classes.chevronRight} onClick={handleClick} />
+				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
-			<Typography variant="body1" gutterBottom={false} className={classes.body1}>Vand: Kr. 78,00</Typography>
+			<Typography variant="body1" gutterBottom={false} className={classes.body1}>Vand: Kr. {priceData.waterusage}</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
-				<Typography variant="body1" gutterBottom={false} className={classes.body1}>Spildevand: Kr. 234,00</Typography>
+				<Typography variant="body1" gutterBottom={false} className={classes.body1}>Spildevand: Kr. {priceData.sewage}</Typography>
 				<Typography variant="body1" gutterBottom={false} className={classes.body1}>
 					Total:
-          <span className={classes.priceTag}>
-						Kr. 312,00
-          </span>
+          			<span className={classes.priceTag}>
+						Kr. {priceData.total}
+					</span>
 				</Typography>
 			</div>
 		</Fragment>

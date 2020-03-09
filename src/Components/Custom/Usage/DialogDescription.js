@@ -45,13 +45,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const DialogDescription = props => {
-	const { content, chosenDescription, setChosenDescription, setDescriptionOpen } = props
+	const { content, /* chosenDescription, setChosenDescription, */ setDescriptionOpen } = props
 
-	const handleStepChange = () => {
-		if (chosenDescription === 0) return // avoid crashing
+	// const handleStepChange = () => {
+	// 	if (chosenDescription === 0) return // avoid crashing
 
-		setChosenDescription(prev => prev - 1)
-	}
+	// 	setChosenDescription(prev => prev - 1)
+	// }
 
 	const classes = useStyles()
 
@@ -59,9 +59,9 @@ const DialogDescription = props => {
 		<Fragment>
 			{/* container for back and cancel buttons */}
 			<div className={classes.navigationBox}>
-				<IconButton size="small" className={classes.closeDialog} onClick={handleStepChange}>
+				{/* <IconButton size="small" className={classes.closeDialog} onClick={handleStepChange}>
 					<ArrowBack />
-				</IconButton>
+				</IconButton> */}
 				<IconButton size="small" className={classes.closeDialog} onClick={() => setDescriptionOpen(false)}>
 					<Close />
 				</IconButton>

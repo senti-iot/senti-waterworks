@@ -1,5 +1,5 @@
 import { handleRequestSort } from 'data/functions'
-import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, /* getDevicesData */ } from 'data/devices'
+import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, /* getDevicesData */ } from 'data/devices'
 import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData, genNBarData } from 'data/model'
 import moment from 'moment'
 import { colors } from 'variables/colors'
@@ -12,6 +12,7 @@ const deviceData = 'deviceData'
 const middleChartData = 'middleChartData'
 const barData = 'barData'
 const averageData = 'averageData'
+const pData = 'priceData'
 // const
 
 export const sortData = (key, property, order) => {
@@ -52,10 +53,12 @@ export const getNData = async () => {
 		let from = getState().dateTime.period.from.clone().subtract(1, 'day')
 		let to = getState().dateTime.period.to.clone().add(1, 'day')
 		let subtr = moment(to).diff(moment(from), 'day')
-		console.log(subtr)
 		let prevFrom = moment(from).subtract(subtr, 'day').add(1, 'day')
 		let prevTo = moment(from).add(1, 'day')
-
+		let noOfAdults = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults
+		let noOfChildren = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren
+		let noOfPersons = noOfAdults + noOfChildren
+		console.log('noOfPersons', noOfPersons)
 		console.log(gD(to), gD(from))
 		console.log(gD(prevTo), gD(prevFrom))
 		if (moment().diff(moment(to), 'day') === 0) {
@@ -73,7 +76,7 @@ export const getNData = async () => {
 		let waterUsagePrevData = await getWaterUsage(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(prevFrom, to)
 		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
-
+		let priceList = await getPriceList(orgId)
 		//#region WaterUsage
 		if (waterUsageData.length > 0) {
 
@@ -168,7 +171,7 @@ export const getNData = async () => {
 		//#endregion
 		//#region Generate bars Data
 
-		let finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark)
+		let finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons)
 
 		//#endregion
 		//#region Generate Average Data
@@ -190,6 +193,15 @@ export const getNData = async () => {
 		finalAverageData.benchmarkL = bavgValue * 1000
 
 		//#endregion
+		//#region Price Data
+		let finalPriceData = {
+			waterusage: parseFloat(priceList.waterTotal * middleData).toFixed(2).replace('.', ','),
+			sewage: parseFloat(priceList.sewageTotal * middleData).toFixed(2).replace('.', ','),
+		}
+		finalPriceData.total = parseFloat((priceList.waterTotal * middleData) + (priceList.sewageTotal * middleData)).toFixed(2).replace('.', ',')
+
+		//#endregion
+
 		//#region Dispatch the data
 		dispatch({
 			type: deviceData,
@@ -208,6 +220,10 @@ export const getNData = async () => {
 		dispatch({
 			type: averageData,
 			payload: finalAverageData
+		})
+		dispatch({
+			type: pData,
+			payload: finalPriceData
 		})
 		//#endregion
 
@@ -451,6 +467,11 @@ const initialState = {
 	barData: {},
 	devices: [],
 	data: {},
+	priceData: {
+		waterusage: 0,
+		sewage: 0,
+		total: 0
+	},
 	avgData: {
 		waterusagem3: 0,
 		waterusageL: 0,
@@ -481,6 +502,8 @@ export const data = (state = initialState, { type, payload }) => {
 			return Object.assign({}, state, { barData: payload })
 		case averageData:
 			return Object.assign({}, state, { avgData: payload })
+		case pData:
+			return Object.assign({}, state, { priceData: payload })
 		case middleChartData:
 			return Object.assign({}, state, { middleChartData: payload })
 		default:

@@ -174,7 +174,7 @@ export const genArcData = (deviceData) => {
 
 //#region Bar Graph
 const getValues = arr => arr ? arr.map(a => a.value) : []
-export const genBarData = (currentData, prevData) => {
+export const genBarData = (currentData, prevData, noOfPersons) => {
 	let waterusage = []
 
 	//#region WaterUsage/Reading
@@ -209,9 +209,11 @@ export const genBarData = (currentData, prevData) => {
 	/**
 	 * Usage Per person
 	 */
+	let nOP = noOfPersons > 0 ? noOfPersons : 1
+	console.log(nOP)
 	let perPerson = {}
 	perPerson.className = 'waterUsageD'
-	perPerson.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
 	perPerson.unit = 'm³'
 	perPerson.type = 'chartTable.waterusage.line4'
 	waterusage.push(perPerson)
@@ -225,7 +227,7 @@ export const genBarData = (currentData, prevData) => {
 	}
 
 }
-export const genNBarData = (waterusageData, benchmarkData, noOfAdults = 1, noOfChildren = 0) => {
+export const genNBarData = (waterusageData, benchmarkData, noOfPersons) => {
 	let waterusage = []
 	//#region WaterUsage/Reading
 	let values = getValues(waterusageData)
@@ -260,9 +262,10 @@ export const genNBarData = (waterusageData, benchmarkData, noOfAdults = 1, noOfC
 	/**
 	 * Usage Per person
 	 */
+	let nOP = noOfPersons > 0 ? noOfPersons : 1
 	let perPerson = {}
 	perPerson.className = 'waterUsageD'
-	perPerson.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
 	perPerson.unit = 'm³'
 	perPerson.type = 'chartTable.waterusage.line4'
 	waterusage.push(perPerson)
