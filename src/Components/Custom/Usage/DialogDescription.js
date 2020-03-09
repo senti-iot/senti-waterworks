@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { makeStyles, IconButton, Typography } from '@material-ui/core'
-import { Close, ArrowBack } from '../../../variables/icons'
+import { Close } from '../../../variables/icons'
 // import waterDropBlue from './familie.svg'
 
 const useStyles = makeStyles(theme => ({
