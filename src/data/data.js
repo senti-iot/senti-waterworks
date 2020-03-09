@@ -183,15 +183,20 @@ export const waterworksAPI = create({
 
 //Always the last
 
+export const setHeaders = () => {
+	servicesAPI.setHeader('wlHost', window.location.hostname)
+	servicesCoreAPI.setHeader('wlHost', window.location.hostname)
+	waterworksAPI.setHeader('wlHost', window.location.hostname)
+}
 export const setToken = () => {
 	try {
 		let session = cookie.load('SESSION')
 		servicesAPI.setHeader('Authorization', `Bearer ${session.token}`)
-		servicesAPI.setHeader('wlHost', window.location.hostname)
+		// servicesAPI.setHeader('wlHost', window.location.hostname)
 		servicesCoreAPI.setHeader('Authorization', `Bearer ${session.token}`)
-		servicesCoreAPI.setHeader('wlHost', window.location.hostname)
+		// servicesCoreAPI.setHeader('wlHost', window.location.hostname)
 		waterworksAPI.setHeader('Authorization', `Bearer ${session.token}`)
-		waterworksAPI.setHeader('wlHost', window.location.hostname)
+		// waterworksAPI.setHeader('wlHost', window.location.hostname)
 		return true
 	}
 	catch (error) {
@@ -200,4 +205,5 @@ export const setToken = () => {
 	}
 
 }
+setHeaders()
 setToken()
