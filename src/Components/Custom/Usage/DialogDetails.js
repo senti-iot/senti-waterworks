@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
 import familyIcon from 'assets/icons/familie.svg'
 import waterDrop from 'assets/icons/water.drop.blue.svg'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -67,6 +68,22 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const DialogDetails = () => {
+	//Hooks
+
+	//Redux
+	const avgData = useSelector(s => s.data.avgData)
+	const noOfAdults = useSelector(s => s.settings.user)
+	console.log(noOfAdults)
+	//State
+
+	//Const
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 	const classes = useStyles()
 
 	// the JSX should map these panels instead of hardcoding it
@@ -83,9 +100,8 @@ const DialogDetails = () => {
 				textBelowHeadline: true
 			},
 			data: {
-				cubicMetres: 0.197,
+				cubicMetres: avgData.waterusagem3,
 				forbrugPerson: 49.25,
-				manedlige: 5910
 			}
 		},
 		{
@@ -100,9 +116,8 @@ const DialogDetails = () => {
 				textBelowHeadline: false
 			},
 			data: {
-				cubicMetres: 0.251,
+				cubicMetres: avgData.benchmarkm3,
 				forbrugPerson: 53.75,
-				manedlige: 7530
 			}
 		}
 	]

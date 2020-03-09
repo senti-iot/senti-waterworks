@@ -92,7 +92,7 @@ const Usage = props => {
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
-	console.log('BarData', avgData)
+
 	//State
 	const [fsDialogOpen, setFsDialogOpen] = useState(false)
 
@@ -109,12 +109,14 @@ const Usage = props => {
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
 			headline: 'Dagligt forbrug',
-			cubicMetres: avgData.waterusagem3
+			cubicMetres: avgData.waterusagem3,
+			liters: avgData.waterusageL
 		},
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
 			headline: 'Benchmark',
-			cubicMetres: 0.251
+			cubicMetres: avgData.benchmarkm3,
+			liters: avgData.benchmarkL,
 		}
 	]
 
@@ -128,7 +130,7 @@ const Usage = props => {
 	}
 	return (
 		<Grid container className={classes.container}>
-			{columns.map(({ familyIcon, headline, cubicMetres }, index) => (
+			{columns.map(({ familyIcon, headline, cubicMetres, liters }, index) => (
 				<ItemG key={index} className={columnClasses(index)}>
 					<div style={{ display: 'flex' }}>
 						{familyIcon}
@@ -138,7 +140,7 @@ const Usage = props => {
 						{cubicMetres.toLocaleString()}<span style={{ fontSize: 14 }}>m3</span>
 					</Typography>
 					<Typography variant="body2" style={{ color: index % 2 === 0 ? '#6DD400' : '#32FFE1', marginLeft: 72 }}>
-						{(cubicMetres * 1000).toFixed(0)} L
+						{(liters).toFixed(0)} L
           </Typography>
 
 					<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />

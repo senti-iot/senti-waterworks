@@ -181,6 +181,14 @@ export const getNData = async () => {
 		let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
 		finalAverageData.waterusagem3 = avgValue
 		finalAverageData.waterusageL = avgValue * 1000
+		let benchmarkSum = benchmarkData.reduce((total, d) => {
+			total = total + d.averageFlowPerDay
+			return total
+		}, 0)
+		let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(3)
+		finalAverageData.benchmarkm3 = bavgValue
+		finalAverageData.benchmarkL = bavgValue * 1000
+
 		//#endregion
 		//#region Dispatch the data
 		dispatch({
@@ -443,6 +451,12 @@ const initialState = {
 	barData: {},
 	devices: [],
 	data: {},
+	avgData: {
+		waterusagem3: 0,
+		waterusageL: 0,
+		benchmarkm3: 0,
+		benchmarkL: 0
+	},
 	middleChartData: {
 		current: {
 			waterusage: 0
