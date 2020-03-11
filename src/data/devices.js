@@ -67,3 +67,16 @@ export const getPriceList = async (orgId) => {
 	let data = await waterworksAPI.get(`/settings/price/${orgId}`).then(rs => rs.data)
 	return data
 }
+
+/**
+ * databroker/v2/waterworks/data/totalbyday/489043f8-16ef-4b56-8f66-0b0bfa55e0d4/volume/2020-02-26/2020-03-05
+ * @param {String} orgUUId
+ * @param {String} field
+ * @param {String} from
+ * @param {String} to
+ */
+
+export const getTotalVolumeData = async (orgUUID, from, to) => {
+	let data = await servicesAPI.get(`/v2/waterworks/data/totalbyday/${orgUUID}/volume/${from}/${to}`)
+	return data.data
+}

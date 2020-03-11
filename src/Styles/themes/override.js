@@ -86,14 +86,14 @@ const override = (color, type) => ({
 			}
 		},
 		MuiInput: {
-			underline: {
-				'&:hover:not($disabled):not($focused):not($error):before': {
-					borderBottom: `2px solid ${colors[color][400]}'` /* + primaryColor */,
-				},
-				'&:after': {
-					borderBottomColor: colors[color][500],
-				},
-			}
+			// underline: {
+			// 	'&:hover:not($disabled):not($focused):not($error):before': {
+			// 		borderBottom: `2px solid ${colors[color][400]}'` /* + primaryColor */,
+			// 	},
+			// 	'&:after': {
+			// 		borderBottomColor: colors[color][500],
+			// 	},
+			// }
 		},
 		MuiInputLabel: {
 			outlined: {
