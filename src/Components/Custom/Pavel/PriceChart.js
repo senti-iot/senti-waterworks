@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
+import { useLocalization } from 'Hooks'
 
 const useStyles = makeStyles(theme => ({
 	flex: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const PriceChart = props => {
+	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
 
@@ -67,12 +69,12 @@ const PriceChart = props => {
 	return (
 		<Fragment>
 			<div className={classes.flex}>
-				<Typography variant="h5" style={{}}>Afregning</Typography>
+				<Typography variant="h5" style={{}}>{t('Pavel.dashboardPrice.headline')}</Typography>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
-			<Typography variant="body1" gutterBottom={false} className={classes.body1}>Vand: Kr. {priceData.waterusage}</Typography>
+			<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Pavel.dashboardPrice.water')}{priceData.waterusage}</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
-				<Typography variant="body1" gutterBottom={false} className={classes.body1}>Spildevand: Kr. {priceData.sewage}</Typography>
+				<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Pavel.dashboardPrice.sewage')}{priceData.sewage}</Typography>
 				<Typography variant="body1" gutterBottom={false} className={classes.body1}>
 					Total:
           			<span className={classes.priceTag}>

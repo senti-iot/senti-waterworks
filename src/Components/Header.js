@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppBar, Button, Hidden, Toolbar, ButtonBase } from '@material-ui/core'
+import { AppBar, Button, Toolbar, ButtonBase } from '@material-ui/core'
 import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
@@ -47,9 +47,9 @@ function Header({ ...props }) {
 						{props.title ? t(props.title, props.title.options) ? t(props.title, props.title.options) : props.title : ''}
 					</Button>
 				</div>
-				<Hidden mdDown implementation='css'>
-					<HeaderLinks t={t} history={history} />
-				</Hidden>
+				{/* <Hidden smDown implementation='css'> */}
+				<HeaderLinks t={t} history={history} />
+				{/* </Hidden> */}
 			</Toolbar>
 		</AppBar>
 	)

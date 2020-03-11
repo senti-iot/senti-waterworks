@@ -178,7 +178,7 @@ function HeaderLinks(props) {
 
 	// const { classes } = props;
 	return (
-		<Grid container justify={'center'} classes={{ container: classes.headerMargin }}>
+		<Grid container justify={'flex-end'} classes={{ container: classes.headerMargin }}>
 			{/* <ItemG>
 					{renderChristmasIcon()}
 				</ItemG> */}
