@@ -72,7 +72,12 @@ export const getNData = async () => {
 		let waterUsagePrevData = await getWaterUsage(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(prevFrom, to)
 		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
-		let priceList = await getPriceList(orgId)
+		let price = await getPriceList(orgId)
+		let priceList = price ? price : {
+			waterTotal: 0,
+			sewageTotal: 0
+		}
+		console.log(priceList)
 		//#region WaterUsage
 		if (waterUsageData.length > 0) {
 
