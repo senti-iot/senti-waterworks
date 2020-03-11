@@ -11,6 +11,7 @@ import SlideT from 'Components/Transitions/SlideT'
 import FullscreenDialog from './FullscreenDialog'
 import { useSelector } from 'react-redux'
 import cx from 'classnames'
+import { useLocalization } from 'Hooks'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -87,6 +88,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Usage = props => {
+	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
 
@@ -108,13 +110,13 @@ const Usage = props => {
 	const columns = [
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
-			headline: 'Dagligt forbrug',
+			headline: t('Pavel.dashboardUsage.dailyConsumption'),
 			cubicMetres: avgData.waterusagem3,
 			liters: avgData.waterusageL
 		},
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
-			headline: 'Benchmark',
+			headline: t('Pavel.dashboardUsage.benchmark'),
 			cubicMetres: avgData.benchmarkm3,
 			liters: avgData.benchmarkL,
 		}
