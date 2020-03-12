@@ -52,6 +52,7 @@ import SignalWifi2Bar from '@material-ui/icons/SignalWifi2Bar'
 import SignalWifi2BarLock from '@material-ui/icons/SignalWifi2BarLock'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 import FilterList from '@material-ui/icons/FilterList'
@@ -126,6 +127,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import WarningIcon from '@material-ui/icons/Warning'
 import ErrorIcon from '@material-ui/icons/Error'
 export {
+	KeyboardArrowDown,
 	ErrorIcon,
 	WarningIcon,
 	ArrowBack,

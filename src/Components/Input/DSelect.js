@@ -33,7 +33,7 @@ const DSelect = (props) => {
 		}
 	}
 	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon, id } = props
-	const { selectClasses, formControlClasses, inputClasses, menuProps } = props
+	const { selectClasses, formControlClasses, inputClasses, menuProps, IconComponent } = props
 	//TO DO
 	let mobile = window.innerWidth < theme.breakpoints.values.md ? true : false
 	// let mobile = false
@@ -61,6 +61,7 @@ const DSelect = (props) => {
 				onKeyPress={onKeyPress}
 				styles={props.styles}
 				MenuProps={menuProps}
+				IconComponent={IconComponent}
 			// end
 			>
 				{!simple && menuItems.map((m, i) => {

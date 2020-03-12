@@ -97,7 +97,7 @@ const LineGraph = React.memo((props) => {
 				<svg id={props.id} ref={lineChartContainer}
 					style={{
 						width: '100%',
-						height: '85%',
+						height: '95%',
 						// minHeight: 500
 					}}>
 
