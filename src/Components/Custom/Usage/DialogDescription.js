@@ -90,7 +90,7 @@ const DialogDescription = props => {
 
 			<div style={{ width: '70%' }}>
 				<ul className={classes.list}>
-					{/* I hope the below works */}
+					{/* problem below */}
 					{Object.values(t(`Usage.dialogScreens.${chosenDescription}.steps`)).map((item, index) => (
 						<Typography key={index} variant="body1" className={classes.listItem}>{item}</Typography>
 					))}
