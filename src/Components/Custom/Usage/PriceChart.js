@@ -69,12 +69,12 @@ const PriceChart = props => {
 	return (
 		<Fragment>
 			<div className={classes.flex}>
-				<Typography variant="h5" style={{}}>{t('Pavel.dashboardPrice.headline')}</Typography>
+				<Typography variant="h5" style={{}}>{t('Usage.dashboardPrice.headline')}</Typography>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
-			<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Pavel.dashboardPrice.water')}{priceData.waterusage}</Typography>
+			<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.water')}{priceData.waterusage}</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
-				<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Pavel.dashboardPrice.sewage')}{priceData.sewage}</Typography>
+				<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.sewage')}{priceData.sewage}</Typography>
 				<Typography variant="body1" gutterBottom={false} className={classes.body1}>
 					Total:
           			<span className={classes.priceTag}>

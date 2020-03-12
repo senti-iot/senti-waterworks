@@ -110,13 +110,13 @@ const Usage = props => {
 	const columns = [
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
-			headline: t('Pavel.dashboardUsage.dailyConsumption'),
+			headline: t('Usage.dashboardUsage.dailyConsumption'),
 			cubicMetres: avgData.waterusagem3,
 			liters: avgData.waterusageL
 		},
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
-			headline: t('Pavel.dashboardUsage.benchmark'),
+			headline: t('Usage.dashboardUsage.benchmark'),
 			cubicMetres: avgData.benchmarkm3,
 			liters: avgData.benchmarkL,
 		}

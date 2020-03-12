@@ -1,7 +1,13 @@
 import React, { Fragment } from 'react'
 import { makeStyles, IconButton, Typography } from '@material-ui/core'
 import { Close } from '../../../variables/icons'
+import { useLocalization } from 'Hooks'
 // import waterDropBlue from './familie.svg'
+
+import toilet from 'assets/icons/toilet.svg'
+import bath from 'assets/icons/bath.svg'
+import washmachine from 'assets/icons/washmachine.svg'
+import dishwasher from 'assets/icons/dishwasher.svg'
 
 const useStyles = makeStyles(theme => ({
 	closeDialog: {
@@ -45,7 +51,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const DialogDescription = props => {
-	const { content, /* chosenDescription, setChosenDescription, */ setDescriptionOpen } = props
+	const t = useLocalization()
+	const { chosenDescription, /* setChosenDescription, */ setDescriptionOpen } = props
+
+	const dialogPics = [toilet, bath, washmachine, dishwasher] // SVG images for each section
 
 	// const handleStepChange = () => {
 	// 	if (chosenDescription === 0) return // avoid crashing
@@ -70,18 +79,19 @@ const DialogDescription = props => {
 			{/* container for headline, subheadline, and image */}
 			<div className={classes.header}>
 				<div className={classes.headlineBox}>
-					<Typography variant="h4" style={{ fontWeight: 500 }}>{content.headline}</Typography>
-					<Typography variant="body1" className={classes.subheadline}>{content.subheadline}</Typography>
+					<Typography variant="h4" style={{ fontWeight: 500 }}>{t(`Usage.dialogScreens.${chosenDescription}.headline`)}</Typography>
+					<Typography variant="body1" className={classes.subheadline}>{t(`Usage.dialogScreens.${chosenDescription}.subheadline`)}</Typography>
 				</div>
 				<div className={classes.imageBox}>
 					{/* edit CSS for the image if necessary */}
-					<img src={content.imgSrc} alt="" style={{ maxWidth: '100%', height: "auto" }} />
+					<img src={dialogPics[chosenDescription]} alt="" style={{ maxWidth: '100%', height: "auto" }} />
 				</div>
 			</div>
 
 			<div style={{ width: '70%' }}>
 				<ul className={classes.list}>
-					{content.listItems.map((item, index) => (
+					{/* I hope the below works */}
+					{Object.values(t(`Usage.dialogScreens.${chosenDescription}.steps`)).map((item, index) => (
 						<Typography key={index} variant="body1" className={classes.listItem}>{item}</Typography>
 					))}
 				</ul>

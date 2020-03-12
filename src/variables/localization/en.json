@@ -1,5 +1,5 @@
 {
-  "Pavel": {
+  "Usage": {
     "dashboardPrice": {
       "headline": "Settlement",
       "water": "Water: DKK ",
@@ -8,6 +8,46 @@
     "dashboardUsage": {
       "dailyConsumption": "Daily consumption",
       "benchmark": "Benchmark"
+    },
+    "dialogScreens": {
+      "0": {
+        "headline": "How to save water when using the toilet",
+        "subheadline": "27 percent of water consumption goes to toilet flushing - one person uses an average of 10,841 liters of water a year to flush. Therefore, you can save a lot of water by following these tips:",
+        "steps": {
+          "0": "If you have a toilet with two flush options, and consistently use the larger one, every time you use the toilet, you use 3 liters more per use than necessary.",
+          "1": "You can also flush less often than usual. For example, flush if you have just urinated, or do not put snot paper and the like in the toilet and then flush.",
+          "2": "Use rainwater for toilet flushing. This is a slightly more comprehensive option as a collection system must be connected to the sewerage network by an authorized plumber and fulfill the building regulations, but it can then be used for more than toilet flushes, e.g. washing machine, garden watering and car wash."
+        }
+      },
+      "1": {
+        "headline": "How to save water when bathing",
+        "subheadline": "The bathtub and shower represent between 35% and 45% of your daily water consumption. Therefore, you can save a lot of water by following these tips:",
+        "steps": {
+          "0": "Choose a shower rather than a bathtub. A bathtub easily consumes 200 liters of water while the shower only uses approx. 35 liters.",
+          "1": "Take a short bath where you will not let the water run during the bath for more than 5 minutes in a row",
+          "2": "Turn off the water as you soak.",
+          "3": "Buy a saving shower. Then you only use 6-12 liters of water per minute - half as much as a regular shower."
+        }
+      },
+      "2": {
+        "headline": "How to save water when washing clothes",
+        "subheadline": "Did you know that the cost of water for washing is about 600-700 DKK a year? Therefore, you can save a lot of water by following these tips:",
+        "steps": {
+          "0": "Skip the pre-wash. The clothes are rarely so dirty that they need a pre-wash.",
+          "1": "The clothes stay clean on a short program unless they are very dirty. Select the normal wash or ironing program. The fine wash program has a high water level, and therefore uses more water.",
+          "2": "Fill up the washing machine and wash fewer wash times.",
+          "3": "Air the clothes (venting) instead of washing it. By venting clothes that are not tight fitted, it can easily be used for several days. That way, the clothes also last longer. Laundry also wears on your clothes."
+        }
+      },
+      "3": {
+        "headline": "How to save water when washing up or using the dishwasher",
+        "subheadline": "Did you know that the cost of water for washing is about 600-700 DKK a year? Therefore, you can save a lot of water by following these tips:",
+        "steps": {
+          "0": "Always use a tub rather than washing up under running water if you are washing using your hands.",
+          "1": "If you have a dishwasher, scan it completely before it starts. You do not have to rinse the dishes, it is enough to scrape off the leftovers. In addition, go for A-labeled products, like A++, which ensures low water and energy consumption.",
+          "2": "Newer dishwashers are all equipped with an eco-program that uses very little water for a wash. Some of them even use no more than 10 liters of water on a single dish. Older dishwashers without an eco-program will use about 20 liters of water."
+        }
+      }
     }
   },
   "404": {
