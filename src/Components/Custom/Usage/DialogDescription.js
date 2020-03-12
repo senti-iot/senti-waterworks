@@ -91,9 +91,11 @@ const DialogDescription = props => {
 			<div style={{ width: '70%' }}>
 				<ul className={classes.list}>
 					{/* problem below */}
-					{Object.values(t(`Usage.dialogScreens.${chosenDescription}.steps`)).map((item, index) => (
-						<Typography key={index} variant="body1" className={classes.listItem}>{item}</Typography>
-					))}
+					<Typography key={'step1'} variant="body1" className={classes.listItem}>{t(`Usage.dialogScreens.${chosenDescription}.steps.0`)}</Typography>
+					<Typography key={'step2'} variant="body1" className={classes.listItem}>{t(`Usage.dialogScreens.${chosenDescription}.steps.1`)}</Typography>
+					<Typography key={'step3'} variant="body1" className={classes.listItem}>{t(`Usage.dialogScreens.${chosenDescription}.steps.2`)}</Typography>
+					<Typography key={'step4'} variant="body1" className={classes.listItem}>{t(`Usage.dialogScreens.${chosenDescription}.steps.3`)}</Typography>
+
 				</ul>
 			</div>
 		</Fragment>
