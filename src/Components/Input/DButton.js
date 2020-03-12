@@ -1,17 +1,13 @@
-import React, {
-	Fragment, useState
-} from 'react'
-import { IconButton, Menu, MenuItem, Button, Tooltip } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Menu, MenuItem, Button } from '@material-ui/core'
 import { ItemG } from 'Components'
-import { MoreVert } from 'variables/icons'
-import { useLocalization } from 'Hooks'
+import { KeyboardArrowDown } from 'variables/icons'
 
-const DMenu = (props) => {
+const DButton = (props) => {
 	//#region Variables
 	const [anchor, setAnchor] = useState(null)
 
-	const t = useLocalization()
-	const { menuItems, icon, button, divider, tooltip, buttonClassName } = props
+	const { label, menuItems, divider, buttonClasses, menuClasses } = props
 
 	//#endregion
 
@@ -40,36 +36,33 @@ const DMenu = (props) => {
 
 	//#endregion
 	return (
-		<Fragment>
-			{button && <Button
+		<>
+			<Button
 				aria-label='More'
 				aria-owns={anchor ? 'long-menu' : null}
 				aria-haspopup='true'
-				style={{ color: 'rgba(0, 0, 0, 0.54)' }}
-				onClick={handleOpenActionsDetails}>
-				{icon ? icon : <MoreVert />}
-			</Button>}
-			{!button && <Tooltip title={tooltip ? tooltip : t('menus.menu')}>
-				<IconButton
-					aria-label='More'
-					aria-owns={anchor ? 'long-menu' : null}
-					aria-haspopup='true'
-					classes={{
-						root: buttonClassName
-					}}
-					onClick={handleOpenActionsDetails}>
-					{icon ? icon : <MoreVert />}
-				</IconButton>
-			</Tooltip>}
+				classes={buttonClasses}
+				onClick={handleOpenActionsDetails}
+				endIcon={<KeyboardArrowDown style={{ marginLeft: 16 }} />}
+			>
+				{label}
+
+			</Button>
 			<Menu
+				classes={menuClasses}
 				id='long-menu'
 				anchorEl={anchor}
 				open={Boolean(anchor)}
 				onClose={handleCloseActionsDetails}
 				disablePortal
-				PaperProps={{ style: { minWidth: 200 } }}>
+				style={{ marginTop: 60 }}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'left',
+				}}
+				PaperProps={{ style: { minWidth: 230 } }}>
 				{menuItems.map((m, i) => {
-					if (m.dontShow)
+					if (m.hide)
 						return null
 					return <MenuItem divider={divider ? i === menuItems.length - 1 ? false : true : false} selected={m.selected} key={i}
 						onClick={handleMenuItemClick(m)}>
@@ -80,9 +73,9 @@ const DMenu = (props) => {
 					</MenuItem>
 				})}
 			</Menu>
-		</Fragment>
+		</>
 	)
 
 }
 
-export default DMenu
+export default DButton

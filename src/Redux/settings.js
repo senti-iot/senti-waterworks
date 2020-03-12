@@ -138,6 +138,9 @@ export const getSettings = async () => {
 			user.internal = user.internal || {}
 			user.internal.sentiWaterworks = user.internal.sentiWaterworks || {}
 			user.internal.sentiWaterworks.extendedProfile = user.internal.sentiWaterworks.extendedProfile || {}
+			user.aux = user.aux || {}
+			user.aux.sentiWaterworks = user.aux.sentiWaterworks || {}
+			user.aux.sentiWaterworks.extendedProfile = user.aux.sentiWaterworks.extendedProfile || {}
 			let settings = user.internal.sentiWaterworks.settings = user.internal.sentiWaterworks.settings || {}
 
 			if (settings) {

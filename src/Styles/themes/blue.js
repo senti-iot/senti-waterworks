@@ -22,6 +22,7 @@ const theme = (type) => createMuiTheme({
 			main: colors.red[400]
 		}
 	},
+	headerColor: "#1a1b32",
 	appBackground: bgColors['blue'].background,
 	boxBackground: darken(hexToRgba(colors['blue'][700], 0.7), 0.5),
 	textColor: '#fff',

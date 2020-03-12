@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { ItemG, DateTimeFilter, DMenu } from 'Components'
-import ChartsButton from '../ChartsButton/ChartsButton'
 import { Hidden } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
 import { useLocalization, useSelector } from 'Hooks'
@@ -8,10 +7,12 @@ import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
 import { ExportModule } from 'Components/ExportModule/ExportModule'
 import ChartsButtonContainer from '../ChartsButton/ChartsButtonContainer'
-import ChartsDateNavContainer from '../ChartsButton/ChartsDateNavContainer'
-import ChartTitle from '../ChartTitle/ChartTitle'
 import { DateRange, ImportExport, MoreVert } from 'variables/icons'
 import styled from 'styled-components'
+// import DSelect from 'Components/Input/DSelxect'
+import { makeStyles } from '@material-ui/styles'
+import DButton from 'Components/Input/DButton'
+import { lighten } from '@material-ui/core/styles'
 
 const DateRangeIcon = styled(DateRange)`
 color: #fff;
@@ -19,10 +20,32 @@ color: #fff;
 const MoreVertIcon = styled(MoreVert)`
 color: #fff;
 `
+
+const useStyles = makeStyles(theme => ({
+
+	root: {
+		display: 'flex',
+		// justifyContent: 'space-between',
+		width: 230,
+		textAlign: 'center',
+		fontWeight: 500,
+		color: '#fff',
+		background: theme.activeChartButton,
+		borderRadius: 4,
+		"&:hover": {
+			background: lighten(theme.activeChartButton, 0.3)
+		}
+	},
+
+	icon: {
+		color: '#fff'
+	},
+
+}))
 export const MainChart = React.memo((props) => {
 	//Hooks
 	const t = useLocalization()
-
+	const classes = useStyles()
 	//Redux
 	// const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
@@ -43,60 +66,114 @@ export const MainChart = React.memo((props) => {
 	const handleCloseExport = () => {
 		setOpenExport(false)
 	}
-	const isActive = (c) => chart === c ? true : false
 	const handleSetChart = (c) => () => setChart(c)
 
 	return (
-		<ItemG container /* justify={'space-between'} */ style={{ height: '100%', flexFlow: 'column' }}>
+		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
 				<ChartsButtonContainer>
-					<ItemG container /* justify={'space-evenly'} */>
-						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('waterusage')} isActive={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
+					<ItemG container alignItems={'center'} justify={'center'}>
+						<ItemG xs={4} lg={3} container justify={'flex-start'} alignItems={'center'}>
+							{/* <DSelect
+								margin={'none'}
+								onChange={(e, value) => {
+									handleSetChart(e.target.value)()
+								}}
+								selectClasses={{
+									iconOutlined: classes.iconOutlined,
+									root: classes.select,
+									focused: classes.focused
+								}}
+								IconComponent={KeyboardArrowDown}
+								inputClasses={{
+									root: classes.root,
+									disabled: classes.disabled,
+									focused: classes.focused,
+									error: classes.error,
+									notchedOutline: classes.notchedOutline
+								}}
+								menuProps={{
+									style: { marginTop: 60 },
+									anchorOrigin: {
+										vertical: 'bottom',
+										horizontal: 'left',
+									},
+									transformOrigin: {
+										vertical: 'top',
+										horizontal: 'left',
+									}
+								}}
+								value={chart}
+								menuItems={[
+									{ label: t('charts.types.waterusage'), value: 'waterusage' },
+									{ label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
+									{ label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
+									{ label: t('charts.types.readings'), value: 'readings' }
+								]}
+							/> */}
+
+							<DButton
+								margin={'none'}
+								onChange={(value) => {
+									handleSetChart(value)()
+								}}
+								buttonClasses={{
+									root: classes.root
+								}}
+								label={<ItemG xs container justify={'center'}>{t(`charts.types.${chart}`)}</ItemG>}
+								menuItems={[
+									{ label: t('charts.types.waterusage'), value: 'waterusage' },
+									{ label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
+									{ label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
+									{ label: t('charts.types.readings'), value: 'readings' }
+								]}
+							/>
+
 						</ItemG>
-						{data ? data.temperature.length > 0 ?
-							<ItemG xs={3}>
+						<ItemG xs={4} lg={6} container alignItems={'center'} justify={'center'}>
+							<DateTimeArrows />
+						</ItemG>
+						<ItemG xs={3} lg={3} container alignItems={'center'} justify={'flex-end'}>
+							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
+								<Hidden mdDown>
+									<DateTimeDays />
+								</Hidden>
+								<DateTimeFilter icon={<DateRangeIcon />} />
+								<DMenu
+									icon={<MoreVertIcon />}
+									onChange={handleOpenExport}
+									menuItems={[{
+										dontShow: false,
+										icon: <ImportExport />,
+										label: t('actions.export')
+									}]}
+								/>
+							</ItemG>
+							<ItemG>
+								<ExportModule open={openExport}
+									handleOpenExport={handleOpenExport}
+									handleCloseExport={handleCloseExport}
+								/>
+							</ItemG>
+							{/* <ItemG xs={3}>
+							<ChartsButton onClick={handleSetChart('waterusage')} isActive={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
+							</ItemG>
+							{data ? data.temperature.length > 0 ?
+								<ItemG xs={3}>
 								<ChartsButton onClick={handleSetChart('temperature')} isActive={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
-							</ItemG> : null : null
-						}
+								</ItemG> : null : null
+							}
 						{data ? data.waterflow.length > 0 ?
 							<ItemG xs={3}>
 								<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
 							</ItemG> : null : null}
 						<ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+						<ChartsButton onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
+					</ItemG> */}
 						</ItemG>
 					</ItemG>
 				</ChartsButtonContainer>
-				<ChartsDateNavContainer container alignItems={'center'} justify={'space-between'}>
-					<ItemG xs={3} md={3} lg={3} >
-						<ChartTitle variant={'h6'}>{t(`charts.types.${chart}`)}</ChartTitle>
-					</ItemG>
-					<ItemG xs={7} md={5} lg={4}>
-						<DateTimeArrows />
-					</ItemG>
-					<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
-						<Hidden mdDown>
 
-							<DateTimeDays />
-						</Hidden>
-						<DateTimeFilter icon={<DateRangeIcon />} />
-						<DMenu
-							icon={<MoreVertIcon />}
-							onChange={handleOpenExport}
-							menuItems={[{
-								dontShow: false,
-								icon: <ImportExport />,
-								label: t('actions.export')
-							}]}
-						/>
-					</ItemG>
-
-				</ChartsDateNavContainer>
-				<ExportModule open={openExport}
-					handleOpenExport={handleOpenExport}
-					handleCloseExport={handleCloseExport}
-				/>
 			</Hidden>
 
 			{/* </ItemG> */}
@@ -104,7 +181,7 @@ export const MainChart = React.memo((props) => {
 				<LineGraph loading={props.loading} id={chart} />
 			</ItemG>
 
-		</ItemG>
+		</ItemG >
 	)
 })
 MainChart.whyDidYouRender = true

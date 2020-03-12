@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 		// textDecoration: 'underline #fff',
 		// paddingBottom: 2,
-		borderBottom: '2px solid #fff',
+		// borderBottom: '2px solid #fff',
 		// textDecorationStyle: 'solid'
 	},
 	title: {

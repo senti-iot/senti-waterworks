@@ -6,35 +6,31 @@ import { T, ItemG } from 'Components'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'Hooks'
 import { changeDate } from 'Redux/dateTime'
-import size from 'Styles/themes/mediaQueries'
+import { lighten } from '@material-ui/core/styles'
+import hexToRgba from 'hex-to-rgba'
+// import size from 'Styles/themes/mediaQueries'
 
 const LeftArrow = styled(KeyboardArrowLeft)`
 color: #fff;
-width: 1.75em;
-height: 1.75em;
-@media ${size.down.xl} {
-	width: 1.5em;
-	height: 1.5em;
-}
 `
 const RightArrow = styled(KeyboardArrowRight)`
 color: #fff;
-width: 1.75em;
-height: 1.75em;
-@media ${size.down.xl} {
-	width: 1.5em;
-	height: 1.5em;
-}
+
+`
+const SIconButton = styled(IconButton)`
+	background: ${({ theme }) => theme.activeChartButton};
+	border-radius: 50%;
+	padding: 6px;
+	&:disabled {
+		background: ${({ theme }) => lighten(hexToRgba(theme.activeChartButton, 0.67), 0.3)};
+	}
+	&:hover {
+		background: ${({ theme, disabled }) => disabled ? hexToRgba(theme.activeChartButton, 0.67) + ' !important' : lighten(theme.activeChartButton, 0.3)};
 `
 const MonthYear = styled(T)`
-    /* font-weight: 600; */
+    font-weight: 500;
 	text-align: center;
-    font-size: 1.50rem;
 	white-space: nowrap;
-	@media ${size.down.md} {
-  		font-size: 1em;
-}
-    /* letter-spacing: 1.5px; */
 `
 const futureTester = (date, unit) => {
 	return moment()/* .subtract(1, 'day') */.diff(date, unit) <= 0
@@ -88,10 +84,10 @@ const DateTimeArrows = () => {
 
 	return (
 		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
-			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
-				<IconButton onClick={handlePreviousPeriod} >
+			<ItemG xs={1} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
+				<SIconButton onClick={handlePreviousPeriod} >
 					<LeftArrow />
-				</IconButton>
+				</SIconButton>
 			</ItemG>
 			<ItemG container /* xs={9} lg={9} xl={5} */ justify={'center'} alignItems={'center'} style={{ width: 'fit-content', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 
@@ -101,10 +97,10 @@ const DateTimeArrows = () => {
 				&nbsp;&nbsp;&nbsp;
 				<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 			</ItemG>
-			<ItemG xs={2}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
-				<IconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
+			<ItemG xs={1}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
+				<SIconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
 					<RightArrow />
-				</IconButton>
+				</SIconButton>
 			</ItemG>
 		</ItemG>
 	)

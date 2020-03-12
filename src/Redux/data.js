@@ -1,5 +1,5 @@
 import { handleRequestSort } from 'data/functions'
-import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, /* getDevicesData */ } from 'data/devices'
+import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, getTotalVolumeData, /* getDevicesData */ } from 'data/devices'
 import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData, genNBarData } from 'data/model'
 import moment from 'moment'
 import { colors } from 'variables/colors'
@@ -72,7 +72,15 @@ export const getNData = async () => {
 		let waterUsagePrevData = await getWaterUsage(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(prevFrom, to)
 		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
-		let priceList = await getPriceList(orgId)
+		let price = await getPriceList(orgId)
+		let totalData = await getTotalVolumeData(orgId, from, to)
+		console.log('totalData', totalData)
+
+		let priceList = price ? price : {
+			waterTotal: 0,
+			sewageTotal: 0
+		}
+		console.log(priceList)
 		//#region WaterUsage
 		if (waterUsageData.length > 0) {
 

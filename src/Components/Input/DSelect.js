@@ -9,11 +9,11 @@ const styles = makeStyles(theme => ({
 	label: {
 		color: theme.palette.type === 'dark' ? "#fff" : undefined,
 	},
-	formControl: {
-		marginTop: 16,
-		marginBottom: 8,
-		minWidth: 230
-	},
+	// formControl: {
+	// 	marginTop: 16,
+	// 	marginBottom: 8,
+	// 	minWidth: 230
+	// },
 }))
 
 const DSelect = (props) => {
@@ -33,12 +33,13 @@ const DSelect = (props) => {
 		}
 	}
 	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon, id } = props
+	const { selectClasses, formControlClasses, inputClasses, menuProps, IconComponent } = props
 	//TO DO
 	let mobile = window.innerWidth < theme.breakpoints.values.md ? true : false
 	// let mobile = false
 	const classes = styles()
 	return (
-		<FormControl variant="outlined" margin={margin} className={classes.formControl} fullWidth={mobile || fullWidth} styles={props.styles}>
+		<FormControl variant="outlined" margin={margin} classes={formControlClasses} fullWidth={mobile || fullWidth} styles={props.styles}>
 			<InputLabel
 				ref={InputRef}
 				classes={{ asterisk: classes.label }}
@@ -48,17 +49,25 @@ const DSelect = (props) => {
 				{label}
 			</InputLabel>
 			<Select
+				classes={selectClasses}
 				id={id}
 				variant={'outlined'}
 				fullWidth={mobile || fullWidth}
+				margin={margin}
 				value={value}
 				error={error}
 				onChange={event => onChange(event, id)}
-				input={<OutlinedInput id={id} labelWidth={lWidth()} variant={'outlined'} classes={{ root: classes.label }} />}
+				input={<OutlinedInput id={id} labelWidth={lWidth()} variant={'outlined'} classes={{ root: classes.label, ...inputClasses }} />}
 				onKeyPress={onKeyPress}
 				styles={props.styles}
+				MenuProps={menuProps}
+				IconComponent={IconComponent}
+			// end
 			>
 				{!simple && menuItems.map((m, i) => {
+					if (m.hide) {
+						return null
+					}
 					return <MenuItem id={id} key={i} value={m.value}>
 						<ItemG container justify={'space-between'} alignItems={'center'}>
 							{leftIcon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon ? m.icon : null}</ItemG> : null}
@@ -68,6 +77,9 @@ const DSelect = (props) => {
 					</MenuItem>
 				})}
 				{simple && menuItems.map((m, i) => {
+					if (m.hide) {
+						return null
+					}
 					return <MenuItem id={id} key={i} value={m}>
 						<ItemG container justify={'space-between'} alignItems={'center'}>
 							<ItemG xs>{m}</ItemG>
@@ -81,7 +93,4 @@ const DSelect = (props) => {
 	)
 }
 
-DSelect.propTypes = {
-
-}
 export default DSelect
