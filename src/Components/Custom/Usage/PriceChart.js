@@ -8,6 +8,14 @@ import creditCard from 'assets/icons/credit-card.svg'
 import { CallMade, HelpOutline } from 'variables/icons'
 
 const useStyles = makeStyles(theme => ({
+	headline: {
+		fontSize: 16,
+		fontWeight: 400,
+		alignSelf: 'flex-end',
+		marginLeft: 8,
+		position: 'relative',
+		color: '#fff'
+	},
 	flex: {
 		display: 'flex',
 		color: '#fff'
@@ -83,7 +91,7 @@ const PriceChart = props => {
 		<div style={{ position: 'relative', height: '100%' }}>
 			<div className={classes.header}>
 				<img src={creditCard} alt="senti-credit-card" />
-				<Typography variant="h5" style={{ marginLeft: 16 }}>{t('Usage.dashboardPrice.headline')}</Typography>
+				<Typography variant="body1" className={classes.headline}>{t('Usage.dashboardPrice.headline')}</Typography>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
 			<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.water')}{priceData.waterusage}</Typography>
