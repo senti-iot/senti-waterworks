@@ -72,46 +72,8 @@ export const MainChart = React.memo((props) => {
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
 				<ChartsButtonContainer>
-					<ItemG container alignItems={'center'} justify={'center'}>
-						<ItemG xs={4} lg={3} container justify={'flex-start'} alignItems={'center'}>
-							{/* <DSelect
-								margin={'none'}
-								onChange={(e, value) => {
-									handleSetChart(e.target.value)()
-								}}
-								selectClasses={{
-									iconOutlined: classes.iconOutlined,
-									root: classes.select,
-									focused: classes.focused
-								}}
-								IconComponent={KeyboardArrowDown}
-								inputClasses={{
-									root: classes.root,
-									disabled: classes.disabled,
-									focused: classes.focused,
-									error: classes.error,
-									notchedOutline: classes.notchedOutline
-								}}
-								menuProps={{
-									style: { marginTop: 60 },
-									anchorOrigin: {
-										vertical: 'bottom',
-										horizontal: 'left',
-									},
-									transformOrigin: {
-										vertical: 'top',
-										horizontal: 'left',
-									}
-								}}
-								value={chart}
-								menuItems={[
-									{ label: t('charts.types.waterusage'), value: 'waterusage' },
-									{ label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
-									{ label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
-									{ label: t('charts.types.readings'), value: 'readings' }
-								]}
-							/> */}
-
+					<ItemG container alignItems={'center'} justify={'space-between'}>
+						<ItemG xs={2} lg={3} container justify={'flex-start'} alignItems={'center'}>
 							<DButton
 								margin={'none'}
 								onChange={(value) => {
@@ -130,10 +92,10 @@ export const MainChart = React.memo((props) => {
 							/>
 
 						</ItemG>
-						<ItemG xs={4} lg={6} container alignItems={'center'} justify={'center'}>
+						<ItemG xs={5} lg={4} container alignItems={'center'} >
 							<DateTimeArrows />
 						</ItemG>
-						<ItemG xs={3} lg={3} container alignItems={'center'} justify={'flex-end'}>
+						<ItemG xs={3} lg={4} container alignItems={'center'} justify={'flex-end'}>
 							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
 								<Hidden mdDown>
 									<DateTimeDays />

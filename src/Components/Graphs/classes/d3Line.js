@@ -96,10 +96,12 @@ class d3Line {
 			}
 		})
 
-		this.generateLines()
-		this.generateMedian()
-		this.generateLegend()
-		this.generateDots()
+		// this.generateLines()
+		// this.generateMedian()
+		// this.generateLegend()
+		// this.generateDots()
+		// this.generateWeather()
+		this.update()
 	}
 	setState = (key, value, noUpdate) => {
 		this.state[key] = value
@@ -121,6 +123,7 @@ class d3Line {
 		this.generateXAxis()
 		this.generateYAxis()
 		this.generateLines()
+		this.generateWeather()
 		this.generateMedian()
 		this.generateLegend()
 		this.generateDots()
@@ -234,7 +237,9 @@ class d3Line {
 			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
 			.call(xAxis_woy)
 
+
 		// //Append style
+
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
 		this.xAxis.selectAll('text').attr('class', classes.axisTick)
@@ -252,6 +257,37 @@ class d3Line {
 		// 	.attr('transform', `translate(0,50)`)
 		// 	.attr('class', classes.axisText)
 		// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
+	}
+	generateWeather = () => {
+		console.trace()
+		const classes = this.classes
+		const height = this.height
+		const margin = this.margin
+		console.log('margin', margin)
+		this.xAxis.selectAll('.tick').each(function (d, i) {
+			// console.log(this.nextSibling.getBoundingClientRect().x, this.getBoundingClientRect().x)
+			let parent = d3.select(this)
+			if (this.nextSibling) {
+
+				if (i === 0) {
+					parent.append('rect')
+						.attr('class', classes.axisLineWhite)
+						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x - 4)
+						.attr("height", height - margin.bottom - 26)
+						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+				}
+				else {
+					if (i % 2 === 0) {
+						parent.append('rect')
+							.attr('class', classes.axisLineWhite)
+							.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+							.attr("height", height - margin.bottom - 26)
+							.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+						console.log(i % 2 === 0)
+					}
+				}
+			}
+		})
 	}
 	generateDots = () => {
 		let data = this.props.data ? this.props.data[this.props.id] : []

@@ -21,7 +21,7 @@ const LineGraph = React.memo((props) => {
 	const period = useSelector(s => s.dateTime.period)
 	const prevId = usePrevious(props.id)
 	let prevData = usePrevious(deviceData)
-	const classes = lineStyles({ id: props.id })
+	const classes = lineStyles()
 	let prevLoading = usePrevious(props.loading)
 
 

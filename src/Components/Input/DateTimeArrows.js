@@ -84,7 +84,7 @@ const DateTimeArrows = () => {
 
 	return (
 		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
-			<ItemG xs={1} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
+			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
 				<SIconButton onClick={handlePreviousPeriod} >
 					<LeftArrow />
 				</SIconButton>
@@ -97,7 +97,7 @@ const DateTimeArrows = () => {
 				&nbsp;&nbsp;&nbsp;
 				<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 			</ItemG>
-			<ItemG xs={1}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
+			<ItemG xs={2}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
 				<SIconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
 					<RightArrow />
 				</SIconButton>
