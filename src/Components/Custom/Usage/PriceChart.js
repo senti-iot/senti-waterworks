@@ -1,14 +1,15 @@
 /* eslint-disable indent */
-import React, { Fragment } from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
+import React from 'react'
+import { makeStyles, Typography, IconButton } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
+import creditCard from 'assets/icons/credit-card.svg'
+import { CallMade, HelpOutline } from 'variables/icons'
 
 const useStyles = makeStyles(theme => ({
 	flex: {
 		display: 'flex',
-		justifyContent: 'space-between',
 		color: '#fff'
 	},
 	chevronRight: {
@@ -28,11 +29,6 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: 8,
 		color: '#6DD400',
 		fontSize: 26,
-
-		// textDecoration: 'underline #fff',
-		// paddingBottom: 2,
-		// borderBottom: '2px solid #fff',
-		// textDecorationStyle: 'solid'
 	},
 	title: {
 		margin: '8px 0 16px 0',
@@ -40,6 +36,23 @@ const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.down('lg')]: {
 			margin: '8px 0px 8px 0px'
 		}
+	},
+	header: {
+		display: 'flex',
+		color: '#fff',
+		marginBottom: 16
+	},
+	callMade: {
+		position: 'absolute',
+		top: -4,
+		right: -12,
+		color: '#fff'
+	},
+	helpOutline: {
+		position: 'absolute',
+		bottom: -4,
+		right: -12,
+		color: '#fff'
 	}
 }))
 
@@ -67,22 +80,30 @@ const PriceChart = props => {
 	// }
 
 	return (
-		<Fragment>
-			<div className={classes.flex}>
-				<Typography variant="h5" style={{}}>{t('Usage.dashboardPrice.headline')}</Typography>
+		<div style={{ position: 'relative', height: '100%' }}>
+			<div className={classes.header}>
+				<img src={creditCard} alt="senti-credit-card" />
+				<Typography variant="h5" style={{ marginLeft: 16 }}>{t('Usage.dashboardPrice.headline')}</Typography>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
 			<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.water')}{priceData.waterusage}</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
 				<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.sewage')}{priceData.sewage}</Typography>
-				<Typography variant="body1" gutterBottom={false} className={classes.body1}>
+				<Typography variant="body1" gutterBottom={false} className={classes.body1} style={{ lineHeight: '1.5em', marginLeft: 48 }}>
 					Total:
           			<span className={classes.priceTag}>
 						Kr. {priceData.total}
 					</span>
 				</Typography>
 			</div>
-		</Fragment>
+
+			<IconButton size="small" className={classes.callMade} onClick={() => { }}>
+				<CallMade />
+			</IconButton>
+			<IconButton size="small" className={classes.helpOutline} onClick={() => { }}>
+				<HelpOutline />
+			</IconButton>
+		</div>
 	)
 }
 

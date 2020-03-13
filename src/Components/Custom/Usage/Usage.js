@@ -4,7 +4,7 @@ import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@materi
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
-import { CallMade } from 'variables/icons'
+import { CallMade, HelpOutline } from 'variables/icons'
 import familyIcon from 'assets/icons/familie.svg'
 import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
@@ -25,6 +25,12 @@ const useStyles = makeStyles(theme => ({
 		right: -12,
 		color: '#fff'
 	},
+	helpOutline: {
+		position: 'absolute',
+		bottom: -4,
+		right: -12,
+		color: '#fff'
+	},
 	itemG: {
 		flex: 1
 	},
@@ -32,12 +38,13 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: 16
 	},
 	headline: {
-		fontSize: 16,
+		fontSize: 14,
 		fontWeight: 'bolder',
 		alignSelf: 'flex-end',
-		marginLeft: 16,
+		marginLeft: 8,
 		position: 'relative',
-		top: 6 // to align it with the bottom edge of the icon
+		top: 6, // to align it with the bottom edge of the icon
+		color: '#fff'
 	},
 	familyIcon: {
 		maxWidth: 38,
@@ -46,15 +53,14 @@ const useStyles = makeStyles(theme => ({
 	cubicValue: {
 		fontSize: 42,
 		marginTop: 16,
+		lineHeight: 1,
 		[theme.breakpoints.down('lg')]: {
 			fontSize: 30
 		}
 	},
 	blueWaterdrop: {
-		position: 'absolute',
-		bottom: -4,
-		right: 16,
-		maxWidth: 30,
+		marginLeft: 24,
+		maxWidth: 36,
 		height: 'auto'
 	},
 	dialogRoot: {
@@ -84,6 +90,12 @@ const useStyles = makeStyles(theme => ({
 		borderRight: '1px solid #fff',
 		paddingRight: 16,
 		position: 'relative'
+	},
+	flexColumn: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+		height: '100%'
 	}
 }))
 
@@ -116,7 +128,7 @@ const Usage = props => {
 		},
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
-			headline: t('Usage.dashboardUsage.benchmark'),
+			headline: t('Usage.dashboardUsage.comparison'),
 			cubicMetres: avgData.benchmarkm3,
 			liters: avgData.benchmarkL,
 		}
@@ -134,22 +146,26 @@ const Usage = props => {
 		<Grid container className={classes.container}>
 			{columns.map(({ familyIcon, headline, cubicMetres, liters }, index) => (
 				<ItemG key={index} className={columnClasses(index)}>
-					<div style={{ display: 'flex' }}>
-						{familyIcon}
-						<Typography variant="body1" className={classes.headline} style={{ color: index % 2 === 0 ? '#fff' : '#32FFE1' }}>{headline}</Typography>
-					</div>
-					<Typography variant="h2" className={classes.cubicValue} style={{ color: index % 2 === 0 ? '#6DD400' : '#32FFE1' }}>
-						{cubicMetres.toLocaleString()}<span style={{ fontSize: 14 }}> m3</span>
-					</Typography>
-					<Typography variant="body2" style={{ color: index % 2 === 0 ? '#6DD400' : '#32FFE1', marginLeft: 72 }}>
-						{(liters).toFixed(0)} L
-          </Typography>
+					<div className={classes.flexColumn}>
+						<div style={{ display: 'flex' }}>
+							{familyIcon}
+							<Typography variant="body1" className={classes.headline}>{headline}</Typography>
+						</div>
+						<div style={{ display: 'flex', alignItems: 'flex-end' }}>
+							<Typography variant="body2" className={classes.cubicValue} style={{ color: index % 2 === 0 ? '#6DD400' : '#F7DC00' }}>
+								{(liters).toFixed(0)} <span style={{ fontSize: '0.7em', color: '#fff' }}>L</span>
+							</Typography>
 
-					<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
+							<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
+						</div>
+					</div>
 				</ItemG>
 			))}
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
+			</IconButton>
+			<IconButton size="small" className={classes.helpOutline} onClick={() => { }}>
+				<HelpOutline />
 			</IconButton>
 
 			<Dialog

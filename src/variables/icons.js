@@ -126,7 +126,10 @@ import ChevronRight from '@material-ui/icons/ChevronRight'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import WarningIcon from '@material-ui/icons/Warning'
 import ErrorIcon from '@material-ui/icons/Error'
+import HelpOutline from '@material-ui/icons/HelpOutline'
+
 export {
+	HelpOutline,
 	KeyboardArrowDown,
 	ErrorIcon,
 	WarningIcon,
