@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { bgColors } from 'Styles/backgroundColors'
 import { Button } from '@material-ui/core'
 import FadeLoader from 'Components/Loaders/FadeLoader'
+import ItemG from 'Components/Containers/ItemG'
 
 const Background = styled.div`
 	width: 100vw;
@@ -121,8 +122,6 @@ const OnboardingConfirm = (props) => {
 	//useEffects
 
 	//Handlers
-	const handleTryAgain = () => setLoading(true)
-
 	const handleGoToLogin = () => history.push('/login')
 
 	const handleConfirm = async () => {
@@ -143,15 +142,17 @@ const OnboardingConfirm = (props) => {
 						<T className={classes.message} style={{ marginBottom: 24 }}>
 							{success ? t(`signup.confirm.confirmSuccess`) : t('signup.confirm.confirmFail')}
 						</T>
-						<Button className={classes.button} variant={'contained'} color={'secondary'} onClick={success ? handleGoToLogin : handleTryAgain}>
-							{success ? t('actions.goToLogin') : t('actions.retry')}
-						</Button>
+						<ItemG xs={6} container justify={'center'}>
+							<Button className={classes.button} variant={'contained'} color={'secondary'} onClick={handleGoToLogin}>
+								{t('actions.goToLogin')}
+							</Button>
+						</ItemG>
 
 					</div>
 				</FadeLoader>
 
 			</div>
-		</Background>
+		</Background >
 	)
 }
 
