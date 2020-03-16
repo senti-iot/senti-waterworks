@@ -46,6 +46,17 @@ export const getAllDevices = async () => {
 		})
 	}
 }
+/**
+ * Get Weather Data for the Line Graph
+ */
+export const getWeatherData = async () => {
+	return async (dispatch, getState) => {
+
+	}
+}
+/**
+ * Get & Generate data for all graphs
+ */
 export const getNData = async () => {
 	return async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
