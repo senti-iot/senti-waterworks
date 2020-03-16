@@ -1,15 +1,15 @@
 import { createMuiTheme, darken } from '@material-ui/core/styles'
 import override from './override'
-import * as colors from '@material-ui/core/colors';
-import hexToRgba from 'hex-to-rgba';
-import { bgColors } from 'Styles/backgroundColors';
-import { headerColor } from 'Styles/mainStyles';
+import * as colors from '@material-ui/core/colors'
+import hexToRgba from 'hex-to-rgba'
+import { bgColors } from 'Styles/backgroundColors'
+import { headerColor } from 'Styles/mainStyles'
 
 
-const theme = createMuiTheme({
-	...override('blue'),
+const theme = (type) => createMuiTheme({
+	...override('blue', type),
 	palette: {
-		type: 'dark',
+		type: type ? 'dark' : 'light', // here
 		primary: {
 			main: colors.blue[500],
 			light: colors.blue[400],
@@ -22,6 +22,7 @@ const theme = createMuiTheme({
 			main: colors.red[400]
 		}
 	},
+	headerColor: "#1a1b32",
 	appBackground: bgColors['blue'].background,
 	boxBackground: darken(hexToRgba(colors['blue'][700], 0.7), 0.5),
 	textColor: '#fff',
@@ -38,7 +39,7 @@ const theme = createMuiTheme({
 		waterTempLine: colors.blue[400],
 		benchmarkLine: colors.yellow[500]
 	},
-});
+})
 // export const chartColors = {
 // 	mainLine: colors.orange[500],
 // 	medianLine: colors.red[500],

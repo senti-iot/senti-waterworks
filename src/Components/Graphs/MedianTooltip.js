@@ -3,7 +3,7 @@ import { T, ItemG } from 'Components'
 import Card from '@material-ui/core/Card'
 import { CardContent, /* Divider */ } from '@material-ui/core'
 import moment from 'moment'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import { Droplet, Thermometer } from 'variables/icons'
 
 const TCard = styled(Card)`
@@ -46,7 +46,7 @@ const renderIcon = (id, tooltip) => {
 }
 
 const MedianTooltip = (props) => {
-	return <TCard id={props.id + 'medianTooltip'} style={{ zIndex: -1 }}>
+	return <TCard id={'medianTooltip' + props.id} style={{ zIndex: -1 }}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>

@@ -1,7 +1,7 @@
-import * as d3 from 'd3';
-import moment from 'moment';
-import hexToRgba from 'hex-to-rgba';
-import { colors } from '@material-ui/core';
+import * as d3 from 'd3'
+import moment from 'moment'
+import hexToRgba from 'hex-to-rgba'
+import { colors } from '@material-ui/core'
 
 const getMedianLineData = (data) => {
 	let medianValues = []
@@ -45,23 +45,23 @@ const getMin = (arr) => {
 }
 class d3Line {
 
-	containerEl;
-	props;
-	svg;
-	classes;
+	containerEl
+	props
+	svg
+	classes
 	state = [];
-	t;
+	t
 	constructor(containerEl, props, classes) {
-		this.t = props.t;
-		this.classes = classes;
-		this.containerEl = containerEl;
-		this.props = props;
-		this.period = props.period;
-		this.margin = { top: 50, right: 50, bottom: 50, left: 50 };
+		this.t = props.t
+		this.classes = classes
+		this.containerEl = containerEl
+		this.props = props
+		this.period = props.period
+		this.margin = { top: 0, right: 50, bottom: 50, left: 50 }
 		let data = props.data ? props.data[props.id] : []
 		//Get the height and width from the container
-		this.height = containerEl.clientHeight;
-		this.width = containerEl.clientWidth;
+		this.height = containerEl.clientHeight
+		this.width = containerEl.clientWidth
 
 		this.svg = d3.select(`#${props.id}`)
 
@@ -78,28 +78,30 @@ class d3Line {
 		this.valueLine = d3.line()
 			.x((d) => this.x(moment(d.date).valueOf()))
 			.y(d => this.y(d.value))
-		this.div = d3.select(`#${props.id}tooltip`)
-			.style("opacity", 0);
-		this.medianTooltip = d3.select(`#${this.props.id}medianTooltip`)
-			.style("opacity", 0);
+		this.div = d3.select(`#tooltip${props.id}`)
+			.style("opacity", 0)
+		this.medianTooltip = d3.select(`#medianTooltip${this.props.id}`)
+			.style("opacity", 0)
 
 		//#region Ticks
 
 
 		data.forEach(line => {
 			if (!line.noMedianLegend && line.median) {
-				this.setState(line.name + 'Median', true)
-				this.setState(line.name, line.hidden ? true : false)
+				this.setState('Median' + line.name, true)
+				this.setState('L' + line.name, line.hidden ? true : false)
 			}
 			else {
-				this.setState(line.name, line.hidden ? true : false)
+				this.setState('L' + line.name, line.hidden ? true : false)
 			}
 		})
 
-		this.generateLines()
-		this.generateMedian()
-		this.generateLegend()
-		this.generateDots()
+		// this.generateLines()
+		// this.generateMedian()
+		// this.generateLegend()
+		// this.generateDots()
+		// this.generateWeather()
+		this.update()
 	}
 	setState = (key, value, noUpdate) => {
 		this.state[key] = value
@@ -121,6 +123,7 @@ class d3Line {
 		this.generateXAxis()
 		this.generateYAxis()
 		this.generateLines()
+		this.generateWeather()
 		this.generateMedian()
 		this.generateLegend()
 		this.generateDots()
@@ -133,13 +136,13 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.top, this.margin.bottom]);
-			this.y.domain([getMin(allData), getMax(allData)]);
+			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 5])
+			this.y.domain([getMin(allData), getMax(allData)])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
-			.attr('transform', `translate(${this.margin.top + 40}, 0)`)
-			.call(d3.axisLeft(this.y));
+			.attr('transform', `translate(${this.margin.left + 40}, 0)`)
+			.call(d3.axisLeft(this.y))
 
 		yAxis.selectAll('path').attr('class', classes.axis)
 		yAxis.selectAll('line').attr('class', classes.axis)
@@ -153,7 +156,7 @@ class d3Line {
 	generateXAxis = () => {
 		const width = this.width
 
-		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right]);
+		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right])
 		let period = this.props.period
 
 		let data = this.props.data ? this.props.data[this.props.id] : []
@@ -227,14 +230,16 @@ class d3Line {
 		var xAxis_woy = this.xAxis_days = d3.axisBottom(this.x)
 			// .tickFormat(d3.timeFormat("%d"))
 			.tickFormat(f => moment(f).format('D'))
-			.tickValues(ticks);
+			.tickValues(ticks)
 
 		// //Add the X axis
 		this.xAxis = this.svg.append("g")
 			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
-			.call(xAxis_woy);
+			.call(xAxis_woy)
+
 
 		// //Append style
+
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
 		this.xAxis.selectAll('text').attr('class', classes.axisTick)
@@ -244,7 +249,7 @@ class d3Line {
 			.tickValues(monthTicks)
 		this.xAxisMonths = this.svg.append("g")
 			.attr("transform", "translate(-8," + (height - this.margin.bottom + 26) + ")")
-			.call(xAxis_months);
+			.call(xAxis_months)
 		this.xAxisMonths.selectAll('path').attr('class', classes.axis)
 		this.xAxisMonths.selectAll('line').attr('class', classes.axis)
 		this.xAxisMonths.selectAll('text').attr('class', classes.axisText)
@@ -253,26 +258,57 @@ class d3Line {
 		// 	.attr('class', classes.axisText)
 		// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
 	}
+	generateWeather = () => {
+		console.trace()
+		const classes = this.classes
+		const height = this.height
+		const margin = this.margin
+		console.log('margin', margin)
+		this.xAxis.selectAll('.tick').each(function (d, i) {
+			// console.log(this.nextSibling.getBoundingClientRect().x, this.getBoundingClientRect().x)
+			let parent = d3.select(this)
+			if (this.nextSibling) {
+
+				if (i === 0) {
+					parent.append('rect')
+						.attr('class', classes.axisLineWhite)
+						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x - 4)
+						.attr("height", height - margin.bottom - 26)
+						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+				}
+				else {
+					if (i % 2 === 0) {
+						parent.append('rect')
+							.attr('class', classes.axisLineWhite)
+							.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+							.attr("height", height - margin.bottom - 26)
+							.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+						console.log(i % 2 === 0)
+					}
+				}
+			}
+		})
+	}
 	generateDots = () => {
-		let data = this.props.data[this.props.id]
+		let data = this.props.data ? this.props.data[this.props.id] : []
 		const setTooltip = this.props.setTooltip
 		data.forEach((line) => {
 			if (line.prev) {
 				return
 			}
-			let tooltipDiv = d3.select(`#${this.props.id}tooltip`)
+			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
 			this.svg.selectAll(".dot")
 				.data(line.data)
 				.enter()
 				.append("circle") // Uses the enter().append() method
 				.on("mouseover", function (d) {
-					d3.select(this).attr("r", 8);
+					d3.select(this).attr("r", 8)
 					tooltipDiv.transition()
 						.duration(200)
 						.style("opacity", 1)
-						.style('z-index', 1040);
+						.style('z-index', 1040)
 					tooltipDiv.style("left", (d3.event.pageX) - 235 + "px")
-						.style("top", (d3.event.pageY) - 250 + "px");
+						.style("top", (d3.event.pageY) - 250 + "px")
 					setTooltip(d)
 
 				}).on("mouseout", function () {
@@ -281,7 +317,7 @@ class d3Line {
 					tooltipDiv.transition()
 						.duration(500)
 						.style('z-index', -1)
-						.style("opacity", 0);
+						.style("opacity", 0)
 				}).on('click', function (d) {
 					// setExpand(true)
 					// alert(d.date + ' ' + d.value)
@@ -293,8 +329,8 @@ class d3Line {
 				.attr("fill", line.color ? colors[line.color][500] : "#fff")
 				.attr('opacity', 0)
 				.transition()
-				.attr("id", `${line.name}Dots`)
-				.style("opacity", this.state[line.name] ? 0 : 1)
+				.attr("id", `Dots${line.name}`)
+				.style("opacity", this.state['L' + line.name] ? 0 : 1)
 				.delay((d, i) => { return i * (1500 / line.data.length) })
 				.attr("r", 6)
 		})
@@ -305,24 +341,24 @@ class d3Line {
 		data.forEach((line) => {
 
 			if (line.median & !line.noMedianLegend) {
-				let LegendMCheck = d3.select(`#${line.name}LegendMedianCheckbox`)
-				let LegendM = d3.select(`#${line.name}LegendMedian`)
-				let LegendMLabel = d3.select(`#${line.name}LegendMedianLabel`)
+				let LegendMCheck = d3.select(`#LegendMedianCheckbox${line.name}`)
+				let LegendM = d3.select(`#LegendMedian${line.name}`)
+				let LegendMLabel = d3.select(`#LegendMedianLabel${line.name}`)
 				LegendMCheck.on('click', () => {
 
-					var active = this.state[line.name + 'Median'] ? false : true,
+					var active = this.state['Median' + line.name] ? false : true,
 						newOpacity = active ? 0 : 1, display = active ? 'none' : undefined,
-						newColor = active ? 'steelblue' : line.color ? colors[line.color][500] : "#fff";
+						newColor = active ? 'steelblue' : line.color ? colors[line.color][500] : "#fff"
 
 					// Hide or show the elements
 
-					d3.selectAll(`#${line.name}MedianL`)
+					d3.selectAll(`#MedianL${line.name}`)
 						.transition().duration(200)
 						.style("opacity", newOpacity)
-					d3.selectAll(`#${line.name}MedianLegend`)
+					d3.selectAll(`#MedianLegend${line.name}`)
 						.transition().duration(200)
 						.style("fill", newColor)
-					d3.select(`#${line.name}MedianH`)
+					d3.select(`#MedianH${line.name}`)
 						.transition().duration(200)
 						.style("display", display)
 
@@ -331,33 +367,32 @@ class d3Line {
 					LegendM
 						.style("color", active ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500])
 					LegendMLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
-					this.setState(line.name + 'Median', active)
-					// this.state[line.name + 'Median'] = active;
+					this.setState('Median' + line.name, active)
 				})
 			}
 
-			let Legend = d3.select(`#${line.name}Legend`)
-			let LegendCheck = d3.select(`#${line.name}LegendCheckbox`)
-			let LegendLabel = d3.select(`#${line.name}LegendLabel`)
+			let Legend = d3.select(`#Legend${line.name}`)
+			let LegendCheck = d3.select(`#LegendCheckbox${line.name}`)
+			let LegendLabel = d3.select(`#LegendLabel${line.name}`)
 			LegendCheck.on('click', () => {
-				let active = this.state[line.name] ? false : true,
-					newOpacity = active ? 0 : 1, display = active ? 'none' : undefined;
+				let active = this.state['L' + line.name] ? false : true,
+					newOpacity = active ? 0 : 1, display = active ? 'none' : undefined
 
 				// Hide or show the elements
 
-				d3.select(`#${line.name}`)
+				d3.select(`#L${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.selectAll(`#${line.name}Dots`)
+				d3.selectAll(`#Dots${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.select(`#${line.name}Area`)
+				d3.select(`#Area${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.select(`#${line.name}MArea`)
+				d3.select(`#MArea${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.select(`#${line.name}HArea`)
+				d3.select(`#HArea${line.name}`)
 					.transition().duration(200)
 					.style("display", display)
 				LegendCheck
@@ -366,9 +401,7 @@ class d3Line {
 					.style("color", active ? 'rgba(255,255,255,0.3)' : line.prev ? '#fff' : colors[line.color][500])
 				LegendLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
 
-				//Modified here
-				// this.state[line.name] = active
-				this.setState(line.name, active)
+				this.setState('L' + line.name, active)
 			})
 
 
@@ -390,6 +423,7 @@ class d3Line {
 			.x((d) => { return this.x(moment(d.date).valueOf()) })
 		data.forEach((line, i) => {
 			//#region Generate Line Area
+
 			if (!line.noArea) {
 				let defArea = d3.area()
 					.x((d) => { return this.x(moment(d.date).valueOf()) })
@@ -397,15 +431,14 @@ class d3Line {
 					.y0(this.height - this.margin.bottom)
 					.y1((d) => { return this.y(d.value) })
 				this.svg.append("path")
-					.attr('id', line.name + 'Area')
+					.attr('id', 'Area' + line.name)
 					.data([line.data])
-					.attr("opacity", this.state[line.name] ? 0 : 1)
+					.attr("opacity", this.state['L' + line.name] ? 0 : 1)
 					.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
-					// .attr("class", line.prev ? classes.prevArea : classes[line.name + 'Area'])
 					.attr("d", animArea0)
 					.transition()
 					.duration(1500)
-					.attr("d", defArea);
+					.attr("d", defArea)
 				if (line.noMedianLegend) {
 					let setMedianTooltip = this.props.setMedianTooltip
 					var medianTooltip = this.medianTooltip
@@ -418,8 +451,8 @@ class d3Line {
 						.attr('stroke-width', '4px')
 						// .attr('class', classes.medianLinePrev)
 						.attr('d', this.valueLine)
-						.attr('id', line.name + 'Median')
-						.attr('opacity', this.state[`${line.name}`] ? 0 : 1)
+						.attr('id', 'Median' + line.name)
+						.attr('opacity', this.state[`L${line.name}`] ? 0 : 1)
 						.attr('stroke-dasharray', ("3, 3"))
 
 					// Hidden overlay for Median tooltip
@@ -430,9 +463,9 @@ class d3Line {
 						.attr('opacity', 0)
 						.attr('stroke-width', '7px')
 						.attr('d', this.valueLine)
-						.attr('id', line.name + 'HArea')
+						.attr('id', 'HArea' + line.name)
 						.on("mouseover", (d) => {
-							if (!this.state[`${line.name}`]) {
+							if (!this.state[`L${line.name}`]) {
 
 								medianLine.transition()
 									.duration(100)
@@ -441,10 +474,10 @@ class d3Line {
 								medianTooltip.transition()
 									.duration(200)
 									.style("opacity", 1)
-									.style('z-index', 1040);
+									.style('z-index', 1040)
 
 								medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-									.style("top", (d3.event.pageY) - 41 + "px");
+									.style("top", (d3.event.pageY) - 41 + "px")
 
 								setMedianTooltip(d[0])
 							}
@@ -457,10 +490,10 @@ class d3Line {
 							medianTooltip.transition()
 								.duration(500)
 								.style('z-index', -1)
-								.style("opacity", 0);
+								.style("opacity", 0)
 						}).on('click', function () {
 							// setExpand(true)
-						});
+						})
 				}
 			}
 			//#endregion
@@ -470,16 +503,16 @@ class d3Line {
 					//Set up your path as normal
 					var path = this.svg.append("path")
 						.data([line.data])
-						.attr('id', line.name)
+						.attr('id', 'L' + line.name)
 						.attr('fill', 'none')
 						.attr('stroke', colors[line.color][500])
 						.attr('stroke-width', '4px')
 						.attr('d', this.valueLine)
-						.attr("opacity", this.state[line.name] ? 0 : 1)
+						.attr("opacity", this.state['L' + line.name] ? 0 : 1)
 
 
 					//Get the total length of the path
-					var totalLength = path.node().getTotalLength();
+					var totalLength = path.node().getTotalLength()
 
 					/////// Create the required stroke-dasharray to animate a dashed pattern ///////
 
@@ -495,18 +528,18 @@ class d3Line {
 						dashing
 							.split(/[\s,]/)
 							.map(function (a) { return parseFloat(a) || 0 })
-							.reduce(function (a, b) { return a + b });
+							.reduce(function (a, b) { return a + b })
 
 					//How many of these dash patterns will fit inside the entire path?
-					var dashCount = Math.ceil(totalLength / dashLength);
+					var dashCount = Math.ceil(totalLength / dashLength)
 
 					//Create an array that holds the pattern as often
 					//so it will fill the entire path
-					var newDashes = new Array(dashCount).join(dashing + " ");
+					var newDashes = new Array(dashCount).join(dashing + " ")
 					//Then add one more dash pattern, namely with a visible part
 					//of length 0 (so nothing) and a white part
 					//that is the same length as the entire path
-					var dashArray = newDashes + " 0, " + totalLength;
+					var dashArray = newDashes + " 0, " + totalLength
 
 					/////// END ///////
 
@@ -517,13 +550,13 @@ class d3Line {
 						//This is where it differs with the solid line example
 						.attr("stroke-dasharray", dashArray)
 						.transition().duration(1500)
-						.attr("stroke-dashoffset", 0);
+						.attr("stroke-dashoffset", 0)
 				}
 				else {
 
 					this.svg.append('path')
 						.data([line.data])
-						.attr('id', line.name)
+						.attr('id', 'L' + line.name)
 						// .attr('class', classes[line.name])
 						.attr('fill', 'none')
 						.attr('stroke', colors[line.color][500])
@@ -535,7 +568,7 @@ class d3Line {
 						.attr("stroke-dashoffset", function () {
 							return this.getTotalLength()
 						})
-						.attr("opacity", this.state[line.name] ? 0 : 1)
+						.attr("opacity", this.state["L" + line.name] ? 0 : 1)
 						.transition()
 						.duration(1500)
 						.attr('stroke-dashoffset', 0)
@@ -565,8 +598,8 @@ class d3Line {
 					.data([medianData])
 					// .attr('class', classes.medianLine)
 					.attr('d', this.valueLine)
-					.attr('id', `${line.name}MedianL`)
-					.attr('opacity', this.state[`${line.name}Median`] ? 0 : 1)
+					.attr('id', `MedianL${line.name}`)
+					.attr('opacity', this.state[`Median${line.name}`] ? 0 : 1)
 					.attr('stroke-width', '4px')
 					.attr('stroke', colors[line.color][500])
 					.attr('stroke-dasharray', ("3, 3"))
@@ -576,10 +609,10 @@ class d3Line {
 					.data([medianData])
 					.attr('class', classes.hiddenMedianLine)
 					.attr('d', this.valueLine)
-					.attr('id', `${line.name}MedianH`)
-					.style('display', this.state[line.name] ? 'none' : undefined)
+					.attr('id', `MedianH${line.name}`)
+					.style('display', this.state['Median' + line.name] ? 'none' : undefined)
 					.on("mouseover", (d) => {
-						if (!this.state[`${line.name}Median`]) {
+						if (!this.state[`Median${line.name}`]) {
 
 							medianLine.transition()
 								.duration(100)
@@ -588,10 +621,10 @@ class d3Line {
 							medianTooltip.transition()
 								.duration(200)
 								.style("opacity", 1)
-								.style('z-index', 1040);
+								.style('z-index', 1040)
 
 							medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-								.style("top", (d3.event.pageY) - 41 + "px");
+								.style("top", (d3.event.pageY) - 41 + "px")
 
 							setMedianTooltip(d[0])
 						}
@@ -604,10 +637,10 @@ class d3Line {
 						medianTooltip.transition()
 							.duration(500)
 							.style('z-index', -1)
-							.style("opacity", 0);
+							.style("opacity", 0)
 					}).on('click', function () {
 						// setExpand(true)
-					});
+					})
 			}
 		})
 
@@ -619,4 +652,4 @@ class d3Line {
 
 }
 window.d3 = d3
-export default d3Line;
+export default d3Line

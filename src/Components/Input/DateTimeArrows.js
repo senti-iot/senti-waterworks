@@ -3,39 +3,37 @@ import { IconButton } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from 'variables/icons'
 import moment from 'moment'
 import { T, ItemG } from 'Components'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import { useSelector, useDispatch } from 'Hooks'
 import { changeDate } from 'Redux/dateTime'
-import size from 'Styles/themes/mediaQueries'
+import { lighten } from '@material-ui/core/styles'
+import hexToRgba from 'hex-to-rgba'
+// import size from 'Styles/themes/mediaQueries'
 
 const LeftArrow = styled(KeyboardArrowLeft)`
-width: 1.75em;
-height: 1.75em;
-@media ${size.down.xl} {
-	width: 1.5em;
-	height: 1.5em;
-}
+color: #fff;
 `
 const RightArrow = styled(KeyboardArrowRight)`
-width: 1.75em;
-height: 1.75em;
-@media ${size.down.xl} {
-	width: 1.5em;
-	height: 1.5em;
-}
+color: #fff;
+
+`
+const SIconButton = styled(IconButton)`
+	background: ${({ theme }) => theme.activeChartButton};
+	border-radius: 50%;
+	padding: 6px;
+	&:disabled {
+		background: ${({ theme }) => lighten(hexToRgba(theme.activeChartButton, 0.67), 0.3)};
+	}
+	&:hover {
+		background: ${({ theme, disabled }) => disabled ? hexToRgba(theme.activeChartButton, 0.67) + ' !important' : lighten(theme.activeChartButton, 0.3)};
 `
 const MonthYear = styled(T)`
-    /* font-weight: 600; */
+    font-weight: 500;
 	text-align: center;
-    font-size: 1.50rem;
 	white-space: nowrap;
-	@media ${size.down.md} {
-  		font-size: 1em;
-}
-    /* letter-spacing: 1.5px; */
 `
 const futureTester = (date, unit) => {
-	return moment().subtract(1, 'day').diff(date, unit) <= 0
+	return moment()/* .subtract(1, 'day') */.diff(date, unit) <= 0
 }
 
 const DateTimeArrows = () => {
@@ -49,14 +47,14 @@ const DateTimeArrows = () => {
 	const dispatch = useDispatch()
 	const handleSetDate = (id, to, from, timeType) => dispatch(changeDate(id, to, from, timeType))
 	const handleNextPeriod = () => {
-		let from, to, diff;
+		let from, to, diff
 		if (period.menuId === 3) {
 			from = moment(period.from).add(1, 'month').startOf('month')
 			to = !futureTester(to, 'day') ? moment(from).endOf('month') : moment().subtract(1, 'day')
 		}
 		if (period.menuId === 2) {
-			from = moment(period.to)
-			to = futureTester(to, 'day') ? moment(period.to).add(6, 'day') : moment().subtract(1, 'day')
+			from = moment(period.to).add(1, 'day')
+			to = futureTester(to, 'day') ? moment(period.to).add(7, 'day') : moment().subtract(1, 'day')
 		}
 		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
@@ -67,14 +65,14 @@ const DateTimeArrows = () => {
 		handleSetDate(period.timeType, to, from, period.timeType)
 	}
 	const handlePreviousPeriod = () => {
-		let from, to, diff;
+		let from, to, diff
 		if (period.menuId === 3) {
 			from = moment(period.from).subtract(1, 'month').startOf('month')
 			to = moment(from).endOf('month')
 		}
 		if (period.menuId === 2) {
-			from = moment(period.from).subtract(6, 'day').startOf('day')
-			to = moment(period.from)
+			from = moment(period.from).subtract(7, 'day').startOf('day')
+			to = moment(period.from).subtract(1, 'day')
 		}
 		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
 			diff = moment(period.to).diff(moment(period.from), 'day')
@@ -85,11 +83,11 @@ const DateTimeArrows = () => {
 	}
 
 	return (
-		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', width: '50%' }}>
+		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
 			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
-				<IconButton onClick={handlePreviousPeriod} >
+				<SIconButton onClick={handlePreviousPeriod} >
 					<LeftArrow />
-				</IconButton>
+				</SIconButton>
 			</ItemG>
 			<ItemG container /* xs={9} lg={9} xl={5} */ justify={'center'} alignItems={'center'} style={{ width: 'fit-content', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 
@@ -100,9 +98,9 @@ const DateTimeArrows = () => {
 				<MonthYear>{moment(period.to).format('ll')}</MonthYear>
 			</ItemG>
 			<ItemG xs={2}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
-				<IconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
+				<SIconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
 					<RightArrow />
-				</IconButton>
+				</SIconButton>
 			</ItemG>
 		</ItemG>
 	)

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="367px" height="305px" viewBox="0 0 367 305" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Group 22</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-3.3%" y="-4.0%" width="106.7%" height="108.1%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.194301792 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M39.9347197,30.5458899 C39.9347197,42.1481229 31.083201,51.5495684 20.1586841,51.5495684 C9.23416727,51.5495684 0.382648555,42.1481229 0.382648555,30.5458899 C0.382648555,20.1175185 16.3604806,3.61201897 19.5930431,0.380246704 C19.9117895,0.060397854 20.4048145,0.060397854 20.7243252,0.380246704 C23.9568876,3.61201897 39.9347197,20.1175185 39.9347197,30.5458899 Z" id="path-2"></path>
+        <path d="M39.9347197,30.5458899 C39.9347197,42.1481229 31.083201,51.5495684 20.1586841,51.5495684 C9.23416727,51.5495684 0.382648555,42.1481229 0.382648555,30.5458899 C0.382648555,20.1175185 16.3604806,3.61201897 19.5930431,0.380246704 C19.9117895,0.060397854 20.4048145,0.060397854 20.7243252,0.380246704 C23.9568876,3.61201897 39.9347197,20.1175185 39.9347197,30.5458899 Z" id="path-3"></path>
+        <text id="text-4" font-family="Roboto-Bold, Roboto" font-size="19" font-weight="bold">
+            <tspan x="72.4591187" y="187.620405">Benchmark </tspan>
+        </text>
+        <filter x="-4.4%" y="-12.1%" width="108.7%" height="134.0%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.127048733 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-11-Copy-7" transform="translate(-24.000000, -360.000000)">
+            <g id="Group-22" transform="translate(28.000000, 362.000000)">
+                <g id="Group-21" filter="url(#filter-1)">
+                    <g id="Group-17">
+                        <rect id="Rectangle-Copy-5" fill="#184C84" x="0" y="0.759469446" width="359" height="295.807229" rx="5"></rect>
+                        <text id="Dagligt-forbrug" font-family="Roboto-Bold, Roboto" font-size="19" font-weight="bold" fill="#FFFFFF">
+                            <tspan x="73.4038556" y="28.4880285">Dagligt forbrug</tspan>
+                        </text>
+                        <text id="0,197" fill="#6DD400" font-family="Roboto-Regular, Roboto" font-size="33" font-weight="normal">
+                            <tspan x="47.4701888" y="97.9759036">0,197</tspan>
+                        </text>
+                        <text id="197" fill="#6DD400" font-family="Roboto-Regular, Roboto" font-size="19" font-weight="normal">
+                            <tspan x="89.6005692" y="127.566265">197</tspan>
+                        </text>
+                        <text id="m" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="136.902347" y="99.8874145">m</tspan>
+                        </text>
+                        <text id="3" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="152.818246" y="92.3885158">3</tspan>
+                        </text>
+                        <text id="L" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="137.065309" y="125.990772">L</tspan>
+                        </text>
+                        <g id="Group-8-Copy" transform="translate(285.053156, 214.824150)">
+                            <g id="Stroke-4">
+                                <use fill="#D8D8D8" xlink:href="#path-2"></use>
+                                <use fill="#3799F1" xlink:href="#path-2"></use>
+                            </g>
+                            <path d="M22.0486133,43.6876999 C14.9368232,43.6876999 9.17416345,37.5675464 9.17416345,30.0145674" id="Stroke-6" stroke="#F7F7F7" stroke-linecap="round"></path>
+                        </g>
+                        <g id="Group-8-Copy-2" transform="translate(285.053156, 68.113307)">
+                            <g id="Stroke-4">
+                                <use fill="#D8D8D8" xlink:href="#path-3"></use>
+                                <use fill="#3799F1" xlink:href="#path-3"></use>
+                            </g>
+                            <path d="M22.0486133,43.6876999 C14.9368232,43.6876999 9.17416345,37.5675464 9.17416345,30.0145674" id="Stroke-6" stroke="#F7F7F7" stroke-linecap="round"></path>
+                        </g>
+                        <g id="Benchmark" opacity="0.438732329" fill="#32FFE1">
+                            <use fill-opacity="1" filter="url(#filter-5)" xlink:href="#text-4"></use>
+                            <use fill-rule="evenodd" xlink:href="#text-4"></use>
+                            <use fill-opacity="1" xlink:href="#text-4"></use>
+                        </g>
+                        <text id="0,251" fill="#32FFE1" opacity="0.512067522" font-family="Roboto-Regular, Roboto" font-size="33" font-weight="normal">
+                            <tspan x="45.8266164" y="248.26506">0,251</tspan>
+                        </text>
+                        <text id="251" fill="#32FFE1" opacity="0.512067522" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal">
+                            <tspan x="96.4967601" y="273.953664">251</tspan>
+                        </text>
+                        <text id="m" fill="#32FFE1" opacity="0.512067522" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal">
+                            <tspan x="132.15029" y="249.976749">m</tspan>
+                        </text>
+                        <text id="3" fill-opacity="0.624125874" fill="#32FFE1" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal">
+                            <tspan x="147.362384" y="243.190647">3</tspan>
+                        </text>
+                        <text id="L-Copy" fill="#32FFE1" opacity="0.512067522" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal">
+                            <tspan x="131.635426" y="273.872763">L</tspan>
+                        </text>
+                        <line x1="180.359867" y1="-11.0372653" x2="177.974336" y2="313.374695" id="Line-11" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" transform="translate(179.167102, 151.168715) rotate(-90.030341) translate(-179.167102, -151.168715) "></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

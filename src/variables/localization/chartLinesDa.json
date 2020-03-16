@@ -12,6 +12,32 @@
 		"maxFlowPrev": "Max forrige periode ",
 		"minFlow": "Min",
 		"minFlowPrev": "Min forrige periode",
-		"readingL": "Målerstand"
+		"readingL": "Målerstand",
+		"readings": "Vandforbrug"
+	},
+	"chartTable": {
+		"waterusage": {
+			"line1": "Minimum",
+			"line2": "Maximum",
+			"line3": "Gennemsnit",
+			"line4": "Pr. person"
+		},
+		"temperature": {
+			"line1": "Omgivelsestemp min.",
+			"line2": "Omgivelsestemp max.",
+			"line3": "Vandtemperatur min.",
+			"line4": "Vandtemperatur max."
+		},
+		"readings": {
+			"line1": "Minimum",
+			"line2": "Maximum",
+			"line3": "Gennemsnit",
+			"line4": "Pr. person"
+		},
+		"waterflow": {
+			"line1": "Absolut flow",
+			"line2": "Maksimum flow",
+			"line3": "Minimum flow"
+		}
 	}
 }

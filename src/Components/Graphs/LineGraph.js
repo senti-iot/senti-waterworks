@@ -10,7 +10,7 @@ import CircularLoader from 'Components/Loaders/CircularLoader'
 let line = null
 
 const LineGraph = React.memo((props) => {
-	const lineChartContainer = useRef(null)
+	const lineChartContainer = useRef(React.createRef())
 	// const loading = useRef(false)
 	const [value, setValue] = useState({ value: null, date: null })
 	const [medianValue, setMedianValue] = useState({ value: null, date: null })
@@ -21,7 +21,7 @@ const LineGraph = React.memo((props) => {
 	const period = useSelector(s => s.dateTime.period)
 	const prevId = usePrevious(props.id)
 	let prevData = usePrevious(deviceData)
-	const classes = lineStyles({ id: props.id })
+	const classes = lineStyles()
 	let prevLoading = usePrevious(props.loading)
 
 
@@ -37,7 +37,7 @@ const LineGraph = React.memo((props) => {
 				case 'reading':
 					return 'm³'
 				default:
-					break;
+					break
 			}
 		}
 		const genNewLine = () => {
@@ -50,8 +50,7 @@ const LineGraph = React.memo((props) => {
 				period: period,
 				t: t
 			}
-
-			line = new d3Line(lineChartContainer.current, cProps, classes);
+			line = new d3Line(lineChartContainer.current, cProps, classes)
 
 		}
 		if ((props.id !== prevId) && line) {
@@ -72,21 +71,22 @@ const LineGraph = React.memo((props) => {
 		// 	line.destroy()
 		// 	genNewLine()
 		// }
-		let resizeTimer;
+		let resizeTimer
 		const handleResize = () => {
-			clearTimeout(resizeTimer);
+			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
-
-				line.destroy()
+				if (line) {
+					line.destroy()
+				}
 				genNewLine()
-			}, 300);
-		};
-		window.addEventListener('resize', handleResize);
+			}, 300)
+		}
+		window.addEventListener('resize', handleResize)
 		return () => {
-			window.removeEventListener('resize', handleResize);
+			window.removeEventListener('resize', handleResize)
 			// line.destroy()
 			// line = null
-		};
+		}
 	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading])
 
 	return (
@@ -97,7 +97,7 @@ const LineGraph = React.memo((props) => {
 				<svg id={props.id} ref={lineChartContainer}
 					style={{
 						width: '100%',
-						height: '85%',
+						height: '90%',
 						// minHeight: 500
 					}}>
 

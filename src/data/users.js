@@ -11,11 +11,14 @@ export const getAllUsers = async () => {
 	})
 	return data
 }
-export const getValidSession = async (userId) => {
-	var data = await api.get(`core/user/${userId}`).then(rs => rs)
-	return data
-}
+// export const getValidSession = async (userId) => {
+// 	var data = await api.get(`core/user/${userId}`).then(rs => rs)
+
+// 	return data
+// }
+
 export const getUser = async (userId) => {
+	// var data = await api.get(`core/user/${userId}`).then(rs => rs.data)
 	var data = await api.get(`core/user/${userId}`).then(rs => rs.data)
 	return data
 }

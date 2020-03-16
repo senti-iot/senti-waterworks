@@ -23,6 +23,11 @@ deploy:
     skip_cleanup: true
     on:
       branch: beta
+  - provider: script
+    script: bash scripts/deploy.sh master $TRAVIS_BUILD_DIR
+    skip_cleanup: true
+    on:
+      branch: beta-onboarding
 language: node_js
 node_js:
   - stable

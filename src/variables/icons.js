@@ -14,6 +14,8 @@ import Droplet from 'assets/icons/droplet.svg'
 import Thermometer from 'assets/icons/thermometer.svg'
 import Pipe from 'assets/icons/pipe.svg'
 import Google from 'assets/icons/google.svg'
+import SettingsIcon from '@material-ui/icons/Settings'
+import TableIcon from '@material-ui/icons/TableChart'
 //#region weather Icons
 // import ClearDay from 'assets/weather/clear_day.svg'
 // import ClearNight from 'assets/weather/clear_night.svg'
@@ -50,6 +52,7 @@ import SignalWifi2Bar from '@material-ui/icons/SignalWifi2Bar'
 import SignalWifi2BarLock from '@material-ui/icons/SignalWifi2BarLock'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 import FilterList from '@material-ui/icons/FilterList'
@@ -117,7 +120,25 @@ import Airplay from '@material-ui/icons/Airplay'
 import Https from '@material-ui/icons/Https'
 import Palette from '@material-ui/icons/Palette'
 import ImportExport from '@material-ui/icons/ImportExport'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import CallMade from '@material-ui/icons/CallMade'
+import ChevronRight from '@material-ui/icons/ChevronRight'
+import ArrowBack from '@material-ui/icons/ArrowBack'
+import WarningIcon from '@material-ui/icons/Warning'
+import ErrorIcon from '@material-ui/icons/Error'
+import HelpOutline from '@material-ui/icons/HelpOutline'
+
 export {
+	HelpOutline,
+	KeyboardArrowDown,
+	ErrorIcon,
+	WarningIcon,
+	ArrowBack,
+	TableIcon,
+	SettingsIcon,
+	ChevronRight,
+	CallMade,
+	AccountCircle,
 	Droplet,
 	Thermometer,
 	Pipe,

@@ -2,6 +2,17 @@ import _ from 'lodash'
 import moment from 'moment'
 
 /**
+ * Email validator
+ */
+export const validateEmail = (mail) => {
+	if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+		return (true)
+	}
+	// alert("You have entered an invalid email address!")
+	return (false)
+}
+
+/**
  * Helper function for sorting
  */
 const sortFunc = (a, b, orderBy, way) => {
@@ -9,11 +20,11 @@ const sortFunc = (a, b, orderBy, way) => {
 	let newB = _.get(b, orderBy)
 	if (way === 'asc') {
 		// return newA < newB
-		return +(newA > newB) || -(newA < newB) /* || (newA === null || newA === undefined) - (newB === null || newB === undefined) */;
+		return +(newA > newB) || -(newA < newB) /* || (newA === null || newA === undefined) - (newB === null || newB === undefined) */
 	}
 	else {
 		// return newA > newB
-		return -(newA > newB) || +(newA < newB) /* || (newA === null || newA === undefined) - (newB === null || newB === undefined) */;
+		return -(newA > newB) || +(newA < newB) /* || (newA === null || newA === undefined) - (newB === null || newB === undefined) */
 	}
 
 
@@ -25,7 +36,7 @@ const sortFunc = (a, b, orderBy, way) => {
  * @param {Array} data
  */
 export const handleRequestSort = (property, way, data) => {
-	const orderBy = property;
+	const orderBy = property
 	let newData = []
 	newData = data.sort((a, b) => sortFunc(a, b, orderBy, way))
 	return newData
@@ -51,4 +62,4 @@ export const dateTimeFormatter = (date, withSeconds) => {
  * @param {String} string
  */
 
-export const capitalizeFL = str => str.charAt(0).toUpperCase() + str.substring(1);
+export const capitalizeFL = str => str.charAt(0).toUpperCase() + str.substring(1)

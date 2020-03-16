@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import size from './themes/mediaQueries';
-import Paper from '@material-ui/core/Paper';
-import { IconButton, ButtonBase, Button } from '@material-ui/core';
-import { ItemG, Muted, T, TextF } from 'Components';
+import styled from 'styled-components'
+import size from './themes/mediaQueries'
+import Paper from '@material-ui/core/Paper'
+import { IconButton, ButtonBase, Button } from '@material-ui/core'
+import { ItemG, Muted, T, TextF } from 'Components'
 // import { container, primaryColor } from "assets/jss/material-dashboard-react";
 // import teal from '@material-ui/core/colors/teal'
 
@@ -32,8 +32,13 @@ export const MobileContainer = styled.div`
 `
 
 export const ImgLogo = styled.img`
-	height: 50px;
+	height: 64px;
 	margin: 8px;
+	margin-top: 36px;
+	@media ${size.down.lg} {
+		height: 54px;
+		margin-top: 0px;
+	}
 `
 export const SmallActionButton = styled(IconButton)`
 	padding: 0;
@@ -42,14 +47,8 @@ export const SmallActionButton = styled(IconButton)`
 	}
 `
 export const Footer = styled(ItemG)`
-	flex: 1;
-	padding: 24px;
-	@media ${size.down.md} {
-		padding: 8px;
-	}
-	@media ${size.down.sm} {
-		padding: 48px;
-	}
+	padding: 16px;
+	flex: 0;
 `
 export const FooterText = styled(Muted)`
 	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -69,18 +68,18 @@ export const MutedButton = styled(ButtonBase)`
 `
 
 export const InputContainer = styled.div`
+	flex:1;
+	overflow:auto;
 	padding: 24px;
-	@media ${size.down.lg} {
-		padding: 0px;
-	}
 	@media ${size.down.md} {
-		padding: 24px;
+		padding: 16px;
 	}
 	@media ${size.down.xs} {
 		padding: 8px;
 	}
 `
 export const LeftPanel = styled(Paper)`
+	overflow: hidden;
 	transition: all 300ms ease;
 	width: 100%;
 	display: flex;
@@ -89,7 +88,7 @@ export const LeftPanel = styled(Paper)`
 	flex-direction: column;
 	border-radius: 0px;
 	@media ${size.up.md} {
-		height: 100%;
+		height: 100vh;
 	}
 	@media ${size.down.sm} {
 		border-radius: 8px;
@@ -97,23 +96,37 @@ export const LeftPanel = styled(Paper)`
 `
 export const NeedAccountT = styled(T)`
 	font-size: 1rem;
-	margin: 16px;
+	margin: 8px;
 	@media ${size.down.md} {
 		margin: 8px;
 	}
 `
 export const LoginButton = styled(Button)`
-	margin: 36px;
+	margin: 36px 0px;
 	color: #fff;
 	max-width: 120px;
 	@media ${size.down.md} {
 		max-width: 100%;
-		margin: 8px 8px;
+		margin: 8px 0px;
+	}
+`
+export const NextStepButton = styled(Button)`
+	margin-top: 16px;
+	color: #fff;
+	@media ${size.down.md} {
+		max-width: 100%;
+		margin: 8px 0px;
 	}
 `
 export const LoginTF = styled(TextF)`
-	margin: 16px;
 	@media ${size.down.md} {
-		margin: 8px;
+		margin: 8px 0px;
+	}
+`
+
+export const AdressTF = styled(TextF)`
+	min-width: 0;
+	@media ${size.down.md} {
+		margin: 8px 0px;
 	}
 `

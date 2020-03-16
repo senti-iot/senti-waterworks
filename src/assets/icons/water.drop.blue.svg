@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="63px" viewBox="0 0 50 63" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Group 8 Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-3.2%" y="-3.8%" width="106.3%" height="107.6%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.194301792 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M42.270734,32.2943079 C42.270734,44.5606417 32.9014384,54.5002171 21.3378829,54.5002171 C9.77432747,54.5002171 0.405031897,44.5606417 0.405031897,32.2943079 C0.405031897,21.2690263 17.3175004,3.81876753 20.7391542,0.402011667 C21.0765459,0.0638549702 21.5984108,0.0638549702 21.9366117,0.402011667 C25.3582655,3.81876753 42.270734,21.2690263 42.270734,32.2943079 Z" id="path-2"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-11-Copy-8" transform="translate(-315.000000, -2033.000000)">
+            <g id="Group-16" transform="translate(17.000000, 1963.000000)">
+                <g id="Group-22">
+                    <g id="Group-21" filter="url(#filter-1)">
+                        <g id="Group-17">
+                            <g id="Group-8-Copy-2" transform="translate(301.727575, 72.012048)">
+                                <g id="Stroke-4">
+                                    <use fill="#D8D8D8" xlink:href="#path-2"></use>
+                                    <use fill="#3799F1" xlink:href="#path-2"></use>
+                                </g>
+                                <path d="M23.3383651,46.1883426 C15.8105649,46.1883426 9.71081368,39.7178773 9.71081368,31.732573" id="Stroke-6" stroke="#F7F7F7" stroke-linecap="round"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

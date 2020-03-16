@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import * as d3 from 'd3'
 // import moment from 'moment';
 
 // const getMedianLineData = (data, prevData) => {
@@ -15,23 +15,23 @@ import * as d3 from 'd3';
 // }
 class d3Arc {
 
-	containerEl;
-	props;
-	svg;
+	containerEl
+	props
+	svg
 
 	constructor(containerEl, props) {
 		const classes = props.classes
-		this.containerEl = containerEl;
-		this.props = props;
+		this.containerEl = containerEl
+		this.props = props
 		const { arcData, arcPrevData } = props
-		var margin = { top: 10, right: 10, bottom: 10, left: 10 };
+		var margin = { top: 10, right: 10, bottom: 10, left: 10 }
 
 		//Get the height and width from the container
-		var height = containerEl.clientHeight;
-		var width = containerEl.clientWidth;
+		var height = containerEl.clientHeight
+		var width = containerEl.clientWidth
 
-		height = height - margin.top - margin.bottom;
-		width = width - margin.left - margin.right;
+		height = height - margin.top - margin.bottom
+		width = width - margin.left - margin.right
 
 		//Append the SVG to the container
 		this.container = d3.select(`#${props.id}`)
@@ -54,7 +54,6 @@ class d3Arc {
 		window.width = width
 		window.height = height
 		let median = Math.round((width + height) / 2)
-		console.log(median)
 		var innerArc = d3.arc()
 			.innerRadius(`${(median / 2.5) - 25}`)
 			.outerRadius(`${(median / 2.5) - 10}`)
@@ -87,15 +86,15 @@ class d3Arc {
 		function arcTween(transition, newStartAngle, newFinishAngle, arc) {
 
 			transition.attrTween("d", function (d) {
-				var interpolateStart = d3.interpolate(d.startAngle, newStartAngle);
-				var interpolateEnd = d3.interpolate(d.endAngle, newFinishAngle);
+				var interpolateStart = d3.interpolate(d.startAngle, newStartAngle)
+				var interpolateEnd = d3.interpolate(d.endAngle, newFinishAngle)
 
 				return function (t) {
-					d.endAngle = interpolateEnd(t);
-					d.startAngle = interpolateStart(t);
-					return arc(d);
-				};
-			});
+					d.endAngle = interpolateEnd(t)
+					d.startAngle = interpolateStart(t)
+					return arc(d)
+				}
+			})
 		}
 	}
 
@@ -105,4 +104,4 @@ class d3Arc {
 
 }
 
-export default d3Arc;
+export default d3Arc

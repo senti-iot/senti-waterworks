@@ -2,11 +2,11 @@
 
 const size = {
 	down: {
-		xs: `(max-width: 600px)`,
-		sm: `(max-width: 960px)`,
-		md: `(max-width: 1440px)`,
-		lg: `(max-width: 1920px)`,
-		xl: `(max-width: 2140px)`,
+		xs: `(max-width: 599px)`,
+		sm: `(max-width: 959px)`,
+		md: `(max-width: 1439px)`,
+		lg: `(max-width: 1919px)`,
+		xl: `(max-width: 2139px)`,
 	},
 	up: {
 		xs: `(min-width: 0px)`,

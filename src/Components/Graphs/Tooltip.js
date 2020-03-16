@@ -3,7 +3,7 @@ import { T, ItemG } from 'Components'
 import Card from '@material-ui/core/Card'
 import { CardContent, /* Divider */ } from '@material-ui/core'
 import moment from 'moment'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import { Droplet, Thermometer, Pipe } from 'variables/icons'
 import { capitalizeFL } from 'data/functions'
 
@@ -17,7 +17,7 @@ const TCard = styled(Card)`
 `
 
 const waterUsageTooltip = (props) => {
-	return <TCard id={props.id + 'tooltip'}>
+	return <TCard id={'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
@@ -30,7 +30,7 @@ const waterUsageTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
-					<T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
+					<T variant={'h5'}>{`${parseFloat(parseFloat(props.tooltip.value).toFixed(3))} m³`}</T>
 
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
@@ -46,7 +46,7 @@ const waterUsageTooltip = (props) => {
 // const waterFlowTooltip = (props) => { }
 
 const waterFlowTooltip = (props) => {
-	return <TCard id={props.id + 'tooltip'}>
+	return <TCard id={'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
@@ -74,7 +74,7 @@ const waterFlowTooltip = (props) => {
 // const waterFlowTooltip = (props) => { }
 
 const temperatureTooltip = (props) => {
-	return <TCard id={props.id + 'tooltip'}>
+	return <TCard id={'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
@@ -102,7 +102,7 @@ const temperatureTooltip = (props) => {
 
 
 const readingTooltip = (props) => {
-	return <TCard id={props.id + 'tooltip'}>
+	return <TCard id={'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
