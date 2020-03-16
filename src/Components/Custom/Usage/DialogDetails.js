@@ -3,11 +3,12 @@ import { makeStyles, Typography } from '@material-ui/core'
 import familyIcon from 'assets/icons/familie.svg'
 import waterDrop from 'assets/icons/water.drop.blue.svg'
 import { useSelector } from 'react-redux'
+import { useLocalization } from 'Hooks'
 
 const useStyles = makeStyles(theme => ({
 	container: {
 		boxSizing: 'border-box',
-		height: '50%',
+		height: '55%',
 		background: 'rgba(12,59,105,0.7)',
 		borderTopLeftRadius: 4,
 		borderTopRightRadius: 4,
@@ -15,7 +16,6 @@ const useStyles = makeStyles(theme => ({
 		padding: '24px 0'
 	},
 	half: {
-		padding: '0 24px',
 		height: '100%',
 		width: '50%',
 		display: 'flex',
@@ -60,15 +60,14 @@ const useStyles = makeStyles(theme => ({
 		alignItems: 'center'
 	},
 	waterDrop: {
-		position: 'relative',
-		top: 10,
-		left: 20,
+		marginLeft: 20,
 		width: 30
 	}
 }))
 
 const DialogDetails = () => {
 	//Hooks
+	const t = useLocalization()
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
@@ -93,7 +92,8 @@ const DialogDetails = () => {
 	// the JSX should map these panels instead of hardcoding it
 	const panels = [
 		{
-			headline: 'Dagligt forbrug',
+			headline: t('Usage.dashboardUsage.dailyConsumption'),
+			subheadline: 'Min husstand',
 			descriptions: [
 				'Mit gennemsnitlige daglige vandforbrug',
 				'Forbrug pr. person',
@@ -109,14 +109,32 @@ const DialogDetails = () => {
 			}
 		},
 		{
-			headline: 'Benchmark',
+			headline: t('Usage.dashboardUsage.comparison'),
+			subheadline: 'Mit vandvaerk',
 			descriptions: [
 				'Gennemsnitligt daglige vandforbrug for andre boliger',
 				'Forbrug pr. person',
 				'Gennemsnitlig månedlige vandforbrug for andre boliger. Dette svarer til ca. 1,506 kg CO2 pr. måned'
 			],
 			style: {
-				dataColor: '#32FFE1',
+				dataColor: '#F7DC00',
+				textBelowHeadline: false
+			},
+			data: {
+				cubicMetres: avgData.benchmarkm3,
+				forbrugPerson: (avgData.benchmarkm3) / noOfPeople,
+			}
+		},
+		{
+			headline: '',
+			subheadline: 'Andre vandvaerker',
+			descriptions: [
+				'Gennemsnitligt daglige vandforbrug for andre boliger',
+				'Forbrug pr. person',
+				'Gennemsnitlig månedlige vandforbrug for andre boliger. Dette svarer til ca. 1,506 kg CO2 pr. måned'
+			],
+			style: {
+				dataColor: '#F7DC00',
 				textBelowHeadline: false
 			},
 			data: {
@@ -128,31 +146,45 @@ const DialogDetails = () => {
 
 	return (
 		<div className={classes.container}>
-			{panels.map(({ headline, descriptions, style, data }, index) => (
-				<div key={index} className={classes.half} style={index % 2 === 0 ? { borderRight: '2px solid #fff' } : { borderLeft: '2px solid #fff' }}>
-					<div className={classes.header}>
+			{panels.map(({ headline, subheadline, descriptions, style, data }, index) => (
+				<div key={index} className={classes.half}>
+					{/* header with icon */}
+					<div className={classes.header} style={{ padding: '0 24px', visibility: index !== 2 ? 'visible' : 'hidden' }}>
 						<img src={familyIcon} alt="senti-family-icon" className={classes.icon} />
 						<Typography variant="h5" className={classes.headline} style={{ color: index % 2 === 1 ? style.dataColor : '#fff' }}>{headline}</Typography>
 					</div>
-					{style.textBelowHeadline ?
-						<Typography variant="h6" className={classes.optionalParagraph}>4 personer i husstanden</Typography> :
-						<Typography variant="h6" className={classes.optionalParagraph} style={{ visibility: 'hidden' }}>4 personer i husstanden</Typography>
-					}
+					{/* optional text below headline */}
+					<div style={{ padding: '0 24px', borderRight: index === 0 && '2px solid #fff' }}>{/* correct place */}
+						{style.textBelowHeadline ?
+							<Typography variant="h6" className={classes.optionalParagraph} style={{ marginBottom: 12 }}>4 personer i husstanden</Typography> :
+							<Typography variant="h6" className={classes.optionalParagraph} style={{ visibility: 'hidden', marginBottom: 0 }}>4 personer i husstanden</Typography>
+						}
+					</div>
 
+					<div style={{ paddingLeft: 24, borderRight: index === 0 && '2px solid #fff' }}>
+						<Typography variant="h6" style={{ marginBottom: 24 }}>{subheadline}</Typography>
+					</div>
+
+					{/* descriptions */}
 					<div style={{ display: 'flex', flex: 1 }}>
-						<div className={classes.descriptionBox}>
+						<div className={classes.descriptionBox} style={{ paddingLeft: 24 }}>
 							{descriptions.map(desc => <Typography variant="body1">{desc}</Typography>)}
 						</div>
 
-						<div className={classes.dataBox}>
+						{/* data display */}
+						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>{/* correct place */}
 							<div style={{ display: 'flex' }}>
 								<div style={{ textAlign: 'center' }}>
 									<Typography variant="h4" style={{ color: style.dataColor }}>{data.cubicMetres}<span style={{ fontSize: 16 }}>m3</span></Typography>
-									<Typography variant="body1" style={{ color: style.dataColor }}>{data.cubicMetres * 1000} L</Typography>
 								</div>
 								<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 							</div>
-							<Typography variant="h5" style={{ color: style.dataColor }}>{data.forbrugPerson} L</Typography>
+							<Typography variant="h5" style={{ color: style.dataColor }}>
+								{data.forbrugPerson} L
+							  <span style={{ marginLeft: 20 }}>
+									<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
+								</span>
+							</Typography>
 							<img src={familyIcon} alt="" style={{ height: 70 }} />
 						</div>
 					</div>

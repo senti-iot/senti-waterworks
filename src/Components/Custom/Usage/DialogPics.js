@@ -1,38 +1,36 @@
-import React from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
+import React, { useState } from 'react'
+import { makeStyles, Typography, Button } from '@material-ui/core'
 import Toilet from "assets/icons/toilet.svg"
 import Bathroom from "assets/icons/bath.svg"
 import Dishwasher from "assets/icons/dishwasher.svg"
 import WashingMachine from "assets/icons/washmachine.svg"
 import { useLocalization } from 'Hooks'
+
 const useStyles = makeStyles(theme => ({
 	container: {
+		width: '100%',
 		background: 'transparent',
 		opacity: '0.9',
-		height: '50%',
+		height: '45%',
 		padding: 32,
 		boxSizing: 'border-box',
-		display: 'flex',
-		flexDirection: 'column'
+		display: 'flex'
 	},
 	textBox: {
-		textAlign: 'center',
 		color: '#fff',
-		// marginBottom: 16,
 		fontWeight: 500
 	},
 	flex: {
-		// margin: '32px 0',
 		display: 'flex',
-		padding: 32,
+		padding: '32px 0',
 		justifyContent: 'space-between',
 		flex: 1,
 		boxSizing: 'border-box'
 	},
 	imgBox: {
+		marginRight: 32,
 		flex: 1,
-		background: 'rgba(12,59,105,0.7)',
-		margin: '0 24px',
+		background: '#20619F',
 		padding: 16,
 		display: 'flex',
 		flexDirection: 'column',
@@ -47,12 +45,39 @@ const useStyles = makeStyles(theme => ({
 		// flex: 1,
 		width: '100%',
 		height: 'auto',
-		maxWidth: 150,
-		maxHeight: 120
+		maxWidth: 120,
+		maxHeight: 100
 	},
 	groupLabel: {
 		color: '#fff',
 		marginTop: 8
+	},
+	textareaContainer: {
+		width: '40%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'column',
+		paddingLeft: 16
+	},
+	textarea: {
+		background: '#20619F',
+		color: '#fff',
+		marginTop: 32,
+		resize: 'none',
+		border: 'none',
+		outline: 'none',
+		borderRadius: 4,
+		flex: 1,
+		padding: '4px 8px',
+		fontSize: 18,
+		'&::placeholder': {
+			color: '#fff'
+		}
+	},
+	submitBtn: {
+		color: '#fff',
+		alignSelf: 'flex-end',
+		marginTop: 16
 	}
 }))
 
@@ -62,6 +87,7 @@ const DialogPics = props => {
 	//Redux
 
 	//State
+	const [message, setMessage] = useState('')
 
 	//Const
 
@@ -90,25 +116,53 @@ const DialogPics = props => {
 		}
 	]
 
+	const handleChange = e => {
+		e.stopPropagation() // otherwise it closes the dialog
+		setMessage(e.target.value)
+	}
+
+	const handleSubmit = e => {
+		e.preventDefault()
+		console.log('submitted')
+	}
+
 	const classes = useStyles()
 
 	return (
 		<div className={classes.container}>
-			<Typography variant="h4" className={classes.textBox} style={{}}>
-				{t('tipsAndTricks.title')}
-			</Typography>
 
-			<div className={classes.flex}>
-				{picsAndText.map(({ imgSrc, text }, index) => (
-					<div key={index} className={classes.imgBox} onClick={() => {
-						props.setDescriptionOpen(true)
-						props.setChosenDescription(index)
-					}}>
-						<img src={imgSrc} alt="" className={classes.img} />
-						<Typography variant="h6" className={classes.groupLabel}>{text}</Typography>
-					</div>
-				))}
+			{/* left column with pics */}
+			<div style={{ width: '60%' }}>
+				<Typography variant="h4" className={classes.textBox} style={{}}>
+					{t('tipsAndTricks.title')}
+				</Typography>
+
+				<div className={classes.flex}>
+					{picsAndText.map(({ imgSrc, text }, index) => (
+						<div key={index} className={classes.imgBox} onClick={() => {
+							props.setDescriptionOpen(true)
+							props.setChosenDescription(index)
+						}}>
+							<img src={imgSrc} alt="" className={classes.img} />
+							<Typography variant="h6" className={classes.groupLabel}>{text}</Typography>
+						</div>
+					))}
+				</div>
 			</div>
+
+			{/* right column with textarea */}
+			<form className={classes.textareaContainer} onSubmit={handleSubmit}>
+				<Typography variant="h4" className={classes.textBox} style={{}}>
+					Mine gode råd
+				</Typography>
+				<textarea
+					className={classes.textarea}
+					onChange={handleChange}
+					value={message}
+					placeholder="Her kan du skrive dine gode råd til at spare vand"
+				/>
+				<Button type="submit" variant="contained" color="secondary" className={classes.submitBtn}>Send</Button>
+			</form>
 		</div>
 	)
 }

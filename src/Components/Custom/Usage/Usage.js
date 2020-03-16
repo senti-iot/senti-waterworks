@@ -193,7 +193,7 @@ const Usage = props => {
 				</GridContainer> */}
 				<Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
-						<ItemG xs={12} md={9} style={{ height: '100%' }}>
+						<ItemG xs={12} style={{ height: '100%' }}>
 							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
 								<FullscreenDialog closeDialog={setFsDialogOpen} />
 							</BPaper>
