@@ -4,7 +4,7 @@ import { NeedAccountT, LoginTF, NextStepButton } from 'Styles/loginStyles'
 import DSelect from 'Components/Input/DSelect'
 
 const Step3 = props => {
-	const { t, error, handleInput, noOfAdults, deviceNr, installationNrB, noOfChildren, goToNextStep } = props
+	const { t, error, handleInput, noOfAdults, pass, confirmPass, noOfChildren, goToNextStep } = props
 	const handleNextStep = () => goToNextStep()
 
 	const handleGenMenuAItems = () => {
@@ -35,7 +35,7 @@ const Step3 = props => {
 					fullWidth
 					type={'password'}
 					onChange={handleInput}
-					value={deviceNr}
+					value={pass}
 				/>
 				<LoginTF
 					id={'confirmPass'}
@@ -44,7 +44,7 @@ const Step3 = props => {
 					error={error}
 					fullWidth
 					onChange={handleInput}
-					value={installationNrB}
+					value={confirmPass}
 				/>
 				<NeedAccountT styles={{ marginTop: 48 }}>
 					{t('signup.form.addPeopleCount')}:
@@ -56,8 +56,7 @@ const Step3 = props => {
 					fullWidth
 					onChange={handleInput}
 					value={noOfAdults}
-					// margin={'normal'}
-					styles={{ margin: 16 }}
+					margin={'normal'}
 					menuItems={handleGenMenuAItems()}
 				/>
 				<DSelect
@@ -67,8 +66,7 @@ const Step3 = props => {
 					fullWidth
 					onChange={handleInput}
 					value={noOfChildren}
-					// margin={'normal'}
-					styles={{ margin: 16 }}
+					margin={'normal'}
 					menuItems={handleGenMenuCItems()}
 				/>
 				{/* </ItemG> */}
