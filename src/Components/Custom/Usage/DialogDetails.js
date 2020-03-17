@@ -175,12 +175,12 @@ const DialogDetails = () => {
 						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>{/* correct place */}
 							<div style={{ display: 'flex' }}>
 								<div style={{ textAlign: 'center' }}>
-									<Typography variant="h4" style={{ color: style.dataColor }}>{data.cubicMetres}<span style={{ fontSize: 16 }}>m3</span></Typography>
+									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(3)}<span style={{ fontSize: 16 }}>m3</span></Typography>
 								</div>
 								<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 							</div>
 							<Typography variant="h5" style={{ color: style.dataColor }}>
-								{data.forbrugPerson} L
+								{parseFloat(data.forbrugPerson).toFixed(3)} L
 							  <span style={{ marginLeft: 20 }}>
 									<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 								</span>

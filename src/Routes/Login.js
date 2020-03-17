@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import cookie from 'react-cookies'
 
 // Components
-import { ItemG, CookiesDialog, PrivacyDialog, FadeOutLoader } from 'Components'
+import { ItemG, CookiesDialog, PrivacyDialog } from 'Components'
 import { Hidden, InputAdornment, Link as MuiLink } from '@material-ui/core'
 import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks'
 import { Person, Visibility, VisibilityOff, Business } from 'variables/icons'
@@ -19,6 +19,7 @@ import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, Foot
 import LoginImages from 'Components/Custom/Login/NewLoginImages'
 import { ThemeProvider } from '@material-ui/styles'
 import { loginTheme } from 'Styles/themes'
+import FadeLoader from 'Components/Loaders/FadeLoader'
 
 
 function Login() {
@@ -149,7 +150,7 @@ function Login() {
 								<ItemG xs={12} container justify={'center'}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
-								<FadeOutLoader on={loggingIn} onChange={handleLoginUser}>
+								<FadeLoader on={loggingIn} onChange={handleLoginUser}>
 									<ItemG xs={12} container justify={'center'}>
 										<ItemG xs={12} container justify={'center'}>
 											<NeedAccountT>
@@ -225,7 +226,7 @@ function Login() {
 										<ItemG xs={12} container justify={'center'}>
 										</ItemG>
 									</ItemG>
-								</FadeOutLoader>
+								</FadeLoader>
 								{/* </FadeOutLoader> */}
 							</InputContainer>
 							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>

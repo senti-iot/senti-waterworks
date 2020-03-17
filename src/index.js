@@ -10,13 +10,13 @@ import { updateServiceworker } from 'Redux/serviceWorkerRedux'
 import HotProviders from 'Providers'
 // import NewContent from 'Components/Loaders/NewContent';
 
+whyDidYouRender(React, {
+	trackHooks: true,
+	onlyLogs: true,
+	titleColor: "green",
+	diffNameColor: "darkturquoise"
+})
 if (process.env.NODE_ENV !== 'production') {
-	whyDidYouRender(React, {
-		trackHooks: true,
-		onlyLogs: true,
-		titleColor: "green",
-		diffNameColor: "darkturquoise"
-	})
 }
 const onUpdate = () => {
 	store().dispatch(updateServiceworker())
