@@ -1,8 +1,9 @@
-import { handleRequestSort } from 'data/functions'
+import { handleRequestSort, getDates } from 'data/functions'
 import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, getTotalVolumeData, /* getDevicesData */ } from 'data/devices'
 import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData, genNBarData } from 'data/model'
 import moment from 'moment'
 import { colors } from 'variables/colors'
+import { getLatLongFromAddress, getWeather } from 'data/weather'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -13,7 +14,7 @@ const middleChartData = 'middleChartData'
 const barData = 'barData'
 const averageData = 'averageData'
 const pData = 'priceData'
-// const
+const wData = 'weatherData'
 
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
@@ -51,7 +52,28 @@ export const getAllDevices = async () => {
  */
 export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
-
+		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
+		let dates = getDates(from, to)
+		if (dates.length < 16) {
+			let adrs = userExP.address.split(' ')
+			console.log('adrs', adrs)
+			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
+			let coords = await getLatLongFromAddress(address)
+			console.log(coords)
+			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs.map(r => r.daily.data[0]))
+			let finalData = weather.map(w => ({
+				date: moment(w.time),
+				icon: w.icon,
+				description: w.summary
+			}))
+			console.log(finalData)
+			dispatch({
+				type: wData,
+				payload: finalData
+			})
+		}
 	}
 }
 /**
@@ -85,6 +107,7 @@ export const getNData = async () => {
 		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
 		let price = await getPriceList(orgId)
 		let totalData = await getTotalVolumeData(orgId, from, to)
+
 		console.log('totalData', totalData)
 
 		let priceList = price ? price : {
@@ -215,6 +238,10 @@ export const getNData = async () => {
 		}
 		finalPriceData.total = parseFloat((priceList.waterTotal * middleData) + (priceList.sewageTotal * middleData)).toFixed(2).replace('.', ',')
 
+		//#endregion
+
+		//#region Get Weather Data
+		dispatch(await getWeatherData())
 		//#endregion
 
 		//#region Dispatch the data
@@ -461,6 +488,7 @@ export const getData = async () => {
 			finalBarData = genBarData(currentPeriodData, previousPeriodData)
 			//#endregion
 		}
+
 		//#region Dispatch the calculated data
 		dispatch({
 			type: deviceData,
@@ -519,6 +547,8 @@ export const data = (state = initialState, { type, payload }) => {
 			return Object.assign({}, state, { avgData: payload })
 		case pData:
 			return Object.assign({}, state, { priceData: payload })
+		case wData:
+			return Object.assign({}, state, { weatherData: payload })
 		case middleChartData:
 			return Object.assign({}, state, { middleChartData: payload })
 		default:

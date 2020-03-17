@@ -10,20 +10,30 @@ import CircularLoader from 'Components/Loaders/CircularLoader'
 let line = null
 
 const LineGraph = React.memo((props) => {
+	//Hooks
+	const t = useLocalization()
+	const classes = lineStyles()
+
+	//Redux
+	const deviceData = useSelector(s => s.data.deviceData)
+	const weatherData = useSelector(s => s.data.weatherData)
+	const period = useSelector(s => s.dateTime.period)
+
+	//State
 	const lineChartContainer = useRef(React.createRef())
-	// const loading = useRef(false)
 	const [value, setValue] = useState({ value: null, date: null })
 	const [medianValue, setMedianValue] = useState({ value: null, date: null })
-	const deviceData = useSelector(s => s.data.deviceData)
 
-	const t = useLocalization()
-
-	const period = useSelector(s => s.dateTime.period)
+	//usePrevious
 	const prevId = usePrevious(props.id)
 	let prevData = usePrevious(deviceData)
-	const classes = lineStyles()
 	let prevLoading = usePrevious(props.loading)
 
+	//Const
+
+	//useCallbacks
+
+	//useEffects
 
 	useLayoutEffect(() => {
 		const unitType = () => {
@@ -48,7 +58,8 @@ const LineGraph = React.memo((props) => {
 				setTooltip: setValue,
 				setMedianTooltip: setMedianValue,
 				period: period,
-				t: t
+				t: t,
+				weatherData: weatherData
 			}
 			line = new d3Line(lineChartContainer.current, cProps, classes)
 
@@ -87,7 +98,9 @@ const LineGraph = React.memo((props) => {
 			// line.destroy()
 			// line = null
 		}
-	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading])
+	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData])
+
+	//Handlers
 
 	return (
 		props.loading ? <CircularLoader fill /> :
