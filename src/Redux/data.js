@@ -74,6 +74,12 @@ export const getWeatherData = async () => {
 				payload: finalData
 			})
 		}
+		else {
+			dispatch({
+				type: wData,
+				payload: []
+			})
+		}
 	}
 }
 /**
@@ -241,7 +247,7 @@ export const getNData = async () => {
 		//#endregion
 
 		//#region Get Weather Data
-		dispatch(await getWeatherData())
+		await dispatch(await getWeatherData())
 		//#endregion
 
 		//#region Dispatch the data
