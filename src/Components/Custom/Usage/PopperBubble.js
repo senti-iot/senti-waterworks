@@ -96,7 +96,7 @@ const PopperBubble = ({ open, anchorEl, placement, headline, body }) => {
 				className={
 					placement === 'bottom' ? classes.popperBottom :
 						placement === 'left' ? classes.popperLeft :
-							placement === 'right' ? classes.popperRight : classes.popperRight
+							placement === 'right' ? classes.popperRight : classes.popperTop
 				}
 			>
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
