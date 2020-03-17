@@ -1,6 +1,6 @@
 /* eslint-disable indent */
-import React, { useState, useRef } from 'react'
-import { makeStyles, Grid, Dialog, Typography, IconButton, Paper, Popper } from '@material-ui/core'
+import React, { useState } from 'react'
+import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
@@ -12,6 +12,7 @@ import FullscreenDialog from './FullscreenDialog'
 import { useSelector } from 'react-redux'
 import cx from 'classnames'
 import { useLocalization } from 'Hooks'
+import PopperBubble from './PopperBubble'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -103,10 +104,8 @@ const Usage = props => {
 	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
-	const usageComponent = useRef(null)
 	const [anchorEl, setAnchorEl] = useState(null)
 	const [popperOpen, setPopperOpen] = useState(false)
-	console.log(usageComponent)
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
@@ -147,7 +146,7 @@ const Usage = props => {
 		})
 	}
 	return (
-		<Grid container className={classes.container} ref={usageComponent}> {/* ref */}
+		<Grid container className={classes.container}> {/* ref */}
 			{columns.map(({ familyIcon, headline, liters }, index) => (
 				<ItemG key={index} className={columnClasses(index)}>
 					<div className={classes.flexColumn}>
@@ -168,16 +167,24 @@ const Usage = props => {
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
 			</IconButton>
-			<IconButton size="small" className={classes.helpOutline} onClick={() => { // clicking opens the popper
+			<IconButton size="small" className={classes.helpOutline} onClick={e => { // clicking opens the popper
 				setPopperOpen(!popperOpen)
-				setAnchorEl(usageComponent.current)
+				setAnchorEl(props.parentRef.current)
 			}}>
 				<HelpOutline />
 			</IconButton>
 
-			<Popper open={popperOpen} anchorEl={anchorEl} placement="top">
-				<div style={{ background: '#fff' }}>The content of the Popper.</div>
-			</Popper>
+			<PopperBubble
+				open={popperOpen}
+				anchorEl={anchorEl}
+				placement="top"
+				headline="Spring over rundvisning"
+				body={`
+				Dette element viser dit forbrug sammenlignet med en familie på samme størrelse.
+				Ved at klikke på pilen kan du folde dette element ud og få en dybere indsigt,
+				samt tips og tricks til at spare vand i din hverdag.
+				`}
+			/>
 
 			<Dialog
 				fullScreen

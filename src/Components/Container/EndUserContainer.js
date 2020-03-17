@@ -75,10 +75,6 @@ const EndUserContainer = () => {
 	}, [dispatch, loading])
 
 	//Handlers
-	// const BPaperWithRef = React.forwardRef(({ children: Component, ...rest }, ref) => (
-	// 	<Component {...rest} ref={ref} />
-	// ))
-
 
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={12} md={9} container style={{ height: "100%" }}>
@@ -91,7 +87,7 @@ const EndUserContainer = () => {
 			<ItemG xs={12} container style={{ height: "20%" }}>
 				<ItemG xs={6} style={{ height: '100%' }}>
 					<BPaper ref={usageRef}>
-						<Usage />
+						<Usage parentRef={usageRef} />
 					</BPaper>
 				</ItemG>
 				<ItemG xs={6} style={{ height: '100%' }}>
