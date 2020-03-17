@@ -1,6 +1,6 @@
 /* eslint-disable indent */
-import React, { useState } from 'react'
-import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@material-ui/core'
+import React, { useState, useRef } from 'react'
+import { makeStyles, Grid, Dialog, Typography, IconButton, Paper, Popper } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
@@ -103,6 +103,10 @@ const Usage = props => {
 	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
+	const usageComponent = useRef(null)
+	const [anchorEl, setAnchorEl] = useState(null)
+	const [popperOpen, setPopperOpen] = useState(false)
+	console.log(usageComponent)
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
@@ -143,8 +147,8 @@ const Usage = props => {
 		})
 	}
 	return (
-		<Grid container className={classes.container}>
-			{columns.map(({ familyIcon, headline, cubicMetres, liters }, index) => (
+		<Grid container className={classes.container} ref={usageComponent}> {/* ref */}
+			{columns.map(({ familyIcon, headline, liters }, index) => (
 				<ItemG key={index} className={columnClasses(index)}>
 					<div className={classes.flexColumn}>
 						<div style={{ display: 'flex' }}>
@@ -164,9 +168,16 @@ const Usage = props => {
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
 			</IconButton>
-			<IconButton size="small" className={classes.helpOutline} onClick={() => { }}>
+			<IconButton size="small" className={classes.helpOutline} onClick={() => { // clicking opens the popper
+				setPopperOpen(!popperOpen)
+				setAnchorEl(usageComponent.current)
+			}}>
 				<HelpOutline />
 			</IconButton>
+
+			<Popper open={popperOpen} anchorEl={anchorEl} placement="top">
+				<div style={{ background: '#fff' }}>The content of the Popper.</div>
+			</Popper>
 
 			<Dialog
 				fullScreen
@@ -194,7 +205,7 @@ const Usage = props => {
 				<Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
 						<ItemG xs={12} style={{ height: '100%' }}>
-							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
+							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0, overflow: 'auto' }}>
 								<FullscreenDialog closeDialog={setFsDialogOpen} />
 							</BPaper>
 						</ItemG>
