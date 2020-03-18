@@ -140,7 +140,7 @@ class d3Arc {
 			.attr("x", (d, i) => { return i > 2 ? this.x(d.type) + this.x.bandwidth() / 4 : this.x(d.type) + this.x.bandwidth() / 2 + this.x.bandwidth() / 4 })
 			.attr("y", (d) => { return this.y(d.value) })
 			.attr("dy", "-.2em")
-			.text((d) => { return d.hidden ? '' : `${d.value} ${d.unit}` })
+			.text((d) => { return d.hidden ? '' : `${parseFloat(d.value).toFixed(3).replace('.', ',')} ${d.unit}` })
 	}
 	generateXAxis = () => {
 		const { classes } = this.props

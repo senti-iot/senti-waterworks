@@ -158,7 +158,6 @@ export const getNData = async () => {
 		//#endregion
 		//#region Readings
 		if (readingsData) {
-			console.log(readingsData)
 			currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t }))
 
 		}
@@ -226,13 +225,13 @@ export const getNData = async () => {
 			return total
 		}, 0)
 		finalMiddleData = {
-			current: parseFloat(middleData).toFixed(3),
-			previous: parseFloat(prevMiddleData).toFixed(3)
+			current: parseFloat(uC(middleData, mUnit)).toFixed(3),
+			previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(3)
 		}
 		//#endregion
 		//#region Generate bars Data
 
-		let finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons)
+		let finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit)
 
 		//#endregion
 		//#region Generate Average Data

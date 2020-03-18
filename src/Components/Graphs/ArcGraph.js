@@ -12,20 +12,38 @@ function formatNumber(num) {
 }
 
 const ArcGraph = (props) => {
-	const arcChartContainer = useRef(null)
+	//Hooks
 	const t = useLocalization()
+
+	//Redux
+
 	const arcData = useSelector(s => s.data.middleChartData.current)
 	const arcPrevData = useSelector(s => s.data.middleChartData.previous)
 	const period = useSelector(s => s.dateTime.period)
+	const mUnit = useSelector(s => s.settings.mUnit)
+	const colorTheme = useSelector((state) => state.settings.colorTheme)
+
+	//State
+
+	//Const
+	const classes = arcStyles({ color: colorTheme })
+
+	//Refs
+	const arcChartContainer = useRef(null)
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 	// const [arcData, setArcData] = useState(generateArcData())
 
-	const colorTheme = useSelector((state) => state.settings.colorTheme)
-	const classes = arcStyles({ color: colorTheme })
 
 	const unit = () => {
 		switch (props.chart) {
 			case 'waterusage':
-				return 'm³'
+				return mUnit === 'm3' ? 'm³' : 'L'
 			// case 'temperature':
 			// 	return '\u2103'
 			// case 'waterflow':
@@ -69,10 +87,6 @@ const ArcGraph = (props) => {
 			}
 			arc = new d3Arc(arcChartContainer.current, arcProps)
 		}
-		// if ((props.id !== prevId) && arc) {
-		// 	arc.destroy()
-		// 	genNewArc()
-		// }
 		if ((arcChartContainer.current && !arc)) {
 			genNewArc()
 		}
