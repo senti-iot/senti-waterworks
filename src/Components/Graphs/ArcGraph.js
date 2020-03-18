@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
-import { T } from 'Components'
 import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
 
 let arc = null
@@ -109,12 +108,11 @@ const ArcGraph = (props) => {
 	return (
 		<ArcContainer>
 
-			<TotalUsageText variant={'h5'}>{t('charts.totalUsage')}</TotalUsageText>
+			<TotalUsageText variant={'h5'}>{period.from && period.to ? displayTime() : null}</TotalUsageText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
-					{period.from && period.to ? <T>{displayTime()}</T> : null}
 					<DataText variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</DataText>
-					<DataText variant='h5' prev>{`/${formatNumber(arcPrevData)} ${unit()}`}</DataText>
+					<DataText variant='h5' prev>{`(${formatNumber(arcPrevData)} ${unit()})`}</DataText>
 				</TextContainer>
 			</Arc>
 		</ArcContainer>

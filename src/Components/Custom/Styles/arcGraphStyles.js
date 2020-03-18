@@ -2,8 +2,8 @@ import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { colors } from '@material-ui/core'
 import T from 'Components/Typography/T'
-import styled from 'styled-components';
-import size from 'Styles/themes/mediaQueries';
+import styled from 'styled-components'
+import size from 'Styles/themes/mediaQueries'
 
 const arcStyles = makeStyles(theme => ({
 	arc: {
@@ -50,6 +50,10 @@ export const TotalUsageText = styled(T)`
 `
 export const DataText = styled(({ prev, ...props }) => <T {...props} />)`
 	color: ${({ prev }) => prev ? 'rgba(255,255,255,0.5)' : undefined};
+	font-size:  ${({ prev }) => prev ? "30px" : "36px"};
+	@media ${size.down.lg} {
+		font-size: ${({ prev }) => prev ? "18px" : "24px"};
+	}
 	@media ${size.down.md} {
 		font-size: ${({ prev }) => prev ? "0.875em" : "1em"};
 	}

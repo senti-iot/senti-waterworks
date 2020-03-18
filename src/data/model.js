@@ -250,6 +250,16 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons) => {
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)
 	/**
+	 * Empty bar
+	 */
+	let fake = {}
+	fake.className = 'waterUsageB'
+	fake.value = 0
+	fake.unit = 'm³'
+	fake.type = ''
+	fake.hidden = true
+	waterusage.push(fake)
+	/**
 	 * Average
 	 */
 	let average = {}

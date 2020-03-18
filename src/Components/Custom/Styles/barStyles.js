@@ -13,24 +13,27 @@ const useBarStyles = makeStyles(theme => ({
 	},
 	textLabel: {
 		fill: '#fff',
-		// fontWeight: 500,
-		fontSize: 12
+		fontWeight: 500,
+		fontSize: 16,
+		[theme.breakpoints.down('lg')]: {
+			fontSize: 12
+		},
 	},
 	xAxisPath: {
 		rx: 8,
 		strokeWidth: 1,
-		stroke: "#ffffffAA"
+		stroke: "#ffffff"
 	},
 	xAxisLine: {
 		rx: 8,
 		strokeWidth: 1,
 		stroke: "none",
-		// fill: "#ffffffAA"
+		// fill: "#ffffff"
 	},
 	xAxis: {
 		rx: 8,
 		strokeWidth: 1,
-		fill: "#ffffffAA"
+		fill: "#ffffff"
 	},
 	waterUsageA: {
 		rx: 4,

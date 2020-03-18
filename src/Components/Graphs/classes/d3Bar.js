@@ -19,7 +19,7 @@ class d3Arc {
 	props
 	svg
 	g
-	margin = { top: 20, right: 0, bottom: 50, left: 0 }
+	margin = { top: 50, right: 20, bottom: 50, left: 20 }
 
 	constructor(containerEl, props) {
 
@@ -111,10 +111,10 @@ class d3Arc {
 		bars
 			.enter().append("rect")
 			.attr("class", d => { return d.className + ' .bar' })
-			.attr("x", (d) => { return this.x(d.type) })
+			.attr("x", (d, i) => { return i > 2 ? this.x(d.type) - (this.x.bandwidth() / 4) : this.x(d.type) + (this.x.bandwidth() / 4) })
 			.attr("y", (d) => { return this.y(d.value) })
-			.attr("width", this.x.bandwidth())
-			.attr("height", (d) => { return rHeight - this.y(d.value) })
+			.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
+			.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
 
 
 
@@ -137,10 +137,10 @@ class d3Arc {
 			.append("text")
 			.attr('text-anchor', 'middle')
 			.attr("class", `label ${classes.textLabel}`)
-			.attr("x", (d) => { return this.x(d.type) + this.x.bandwidth() / 2 })
+			.attr("x", (d, i) => { return i > 2 ? this.x(d.type) + this.x.bandwidth() / 4 : this.x(d.type) + this.x.bandwidth() / 2 + this.x.bandwidth() / 4 })
 			.attr("y", (d) => { return this.y(d.value) })
 			.attr("dy", "-.2em")
-			.text((d) => { return `${d.value} ${d.unit}` })
+			.text((d) => { return d.hidden ? '' : `${d.value} ${d.unit}` })
 	}
 	generateXAxis = () => {
 		const { classes } = this.props
