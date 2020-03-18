@@ -172,7 +172,7 @@ class d3Line {
 		const classes = this.classes
 		const height = this.height
 		let timeType = period.timeType
-		let counter = moment(from)
+		let counter = moment(from).startOf('day')
 		let ticks = []
 		let monthTicks = []
 		// ticks.push(counter.valueOf())

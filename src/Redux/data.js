@@ -53,22 +53,21 @@ export const getAllDevices = async () => {
 export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
 		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
+
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let dates = getDates(from, to)
+
 		if (dates.length < 16) {
 			let adrs = userExP.address.split(' ')
-			console.log('adrs', adrs)
 			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
 			let coords = await getLatLongFromAddress(address)
-			console.log(coords)
 			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs.map(r => r.daily.data[0]))
 			let finalData = weather.map(w => ({
 				date: moment(w.time),
 				icon: w.icon,
 				description: w.summary
 			}))
-			console.log(finalData)
 			dispatch({
 				type: wData,
 				payload: finalData
@@ -80,6 +79,22 @@ export const getWeatherData = async () => {
 				payload: []
 			})
 		}
+	}
+}
+/**
+ * Unit Conversion
+ * @param {number} value
+ * @param {string} unit
+ */
+const uC = (value, unit) => {
+	switch (unit) {
+		case 'm3':
+			return value
+		case 'l':
+			return value * 100
+
+		default:
+			return value
 	}
 }
 /**
@@ -96,6 +111,10 @@ export const getNData = async () => {
 		let noOfAdults = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults
 		let noOfChildren = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren
 		let noOfPersons = noOfAdults + noOfChildren
+		let mUnit = getState().settings.mUnit
+
+
+
 		if (moment().diff(moment(to), 'day') === 0) {
 			prevTo = moment(from)
 		}
@@ -109,7 +128,7 @@ export const getNData = async () => {
 		}
 		let waterUsageData = await getWaterUsage(from, to)
 		let waterUsagePrevData = await getWaterUsage(prevFrom, prevTo)
-		let readingsData = await getReadingUsage(prevFrom, to)
+		let readingsData = await getReadingUsage(from.clone().add(1, 'day'), to)
 		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
 		let price = await getPriceList(orgId)
 		let totalData = await getTotalVolumeData(orgId, from, to)
@@ -124,13 +143,13 @@ export const getNData = async () => {
 		//#region WaterUsage
 		if (waterUsageData.length > 0) {
 
-			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: d.averageFlowPerDay, date: d.d }))
-			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: d.averageFlowPerDay, date: moment(d.d).add(subtr - 1, 'day') }))
+			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
+			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: moment(d.d).add(subtr - 1, 'day') }))
 
 		}
 		if (benchmarkData.length > 0) {
 			// let prevB = benchmarkData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
-			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: d.averageFlowPerDay, date: d.d }))
+			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
 
 			// previousPeriodData = {
 			// 	benchmark: prevB.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
@@ -139,10 +158,8 @@ export const getNData = async () => {
 		//#endregion
 		//#region Readings
 		if (readingsData) {
-			let currentRD = readingsData.filter(f => moment(f.t) >= from && moment(f.t) <= to)
-			let prevRD = readingsData.filter(f => moment(f.t) >= prevFrom && moment(f.t) <= prevTo)
-			currentPeriodData.readings = currentRD.map(d => ({ value: d.val, date: d.t }))
-			previousPeriodData.readings = prevRD.map(d => ({ value: d.val, date: moment(d.d).add(subtr, 'day') }))
+			console.log(readingsData)
+			currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t }))
 
 		}
 		//#endregion
@@ -277,6 +294,7 @@ export const getNData = async () => {
 
 	}
 }
+//#region OLD GET DATA
 export const getData = async () => {
 	return async (dispatch, getState) => {
 		let from = getState().dateTime.period.from.clone()
@@ -481,7 +499,6 @@ export const getData = async () => {
 			else {
 				finalData.readings = []
 			}
-			//#endregion
 			//#region Middle Widget Final Data
 
 			finalMiddleData = {
@@ -512,6 +529,8 @@ export const getData = async () => {
 		//#endregion
 	}
 }
+//#endregion
+
 const initialState = {
 	barData: {},
 	devices: [],
