@@ -44,7 +44,7 @@ const LineGraph = React.memo((props) => {
 					return '°C'
 				case 'waterflow':
 					return 'l/t'
-				case 'reading':
+				case 'readings':
 					return 'm³'
 				default:
 					break

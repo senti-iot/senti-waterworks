@@ -58,7 +58,7 @@ class d3Line {
 		this.containerEl = containerEl
 		this.props = props
 		this.period = props.period
-		this.margin = { top: 0, right: 50, bottom: 50, left: 50 }
+		this.margin = { top: 30, right: 50, bottom: 50, left: 50 }
 		let data = props.data ? props.data[props.id] : []
 		//Get the height and width from the container
 		this.height = containerEl.clientHeight
@@ -137,7 +137,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 5])
+			this.y = d3.scaleLinear().range([height - this.margin.bottom + 5, this.margin.top])
 			this.y.domain([getMin(allData), getMax(allData)])
 		}
 
@@ -163,7 +163,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state[f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		let from = moment.min(allData.map(d => moment(d.date)))
+		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
 		let to = moment.max(allData.map(d => moment(d.date)))
 
 		this.x.domain([from, to])
@@ -172,7 +172,7 @@ class d3Line {
 		const classes = this.classes
 		const height = this.height
 		let timeType = period.timeType
-		let counter = moment(from).startOf('day')
+		let counter = moment(from)
 		let ticks = []
 		let monthTicks = []
 		// ticks.push(counter.valueOf())
