@@ -8,7 +8,7 @@ let arc = null
 function formatNumber(num) {
 	// return num.toString()
 
-	return num ? num.toString().replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
+	return num ? parseFloat(num).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
 }
 
 const ArcGraph = (props) => {

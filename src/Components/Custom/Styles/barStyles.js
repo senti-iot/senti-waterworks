@@ -33,6 +33,8 @@ const useBarStyles = makeStyles(theme => ({
 	xAxis: {
 		rx: 8,
 		strokeWidth: 1,
+		height: 8,
+		// stroke: '#ffffff'
 		fill: "#ffffff"
 	},
 	waterUsageA: {
