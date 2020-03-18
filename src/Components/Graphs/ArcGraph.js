@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
-import { T } from 'Components'
 import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
 
 let arc = null
@@ -9,24 +8,42 @@ let arc = null
 function formatNumber(num) {
 	// return num.toString()
 
-	return num ? num.toString().replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
+	return num ? parseFloat(num).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
 }
 
 const ArcGraph = (props) => {
-	const arcChartContainer = useRef(null)
+	//Hooks
 	const t = useLocalization()
+
+	//Redux
+
 	const arcData = useSelector(s => s.data.middleChartData.current)
 	const arcPrevData = useSelector(s => s.data.middleChartData.previous)
 	const period = useSelector(s => s.dateTime.period)
+	const mUnit = useSelector(s => s.settings.mUnit)
+	const colorTheme = useSelector((state) => state.settings.colorTheme)
+
+	//State
+
+	//Const
+	const classes = arcStyles({ color: colorTheme })
+
+	//Refs
+	const arcChartContainer = useRef(null)
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 	// const [arcData, setArcData] = useState(generateArcData())
 
-	const colorTheme = useSelector((state) => state.settings.colorTheme)
-	const classes = arcStyles({ color: colorTheme })
 
 	const unit = () => {
 		switch (props.chart) {
 			case 'waterusage':
-				return 'm³'
+				return mUnit === 'm3' ? 'm³' : 'L'
 			// case 'temperature':
 			// 	return '\u2103'
 			// case 'waterflow':
@@ -70,10 +87,6 @@ const ArcGraph = (props) => {
 			}
 			arc = new d3Arc(arcChartContainer.current, arcProps)
 		}
-		// if ((props.id !== prevId) && arc) {
-		// 	arc.destroy()
-		// 	genNewArc()
-		// }
 		if ((arcChartContainer.current && !arc)) {
 			genNewArc()
 		}
@@ -109,12 +122,11 @@ const ArcGraph = (props) => {
 	return (
 		<ArcContainer>
 
-			<TotalUsageText variant={'h5'}>{t('charts.totalUsage')}</TotalUsageText>
+			<TotalUsageText variant={'h5'}>{period.from && period.to ? displayTime() : null}</TotalUsageText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
-					{period.from && period.to ? <T>{displayTime()}</T> : null}
 					<DataText variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</DataText>
-					<DataText variant='h5' prev>{`/${formatNumber(arcPrevData)} ${unit()}`}</DataText>
+					<DataText variant='h5' prev>{`(${formatNumber(arcPrevData)} ${unit()})`}</DataText>
 				</TextContainer>
 			</Arc>
 		</ArcContainer>

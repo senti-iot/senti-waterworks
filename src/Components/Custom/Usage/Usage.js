@@ -12,6 +12,7 @@ import FullscreenDialog from './FullscreenDialog'
 import { useSelector } from 'react-redux'
 import cx from 'classnames'
 import { useLocalization } from 'Hooks'
+import PopperBubble from './PopperBubble'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -103,10 +104,12 @@ const Usage = props => {
 	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
+	const [anchorEl, setAnchorEl] = useState(null)
+	const [popperOpen, setPopperOpen] = useState(false)
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
-
+	const mUnit = useSelector(s => s.settings.mUnit)
 	//State
 	const [fsDialogOpen, setFsDialogOpen] = useState(false)
 
@@ -123,17 +126,16 @@ const Usage = props => {
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
 			headline: t('Usage.dashboardUsage.dailyConsumption'),
-			cubicMetres: avgData.waterusagem3,
+			cubicMeter: avgData.waterusagem3,
 			liters: avgData.waterusageL
 		},
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
 			headline: t('Usage.dashboardUsage.comparison'),
-			cubicMetres: avgData.benchmarkm3,
+			cubicMeter: avgData.benchmarkm3,
 			liters: avgData.benchmarkL,
 		}
 	]
-
 	const columnClasses = (index) => {
 		return cx({
 			[classes.itemG]: true,
@@ -143,8 +145,8 @@ const Usage = props => {
 		})
 	}
 	return (
-		<Grid container className={classes.container}>
-			{columns.map(({ familyIcon, headline, cubicMetres, liters }, index) => (
+		<Grid container className={classes.container}> {/* ref */}
+			{columns.map(({ familyIcon, headline, liters, cubicMeter }, index) => (
 				<ItemG key={index} className={columnClasses(index)}>
 					<div className={classes.flexColumn}>
 						<div style={{ display: 'flex' }}>
@@ -153,7 +155,7 @@ const Usage = props => {
 						</div>
 						<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 							<Typography variant="body2" className={classes.cubicValue} style={{ color: index % 2 === 0 ? '#6DD400' : '#F7DC00' }}>
-								{(liters).toFixed(0)} <span style={{ fontSize: '0.7em', color: '#fff' }}>L</span>
+								{(mUnit === 'm3' ? parseFloat(cubicMeter).toFixed(3).replace('.', ',') : parseFloat(liters).toFixed(0))} <span style={{ fontSize: '0.7em', color: '#fff' }}>{mUnit === 'm3' ? "m³" : "L"}</span>
 							</Typography>
 
 							<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
@@ -164,9 +166,24 @@ const Usage = props => {
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
 			</IconButton>
-			<IconButton size="small" className={classes.helpOutline} onClick={() => { }}>
+			<IconButton size="small" className={classes.helpOutline} onClick={e => { // clicking opens the popper
+				setPopperOpen(!popperOpen)
+				setAnchorEl(props.parentRef.current)
+			}}>
 				<HelpOutline />
 			</IconButton>
+
+			<PopperBubble
+				open={popperOpen}
+				anchorEl={anchorEl}
+				placement="top"
+				headline="Spring over rundvisning"
+				body={`
+				Dette element viser dit forbrug sammenlignet med en familie på samme størrelse.
+				Ved at klikke på pilen kan du folde dette element ud og få en dybere indsigt,
+				samt tips og tricks til at spare vand i din hverdag.
+				`}
+			/>
 
 			<Dialog
 				fullScreen
@@ -194,7 +211,7 @@ const Usage = props => {
 				<Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
 						<ItemG xs={12} style={{ height: '100%' }}>
-							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0 }}>
+							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0, overflow: 'auto' }}>
 								<FullscreenDialog closeDialog={setFsDialogOpen} />
 							</BPaper>
 						</ItemG>

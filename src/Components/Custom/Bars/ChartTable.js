@@ -23,6 +23,7 @@ const ChartTable = props => {
 
 	//Redux
 	const barsData = useSelector(s => s.data.barData[chart])
+
 	//State
 
 	//useCallbacks
@@ -34,7 +35,7 @@ const ChartTable = props => {
 	//Renders
 	const renderWaterUsageTable = () => {
 		return <ItemG container>
-			{barsData.map(d => <>
+			{barsData.map(d => d.hidden ? null : <>
 				<ItemG className={classes.lineMargin} container xs={12}>
 					<ItemG xs={5}>
 						<T>

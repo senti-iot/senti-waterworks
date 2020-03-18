@@ -1,18 +1,5 @@
 import * as d3 from 'd3'
-// import moment from 'moment';
 
-// const getMedianLineData = (data, prevData) => {
-// 	let sum = data.map(d => d.nps).reduce((total, val) => total + val)
-// 	// sum.reduce()
-// 	let avrg = Math.round(sum / data.length)
-// 	let medianValues = [{ date: data[0].date, nps: avrg }, { date: prevData[prevData.length - 1].date, nps: avrg }]
-// 	return medianValues
-// }
-
-// const toUppercase = str => str.charAt(0).toUpperCase() + str.slice(1);
-// const getMax = (arr) => {
-// 	return Math.max(...arr.map(d => d.nps))
-// }
 class d3Arc {
 
 	containerEl

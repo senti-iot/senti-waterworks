@@ -5,6 +5,8 @@ import Bathroom from "assets/icons/bath.svg"
 import Dishwasher from "assets/icons/dishwasher.svg"
 import WashingMachine from "assets/icons/washmachine.svg"
 import { useLocalization } from 'Hooks'
+import ItemG from 'Components/Containers/ItemG'
+import GridContainer from 'Components/Containers/GridContainer'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -21,7 +23,9 @@ const useStyles = makeStyles(theme => ({
 		fontWeight: 500
 	},
 	flex: {
+		width: '100%',
 		display: 'flex',
+		flexWrap: 'wrap',
 		padding: '32px 0',
 		justifyContent: 'space-between',
 		flex: 1,
@@ -123,35 +127,34 @@ const DialogPics = props => {
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		console.log('submitted')
 	}
 
 	const classes = useStyles()
 
 	return (
-		<div className={classes.container}>
+		<GridContainer className={classes.container}>
 
 			{/* left column with pics */}
-			<div style={{ width: '60%' }}>
+			<ItemG xs={12} md={7}>
 				<Typography variant="h4" className={classes.textBox} style={{}}>
 					{t('tipsAndTricks.title')}
 				</Typography>
 
-				<div className={classes.flex}>
+				<GridContainer className={classes.flex}>
 					{picsAndText.map(({ imgSrc, text }, index) => (
-						<div key={index} className={classes.imgBox} onClick={() => {
+						<ItemG xs={6} md={3} key={index} className={classes.imgBox} onClick={() => {
 							props.setDescriptionOpen(true)
 							props.setChosenDescription(index)
 						}}>
 							<img src={imgSrc} alt="" className={classes.img} />
 							<Typography variant="h6" className={classes.groupLabel}>{text}</Typography>
-						</div>
+						</ItemG>
 					))}
-				</div>
-			</div>
+				</GridContainer>
+			</ItemG>
 
 			{/* right column with textarea */}
-			<form className={classes.textareaContainer} onSubmit={handleSubmit}>
+			<ItemG xs={12} md={5} className={classes.textareaContainer} onSubmit={handleSubmit}>
 				<Typography variant="h4" className={classes.textBox} style={{}}>
 					Mine gode råd
 				</Typography>
@@ -162,8 +165,8 @@ const DialogPics = props => {
 					placeholder="Her kan du skrive dine gode råd til at spare vand"
 				/>
 				<Button type="submit" variant="contained" color="secondary" className={classes.submitBtn}>Send</Button>
-			</form>
-		</div>
+			</ItemG>
+		</GridContainer>
 	)
 }
 
