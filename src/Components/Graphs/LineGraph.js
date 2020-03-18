@@ -98,7 +98,7 @@ const LineGraph = React.memo((props) => {
 			// line.destroy()
 			// line = null
 		}
-	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData])
+	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit])
 
 	//Handlers
 
