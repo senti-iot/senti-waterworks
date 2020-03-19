@@ -36,6 +36,7 @@ const EndUserContainer = () => {
 	const dispatch = useDispatch()
 	const classes = styles()
 	const usageRef = useRef(null)
+	const priceRef = useRef(null)
 
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
@@ -91,8 +92,8 @@ const EndUserContainer = () => {
 					</BPaper>
 				</ItemG>
 				<ItemG xs={6} style={{ height: '100%' }}>
-					<BPaper>
-						<PriceChart />
+					<BPaper ref={priceRef}>
+						<PriceChart parentRef={priceRef} />
 					</BPaper>
 				</ItemG>
 			</ItemG>
