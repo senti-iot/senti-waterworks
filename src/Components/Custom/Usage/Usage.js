@@ -109,7 +109,7 @@ const Usage = props => {
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
-
+	const mUnit = useSelector(s => s.settings.mUnit)
 	//State
 	const [fsDialogOpen, setFsDialogOpen] = useState(false)
 
@@ -126,17 +126,16 @@ const Usage = props => {
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
 			headline: t('Usage.dashboardUsage.dailyConsumption'),
-			cubicMetres: avgData.waterusagem3,
+			cubicMeter: avgData.waterusagem3,
 			liters: avgData.waterusageL
 		},
 		{
 			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
 			headline: t('Usage.dashboardUsage.comparison'),
-			cubicMetres: avgData.benchmarkm3,
+			cubicMeter: avgData.benchmarkm3,
 			liters: avgData.benchmarkL,
 		}
 	]
-
 	const columnClasses = (index) => {
 		return cx({
 			[classes.itemG]: true,
@@ -147,7 +146,7 @@ const Usage = props => {
 	}
 	return (
 		<Grid container className={classes.container}> {/* ref */}
-			{columns.map(({ familyIcon, headline, liters }, index) => (
+			{columns.map(({ familyIcon, headline, liters, cubicMeter }, index) => (
 				<ItemG key={index} className={columnClasses(index)}>
 					<div className={classes.flexColumn}>
 						<div style={{ display: 'flex' }}>
@@ -156,7 +155,7 @@ const Usage = props => {
 						</div>
 						<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 							<Typography variant="body2" className={classes.cubicValue} style={{ color: index % 2 === 0 ? '#6DD400' : '#F7DC00' }}>
-								{(liters).toFixed(0)} <span style={{ fontSize: '0.7em', color: '#fff' }}>L</span>
+								{(mUnit === 'm3' ? parseFloat(cubicMeter).toFixed(3).replace('.', ',') : parseFloat(liters).toFixed(0))} <span style={{ fontSize: '0.7em', color: '#fff' }}>{mUnit === 'm3' ? "m³" : "L"}</span>
 							</Typography>
 
 							<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />

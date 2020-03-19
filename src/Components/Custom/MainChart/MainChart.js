@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 		color: '#fff',
 		background: theme.activeChartButton,
 		borderRadius: 4,
+		minWidth: 170,
 		"&:hover": {
 			background: lighten(theme.activeChartButton, 0.3)
 		}
@@ -72,8 +73,8 @@ export const MainChart = React.memo((props) => {
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
 				<ChartsButtonContainer>
-					<ItemG container alignItems={'center'} justify={'space-between'}>
-						<ItemG xs={2} lg={3} container justify={'flex-start'} alignItems={'center'}>
+					<ItemG container alignItems={'center'} justify={'space-evenly'}>
+						<ItemG xs={2} lg={2} container justify={'flex-start'} alignItems={'center'}>
 							<DButton
 								margin={'none'}
 								onChange={(value) => {
@@ -92,10 +93,10 @@ export const MainChart = React.memo((props) => {
 							/>
 
 						</ItemG>
-						<ItemG xs={5} lg={4} container alignItems={'center'} >
+						<ItemG xs={2} lg={5} container alignItems={'center'} >
 							<DateTimeArrows />
 						</ItemG>
-						<ItemG xs={3} lg={4} container alignItems={'center'} justify={'flex-end'}>
+						<ItemG xs={7} lg={4} container alignItems={'center'} justify={'flex-end'}>
 							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
 								<Hidden mdDown>
 									<DateTimeDays />
@@ -117,21 +118,7 @@ export const MainChart = React.memo((props) => {
 									handleCloseExport={handleCloseExport}
 								/>
 							</ItemG>
-							{/* <ItemG xs={3}>
-							<ChartsButton onClick={handleSetChart('waterusage')} isActive={isActive('waterusage')}>{t('charts.types.waterusage')} </ChartsButton>
-							</ItemG>
-							{data ? data.temperature.length > 0 ?
-								<ItemG xs={3}>
-								<ChartsButton onClick={handleSetChart('temperature')} isActive={isActive('temperature')}>{t('charts.types.temperature')}</ChartsButton>
-								</ItemG> : null : null
-							}
-						{data ? data.waterflow.length > 0 ?
-							<ItemG xs={3}>
-								<ChartsButton onClick={handleSetChart('waterflow')} isActive={isActive('waterflow')}>{t('charts.types.waterflow')}</ChartsButton>
-							</ItemG> : null : null}
-						<ItemG xs={3}>
-						<ChartsButton onClick={handleSetChart('readings')} isActive={isActive('readings')}>{t('charts.types.readings')}</ChartsButton>
-					</ItemG> */}
+
 						</ItemG>
 					</ItemG>
 				</ChartsButtonContainer>

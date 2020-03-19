@@ -58,7 +58,7 @@ class d3Line {
 		this.containerEl = containerEl
 		this.props = props
 		this.period = props.period
-		this.margin = { top: 0, right: 50, bottom: 50, left: 50 }
+		this.margin = { top: 30, right: 50, bottom: 50, left: 50 }
 		let data = props.data ? props.data[props.id] : []
 		//Get the height and width from the container
 		this.height = containerEl.clientHeight
@@ -137,7 +137,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 5])
+			this.y = d3.scaleLinear().range([height - this.margin.bottom + 5, this.margin.top])
 			this.y.domain([getMin(allData), getMax(allData)])
 		}
 
@@ -163,7 +163,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state[f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		let from = moment.min(allData.map(d => moment(d.date)))
+		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
 		let to = moment.max(allData.map(d => moment(d.date)))
 
 		this.x.domain([from, to])
@@ -293,49 +293,35 @@ class d3Line {
 			}
 		}
 		this.xAxis.selectAll('.tick').each(function (d, i) {
-			// console.log(this.nextSibling.getBoundingClientRect().x, this.getBoundingClientRect().x)
 			let parent = d3.select(this)
 			if (this.nextSibling) {
 
-				// if (i === 0) {
-				// 	parent.append('rect')
-				// 		.attr('class', classes.axisLineWhite)
-				// 		.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-				// 		.attr("height", height - margin.bottom - 26)
-				// 		.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
-				// 	parent.append("image")
-				// 		.attr("xlink:href", getIcon(weatherData[i].icon))
-				// 		.attr("x", (this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x - 4) / 2 - 35)
-				// 		.attr("y", -(height - margin.bottom - 26))
-				// 		.attr("width", 70)
-				// 		.attr("height", 70)
-				// 	// parent.append('img').attr('src', getIcon(weatherData[i].icon)).attr('height', '40px').attr('width', '40px')
-				// }
-				// else {
 				if (i % 2 === 0) {
 					parent.append('rect')
 						.attr('class', classes.axisLineWhite)
 						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
 						.attr("height", height - margin.bottom - 26)
 						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
-					if (weatherData[i])
+					if (weatherData[i]) {
 						parent.append("image")
 							.attr("xlink:href", getIcon(weatherData[i].icon))
-							.attr("x", (this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2 - 32)
+							.attr('class', classes.weatherIcon)
+							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
 							.attr("y", -(height - margin.bottom - 40))
-							.attr("width", 64)
-							.attr("height", 64)
-					// console.log(i % 2 === 0)
+					}
+					// .attr("width", 32)
+					// .attr("height", 32)
 				}
 				else {
 					if (weatherData[i])
 
 						parent.append("image")
 							.attr("xlink:href", getIcon(weatherData[i].icon))
-							.attr("x", (this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2 - 32)
+							.attr('class', classes.weatherIcon)
+							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
 							.attr("y", -(height - margin.bottom - 40))
-							.attr("width", 64)
-							.attr("height", 64)
+					// .attr("width", 32)
+					// .attr("height", 32)
 				}
 				// }
 			}

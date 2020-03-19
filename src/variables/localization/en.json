@@ -999,6 +999,7 @@
 			"time": "By time"
 		},
 		"chart": {
+			"mUnit": "Measurement Unit",
 			"YAxis": {
 				"linear": "Linear scale",
 				"logarithmic": "Logarithmic scale"

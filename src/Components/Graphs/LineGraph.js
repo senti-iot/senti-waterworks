@@ -18,7 +18,7 @@ const LineGraph = React.memo((props) => {
 	const deviceData = useSelector(s => s.data.deviceData)
 	const weatherData = useSelector(s => s.data.weatherData)
 	const period = useSelector(s => s.dateTime.period)
-
+	const mUnit = useSelector(s => s.settings.mUnit)
 	//State
 	const lineChartContainer = useRef(React.createRef())
 	const [value, setValue] = useState({ value: null, date: null })
@@ -39,12 +39,12 @@ const LineGraph = React.memo((props) => {
 		const unitType = () => {
 			switch (props.id) {
 				case 'waterusage':
-					return 'm³'
+					return mUnit === 'm3' ? 'm³' : 'L'
 				case 'temperature':
 					return '°C'
 				case 'waterflow':
 					return 'l/t'
-				case 'reading':
+				case 'readings':
 					return 'm³'
 				default:
 					break
@@ -98,7 +98,7 @@ const LineGraph = React.memo((props) => {
 			// line.destroy()
 			// line = null
 		}
-	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData])
+	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit])
 
 	//Handlers
 

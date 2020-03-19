@@ -226,7 +226,7 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	}
 
 }
-export const genNBarData = (waterusageData, benchmarkData, noOfPersons) => {
+export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit) => {
 	let waterusage = []
 	//#region WaterUsage/Reading
 	let values = getValues(waterusageData)
@@ -237,25 +237,36 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons) => {
 	let minUsage = {}
 	minUsage.className = 'waterUsageA'
 	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0])).toFixed(3)
-	minUsage.unit = 'm³'
+	minUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	minUsage.type = 'chartTable.waterusage.line1'
 	waterusage.push(minUsage)
+
 	/**
 	 *  Max WaterUsage
 	 */
 	let maxUsage = {}
 	maxUsage.className = 'waterUsageB'
 	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0])).toFixed(3)
-	maxUsage.unit = 'm³'
+	maxUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)
+	/**
+	 * Empty bar
+	 */
+	let fake = {}
+	fake.className = 'waterUsageB'
+	fake.value = 0
+	fake.unit = ''
+	fake.type = ''
+	fake.hidden = true
+	waterusage.push(fake)
 	/**
 	 * Average
 	 */
 	let average = {}
 	average.className = 'waterUsageC'
 	average.value = parseFloat((benchmarkValues.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
-	average.unit = 'm³'
+	average.unit = unit === 'm3' ? 'm³' : 'L'
 	average.type = 'chartTable.waterusage.line3'
 	waterusage.push(average)
 	/**
@@ -265,7 +276,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons) => {
 	let perPerson = {}
 	perPerson.className = 'waterUsageD'
 	perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
-	perPerson.unit = 'm³'
+	perPerson.unit = unit === 'm3' ? 'm³' : 'L'
 	perPerson.type = 'chartTable.waterusage.line4'
 	waterusage.push(perPerson)
 	//#endregion

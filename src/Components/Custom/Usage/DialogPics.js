@@ -127,7 +127,6 @@ const DialogPics = props => {
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		// console.log('submitted')
 	}
 
 	const classes = useStyles()

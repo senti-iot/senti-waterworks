@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
 		alignSelf: 'flex-end',
 		marginLeft: 8,
 		position: 'relative',
-		color: '#fff'
+		color: '#fff',
+		top: 8
 	},
 	flex: {
 		display: 'flex',
