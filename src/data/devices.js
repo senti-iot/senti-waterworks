@@ -83,6 +83,8 @@ export const getPriceList = async (orgId) => {
  */
 
 export const getTotalVolumeData = async (orgUUID, from, to) => {
-	let data = await servicesAPI.get(`/v2/waterworks/data/totalbyday/${orgUUID}/volume/${from}/${to}`)
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let data = await servicesAPI.get(`/v2/waterworks/data/totalbyday/${orgUUID}/volume/${startDate}/${endDate}`)
 	return data.data
 }

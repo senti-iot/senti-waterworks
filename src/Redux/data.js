@@ -1,5 +1,5 @@
 import { handleRequestSort, getDates } from 'data/functions'
-import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, /* getTotalVolumeData, */ getDevicesV2, /* getDevicesData */ } from 'data/devices'
+import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, getTotalVolumeData, getDevicesV2, /* getDevicesData */ } from 'data/devices'
 import { /* genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData, */ genNBarData } from 'data/model'
 import moment from 'moment'
 // import { colors } from 'variables/colors'
@@ -114,7 +114,38 @@ export const getNData = async () => {
 		let mUnit = getState().settings.mUnit
 		let isSuperUser = getState().auth.isSuperUser
 		let isSWAdmin = getState().auth.privileges.indexOf('waterworks.admin') > -1 ? true : false
-
+		let currentPeriodData = {},
+			previousPeriodData = {}
+		let finalData = {
+			waterusage: [],
+			temperature: [],
+			waterflow: [],
+			readings: []
+		}
+		let finalMiddleData = {
+			current: {
+				waterUsage: 0
+			},
+			previous: {
+				waterUsage: 0
+			}
+		}
+		let finalAverageData = {
+			waterusagem3: 0,
+			waterusageL: 0,
+			benchmarkm3: 0,
+			benchmarkL: 0
+		}
+		let finalPriceData = {
+			waterusage: 0,
+			sewage: 0
+		}
+		let finalBarData = {
+			waterusage: [],
+			readings: [],
+			perPerson: [],
+			average: []
+		}
 		if (isSuperUser || isSWAdmin) {
 			/**
 			 * Get the devices for the admin
@@ -125,19 +156,93 @@ export const getNData = async () => {
 				type: GETDevice,
 				payload: devices
 			})
+			let waterUsageData = await getTotalVolumeData(orgId, from, to)
+			let waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom, prevTo)
+			console.log('waterUsageData', waterUsageData)
+			if (waterUsageData.length > 0) {
+
+				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
+				previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: moment(d.d).add(subtr - 1, 'day') }))
+
+			}
+			console.log('currentPeriodData', currentPeriodData)
+			// if (benchmarkData.length > 0) {
+			// 	// let prevB = benchmarkData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
+			// 	currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
+
+			// 	// previousPeriodData = {
+			// 	// 	benchmark: prevB.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
+			// 	// }
+			// }
+			//#region Final Data Creation
+			if (currentPeriodData.waterusage) {
+				finalData.waterusage.push({
+					name: 'waterusageL',
+					median: true,
+					data: currentPeriodData.waterusage,
+					color: 'orange'
+				})
+			}
+			if (previousPeriodData.waterusage) {
+				finalData.waterusage.push({
+					name: 'waterusageP',
+					prev: true,
+					hidden: true,
+					noMedianLegend: true,
+					median: true,
+					data: previousPeriodData.waterusage
+				})
+			}
+			if (currentPeriodData.benchmark) {
+				finalData.waterusage.push({
+					name: 'benchmark',
+					hidden: true,
+					noArea: true,
+					dashed: true,
+					data: currentPeriodData.benchmark,
+					color: 'yellow'
+				})
+
+			}
+			if (currentPeriodData.readings) {
+				finalData.readings.push({
+					name: 'readingL',
+					color: 'yellow',
+					noArea: true,
+					data: currentPeriodData.readings
+				})
+			}
+			//#endregion
+
+			dispatch({
+				type: deviceData,
+				payload: finalData
+			})
+
+			dispatch({
+				type: middleChartData,
+				payload: finalMiddleData
+			})
+			dispatch({
+				type: barData,
+				payload: finalBarData
+			})
+
+			dispatch({
+				type: averageData,
+				payload: finalAverageData
+			})
+			dispatch({
+				type: pData,
+				payload: finalPriceData
+			})
+			return
 		}
 
 		if (moment().diff(moment(to), 'day') === 0) {
 			prevTo = moment(from)
 		}
-		let currentPeriodData = {},
-			previousPeriodData = {}
-		let finalData = {
-			waterusage: [],
-			temperature: [],
-			waterflow: [],
-			readings: []
-		}
+
 		let waterUsageData = await getWaterUsage(from, to)
 		let waterUsagePrevData = await getWaterUsage(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(from.clone().add(1, 'day'), to)
@@ -218,14 +323,7 @@ export const getNData = async () => {
 
 		//#region Gen Arc Data
 
-		let finalMiddleData = {
-			current: {
-				waterUsage: 0
-			},
-			previous: {
-				waterUsage: 0
-			}
-		}
+
 		let middleData = waterUsageData.reduce((total, d) => {
 			total = total + d.averageFlowPerDay
 			return total
@@ -241,16 +339,11 @@ export const getNData = async () => {
 		//#endregion
 		//#region Generate bars Data
 
-		let finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit)
+		finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit)
 
 		//#endregion
 		//#region Generate Average Data
-		let finalAverageData = {
-			waterusagem3: 0,
-			waterusageL: 0,
-			benchmarkm3: 0,
-			benchmarkL: 0
-		}
+
 		let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
 		finalAverageData.waterusagem3 = avgValue
 		finalAverageData.waterusageL = avgValue * 1000
@@ -264,7 +357,8 @@ export const getNData = async () => {
 
 		//#endregion
 		//#region Price Data
-		let finalPriceData = {
+
+		finalPriceData = {
 			waterusage: parseFloat(priceList.waterTotal * middleData).toFixed(2).replace('.', ','),
 			sewage: parseFloat(priceList.sewageTotal * middleData).toFixed(2).replace('.', ','),
 		}
