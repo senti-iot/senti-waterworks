@@ -8,17 +8,18 @@ export const setAccessLevel = (payload) => ({
 
 const initialState = {
 	role: {},
-	isAdmin: 0
+	privileges: [],
+	isSuperUser: 0
 }
-const checkIsAdmin = (role) => {
-	let isAdmin = 0
-	if (role.priority <= 100) {
-		isAdmin = 1
+const checkisSuperUser = (role) => {
+	let isSuperUser = 0
+	if (role.priority <= 10) {
+		isSuperUser = 1
 	}
 	else {
-		isAdmin = 0
+		isSuperUser = 0
 	}
-	return isAdmin
+	return isSuperUser
 	/**
 	 * TODO: Check if it is an admin
 	 */
@@ -31,7 +32,8 @@ export const auth = (state = initialState, { type, payload }) => {
 		case sAL:
 			return Object.assign({}, state, {
 				role: payload.role,
-				isAdmin: checkIsAdmin(payload)
+				privileges: payload.privileges,
+				isSuperUser: checkisSuperUser(payload.role)
 			})
 
 		default:

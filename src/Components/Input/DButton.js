@@ -41,6 +41,8 @@ const DButton = (props) => {
 				aria-label='More'
 				aria-owns={anchor ? 'long-menu' : null}
 				aria-haspopup='true'
+				variant={props.variant}
+				color={props.color}
 				classes={buttonClasses}
 				onClick={handleOpenActionsDetails}
 				endIcon={<KeyboardArrowDown style={{ marginLeft: 16 }} />}

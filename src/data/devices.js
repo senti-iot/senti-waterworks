@@ -2,7 +2,13 @@ import { servicesAPI, dataExportAPI, waterworksAPI } from './data'
 import moment from 'moment'
 
 
-
+/**
+ * v2 Devices
+ */
+export const getDevicesV2 = async () => {
+	let response = await servicesAPI.get('/v2/devices').then(rs => rs.ok ? rs.data : rs.ok)
+	return response
+}
 /**
  * v2/devices - ALL devices
  * v2/devices/orgUUID - All devices under that org

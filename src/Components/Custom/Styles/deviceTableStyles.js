@@ -1,8 +1,8 @@
-import { colors, Backdrop as MuiBackdrop, Paper, Button } from '@material-ui/core';
-import { bgColors } from 'Styles/backgroundColors';
-import { makeStyles } from '@material-ui/styles';
-import styled from 'styled-components';
-import { T } from 'Components';
+import { colors, Backdrop as MuiBackdrop, Paper, Button } from '@material-ui/core'
+import { bgColors } from 'Styles/backgroundColors'
+import { makeStyles } from '@material-ui/styles'
+import styled from 'styled-components'
+import { T } from 'Components'
 
 const deviceTableStyles = makeStyles(theme => ({
 	backgroundColor: {
@@ -39,6 +39,7 @@ export const GetDevicesButton = styled(Button)`
 	margin:8px;
 `
 export const TitleContainer = styled.div`
+	color: #fff;
 	display: flex;
 	align-items:center;
 	justify-content: space-between;

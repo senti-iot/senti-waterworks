@@ -1,5 +1,5 @@
 import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core'
-import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, /*  Person,  *//* Notifications */ } from 'variables/icons'
+import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, /*  Person,  *//* Notifications */ } from 'variables/icons'
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
 import React, { useState } from 'react'
 import cookie from 'react-cookies'
@@ -14,23 +14,39 @@ import { GoogleLogout } from 'react-google-login'
 import cx from 'classnames'
 import headerLinksStyle from 'Styles/headerLinksStyle'
 import { useDispatch, useSelector } from 'Hooks'
+import DeviceTable from 'Components/Custom/DevicesTable/DeviceTable'
 // import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
 
 
 function HeaderLinks(props) {
-
-	const [anchorProfile, setAnchorProfile] = useState(null)
-	const history = props.history
+	//Hooks
 	const dispatch = useDispatch()
+	const classes = headerLinksStyle()
+
+	//Redux
+	const user = useSelector(state => state.settings.user)
+	const isSuperUser = useSelector(s => s.auth.isSuperUser)
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
+
+	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const redux = {
 		resetRedux: () => dispatch({ type: 'RESET_APP' })
 	}
-	const user = useSelector(state => state.settings.user)
-	// const globalSearch = useSelector(state => state.settings.globalSearch)
 
+	//State
+	const [anchorProfile, setAnchorProfile] = useState(null)
+	const [openTable, setOpenTable] = useState(true)
+	//Const
+	const { t, history } = props
 
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+	const handleOpenTable = () => setOpenTable(true)
 
 	const handleProfileOpen = e => {
 		setAnchorProfile(e.currentTarget)
@@ -40,23 +56,6 @@ function HeaderLinks(props) {
 		if (props.onClose)
 			props.onClose()
 	}
-
-	// const handleRedirectToChristmas = () => {
-	// 	props.history.push(`/holiday`)
-	// }
-	const classes = headerLinksStyle()
-
-	// const handleRedirectToOwnProfile = () => {
-	// 	handleProfileClose()
-	// 	// if (user)
-	// 	// history.push(`/management/user/${user.id}`)
-
-	// }
-	// const handleRedirectToOwnOrg = () => {
-	// 	handleProfileClose()
-	// 	// if (user)
-	// 	// history.push(`/management/org/${user.org.id}`)
-	// }
 
 	const handleLogOut = async () => {
 		try {
@@ -75,45 +74,30 @@ function HeaderLinks(props) {
 	const handleSettingsOpen = () => {
 		handleProfileClose()
 		history.push(`/settings`)
-		// if (user)
-		// props.history.push(`/settings`)
 	}
-	// const handleMyProfileOpen = () => {
-	// 	handleProfileClose()
-	// 	history.push('/my-profile')
-	// }
-	// renderChristmasIcon = () => {
-	// 	const { classes } = props
-	// 	if (moment().format('MM') === '12') {
-	// 		let today = moment().format('DD')
-	// 		return today
-	// 	}
-	// 	else
-	// 	{
-	// 		if (moment().format('MM') === '11') {
-	// 			return <IconButton onClick={handleRedirectToChristmas}>
-	// 				<img src={christmas[0]} className={classes.img} alt={'christmas'} />
-	// 			</IconButton>
-	// 		}
-	// 		return null
-	// 	}
 
-	// }
-	// renderSearch = () => {
-	// 	const { globalSearch } = props
-	// 	return null
-	// 	// return globalSearch ? <GlobalSearch /> : null
-	// }
 	// renderNotifications = () => {
 	// 	return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }}>
 	// 		<Notifications />
 	// 	</ItemG>
 	// }
+
+	const renderDeviceTable = () => {
+		return <>
+			<Button className={classes.selectDevButton} variant={'contained'} color={'secondary'} onClick={handleOpenTable}
+				endIcon={<KeyboardArrowRight />}>
+				{`${t('charts.selectedDevices')}: ${selectedDevices.length}`}
+			</Button>
+			<DeviceTable openTable={openTable} setOpenTable={setOpenTable} />
+		</>
+
+	}
 	const renderUserMenu = () => {
-		const { t } = props
 		const openProfile = Boolean(anchorProfile)
 
 		return <div>
+			{isSuperUser || isSWAdmin ? renderDeviceTable() : null}
+
 			<Tooltip title={t('menus.user.profile')}>
 
 				<Button

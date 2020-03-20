@@ -1,8 +1,8 @@
 import { handleRequestSort, getDates } from 'data/functions'
-import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, getTotalVolumeData, /* getDevicesData */ } from 'data/devices'
-import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData, genNBarData } from 'data/model'
+import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, getTotalVolumeData, getDevicesV2, /* getDevicesData */ } from 'data/devices'
+import { /* genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData, */ genNBarData } from 'data/model'
 import moment from 'moment'
-import { colors } from 'variables/colors'
+// import { colors } from 'variables/colors'
 import { getLatLongFromAddress, getWeather } from 'data/weather'
 // import { genBenchmarkAll } from 'data/model'
 
@@ -58,7 +58,7 @@ export const getWeatherData = async () => {
 		let to = getState().dateTime.period.to.clone()
 		let dates = getDates(from, to)
 
-		if (dates.length < 16) {
+		if (dates.length < 16 && userExP.address) {
 			let adrs = userExP.address.split(' ')
 			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
 			let coords = await getLatLongFromAddress(address)
@@ -112,8 +112,20 @@ export const getNData = async () => {
 		let noOfChildren = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren
 		let noOfPersons = noOfAdults + noOfChildren
 		let mUnit = getState().settings.mUnit
+		let isSuperUser = getState().auth.isSuperUser
+		let isSWAdmin = getState().auth.privileges.indexOf('waterworks.admin') > -1 ? true : false
 
-
+		if (isSuperUser || isSWAdmin) {
+			/**
+			 * Get the devices for the admin
+			 */
+			let devices = await getDevicesV2()
+			console.log('devices', devices)
+			dispatch({
+				type: GETDevice,
+				payload: devices
+			})
+		}
 
 		if (moment().diff(moment(to), 'day') === 0) {
 			prevTo = moment(from)
@@ -294,240 +306,240 @@ export const getNData = async () => {
 	}
 }
 //#region OLD GET DATA
-export const getData = async () => {
-	return async (dispatch, getState) => {
-		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone().endOf('day')
-		let filterDevices = getState().appState.selectedDevices
-		let noOfDevices = getState().data.devices.length
-		let fromM1 = from.clone().subtract(1, 'day')
-		let subtr = moment(to).diff(moment(from), 'day')
-		let prevFrom = moment(from).subtract(1, 'day').subtract(subtr, 'day')
+// export const getData = async () => {
+// 	return async (dispatch, getState) => {
+// 		let from = getState().dateTime.period.from.clone()
+// 		let to = getState().dateTime.period.to.clone().endOf('day')
+// 		let filterDevices = getState().appState.selectedDevices
+// 		let noOfDevices = getState().data.devices.length
+// 		let fromM1 = from.clone().subtract(1, 'day')
+// 		let subtr = moment(to).diff(moment(from), 'day')
+// 		let prevFrom = moment(from).subtract(1, 'day').subtract(subtr, 'day')
 
-		let prevTo = moment(from)
-		if (moment().diff(moment(to), 'day') === 0) {
-			prevTo = moment(fromM1)
-		}
-		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, middleData,
-			prevMiddleData,
-			finalData = {
-				waterusage: [],
-				temperature: [],
-				waterflow: [],
-				readings: []
-			},
-			finalMiddleData = {
-				current: {
-					waterUsage: 0
-				},
-				previous: {
-					waterUsage: 0
-				}
-			},
-			finalBarData = {
-				waterusage: [],
-				readings: [],
-				temperature: [],
-				waterflow: []
-			}
+// 		let prevTo = moment(from)
+// 		if (moment().diff(moment(to), 'day') === 0) {
+// 			prevTo = moment(fromM1)
+// 		}
+// 		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, middleData,
+// 			prevMiddleData,
+// 			finalData = {
+// 				waterusage: [],
+// 				temperature: [],
+// 				waterflow: [],
+// 				readings: []
+// 			},
+// 			finalMiddleData = {
+// 				current: {
+// 					waterUsage: 0
+// 				},
+// 				previous: {
+// 					waterUsage: 0
+// 				}
+// 			},
+// 			finalBarData = {
+// 				waterusage: [],
+// 				readings: [],
+// 				temperature: [],
+// 				waterflow: []
+// 			}
 
-		/**
-		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
-		 */
-		// let completeRawData = await getDevicesData(prevFrom, to)
-		let completeRawData = []
+// 		/**
+// 		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
+// 		 */
+// 		// let completeRawData = await getDevicesData(prevFrom, to)
+// 		let completeRawData = []
 
-		if (completeRawData) {
+// 		if (completeRawData) {
 
-			rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
-			prevRawData = completeRawData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
+// 			rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
+// 			prevRawData = completeRawData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
 
-			//#region Current Period
-			currentPeriodData = {
-				// waterUsage: genWR(rawData, filterDevices),
-				temperature: {
-					ambient: genMinATemp(rawData, filterDevices),
-					water: genMinWTemp(rawData, filterDevices)
-				},
-				waterFlow: {
-					maxFlow: genMaxF(rawData, filterDevices),
-					minFlow: genMinF(rawData, filterDevices)
-				},
-				...currentPeriodData
-			}
-			benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
+// 			//#region Current Period
+// 			currentPeriodData = {
+// 				// waterUsage: genWR(rawData, filterDevices),
+// 				temperature: {
+// 					ambient: genMinATemp(rawData, filterDevices),
+// 					water: genMinWTemp(rawData, filterDevices)
+// 				},
+// 				waterFlow: {
+// 					maxFlow: genMaxF(rawData, filterDevices),
+// 					minFlow: genMinF(rawData, filterDevices)
+// 				},
+// 				...currentPeriodData
+// 			}
+// 			benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
 
-			//#endregion
-			//#region Previous period
+// 			//#endregion
+// 			//#region Previous period
 
-			prevRawData.forEach(d => {
-				d.time = moment(d.time).add(subtr, 'day')
-			})
+// 			prevRawData.forEach(d => {
+// 				d.time = moment(d.time).add(subtr, 'day')
+// 			})
 
-			previousPeriodData = {
-				waterUsage: genWR(prevRawData, filterDevices),
-				temperature: {
-					ambient: genMinATemp(prevRawData, filterDevices),
-					water: genMinWTemp(prevRawData, filterDevices)
-				},
-				waterFlow: {
-					maxFlow: genMaxF(prevRawData, filterDevices),
-					minFlow: genMinF(prevRawData, filterDevices)
-				}
-			}
-			// currentPeriodData = genData(rawData, filterDevices)
-			// previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
+// 			previousPeriodData = {
+// 				waterUsage: genWR(prevRawData, filterDevices),
+// 				temperature: {
+// 					ambient: genMinATemp(prevRawData, filterDevices),
+// 					water: genMinWTemp(prevRawData, filterDevices)
+// 				},
+// 				waterFlow: {
+// 					maxFlow: genMaxF(prevRawData, filterDevices),
+// 					minFlow: genMinF(prevRawData, filterDevices)
+// 				}
+// 			}
+// 			// currentPeriodData = genData(rawData, filterDevices)
+// 			// previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
 
-			//#endregion
-			/**
-			 * TODO: Do not call the API for another set of data, filter it based on from
-			 */
+// 			//#endregion
+// 			/**
+// 			 * TODO: Do not call the API for another set of data, filter it based on from
+// 			 */
 
-			let rawArcData = currentPeriodData.waterUsage
-			let prevRawArcData = previousPeriodData.waterUsage/* .filter(f => moment(f.created) > prevFrom) */
+// 			let rawArcData = currentPeriodData.waterUsage
+// 			let prevRawArcData = previousPeriodData.waterUsage/* .filter(f => moment(f.created) > prevFrom) */
 
-			middleData = genArcData(rawArcData, filterDevices)
-			prevMiddleData = genArcData(prevRawArcData, filterDevices)
-			finalData = {
-				waterusage: [
-					{
-						name: 'waterusageL',
-						median: true,
-						data: currentPeriodData.waterUsage,
-						color: 'orange'
-					},
-					{
-						name: 'waterusageP',
-						prev: true,
-						hidden: true,
-						noMedianLegend: true,
-						median: true,
-						data: previousPeriodData.waterUsage
-					},
-					{
-						name: 'benchmark',
-						hidden: true,
-						noArea: true,
-						dashed: true,
-						data: benchMarkData,
-						color: 'yellow'
-					}
-				],
-				temperature: [
-					{
-						name: 'tempAmbient',
-						median: true,
-						data: currentPeriodData.temperature.ambient,
-						color: 'red'
-					},
-					{
-						name: 'tempAmbientPrev',
-						prev: true,
-						hidden: true,
-						noMedianLegend: true,
-						median: true,
-						data: previousPeriodData.temperature.ambient
-					},
-					{
-						name: 'tempWater',
-						median: true,
-						data: currentPeriodData.temperature.water,
-						color: 'blue'
-					},
+// 			middleData = genArcData(rawArcData, filterDevices)
+// 			prevMiddleData = genArcData(prevRawArcData, filterDevices)
+// 			finalData = {
+// 				waterusage: [
+// 					{
+// 						name: 'waterusageL',
+// 						median: true,
+// 						data: currentPeriodData.waterUsage,
+// 						color: 'orange'
+// 					},
+// 					{
+// 						name: 'waterusageP',
+// 						prev: true,
+// 						hidden: true,
+// 						noMedianLegend: true,
+// 						median: true,
+// 						data: previousPeriodData.waterUsage
+// 					},
+// 					{
+// 						name: 'benchmark',
+// 						hidden: true,
+// 						noArea: true,
+// 						dashed: true,
+// 						data: benchMarkData,
+// 						color: 'yellow'
+// 					}
+// 				],
+// 				temperature: [
+// 					{
+// 						name: 'tempAmbient',
+// 						median: true,
+// 						data: currentPeriodData.temperature.ambient,
+// 						color: 'red'
+// 					},
+// 					{
+// 						name: 'tempAmbientPrev',
+// 						prev: true,
+// 						hidden: true,
+// 						noMedianLegend: true,
+// 						median: true,
+// 						data: previousPeriodData.temperature.ambient
+// 					},
+// 					{
+// 						name: 'tempWater',
+// 						median: true,
+// 						data: currentPeriodData.temperature.water,
+// 						color: 'blue'
+// 					},
 
-					{
-						name: 'tempWaterPrev',
-						prev: true,
-						hidden: true,
-						noMedianLegend: true,
-						median: true,
-						data: previousPeriodData.temperature.water
-					}
-				],
-				waterflow: [
-					{
-						name: 'maxFlow',
-						median: true,
-						data: currentPeriodData.waterFlow.maxFlow,
-						color: 'lightBlue'
-					},
-					{
-						name: 'maxFlowPrev',
-						prev: true,
-						hidden: true,
-						noMedianLegend: true,
-						median: true,
-						data: previousPeriodData.waterFlow.maxFlow
-					},
-					{
-						name: 'minFlow',
-						median: true,
-						data: currentPeriodData.waterFlow.minFlow,
-						color: 'purple'
-					},
-					{
-						name: 'minFlowPrev',
-						prev: true,
-						hidden: true,
-						smallArea: true,
-						noMedianLegend: true,
-						median: true,
-						data: previousPeriodData.waterFlow.minFlow
-					}
-				]
+// 					{
+// 						name: 'tempWaterPrev',
+// 						prev: true,
+// 						hidden: true,
+// 						noMedianLegend: true,
+// 						median: true,
+// 						data: previousPeriodData.temperature.water
+// 					}
+// 				],
+// 				waterflow: [
+// 					{
+// 						name: 'maxFlow',
+// 						median: true,
+// 						data: currentPeriodData.waterFlow.maxFlow,
+// 						color: 'lightBlue'
+// 					},
+// 					{
+// 						name: 'maxFlowPrev',
+// 						prev: true,
+// 						hidden: true,
+// 						noMedianLegend: true,
+// 						median: true,
+// 						data: previousPeriodData.waterFlow.maxFlow
+// 					},
+// 					{
+// 						name: 'minFlow',
+// 						median: true,
+// 						data: currentPeriodData.waterFlow.minFlow,
+// 						color: 'purple'
+// 					},
+// 					{
+// 						name: 'minFlowPrev',
+// 						prev: true,
+// 						hidden: true,
+// 						smallArea: true,
+// 						noMedianLegend: true,
+// 						median: true,
+// 						data: previousPeriodData.waterFlow.minFlow
+// 					}
+// 				]
 
-			}
-			if (filterDevices.length < 11) {
-				let devices = getState().data.devices
-				let dataLines = filterDevices.map((dev, i) => ({
-					name: "" + devices[devices.findIndex(d => d.id === dev)].name,
-					color: colors[i],
-					noArea: true,
-					data: rawData.filter(d => d.value && d.device_id === dev).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
-				}))
-				finalData.readings = dataLines
-				// finalData.readings = [
-				// 	{
-				// 		name: 'readingL',
-				// 		// median: true,
-				// 		color: 'yellow',
-				// 		data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
-				// 	}
-				// ]
-			}
-			else {
-				finalData.readings = []
-			}
-			//#region Middle Widget Final Data
+// 			}
+// 			if (filterDevices.length < 11) {
+// 				let devices = getState().data.devices
+// 				let dataLines = filterDevices.map((dev, i) => ({
+// 					name: "" + devices[devices.findIndex(d => d.id === dev)].name,
+// 					color: colors[i],
+// 					noArea: true,
+// 					data: rawData.filter(d => d.value && d.device_id === dev).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
+// 				}))
+// 				finalData.readings = dataLines
+// 				// finalData.readings = [
+// 				// 	{
+// 				// 		name: 'readingL',
+// 				// 		// median: true,
+// 				// 		color: 'yellow',
+// 				// 		data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
+// 				// 	}
+// 				// ]
+// 			}
+// 			else {
+// 				finalData.readings = []
+// 			}
+// 			//#region Middle Widget Final Data
 
-			finalMiddleData = {
-				current: middleData,
-				previous: prevMiddleData
-			}
+// 			finalMiddleData = {
+// 				current: middleData,
+// 				previous: prevMiddleData
+// 			}
 
-			//#endregion
-			//#region Bar Chart Final Data
-			finalBarData = genBarData(currentPeriodData, previousPeriodData)
-			//#endregion
-		}
+// 			//#endregion
+// 			//#region Bar Chart Final Data
+// 			finalBarData = genBarData(currentPeriodData, previousPeriodData)
+// 			//#endregion
+// 		}
 
-		//#region Dispatch the calculated data
-		dispatch({
-			type: deviceData,
-			payload: finalData
-		})
+// 		//#region Dispatch the calculated data
+// 		dispatch({
+// 			type: deviceData,
+// 			payload: finalData
+// 		})
 
-		dispatch({
-			type: middleChartData,
-			payload: finalMiddleData
-		})
-		dispatch({
-			type: barData,
-			payload: finalBarData
-		})
-		//#endregion
-	}
-}
+// 		dispatch({
+// 			type: middleChartData,
+// 			payload: finalMiddleData
+// 		})
+// 		dispatch({
+// 			type: barData,
+// 			payload: finalBarData
+// 		})
+// 		//#endregion
+// 	}
+// }
 //#endregion
 
 const initialState = {

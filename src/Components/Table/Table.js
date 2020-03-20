@@ -2,50 +2,61 @@ import {
 	/* Checkbox, */ Hidden, Table, TableBody, TableCell,
 	TableRow,
 	Checkbox
-} from '@material-ui/core';
+} from '@material-ui/core'
 // import { SignalWifi2Bar, SignalWifi2BarLock } from 'variables/icons';
-import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
 // import { Info, Caption, ItemG } from 'components';
 // import TC from 'components/Table/TC'
-import { useLocalization, useSelector, useState } from 'Hooks';
-import tableStyles from 'Styles/tableStyles';
-import TP from './TP';
-import TH from './TH';
-import TC from './TC';
+import { useLocalization, useSelector, useState } from 'Hooks'
+import tableStyles from 'Styles/tableStyles'
+import TP from './TP'
+import TH from './TH'
+import TC from './TC'
 
 // import DeviceHover from 'components/Hover/DeviceHover';
 // import devicetableStyles from 'assets/jss/components/devices/devicetableStyles';
 
 function CTable(props) {
-	const [page, setPage] = useState(0)
-	const colorTheme = useSelector((state) => state.settings.colorTheme)
-	const classes = tableStyles({ color: colorTheme })
+	//Hooks
 	const t = useLocalization()
 
 	//Redux
+	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const rowsPerPage = useSelector(s => s.appState.trp ? s.appState.trp : s.settings.trp)
-	// const hoverTime = useSelector(state => state.settings.hoverTime)
-	// const accessLevel = useSelector(state => state.settings.user.privileges)
 
+	const classes = tableStyles({ color: colorTheme })
+
+	//State
+	const [page, setPage] = useState(0)
+
+	//Const
+	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort, sortKey } = props
+	const { body, bodyStructure, bodyMobileStructure, mobile } = props
+	console.log('bodyStructure', columns)
+	let emptyRows
+	if (data)
+		emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
 
 	const handleChangePage = (event, page) => {
 		setPage(page)
-	};
+	}
 
 	const isSelected = id => {
 		return props.selected.indexOf(id) !== -1
-	};
+	}
 
 
-	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort, sortKey } = props;
 	const handleRequestSort = (event, property) => {
 		handleSort(sortKey, property)
 	}
-	const { body, bodyStructure, bodyMobileStructure, mobile } = props
-	let emptyRows
-	if (data)
-		emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
 	return (
 		<Fragment>
 			<div className={classes.tableWrapper}>
@@ -75,7 +86,7 @@ function CTable(props) {
 					/>
 					<TableBody>
 						{body ? body.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-							const isSelectedRow = isSelected(row.id);
+							const isSelectedRow = isSelected(row.id)
 							return (
 								<TableRow
 									hover
@@ -104,7 +115,7 @@ function CTable(props) {
 
 									</Hidden>
 								</TableRow>
-							);
+							)
 						}) : null}
 						{emptyRows > 0 && (
 							<TableRow style={{ height: 49 }}>
@@ -122,7 +133,7 @@ function CTable(props) {
 				handleChangePage={handleChangePage}
 			/>
 		</Fragment>
-	);
+	)
 
 }
 // const { selected, data, order, orderBy, handleClick, handleCheckboxClick, handleSelectAllClick } = props;

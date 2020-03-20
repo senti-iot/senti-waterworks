@@ -6,10 +6,8 @@ import { colors } from '@material-ui/core'
 
 const tableStyles = makeStyles(theme => ({
 	backgroundColor: {
-		background: props => { return bgColors[props.color].background }
-		// return ({
-		// ...bgColors[props.color]
-		// })
+		background: props => { return bgColors[props.color].background },
+		color: '#fff'
 	},
 	gridItemBackground: {
 		position: 'relative',
@@ -20,6 +18,17 @@ const tableStyles = makeStyles(theme => ({
 		color: '#fff',
 		background: props => darken(hexToRgba(colors[props.color][700], 0.7), 0.5),
 	},
+	header: {
+		padding: "4px 8px",
+		/* background: ${({ theme }) => theme.palette.primary.light}; */
+		borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+		/* border-color: ${({ theme }) => theme.boxBackground}; */
+		color: '#fff'
+	},
+	activeHeader: {
+		color: '#fff !important'
+	}
+
 	// header: {
 	// 	background: props => colors[props.color][700],
 	// 	color: '#fff'
