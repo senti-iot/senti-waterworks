@@ -136,7 +136,6 @@ const Usage = props => {
 			liters: avgData.benchmarkL,
 		}
 	]
-	console.log(columns)
 	const columnClasses = (index) => {
 		return cx({
 			[classes.itemG]: true,

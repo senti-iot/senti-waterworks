@@ -146,12 +146,11 @@ class d3Arc {
 		const { classes } = this.props
 		var bounds = d3.select('#bars').node().getBoundingClientRect(),
 			rHeight = bounds.height - this.margin.top - this.margin.bottom
-
 		this.xAxis = this.g.append("g")
 			.attr("class", `axis axis--x ${classes.xAxis}`)
 		this.g.select(".axis--x")
 			.attr("transform", "translate(0," + rHeight + ")")
-			.call(d3.axisBottom(this.x))
+			.call(d3.axisBottom(this.x).ticks(0))
 
 		this.xAxis.selectAll('text')
 			.attr('dy', '1.5em')

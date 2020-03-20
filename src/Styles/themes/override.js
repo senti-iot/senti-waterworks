@@ -54,7 +54,7 @@ const override = (color, type) => ({
 		MuiCard: {
 			root: {
 				overflow: "visible",
-				background: !type ? "#fff" : darken(hexToRgba(colors[color][700], 0.7), 0.5),
+				background: !type ? "#fff" : darken(hexToRgba(colors[color][700], 1), 0.5),
 			},
 
 		},

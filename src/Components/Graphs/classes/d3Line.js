@@ -293,7 +293,6 @@ class d3Line {
 			}
 		}
 		this.xAxis.selectAll('.tick').each(function (d, i) {
-			// console.log(this.nextSibling.getBoundingClientRect().x, this.getBoundingClientRect().x)
 			let parent = d3.select(this)
 			if (this.nextSibling) {
 
@@ -312,7 +311,6 @@ class d3Line {
 					}
 					// .attr("width", 32)
 					// .attr("height", 32)
-					// console.log(i % 2 === 0)
 				}
 				else {
 					if (weatherData[i])

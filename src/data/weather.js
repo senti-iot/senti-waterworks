@@ -34,7 +34,6 @@ export const getWeather = async (date, lat, long) => {
 	//https://api.senti.cloud/weather/v1/2018-05-11T00:00:00/57.0488/9.9217/da
 	let startDate = moment(date).format('YYYY-MM-DDTHH:mm:ss')
 	let response = await weatherApi.get(`${startDate}/${lat}/${long}/da`).then(rs => rs.ok ? rs.data : rs.ok)
-	console.log('Weather', response)
 	return response
 
 	//https://api.senti.cloud/weather/v1/

@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
 		height: '100%',
 		width: '50%',
 		display: 'flex',
-		flexDirection: 'column'
+		flexDirection: 'column',
+		marginBottom: 48
 	},
 	header: {
 		display: 'flex',
