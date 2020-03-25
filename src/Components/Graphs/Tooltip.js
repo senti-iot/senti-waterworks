@@ -7,6 +7,12 @@ import styled from 'styled-components'
 import { Droplet, Thermometer, Pipe } from 'variables/icons'
 import { capitalizeFL } from 'data/functions'
 
+function formatNumber(num) {
+	// return num.toString()
+
+	return num ? parseFloat(num).toFixed(3).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
+}
+
 const TCard = styled(Card)`
 	min-width: 300px;
 	position: absolute;
@@ -30,7 +36,7 @@ const waterUsageTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
-					<T variant={'h5'}>{`${parseFloat(props.tooltip.value).toFixed(3).replace('.', ',')} m³`}</T>
+					<T variant={'h5'}>{`${formatNumber(props.tooltip.value)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
 
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>

@@ -226,11 +226,11 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	}
 
 }
-export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit) => {
+export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, admin) => {
 	let waterusage = []
 	//#region WaterUsage/Reading
 	let values = getValues(waterusageData)
-	let benchmarkValues = getValues(benchmarkData)
+	// let benchmarkValues = getValues(benchmarkData)
 	/**
 	 * Min WaterUsage
 	 */
@@ -250,35 +250,40 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit) =>
 	maxUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)
+
 	/**
 	 * Empty bar
 	 */
-	let fake = {}
-	fake.className = 'waterUsageB'
-	fake.value = 0
-	fake.unit = ''
-	fake.type = ''
-	fake.hidden = true
-	waterusage.push(fake)
+	if (!admin) {
+		let fake = {}
+		fake.className = 'waterUsageB'
+		fake.value = 0
+		fake.unit = ''
+		fake.type = ''
+		fake.hidden = true
+		waterusage.push(fake)
+	}
 	/**
 	 * Average
 	 */
 	let average = {}
 	average.className = 'waterUsageC'
-	average.value = parseFloat((benchmarkValues.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	average.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
 	average.unit = unit === 'm3' ? 'm³' : 'L'
 	average.type = 'chartTable.waterusage.line3'
 	waterusage.push(average)
 	/**
 	 * Usage Per person
 	 */
-	let nOP = noOfPersons > 0 ? noOfPersons : 1
-	let perPerson = {}
-	perPerson.className = 'waterUsageD'
-	perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
-	perPerson.unit = unit === 'm3' ? 'm³' : 'L'
-	perPerson.type = 'chartTable.waterusage.line4'
-	waterusage.push(perPerson)
+	if (!admin) {
+		let nOP = noOfPersons > 0 ? noOfPersons : 1
+		let perPerson = {}
+		perPerson.className = 'waterUsageD'
+		perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
+		perPerson.unit = unit === 'm3' ? 'm³' : 'L'
+		perPerson.type = 'chartTable.waterusage.line4'
+		waterusage.push(perPerson)
+	}
 	//#endregion
 	return {
 		waterusage: waterusage,

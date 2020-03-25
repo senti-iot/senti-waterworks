@@ -37,7 +37,7 @@ function HeaderLinks(props) {
 
 	//State
 	const [anchorProfile, setAnchorProfile] = useState(null)
-	const [openTable, setOpenTable] = useState(true)
+	const [openTable, setOpenTable] = useState(false)
 	//Const
 	const { t, history } = props
 

@@ -25,7 +25,22 @@ const getMax = (arr) => {
 		if (max < 5) {
 			return max + 1
 		}
-		return max + 10
+		if (max > 100000) {
+
+			return max + 100000
+		}
+		if (max > 10000) {
+			return max + 10000
+		}
+		if (max > 1000) {
+			return max + 1000
+		}
+		if (max > 5) {
+			return max + 10
+		}
+
+
+		// return max + 10
 		// return max > 1 ? max + 10 : max + 0.1
 	}
 }
@@ -38,9 +53,19 @@ const getMin = (arr) => {
 		if (min > 5) {
 			min = min - 1
 		}
-		min = min - 10
+		if (min > 1000) {
+			min = min - 1000
+		}
+		if (min > 10000) {
+			min = min - 10000
+		}
+		if (min > 100000) {
+			min = min - 100000
+		}
+		// min = min - 10
 
 		// return min > 1 ? min - 10 : min - 0.1
+		// alert('min' + min)
 		return min > 0 ? min : 0
 	}
 }
@@ -116,7 +141,7 @@ class d3Line {
 		// this.xAxis.call(this.xAxis_days)
 		//#region Update Y-Axis
 		let data = this.props.data ? this.props.data[this.props.id] : []
-		let newData = data.filter(f => !this.state[f.name])
+		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
 		this.y.domain([getMin(allData), getMax(allData)])
 		this.yAxis.remove()
@@ -134,23 +159,24 @@ class d3Line {
 
 		const classes = this.classes
 		const height = this.height
-		let data = this.props.data ? this.props.data[this.props.id] : []
+		// let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
-			let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom + 5, this.margin.top])
-			this.y.domain([getMin(allData), getMax(allData)])
+			// let allData = [].concat(...data.map(d => d.data))
+			this.y = d3.scaleLinear().range([height - this.margin.bottom + 5, this.margin.top + 15])
+			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
-			.attr('transform', `translate(${this.margin.left + 40}, 0)`)
+			.attr('transform', `translate(${this.margin.left + 28}, -10)`)
 			.call(d3.axisLeft(this.y))
 
 		yAxis.selectAll('path').attr('class', classes.axis)
+		// yAxis.selectAll('line').attr('class', classes.yAxisLine).attr('x2', this.width)
 		yAxis.selectAll('line').attr('class', classes.axis)
 		yAxis.selectAll('text').attr('class', classes.axisTick)
 
 		yAxis.append('text')
-			.attr('transform', `translate(-40, ${height / 2})`)
+			.attr('transform', `translate(-16, ${this.margin.top})`)
 			.attr('class', classes.axisText)
 			.html(this.props.unit)
 	}
@@ -242,6 +268,7 @@ class d3Line {
 		// //Append style
 
 		this.xAxis.selectAll('path').attr('class', classes.axis)
+		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
 		this.xAxis.selectAll('text').attr('class', classes.axisTick)
 

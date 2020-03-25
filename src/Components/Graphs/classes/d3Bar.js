@@ -105,17 +105,32 @@ class d3Arc {
 		this.x.rangeRound([0, rWidth])
 		this.y.rangeRound([rHeight, 0])
 
+		//#region Generate Bars
 		var bars = this.g.selectAll(".bar")
 			.data(barsData)
 
-		bars
-			.enter().append("rect")
-			.attr("class", d => { return d.className + ' .bar' })
-			.attr("x", (d, i) => { return i > 2 ? this.x(d.type) - (this.x.bandwidth() / 4) : this.x(d.type) + (this.x.bandwidth() / 4) })
-			.attr("y", (d) => { return this.y(d.value) })
-			.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
-			.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
+		if (barsData.length === 4) {
+			bars
+				.enter().append("rect")
 
+				.attr("class", d => { return d.className + ' .bar' })
+				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) - (this.x.bandwidth() / 4) : this.x(d.type) + (this.x.bandwidth() / 4) })
+				.attr("y", (d) => { return this.y(d.value) })
+				.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
+				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
+		}
+		else {
+			bars
+				.enter().append("rect")
+
+				.attr("class", d => { return d.className + ' .bar' })
+				.attr("x", (d, i) => { return this.x(d.type) })
+				.attr("y", (d) => { return this.y(d.value) })
+				.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
+				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
+		}
+
+		//#endregion
 
 
 		this.g.select(".axis--y")
@@ -131,16 +146,32 @@ class d3Arc {
 	generateLabels = () => {
 		const { classes, barsData } = this.props
 
-		this.g.selectAll(".text")
-			.data(barsData)
-			.enter()
-			.append("text")
-			.attr('text-anchor', 'middle')
-			.attr("class", `label ${classes.textLabel}`)
-			.attr("x", (d, i) => { return i > 2 ? this.x(d.type) + this.x.bandwidth() / 4 : this.x(d.type) + this.x.bandwidth() / 2 + this.x.bandwidth() / 4 })
-			.attr("y", (d) => { return this.y(d.value) })
-			.attr("dy", "-.2em")
-			.text((d) => { return d.hidden ? '' : `${parseFloat(d.value).toFixed(3).replace('.', ',')} ${d.unit}` })
+		if (barsData.length === 4) {
+
+			this.g.selectAll(".text")
+				.data(barsData)
+				.enter()
+				.append("text")
+				.attr('text-anchor', 'middle')
+				.attr("class", `label ${classes.textLabel}`)
+				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) + this.x.bandwidth() / 4 : this.x(d.type) + this.x.bandwidth() / 2 + this.x.bandwidth() / 4 })
+				.attr("y", (d) => { return this.y(d.value) })
+				.attr("dy", "-.3em")
+				.text((d) => { return d.hidden ? '' : `${parseFloat(d.value).toFixed(3).replace('.', ',')} ${d.unit}` })
+		}
+		else {
+
+			this.g.selectAll(".text")
+				.data(barsData)
+				.enter()
+				.append("text")
+				.attr('text-anchor', 'middle')
+				.attr("class", `label ${classes.textLabel}`)
+				.attr("x", (d, i) => { return this.x(d.type) + this.x.bandwidth() / 2 })
+				.attr("y", (d) => { return this.y(d.value) })
+				.attr("dy", "-.3em")
+				.text((d) => { return d.hidden ? '' : `${parseFloat(d.value).toFixed(3).replace('.', ',')} ${d.unit}` })
+		}
 	}
 	generateXAxis = () => {
 		const { classes } = this.props

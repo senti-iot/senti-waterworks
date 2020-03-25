@@ -105,8 +105,8 @@ const LineGraph = React.memo((props) => {
 	return (
 		props.loading ? <CircularLoader fill /> :
 			<div style={{ width: '100%', height: '100%'/* , minHeight: 300 */ }}>
-				<Tooltip tooltip={value} id={props.id} />
-				<MedianTooltip tooltip={medianValue} id={props.id} />
+				<Tooltip tooltip={value} id={props.id} unit={mUnit} />
+				<MedianTooltip tooltip={medianValue} id={props.id} unit={mUnit} />
 				<svg id={props.id} ref={lineChartContainer}
 					style={{
 						width: '100%',

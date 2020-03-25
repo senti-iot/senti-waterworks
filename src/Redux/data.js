@@ -151,30 +151,32 @@ export const getNData = async () => {
 			 * Get the devices for the admin
 			 */
 			let devices = await getDevicesV2()
-			console.log('devices', devices)
 			dispatch({
 				type: GETDevice,
 				payload: devices
 			})
-			let waterUsageData = await getTotalVolumeData(orgId, from, to)
-			let waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom, prevTo)
-			console.log('waterUsageData', waterUsageData)
+			let suTo = to.clone().subtract(1, 'day')
+			let suFrom = from.clone().add(1, 'day')
+			let waterUsageData = await getTotalVolumeData(orgId, suFrom, suTo)
+
+			let waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+			let readingsData = await getReadingUsage(suFrom, suTo)
+			let benchmarkData = await getBenchmarkUsage(orgId, from, suTo)
+
 			if (waterUsageData.length > 0) {
 
-				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
-				previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: moment(d.d).add(subtr - 1, 'day') }))
+				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.total, mUnit), date: d.d }))
+				previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.total, mUnit), date: moment(d.d).add(subtr - 1, 'day') }))
 
 			}
-			console.log('currentPeriodData', currentPeriodData)
-			// if (benchmarkData.length > 0) {
-			// 	// let prevB = benchmarkData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
-			// 	currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
+			if (benchmarkData.length > 0) {
+				currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
+			}
+			if (readingsData) {
+				currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t }))
 
-			// 	// previousPeriodData = {
-			// 	// 	benchmark: prevB.map(d => ({ value: d.averageFlowPerDay, date: d.t }))
-			// 	// }
-			// }
-			//#region Final Data Creation
+			}
+			//#region Final Line Data Creation
 			if (currentPeriodData.waterusage) {
 				finalData.waterusage.push({
 					name: 'waterusageL',
@@ -204,6 +206,9 @@ export const getNData = async () => {
 				})
 
 			}
+			/**
+			 * TODO
+			 */
 			if (currentPeriodData.readings) {
 				finalData.readings.push({
 					name: 'readingL',
@@ -212,6 +217,48 @@ export const getNData = async () => {
 					data: currentPeriodData.readings
 				})
 			}
+
+			//#endregion
+
+			//#region Arc Data
+
+			let middleData = waterUsageData.reduce((total, d) => {
+				total = total + d.total || 0
+				return total
+			}, 0)
+			let prevMiddleData = waterUsagePrevData.reduce((total, d) => {
+				total = total + d.total || 0
+				return total
+			}, 0)
+
+			finalMiddleData = {
+				current: parseFloat(uC(middleData, mUnit)).toFixed(3),
+				previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(3)
+			}
+
+
+			//#endregion
+
+			//#region Price & DailyUsage
+
+
+			let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
+			finalAverageData.waterusagem3 = avgValue
+			finalAverageData.waterusageL = avgValue * 1000
+			let benchmarkSum = benchmarkData.reduce((total, d) => {
+				total = total + d.averageFlowPerDay
+				return total
+			}, 0)
+			let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(3)
+			finalAverageData.benchmarkm3 = bavgValue
+			finalAverageData.benchmarkL = bavgValue * 1000
+
+
+			//#endregion
+
+			//#region Final bar Data
+			finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit, true)
+
 			//#endregion
 
 			dispatch({
@@ -397,6 +444,7 @@ export const getNData = async () => {
 
 	}
 }
+
 //#region OLD GET DATA
 // export const getData = async () => {
 // 	return async (dispatch, getState) => {

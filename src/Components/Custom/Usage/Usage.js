@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
-import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@material-ui/core'
+import { makeStyles, Grid, Dialog, IconButton, Paper } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 import cx from 'classnames'
 import { useLocalization } from 'Hooks'
 import PopperBubble from './PopperBubble'
+import T from 'Components/Typography/T'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -58,6 +59,11 @@ const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.down('lg')]: {
 			fontSize: 30
 		}
+	},
+	cubicValueUnit: {
+		fontSize: '0.7em',
+		color: '#fff'
+
 	},
 	blueWaterdrop: {
 		marginLeft: 24,
@@ -122,20 +128,7 @@ const Usage = props => {
 	//Handlers
 
 
-	const columns = [
-		{
-			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
-			headline: t('Usage.dashboardUsage.dailyConsumption'),
-			cubicMeter: avgData.waterusagem3,
-			liters: avgData.waterusageL
-		},
-		{
-			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
-			headline: t('Usage.dashboardUsage.comparison'),
-			cubicMeter: avgData.benchmarkm3,
-			liters: avgData.benchmarkL,
-		}
-	]
+
 	const columnClasses = (index) => {
 		return cx({
 			[classes.itemG]: true,
@@ -146,23 +139,40 @@ const Usage = props => {
 	}
 	return (
 		<Grid container className={classes.container}> {/* ref */}
-			{columns.map(({ familyIcon, headline, liters, cubicMeter }, index) => (
-				<ItemG key={index} className={columnClasses(index)}>
-					<div className={classes.flexColumn}>
-						<div style={{ display: 'flex' }}>
-							{familyIcon}
-							<Typography variant="body1" className={classes.headline}>{headline}</Typography>
-						</div>
-						<div style={{ display: 'flex', alignItems: 'flex-end' }}>
-							<Typography variant="body2" className={classes.cubicValue} style={{ color: index % 2 === 0 ? '#6DD400' : '#F7DC00' }}>
-								{(mUnit === 'm3' ? parseFloat(cubicMeter).toFixed(3).replace('.', ',') : parseFloat(liters).toFixed(0))} <span style={{ fontSize: '0.7em', color: '#fff' }}>{mUnit === 'm3' ? "m³" : "L"}</span>
-							</Typography>
-
-							<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
-						</div>
+			<ItemG className={columnClasses(0)}>
+				<div className={classes.flexColumn}>
+					<div style={{ display: 'flex' }}>
+						<img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
+						<T variant="body1" className={classes.headline}>{t('Usage.dashboardUsage.dailyConsumption')}</T>
 					</div>
-				</ItemG>
-			))}
+					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
+						<T variant="body2" className={classes.cubicValue} style={{ color: '#6DD400' }}>
+							{(mUnit === 'm3' ? parseFloat(avgData.waterusagem3).toFixed(3).replace('.', ',') : parseFloat(avgData.waterusageL).toFixed(0))}
+							<span className={classes.cubicValueUnit}>
+								{mUnit === 'm3' ? "m³" : "L"}
+							</span>
+						</T>
+						<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
+					</div>
+				</div>
+			</ItemG>
+			<ItemG className={columnClasses(1)}>
+				<div className={classes.flexColumn}>
+					<div style={{ display: 'flex' }}>
+						<img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
+						<T variant="body1" className={classes.headline}>{t('Usage.dashboardUsage.comparison')}</T>
+					</div>
+					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
+						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
+							{(mUnit === 'm3' ? parseFloat(avgData.benchmarkm3).toFixed(3).replace('.', ',') : parseFloat(avgData.benchmarkL).toFixed(0))}
+							<span className={classes.cubicValueUnit}>
+								{mUnit === 'm3' ? "m³" : "L"}
+							</span>
+						</T>
+						<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
+					</div>
+				</div>
+			</ItemG>
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
 			</IconButton>

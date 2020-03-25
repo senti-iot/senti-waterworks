@@ -33,7 +33,6 @@ function CTable(props) {
 	//Const
 	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort, sortKey } = props
 	const { body, bodyStructure, bodyMobileStructure, mobile } = props
-	console.log('bodyStructure', columns)
 	let emptyRows
 	if (data)
 		emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)

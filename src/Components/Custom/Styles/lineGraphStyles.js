@@ -22,6 +22,9 @@ const lineStyles = makeStyles(theme => ({
 		fontWeight: 600,
 		fontSize: '0.75rem'
 	},
+	yAxisLine: {
+		stroke: '#ffffff33'
+	},
 	hiddenMedianLine: {
 		stroke: '#fff',
 		opacity: 0,

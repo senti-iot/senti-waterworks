@@ -1,10 +1,13 @@
 import { servicesAPI, dataExportAPI, waterworksAPI } from './data'
 import moment from 'moment'
 
-
+/**
+ * But yes, the [uuid, uuid, uuid] to post(‘/v2/waterworks/data/usagebyday/:from/:to’)
+ */
 /**
  * v2 Devices
  */
+
 export const getDevicesV2 = async () => {
 	let response = await servicesAPI.get('/v2/devices').then(rs => rs.ok ? rs.data : rs.ok)
 	return response
