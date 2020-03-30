@@ -6,7 +6,7 @@ import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
 import { CallMade, HelpOutline } from 'variables/icons'
 import familyIcon from 'assets/icons/familie.svg'
-import waterdrop from 'assets/icons/water.drop.blue.svg'
+// import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
 import FullscreenDialog from './FullscreenDialog'
 import { useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import cx from 'classnames'
 import { useLocalization } from 'Hooks'
 import PopperBubble from './PopperBubble'
 import T from 'Components/Typography/T'
+import { formatShortNumber } from 'data/functions'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -99,6 +100,7 @@ const useStyles = makeStyles(theme => ({
 		position: 'relative'
 	},
 	flexColumn: {
+		flexWrap: 'no-wrap',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'space-between',
@@ -131,15 +133,16 @@ const Usage = props => {
 
 	const columnClasses = (index) => {
 		return cx({
-			[classes.itemG]: true,
+			[classes.itemG]: false,
 			[classes.leftColumnStyle]: index % 2 === 0,
 			[classes.rightColumnStyle]: index % 2 !== 0,
 
 		})
 	}
+	console.log('Beng', avgData.waterusagem3, formatShortNumber(avgData.waterusagem3, 2))
 	return (
 		<Grid container className={classes.container}> {/* ref */}
-			<ItemG className={columnClasses(0)}>
+			<ItemG xs={6} className={columnClasses(0)}>
 				<div className={classes.flexColumn}>
 					<div style={{ display: 'flex' }}>
 						<img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
@@ -147,16 +150,17 @@ const Usage = props => {
 					</div>
 					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
 						<T variant="body2" className={classes.cubicValue} style={{ color: '#6DD400' }}>
-							{(mUnit === 'm3' ? parseFloat(avgData.waterusagem3).toFixed(3).replace('.', ',') : parseFloat(avgData.waterusageL).toFixed(0))}
+
+							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2) : formatShortNumber(avgData.waterusageL, 2))}
 							<span className={classes.cubicValueUnit}>
 								{mUnit === 'm3' ? "m³" : "L"}
 							</span>
 						</T>
-						<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
+						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
 					</div>
 				</div>
 			</ItemG>
-			<ItemG className={columnClasses(1)}>
+			<ItemG xs={6} className={columnClasses(1)}>
 				<div className={classes.flexColumn}>
 					<div style={{ display: 'flex' }}>
 						<img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
@@ -169,7 +173,7 @@ const Usage = props => {
 								{mUnit === 'm3' ? "m³" : "L"}
 							</span>
 						</T>
-						<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
+						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
 					</div>
 				</div>
 			</ItemG>
@@ -209,15 +213,6 @@ const Usage = props => {
 					}
 				}}
 			>
-				{/* fullscreen dialog content */}
-				{/* the styling is very temporary and kinda f-ed up for whatever reason */}
-				{/* I've found that I can somewhat fix it with 'flex: 1' */}
-				{/* <GridContainer style={{ height: '100%' }}>
-
-					<DPaper style={{ background: '#3799F1' }}>
-						<FullscreenDialog closeDialog={setFsDialogOpen} />
-					</DPaper>
-				</GridContainer> */}
 				<Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
 						<ItemG xs={12} style={{ height: '100%' }}>

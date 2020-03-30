@@ -1,12 +1,13 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
-import { makeStyles, Typography, IconButton } from '@material-ui/core'
+import { makeStyles, Typography, IconButton, Tooltip } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
 import creditCard from 'assets/icons/credit-card.svg'
 import { CallMade, HelpOutline } from 'variables/icons'
 import PopperBubble from './PopperBubble'
+import { formatNumber, formatShortNumber } from 'data/functions'
 
 const useStyles = makeStyles(theme => ({
 	headline: {
@@ -98,13 +99,15 @@ const PriceChart = props => {
 				<Typography variant="body1" className={classes.headline}>{t('Usage.dashboardPrice.headline')}</Typography>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
-			<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.water')}{priceData.waterusage}</Typography>
+
+
+			<Typography title={'DKK ' + formatNumber(priceData.waterusage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.water')}{formatShortNumber(priceData.waterusage)}</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
-				<Typography variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.sewage')}{priceData.sewage}</Typography>
-				<Typography variant="body1" gutterBottom={false} className={classes.body1} style={{ lineHeight: '1.5em', marginLeft: 48 }}>
+				<Typography title={'DKK ' + formatNumber(priceData.sewage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.sewage')}{formatShortNumber(priceData.sewage)}</Typography>
+				<Typography title={'DKK ' + formatNumber(priceData.total, 2)} variant="body1" gutterBottom={false} className={classes.body1} style={{ lineHeight: '1.5em', marginLeft: 48 }}>
 					Total:
           			<span className={classes.priceTag}>
-						Kr. {priceData.total}
+						Kr. {formatShortNumber(priceData.total)}
 					</span>
 				</Typography>
 			</div>

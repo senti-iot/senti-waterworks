@@ -1,6 +1,33 @@
 import _ from 'lodash'
 import moment from 'moment'
+/**
+ * Short Number
+ */
+export function formatShortNumber(num, digits) {
+	let value = parseFloat(num)
+	var suffixes = ["", "", "mio.", "b", "t"]
+	var suffixNum = Math.floor((value.toFixed(0)).length / 3)
+	// console.log('value', value)
+	// console.log('suffixNum', suffixNum)
+	var shortValue = suffixNum > 1 ? parseFloat((value / Math.pow(1000, suffixNum)).toPrecision(2)) : formatNumber(value, 2)
+	// console.log('shortValue', shortValue)
+	// console.log('ASdf', value / Math.pow(1000, suffixNum))
+	console.log(shortValue, formatNumber(value))
+	// if (shortValue % 1 !== 0) {
+	// 	shortValue = shortValue.toFixed(1)
+	// }
+	return shortValue + " " + suffixes[suffixNum]
+}
+/**
+ * Danish Format number
+ * @param {number} num - Value to be converted
+ * @param {number} digits - Nr. of digits, default 3
+ */
+export function formatNumber(num, digits = 3) {
+	// return num.toString()
 
+	return num ? parseFloat(num).toFixed(digits).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
+}
 /**
  * Email validator
  */

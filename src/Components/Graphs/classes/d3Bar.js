@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { formatNumber } from 'data/functions'
 // import moment from 'moment';
 
 // const getMedianLineData = (data, prevData) => {
@@ -145,9 +146,9 @@ class d3Arc {
 	}
 	generateLabels = () => {
 		const { classes, barsData } = this.props
+		console.log(barsData)
 
 		if (barsData.length === 4) {
-
 			this.g.selectAll(".text")
 				.data(barsData)
 				.enter()
@@ -157,7 +158,7 @@ class d3Arc {
 				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) + this.x.bandwidth() / 4 : this.x(d.type) + this.x.bandwidth() / 2 + this.x.bandwidth() / 4 })
 				.attr("y", (d) => { return this.y(d.value) })
 				.attr("dy", "-.3em")
-				.text((d) => { return d.hidden ? '' : `${parseFloat(d.value).toFixed(3).replace('.', ',')} ${d.unit}` })
+				.text((d) => { return d.hidden ? '' : `${formatNumber(d.value, 2)} ${d.unit}` })
 		}
 		else {
 
@@ -170,7 +171,7 @@ class d3Arc {
 				.attr("x", (d, i) => { return this.x(d.type) + this.x.bandwidth() / 2 })
 				.attr("y", (d) => { return this.y(d.value) })
 				.attr("dy", "-.3em")
-				.text((d) => { return d.hidden ? '' : `${parseFloat(d.value).toFixed(3).replace('.', ',')} ${d.unit}` })
+				.text((d) => { return d.hidden ? '' : `${formatNumber(d.value, 2)} ${d.unit}` })
 		}
 	}
 	generateXAxis = () => {

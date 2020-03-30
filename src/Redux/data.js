@@ -163,6 +163,15 @@ export const getNData = async () => {
 			let readingsData = await getReadingUsage(suFrom, suTo)
 			let benchmarkData = await getBenchmarkUsage(orgId, from, suTo)
 
+			let price = await getPriceList(orgId)
+			// let totalData = await getTotalVolumeData(orgId, from, to)
+
+
+			let priceList = price ? price : {
+				waterTotal: 0,
+				sewageTotal: 0
+			}
+
 			if (waterUsageData.length > 0) {
 
 				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.total, mUnit), date: d.d }))
@@ -252,6 +261,12 @@ export const getNData = async () => {
 			let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(3)
 			finalAverageData.benchmarkm3 = bavgValue
 			finalAverageData.benchmarkL = bavgValue * 1000
+
+			finalPriceData = {
+				waterusage: parseFloat(priceList.waterTotal * middleData).toFixed(2).replace('.', ','),
+				sewage: parseFloat(priceList.sewageTotal * middleData).toFixed(2).replace('.', ','),
+			}
+			finalPriceData.total = parseFloat((priceList.waterTotal * middleData) + (priceList.sewageTotal * middleData)).toFixed(2).replace('.', ',')
 
 
 			//#endregion

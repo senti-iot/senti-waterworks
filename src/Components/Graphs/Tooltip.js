@@ -5,13 +5,9 @@ import { CardContent, /* Divider */ } from '@material-ui/core'
 import moment from 'moment'
 import styled from 'styled-components'
 import { Droplet, Thermometer, Pipe } from 'variables/icons'
-import { capitalizeFL } from 'data/functions'
+import { capitalizeFL, formatNumber } from 'data/functions'
+// import { Tooltip as MuiTooltip } from '@material-ui/core'
 
-function formatNumber(num) {
-	// return num.toString()
-
-	return num ? parseFloat(num).toFixed(3).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
-}
 
 const TCard = styled(Card)`
 	min-width: 300px;
@@ -36,7 +32,10 @@ const waterUsageTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
+					{/* <MuiTooltip> */}
+
 					<T variant={'h5'}>{`${formatNumber(props.tooltip.value)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
+					{/* </MuiTooltip> */}
 
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
