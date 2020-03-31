@@ -2,14 +2,10 @@ import React, { useRef, useEffect } from 'react'
 import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
+import { formatShortNumber } from 'data/functions'
 
 let arc = null
 
-function formatNumber(num) {
-	// return num.toString()
-
-	return num ? parseFloat(num).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
-}
 
 const ArcGraph = (props) => {
 	//Hooks
@@ -125,8 +121,8 @@ const ArcGraph = (props) => {
 			<TotalUsageText variant={'h5'}>{period.from && period.to ? displayTime() : null}</TotalUsageText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
-					<DataText variant='h5'>{`${formatNumber(arcData)} ${unit()}`}</DataText>
-					<DataText variant='h5' prev>{`(${formatNumber(arcPrevData)} ${unit()})`}</DataText>
+					<DataText title={arcData} variant='h5'>{`${formatShortNumber(arcData)} ${unit()}`}</DataText>
+					<DataText title={arcPrevData} variant='h5' prev>{`(${formatShortNumber(arcPrevData)} ${unit()})`}</DataText>
 				</TextContainer>
 			</Arc>
 		</ArcContainer>

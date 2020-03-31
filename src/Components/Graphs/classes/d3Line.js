@@ -187,8 +187,12 @@ class d3Line {
 		let period = this.props.period
 
 		let data = this.props.data ? this.props.data[this.props.id] : []
-		let newData = data.filter(f => !this.state[f.name])
+		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
+		console.log(data, data.filter(f => {
+			console.log(this.state, f.name)
+			return !this.state[f.name]
+		}))
 		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
 		let to = moment.max(allData.map(d => moment(d.date)))
 

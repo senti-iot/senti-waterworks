@@ -153,7 +153,7 @@ const Usage = props => {
 
 							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2) : formatShortNumber(avgData.waterusageL, 2))}
 							<span className={classes.cubicValueUnit}>
-								{mUnit === 'm3' ? "m³" : "L"}
+								{mUnit === 'm3' ? " m³" : " L"}
 							</span>
 						</T>
 						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
@@ -170,7 +170,7 @@ const Usage = props => {
 						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
 							{(mUnit === 'm3' ? parseFloat(avgData.benchmarkm3).toFixed(3).replace('.', ',') : parseFloat(avgData.benchmarkL).toFixed(0))}
 							<span className={classes.cubicValueUnit}>
-								{mUnit === 'm3' ? "m³" : "L"}
+								{mUnit === 'm3' ? " m³" : " L"}
 							</span>
 						</T>
 						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}

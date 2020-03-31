@@ -9,7 +9,7 @@ export function formatShortNumber(num, digits) {
 	var suffixNum = Math.floor((value.toFixed(0)).length / 3)
 	// console.log('value', value)
 	// console.log('suffixNum', suffixNum)
-	var shortValue = suffixNum > 1 ? parseFloat((value / Math.pow(1000, suffixNum)).toPrecision(2)) : formatNumber(value, 2)
+	var shortValue = suffixNum > 1 ? parseFloat((value / Math.pow(1000, suffixNum))).toFixed(3).replace('.', ',') : formatNumber(value, 2)
 	// console.log('shortValue', shortValue)
 	// console.log('ASdf', value / Math.pow(1000, suffixNum))
 	console.log(shortValue, formatNumber(value))
