@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
-import { makeStyles, Typography, IconButton, Tooltip } from '@material-ui/core'
+import { makeStyles, Typography, IconButton } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
