@@ -88,13 +88,13 @@ export const genMinF = (deviceData, filter, prev, diff) => {
 export const genMinATemp = (deviceData, filter, prev, diff) => {
 	let minATemp
 	if (filter && filter.length > 0) {
-		minATemp = deviceData.filter(d => d.minATemp && filter.indexOf(d.device_id) > -1)
+		minATemp = deviceData.filter(d => d.val && filter.indexOf(d.uuid) > -1)
 	}
 	else {
-		minATemp = deviceData.filter(d => d.minATemp)
+		minATemp = deviceData.filter(d => d.val)
 	}
 
-	minATemp = genReading(minATemp.map(d => ({ value: d.minATemp, date: d.time })))
+	minATemp = genReading(minATemp.map(d => ({ value: d.val, date: d.t })))
 
 	return minATemp
 }

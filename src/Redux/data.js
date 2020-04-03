@@ -1,6 +1,11 @@
 import { handleRequestSort, getDates } from 'data/functions'
-import { getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList, getTotalVolumeData, getDevicesV2, /* getDevicesData */ } from 'data/devices'
-import { /* genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF, genBarData, */ genNBarData } from 'data/model'
+import {
+	getDevices, getWaterUsage, getReadingUsage, getBenchmarkUsage, getPriceList,
+	getTotalVolumeData, getDevicesV2, getMinATemperatureData, getMinWTemperatureData,
+	getMinFlowData,
+	getMaxFlowData
+} from 'data/devices'
+import { /* genBenchmark, genArcData, genWR, genMinATemp,  genMaxF, genMinF, genBarData, */ genNBarData, genMinATemp } from 'data/model'
 import moment from 'moment'
 // import { colors } from 'variables/colors'
 import { getLatLongFromAddress, getWeather } from 'data/weather'
@@ -83,6 +88,26 @@ export const getWeatherData = async () => {
 	}
 }
 /**
+ * Get Admin devices
+ */
+export const getAdminDevices = async () => {
+	return async dispatch => {
+
+		/**
+		 * Get the devices for the admin
+		 */
+		let devices = await getDevicesV2()
+		dispatch({
+			type: GETDevice,
+			payload: devices
+		})
+		dispatch({
+			type: sDevice,
+			payload: devices.map(d => d.uuid)
+		})
+	}
+}
+/**
  * Unit Conversion
  * @param {number} value
  * @param {string} unit
@@ -98,6 +123,7 @@ const uC = (value, unit) => {
 			return value
 	}
 }
+
 /**
  * Get & Generate data for all graphs
  */
@@ -148,35 +174,33 @@ export const getNData = async () => {
 			average: []
 		}
 		if (isSuperUser || isSWAdmin) {
-			/**
-			 * Get the devices for the admin
-			 */
-			let devices = await getDevicesV2()
-			dispatch({
-				type: GETDevice,
-				payload: devices
-			})
-			dispatch({
-				type: sDevice,
-				payload: devices.map(d => d.uuid)
-			})
+
 			let suTo = to.clone().subtract(1, 'day')
 			let suFrom = from.clone().add(1, 'day')
 			let waterUsageData = await getTotalVolumeData(orgId, suFrom, suTo)
-
 			let waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
-			let readingsData = await getReadingUsage(suFrom, suTo)
 			let benchmarkData = await getBenchmarkUsage(orgId, from, suTo)
 
+			let temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo)
+			let temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+			let temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo)
+			let temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+
+			let minFlowData = await getMinFlowData(orgId, suFrom, suTo)
+			let minFlowPrevData = await getMinFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+			let maxFlowData = await getMaxFlowData(orgId, suFrom, suTo)
+			let maxFlowPrevData = await getMaxFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+
+			let readingsData = await getReadingUsage(suFrom, suTo)
+
 			let price = await getPriceList(orgId)
-			// let totalData = await getTotalVolumeData(orgId, from, to)
 
 
 			let priceList = price ? price : {
 				waterTotal: 0,
 				sewageTotal: 0
 			}
-
+			//#region Water Usage
 			if (waterUsageData.length > 0) {
 
 				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.total, mUnit), date: d.d }))
@@ -187,9 +211,40 @@ export const getNData = async () => {
 				currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
 			}
 			if (readingsData) {
-				currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t }))
+				currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t, uuid: d.uuid }))
 
 			}
+			//#endregion
+
+			//#region Temperature
+			if (temperatureWData.length > 0) {
+				currentPeriodData.minWtemp = genMinATemp(temperatureWData)
+			}
+			if (temperatureWPrevData.length > 0) {
+				previousPeriodData.minWtemp = genMinATemp(temperatureWPrevData)
+			}
+			if (temperatureAData.length > 0) {
+				currentPeriodData.minAtemp = genMinATemp(temperatureAData)
+			}
+			if (temperatureAPrevData.length > 0) {
+				previousPeriodData.minAtemp = genMinATemp(temperatureAPrevData)
+			}
+			//#endregion
+			//#region WaterFlow
+			if (minFlowData.length > 0) {
+				currentPeriodData.minFlow = genMinATemp(minFlowData)
+			}
+			if (minFlowPrevData.length > 0) {
+				previousPeriodData.minFlow = genMinATemp(minFlowPrevData)
+			}
+			if (maxFlowData.length > 0) {
+				currentPeriodData.maxFlow = genMinATemp(maxFlowData)
+			}
+			if (maxFlowPrevData.length > 0) {
+				previousPeriodData.maxFlow = genMinATemp(maxFlowPrevData)
+			}
+			//#endregion
+
 			//#region Final Line Data Creation
 			if (currentPeriodData.waterusage) {
 				finalData.waterusage.push({
@@ -220,10 +275,88 @@ export const getNData = async () => {
 				})
 
 			}
+
+			if (currentPeriodData.minWtemp) {
+				finalData.temperature.push({
+					name: 'tempWater',
+					median: true,
+					data: currentPeriodData.minWtemp,
+					color: 'blue'
+
+				})
+			}
+			if (currentPeriodData.minAtemp) {
+				finalData.temperature.push({
+					name: 'tempAmbient',
+					median: true,
+					data: currentPeriodData.minAtemp,
+					color: 'red'
+
+				})
+			}
+			if (previousPeriodData.minWtemp) {
+				finalData.temperature.push({
+					name: 'tempWaterPrev',
+					prev: true,
+					hidden: true,
+					noMedianLegend: true,
+					median: true,
+					data: previousPeriodData.minWtemp
+				})
+			}
+			if (previousPeriodData.minAtemp) {
+				finalData.temperature.push({
+					name: 'tempAmbientPrev',
+					prev: true,
+					hidden: true,
+					noMedianLegend: true,
+					median: true,
+					data: previousPeriodData.minAtemp
+				})
+			}
+
+			if (currentPeriodData.minFlow) {
+				finalData.waterflow.push({
+					name: 'minFlow',
+					median: true,
+					data: currentPeriodData.minFlow,
+					color: 'purple'
+				})
+			}
+			if (currentPeriodData.maxFlow) {
+				finalData.waterflow.push({
+					name: 'maxFlow',
+					median: true,
+					data: currentPeriodData.maxFlow,
+					color: 'lightBlue'
+				})
+			}
+			if (previousPeriodData.minFlow) {
+				finalData.waterflow.push({
+					name: 'minFlowPrev',
+					prev: true,
+					hidden: true,
+					smallArea: true,
+					noMedianLegend: true,
+					median: true,
+					data: previousPeriodData.minFlow
+				})
+			}
+			if (previousPeriodData.maxFlow) {
+				finalData.waterflow.push({
+					name: 'maxFlowPrev',
+					prev: true,
+					hidden: true,
+					noMedianLegend: true,
+					median: true,
+					data: previousPeriodData.maxFlow
+				})
+			}
 			/**
 			 * TODO
 			 */
 			if (currentPeriodData.readings) {
+
 				finalData.readings.push({
 					name: 'readingL',
 					color: 'yellow',
