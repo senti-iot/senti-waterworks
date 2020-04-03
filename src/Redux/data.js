@@ -15,6 +15,7 @@ const barData = 'barData'
 const averageData = 'averageData'
 const pData = 'priceData'
 const wData = 'weatherData'
+const sDevice = 'selectDevice'
 
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
@@ -154,6 +155,10 @@ export const getNData = async () => {
 			dispatch({
 				type: GETDevice,
 				payload: devices
+			})
+			dispatch({
+				type: sDevice,
+				payload: devices.map(d => d.uuid)
 			})
 			let suTo = to.clone().subtract(1, 'day')
 			let suFrom = from.clone().add(1, 'day')

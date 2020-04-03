@@ -12,7 +12,6 @@ export function formatShortNumber(num, digits) {
 	var shortValue = suffixNum > 1 ? parseFloat((value / Math.pow(1000, suffixNum))).toFixed(3).replace('.', ',') : formatNumber(value, 2)
 	// console.log('shortValue', shortValue)
 	// console.log('ASdf', value / Math.pow(1000, suffixNum))
-	console.log(shortValue, formatNumber(value))
 	// if (shortValue % 1 !== 0) {
 	// 	shortValue = shortValue.toFixed(1)
 	// }

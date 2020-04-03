@@ -85,7 +85,7 @@ function CTable(props) {
 					/>
 					<TableBody>
 						{body ? body.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-							const isSelectedRow = isSelected(row.id)
+							const isSelectedRow = isSelected(row.uuid)
 							return (
 								<TableRow
 									hover

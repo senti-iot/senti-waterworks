@@ -14,6 +14,7 @@ import { getNData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
+import FullScreenMainChart from 'Components/Custom/MainChart/FullScreenMainChart'
 
 const styles = makeStyles(theme => ({
 	smallWidget: {
@@ -113,7 +114,7 @@ const EndUserContainer = () => {
 
 			</ItemG>
 		</ItemG>
-
+		<FullScreenMainChart loading={loading} chart={chart} setChart={setChart} />
 	</GridContainer>
 }
 EndUserContainer.whyDidYouRender = true

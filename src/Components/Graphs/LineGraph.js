@@ -6,10 +6,11 @@ import lineStyles from 'Components/Custom/Styles/lineGraphStyles'
 import MedianTooltip from './MedianTooltip'
 import Legend from './Legend'
 import CircularLoader from 'Components/Loaders/CircularLoader'
+import d3LineFS from 'Components/Graphs/classes/d3LineFullScreen'
 
 let line = null
 
-const LineGraph = React.memo((props) => {
+const LineGraph = (props) => {
 	//Hooks
 	const t = useLocalization()
 	const classes = lineStyles()
@@ -19,6 +20,8 @@ const LineGraph = React.memo((props) => {
 	const weatherData = useSelector(s => s.data.weatherData)
 	const period = useSelector(s => s.dateTime.period)
 	const mUnit = useSelector(s => s.settings.mUnit)
+	const fsLG = useSelector(s => s.appState.fullScreenLineChart)
+
 	//State
 	const lineChartContainer = useRef(React.createRef())
 	const [value, setValue] = useState({ value: null, date: null })
@@ -59,9 +62,10 @@ const LineGraph = React.memo((props) => {
 				setMedianTooltip: setMedianValue,
 				period: period,
 				t: t,
-				weatherData: weatherData
+				weatherData: weatherData,
+				fsLG: props.fullScreen
 			}
-			line = new d3Line(lineChartContainer.current, cProps, classes)
+			line = props.fullScreen ? new d3LineFS(lineChartContainer.current, cProps, classes) : new d3Line(lineChartContainer.current, cProps, classes)
 
 		}
 		if ((props.id !== prevId) && line) {
@@ -77,6 +81,10 @@ const LineGraph = React.memo((props) => {
 
 			// }, 100);
 			// clearTimeout(debounce)
+		}
+		if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
+			line.destroy()
+			genNewLine()
 		}
 		// if (prevData !== deviceData) {
 		// 	line.destroy()
@@ -98,16 +106,16 @@ const LineGraph = React.memo((props) => {
 			// line.destroy()
 			// line = null
 		}
-	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit])
+	}, [classes, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit, fsLG, props.fullScreen])
 
 	//Handlers
 
 	return (
 		props.loading ? <CircularLoader fill /> :
 			<div style={{ width: '100%', height: '100%'/* , minHeight: 300 */ }}>
-				<Tooltip tooltip={value} id={props.id} unit={mUnit} />
-				<MedianTooltip tooltip={medianValue} id={props.id} unit={mUnit} />
-				<svg id={props.id} ref={lineChartContainer}
+				<Tooltip fullScreen={props.fullScreen} tooltip={value} id={props.id} unit={mUnit} />
+				<MedianTooltip fullScreen={props.fullScreen} tooltip={medianValue} id={props.id} unit={mUnit} />
+				<svg id={props.fullScreen ? props.id + 'fsLG' : props.id} ref={lineChartContainer}
 					style={{
 						width: '100%',
 						height: '90%',
@@ -115,9 +123,9 @@ const LineGraph = React.memo((props) => {
 					}}>
 
 				</svg>
-				<Legend id={props.id} data={deviceData} />
+				<Legend fullScreen={props.fullScreen} id={props.id} data={deviceData} />
 			</div>
 	)
-})
-LineGraph.whyDidYouRender = true
+}
+
 export default LineGraph

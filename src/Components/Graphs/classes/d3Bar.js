@@ -146,7 +146,6 @@ class d3Arc {
 	}
 	generateLabels = () => {
 		const { classes, barsData } = this.props
-		console.log(barsData)
 
 		if (barsData.length === 4) {
 			this.g.selectAll(".text")

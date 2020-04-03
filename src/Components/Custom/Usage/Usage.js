@@ -139,7 +139,6 @@ const Usage = props => {
 
 		})
 	}
-	console.log('Beng', avgData.waterusagem3, formatShortNumber(avgData.waterusagem3, 2))
 	return (
 		<Grid container className={classes.container}> {/* ref */}
 			<ItemG xs={6} className={columnClasses(0)}>

@@ -42,9 +42,7 @@ function Container(props) {
 							<Route path={'/settings'}>
 								<Settings />
 							</Route>
-							{/* <Route path={'/admin'}>
-								<ChartContainer />
-							</Route> */}
+
 							<Route path={'/my-profile'}>
 								<MyProfile />
 							</Route>
