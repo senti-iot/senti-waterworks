@@ -221,13 +221,13 @@ export const getNData = async () => {
 				currentPeriodData.minWtemp = genMinATemp(temperatureWData)
 			}
 			if (temperatureWPrevData.length > 0) {
-				previousPeriodData.minWtemp = genMinATemp(temperatureWPrevData)
+				previousPeriodData.minWtemp = genMinATemp(temperatureWPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
 			}
 			if (temperatureAData.length > 0) {
 				currentPeriodData.minAtemp = genMinATemp(temperatureAData)
 			}
 			if (temperatureAPrevData.length > 0) {
-				previousPeriodData.minAtemp = genMinATemp(temperatureAPrevData)
+				previousPeriodData.minAtemp = genMinATemp(temperatureAPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
 			}
 			//#endregion
 			//#region WaterFlow
@@ -235,13 +235,13 @@ export const getNData = async () => {
 				currentPeriodData.minFlow = genMinATemp(minFlowData)
 			}
 			if (minFlowPrevData.length > 0) {
-				previousPeriodData.minFlow = genMinATemp(minFlowPrevData)
+				previousPeriodData.minFlow = genMinATemp(minFlowPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
 			}
 			if (maxFlowData.length > 0) {
 				currentPeriodData.maxFlow = genMinATemp(maxFlowData)
 			}
 			if (maxFlowPrevData.length > 0) {
-				previousPeriodData.maxFlow = genMinATemp(maxFlowPrevData)
+				previousPeriodData.maxFlow = genMinATemp(maxFlowPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
 			}
 			//#endregion
 
