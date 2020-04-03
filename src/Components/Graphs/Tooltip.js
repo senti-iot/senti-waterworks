@@ -19,7 +19,7 @@ const TCard = styled(Card)`
 `
 
 const waterUsageTooltip = (props) => {
-	return <TCard id={'tooltip' + props.id}>
+	return <TCard id={props.fs ? 'tooltipfsLG' + props.id : 'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
@@ -51,7 +51,7 @@ const waterUsageTooltip = (props) => {
 // const waterFlowTooltip = (props) => { }
 
 const waterFlowTooltip = (props) => {
-	return <TCard id={'tooltip' + props.id}>
+	return <TCard id={props.fs ? 'tooltipfsLG' + props.id : 'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
@@ -79,7 +79,7 @@ const waterFlowTooltip = (props) => {
 // const waterFlowTooltip = (props) => { }
 
 const temperatureTooltip = (props) => {
-	return <TCard id={'tooltip' + props.id}>
+	return <TCard id={props.fs ? 'tooltipfsLG' + props.id : 'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
@@ -107,7 +107,7 @@ const temperatureTooltip = (props) => {
 
 
 const readingTooltip = (props) => {
-	return <TCard id={'tooltip' + props.id}>
+	return <TCard id={props.fs ? 'tooltipfsLG' + props.id : 'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
