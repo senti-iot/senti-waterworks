@@ -9,6 +9,7 @@ import { /* genBenchmark, genArcData, genWR, genMinATemp,  genMaxF, genMinF, gen
 import moment from 'moment'
 // import { colors } from 'variables/colors'
 import { getLatLongFromAddress, getWeather } from 'data/weather'
+import { colors } from 'variables/colors'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -174,26 +175,62 @@ export const getNData = async () => {
 			average: []
 		}
 		if (isSuperUser || isSWAdmin) {
-
+			let selectedDevices = getState().appState.selectedDevices
+			let devices = getState().data.devices
 			let suTo = to.clone().subtract(1, 'day')
 			let suFrom = from.clone().add(1, 'day')
-			let waterUsageData = await getTotalVolumeData(orgId, suFrom, suTo)
-			let waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
-			let benchmarkData = await getBenchmarkUsage(orgId, from, suTo)
+			let waterUsageData
+			let waterUsagePrevData
+			let benchmarkData
+			let temperatureWData
+			let temperatureWPrevData
+			let temperatureAData
+			let temperatureAPrevData
+			let minFlowData
+			let minFlowPrevData
+			let maxFlowData
+			let maxFlowPrevData
+			let readingsData
+			if (selectedDevices.length !== devices.length) {
+				let uuids = selectedDevices.map(s => s)
+				waterUsageData = await getTotalVolumeData(orgId, suFrom, suTo, uuids)
+				waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'), uuids)
+				benchmarkData = await getBenchmarkUsage(orgId, from, suTo, uuids)
 
-			let temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo)
-			let temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
-			let temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo)
-			let temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+				temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo, uuids)
+				temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'), uuids)
+				temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo, uuids)
+				temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'), uuids)
 
-			let minFlowData = await getMinFlowData(orgId, suFrom, suTo)
-			let minFlowPrevData = await getMinFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
-			let maxFlowData = await getMaxFlowData(orgId, suFrom, suTo)
-			let maxFlowPrevData = await getMaxFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+				minFlowData = await getMinFlowData(orgId, suFrom, suTo, uuids)
+				minFlowPrevData = await getMinFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'), uuids)
+				maxFlowData = await getMaxFlowData(orgId, suFrom, suTo, uuids)
+				maxFlowPrevData = await getMaxFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'), uuids)
 
-			let readingsData = await getReadingUsage(suFrom, suTo)
+				readingsData = await getReadingUsage(suFrom, suTo, uuids)
+
+			}
+			else {
+				waterUsageData = await getTotalVolumeData(orgId, suFrom, suTo)
+				waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+				benchmarkData = await getBenchmarkUsage(orgId, from, suTo)
+
+				temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo)
+				temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+				temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo)
+				temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+
+				minFlowData = await getMinFlowData(orgId, suFrom, suTo)
+				minFlowPrevData = await getMinFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+				maxFlowData = await getMaxFlowData(orgId, suFrom, suTo)
+				maxFlowPrevData = await getMaxFlowData(orgId, prevFrom.clone().add(1, 'day'), prevTo.clone().subtract(1, 'day'))
+
+				readingsData = await getReadingUsage(suFrom, suTo)
+			}
+
 
 			let price = await getPriceList(orgId)
+
 
 
 			let priceList = price ? price : {
@@ -201,6 +238,7 @@ export const getNData = async () => {
 				sewageTotal: 0
 			}
 			//#region Water Usage
+			console.log('waterUsageData', waterUsageData)
 			if (waterUsageData.length > 0) {
 
 				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.total, mUnit), date: d.d }))
@@ -356,14 +394,29 @@ export const getNData = async () => {
 			/**
 			 * TODO
 			 */
-			if (currentPeriodData.readings) {
 
-				finalData.readings.push({
-					name: 'readingL',
-					color: 'yellow',
-					noArea: true,
-					data: currentPeriodData.readings
+			if (currentPeriodData.readings.length > 0) {
+				let devices = getState().data.devices
+				let dataLines = selectedDevices.map((dev, i) => {
+					console.log(dev)
+					console.log(currentPeriodData.readings.filter(d => { console.log(d); return d.value && d.uuid === dev }))
+					console.log(currentPeriodData.readings.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: moment(d.t).startOf('day') })))
+					return ({
+						name: "" + devices[devices.findIndex(d => d.uuid === dev)].name,
+						color: colors[i],
+						noArea: true,
+						data: currentPeriodData.readings.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
+					})
 				})
+
+				console.log(dataLines)
+				finalData.readings.push(...dataLines)
+				// finalData.readings.push({
+				// 	name: 'readingL',
+				// 	color: 'yellow',
+				// 	noArea: true,
+				// 	data: currentPeriodData.readings
+				// })
 			}
 
 			//#endregion

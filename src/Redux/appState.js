@@ -145,6 +145,7 @@ export const setSelectedExportDevices = (devices) => {
 	}
 }
 export const setSelectedDevices = (devices) => {
+	console.log('devices', devices)
 	return (dispatch, getState) => {
 		dispatch({
 			type: sDevice,

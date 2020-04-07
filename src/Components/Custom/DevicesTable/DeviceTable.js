@@ -80,7 +80,7 @@ const DeviceTable = (props) => {
 		if (!s)
 			setSelDev(newSDevices)
 		else
-			setSelDev(customFilterItems(devices, filters).map(d => d.id))
+			setSelDev(customFilterItems(devices, filters).map(d => d.uuid))
 	}
 	//#region  Filters
 	const dLiveStatus = () => {

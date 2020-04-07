@@ -70,7 +70,7 @@ const EndUserContainer = () => {
 			const getDevices = async () => dispatch(await getAdminDevices())
 			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
-				if (isSuperUser || isSWAdmin) {
+				if ((isSuperUser || isSWAdmin) && selectedDevices.length === 0) {
 					await getDevices()
 				}
 				// await getDeviceData()
@@ -79,7 +79,7 @@ const EndUserContainer = () => {
 			}
 			loadData()
 		}
-	}, [dispatch, isSWAdmin, isSuperUser, loading])
+	}, [dispatch, isSWAdmin, isSuperUser, loading, selectedDevices.length])
 
 	//Handlers
 
