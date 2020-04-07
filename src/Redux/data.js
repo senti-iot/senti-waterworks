@@ -280,16 +280,17 @@ export const getNData = async () => {
 				finalData.temperature.push({
 					name: 'tempWater',
 					median: true,
-					data: currentPeriodData.minWtemp,
+					data: currentPeriodData.minWtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 					color: 'blue'
 
 				})
 			}
+
 			if (currentPeriodData.minAtemp) {
 				finalData.temperature.push({
 					name: 'tempAmbient',
 					median: true,
-					data: currentPeriodData.minAtemp,
+					data: currentPeriodData.minAtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 					color: 'red'
 
 				})
@@ -301,7 +302,7 @@ export const getNData = async () => {
 					hidden: true,
 					noMedianLegend: true,
 					median: true,
-					data: previousPeriodData.minWtemp
+					data: previousPeriodData.minWtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 				})
 			}
 			if (previousPeriodData.minAtemp) {
@@ -311,7 +312,7 @@ export const getNData = async () => {
 					hidden: true,
 					noMedianLegend: true,
 					median: true,
-					data: previousPeriodData.minAtemp
+					data: previousPeriodData.minAtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 				})
 			}
 
@@ -319,7 +320,7 @@ export const getNData = async () => {
 				finalData.waterflow.push({
 					name: 'minFlow',
 					median: true,
-					data: currentPeriodData.minFlow,
+					data: currentPeriodData.minFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 					color: 'purple'
 				})
 			}
@@ -327,7 +328,7 @@ export const getNData = async () => {
 				finalData.waterflow.push({
 					name: 'maxFlow',
 					median: true,
-					data: currentPeriodData.maxFlow,
+					data: currentPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 					color: 'lightBlue'
 				})
 			}
@@ -339,7 +340,7 @@ export const getNData = async () => {
 					smallArea: true,
 					noMedianLegend: true,
 					median: true,
-					data: previousPeriodData.minFlow
+					data: previousPeriodData.minFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 				})
 			}
 			if (previousPeriodData.maxFlow) {
@@ -349,7 +350,7 @@ export const getNData = async () => {
 					hidden: true,
 					noMedianLegend: true,
 					median: true,
-					data: previousPeriodData.maxFlow
+					data: previousPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 				})
 			}
 			/**
