@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ItemG, DateTimeFilter, DMenu } from 'Components'
 import { Hidden, IconButton } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
-import { useLocalization, useSelector, useDispatch } from 'Hooks'
+import { useLocalization, useSelector, useDispatch, } from 'Hooks'
 import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
 import { ExportModule } from 'Components/ExportModule/ExportModule'
@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/styles'
 import DButton from 'Components/Input/DButton'
 import { lighten } from '@material-ui/core/styles'
 import { setFullScreenLineGraph } from 'Redux/appState'
+import cx from 'classnames'
 
 const DateRangeIcon = styled(DateRange)`
 color: #fff;
@@ -40,8 +41,14 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	icon: {
-		color: '#fff'
+		color: '#fff',
+		transition: 'all 400ms ease',
+
 	},
+
+	fullScreenIcon: {
+		transform: 'rotate(180deg);'
+	}
 
 }))
 export const MainChart = React.memo((props) => {
@@ -62,6 +69,9 @@ export const MainChart = React.memo((props) => {
 
 	//useCallbacks
 
+	//eventHandler
+
+
 	//useEffects
 
 	//Handlers
@@ -76,6 +86,10 @@ export const MainChart = React.memo((props) => {
 	const handleOpenFullScreen = () => {
 		dispatch(setFullScreenLineGraph(!fullScreenLineChart))
 	}
+	const iconCX = cx({
+		[classes.icon]: true,
+		[classes.fullScreenIcon]: fullScreenLineChart
+	})
 	return (
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
@@ -128,7 +142,7 @@ export const MainChart = React.memo((props) => {
 
 							<ItemG>
 								<IconButton onClick={handleOpenFullScreen}>
-									<CallMadeIcon />
+									<CallMadeIcon className={iconCX} />
 								</IconButton>
 							</ItemG>
 						</ItemG>

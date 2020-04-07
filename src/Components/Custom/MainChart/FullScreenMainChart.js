@@ -1,10 +1,11 @@
 import React from 'react'
 import { Dialog } from '@material-ui/core'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/styles'
 import SlideT from 'Components/Transitions/SlideT'
 import { MainChart } from 'Components/Custom/MainChart/MainChart'
 import { BPaper, AppPaper } from 'Styles/containerStyle'
+import { setFullScreenLineGraph } from 'Redux/appState'
 
 const useStyles = makeStyles(theme => ({
 	dialogRoot: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 const FullScreenMainChart = props => {
 	//Hooks
 	const classes = useStyles()
+	const dispatch = useDispatch()
 	//Redux
 	const fsLG = useSelector(s => s.appState.fullScreenLineChart)
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
@@ -29,7 +31,11 @@ const FullScreenMainChart = props => {
 	//useEffects
 
 	//Handlers
-
+	const handleOnClose = () => {
+		if (fsLG) {
+			dispatch(setFullScreenLineGraph(false))
+		}
+	}
 	return (
 		<Dialog
 			fullScreen
@@ -37,6 +43,7 @@ const FullScreenMainChart = props => {
 			className={classes.dialogRoot}
 			open={fsLG}
 			TransitionComponent={SlideT}
+			onClose={handleOnClose}
 
 		>
 			<AppPaper color={colorTheme}>
