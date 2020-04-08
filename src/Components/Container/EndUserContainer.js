@@ -41,6 +41,7 @@ const EndUserContainer = () => {
 
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const devices = useSelector(s => s.data.devices)
 	const period = useSelector(s => s.dateTime.period)
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
@@ -70,7 +71,7 @@ const EndUserContainer = () => {
 			const getDevices = async () => dispatch(await getAdminDevices())
 			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
-				if ((isSuperUser || isSWAdmin) && selectedDevices.length === 0) {
+				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
 					await getDevices()
 				}
 				// await getDeviceData()
@@ -79,7 +80,7 @@ const EndUserContainer = () => {
 			}
 			loadData()
 		}
-	}, [dispatch, isSWAdmin, isSuperUser, loading, selectedDevices.length])
+	}, [devices.length, dispatch, isSWAdmin, isSuperUser, loading])
 
 	//Handlers
 

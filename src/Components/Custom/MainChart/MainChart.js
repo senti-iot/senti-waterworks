@@ -97,6 +97,7 @@ export const MainChart = React.memo((props) => {
 					<ItemG container alignItems={'center'} justify={'space-evenly'}>
 						<ItemG xs={2} lg={2} container justify={'flex-start'} alignItems={'center'}>
 							<DButton
+								value={chart}
 								margin={'none'}
 								onChange={(value) => {
 									handleSetChart(value)()
@@ -109,7 +110,7 @@ export const MainChart = React.memo((props) => {
 									{ label: t('charts.types.waterusage'), value: 'waterusage' },
 									{ label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
 									{ label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
-									{ label: t('charts.types.readings'), value: 'readings' }
+									{ label: t('charts.types.readings'), value: 'readings', disabled: data && !data.readings.length > 0 }
 								]}
 							/>
 

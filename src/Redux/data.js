@@ -238,11 +238,10 @@ export const getNData = async () => {
 				sewageTotal: 0
 			}
 			//#region Water Usage
-			console.log('waterUsageData', waterUsageData)
 			if (waterUsageData.length > 0) {
 
-				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.total, mUnit), date: d.d }))
-				previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.total, mUnit), date: moment(d.d).add(subtr - 1, 'day') }))
+				currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.totalFlowPerDay, mUnit), date: d.d }))
+				previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.totalFlowPerDay, mUnit), date: moment(d.d).add(subtr - 1, 'day') }))
 
 			}
 			if (benchmarkData.length > 0) {
@@ -395,12 +394,9 @@ export const getNData = async () => {
 			 * TODO
 			 */
 
-			if (currentPeriodData.readings.length > 0) {
+			if (currentPeriodData.readings.length > 0 && selectedDevices.length < 11) {
 				let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
-					console.log(dev)
-					console.log(currentPeriodData.readings.filter(d => { console.log(d); return d.value && d.uuid === dev }))
-					console.log(currentPeriodData.readings.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: moment(d.t).startOf('day') })))
 					return ({
 						name: "" + devices[devices.findIndex(d => d.uuid === dev)].name,
 						color: colors[i],
@@ -411,6 +407,7 @@ export const getNData = async () => {
 
 				console.log(dataLines)
 				finalData.readings.push(...dataLines)
+				console.log(finalData)
 				// finalData.readings.push({
 				// 	name: 'readingL',
 				// 	color: 'yellow',
@@ -436,7 +433,7 @@ export const getNData = async () => {
 				current: parseFloat(uC(middleData, mUnit)).toFixed(3),
 				previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(3)
 			}
-
+			console.log('finalMiddleData', finalMiddleData)
 
 			//#endregion
 
@@ -911,6 +908,12 @@ const initialState = {
 		previous: {
 			waterusage: 0
 		}
+	},
+	deviceData: {
+		waterusage: [],
+		temperature: [],
+		waterflow: [],
+		readings: []
 	}
 }
 

@@ -57,7 +57,7 @@ const Legend = props => {
 					key={'Legend' + line.name}
 					id={fs ? 'LegendfsLG' + line.name : 'Legend' + line.name}
 					style={{
-						color: !line.prev ? colors[line.color][500] : 'rgba(128,128,128,1)'
+						color: !line.prev ? colors[line.color] ? colors[line.color][500] : line.color : 'rgba(128,128,128,1)'
 					}}
 					control={
 						<CheckedBox

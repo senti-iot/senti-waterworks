@@ -102,10 +102,10 @@ export const getTotalVolumeData = async (orgUUID, from, to, uuids) => {
 	let endDate = moment(to).format('YYYY-MM-DD')
 	let response
 	if (uuids) {
-		response = await servicesAPI.post(`/v2/waterworks/data/totalbyday/${orgUUID}/volume/${startDate}/${endDate}`, uuids)
+		response = await servicesAPI.post(`/v2/waterworks/data/totalusagebyday/${startDate}/${endDate}`, uuids)
 	}
 	else {
-		response = await servicesAPI.get(`/v2/waterworks/data/totalbyday/${orgUUID}/volume/${startDate}/${endDate}`)
+		response = await servicesAPI.get(`/v2/waterworks/data/totalusagebyday/${orgUUID}/${startDate}/${endDate}`)
 	}
 	return response.ok ? response.data : []
 }
