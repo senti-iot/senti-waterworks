@@ -9,8 +9,7 @@ const clStyles = makeStyles((theme) => ({
 	overlay: {
 		position: 'absolute',
 		width: '100%',
-		height: 'calc(100% - 64px)',
-		background: theme.boxBackground,
+		height: '100%',
 		zIndex: 99999
 	},
 	grid: {
@@ -35,7 +34,7 @@ const clStyles = makeStyles((theme) => ({
 }))
 
 
-const CircularOverlay = (props) => {
+const CO = (props) => {
 	const { className, overlay } = props
 	const classes = clStyles()
 	const gridClasses = cx({
@@ -58,4 +57,4 @@ const CircularOverlay = (props) => {
 
 }
 
-export default CircularOverlay
+export default CO

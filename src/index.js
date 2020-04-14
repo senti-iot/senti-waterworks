@@ -10,6 +10,7 @@ import { updateServiceworker } from 'Redux/serviceWorkerRedux'
 import HotProviders from 'Providers'
 // import NewContent from 'Components/Loaders/NewContent';
 
+
 if (process.env.NODE_ENV !== 'production') {
 	whyDidYouRender(React, {
 		trackHooks: true,

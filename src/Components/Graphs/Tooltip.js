@@ -30,7 +30,7 @@ const waterUsageTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
-					<T variant={'h5'}>{`${parseFloat(parseFloat(props.tooltip.value).toFixed(3))} m³`}</T>
+					<T variant={'h5'}>{`${parseFloat(props.tooltip.value).toFixed(3).replace('.', ',')} m³`}</T>
 
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
@@ -111,7 +111,7 @@ const readingTooltip = (props) => {
 						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format('dddd'))}</T>
 					</ItemG>
 					<ItemG xs={12}>
-						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
+						<T varinat={'body2'}>{moment(props.tooltip.date).format('lll')}</T>
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>

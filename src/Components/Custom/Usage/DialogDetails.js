@@ -4,11 +4,14 @@ import familyIcon from 'assets/icons/familie.svg'
 import waterDrop from 'assets/icons/water.drop.blue.svg'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
+import ItemG from 'Components/Containers/ItemG'
+import GridContainer from 'Components/Containers/GridContainer'
 
 const useStyles = makeStyles(theme => ({
 	container: {
 		boxSizing: 'border-box',
-		height: '55%',
+		minHeight: '55%',
+		height: 'fit-content',
 		background: 'rgba(12,59,105,0.7)',
 		borderTopLeftRadius: 4,
 		borderTopRightRadius: 4,
@@ -145,9 +148,9 @@ const DialogDetails = () => {
 	]
 
 	return (
-		<div className={classes.container}>
+		<GridContainer className={classes.container}>
 			{panels.map(({ headline, subheadline, descriptions, style, data }, index) => (
-				<div key={index} className={classes.half}>
+				<ItemG xs={12} md={4} key={Math.random()} className={classes.half}>
 					{/* header with icon */}
 					<div className={classes.header} style={{ padding: '0 24px', visibility: index !== 2 ? 'visible' : 'hidden' }}>
 						<img src={familyIcon} alt="senti-family-icon" className={classes.icon} />
@@ -175,12 +178,12 @@ const DialogDetails = () => {
 						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>{/* correct place */}
 							<div style={{ display: 'flex' }}>
 								<div style={{ textAlign: 'center' }}>
-									<Typography variant="h4" style={{ color: style.dataColor }}>{data.cubicMetres}<span style={{ fontSize: 16 }}>m3</span></Typography>
+									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(3)}<span style={{ fontSize: 16 }}> m3</span></Typography>
 								</div>
 								<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 							</div>
 							<Typography variant="h5" style={{ color: style.dataColor }}>
-								{data.forbrugPerson} L
+								{parseFloat(data.forbrugPerson).toFixed(3)} L
 							  <span style={{ marginLeft: 20 }}>
 									<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 								</span>
@@ -188,9 +191,9 @@ const DialogDetails = () => {
 							<img src={familyIcon} alt="" style={{ height: 70 }} />
 						</div>
 					</div>
-				</div>
+				</ItemG>
 			))}
-		</div>
+		</GridContainer>
 	)
 }
 

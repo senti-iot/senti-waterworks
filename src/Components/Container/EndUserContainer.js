@@ -1,4 +1,4 @@
-import React, { /* useContext, */ useEffect, useState } from 'react'
+import React, { /* useContext, */ useEffect, useState, useRef } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 // import { HTitle } from 'App';
 import { BPaper } from 'Styles/containerStyle'
@@ -35,6 +35,7 @@ const EndUserContainer = () => {
 	//Hooks
 	const dispatch = useDispatch()
 	const classes = styles()
+	const usageRef = useRef(null)
 
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
@@ -75,7 +76,6 @@ const EndUserContainer = () => {
 
 	//Handlers
 
-
 	return <GridContainer style={{ height: '100%' }}>
 		<ItemG xs={12} md={9} container style={{ height: "100%" }}>
 			<ItemG xs={12} style={{ height: "80%" }}>
@@ -86,8 +86,8 @@ const EndUserContainer = () => {
 			</ItemG>
 			<ItemG xs={12} container style={{ height: "20%" }}>
 				<ItemG xs={6} style={{ height: '100%' }}>
-					<BPaper>
-						<Usage />
+					<BPaper ref={usageRef}>
+						<Usage parentRef={usageRef} />
 					</BPaper>
 				</ItemG>
 				<ItemG xs={6} style={{ height: '100%' }}>

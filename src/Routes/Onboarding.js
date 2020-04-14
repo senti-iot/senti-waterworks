@@ -203,20 +203,21 @@ const Onboarding = props => {
 			history.push('/login')
 		}
 		if (step === 'confirm') {
-			if (success) {
-				history.push('/login')
-			}
+			// if (success) {
+			// 	history.push('/login')
+			// 	return
+			// }
 			if (error) {
 				setError(null)
 			}
-			let confirmation = await confirmOnboardingUser(token)
+			let confirmation = await confirmOnboardingUser(params.token)
 			if (confirmation.status === 404)
 				setError('signup.error.missingData')
 			else {
 				setSuccess('confirmUser.welcomeMessage')
 			}
 		}
-	}, [confirmPass, deviceIdent, email, error, firstName.length, handleCreateUser, history, installationId, lastName.length, orgIdent, params.language, params.step, pass, success, token])
+	}, [confirmPass, deviceIdent, email, error, firstName.length, handleCreateUser, history, installationId, lastName.length, orgIdent, params.language, params.step, params.token, pass])
 
 	const handleKeyPress = useCallback((event) => {
 		if (event.key === 'Enter') {
@@ -413,14 +414,6 @@ const Onboarding = props => {
 					t={t}
 					goToNextStep={handleNextStep}
 				/>
-			case 'confirm':
-				return <OnboardingConfirm
-					success={success}
-					t={t}
-					goToNextStep={handleNextStep}
-					handleInput={handleInput}
-					token={token}
-				/>
 			default:
 				break
 		}
@@ -428,41 +421,50 @@ const Onboarding = props => {
 	return (
 		<ThemeProvider theme={loginTheme}>
 			<LoginWrapper>
-				<ItemG xs={12} sm={12} md={5} lg={4} xl={3} container>
-					<MobileContainer>
-						<LeftPanel /* className={classes.paper} */>
-							<InputContainer>
-								<ItemG xs={12} container justify={'center'}>
-									<Link to={'/login'}>
+				{params.step === 'confirm' ?
+					<OnboardingConfirm
+						success={success}
+						handleNextStep={handleNextStep}
+						handleInput={handleInput}
+						token={token}
+					/>
+					: <>
+						<ItemG xs={12} sm={12} md={5} lg={4} xl={3} container>
+							<MobileContainer>
+								<LeftPanel /* className={classes.paper} */>
+									<InputContainer>
+										<ItemG xs={12} container justify={'center'}>
+											<Link to={'/login'}>
 
-										<ImgLogo src={logo} alt={'sentiLogo'} />
-									</Link>
-								</ItemG>
-								<Warning
-									open={Boolean(error) || Boolean(success)}
-									type={success ? 'success' : 'error'}
-									label={t(success ? success : error, { disableMissing: true })}
-								/>
-								{loading ? <CircularLoader /> : renderStep()}
-							</InputContainer>
-							<Divider style={{ width: '100%' }} />
-							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
-								<FooterText style={{ flex: 1 }}>
-									{`${t('login.footer')} `}
-									<MutedButton onClick={handlePrivacy}>{t('settings.t&c.privacyPolicy')}</MutedButton>
-									<MutedButton onClick={handleCookies}>{t('settings.t&c.cookiesPolicy')}</MutedButton>
-								</FooterText>
-							</Footer>
-						</LeftPanel>
-					</MobileContainer>
-				</ItemG>
-				<CookiesDialog read t={t} open={cookies} handleClose={handleCookies} handleAcceptCookies={handleCookies} />
-				<PrivacyDialog t={t} open={privacy} handleClose={handlePrivacy} />
-				<Hidden smDown>
-					<ItemG md={8} lg={8} xl={9}>
-						<LoginImages />
-					</ItemG>
-				</Hidden>
+												<ImgLogo src={logo} alt={'sentiLogo'} />
+											</Link>
+										</ItemG>
+										<Warning
+											open={Boolean(error) || Boolean(success)}
+											type={success ? 'success' : 'error'}
+											label={t(success ? success : error, { disableMissing: true })}
+										/>
+										{loading ? <CircularLoader /> : renderStep()}
+									</InputContainer>
+									<Divider style={{ width: '100%' }} />
+									<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
+										<FooterText style={{ flex: 1 }}>
+											{`${t('login.footer')} `}
+											<MutedButton onClick={handlePrivacy}>{t('settings.t&c.privacyPolicy')}</MutedButton>
+											<MutedButton onClick={handleCookies}>{t('settings.t&c.cookiesPolicy')}</MutedButton>
+										</FooterText>
+									</Footer>
+								</LeftPanel>
+							</MobileContainer>
+						</ItemG>
+						<CookiesDialog read t={t} open={cookies} handleClose={handleCookies} handleAcceptCookies={handleCookies} />
+						<PrivacyDialog t={t} open={privacy} handleClose={handlePrivacy} />
+						<Hidden smDown>
+							<ItemG md={8} lg={8} xl={9}>
+								<LoginImages />
+							</ItemG>
+						</Hidden>
+					</>}
 			</LoginWrapper>
 		</ThemeProvider>
 	)

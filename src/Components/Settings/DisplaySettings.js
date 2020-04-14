@@ -1,29 +1,51 @@
 import React from 'react'
-import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components';
+import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components'
 import { Laptop } from 'variables/icons'
-import { Grid, ListItem, List, ListItemText, colors, /* Switch */ } from '@material-ui/core';
-import { settingsStyles } from 'Styles/settingsStyle';
-import { changeLanguage } from 'Redux/localization';
-import { changeTheme, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme } from 'Redux/settings'
+import { Grid, ListItem, List, ListItemText, colors, /* Switch */ } from '@material-ui/core'
+import { settingsStyles } from 'Styles/settingsStyle'
+import { changeLanguage } from 'Redux/localization'
+import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
 
 function DisplaySettings(props) {
+	//Hooks
+	const dispatch = useDispatch()
+
+	//Redux
 	const lang = useSelector(state => state.localization.language)
 	const settings = useSelector(state => state.settings)
-	const dispatch = useDispatch()
-	const redux = {
-		changeLanguage: e => dispatch(changeLanguage(e.target.value)),
-		changeTRP: e => dispatch(changeTRP(e.target.value)),
-		changeTheme: e => dispatch(changeTheme(e.target.value)),
-		changeSnackbarLocation: e => dispatch(changeSnackbarLocation(e.target.value)),
-		changeHoverTime: e => dispatch(changeHoverTime(e.target.value)),
-		changeColorTheme: e => dispatch(changeColorTheme(e.target.value))
-	}
-	const { t } = props
+
+
+	const rChangeLanguage = e => dispatch(changeLanguage(e.target.value))
+	const rChangeTRP = e => dispatch(changeTRP(e.target.value))
+	const rChangeTheme = e => dispatch(changeTheme(e.target.value))
+	const rChangeSnackbarLocation = e => dispatch(changeSnackbarLocation(e.target.value))
+	const rChangeHoverTime = e => dispatch(changeHoverTime(e.target.value))
+	const rChangeColorTheme = e => dispatch(changeColorTheme(e.target.value))
+	const rChangeUnit = e => dispatch(changeMeasureUnit(e.target.value))
+	//State
+
+	//Const
 	const { language, trp, sideBar, discSentiVal,
-		theme, hoverTime, snackbarLocation, colorTheme } = settings
+		theme, hoverTime, snackbarLocation,
+		colorTheme, mUnit
+	} = settings
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
+
+	const { t } = props
+
 
 	const classes = settingsStyles()
+
+	let measureUnits = [
+		{ value: 'm3', label: 'm³' },
+		{ value: 'l', label: 'L' }
+	]
 
 	let languages = [
 		{ value: 'en', label: t('settings.languages.en') },
@@ -98,38 +120,44 @@ function DisplaySettings(props) {
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.language')}</ListItemText>
-									<DSelect menuItems={languages} value={lang} onChange={redux.changeLanguage} />
+									<DSelect menuItems={languages} value={lang} onChange={rChangeLanguage} />
 								</ItemGrid>
 							</ListItem>
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.theme')}</ListItemText>
-									<DSelect menuItems={themes} value={theme} onChange={redux.changeTheme} />
+									<DSelect menuItems={themes} value={theme} onChange={rChangeTheme} />
 								</ItemGrid>
 							</ListItem>
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.colorTheme')}</ListItemText>
-									<DSelect leftIcon menuItems={colorThemes} value={colorTheme} onChange={redux.changeColorTheme} />
+									<DSelect leftIcon menuItems={colorThemes} value={colorTheme} onChange={rChangeColorTheme} />
 								</ItemGrid>
 							</ListItem>
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.snackbarLocation')}</ListItemText>
-									<DSelect menuItems={snackbarLocations} value={snackbarLocation} onChange={redux.changeSnackbarLocation} />
+									<DSelect menuItems={snackbarLocations} value={snackbarLocation} onChange={rChangeSnackbarLocation} />
 								</ItemGrid>
 							</ListItem>
 
 							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText>{t('settings.tables.trp')}</ListItemText>
-									<DSelect menuItems={trps} value={trp} onChange={redux.changeTRP} />
+									<DSelect menuItems={trps} value={trp} onChange={rChangeTRP} />
+								</ItemGrid>
+							</ListItem>
+							<ListItem divider>
+								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
+									<ListItemText primary={t('settings.tables.hover')} />
+									<DSelect menuItems={hoverTimes} value={hoverTime} onChange={rChangeHoverTime} />
 								</ItemGrid>
 							</ListItem>
 							<ListItem>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
-									<ListItemText primary={t('settings.tables.hover')} />
-									<DSelect menuItems={hoverTimes} value={hoverTime} onChange={redux.changeHoverTime} />
+									<ListItemText primary={t('settings.chart.mUnit')} />
+									<DSelect menuItems={measureUnits} value={mUnit} onChange={rChangeUnit} />
 								</ItemGrid>
 							</ListItem>
 						</List>

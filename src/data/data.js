@@ -44,10 +44,10 @@ export const dawaApi = create({
 	timeout: 30000,
 	header: {
 		'Accept': 'application/json',
-		'Content-Type': 'application/json',
-		// 'Cache-Control': 'public, max-age=86400'
+		'Content-Type': 'application/json'
 	}
 })
+
 export const customerDoIApi = create({
 	baseURL: sentiAPI + 'annual/v1',
 	timeout: 30000,
@@ -97,13 +97,14 @@ export const getHolidays = async (lang) => {
 		return []
 }
 export const weatherApi = create({
+	// baseURL: `http://localhost:3001/weather/v1/`,
 	baseURL: `https://api.senti.cloud/weather/v1/`,
 	timeout: 30000,
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
 		'Accept': 'application/json',
 		'Content-Type': 'application/json',
-		// 'Cache-Control': 'public, max-age=86400'
+		'Cache-Control': 'public, max-age=864000'
 	}
 })
 export const mapApi = create({

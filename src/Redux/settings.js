@@ -33,6 +33,8 @@ const changeHT = 'changeHoverTime'
 const changeGS = 'changeGlobalSearch'
 const changeDSTheme = 'changeDashboardTheme'
 const changeCTheme = 'changeColorTheme'
+const changeUnit = 'changeMeasurementUnit'
+
 //Navigation
 
 const changeDR = 'changeDefaultRoute'
@@ -88,6 +90,7 @@ export const saveSettingsOnServ = () => {
 		let user = getState().settings.user
 		let s = getState().settings
 		let settings = {
+			mUnit: s.mUnit,
 			language: s.language,
 			dsTheme: s.dsTheme,
 			weekendColor: s.weekendColor,
@@ -166,6 +169,17 @@ export const getSettings = async () => {
 			}
 		}
 	}
+}
+export const changeMeasureUnit = val => {
+	return async dispatch => {
+		dispatch({
+			type: changeUnit,
+			mUnit: val
+		})
+		dispatch(await saveSettingsOnServ())
+
+	}
+
 }
 export const changeGlobalSearch = val => {
 	return async dispatch => {
@@ -525,6 +539,7 @@ export let initialState = {
 	trp: 10,
 	// alerts: 1,
 	// didKnow: 0,
+	mUnit: 'l',
 	loading: true,
 	saved: false,
 	rowsPerPageOptions: [autoheight, 5, 7, 8, 10, 15, 20, 25, 50, 100],
@@ -551,6 +566,8 @@ export const settings = (state = initialState, action) => {
 			return Object.assign({}, state, { rowsPerPageOptions: [...newRowsPerPage] })
 		case reset:
 			return Object.assign({}, state, { ...initialState, user: action.user, cookies: false })
+		case changeUnit:
+			return Object.assign({}, state, { mUnit: action.mUnit })
 		case changeDSTheme:
 			return Object.assign({}, state, { dsTheme: action.dsTheme })
 		case changeGS:

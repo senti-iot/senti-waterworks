@@ -24,7 +24,8 @@ const BarGraph = props => {
 		className: classes[d ? d.className : ''],
 		type: t(d.type),
 		value: d.value,
-		unit: d.unit
+		unit: d.unit,
+		hidden: d.hidden
 	})) : [])])
 	//State
 
