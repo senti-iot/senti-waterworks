@@ -160,8 +160,8 @@ const DialogDetails = () => {
 					{/* optional text below headline */}
 					<div style={{ padding: '0 24px', borderRight: index === 0 && '2px solid #fff' }}>{/* correct place */}
 						{style.textBelowHeadline ?
-							<Typography variant="h6" className={classes.optionalParagraph} style={{ marginBottom: 12 }}>4 personer i husstanden</Typography> :
-							<Typography variant="h6" className={classes.optionalParagraph} style={{ visibility: 'hidden', marginBottom: 0 }}>4 personer i husstanden</Typography>
+							<Typography variant="h6" className={classes.optionalParagraph} style={{ marginBottom: 12 }}>{noOfPeople} personer i husstanden</Typography> :
+							<Typography variant="h6" className={classes.optionalParagraph} style={{ visibility: 'hidden', marginBottom: 0 }}>{noOfPeople} personer i husstanden</Typography>
 						}
 					</div>
 

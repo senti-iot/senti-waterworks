@@ -132,7 +132,7 @@ class d3LineFS {
 	}
 	setState = (key, value, noUpdate) => {
 
-		console.log(key, value, noUpdate)
+		// console.log(key, value, noUpdate)
 		this.state[key] = value
 		console.log(this.state)
 		if (!noUpdate) {
@@ -409,7 +409,6 @@ class d3LineFS {
 	generateLegend = () => {
 		let data = this.props.data[this.props.id]
 		data.forEach((line) => {
-			console.log(line)
 			if (line.median & !line.noMedianLegend) {
 				let LegendMCheck = d3.select(`#LegendMedianCheckboxfsLG${line.name}`)
 				let LegendM = d3.select(`#LegendMedianfsLG${line.name}`)
@@ -422,7 +421,7 @@ class d3LineFS {
 
 					// Hide or show the elements
 
-					d3.selectAll(`#MedianfsLGL${line.name}`)
+					d3.selectAll(`#MedianfsLG${line.name}`)
 						.transition().duration(200)
 						.style("opacity", newOpacity)
 					d3.selectAll(`#MedianLegendfsLG${line.name}`)
@@ -487,6 +486,7 @@ class d3LineFS {
 		// })
 		// window.moment = moment
 		// window.data = data
+		// console.log(data, this.state)
 		if (data) {
 
 
@@ -582,8 +582,8 @@ class d3LineFS {
 							.attr('stroke', colors[line.color][500])
 							.attr('stroke-width', '4px')
 							.attr('d', this.valueLine)
-							.attr("opacity", this.state['LfsGL' + line.name] ? 0 : 1)
-
+							.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
+						console.log(line, this.state['LfsLG' + line.name])
 
 						//Get the total length of the path
 						if (path && path.node()) {
