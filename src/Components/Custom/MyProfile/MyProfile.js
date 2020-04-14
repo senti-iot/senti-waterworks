@@ -10,6 +10,10 @@ import { T } from 'Components'
 import DSelect from 'Components/Input/DSelect'
 import InfoCard from 'Components/Cards/InfoCard'
 import { blue } from '@material-ui/core/colors'
+import { useState } from 'react'
+import { Prompt } from 'react-router'
+import { updateUser } from 'data/users'
+import CircularLoader from 'Components/Loaders/CircularLoader'
 
 const useStyles = makeStyles(theme => ({
 	img: {
@@ -24,9 +28,16 @@ const MyProfile = () => {
 	const t = useLocalization()
 	const classes = useStyles()
 	//Redux
-	const user = useSelector(s => s.settings.user)
-	//Stateimport Gravatar from 'react-gravatar'
+	const rUser = useSelector(s => s.settings.user)
+	const extendedProfile = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile)
 
+	// console.log(extProfile)
+
+	//State
+	const [extProfile, setExtProfile] = useState(extendedProfile)
+	const [user, setUser] = useState(rUser)
+	const [edited, setEdited] = useState(false)
+	const [saving, setSaving] = useState(false)
 
 	//Const
 
@@ -35,19 +46,42 @@ const MyProfile = () => {
 	//useEffects
 
 	//Handlers
+	const handleSaveEdit = async () => {
+		console.log('Bing')
+		let fUser = user
+		fUser.aux.sentiWaterworks.extendedProfile = extProfile
+		setSaving(true)
+		await updateUser(fUser)
+		setSaving(false)
+
+	}
 	const handleGenMenuItems = () => {
-		let array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+		let array = [0, 1, 2, 3, 4, 5, 6]
 		return array.map(a => ({ value: a, label: a }))
+	}
+
+	const handleEditExtProfile = (where) => e => {
+		setExtProfile({
+			...extProfile,
+			[where]: e.target.value
+		})
+		setEdited(true)
+	}
+	const handleEditUser = where => e => {
+		setUser({
+			...user,
+			[where]: e.target.value
+		})
 	}
 	return (
 		<GridContainer>
+			<Prompt
+				when={edited}
+				message={() => `${t('snackbars.unsavedChanges')}`}
+			/>
 			<InfoCard
 				noExpand
-				// noMargin
-				// noPadding
-				// avatar={<Person />}
 				noAvatar
-				// title={t('sidebar.myprofile')}
 				content={
 					<ItemG container>
 						<ItemG container xs={6} alignItems={'center'} style={{ height: '100%' }}>
@@ -65,7 +99,7 @@ const MyProfile = () => {
 									<Gravatar default='mp' email={user.email} className={classes.img} size={240} />
 								</ItemG>
 								<ItemG xs={12} container justify={'center'} alignItems={'flex-start'}>
-									<Button color={'primary'} variant={'contained'} labe>{t('actions.change')}</Button>
+									<Button color={'primary'} variant={'contained'}>{t('actions.change')}</Button>
 								</ItemG>
 							</ItemG>
 						</ItemG>
@@ -79,15 +113,16 @@ const MyProfile = () => {
 								<ItemG xs={7}>
 
 									<TextF
-										label={t('login.username')}
+										variant={'standard'}
 										id={'userEmail'}
 										readOnly={true}
 										autoComplete={'off'}
 										value={user.email}
+										onChange={handleEditUser('email')}
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							{/* <ItemG container xs={12} justify={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('login.pass')}:
@@ -96,13 +131,14 @@ const MyProfile = () => {
 								<ItemG xs={7}>
 
 									<TextF
+										variant={'standard'}
 										id={'userPassword'}
 										readOnly={true}
 										type={'password'}
 										value={'********'}
 									/>
 								</ItemG>
-							</ItemG>
+							</ItemG> */}
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
@@ -111,9 +147,11 @@ const MyProfile = () => {
 								</ItemG>
 								<ItemG xs={7}>
 									<TextF
+										variant={'standard'}
 										id={'userFirstName'}
 										readOnly={true}
 										value={user.firstName}
+										onChange={handleEditUser('firstName')}
 									/>
 								</ItemG>
 							</ItemG>
@@ -125,10 +163,11 @@ const MyProfile = () => {
 								</ItemG>
 								<ItemG xs={7}>
 									<TextF
+										variant={'standard'}
 										id={'userLastName'}
-
 										readOnly={true}
 										value={user.lastName}
+										onChange={handleEditUser('lastName')}
 									/>
 								</ItemG>
 							</ItemG>
@@ -141,9 +180,10 @@ const MyProfile = () => {
 								<ItemG xs={7}>
 
 									<TextF
-
+										variant={'standard'}
 										readOnly={true}
-										value={user.internal.sentiWaterworks.extendedProfile.address}
+										value={extProfile.address}
+										onChange={handleEditExtProfile('address')}
 									/>
 								</ItemG>
 							</ItemG>
@@ -156,8 +196,10 @@ const MyProfile = () => {
 								<ItemG xs={7}>
 
 									<TextF
+										variant={'standard'}
 										readOnly={true}
-										value={user.internal.sentiWaterworks.extendedProfile.postnr}
+										value={extProfile.postnr}
+										onChange={handleEditExtProfile('postnr')}
 									/>
 								</ItemG>
 							</ItemG>
@@ -170,8 +212,10 @@ const MyProfile = () => {
 								<ItemG xs={7}>
 
 									<TextF
+										variant={'standard'}
 										readOnly={true}
-										value={user.internal.sentiWaterworks.extendedProfile.city}
+										value={extProfile.city}
+										onChange={handleEditExtProfile('city')}
 									/>
 								</ItemG>
 							</ItemG>
@@ -183,8 +227,10 @@ const MyProfile = () => {
 								</ItemG>
 								<ItemG xs={7}>
 									<TextF
+										variant={'standard'}
 										readOnly={true}
 										value={user.phone}
+										onChange={handleEditUser('phone')}
 									/>
 
 								</ItemG>
@@ -198,16 +244,13 @@ const MyProfile = () => {
 								</ItemG>
 								<ItemG xs={7}>
 									<DSelect
+										variant={'standard'}
 										id={'adultNr'}
-										value={user.internal.sentiWaterworks.extendedProfile.adultNr}
-										// label={}
+										value={extProfile.noOfAdults}
 										type={'text'}
-										// fullWidth
-										// onChange={handleInput}
-										// value={orgId}
-										// margin={'normal'}
 										styles={{ margin: 16 }}
-										menuItems={handleGenMenuItems()}
+										menuItems={handleGenMenuItems().slice(1)}
+										onChange={handleEditExtProfile('noOfAdults')}
 									/>
 
 								</ItemG>
@@ -220,24 +263,21 @@ const MyProfile = () => {
 								</ItemG>
 								<ItemG xs={7}>
 									<DSelect
+										variant={'standard'}
 										id={'orgId'}
-										value={user.internal.sentiWaterworks.extendedProfile.childNr}
-										// label={}
+										value={extProfile.noOfChildren}
 										type={'text'}
-										// fullWidth
-										// onChange={handleInput}
-										// value={orgId}
-										// margin={'normal'}
 										styles={{ margin: 16 }}
 										menuItems={handleGenMenuItems()}
+										onChange={handleEditExtProfile('noOfChildren')}
 									/>
 
 								</ItemG>
 							</ItemG>
 						</ItemG>
 						<ItemG xs={12} container justify={'center'} alignItems={'center'}>
-							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.edit')}</Button>
 							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
+							<Button onClick={handleSaveEdit} disabled={!edited} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{saving ? <CircularLoader /> : t('actions.edit')}</Button>
 
 						</ItemG>
 					</ItemG>
