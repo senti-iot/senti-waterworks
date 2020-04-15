@@ -35,6 +35,9 @@ const getMax = (arr) => {
 		if (max > 1000) {
 			return max + 1000
 		}
+		if (max > 100) {
+			return max + 100
+		}
 		if (max > 5) {
 			return max + 10
 		}
@@ -52,6 +55,9 @@ const getMin = (arr) => {
 		}
 		if (min > 5) {
 			min = min - 1
+		}
+		if (min > 100) {
+			min = min - 100
 		}
 		if (min > 1000) {
 			min = min - 1000
