@@ -118,7 +118,7 @@ const uC = (value, unit) => {
 		case 'm3':
 			return value
 		case 'l':
-			return value * 100
+			return value * 1000
 
 		default:
 			return value
