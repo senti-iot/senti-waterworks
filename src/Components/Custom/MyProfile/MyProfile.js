@@ -3,7 +3,7 @@ import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { Person } from 'variables/icons'
 import { useLocalization, useSelector } from 'Hooks'
-import { makeStyles, Button } from '@material-ui/core'
+import { makeStyles, Button, Dialog, Collapse, CircularProgress } from '@material-ui/core'
 import Gravatar from 'react-gravatar'
 import TextF from 'Components/Input/TextF'
 import { T } from 'Components'
@@ -12,8 +12,9 @@ import InfoCard from 'Components/Cards/InfoCard'
 import { blue } from '@material-ui/core/colors'
 import { useState } from 'react'
 import { Prompt } from 'react-router'
-import { updateUser } from 'data/users'
-import CircularLoader from 'Components/Loaders/CircularLoader'
+import { updateUser, updatePassword } from 'data/users'
+import SlideT from 'Components/Transitions/SlideT'
+import Warning from 'Components/Typography/Warning'
 
 const useStyles = makeStyles(theme => ({
 	img: {
@@ -38,7 +39,15 @@ const MyProfile = () => {
 	const [user, setUser] = useState(rUser)
 	const [edited, setEdited] = useState(false)
 	const [saving, setSaving] = useState(false)
-
+	const [error, setError] = useState(false)
+	/**
+	 * Password Dialog
+	 */
+	const [showPass, setShowPass] = useState(false)
+	const [password, setPassword] = useState('')
+	const [newPass, setNewPass] = useState('')
+	const [confirmPass, setConfirmPass] = useState('')
+	const [passError, setPassError] = useState(false)
 	//Const
 
 	//useCallbacks
@@ -47,13 +56,34 @@ const MyProfile = () => {
 
 	//Handlers
 	const handleSaveEdit = async () => {
-		console.log('Bing')
 		let fUser = user
 		fUser.aux.sentiWaterworks.extendedProfile = extProfile
 		setSaving(true)
-		await updateUser(fUser)
-		setSaving(false)
-
+		let res = await updateUser(fUser)
+		if (res) {
+			setSaving(false)
+			setEdited(false)
+		}
+		else {
+			setSaving(false)
+			setError(true)
+		}
+	}
+	const handleSaveNewPassword = async () => {
+		if (newPass === confirmPass) {
+			let obj = {
+				newPassword: newPass,
+				oldPassword: password,
+				uuid: user.uuid
+			}
+			let res = await updatePassword(user.uuid, obj)
+			if (res) {
+				handleClosePasswordDialog()
+			}
+		}
+		else {
+			setPassError('signup.error.passwordMismatch')
+		}
 	}
 	const handleGenMenuItems = () => {
 		let array = [0, 1, 2, 3, 4, 5, 6]
@@ -73,8 +103,79 @@ const MyProfile = () => {
 			[where]: e.target.value
 		})
 	}
+	const handleClosePasswordDialog = () => {
+		setShowPass(false)
+	}
+	const handleOpenPasswordDialog = () => {
+		setShowPass(true)
+	}
+	const handleEditPass = (e) => {
+		setPassword(e.target.value)
+	}
+	const handleEditNewPass = (e) => {
+		setNewPass(e.target.value)
+	}
+	const handleEditConfirmPass = (e) => {
+		setConfirmPass(e.target.value)
+	}
+
+	//Renders
+
+	const renderPassDialog = () => {
+		return <Dialog
+
+			onClose={handleClosePasswordDialog}
+			open={showPass}
+			color={'primary'}
+			TransitionComponent={SlideT}
+			PaperProps={{
+				style: { maxWidth: 300 }
+			}}
+		// PaperComponent={DPaper}
+		>
+			<GridContainer>
+				<Warning
+					open={Boolean(passError)}
+					label={t(passError, { disableMissing: true })}
+					type={'error'}
+				/>
+
+
+				<ItemG xs={12}>
+					<TextF
+						id={'currentPassword'}
+						label={t('users.fields.currentPass')}
+						// readOnly={true}
+						// autoComplete={'off'}
+						value={password}
+						onChange={handleEditPass}
+					/>
+				</ItemG>
+				<ItemG xs={12}>
+					<TextF
+						id={'newPassword'}
+						label={t('users.fields.newPass')}
+						value={newPass}
+						onChange={handleEditNewPass}
+					/>
+				</ItemG>
+				<ItemG xs={12}>
+					<TextF
+						id={'confirmNewPassword'}
+						label={t('users.fields.confirmPass')}
+						value={confirmPass}
+						onChange={handleEditConfirmPass}
+					/>
+				</ItemG>
+				<ItemG xs={12} >
+					<Button onClick={handleSaveNewPassword} style={{ marginTop: 16 }} fullWidth variant={'contained'} color={'primary'}>{t('actions.confirm')}</Button>
+				</ItemG>
+			</GridContainer>
+		</Dialog>
+	}
 	return (
 		<GridContainer>
+			{renderPassDialog()}
 			<Prompt
 				when={edited}
 				message={() => `${t('snackbars.unsavedChanges')}`}
@@ -276,8 +377,8 @@ const MyProfile = () => {
 							</ItemG>
 						</ItemG>
 						<ItemG xs={12} container justify={'center'} alignItems={'center'}>
-							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
-							<Button onClick={handleSaveEdit} disabled={!edited} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{saving ? <CircularLoader /> : t('actions.edit')}</Button>
+							<Button onClick={handleOpenPasswordDialog} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
+							<Button onClick={handleSaveEdit} disabled={!edited} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{saving ? <CircularProgress /> : t('actions.edit')}</Button>
 
 						</ItemG>
 					</ItemG>

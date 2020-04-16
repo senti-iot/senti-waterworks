@@ -39,4 +39,11 @@ export const updateUser = async (user) => {
 	console.log(response.ok, response.status)
 	return response.ok
 }
+/**
+ * /v2/entity/user/79451a34-62fa-4541-8599-a33774c70479/setpassword
+ */
+export const updatePassword = async (userId, obj) => {
+	var response = await servicesCoreAPI.post(`/v2/entity/${userId}/setpassword`, obj).then(rs => rs.ok)
+	return response
+}
 //#endregion

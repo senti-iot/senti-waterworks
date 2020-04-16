@@ -123,8 +123,6 @@ const Usage = props => {
 
 	//Const
 
-	//useCallbacks
-
 	//useEffects
 
 	//Handlers
@@ -138,6 +136,9 @@ const Usage = props => {
 			[classes.rightColumnStyle]: index % 2 !== 0,
 
 		})
+	}
+	const handleOnClose = () => {
+		setFsDialogOpen(false)
 	}
 	return (
 		<Grid container className={classes.container}> {/* ref */}
@@ -205,6 +206,7 @@ const Usage = props => {
 				open={fsDialogOpen}
 				onChange={() => setFsDialogOpen(false)}
 				TransitionComponent={SlideT}
+				onClose={handleOnClose}
 				PaperProps={{
 					style: {
 						// colors converted from hexadecimal to RGBA in order to have an opacity effect
