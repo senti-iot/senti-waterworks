@@ -730,6 +730,7 @@ class d3LineFS {
 	}
 	destroy = () => {
 		// this.svg.remove()
+		console.log(this.svg)
 		this.svg.selectAll("*").remove()
 	}
 

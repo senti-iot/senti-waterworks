@@ -719,6 +719,8 @@ class d3Line {
 	}
 	destroy = () => {
 		// this.svg.remove()
+		console.trace()
+		console.log('SVG Remove', this.svg)
 		this.svg.selectAll("*").remove()
 	}
 

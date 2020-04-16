@@ -73,17 +73,13 @@ const LineGraph = (props) => {
 			genNewLine()
 		}
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
-			// line.destroy()
 			genNewLine()
-			// line.destroy()
-			// genNewLine()
-			// setTimeout(() => {
-
-			// }, 100);
-			// clearTimeout(debounce)
 		}
 		if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
-			line.destroy()
+			// line.destroy()
+			genNewLine()
+		}
+		if ((!fsLG && !props.fullScreen && lineChartContainer.current) && !line) {
 			genNewLine()
 		}
 		// if (prevData !== deviceData) {
