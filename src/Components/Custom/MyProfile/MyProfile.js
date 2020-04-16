@@ -3,7 +3,7 @@ import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { Person } from 'variables/icons'
 import { useLocalization, useSelector } from 'Hooks'
-import { makeStyles, Button, Dialog, Collapse, CircularProgress } from '@material-ui/core'
+import { makeStyles, Button, Dialog, CircularProgress } from '@material-ui/core'
 import Gravatar from 'react-gravatar'
 import TextF from 'Components/Input/TextF'
 import { T } from 'Components'
@@ -185,6 +185,8 @@ const MyProfile = () => {
 				noAvatar
 				content={
 					<ItemG container>
+
+
 						<ItemG container xs={6} alignItems={'center'} style={{ height: '100%' }}>
 							<ItemG xs={12} container >
 								<ItemG xs={12} container alignItems={'center'}>
@@ -377,6 +379,11 @@ const MyProfile = () => {
 							</ItemG>
 						</ItemG>
 						<ItemG xs={12} container justify={'center'} alignItems={'center'}>
+							<Warning
+								open={Boolean(error)}
+								label={t(error, { disableMissing: true })}
+								type={'error'}
+							/>
 							<Button onClick={handleOpenPasswordDialog} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
 							<Button onClick={handleSaveEdit} disabled={!edited} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{saving ? <CircularProgress /> : t('actions.edit')}</Button>
 
