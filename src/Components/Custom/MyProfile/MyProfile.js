@@ -1,9 +1,9 @@
 import React from 'react'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
-import { Person } from 'variables/icons'
+import { Person, Visibility, VisibilityOff } from 'variables/icons'
 import { useLocalization, useSelector } from 'Hooks'
-import { makeStyles, Button, Dialog, CircularProgress } from '@material-ui/core'
+import { makeStyles, Button, Dialog, CircularProgress, InputAdornment } from '@material-ui/core'
 import Gravatar from 'react-gravatar'
 import TextF from 'Components/Input/TextF'
 import { T } from 'Components'
@@ -15,6 +15,7 @@ import { Prompt } from 'react-router'
 import { updateUser, updatePassword } from 'data/users'
 import SlideT from 'Components/Transitions/SlideT'
 import Warning from 'Components/Typography/Warning'
+import { SmallActionButton } from 'Styles/loginStyles'
 
 const useStyles = makeStyles(theme => ({
 	img: {
@@ -30,7 +31,7 @@ const MyProfile = () => {
 	const classes = useStyles()
 	//Redux
 	const rUser = useSelector(s => s.settings.user)
-	const extendedProfile = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile)
+	const extendedProfile = useSelector(s => s.settings.user ? s.settings.user.aux.sentiWaterworks.extendedProfile : {})
 
 	// console.log(extProfile)
 
@@ -48,6 +49,10 @@ const MyProfile = () => {
 	const [newPass, setNewPass] = useState('')
 	const [confirmPass, setConfirmPass] = useState('')
 	const [passError, setPassError] = useState(false)
+	const [visiblePass, setVisiblePass] = useState({
+		currentPass: false,
+		newPass: false
+	})
 	//Const
 
 	//useCallbacks
@@ -118,7 +123,12 @@ const MyProfile = () => {
 	const handleEditConfirmPass = (e) => {
 		setConfirmPass(e.target.value)
 	}
-
+	const handleShowPassword = (where) => () => {
+		setVisiblePass({
+			...visiblePass,
+			[where]: !visiblePass[where]
+		})
+	}
 	//Renders
 
 	const renderPassDialog = () => {
@@ -149,6 +159,16 @@ const MyProfile = () => {
 						// autoComplete={'off'}
 						value={password}
 						onChange={handleEditPass}
+						type={visiblePass.currentPass ? 'text' : 'password'}
+						InputProps={{
+							endAdornment: <InputAdornment>
+								<SmallActionButton
+									onClick={handleShowPassword('currentPass')}
+								>
+									{visiblePass.currentPass ? <Visibility /> : <VisibilityOff />}
+								</SmallActionButton>
+							</InputAdornment>
+						}}
 					/>
 				</ItemG>
 				<ItemG xs={12}>
@@ -157,6 +177,17 @@ const MyProfile = () => {
 						label={t('users.fields.newPass')}
 						value={newPass}
 						onChange={handleEditNewPass}
+						type={visiblePass.newPass ? 'text' : 'password'}
+
+						InputProps={{
+							endAdornment: <InputAdornment>
+								<SmallActionButton
+									onClick={handleShowPassword('newPass')}
+								>
+									{visiblePass.newPass ? <Visibility /> : <VisibilityOff />}
+								</SmallActionButton>
+							</InputAdornment>
+						}}
 					/>
 				</ItemG>
 				<ItemG xs={12}>
@@ -165,6 +196,18 @@ const MyProfile = () => {
 						label={t('users.fields.confirmPass')}
 						value={confirmPass}
 						onChange={handleEditConfirmPass}
+						type={visiblePass.newPass ? 'text' : 'password'}
+
+						InputProps={{
+							endAdornment: <InputAdornment>
+								<SmallActionButton
+									onClick={handleShowPassword('newPass')}
+								>
+									{visiblePass.newPass ? <Visibility /> : <VisibilityOff />}
+								</SmallActionButton>
+							</InputAdornment>
+						}}
+
 					/>
 				</ItemG>
 				<ItemG xs={12} >
@@ -201,9 +244,9 @@ const MyProfile = () => {
 								<ItemG xs={12} container justify={'center'} alignItems={'center'}>
 									<Gravatar default='mp' email={user.email} className={classes.img} size={240} />
 								</ItemG>
-								<ItemG xs={12} container justify={'center'} alignItems={'flex-start'}>
+								{/* <ItemG xs={12} container justify={'center'} alignItems={'flex-start'}>
 									<Button color={'primary'} variant={'contained'}>{t('actions.change')}</Button>
-								</ItemG>
+								</ItemG> */}
 							</ItemG>
 						</ItemG>
 						<ItemG container xs={6} component={'form'} autoomplete={'off'}>
