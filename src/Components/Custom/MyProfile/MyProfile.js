@@ -16,6 +16,7 @@ import { updateUser, updatePassword } from 'data/users'
 import SlideT from 'Components/Transitions/SlideT'
 import Warning from 'Components/Typography/Warning'
 import { SmallActionButton } from 'Styles/loginStyles'
+import useSnackbar from 'Hooks/useSnackbar/useSnackbar'
 
 const useStyles = makeStyles(theme => ({
 	img: {
@@ -29,6 +30,7 @@ const MyProfile = () => {
 	//Hooks
 	const t = useLocalization()
 	const classes = useStyles()
+	const s = useSnackbar().s
 	//Redux
 	const rUser = useSelector(s => s.settings.user)
 	const extendedProfile = useSelector(s => s.settings.user ? s.settings.user.aux.sentiWaterworks.extendedProfile : {})
@@ -68,6 +70,7 @@ const MyProfile = () => {
 		if (res) {
 			setSaving(false)
 			setEdited(false)
+			s('snackbars.edit.user')
 		}
 		else {
 			setSaving(false)
@@ -83,6 +86,7 @@ const MyProfile = () => {
 			}
 			let res = await updatePassword(user.uuid, obj)
 			if (res) {
+				s('snackbars.edit.password')
 				handleClosePasswordDialog()
 			}
 		}
@@ -109,6 +113,9 @@ const MyProfile = () => {
 		})
 	}
 	const handleClosePasswordDialog = () => {
+		setNewPass('')
+		setPassword('')
+		setConfirmPass('')
 		setShowPass(false)
 	}
 	const handleOpenPasswordDialog = () => {

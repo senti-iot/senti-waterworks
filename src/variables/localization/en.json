@@ -1177,6 +1177,8 @@
 		"deleting": "Deleting...",
 		"deviceUpdated": "Device %{device} updated!",
 		"edit": {
+			"password": "Password has been updated!",
+			"user": "Personal details have been updated!",
 			"cloudfunction": "Cloud function %{cf} updated!",
 			"device": "Device %{device} updated!",
 			"devicetype": "Device Type %{dt} updated!",

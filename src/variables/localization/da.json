@@ -1177,6 +1177,8 @@
 		"deleting": "Sletter ...",
 		"deviceUpdated": "Enhed %{device} er opdateret!",
 		"edit": {
+			"password": "Kodeord er blevet opdateret!",
+			"user": "Personlige detaljer er blevet opdateret!",
 			"cloudfunction": "Cloud funktion %{cf} er opdateret!",
 			"device": "Enhed %{device} er opdateret!",
 			"devicetype": "Enhedtype %{dt} updated!",
