@@ -390,9 +390,6 @@ export const getNData = async () => {
 					data: previousPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 				})
 			}
-			/**
-			 * TODO
-			 */
 
 			if (currentPeriodData.readings.length > 0 && selectedDevices.length < 11) {
 				let devices = getState().data.devices
@@ -405,35 +402,24 @@ export const getNData = async () => {
 					})
 				})
 
-				console.log(dataLines)
 				finalData.readings.push(...dataLines)
-				console.log(finalData)
-				// finalData.readings.push({
-				// 	name: 'readingL',
-				// 	color: 'yellow',
-				// 	noArea: true,
-				// 	data: currentPeriodData.readings
-				// })
 			}
 
 			//#endregion
 
 			//#region Arc Data
-
 			let middleData = waterUsageData.reduce((total, d) => {
-				total = total + d.total || 0
+				total = total + d.totalFlowPerDay || 0
 				return total
 			}, 0)
 			let prevMiddleData = waterUsagePrevData.reduce((total, d) => {
-				total = total + d.total || 0
+				total = total + d.totalFlowPerDay || 0
 				return total
 			}, 0)
-
 			finalMiddleData = {
 				current: parseFloat(uC(middleData, mUnit)).toFixed(3),
 				previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(3)
 			}
-			console.log('finalMiddleData', finalMiddleData)
 
 			//#endregion
 
@@ -464,7 +450,6 @@ export const getNData = async () => {
 			finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit, true)
 
 			//#endregion
-
 			dispatch({
 				type: deviceData,
 				payload: finalData

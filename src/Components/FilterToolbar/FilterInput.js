@@ -6,7 +6,7 @@ import Chip from '@material-ui/core/Chip'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import cx from 'classnames'
-import { Add } from 'variables/icons';
+import { Add } from 'variables/icons'
 import { makeStyles } from '@material-ui/styles'
 import { usePrevious, useLocalization } from 'Hooks'
 
@@ -19,7 +19,7 @@ const styles = makeStyles(theme => {
 		},
 		chips: {},
 		root: {
-			background: "rgba(255, 255, 255, 0.1)",
+			background: light ? 'rgba(0, 0, 0, 0.1)' : "rgba(255, 255, 255, 0.1)",
 			borderRadius: "4px"
 		},
 		inputRoot: {
@@ -123,15 +123,23 @@ const styles = makeStyles(theme => {
 			}
 		},
 		chip: {
-			color: theme.palette.type === 'light' ? 'inherit' : '#fff',
+			background: theme.palette.secondary.main,
+			color: '#fff',
 			margin: 8,
 			float: 'left',
 			'&:focused': {
-				background: theme.palette.primary[light ? 'dark' : 'light']
+				// background: theme.palette.primary[light ? 'dark' : 'light']
+				background: theme.palette.secondary.light
+			},
+			'&:hover': {
+				background: theme.palette.secondary.light
+
 			}
 		},
 		chipSelected: {
-			background: theme.palette.primary[light ? 'dark' : 'light'] + ' !important',
+			background: theme.palette.secondary.light + ' !important',
+
+			// background: theme.palette.primary[light ? 'dark' : 'light'].main + ' !important',
 			color: '#fff'
 
 		}
@@ -191,7 +199,7 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 	useEffect(() => {
 		return () => {
 			clearTimeout(inputBlurTimeout)
-		};
+		}
 	}, [inputBlurTimeout])
 
 	const handleInputBlur = (event) => {
@@ -475,7 +483,7 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 					value: t('actions.addFilter'),
 					text: t('actions.addFilter'),
 					chip: t('actions.addFilter'),
-					icon: <Add />,
+					icon: <Add style={{ color: '#fff' }} />,
 					isDisabled: !!disabled,
 					isFocused: false,
 					className: classes.chip,
