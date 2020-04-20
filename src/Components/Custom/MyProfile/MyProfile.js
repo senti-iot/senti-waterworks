@@ -435,7 +435,7 @@ const MyProfile = () => {
 								type={'error'}
 							/>
 							<Button onClick={handleOpenPasswordDialog} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
-							<Button onClick={handleSaveEdit} disabled={!edited} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{saving ? <CircularProgress /> : t('actions.edit')}</Button>
+							<Button onClick={handleSaveEdit} disabled={!edited} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{saving ? <CircularProgress size={24} /> : t('actions.edit')}</Button>
 
 						</ItemG>
 					</ItemG>

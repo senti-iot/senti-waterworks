@@ -108,7 +108,12 @@ const DeviceTable = (props) => {
 		</Fragment>
 	}
 	const closeDialog = () => {
-		setSelDevices(selDev)
+		if (selDev.length === 0) {
+			setSelDevices(devices.map(d => d.uuid))
+		}
+		else {
+			setSelDevices(selDev)
+		}
 		setOpenTable(false)
 	}
 	const exitDialog = () => {

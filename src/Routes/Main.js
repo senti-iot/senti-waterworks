@@ -17,6 +17,7 @@ import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
 import NewContent from 'Components/Loaders/NewContent'
 import Onboarding from 'Routes/Onboarding'
+import SnackbarProvider from 'Hooks/useSnackbar/SnackbarProvider'
 
 // import size from 'Styles/themes/mediaQueries'
 
@@ -30,27 +31,29 @@ function Main() {
 
 		<ThemeProvider theme={themes[colorTheme](themeType)}>
 			<MuiThemeProvider theme={themes[colorTheme](themeType)}>
+				<SnackbarProvider>
 
-				<NewContent />
-				<Switch>
-					<Route path={'/signup/:language/:step/:token?'}>
-						<Onboarding />
-					</Route>
-					<Route path={'/login/:language?'}>
-						<Login />
-					</Route>
-					{/* <Route path={'/mobile-onboarding'}>
+					<NewContent />
+					<Switch>
+						<Route path={'/signup/:language/:step/:token?'}>
+							<Onboarding />
+						</Route>
+						<Route path={'/login/:language?'}>
+							<Login />
+						</Route>
+						{/* <Route path={'/mobile-onboarding'}>
 						<MobileOnboarding />
 					</Route> */}
-					{/* temporary route just so that I can see the component rendered: */}
-					{/* <Route path="/onboarding-inapp">
+						{/* temporary route just so that I can see the component rendered: */}
+						{/* <Route path="/onboarding-inapp">
 						<BottomNavGuide />
 					</Route> */}
-					<Route path={'/'}>
-						<Container />
-					</Route>
-				</Switch>
+						<Route path={'/'}>
+							<Container />
+						</Route>
+					</Switch>
 
+				</SnackbarProvider>
 			</MuiThemeProvider>
 		</ThemeProvider>
 

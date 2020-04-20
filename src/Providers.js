@@ -8,7 +8,6 @@ import { StylesProvider } from "@material-ui/styles"
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import { hot } from 'react-hot-loader/root'
-import SnackbarProvider from 'Hooks/useSnackbar/SnackbarProvider'
 
 export const HTitle = React.createContext(null)
 export const store = configureStore()
@@ -19,11 +18,9 @@ const Providers = props => {
 			<StylesProvider injectFirst>
 				<Provider store={store}>
 					<LocalizationProvider>
-						<SnackbarProvider>
-							<MuiPickersUtilsProvider utils={MomentUtils}>
-								{props.children}
-							</MuiPickersUtilsProvider>
-						</SnackbarProvider>
+						<MuiPickersUtilsProvider utils={MomentUtils}>
+							{props.children}
+						</MuiPickersUtilsProvider>
 					</LocalizationProvider>
 				</Provider>
 			</StylesProvider>
