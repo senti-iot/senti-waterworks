@@ -174,7 +174,15 @@ class d3Line {
 
 		let yAxis = this.yAxis = this.svg.append("g")
 			.attr('transform', `translate(${this.margin.left + 28}, -10)`)
-			.call(d3.axisLeft(this.y))
+			.call(d3.axisLeft(this.y).tickFormat(d => {
+				var da_DK = {
+					"decimal": ",",
+					"thousands": ".",
+					"grouping": [3],
+					"currency": ["", " dkk"],
+				}
+				return d3.formatLocale(da_DK).format(',')(d)
+			}))
 
 		yAxis.selectAll('path').attr('class', classes.axis)
 		// yAxis.selectAll('line').attr('class', classes.yAxisLine).attr('x2', this.width)
