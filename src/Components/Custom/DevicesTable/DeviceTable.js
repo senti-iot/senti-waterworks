@@ -38,8 +38,7 @@ const DeviceTable = (props) => {
 	//useEffects
 	useEffect(() => {
 		setSelDev(selectedDevices)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [selectedDevices])
 
 	//Handlers
 	const setSelDevices = devices => dispatch(setSelectedDevices(devices))

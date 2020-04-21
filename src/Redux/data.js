@@ -102,7 +102,7 @@ export const getAdminDevices = async () => {
 			type: GETDevice,
 			payload: devices
 		})
-		dispatch({
+		await dispatch({
 			type: sDevice,
 			payload: devices.map(d => d.uuid)
 		})
