@@ -20,7 +20,7 @@ class d3Arc {
 	props
 	svg
 	g
-	margin = { top: 50, right: 20, bottom: 50, left: 20 }
+	margin = { top: 100, right: 20, bottom: 50, left: 20 }
 
 	constructor(containerEl, props) {
 
@@ -89,22 +89,24 @@ class d3Arc {
 
 		this.svg = this.container.append("svg")
 			.attr("id", 'svg' + id)
-			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom)
+			.attr("width", width)
+			.attr("height", height)
+		// .attr("width", width + margin.left + margin.right)
+		// .attr("height", height + margin.top + margin.bottom)
 		/**
 		 * Append the group of bars to the svg
 		 */
 
 		this.g = this.svg.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+			.attr("transform", "translate(" + margin.left + "," + height / 2 + ")")
 
 		// ENTER
 		var bounds = d3.select('#bars').node().getBoundingClientRect(),
 			rWidth = bounds.width - this.margin.left - this.margin.right,
 			rHeight = bounds.height - this.margin.top - this.margin.bottom
-
+		console.log(rHeight, bounds)
 		this.x.rangeRound([0, rWidth])
-		this.y.rangeRound([rHeight, 0])
+		this.y.rangeRound([rHeight, 25])
 
 		//#region Generate Bars
 		var bars = this.g.selectAll(".bar")
