@@ -387,7 +387,7 @@
 			"status": "Driftstatus",
 			"temp": "CPU temperatur",
 			"type": "Type",
-			"uuid": "SigFox ID",
+			"uuid": "Enhed ID",
 			"weather": "Vejr",
 			"wifiModule": "Wi-Fi model"
 		},
@@ -565,7 +565,7 @@
 		"fields": {
 			"deviceId": "Senti Device ID",
 			"meterNumber": "Meter Nummer",
-			"SigfoxID": "Sigfox ID",
+			"SigfoxID": "Enhed ID",
 			"Date": "Dato",
 			"waterUsage": "Vandforbrug",
 			"waterReading": "Aflæsninger",

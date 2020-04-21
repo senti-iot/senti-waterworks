@@ -387,7 +387,7 @@
 			"status": "Status",
 			"temp": "CPU temperature",
 			"type": "Type",
-			"uuid": "SigFox ID",
+			"uuid": "Device ID",
 			"weather": "Weather",
 			"wifiModule": "Wi-Fi module"
 		},
@@ -565,7 +565,7 @@
 		"fields": {
 			"sentiId": "Senti Device ID",
 			"meterNumber": "Meter Number",
-			"SigfoxID": "Sigfox ID",
+			"SigfoxID": "Device ID",
 			"Date": "Date",
 			"waterUsage": "Water Usage",
 			"waterReading": "Water Reading",
