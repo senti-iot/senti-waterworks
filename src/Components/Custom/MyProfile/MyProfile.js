@@ -1,17 +1,13 @@
 import React from 'react'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
-import { Person, Visibility, VisibilityOff } from 'variables/icons'
+import { Person, Visibility, VisibilityOff, Close } from 'variables/icons'
 import { useLocalization, useSelector } from 'Hooks'
-import { makeStyles, Button, Dialog, CircularProgress, InputAdornment } from '@material-ui/core'
-import Gravatar from 'react-gravatar'
+import { makeStyles, Button, Dialog, CircularProgress, InputAdornment, Card, CardHeader, CardContent, CardActions, IconButton } from '@material-ui/core'
 import TextF from 'Components/Input/TextF'
 import { T } from 'Components'
 import DSelect from 'Components/Input/DSelect'
-import InfoCard from 'Components/Cards/InfoCard'
-import { blue } from '@material-ui/core/colors'
 import { useState } from 'react'
-import { Prompt } from 'react-router'
 import { updateUser, updatePassword } from 'data/users'
 import SlideT from 'Components/Transitions/SlideT'
 import Warning from 'Components/Typography/Warning'
@@ -19,6 +15,20 @@ import { SmallActionButton } from 'Styles/loginStyles'
 import useSnackbar from 'Hooks/useSnackbar/useSnackbar'
 
 const useStyles = makeStyles(theme => ({
+	password: {
+		background: 'rgba(255, 255, 255, 0.1)'
+	},
+	avatar: {
+		background: '#fff',
+		color: theme.headerColor,
+		borderRadius: 4
+	},
+	cardHeader: {
+		display: 'flex',
+		justifyContent: 'center',
+		background: theme.palette.type === 'light' ? '#fff' : theme.headerColor,
+		borderRadius: "8px 8px 0px 0px"
+	},
 	img: {
 		borderRadius: "50%",
 		padding: 32
@@ -168,6 +178,9 @@ const MyProfile = () => {
 						onChange={handleEditPass}
 						type={visiblePass.currentPass ? 'text' : 'password'}
 						InputProps={{
+							classes: {
+								notchedOutline: classes.password
+							},
 							endAdornment: <InputAdornment>
 								<SmallActionButton
 									onClick={handleShowPassword('currentPass')}
@@ -187,6 +200,9 @@ const MyProfile = () => {
 						type={visiblePass.newPass ? 'text' : 'password'}
 
 						InputProps={{
+							classes: {
+								notchedOutline: classes.password
+							},
 							endAdornment: <InputAdornment>
 								<SmallActionButton
 									onClick={handleShowPassword('newPass')}
@@ -206,6 +222,9 @@ const MyProfile = () => {
 						type={visiblePass.newPass ? 'text' : 'password'}
 
 						InputProps={{
+							classes: {
+								notchedOutline: classes.password
+							},
 							endAdornment: <InputAdornment>
 								<SmallActionButton
 									onClick={handleShowPassword('newPass')}
@@ -218,7 +237,7 @@ const MyProfile = () => {
 					/>
 				</ItemG>
 				<ItemG xs={12} >
-					<Button onClick={handleSaveNewPassword} style={{ marginTop: 16 }} fullWidth variant={'contained'} color={'primary'}>{t('actions.confirm')}</Button>
+					<Button onClick={handleSaveNewPassword} style={{ marginTop: 16, color: '#fff' }} fullWidth variant={'contained'} color={'secondary'}>{t('actions.confirm')}</Button>
 				</ItemG>
 			</GridContainer>
 		</Dialog>
@@ -226,44 +245,27 @@ const MyProfile = () => {
 	return (
 		<GridContainer>
 			{renderPassDialog()}
-			<Prompt
-				when={edited}
-				message={() => `${t('snackbars.unsavedChanges')}`}
-			/>
-			<InfoCard
-				noExpand
-				noAvatar
-				content={
-					<ItemG container>
+			<Card style={{}}>
+				<CardHeader
+					className={classes.cardHeader}
+					avatar={<ItemG container alignItems={'center'}><Person className={classes.avatar} /></ItemG>}
+					title={<T variant={'h6'}>{t('sidebar.myprofile')}</T>}
+					action={<IconButton>
+						<Close />
+					</IconButton>}
+				/>
 
+				<CardContent>
+					<ItemG container justify={'center'}>
 
-						<ItemG container xs={6} alignItems={'center'} style={{ height: '100%' }}>
-							<ItemG xs={12} container >
-								<ItemG xs={12} container alignItems={'center'}>
-									<ItemG style={{ display: 'flex', marginLeft: 50 }}>
-										<Person style={{ background: blue[500], borderRadius: 50, color: '#fff', width: 24, height: 24, padding: 6, marginRight: 16 }} />
-									</ItemG>
-									<ItemG>
-
-										<T variant={'h6'}>{t('sidebar.myprofile')}</T>
-									</ItemG>
-								</ItemG>
-								<ItemG xs={12} container justify={'center'} alignItems={'center'}>
-									<Gravatar default='mp' email={user.email} className={classes.img} size={240} />
-								</ItemG>
-								{/* <ItemG xs={12} container justify={'center'} alignItems={'flex-start'}>
-									<Button color={'primary'} variant={'contained'}>{t('actions.change')}</Button>
-								</ItemG> */}
-							</ItemG>
-						</ItemG>
-						<ItemG container xs={6} component={'form'} autoomplete={'off'}>
+						<ItemG container xs={6}>
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('login.username')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 
 									<TextF
 										variant={'standard'}
@@ -277,11 +279,11 @@ const MyProfile = () => {
 							</ItemG>
 							{/* <ItemG container xs={12} justify={'center'} alignItems={null}>
 								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('login.pass')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 
 									<TextF
 										variant={'standard'}
@@ -293,12 +295,12 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG> */}
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.firstName')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 									<TextF
 										variant={'standard'}
 										id={'userFirstName'}
@@ -309,12 +311,12 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.lastName')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 									<TextF
 										variant={'standard'}
 										id={'userLastName'}
@@ -325,12 +327,12 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.address')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 
 									<TextF
 										variant={'standard'}
@@ -341,12 +343,12 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.postnr')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 
 									<TextF
 										variant={'standard'}
@@ -357,12 +359,12 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.city')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 
 									<TextF
 										variant={'standard'}
@@ -373,12 +375,12 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.phone')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 									<TextF
 										variant={'standard'}
 										readOnly={true}
@@ -390,12 +392,12 @@ const MyProfile = () => {
 							</ItemG>
 
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('signup.form.adultNr')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 									<DSelect
 										variant={'standard'}
 										id={'adultNr'}
@@ -409,12 +411,12 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 							<ItemG container xs={12} justify={'center'} alignItems={null}>
-								<ItemG xs={5}>
-									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
+								<ItemG xs={6}>
+									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('signup.form.childNr')}:
 									</T>
 								</ItemG>
-								<ItemG xs={7}>
+								<ItemG xs={6}>
 									<DSelect
 										variant={'standard'}
 										id={'orgId'}
@@ -428,19 +430,22 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 						</ItemG>
-						<ItemG xs={12} container justify={'center'} alignItems={'center'}>
-							<Warning
-								open={Boolean(error)}
-								label={t(error, { disableMissing: true })}
-								type={'error'}
-							/>
-							<Button onClick={handleOpenPasswordDialog} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
-							<Button onClick={handleSaveEdit} disabled={!edited} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{saving ? <CircularProgress size={24} /> : t('actions.edit')}</Button>
 
-						</ItemG>
 					</ItemG>
-				}
-			/>
+				</CardContent>
+				<CardActions>
+					<ItemG xs={12} container justify={'flex-end'} alignItems={'center'}>
+						<Warning
+							open={Boolean(error)}
+							label={t(error, { disableMissing: true })}
+							type={'error'}
+						/>
+						<Button onClick={handleOpenPasswordDialog} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
+						<Button onClick={handleSaveEdit} disabled={!edited} color={'secondary'} style={{ margin: 16, color: '#fff' }} variant={'contained'}>{saving ? <CircularProgress size={24} /> : t('actions.edit')}</Button>
+
+					</ItemG>
+				</CardActions>
+			</Card>
 		</GridContainer>
 
 	)
