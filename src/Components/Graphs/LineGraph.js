@@ -108,7 +108,7 @@ const LineGraph = (props) => {
 
 	return (
 		props.loading ? <CircularLoader fill /> :
-			<div style={{ width: '100%', height: '100%'/* , minHeight: 300 */ }}>
+			<div style={{ width: '100%', height: '100%' }}>
 				<Tooltip fs={props.fullScreen} tooltip={value} id={props.id} unit={mUnit} />
 				<MedianTooltip fullScreen={props.fullScreen} tooltip={medianValue} id={props.id} unit={mUnit} />
 				<svg id={props.fullScreen ? props.id + 'fsLG' : props.id} ref={lineChartContainer}

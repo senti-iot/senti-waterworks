@@ -419,7 +419,6 @@ class d3Line {
 	generateLegend = () => {
 		let data = this.props.data[this.props.id]
 		data.forEach((line) => {
-
 			if (line.median & !line.noMedianLegend) {
 				let LegendMCheck = d3.select(`#LegendMedianCheckbox${line.name}`)
 				let LegendM = d3.select(`#LegendMedian${line.name}`)
@@ -590,9 +589,9 @@ class d3Line {
 						.attr('d', this.valueLine)
 						.attr("opacity", this.state['L' + line.name] ? 0 : 1)
 
-
 					//Get the total length of the path
-					var totalLength = path.node().getTotalLength()
+					if (path.node())
+						var totalLength = path.node().getTotalLength()
 
 					/////// Create the required stroke-dasharray to animate a dashed pattern ///////
 
@@ -660,7 +659,6 @@ class d3Line {
 					//#endregion
 				}
 		})
-
 	}
 
 	generateMedian = () => {

@@ -137,10 +137,7 @@ class d3LineFS {
 		this.update()
 	}
 	setState = (key, value, noUpdate) => {
-
-		// console.log(key, value, noUpdate)
 		this.state[key] = value
-		console.log(this.state)
 		if (!noUpdate) {
 
 			this.update()
@@ -172,13 +169,21 @@ class d3LineFS {
 		// let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom + 5, this.margin.top + 15])
+			this.y = d3.scaleLinear().range([height - 65, this.margin.top + 15])
 			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
 			.attr('transform', `translate(${this.margin.left + 28}, -10)`)
-			.call(d3.axisLeft(this.y))
+			.call(d3.axisLeft(this.y).tickFormat(d => {
+				var da_DK = {
+					"decimal": ",",
+					"thousands": ".",
+					"grouping": [3],
+					"currency": ["", " dkk"],
+				}
+				return d3.formatLocale(da_DK).format(',')(d)
+			}))
 
 		yAxis.selectAll('path').attr('class', classes.axis)
 		// yAxis.selectAll('line').attr('class', classes.yAxisLine).attr('x2', this.width)
@@ -492,178 +497,171 @@ class d3LineFS {
 		// })
 		// window.moment = moment
 		// window.data = data
-		// console.log(data, this.state)
-		if (data) {
+		let animArea0 = d3.area()
+			.y0(this.height - this.margin.bottom)
+			.y1(this.height - this.margin.bottom)
+			.x((d) => { return this.x(moment(d.date).valueOf()) })
+		data.forEach((line, i) => {
+			//#region Generate Line Area
 
+			if (!line.noArea) {
+				let defArea = d3.area()
+					.x((d) => { return this.x(moment(d.date).valueOf()) })
+					// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
+					.y0(this.height - this.margin.bottom)
+					.y1((d) => { return this.y(d.value) })
+				this.svg.append("path")
+					.attr('id', 'AreafsLG' + line.name)
+					.data([line.data])
+					.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
+					.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
+					.attr("d", animArea0)
+					.transition()
+					.duration(1500)
+					.attr("d", defArea)
+				if (line.noMedianLegend) {
+					let setMedianTooltip = this.props.setMedianTooltip
+					var medianTooltip = this.medianTooltip
+					let medianData = getMedianLineData(line.data)
 
-			let animArea0 = d3.area()
-				.y0(this.height - this.margin.bottom)
-				.y1(this.height - this.margin.bottom)
-				.x((d) => { return this.x(moment(d.date).valueOf()) })
+					let medianLine = this.svg.append('path')
+						.data([medianData])
+						.attr('fill', 'none')
+						.attr('stroke', 'rgba(255,255,255, 0.1)')
+						.attr('stroke-width', '4px')
+						// .attr('class', classes.medianLinePrev)
+						.attr('d', this.valueLine)
+						.attr('id', 'MedianfsLG' + line.name)
+						.attr('opacity', this.state[`LfsLG${line.name}`] ? 0 : 1)
+						.attr('stroke-dasharray', ("3, 3"))
 
-			data.forEach((line, i) => {
-				//#region Generate Line Area
+					// Hidden overlay for Median tooltip
+					this.svg.append('path')
+						.data([medianData])
+						// .attr('class', classes.hiddenMedianLine)
+						.attr('stroke', '#fff')
+						.attr('opacity', 0)
+						.attr('stroke-width', '7px')
+						.attr('d', this.valueLine)
+						.attr('id', 'HAreafsLG' + line.name)
+						.on("mouseover", (d) => {
+							if (!this.state[`LfsLG${line.name}`]) {
 
-				if (!line.noArea) {
-					let defArea = d3.area()
-						.x((d) => { return this.x(moment(d.date).valueOf()) })
-						// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
-						.y0(this.height - this.margin.bottom)
-						.y1((d) => { return this.y(d.value) })
-					this.svg.append("path")
-						.attr('id', 'AreafsLG' + line.name)
-						.data([line.data])
-						.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
-						.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
-						.attr("d", animArea0)
-						.transition()
-						.duration(1500)
-						.attr("d", defArea)
-					if (line.noMedianLegend) {
-						let setMedianTooltip = this.props.setMedianTooltip
-						var medianTooltip = this.medianTooltip
-						let medianData = getMedianLineData(line.data)
-
-						let medianLine = this.svg.append('path')
-							.data([medianData])
-							.attr('fill', 'none')
-							.attr('stroke', 'rgba(255,255,255, 0.1)')
-							.attr('stroke-width', '4px')
-							// .attr('class', classes.medianLinePrev)
-							.attr('d', this.valueLine)
-							.attr('id', 'MedianfsLG' + line.name)
-							.attr('opacity', this.state[`LfsLG${line.name}`] ? 0 : 1)
-							.attr('stroke-dasharray', ("3, 3"))
-
-						// Hidden overlay for Median tooltip
-						this.svg.append('path')
-							.data([medianData])
-							// .attr('class', classes.hiddenMedianLine)
-							.attr('stroke', '#fff')
-							.attr('opacity', 0)
-							.attr('stroke-width', '7px')
-							.attr('d', this.valueLine)
-							.attr('id', 'HAreafsLG' + line.name)
-							.on("mouseover", (d) => {
-								if (!this.state[`LfsLG${line.name}`]) {
-
-									medianLine.transition()
-										.duration(100)
-										.style('stroke-width', '7px')
-
-									medianTooltip.transition()
-										.duration(200)
-										.style("opacity", 1)
-										.style('z-index', 1040)
-
-									medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-										.style("top", (d3.event.pageY) - 41 + "px")
-
-									setMedianTooltip(d[0])
-								}
-
-							}).on("mouseout", function () {
-								// setExpand(false)
 								medianLine.transition()
 									.duration(100)
-									.style('stroke-width', '4px')
+									.style('stroke-width', '7px')
+
 								medianTooltip.transition()
-									.duration(500)
-									.style('z-index', -1)
-									.style("opacity", 0)
-							}).on('click', function () {
-								// setExpand(true)
-							})
-					}
+									.duration(200)
+									.style("opacity", 1)
+									.style('z-index', 1040)
+
+								medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+									.style("top", (d3.event.pageY) - 41 + "px")
+
+								setMedianTooltip(d[0])
+							}
+
+						}).on("mouseout", function () {
+							// setExpand(false)
+							medianLine.transition()
+								.duration(100)
+								.style('stroke-width', '4px')
+							medianTooltip.transition()
+								.duration(500)
+								.style('z-index', -1)
+								.style("opacity", 0)
+						}).on('click', function () {
+							// setExpand(true)
+						})
 				}
-				//#endregion
-				//#region Generate Line
-				if (!line.prev)
-					if (line.dashed) {
-						//Set up your path as normal
-						var path = this.svg.append("path")
-							.data([line.data])
-							.attr('id', 'LfsLG' + line.name)
-							.attr('fill', 'none')
-							.attr('stroke', colors[line.color][500])
-							.attr('stroke-width', '4px')
-							.attr('d', this.valueLine)
-							.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
-						console.log(line, this.state['LfsLG' + line.name])
+			}
+			//#endregion
+			//#region Generate Line
+			if (!line.prev)
+				if (line.dashed) {
+					//Set up your path as normal
+					var path = this.svg.append("path")
+						.data([line.data])
+						.attr('id', 'LfsLG' + line.name)
+						.attr('fill', 'none')
+						.attr('stroke', colors[line.color][500])
+						.attr('stroke-width', '4px')
+						.attr('d', this.valueLine)
+						.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
 
-						//Get the total length of the path
-						if (path && path.node()) {
+					//Get the total length of the path
+					if (path && path.node()) {
 
-							var totalLength = path.node().getTotalLength()
-						}
-
-						/////// Create the required stroke-dasharray to animate a dashed pattern ///////
-
-						//Create a (random) dash pattern
-						//The first number specifies the length of the visible part, the dash
-						//The second number specifies the length of the invisible part
-						var dashing = "6, 6"
-
-						//This returns the length of adding all of the numbers in dashing
-						//(the length of one pattern in essence)
-						//So for "6,6", for example, that would return 6+6 = 12
-						var dashLength =
-							dashing
-								.split(/[\s,]/)
-								.map(function (a) { return parseFloat(a) || 0 })
-								.reduce(function (a, b) { return a + b })
-
-						//How many of these dash patterns will fit inside the entire path?
-						var dashCount = Math.ceil(totalLength / dashLength)
-
-						//Create an array that holds the pattern as often
-						//so it will fill the entire path
-						var newDashes = new Array(dashCount).join(dashing + " ")
-						//Then add one more dash pattern, namely with a visible part
-						//of length 0 (so nothing) and a white part
-						//that is the same length as the entire path
-						var dashArray = newDashes + " 0, " + totalLength
-
-						/////// END ///////
-
-						//Now offset the entire dash pattern, so only the last white section is
-						//visible and then decrease this offset in a transition to show the dashes
-						path
-							.attr("stroke-dashoffset", totalLength)
-							//This is where it differs with the solid line example
-							.attr("stroke-dasharray", dashArray)
-							.transition().duration(1500)
-							.attr("stroke-dashoffset", 0)
+						var totalLength = path.node().getTotalLength()
 					}
-					else {
 
-						this.svg.append('path')
-							.data([line.data])
-							.attr('id', 'LfsLG' + line.name)
-							// .attr('class', classes[line.name])
-							.attr('fill', 'none')
-							.attr('stroke', colors[line.color][500])
-							.attr('stroke-width', '4px')
-							.attr('d', this.valueLine)
-							.attr("stroke-dasharray", function () {
-								return this.getTotalLength()
-							})
-							.attr("stroke-dashoffset", function () {
-								return this.getTotalLength()
-							})
-							.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
-							.transition()
-							.duration(1500)
-							.attr('stroke-dashoffset', 0)
-							.transition()
-							.duration(100)
-							.style("stroke-dasharray", undefined)
+					/////// Create the required stroke-dasharray to animate a dashed pattern ///////
+
+					//Create a (random) dash pattern
+					//The first number specifies the length of the visible part, the dash
+					//The second number specifies the length of the invisible part
+					var dashing = "6, 6"
+
+					//This returns the length of adding all of the numbers in dashing
+					//(the length of one pattern in essence)
+					//So for "6,6", for example, that would return 6+6 = 12
+					var dashLength =
+						dashing
+							.split(/[\s,]/)
+							.map(function (a) { return parseFloat(a) || 0 })
+							.reduce(function (a, b) { return a + b })
+
+					//How many of these dash patterns will fit inside the entire path?
+					var dashCount = Math.ceil(totalLength / dashLength)
+
+					//Create an array that holds the pattern as often
+					//so it will fill the entire path
+					var newDashes = new Array(dashCount).join(dashing + " ")
+					//Then add one more dash pattern, namely with a visible part
+					//of length 0 (so nothing) and a white part
+					//that is the same length as the entire path
+					var dashArray = newDashes + " 0, " + totalLength
+
+					/////// END ///////
+
+					//Now offset the entire dash pattern, so only the last white section is
+					//visible and then decrease this offset in a transition to show the dashes
+					path
+						.attr("stroke-dashoffset", totalLength)
+						//This is where it differs with the solid line example
+						.attr("stroke-dasharray", dashArray)
+						.transition().duration(1500)
+						.attr("stroke-dashoffset", 0)
+				}
+				else {
+
+					this.svg.append('path')
+						.data([line.data])
+						.attr('id', 'LfsLG' + line.name)
+						// .attr('class', classes[line.name])
+						.attr('fill', 'none')
+						.attr('stroke', colors[line.color][500])
+						.attr('stroke-width', '4px')
+						.attr('d', this.valueLine)
+						.attr("stroke-dasharray", function () {
+							return this.getTotalLength()
+						})
+						.attr("stroke-dashoffset", function () {
+							return this.getTotalLength()
+						})
+						.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
+						.transition()
+						.duration(1500)
+						.attr('stroke-dashoffset', 0)
+						.transition()
+						.duration(100)
+						.style("stroke-dasharray", undefined)
 
 
-						//#endregion
-					}
-			})
-		}
+					//#endregion
+				}
+		})
 	}
 
 	generateMedian = () => {
