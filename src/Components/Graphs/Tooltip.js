@@ -34,7 +34,7 @@ const waterUsageTooltip = (props) => {
 				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 					{/* <MuiTooltip> */}
 
-					<T variant={'h5'}>{`${formatNumber(props.tooltip.value)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
+					<T variant={'h5'}>{`${formatNumber(props.tooltip.value, 2)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
 					{/* </MuiTooltip> */}
 
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
