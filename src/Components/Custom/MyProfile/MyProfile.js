@@ -2,7 +2,7 @@ import React from 'react'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { Person, Visibility, VisibilityOff, Close } from 'variables/icons'
-import { useLocalization, useSelector } from 'Hooks'
+import { useLocalization, useSelector, useHistory } from 'Hooks'
 import { makeStyles, Button, Dialog, CircularProgress, InputAdornment, Card, CardHeader, CardContent, CardActions, IconButton } from '@material-ui/core'
 import TextF from 'Components/Input/TextF'
 import { T } from 'Components'
@@ -41,6 +41,7 @@ const MyProfile = () => {
 	const t = useLocalization()
 	const classes = useStyles()
 	const s = useSnackbar().s
+	const history = useHistory()
 	//Redux
 	const rUser = useSelector(s => s.settings.user)
 	const extendedProfile = useSelector(s => s.settings.user ? s.settings.user.aux.sentiWaterworks.extendedProfile : {})
@@ -72,6 +73,9 @@ const MyProfile = () => {
 	//useEffects
 
 	//Handlers
+	const handleCloseButton = async () => {
+		history.push('/')
+	}
 	const handleSaveEdit = async () => {
 		let fUser = user
 		fUser.aux.sentiWaterworks.extendedProfile = extProfile
@@ -250,7 +254,7 @@ const MyProfile = () => {
 					className={classes.cardHeader}
 					avatar={<ItemG container alignItems={'center'}><Person className={classes.avatar} /></ItemG>}
 					title={<T variant={'h6'}>{t('sidebar.myprofile')}</T>}
-					action={<IconButton>
+					action={<IconButton onClick={handleCloseButton}>
 						<Close />
 					</IconButton>}
 				/>
