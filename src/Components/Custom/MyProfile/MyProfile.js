@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 	avatar: {
 		background: '#fff',
 		color: theme.headerColor,
-		borderRadius: 4
+		borderRadius: 8
 	},
 	cardHeader: {
 		display: 'flex',
