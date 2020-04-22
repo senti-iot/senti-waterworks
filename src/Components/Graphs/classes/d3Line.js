@@ -590,8 +590,9 @@ class d3Line {
 						.attr("opacity", this.state['L' + line.name] ? 0 : 1)
 
 					//Get the total length of the path
+					var totalLength = 0
 					if (path.node())
-						var totalLength = path.node().getTotalLength()
+						totalLength = path.node().getTotalLength()
 
 					/////// Create the required stroke-dasharray to animate a dashed pattern ///////
 
@@ -725,8 +726,6 @@ class d3Line {
 	}
 	destroy = () => {
 		// this.svg.remove()
-		console.trace()
-		console.log('SVG Remove', this.svg)
 		this.svg.selectAll("*").remove()
 	}
 

@@ -104,9 +104,8 @@ class d3Arc {
 		var bounds = d3.select('#bars').node().getBoundingClientRect(),
 			rWidth = bounds.width - this.margin.left - this.margin.right,
 			rHeight = bounds.height - this.margin.top - this.margin.bottom
-		console.log(rHeight, bounds)
 		this.x.rangeRound([0, rWidth])
-		this.y.rangeRound([rHeight, 25])
+		this.y.rangeRound([rHeight, 25]) //25 is the label
 
 		//#region Generate Bars
 		var bars = this.g.selectAll(".bar")
