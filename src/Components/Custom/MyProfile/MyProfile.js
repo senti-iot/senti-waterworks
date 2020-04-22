@@ -26,8 +26,8 @@ const useStyles = makeStyles(theme => ({
 	cardHeader: {
 		display: 'flex',
 		justifyContent: 'center',
-		background: theme.palette.type === 'light' ? '#fff' : theme.headerColor,
-		borderRadius: "8px 8px 0px 0px"
+		background: theme.headerColor,
+		borderRadius: "4px 4px 0px 0px"
 	},
 	img: {
 		borderRadius: "50%",
@@ -249,11 +249,11 @@ const MyProfile = () => {
 	return (
 		<GridContainer>
 			{renderPassDialog()}
-			<Card style={{}}>
+			<Card>
 				<CardHeader
 					className={classes.cardHeader}
 					avatar={<ItemG container alignItems={'center'}><Person className={classes.avatar} /></ItemG>}
-					title={<T variant={'h6'}>{t('sidebar.myprofile')}</T>}
+					title={<T variant={'h6'} style={{ color: '#fff' }}>{t('sidebar.myprofile')}</T>}
 					action={<IconButton onClick={handleCloseButton}>
 						<Close />
 					</IconButton>}
