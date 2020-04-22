@@ -1,18 +1,20 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
-import { makeStyles, Grid, Dialog, Typography, IconButton, Paper } from '@material-ui/core'
+import { makeStyles, Grid, Dialog, IconButton, Paper } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
-import { CallMade, HelpOutline } from 'variables/icons'
+import { CallMade, /* HelpOutline */ } from 'variables/icons'
 import familyIcon from 'assets/icons/familie.svg'
-import waterdrop from 'assets/icons/water.drop.blue.svg'
+// import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
 import FullscreenDialog from './FullscreenDialog'
 import { useSelector } from 'react-redux'
 import cx from 'classnames'
 import { useLocalization } from 'Hooks'
-import PopperBubble from './PopperBubble'
+// import PopperBubble from './PopperBubble'
+import T from 'Components/Typography/T'
+import { formatShortNumber } from 'data/functions'
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -59,6 +61,11 @@ const useStyles = makeStyles(theme => ({
 			fontSize: 30
 		}
 	},
+	cubicValueUnit: {
+		fontSize: '0.7em',
+		color: '#fff'
+
+	},
 	blueWaterdrop: {
 		marginLeft: 24,
 		maxWidth: 36,
@@ -93,6 +100,7 @@ const useStyles = makeStyles(theme => ({
 		position: 'relative'
 	},
 	flexColumn: {
+		flexWrap: 'no-wrap',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'space-between',
@@ -104,8 +112,8 @@ const Usage = props => {
 	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
-	const [anchorEl, setAnchorEl] = useState(null)
-	const [popperOpen, setPopperOpen] = useState(false)
+	// const [anchorEl, setAnchorEl] = useState(null)
+	// const [popperOpen, setPopperOpen] = useState(false)
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
@@ -115,64 +123,70 @@ const Usage = props => {
 
 	//Const
 
-	//useCallbacks
-
 	//useEffects
 
 	//Handlers
 
 
-	const columns = [
-		{
-			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />,
-			headline: t('Usage.dashboardUsage.dailyConsumption'),
-			cubicMeter: avgData.waterusagem3,
-			liters: avgData.waterusageL
-		},
-		{
-			familyIcon: <img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#32FFE1' }} />,
-			headline: t('Usage.dashboardUsage.comparison'),
-			cubicMeter: avgData.benchmarkm3,
-			liters: avgData.benchmarkL,
-		}
-	]
+
 	const columnClasses = (index) => {
 		return cx({
-			[classes.itemG]: true,
+			[classes.itemG]: false,
 			[classes.leftColumnStyle]: index % 2 === 0,
 			[classes.rightColumnStyle]: index % 2 !== 0,
 
 		})
 	}
+	const handleOnClose = () => {
+		setFsDialogOpen(false)
+	}
 	return (
 		<Grid container className={classes.container}> {/* ref */}
-			{columns.map(({ familyIcon, headline, liters, cubicMeter }, index) => (
-				<ItemG key={index} className={columnClasses(index)}>
-					<div className={classes.flexColumn}>
-						<div style={{ display: 'flex' }}>
-							{familyIcon}
-							<Typography variant="body1" className={classes.headline}>{headline}</Typography>
-						</div>
-						<div style={{ display: 'flex', alignItems: 'flex-end' }}>
-							<Typography variant="body2" className={classes.cubicValue} style={{ color: index % 2 === 0 ? '#6DD400' : '#F7DC00' }}>
-								{(mUnit === 'm3' ? parseFloat(cubicMeter).toFixed(3).replace('.', ',') : parseFloat(liters).toFixed(0))} <span style={{ fontSize: '0.7em', color: '#fff' }}>{mUnit === 'm3' ? "m³" : "L"}</span>
-							</Typography>
-
-							<img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" />
-						</div>
+			<ItemG xs={6} className={columnClasses(0)}>
+				<div className={classes.flexColumn}>
+					<div style={{ display: 'flex' }}>
+						<img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
+						<T variant="body1" className={classes.headline}>{t('Usage.dashboardUsage.dailyConsumption')}</T>
 					</div>
-				</ItemG>
-			))}
+					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
+						<T variant="body2" className={classes.cubicValue} style={{ color: '#6DD400' }}>
+
+							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2) : formatShortNumber(avgData.waterusageL, 2))}
+							<span className={classes.cubicValueUnit}>
+								{mUnit === 'm3' ? " m³" : " L"}
+							</span>
+						</T>
+						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
+					</div>
+				</div>
+			</ItemG>
+			<ItemG xs={6} className={columnClasses(1)}>
+				<div className={classes.flexColumn}>
+					<div style={{ display: 'flex' }}>
+						<img src={familyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
+						<T variant="body1" className={classes.headline}>{t('Usage.dashboardUsage.comparison')}</T>
+					</div>
+					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
+						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
+							{(mUnit === 'm3' ? parseFloat(avgData.benchmarkm3).toFixed(3).replace('.', ',') : parseFloat(avgData.benchmarkL).toFixed(0))}
+							<span className={classes.cubicValueUnit}>
+								{mUnit === 'm3' ? " m³" : " L"}
+							</span>
+						</T>
+						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
+					</div>
+				</div>
+			</ItemG>
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
 			</IconButton>
-			<IconButton size="small" className={classes.helpOutline} onClick={e => { // clicking opens the popper
+			{/* <IconButton size="small" className={classes.helpOutline} onClick={e => { // clicking opens the popper
 				setPopperOpen(!popperOpen)
 				setAnchorEl(props.parentRef.current)
 			}}>
 				<HelpOutline />
-			</IconButton>
-
+			</IconButton> */}
+			{/*
 			<PopperBubble
 				open={popperOpen}
 				anchorEl={anchorEl}
@@ -183,7 +197,7 @@ const Usage = props => {
 				Ved at klikke på pilen kan du folde dette element ud og få en dybere indsigt,
 				samt tips og tricks til at spare vand i din hverdag.
 				`}
-			/>
+			/> */}
 
 			<Dialog
 				fullScreen
@@ -192,6 +206,7 @@ const Usage = props => {
 				open={fsDialogOpen}
 				onChange={() => setFsDialogOpen(false)}
 				TransitionComponent={SlideT}
+				onClose={handleOnClose}
 				PaperProps={{
 					style: {
 						// colors converted from hexadecimal to RGBA in order to have an opacity effect
@@ -199,15 +214,6 @@ const Usage = props => {
 					}
 				}}
 			>
-				{/* fullscreen dialog content */}
-				{/* the styling is very temporary and kinda f-ed up for whatever reason */}
-				{/* I've found that I can somewhat fix it with 'flex: 1' */}
-				{/* <GridContainer style={{ height: '100%' }}>
-
-					<DPaper style={{ background: '#3799F1' }}>
-						<FullscreenDialog closeDialog={setFsDialogOpen} />
-					</DPaper>
-				</GridContainer> */}
 				<Paper className={classes.fullscreenDialog}>
 					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
 						<ItemG xs={12} style={{ height: '100%' }}>

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { CircularLoader } from 'Components'
 // import { getAllDevices } from 'Redux/data'
-import ChartContainer from 'Components/Container/ChartContainer'
+// import ChartContainer from 'Components/Container/ChartContainer'
 import EndUserContainer from 'Components/Container/EndUserContainer'
 import MyProfile from 'Components/Custom/MyProfile/MyProfile'
 import MyProfileEdit from 'Components/Custom/MyProfile/MyProfileEdit'
@@ -42,9 +42,7 @@ function Container(props) {
 							<Route path={'/settings'}>
 								<Settings />
 							</Route>
-							<Route path={'/admin'}>
-								<ChartContainer />
-							</Route>
+
 							<Route path={'/my-profile'}>
 								<MyProfile />
 							</Route>

@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 		boxSizing: 'border-box'
 	},
 	imgBox: {
-		marginRight: 32,
+		// marginRight: 32,
 		flex: 1,
 		background: '#20619F',
 		padding: 16,
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 		boxSizing: 'border-box',
 		borderRadius: 4,
 		cursor: 'pointer',
-		width: '25%'
+		// width: '25%'
 	},
 	img: {
 		// flex: 1,
@@ -81,7 +81,7 @@ const useStyles = makeStyles(theme => ({
 	submitBtn: {
 		color: '#fff',
 		alignSelf: 'flex-end',
-		marginTop: 16
+		margin: '16px 0'
 	}
 }))
 

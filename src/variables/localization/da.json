@@ -12,11 +12,11 @@
 		"dialogScreens": {
 			"0": {
 				"headline": "Sådan kan du spare vand når du bruger toilettet",
-				"subheadline": "27 procent af vandforbruget går til toiletskyl - en person bruger i gennemsnit 10.841 liter vand om året på at skylle. Du kan derfor spare meget vand ved at følge disse råd:",
+				"subheadline": "27 procent af vores vandforbrug går til toiletskyl - en person bruger i gennemsnit 11 liter vand om dagen på at skylle. Du kan derfor spare rigtigt meget vand ved at følge disse råd:",
 				"steps": {
-					"0": "Hvis du har et nyt toilet med 2-skyl, og konsekvent bruger det store skyl, hver gang du her på toilet, bruger du 3 liter mere pr. gang end nødvendigt.",
-					"1": "Du kan også skylle sjældnere ud, end du plejer, lad fx. væere med at skylle ud, hvis du bare har tisset, eller undlade at putte snotpapir og lignende i toilletet for derefter at skylle det ud.",
-					"2": "Brug regnvand til toiletskylning. Dette er en lidt mere omfattende mulighed, idet et opsamlingsanlæg skal tilsluttes kloaknettet af en autoriseret vvs'er og opfylde bygningsreglementet, men tilgengæld kan bruges til meget mere end toiletskyl, fx vaskemaskinen, havevanding og bilvask."
+					"0": "Hvis du har et nyere toilet med 2-skyl, og konsekvent bruger det store skyl, hver gang du her på toilet, bruger du 3 liter mere pr. gang end det er nødvendigt at bruge.",
+					"1": "Du kan også skylle sjældnere ud, end du plejer, lad fx. være med at skylle ud, hvis du blot har tisset, eller undlade at putte snotpapir og lignende i toilettet for derefter at skylle det ud.",
+					"2": "Brug regnvand til toiletskylning. Dette er en lidt mere omfattende mulighed, idet et opsamlingsanlæg skal tilsluttes kloaknettet af en autoriseret VVS'er og opfylde bygningsreglementet, men til gengæld kan en sådan tilslutning bruges til meget mere end toiletskyl, f.eks vaskemaskinen, havevanding og bilvask."
 				}
 			},
 			"1": {
@@ -31,20 +31,20 @@
 			},
 			"2": {
 				"headline": "Sådan kan du spare vand når du vasker tøj",
-				"subheadline": "Vidste du at vandudgiften til at vaske ligger på cirka 600-700 kroner om året. Du kan derfor spare meget vand ved at følge disse råd:",
+				"subheadline": "Vidste du at vand udgiften til at vaske tøj ligger på cirka 600-700 kroner om året. Du kan derfor spare både penge og vand ved at følge disse råd:",
 				"steps": {
-					"0": "Spring forvasken over. Tøjet et sjældent så snavset, at den er nødvendigt med forvask.",
-					"1": "Tøjet bliver rent på et kort program, medmindre dit tøj er meget beskidt. Vælg normalvask eller strygeletprogrammet. Finvaskprogrammet har en høj vandstand, og bruger derfor mere vand.",
-					"2": "Fyld vaskemaskinen op og vask færre vaske gange.",
-					"3": "Luft tøjet i stedet for. Ved at lufte tøj som ikke er tæt siddende, kan det sagtens bruges flere dage. På den måde holder tøjet også længere. For vask lider på tøjet."
+					"0": "Spring forvasken over. Tøjet er sjældent så snavset, at det er nødvendigt med forvask.",
+					"1": "Tøjet bliver rent på et kort program, medmindre dit tøj er meget beskidt. Vælg “normalvask” eller “strygelet” programmet. “Finvask” programmet har en høj vandstand, og bruger derfor mere vand.",
+					"2": "Fyld vaskemaskinen op og vask færre gange.",
+					"3": "Luft tøjet i stedet for. Ved at lufte tøj som ikke er tætsiddende, kan det sagtens bruges flere dage. På den måde holder tøjet også længere. Forvask slider meget på dit tøj."
 				}
 			},
 			"3": {
 				"headline": "Sådan kan du spare vand når du vasker op eller bruger opvaskemaskinen",
-				"subheadline": "Vidste du at vandudgiften til at vaske ligger på cirka 600-700 kroner om året. Du kan derfor spare meget vand vet at følge disse råd:",
+				"subheadline": "Vidste du at vand udgiften til at vaske op ligger på cirka 500-1200 kroner om året. Du kan derfor spare meget vand ved at følge disse råd:",
 				"steps": {
 					"0": "Brug altid en balje frem for at vaske op under rindende vand, hvis du vasker op i hånden.",
-					"1": "Har du opvaskemachine, skan den fyldes helt op, før den startes. Du behøver ikke skylle tallerkenerne, det er nok at skrabe madresterne af. Gå desuden efter A-mærkedehvidvare, gerne A++, som sikrer et lavt vand- og energiforbrug.",
+					"1": "Har du en opvaskemaskine, skal den altid fyldes helt op, før den startes. Du behøver ikke skylle tallerkenerne, det er nok at skrabe madresterne af. Gå desuden efter A-mærkede hvidvare, gerne A++, som sikrer et lavt vand- og energiforbrug.",
 					"2": "Nyere opvaskemaskiner er alle sammen udstyret med et eco-program, som bruger meget lidt vand til en opvask. Nogle af dem bruger endda ikke mere end 10 liter vand på en enkelt opvask. Ældre opvaskemaskiner uden eco-program vil komme op på omtrent 20 liter vand til en opvask."
 				}
 			}
@@ -387,7 +387,7 @@
 			"status": "Driftstatus",
 			"temp": "CPU temperatur",
 			"type": "Type",
-			"uuid": "SigFox ID",
+			"uuid": "Enhed ID",
 			"weather": "Vejr",
 			"wifiModule": "Wi-Fi model"
 		},
@@ -565,7 +565,7 @@
 		"fields": {
 			"deviceId": "Senti Device ID",
 			"meterNumber": "Meter Nummer",
-			"SigfoxID": "Sigfox ID",
+			"SigfoxID": "Enhed ID",
 			"Date": "Dato",
 			"waterUsage": "Vandforbrug",
 			"waterReading": "Aflæsninger",
@@ -1177,6 +1177,8 @@
 		"deleting": "Sletter ...",
 		"deviceUpdated": "Enhed %{device} er opdateret!",
 		"edit": {
+			"password": "Kodeord er blevet opdateret!",
+			"user": "Personlige detaljer er blevet opdateret!",
 			"cloudfunction": "Cloud funktion %{cf} er opdateret!",
 			"device": "Enhed %{device} er opdateret!",
 			"devicetype": "Enhedtype %{dt} updated!",

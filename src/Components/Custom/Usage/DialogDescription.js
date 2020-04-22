@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 	navigationBox: {
 		padding: 16,
 		display: 'flex',
-		justifyContent: 'space-between'
+		justifyContent: 'flex-end'
 	},
 	header: {
 		display: 'flex',

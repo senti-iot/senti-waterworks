@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { FormControl, Select, MenuItem, InputLabel, OutlinedInput, FormHelperText } from '@material-ui/core'
+import { FormControl, Select, MenuItem, InputLabel, OutlinedInput, FormHelperText, Input } from '@material-ui/core'
 import { ItemG } from 'Components'
 import { makeStyles } from '@material-ui/styles'
 import { useTheme } from '@material-ui/styles'
@@ -33,13 +33,16 @@ const DSelect = (props) => {
 		}
 	}
 	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon, id } = props
-	const { selectClasses, formControlClasses, inputClasses, menuProps, IconComponent } = props
+	const { selectClasses, formControlClasses, inputClasses, menuProps, IconComponent, variant } = props
 	//TO DO
 	let mobile = window.innerWidth < theme.breakpoints.values.md ? true : false
 	// let mobile = false
 	const classes = styles()
+	const renderInput = (props) => {
+		return variant === 'outlined' || !variant ? <OutlinedInput id={id} labelWidth={lWidth()} variant={variant ? variant : 'outlined'} classes={{ root: classes.label, ...inputClasses }} /> : <Input id={id} variant={variant ? variant : 'outlined'} classes={{ root: classes.label, ...inputClasses }} />
+	}
 	return (
-		<FormControl variant="outlined" margin={margin} classes={formControlClasses} fullWidth={mobile || fullWidth} styles={props.styles}>
+		<FormControl variant={variant ? variant : "outlined"} margin={margin} classes={formControlClasses} fullWidth={mobile || fullWidth} styles={props.styles}>
 			<InputLabel
 				ref={InputRef}
 				classes={{ asterisk: classes.label }}
@@ -51,13 +54,13 @@ const DSelect = (props) => {
 			<Select
 				classes={selectClasses}
 				id={id}
-				variant={'outlined'}
+				variant={variant ? variant : 'outlined'}
 				fullWidth={mobile || fullWidth}
 				margin={margin}
 				value={value}
 				error={error}
 				onChange={event => onChange(event, id)}
-				input={<OutlinedInput id={id} labelWidth={lWidth()} variant={'outlined'} classes={{ root: classes.label, ...inputClasses }} />}
+				input={renderInput()}
 				onKeyPress={onKeyPress}
 				styles={props.styles}
 				MenuProps={menuProps}

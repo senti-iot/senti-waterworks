@@ -1,57 +1,57 @@
 import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog } from '@material-ui/core'
-import { SlideT, T } from 'Components'
+import { SlideT } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected } from 'Components/Custom/Styles/deviceTableStyles'
+import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected, Title } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { setSelectedDevices } from 'Redux/appState'
-import { sortData } from 'Redux/data'
+import { sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import ItemG from 'Components/Containers/ItemG'
-import styled from 'styled-components'
-import size from 'Styles/themes/mediaQueries'
-
-const Title = styled(T)`
-	font-weight: 600;
-	font-size: 1.75em;
-	letter-spacing: 1.5px;
-	@media ${size.down.md} {
-		font-size: 1.25em;
-	}
-`
-
 
 
 
 const DeviceTable = (props) => {
+	//Hooks
+	const dispatch = useDispatch()
+	const t = useLocalization()
+
+	//Redux
 	const devices = useSelector(s => s.data.devices)
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const filters = useSelector(s => s.appState.filters.devices)
-	const dispatch = useDispatch()
-	const redux = {
-		setSelDevices: devices => dispatch(setSelectedDevices(devices)),
-		sortData: (key, property, order) => dispatch(sortData(key, property, order))
-	}
+
+	//State
 	const [selDev, setSelDev] = useState([])
-	const t = useLocalization()
+
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
 
+	//Const
 	const { openTable, setOpenTable } = props
 
+	//useCallbacks
+
+	//useEffects
 	useEffect(() => {
 		setSelDev(selectedDevices)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [selectedDevices])
+
+	//Handlers
+	const setSelDevices = devices => dispatch(setSelectedDevices(devices))
+	const sortData = (key, property, order) => dispatch(rSortData(key, property, order))
+
+
+
 	const handleRequestSort = (key, property) => {
 		let o = property !== orderBy ? 'asc' : order === 'desc' ? 'asc' : 'desc'
 
 		setOrder(o)
 		setOrderBy(property)
-		redux.sortData(key, property, o)
+		sortData(key, property, o)
 	}
 	const selectDevice = (s, device) => {
 		let newSDevices = []
@@ -69,7 +69,7 @@ const DeviceTable = (props) => {
 		if (!s)
 			setSelDev(newSDevices)
 		else
-			setSelDev(customFilterItems(devices, filters).map(d => d.id))
+			setSelDev(customFilterItems(devices, filters).map(d => d.uuid))
 	}
 	//#region  Filters
 	const dLiveStatus = () => {
@@ -81,41 +81,38 @@ const DeviceTable = (props) => {
 	const deviceFilters = [
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
 		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
-		// { key: '', name: t('orgs.fields.name'), type: 'string' },
 		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
-		// { key: 'locationType', name: t('devices.fields.locType'), type: 'dropDown', options: this.dLocationPlace() },
-		// { key: 'lat', name: t('calibration.stepheader.calibration'), type: 'diff', options: { dropdown: this.dCalibrated(), values: { false: [0] } } },
-		// { key: 'dataCollection', name: t('devices.fields.availability'), type: 'dropDown', options: this.dAvailable() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
 
 	//#endregion
 	const columns = [
-		{ id: 'address', label: t('devices.fields.address') },
+		// { id: 'address', label: t('devices.fields.address') },
 		{ id: 'uuid', label: t('devices.fields.uuid') },
 		{ id: 'name', label: t('devices.fields.name') },
-		{ id: 'id', label: t('devices.fields.id') },
-		{ id: 'type', label: t('devices.fields.type') },
-		{ id: 'group', label: t('devices.fields.group') },
+		// { id: 'id', label: t('devices.fields.id') },
+		// { id: 'type', label: t('devices.fields.type') },
+		// { id: 'group', label: t('devices.fields.group') },
 		{ id: 'communication', label: t('devices.fields.status') },
-		// { id: 'liveStatus', checkbox: true, label: <ItemG container justify={'center'} title={t('devices.fields.status')}><SignalWifi2Bar /></ItemG> },
-		// { id: 'address', label: t('devices.fields.address') },
-		// { id: 'org.name', label: t('devices.fields.org') },
-		// { id: 'dataCollection', label: t('devices.fields.availability') }
 	]
 	const bodyStructure = row => {
 		return <Fragment>
-			<TC label={row.address} />
-			<TC label={row.uuid} />
+			{/* <TC label={row.address} /> */}
+			<TC label={row.uuname} />
 			<TC label={row.name} />
-			<TC label={row.id} />
-			<TC label={row.type} />
-			<TC label={row.group} />
+			{/* <TC label={row.id} /> */}
+			{/* <TC label={row.type} /> */}
+			{/* <TC label={row.group} /> */}
 			<TC label={row.communication ? t('devices.fields.state.active') : t('devices.fields.state.inactive')} />
 		</Fragment>
 	}
 	const closeDialog = () => {
-		redux.setSelDevices(selDev)
+		if (selDev.length === 0) {
+			setSelDevices(devices.map(d => d.uuid))
+		}
+		else {
+			setSelDevices(selDev)
+		}
 		setOpenTable(false)
 	}
 	const exitDialog = () => {

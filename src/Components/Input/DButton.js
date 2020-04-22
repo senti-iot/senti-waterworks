@@ -41,6 +41,8 @@ const DButton = (props) => {
 				aria-label='More'
 				aria-owns={anchor ? 'long-menu' : null}
 				aria-haspopup='true'
+				variant={props.variant}
+				color={props.color}
 				classes={buttonClasses}
 				onClick={handleOpenActionsDetails}
 				endIcon={<KeyboardArrowDown style={{ marginLeft: 16 }} />}
@@ -55,7 +57,7 @@ const DButton = (props) => {
 				open={Boolean(anchor)}
 				onClose={handleCloseActionsDetails}
 				disablePortal
-				style={{ marginTop: 60 }}
+				style={{ marginTop: 80 }}
 				transformOrigin={{
 					vertical: 'top',
 					horizontal: 'left',
@@ -64,7 +66,7 @@ const DButton = (props) => {
 				{menuItems.map((m, i) => {
 					if (m.hide)
 						return null
-					return <MenuItem divider={divider ? i === menuItems.length - 1 ? false : true : false} selected={m.selected} key={i}
+					return <MenuItem divider={divider ? i === menuItems.length - 1 ? false : true : false} disabled={m.disabled || props.value === m.value} key={i}
 						onClick={handleMenuItemClick(m)}>
 						<ItemG container justify={'space-between'} alignItems={'center'}>
 							{m.icon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon}</ItemG> : null}
