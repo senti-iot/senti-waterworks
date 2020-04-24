@@ -579,7 +579,7 @@ export const getNData = async () => {
 
 		//#endregion
 		//#region Generate Average Data
-
+		console.log(middleData)
 		let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
 		finalAverageData.waterusagem3 = avgValue
 		finalAverageData.waterusageL = avgValue * 1000

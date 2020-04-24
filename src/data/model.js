@@ -236,7 +236,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 	 */
 	let minUsage = {}
 	minUsage.className = 'waterUsageA'
-	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0])).toFixed(3)
+	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0]).toFixed(3))
 	minUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	minUsage.type = 'chartTable.waterusage.line1'
 	waterusage.push(minUsage)
@@ -246,7 +246,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 	 */
 	let maxUsage = {}
 	maxUsage.className = 'waterUsageB'
-	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0])).toFixed(3)
+	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0]).toFixed(3))
 	maxUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)

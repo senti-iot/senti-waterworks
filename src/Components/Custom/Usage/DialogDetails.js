@@ -110,8 +110,8 @@ const DialogDetails = () => {
 				textBelowHeadline: true
 			},
 			data: {
-				cubicMetres: avgData.waterusagem3,
-				forbrugPerson: (avgData.waterusagem3) / noOfPeople,
+				cubicMetres: mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL,
+				forbrugPerson: (mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople,
 			}
 		},
 		{
@@ -127,8 +127,8 @@ const DialogDetails = () => {
 				textBelowHeadline: false
 			},
 			data: {
-				cubicMetres: avgData.benchmarkm3,
-				forbrugPerson: (avgData.benchmarkm3) / noOfPeople,
+				cubicMetres: mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL,
+				forbrugPerson: (mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople,
 			}
 		},
 		{
@@ -144,8 +144,8 @@ const DialogDetails = () => {
 				textBelowHeadline: false
 			},
 			data: {
-				cubicMetres: avgData.benchmarkm3,
-				forbrugPerson: (avgData.benchmarkm3) / noOfPeople,
+				cubicMetres: mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL,
+				forbrugPerson: (mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople,
 			}
 		}
 	]
@@ -181,13 +181,13 @@ const DialogDetails = () => {
 						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>{/* correct place */}
 							<div style={{ display: 'flex' }}>
 								<div style={{ textAlign: 'center' }}>
-									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(3)}
+									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(mUnit === 'm3' ? 3 : 0)}
 										<span style={{ fontSize: 16 }}>{mUnit === 'm3' ? " m³" : " L"}</span></Typography>
 								</div>
 								<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 							</div>
 							<Typography variant="h5" style={{ color: style.dataColor }}>
-								{parseFloat(data.forbrugPerson).toFixed(3)} {mUnit === 'm3' ? " m³" : " L"}
+								{parseFloat(data.forbrugPerson).toFixed(mUnit === 'm3' ? 3 : 0)} {mUnit === 'm3' ? " m³" : " L"}
 								<span style={{ marginLeft: 20 }}>
 									<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 								</span>
