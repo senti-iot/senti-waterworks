@@ -116,7 +116,7 @@ const DialogDetails = () => {
 		},
 		{
 			headline: t('Usage.dashboardUsage.comparison'),
-			subheadline: 'Mit vandvaerk',
+			subheadline: ' Mit vandværk',
 			descriptions: [
 				'Gennemsnitligt daglige vandforbrug for andre boliger',
 				'Forbrug pr. person',
@@ -133,7 +133,7 @@ const DialogDetails = () => {
 		},
 		{
 			headline: '',
-			subheadline: 'Andre vandvaerker',
+			subheadline: 'Andre vandværker',
 			descriptions: [
 				'Gennemsnitligt daglige vandforbrug for andre boliger',
 				'Forbrug pr. person',
