@@ -115,7 +115,7 @@ const LineGraph = (props) => {
 					style={{
 						width: '100%',
 						height: '90%',
-						// minHeight: 500
+						minHeight: 300
 					}}>
 
 				</svg>
