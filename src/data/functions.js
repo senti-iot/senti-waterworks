@@ -3,13 +3,13 @@ import moment from 'moment'
 /**
  * Short Number
  */
-export function formatShortNumber(num, digits) {
+export function formatShortNumber(num, digits = 3) {
 	let value = parseFloat(num)
 	var suffixes = ["", "", "mio.", "b", "t"]
 	var suffixNum = Math.floor((value.toFixed(0)).length / 3)
 	// console.log('value', value)
 	// console.log('suffixNum', suffixNum)
-	var shortValue = suffixNum > 1 ? parseFloat((value / Math.pow(1000, suffixNum))).toFixed(3).replace('.', ',') : formatNumber(value, 2)
+	var shortValue = suffixNum > 1 ? parseFloat((value / Math.pow(1000, suffixNum))).toFixed(3).replace('.', ',') : formatNumber(value, digits)
 	// console.log('shortValue', shortValue)
 	// console.log('ASdf', value / Math.pow(1000, suffixNum))
 	// if (shortValue % 1 !== 0) {
