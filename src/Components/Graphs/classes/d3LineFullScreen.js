@@ -94,6 +94,7 @@ class d3LineFS {
 		//Get the height and width from the container
 		this.height = containerEl.clientHeight
 		this.width = containerEl.clientWidth
+		console.log(this.height, containerEl.clientHeight, containerEl)
 		this.weatherData = props.weatherData ? props.weatherData : []
 		this.svg = d3.select(`#${props.id + 'fsLG'}`)
 
@@ -162,14 +163,15 @@ class d3LineFS {
 		this.generateDots()
 		// this.yAxis.call(d3.axisLeft(this.y))
 	}
-	generateYAxis = (noDomain) => {
+	generateYAxis = () => {
 
 		const classes = this.classes
 		const height = this.height
 		// let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - 65, this.margin.top + 15])
+			console.log(height)
+			this.y = d3.scaleLinear().range([height, this.margin.top + 15])
 			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
