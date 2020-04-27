@@ -3,7 +3,7 @@ import moment from 'moment'
 /**
  * Short Number
  */
-export function formatShortNumber(num, digits = 3) {
+export function formatShortNumber(num, digits = 2) {
 	let value = parseFloat(num)
 	var suffixes = ["", "", "mio.", "b", "t"]
 	var suffixNum = Math.floor((value.toFixed(0)).length / 3)
