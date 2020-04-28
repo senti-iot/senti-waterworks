@@ -17,19 +17,16 @@ const Legend = props => {
 	return (
 		<ItemG container justify={'center'} alignItems={'center'}>
 			{data.map(line => {
-				console.log(lines, line.name, lines['L' + line.name])
 
 				if (line.median && !line.noMedianLegend) {
 					return <Fragment key={'LegendFragment' + line.name}>
 						<FormControlLabel
-							// checked={lines['L' + line.name]}
-
 							key={'Legend' + line.name}
 							id={fs ? 'LegendfsLG' + line.name : 'Legend' + line.name}
 							style={{ color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500] }}
 							control={
 								<CheckedBox
-									checked={!lines['L' + line.name]}
+									checked={!fs ? !lines['L' + line.name] : !lines['LfsLG' + line.name]}
 									color={'default'}
 									id={fs ? 'LegendCheckboxfsLG' + line.name : 'LegendCheckbox' + line.name} />
 							}
@@ -39,11 +36,11 @@ const Legend = props => {
 						/>
 						<FormControlLabel
 							key={'LegendMedian' + line.name}
-							checked={lines['Median' + line.name]}
+							// checked={lines['Median' + line.name]}
 							style={{ color: 'rgba(255, 255, 255, 0.3)' }}
 							control={
 								<CheckedBox
-									checked={!lines['Median' + line.name]}
+									checked={!fs ? !lines['Median' + line.name] : !lines['MedianfsLG' + line.name]}
 									color={'default'}
 									id={fs ? 'LegendMedianCheckboxfsLG' + line.name : 'LegendMedianCheckbox' + line.name} />
 							}
@@ -62,7 +59,7 @@ const Legend = props => {
 					style={{ color: !line.prev ? colors[line.color] ? colors[line.color][500] : line.color : 'rgba(128,128,128,1)' }}
 					control={
 						<CheckedBox
-							checked={!lines['L' + line.name]}
+							checked={!fs ? !lines['L' + line.name] : !lines['LfsLG' + line.name]}
 							color={'default'}
 							id={fs ? 'LegendCheckboxfsLG' + line.name : 'LegendCheckbox' + line.name} />
 					}

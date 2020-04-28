@@ -73,12 +73,14 @@ const LineGraph = (props) => {
 					if (!line.noMedianLegend && line.median) {
 						lineState['Median' + line.name] = true
 						lineState['L' + line.name] = line.hidden ? true : false
+						lineState['MedianfsLG' + line.name] = line.hidden ? true : false
+						lineState['LfsLG' + line.name] = line.hidden ? true : false
 						// this.setState('Median' + line.name, true)
 						// this.setState('L' + line.name, line.hidden ? true : false)
 					}
 					else {
 						lineState['L' + line.name] = line.hidden ? true : false
-
+						lineState['LfsLG' + line.name] = line.hidden ? true : false
 						// this.setState('L' + line.name, line.hidden ? true : false)
 					}
 				})
@@ -110,6 +112,7 @@ const LineGraph = (props) => {
 			genNewLine()
 		}
 		if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
+			console.log(lineChartContainer.current)
 			console.log('Updated because of fullscreen')
 
 			// line.destroy()
@@ -138,7 +141,7 @@ const LineGraph = (props) => {
 		window.addEventListener('resize', handleResize)
 		return () => {
 			window.removeEventListener('resize', handleResize)
-			// line.destroy()
+
 			// line = null
 			// setLines({})
 		}

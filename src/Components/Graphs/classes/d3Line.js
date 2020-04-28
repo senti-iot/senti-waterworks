@@ -28,16 +28,16 @@ const getMax = (arr) => {
 		}
 		if (max > 100000) {
 
-			return max + 100000
-		}
-		if (max > 10000) {
 			return max + 10000
 		}
-		if (max > 1000) {
+		if (max > 10000) {
 			return max + 1000
 		}
-		if (max > 100) {
+		if (max > 1000) {
 			return max + 100
+		}
+		if (max > 100) {
+			return max + 10
 		}
 		if (max > 5) {
 			return max + 10
@@ -51,11 +51,14 @@ const getMax = (arr) => {
 const getMin = (arr) => {
 	if (arr.length > 0) {
 		let min = Math.min(...arr.map(d => d.value))
+		console.log("min", min)
 		if (min > 1) {
-			min = min - 0.1
+			// min = min - 0.1
+			min = 0
 		}
 		if (min > 5) {
-			min = min - 1
+			// min = min - 1
+			min = 0
 		}
 		if (min > 100) {
 			min = min - 100
@@ -73,7 +76,8 @@ const getMin = (arr) => {
 
 		// return min > 1 ? min - 10 : min - 0.1
 		// alert('min' + min)
-		return min > 0 ? min : 0
+		console.log('final min', min)
+		return min > 0 ? Math.floor(min) : 0
 	}
 }
 class d3Line {
@@ -118,22 +122,6 @@ class d3Line {
 
 		//#region Ticks
 
-
-		// data.forEach(line => {
-		// 	if (!line.noMedianLegend && line.median) {
-		// 		this.setState('Median' + line.name, true)
-		// 		this.setState('L' + line.name, line.hidden ? true : false)
-		// 	}
-		// 	else {
-		// 		this.setState('L' + line.name, line.hidden ? true : false)
-		// 	}
-		// })
-
-		// this.generateLines()
-		// this.generateMedian()
-		// this.generateLegend()
-		// this.generateDots()
-		// this.generateWeather()
 		this.update()
 	}
 	setState = (key, value, noUpdate) => {
@@ -153,7 +141,8 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		this.y.domain([getMin(allData), getMax(allData)])
+		console.log([Math.floor(getMin(allData)), Math.round(getMax(allData))])
+		this.y.domain([Math.floor(getMin(allData)), Math.round(getMax(allData))])
 		this.yAxis.remove()
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
@@ -172,12 +161,12 @@ class d3Line {
 		// let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom + 5, this.margin.top + 15])
+			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 20])
 			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
-			.attr('transform', `translate(${this.margin.left + 28}, -10)`)
+			.attr('transform', `translate(${this.margin.left + 28}, 0)`)
 			.call(d3.axisLeft(this.y).tickFormat(d => {
 				var da_DK = {
 					"decimal": ",",
@@ -425,9 +414,6 @@ class d3Line {
 		data.forEach((line) => {
 			if (line.median & !line.noMedianLegend) {
 				let LegendMCheck = d3.select(`#LegendMedianCheckbox${line.name}`)
-				var activeMCheck = this.state['Median' + line.name] ? false : true
-				LegendMCheck
-					.attr('value', activeMCheck)
 				let LegendM = d3.select(`#LegendMedian${line.name}`)
 				let LegendMLabel = d3.select(`#LegendMedianLabel${line.name}`)
 				LegendMCheck.on('click', () => {
@@ -458,7 +444,6 @@ class d3Line {
 			}
 
 			let Legend = d3.select(`#Legend${line.name}`)
-
 			let LegendCheck = d3.select(`#LegendCheckbox${line.name}`)
 			let LegendLabel = d3.select(`#LegendLabel${line.name}`)
 			LegendCheck.on('click', () => {
