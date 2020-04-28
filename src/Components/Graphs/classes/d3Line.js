@@ -3,6 +3,7 @@ import moment from 'moment'
 import hexToRgba from 'hex-to-rgba'
 import { colors } from '@material-ui/core'
 import { ClearDay, ClearNight, Cloudy, Fog, PartlyCloudyDay, PartlyCloudyNight, Rain, Sleet, Snow, Wind, } from 'variables/icons'
+import { store } from 'Providers'
 
 const getMedianLineData = (data) => {
 	let medianValues = []
@@ -86,18 +87,18 @@ class d3Line {
 	constructor(containerEl, props, classes) {
 		this.t = props.t
 		this.classes = classes
+		this.setLine = props.setLine
 		this.containerEl = containerEl
 		this.props = props
 		this.period = props.period
 		this.margin = { top: 30, right: 50, bottom: 50, left: 50 }
-		let data = props.data ? props.data[props.id] : []
+		// let data = props.data ? props.data[props.id] : []
 		//Get the height and width from the container
 		this.height = containerEl.clientHeight
 		this.width = containerEl.clientWidth
 		this.weatherData = props.weatherData ? props.weatherData : []
 		this.svg = d3.select(`#${props.id}`)
-
-
+		this.state = store.getState().appState.lines
 		this.generateXAxis()
 		this.generateYAxis()
 
@@ -118,15 +119,15 @@ class d3Line {
 		//#region Ticks
 
 
-		data.forEach(line => {
-			if (!line.noMedianLegend && line.median) {
-				this.setState('Median' + line.name, true)
-				this.setState('L' + line.name, line.hidden ? true : false)
-			}
-			else {
-				this.setState('L' + line.name, line.hidden ? true : false)
-			}
-		})
+		// data.forEach(line => {
+		// 	if (!line.noMedianLegend && line.median) {
+		// 		this.setState('Median' + line.name, true)
+		// 		this.setState('L' + line.name, line.hidden ? true : false)
+		// 	}
+		// 	else {
+		// 		this.setState('L' + line.name, line.hidden ? true : false)
+		// 	}
+		// })
 
 		// this.generateLines()
 		// this.generateMedian()
@@ -136,7 +137,9 @@ class d3Line {
 		this.update()
 	}
 	setState = (key, value, noUpdate) => {
-		this.state[key] = value
+		this.setLine(key, value)
+		// this.state[key] = value
+		this.state = store.getState().appState.lines
 		if (!noUpdate) {
 
 			this.update()
@@ -146,6 +149,7 @@ class d3Line {
 	update = () => {
 		// this.xAxis.call(this.xAxis_days)
 		//#region Update Y-Axis
+		// console.trace()
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
@@ -421,6 +425,9 @@ class d3Line {
 		data.forEach((line) => {
 			if (line.median & !line.noMedianLegend) {
 				let LegendMCheck = d3.select(`#LegendMedianCheckbox${line.name}`)
+				var activeMCheck = this.state['Median' + line.name] ? false : true
+				LegendMCheck
+					.attr('value', activeMCheck)
 				let LegendM = d3.select(`#LegendMedian${line.name}`)
 				let LegendMLabel = d3.select(`#LegendMedianLabel${line.name}`)
 				LegendMCheck.on('click', () => {
@@ -441,8 +448,8 @@ class d3Line {
 						.transition().duration(200)
 						.style("display", display)
 
-					LegendMCheck
-						.attr('value', active)
+					// LegendMCheck
+					// 	.attr('value', active)
 					LegendM
 						.style("color", active ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500])
 					LegendMLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
@@ -451,6 +458,7 @@ class d3Line {
 			}
 
 			let Legend = d3.select(`#Legend${line.name}`)
+
 			let LegendCheck = d3.select(`#LegendCheckbox${line.name}`)
 			let LegendLabel = d3.select(`#LegendLabel${line.name}`)
 			LegendCheck.on('click', () => {
@@ -474,8 +482,8 @@ class d3Line {
 				d3.select(`#HArea${line.name}`)
 					.transition().duration(200)
 					.style("display", display)
-				LegendCheck
-					.attr('value', active)
+				// LegendCheck
+				// 	.attr('value', active)
 				Legend
 					.style("color", active ? 'rgba(255,255,255,0.3)' : line.prev ? '#fff' : colors[line.color][500])
 				LegendLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
@@ -730,5 +738,5 @@ class d3Line {
 	}
 
 }
-window.d3 = d3
+
 export default d3Line
