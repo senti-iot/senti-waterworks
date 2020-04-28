@@ -3,6 +3,7 @@ import moment from 'moment'
 import hexToRgba from 'hex-to-rgba'
 import { colors } from '@material-ui/core'
 import { ClearDay, ClearNight, Cloudy, Fog, PartlyCloudyDay, PartlyCloudyNight, Rain, Sleet, Snow, Wind, } from 'variables/icons'
+import { store } from 'Providers'
 
 const getMedianLineData = (data) => {
 	let medianValues = []
@@ -16,6 +17,7 @@ const getMedianLineData = (data) => {
 }
 
 
+
 const getMax = (arr) => {
 	if (arr.length > 0) {
 		let max = Math.max(...arr.map(d => d.value))
@@ -27,16 +29,16 @@ const getMax = (arr) => {
 		}
 		if (max > 100000) {
 
-			return max + 100000
-		}
-		if (max > 10000) {
 			return max + 10000
 		}
-		if (max > 1000) {
+		if (max > 10000) {
 			return max + 1000
 		}
-		if (max > 100) {
+		if (max > 1000) {
 			return max + 100
+		}
+		if (max > 100) {
+			return max + 10
 		}
 		if (max > 5) {
 			return max + 10
@@ -50,11 +52,14 @@ const getMax = (arr) => {
 const getMin = (arr) => {
 	if (arr.length > 0) {
 		let min = Math.min(...arr.map(d => d.value))
+		console.log("min", min)
 		if (min > 1) {
-			min = min - 0.1
+			// min = min - 0.1
+			min = 0
 		}
 		if (min > 5) {
-			min = min - 1
+			// min = min - 1
+			min = 0
 		}
 		if (min > 100) {
 			min = min - 100
@@ -72,7 +77,8 @@ const getMin = (arr) => {
 
 		// return min > 1 ? min - 10 : min - 0.1
 		// alert('min' + min)
-		return min > 0 ? min : 0
+		console.log('final min', min)
+		return min > 0 ? Math.floor(min) : 0
 	}
 }
 class d3LineFS {
@@ -86,18 +92,18 @@ class d3LineFS {
 	constructor(containerEl, props, classes) {
 		this.t = props.t
 		this.classes = classes
+		this.setLine = props.setLine
 		this.containerEl = containerEl
 		this.props = props
 		this.period = props.period
 		this.margin = { top: 30, right: 50, bottom: 50, left: 50 }
-		let data = props.data ? props.data[props.id] : []
+		// let data = props.data ? props.data[props.id] : []
 		//Get the height and width from the container
 		this.height = containerEl.clientHeight
 		this.width = containerEl.clientWidth
-		console.log(this.height, containerEl.clientHeight, containerEl)
 		this.weatherData = props.weatherData ? props.weatherData : []
 		this.svg = d3.select(`#${props.id + 'fsLG'}`)
-
+		this.state = store.getState().appState.lines
 
 
 		this.generateXAxis()
@@ -117,28 +123,19 @@ class d3LineFS {
 		this.medianTooltip = d3.select(`#medianTooltip${this.props.id}fsLG`)
 			.style("opacity", 0)
 
+		//Define the area for the values
+
+
+
+
 		//#region Ticks
 
-
-		data.forEach(line => {
-			if (!line.noMedianLegend && line.median) {
-				this.setState('MedianfsLG' + line.name, true)
-				this.setState('LfsLG' + line.name, line.hidden ? true : false)
-			}
-			else {
-				this.setState('LfsLG' + line.name, line.hidden ? true : false)
-			}
-		})
-
-		// this.generateLines()
-		// this.generateMedian()
-		// this.generateLegend()
-		// this.generateDots()
-		// this.generateWeather()
 		this.update()
 	}
 	setState = (key, value, noUpdate) => {
-		this.state[key] = value
+		this.setLine(key, value)
+		// this.state[key] = value
+		this.state = store.getState().appState.lines
 		if (!noUpdate) {
 
 			this.update()
@@ -146,7 +143,6 @@ class d3LineFS {
 
 	}
 	update = () => {
-		// this.xAxis.call(this.xAxis_days)
 		//#region Update Y-Axis
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['LfsLG' + f.name])
@@ -161,7 +157,6 @@ class d3LineFS {
 		this.generateMedian()
 		this.generateLegend()
 		this.generateDots()
-		// this.yAxis.call(d3.axisLeft(this.y))
 	}
 	generateYAxis = () => {
 
@@ -170,13 +165,11 @@ class d3LineFS {
 		// let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
-			console.log(height)
-			this.y = d3.scaleLinear().range([height, this.margin.top + 15])
-			// this.y.domain([getMin(allData), getMax(allData)])
+			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 15])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
-			.attr('transform', `translate(${this.margin.left + 28}, -10)`)
+			.attr('transform', `translate(${this.margin.left + 28}, 0)`)
 			.call(d3.axisLeft(this.y).tickFormat(d => {
 				var da_DK = {
 					"decimal": ",",
@@ -424,6 +417,7 @@ class d3LineFS {
 		data.forEach((line) => {
 			if (line.median & !line.noMedianLegend) {
 				let LegendMCheck = d3.select(`#LegendMedianCheckboxfsLG${line.name}`)
+
 				let LegendM = d3.select(`#LegendMedianfsLG${line.name}`)
 				let LegendMLabel = d3.select(`#LegendMedianLabelfsLG${line.name}`)
 				LegendMCheck.on('click', () => {
@@ -444,8 +438,8 @@ class d3LineFS {
 						.transition().duration(200)
 						.style("display", display)
 
-					LegendMCheck
-						.attr('value', active)
+					// LegendMCheck
+					// 	.attr('value', active)
 					LegendM
 						.style("color", active ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500])
 					LegendMLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
@@ -456,7 +450,6 @@ class d3LineFS {
 			let Legend = d3.select(`#LegendfsLG${line.name}`)
 			let LegendCheck = d3.select(`#LegendCheckboxfsLG${line.name}`)
 			let LegendLabel = d3.select(`#LegendLabelfsLG${line.name}`)
-
 			LegendCheck.on('click', () => {
 				let active = this.state['LfsLG' + line.name] ? false : true,
 					newOpacity = active ? 0 : 1, display = active ? 'none' : undefined
@@ -477,8 +470,8 @@ class d3LineFS {
 				d3.select(`#HAreafsLG${line.name}`)
 					.transition().duration(200)
 					.style("display", display)
-				LegendCheck
-					.attr('value', active)
+				// LegendCheck
+				// 	.attr('value', active)
 				Legend
 					.style("color", active ? 'rgba(255,255,255,0.3)' : line.prev ? '#fff' : colors[line.color][500])
 				LegendLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
@@ -732,7 +725,6 @@ class d3LineFS {
 	}
 	destroy = () => {
 		// this.svg.remove()
-		console.log(this.svg)
 		this.svg.selectAll("*").remove()
 	}
 

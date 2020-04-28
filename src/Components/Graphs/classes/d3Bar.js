@@ -111,7 +111,6 @@ class d3Arc {
 		//#region Generate Bars
 		var bars = this.g.selectAll(".bar")
 			.data(barsData)
-		console.log(barsData)
 		if (barsData.length === 4) {
 			bars
 				.enter().append("rect")

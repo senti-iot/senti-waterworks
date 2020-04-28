@@ -46,8 +46,6 @@ const MyProfile = () => {
 	const rUser = useSelector(s => s.settings.user)
 	const extendedProfile = useSelector(s => s.settings.user ? s.settings.user.aux.sentiWaterworks.extendedProfile : {})
 
-	// console.log(extProfile)
-
 	//State
 	const [extProfile, setExtProfile] = useState(extendedProfile)
 	const [user, setUser] = useState(rUser)
