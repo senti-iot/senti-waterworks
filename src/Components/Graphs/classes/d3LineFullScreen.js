@@ -16,8 +16,6 @@ const getMedianLineData = (data) => {
 	return medianValues
 }
 
-
-
 const getMax = (arr) => {
 	if (arr.length > 0) {
 		let max = Math.max(...arr.map(d => d.value))
@@ -35,20 +33,17 @@ const getMax = (arr) => {
 			return max + 1000
 		}
 		if (max > 1000) {
-			return max + 100
+			return max + 500
 		}
 		if (max > 100) {
-			return max + 10
+			return max + 200
 		}
 		if (max > 5) {
 			return max + 10
 		}
-
-
-		// return max + 10
-		// return max > 1 ? max + 10 : max + 0.1
 	}
 }
+
 const getMin = (arr) => {
 	if (arr.length > 0) {
 		let min = Math.min(...arr.map(d => d.value))
