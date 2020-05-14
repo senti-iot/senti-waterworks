@@ -130,13 +130,10 @@ class d3Line {
 
 	}
 	update = () => {
-		// this.xAxis.call(this.xAxis_days)
 		//#region Update Y-Axis
-		// console.trace()
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		console.log([Math.floor(getMin(allData)), Math.round(getMax(allData))])
 		this.y.domain([Math.floor(getMin(allData)), Math.round(getMax(allData))])
 		this.yAxis.remove()
 		this.svg.selectAll("*").remove()
@@ -361,7 +358,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		const setTooltip = this.props.setTooltip
 		data.forEach((line) => {
-			if (line.prev) {
+			if (line.prev || line.onlyMedian) {
 				return
 			}
 			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
@@ -444,7 +441,6 @@ class d3Line {
 			LegendCheck.on('click', () => {
 				let active = this.state['L' + line.name] ? false : true,
 					newOpacity = active ? 0 : 1, display = active ? 'none' : undefined
-
 				// Hide or show the elements
 
 				d3.select(`#L${line.name}`)
@@ -490,163 +486,167 @@ class d3Line {
 			.x((d) => { return this.x(moment(d.date).valueOf()) })
 		data.forEach((line, i) => {
 			//#region Generate Line Area
-
-			if (!line.noArea) {
-				let defArea = d3.area()
-					.x((d) => { return this.x(moment(d.date).valueOf()) })
-					// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
-					.y0(this.height - this.margin.bottom)
-					.y1((d) => { return this.y(d.value) })
-				this.svg.append("path")
-					.attr('id', 'Area' + line.name)
-					.data([line.data])
-					.attr("opacity", this.state['L' + line.name] ? 0 : 1)
-					.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
-					.attr("d", animArea0)
-					.transition()
-					.duration(1500)
-					.attr("d", defArea)
-				if (line.noMedianLegend) {
-					let setMedianTooltip = this.props.setMedianTooltip
-					var medianTooltip = this.medianTooltip
-					let medianData = getMedianLineData(line.data)
-
-					let medianLine = this.svg.append('path')
-						.data([medianData])
-						.attr('fill', 'none')
-						.attr('stroke', 'rgba(255,255,255, 0.1)')
-						.attr('stroke-width', '4px')
-						// .attr('class', classes.medianLinePrev)
-						.attr('d', this.valueLine)
-						.attr('id', 'Median' + line.name)
-						.attr('opacity', this.state[`L${line.name}`] ? 0 : 1)
-						.attr('stroke-dasharray', ("3, 3"))
-
-					// Hidden overlay for Median tooltip
-					this.svg.append('path')
-						.data([medianData])
-						// .attr('class', classes.hiddenMedianLine)
-						.attr('stroke', '#fff')
-						.attr('opacity', 0)
-						.attr('stroke-width', '7px')
-						.attr('d', this.valueLine)
-						.attr('id', 'HArea' + line.name)
-						.on("mouseover", (d) => {
-							if (!this.state[`L${line.name}`]) {
-
-								medianLine.transition()
-									.duration(100)
-									.style('stroke-width', '7px')
-
-								medianTooltip.transition()
-									.duration(200)
-									.style("opacity", 1)
-									.style('z-index', 1040)
-
-								medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-									.style("top", (d3.event.pageY) - 41 + "px")
-
-								setMedianTooltip(d[0])
-							}
-
-						}).on("mouseout", function () {
-							// setExpand(false)
-							medianLine.transition()
-								.duration(100)
-								.style('stroke-width', '4px')
-							medianTooltip.transition()
-								.duration(500)
-								.style('z-index', -1)
-								.style("opacity", 0)
-						}).on('click', function () {
-							// setExpand(true)
-						})
+			if (data) {
+				if (line.onlyMedian) {
+					return
 				}
-			}
-			//#endregion
-			//#region Generate Line
-			if (!line.prev)
-				if (line.dashed) {
-					//Set up your path as normal
-					var path = this.svg.append("path")
+				if (!line.noArea) {
+					let defArea = d3.area()
+						.x((d) => { return this.x(moment(d.date).valueOf()) })
+						// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
+						.y0(this.height - this.margin.bottom)
+						.y1((d) => { return this.y(d.value) })
+					this.svg.append("path")
+						.attr('id', 'Area' + line.name)
 						.data([line.data])
-						.attr('id', 'L' + line.name)
-						.attr('fill', 'none')
-						.attr('stroke', colors[line.color][500])
-						.attr('stroke-width', '4px')
-						.attr('d', this.valueLine)
 						.attr("opacity", this.state['L' + line.name] ? 0 : 1)
-
-					//Get the total length of the path
-					var totalLength = 0
-					if (path.node())
-						totalLength = path.node().getTotalLength()
-
-					/////// Create the required stroke-dasharray to animate a dashed pattern ///////
-
-					//Create a (random) dash pattern
-					//The first number specifies the length of the visible part, the dash
-					//The second number specifies the length of the invisible part
-					var dashing = "6, 6"
-
-					//This returns the length of adding all of the numbers in dashing
-					//(the length of one pattern in essence)
-					//So for "6,6", for example, that would return 6+6 = 12
-					var dashLength =
-						dashing
-							.split(/[\s,]/)
-							.map(function (a) { return parseFloat(a) || 0 })
-							.reduce(function (a, b) { return a + b })
-
-					//How many of these dash patterns will fit inside the entire path?
-					var dashCount = Math.ceil(totalLength / dashLength)
-
-					//Create an array that holds the pattern as often
-					//so it will fill the entire path
-					var newDashes = new Array(dashCount).join(dashing + " ")
-					//Then add one more dash pattern, namely with a visible part
-					//of length 0 (so nothing) and a white part
-					//that is the same length as the entire path
-					var dashArray = newDashes + " 0, " + totalLength
-
-					/////// END ///////
-
-					//Now offset the entire dash pattern, so only the last white section is
-					//visible and then decrease this offset in a transition to show the dashes
-					path
-						.attr("stroke-dashoffset", totalLength)
-						//This is where it differs with the solid line example
-						.attr("stroke-dasharray", dashArray)
-						.transition().duration(1500)
-						.attr("stroke-dashoffset", 0)
-				}
-				else {
-
-					this.svg.append('path')
-						.data([line.data])
-						.attr('id', 'L' + line.name)
-						// .attr('class', classes[line.name])
-						.attr('fill', 'none')
-						.attr('stroke', colors[line.color][500])
-						.attr('stroke-width', '4px')
-						.attr('d', this.valueLine)
-						.attr("stroke-dasharray", function () {
-							return this.getTotalLength()
-						})
-						.attr("stroke-dashoffset", function () {
-							return this.getTotalLength()
-						})
-						.attr("opacity", this.state["L" + line.name] ? 0 : 1)
+						.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
+						.attr("d", animArea0)
 						.transition()
 						.duration(1500)
-						.attr('stroke-dashoffset', 0)
-						.transition()
-						.duration(100)
-						.style("stroke-dasharray", undefined)
+						.attr("d", defArea)
+					if (line.noMedianLegend) {
+						let setMedianTooltip = this.props.setMedianTooltip
+						var medianTooltip = this.medianTooltip
+						let medianData = getMedianLineData(line.data)
 
+						let medianLine = this.svg.append('path')
+							.data([medianData])
+							.attr('fill', 'none')
+							.attr('stroke', 'rgba(255,255,255, 0.1)')
+							.attr('stroke-width', '4px')
+							// .attr('class', classes.medianLinePrev)
+							.attr('d', this.valueLine)
+							.attr('id', 'Median' + line.name)
+							.attr('opacity', this.state[`L${line.name}`] ? 0 : 1)
+							.attr('stroke-dasharray', ("3, 3"))
 
-					//#endregion
+						// Hidden overlay for Median tooltip
+						this.svg.append('path')
+							.data([medianData])
+							// .attr('class', classes.hiddenMedianLine)
+							.attr('stroke', '#fff')
+							.attr('opacity', 0)
+							.attr('stroke-width', '7px')
+							.attr('d', this.valueLine)
+							.attr('id', 'HArea' + line.name)
+							.on("mouseover", (d) => {
+								if (!this.state[`L${line.name}`]) {
+
+									medianLine.transition()
+										.duration(100)
+										.style('stroke-width', '7px')
+
+									medianTooltip.transition()
+										.duration(200)
+										.style("opacity", 1)
+										.style('z-index', 1040)
+
+									medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+										.style("top", (d3.event.pageY) - 41 + "px")
+
+									setMedianTooltip(d[0])
+								}
+
+							}).on("mouseout", function () {
+								// setExpand(false)
+								medianLine.transition()
+									.duration(100)
+									.style('stroke-width', '4px')
+								medianTooltip.transition()
+									.duration(500)
+									.style('z-index', -1)
+									.style("opacity", 0)
+							}).on('click', function () {
+								// setExpand(true)
+							})
+					}
 				}
+				//#endregion
+				//#region Generate Line
+				if (!line.prev)
+					if (line.dashed) {
+						//Set up your path as normal
+						var path = this.svg.append("path")
+							.data([line.data])
+							.attr('id', 'L' + line.name)
+							.attr('fill', 'none')
+							.attr('stroke', colors[line.color][500])
+							.attr('stroke-width', '4px')
+							.attr('d', this.valueLine)
+							.attr("opacity", this.state['L' + line.name] ? 0 : 1)
+
+						//Get the total length of the path
+						var totalLength = 0
+						if (path.node())
+							totalLength = path.node().getTotalLength()
+
+						/////// Create the required stroke-dasharray to animate a dashed pattern ///////
+
+						//Create a (random) dash pattern
+						//The first number specifies the length of the visible part, the dash
+						//The second number specifies the length of the invisible part
+						var dashing = "6, 6"
+
+						//This returns the length of adding all of the numbers in dashing
+						//(the length of one pattern in essence)
+						//So for "6,6", for example, that would return 6+6 = 12
+						var dashLength =
+							dashing
+								.split(/[\s,]/)
+								.map(function (a) { return parseFloat(a) || 0 })
+								.reduce(function (a, b) { return a + b })
+
+						//How many of these dash patterns will fit inside the entire path?
+						var dashCount = Math.ceil(totalLength / dashLength)
+
+						//Create an array that holds the pattern as often
+						//so it will fill the entire path
+						var newDashes = new Array(dashCount).join(dashing + " ")
+						//Then add one more dash pattern, namely with a visible part
+						//of length 0 (so nothing) and a white part
+						//that is the same length as the entire path
+						var dashArray = newDashes + " 0, " + totalLength
+
+						/////// END ///////
+
+						//Now offset the entire dash pattern, so only the last white section is
+						//visible and then decrease this offset in a transition to show the dashes
+						path
+							.attr("stroke-dashoffset", totalLength)
+							//This is where it differs with the solid line example
+							.attr("stroke-dasharray", dashArray)
+							.transition().duration(1500)
+							.attr("stroke-dashoffset", 0)
+					}
+					else {
+
+						this.svg.append('path')
+							.data([line.data])
+							.attr('id', 'L' + line.name)
+							// .attr('class', classes[line.name])
+							.attr('fill', 'none')
+							.attr('stroke', colors[line.color][500])
+							.attr('stroke-width', '4px')
+							.attr('d', this.valueLine)
+							.attr("stroke-dasharray", function () {
+								return this.getTotalLength()
+							})
+							.attr("stroke-dashoffset", function () {
+								return this.getTotalLength()
+							})
+							.attr("opacity", this.state["L" + line.name] ? 0 : 1)
+							.transition()
+							.duration(1500)
+							.attr('stroke-dashoffset', 0)
+							.transition()
+							.duration(100)
+							.style("stroke-dasharray", undefined)
+
+
+						//#endregion
+					}
+			}
 		})
 	}
 
@@ -657,9 +657,66 @@ class d3Line {
 		let data = this.props.data[this.props.id]
 		var medianTooltip = this.medianTooltip
 		data.forEach((line) => {
+			if (line.onlyMedian) {
+				let medianData = getMedianLineData(line.data)
+				let medianLine = this.svg.append('path')
+					.data([medianData])
+					// .attr('class', classes.medianLine)
+					.attr('d', this.valueLine)
+					.attr('id', `MedianL${line.name}`)
+					.attr('opacity', 1)
+					.attr('stroke-width', '4px')
+					.attr('stroke', colors[line.color][500])
+					.attr('stroke-dasharray', ("3, 3"))
+				this.svg.append("text")
+					.attr("transform", "translate(" + (this.margin.right + 50) + "," + (this.y(line.data[0].value) - 15) + ")")
+					.attr("dy", ".35em")
+					.attr("text-anchor", "start")
+					.attr('style', `font-weight: 500;fill: ${colors[line.color][500]}`)
+					// .style("font", "bold")
+					// .style("fill", colors[line.color][500])
+					.text(this.t(line.label))
+
+				this.svg.append('path')
+					.data([medianData])
+					.attr('class', classes.hiddenMedianLine)
+					.attr('d', this.valueLine)
+					.attr('id', `MedianH${line.name}`)
+					.style('display', this.state['Median' + line.name] ? 'none' : undefined)
+					.on("mouseover", (d) => {
+						if (!this.state[`Median${line.name}`]) {
+
+							medianLine.transition()
+								.duration(100)
+								.style('stroke-width', '7px')
+
+							medianTooltip.transition()
+								.duration(200)
+								.style("opacity", 1)
+								.style('z-index', 1040)
+
+							medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+								.style("top", (d3.event.pageY) - 41 + "px")
+
+							setMedianTooltip(d[0])
+						}
+
+					}).on("mouseout", function () {
+						// setExpand(false)
+						medianLine.transition()
+							.duration(100)
+							.style('stroke-width', '4px')
+						medianTooltip.transition()
+							.duration(500)
+							.style('z-index', -1)
+							.style("opacity", 0)
+					}).on('click', function () {
+						// setExpand(true)
+					})
+			}
 
 			//Median line
-			if (line.median & !line.noMedianLegend) {
+			if ((line.median && !line.noMedianLegend)) {
 				let medianData = getMedianLineData(line.data)
 				let medianLine = this.svg.append('path')
 					.data([medianData])

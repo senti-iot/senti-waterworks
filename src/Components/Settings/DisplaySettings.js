@@ -1,11 +1,12 @@
 import React from 'react'
 import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components'
 import { Laptop } from 'variables/icons'
-import { Grid, ListItem, List, ListItemText, colors, /* Switch */ } from '@material-ui/core'
+import { Grid, ListItem, List, ListItemText, colors, InputAdornment, /* Switch */ } from '@material-ui/core'
 import { settingsStyles } from 'Styles/settingsStyle'
 import { changeLanguage } from 'Redux/localization'
-import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme } from 'Redux/settings'
+import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, changeMaxDailyConsumption } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
+import TextF from 'Components/Input/TextF'
 
 function DisplaySettings(props) {
 	//Hooks
@@ -23,12 +24,16 @@ function DisplaySettings(props) {
 	const rChangeHoverTime = e => dispatch(changeHoverTime(e.target.value))
 	const rChangeColorTheme = e => dispatch(changeColorTheme(e.target.value))
 	const rChangeUnit = e => dispatch(changeMeasureUnit(e.target.value))
+	const rChangeMDC = e => {
+		dispatch(changeMaxDailyConsumption(e.target.value))
+	}
+
 	//State
 
 	//Const
 	const { language, trp, sideBar, discSentiVal,
 		theme, hoverTime, snackbarLocation,
-		colorTheme, mUnit
+		colorTheme, mUnit, maxDailyConsumption
 	} = settings
 	//useCallbacks
 
@@ -154,10 +159,22 @@ function DisplaySettings(props) {
 									<DSelect menuItems={hoverTimes} value={hoverTime} onChange={rChangeHoverTime} />
 								</ItemGrid>
 							</ListItem>
-							<ListItem>
+							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText primary={t('settings.chart.mUnit')} />
 									<DSelect menuItems={measureUnits} value={mUnit} onChange={rChangeUnit} />
+								</ItemGrid>
+							</ListItem>
+							<ListItem>
+								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
+									<ListItemText primary={t('settings.chart.maxDailyConsumption')} />
+									<TextF
+										value={maxDailyConsumption}
+										onChange={rChangeMDC}
+										InputProps={{
+											endAdornment: <InputAdornment position={'end'} > L</InputAdornment>
+										}}
+									/>
 								</ItemGrid>
 							</ListItem>
 						</List>

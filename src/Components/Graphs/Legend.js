@@ -17,7 +17,9 @@ const Legend = props => {
 	return (
 		<ItemG container justify={'center'} alignItems={'center'}>
 			{data.map(line => {
-
+				if (line.noLegend) {
+					return null
+				}
 				if (line.median && !line.noMedianLegend) {
 					return <Fragment key={'LegendFragment' + line.name}>
 						<FormControlLabel
