@@ -664,18 +664,10 @@ class d3Line {
 					// .attr('class', classes.medianLine)
 					.attr('d', this.valueLine)
 					.attr('id', `MedianL${line.name}`)
-					.attr('opacity', 1)
+					.attr("opacity", this.state['L' + line.name] ? 0 : 1)
 					.attr('stroke-width', '4px')
 					.attr('stroke', colors[line.color][500])
 					.attr('stroke-dasharray', ("3, 3"))
-				this.svg.append("text")
-					.attr("transform", "translate(" + (this.margin.right + 50) + "," + (this.y(line.data[0].value) - 15) + ")")
-					.attr("dy", ".35em")
-					.attr("text-anchor", "start")
-					.attr('style', `font-weight: 500;fill: ${colors[line.color][500]}`)
-					// .style("font", "bold")
-					// .style("fill", colors[line.color][500])
-					.text(this.t(line.label))
 
 				this.svg.append('path')
 					.data([medianData])
@@ -690,15 +682,19 @@ class d3Line {
 								.duration(100)
 								.style('stroke-width', '7px')
 
-							medianTooltip.transition()
-								.duration(200)
-								.style("opacity", 1)
-								.style('z-index', 1040)
+							if (line.noTooltip) {
 
-							medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-								.style("top", (d3.event.pageY) - 41 + "px")
+							}
+							else {
+								medianTooltip.transition()
+									.duration(200)
+									.style("opacity", 1)
+									.style('z-index', 1040)
+								medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+									.style("top", (d3.event.pageY) - 41 + "px")
 
-							setMedianTooltip(d[0])
+								setMedianTooltip(d[0])
+							}
 						}
 
 					}).on("mouseout", function () {
@@ -706,12 +702,15 @@ class d3Line {
 						medianLine.transition()
 							.duration(100)
 							.style('stroke-width', '4px')
-						medianTooltip.transition()
-							.duration(500)
-							.style('z-index', -1)
-							.style("opacity", 0)
-					}).on('click', function () {
-						// setExpand(true)
+						if (line.noTooltip) {
+
+						}
+						else {
+							medianTooltip.transition()
+								.duration(500)
+								.style('z-index', -1)
+								.style("opacity", 0)
+						}
 					})
 			}
 

@@ -1,5 +1,6 @@
 {
 	"chartLines": {
+		"maxDailyConsumption": "Dagligt maks forbrug",
 		"average": "Gns.",
 		"waterusageL": "Forbrug",
 		"waterusageP": "Forrige Periode",

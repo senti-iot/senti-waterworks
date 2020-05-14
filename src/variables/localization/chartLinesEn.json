@@ -1,5 +1,6 @@
 {
 	"chartLines": {
+		"maxDailyConsumption": "Max. Daily Consumption",
 		"average": "Avg.",
 		"waterusageL": "Usage",
 		"waterusageP": "Prev. Period",

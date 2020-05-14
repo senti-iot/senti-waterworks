@@ -169,6 +169,7 @@ function DisplaySettings(props) {
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText primary={t('settings.chart.maxDailyConsumption')} />
 									<TextF
+										onSubmit={rChangeMDC}
 										value={maxDailyConsumption}
 										onChange={rChangeMDC}
 										InputProps={{

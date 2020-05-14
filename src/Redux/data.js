@@ -519,22 +519,7 @@ export const getNData = async () => {
 		//#region waterFlow
 		//#endregion
 		//#region Final Data Creation
-		if (mdc > 0) {
-			let fMdc = mUnit === 'm3' ? mdc / 1000 : mdc
-			finalData.waterusage.push({
-				name: 'maxDailyConsumption',
-				label: 'settings.chart.maxDailyConsumption',
-				noArea: true,
-				// dashed: true,
-				onlyMedian: true,
-				// noMedianLegend: true,
-				noLegend: true,
-				color: 'red',
-				data: [{
-					date: moment(from).add(1, 'day'), value: fMdc
-				}, { date: moment(to).subtract(1, 'day'), value: fMdc }]
-			})
-		}
+
 		if (currentPeriodData.waterusage) {
 			finalData.waterusage.push({
 				name: 'waterusageL',
@@ -570,6 +555,21 @@ export const getNData = async () => {
 				color: 'yellow',
 				noArea: true,
 				data: currentPeriodData.readings
+			})
+		}
+		if (mdc > 0) {
+			let fMdc = mUnit === 'm3' ? mdc / 1000 : mdc
+			console.log(moment(from).add(1, 'day'), moment(to).subtract(1, 'day'))
+			finalData.waterusage.push({
+				name: 'maxDailyConsumption',
+				noArea: true,
+				hidden: true,
+				onlyMedian: true,
+				noTooltip: true,
+				color: 'red',
+				data: [{
+					date: moment(from).add(1, 'day'), value: fMdc
+				}, { date: moment(to).subtract(1, 'day'), value: fMdc }]
 			})
 		}
 		//#endregion

@@ -76,6 +76,7 @@ const TextF = (props) => {
 			value={props.value}
 			onClick={props.onClick}
 			onChange={props.onChange}
+			onSubmit={props.onSubmit}
 			fullWidth={props.fullWidth !== undefined ? props.fullWidth : mobile ? true : false}
 			// fullWidth={props.fullWidth || mobile ? true : false}
 			autoComplete={props.autoComplete}
@@ -88,6 +89,7 @@ const TextF = (props) => {
 			disabled={props.disabled ? props.disabled : false}
 			margin={props.margin ? props.margin : 'normal'}
 			notched={props.notched}
+			onKeyDownCapture={props.onKeyDown}
 			helperText={props.helperText}
 			endAdornment={props.endAdornment}
 			InputProps={props.InputProps ? {
