@@ -43,7 +43,6 @@ const getMax = (arr) => {
 		}
 	}
 }
-
 const getMin = (arr) => {
 	if (arr.length > 0) {
 		let min = Math.min(...arr.map(d => d.value))
@@ -99,8 +98,6 @@ class d3LineFS {
 		this.weatherData = props.weatherData ? props.weatherData : []
 		this.svg = d3.select(`#${props.id + 'fsLG'}`)
 		this.state = store.getState().appState.lines
-
-
 		this.generateXAxis()
 		this.generateYAxis()
 
@@ -117,11 +114,6 @@ class d3LineFS {
 			.style("opacity", 0)
 		this.medianTooltip = d3.select(`#medianTooltip${this.props.id}fsLG`)
 			.style("opacity", 0)
-
-		//Define the area for the values
-
-
-
 
 		//#region Ticks
 
@@ -364,7 +356,7 @@ class d3LineFS {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		const setTooltip = this.props.setTooltip
 		data.forEach((line) => {
-			if (line.prev) {
+			if (line.prev || line.onlyMedian) {
 				return
 			}
 			let tooltipDiv = d3.select(`#tooltipfsLG${this.props.id}`)
@@ -494,6 +486,9 @@ class d3LineFS {
 		data.forEach((line, i) => {
 			//#region Generate Line Area
 			if (data) {
+				if (line.onlyMedian) {
+					return
+				}
 				if (!line.noArea) {
 					let defArea = d3.area()
 						.x((d) => { return this.x(moment(d.date).valueOf()) })
@@ -582,10 +577,8 @@ class d3LineFS {
 
 						//Get the total length of the path
 						var totalLength = 0
-						if (path && path.node()) {
-
+						if (path && path.node())
 							totalLength = path.node().getTotalLength()
-						}
 
 						/////// Create the required stroke-dasharray to animate a dashed pattern ///////
 
@@ -663,6 +656,63 @@ class d3LineFS {
 		let data = this.props.data[this.props.id]
 		var medianTooltip = this.medianTooltip
 		data.forEach((line) => {
+			if (line.onlyMedian) {
+				let medianData = getMedianLineData(line.data)
+				let medianLine = this.svg.append('path')
+					.data([medianData])
+					// .attr('class', classes.medianLine)
+					.attr('d', this.valueLine)
+					.attr('id', `MedianLfsLG${line.name}`)
+					.attr('opacity', 1)
+					.attr('stroke-width', '4px')
+					.attr('stroke', colors[line.color][500])
+					.attr('stroke-dasharray', ("3, 3"))
+				this.svg.append("text")
+					.attr("transform", "translate(" + (this.margin.right + 50) + "," + (this.y(line.data[0].value) - 15) + ")")
+					.attr("dy", ".35em")
+					.attr("text-anchor", "start")
+					.attr('style', `font-weight: 500;fill: ${colors[line.color][500]}`)
+					// .style("font", "bold")
+					// .style("fill", colors[line.color][500])
+					.text(this.t(line.label))
+
+				this.svg.append('path')
+					.data([medianData])
+					.attr('class', classes.hiddenMedianLine)
+					.attr('d', this.valueLine)
+					.attr('id', `MedianHfsLG${line.name}`)
+					.style('display', this.state['MedianfsLG' + line.name] ? 'none' : undefined)
+					.on("mouseover", (d) => {
+						if (!this.state[`MedianfsLG${line.name}`]) {
+
+							medianLine.transition()
+								.duration(100)
+								.style('stroke-width', '7px')
+
+							medianTooltip.transition()
+								.duration(200)
+								.style("opacity", 1)
+								.style('z-index', 1040)
+
+							medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+								.style("top", (d3.event.pageY) - 41 + "px")
+
+							setMedianTooltip(d[0])
+						}
+
+					}).on("mouseout", function () {
+						// setExpand(false)
+						medianLine.transition()
+							.duration(100)
+							.style('stroke-width', '4px')
+						medianTooltip.transition()
+							.duration(500)
+							.style('z-index', -1)
+							.style("opacity", 0)
+					}).on('click', function () {
+						// setExpand(true)
+					})
+			}
 
 			//Median line
 			if (line.median & !line.noMedianLegend) {

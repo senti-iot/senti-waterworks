@@ -999,6 +999,7 @@
 			"time": "På tid"
 		},
 		"chart": {
+			"maxDailyConsumption": "Dagligt maks forbrug",
 			"mUnit": "Måleenhed",
 			"YAxis": {
 				"linear": "Lineær skala",

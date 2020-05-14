@@ -46,7 +46,7 @@ const renderIcon = (id, tooltip) => {
 }
 
 const MedianTooltip = (props) => {
-	return <TCard id={'medianTooltip' + props.id} style={{ zIndex: -1 }}>
+	return <TCard id={props.fs ? 'medianTooltip' + props.id + 'fsLG' : 'medianTooltip' + props.id} style={{ zIndex: -1 }}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>

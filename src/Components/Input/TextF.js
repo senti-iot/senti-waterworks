@@ -15,16 +15,16 @@ const styles = makeStyles(theme => ({
 	},
 	root: {
 		"&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
-			borderColor: "rgb(39,136,129, 0.67)"
+			borderColor: "rgba(255,255,255, 1)"
 		}
 	},
 	disabled: {},
 	focused: {},
 	error: {},
 	notchedOutline: {
-		borderColor: "rgb(39,136,129, 0.23)",
+		// borderColor: "rgb(39,136,129, 0.23)",
 		"&:hover": {
-			borderColor: "rgb(39,136,129, 1)"
+			borderColor: "rgba(255,255,255, 1)"
 		}
 	},
 	rootReversed: {
@@ -89,6 +89,7 @@ const TextF = (props) => {
 			margin={props.margin ? props.margin : 'normal'}
 			notched={props.notched}
 			helperText={props.helperText}
+			endAdornment={props.endAdornment}
 			InputProps={props.InputProps ? {
 				...props.InputProps,
 				style: { ...props.InputProps.style, boxSizing: 'border-box' },

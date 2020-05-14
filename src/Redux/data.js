@@ -133,6 +133,7 @@ export const getNData = async () => {
 		let orgId = getState().settings.user.org.uuid
 		let from = getState().dateTime.period.from.clone().subtract(1, 'day')
 		let to = getState().dateTime.period.to.clone().add(1, 'day')
+		let mdc = getState().settings.maxDailyConsumption
 		let subtr = moment(to).diff(moment(from), 'day')
 		let prevFrom = moment(from).subtract(subtr, 'day').add(1, 'day')
 		let prevTo = moment(from).add(1, 'day')
@@ -518,6 +519,22 @@ export const getNData = async () => {
 		//#region waterFlow
 		//#endregion
 		//#region Final Data Creation
+		if (mdc > 0) {
+			let fMdc = mUnit === 'm3' ? mdc / 1000 : mdc
+			finalData.waterusage.push({
+				name: 'maxDailyConsumption',
+				label: 'settings.chart.maxDailyConsumption',
+				noArea: true,
+				// dashed: true,
+				onlyMedian: true,
+				// noMedianLegend: true,
+				noLegend: true,
+				color: 'red',
+				data: [{
+					date: moment(from).add(1, 'day'), value: fMdc
+				}, { date: moment(to).subtract(1, 'day'), value: fMdc }]
+			})
+		}
 		if (currentPeriodData.waterusage) {
 			finalData.waterusage.push({
 				name: 'waterusageL',
