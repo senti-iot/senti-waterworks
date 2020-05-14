@@ -20,7 +20,7 @@ class d3Arc {
 	props
 	svg
 	g
-	margin = { top: 100, right: 20, bottom: 50, left: 20 }
+	margin = { top: 10, right: 0, bottom: 10, left: 0 }
 
 	constructor(containerEl, props) {
 
@@ -99,7 +99,7 @@ class d3Arc {
 		 */
 
 		this.g = this.svg.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+			.attr("transform", "translate(" + 0 + "," + 0 + ")")
 
 		// ENTER
 		var bounds = d3.select('#bars').node().getBoundingClientRect(),
@@ -112,12 +112,13 @@ class d3Arc {
 		var bars = this.g.selectAll(".bar")
 			.data(barsData)
 		if (barsData.length === 4) {
+
 			bars
 				.enter().append("rect")
 
 				.attr("class", d => { return d.className + ' .bar' })
 				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) - (this.x.bandwidth() / 4) : this.x(d.type) + (this.x.bandwidth() / 4) })
-				.attr("y", (d) => { return this.y(parseFloat(d.value)) })
+				.attr("y", (d) => { console.log('D', d); return this.y(parseFloat(d.value)) })
 				.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
 				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
 		}
@@ -127,7 +128,7 @@ class d3Arc {
 
 				.attr("class", d => { return d.className + ' .bar' })
 				.attr("x", (d, i) => { return this.x(d.type) })
-				.attr("y", (d) => { return this.y(parseFloat(d.value)) })
+				.attr("y", (d) => { console.log('D', d); return this.y(parseFloat(d.value)) })
 				.attr("width", (d) => d.hidden ? (this.x.bandwidth() / 2) : this.x.bandwidth())
 				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
 		}

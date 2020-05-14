@@ -37,7 +37,7 @@ const initialState = {
 	period: {
 		menuId: 2,
 		from: moment().subtract(6, 'day').startOf('day'),
-		to: moment().endOf('day'),
+		to: moment().startOf('day'),
 		timeType: 2
 	},
 
