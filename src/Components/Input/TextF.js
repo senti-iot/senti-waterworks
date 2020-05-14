@@ -75,6 +75,7 @@ const TextF = (props) => {
 			label={props.label}
 			value={props.value}
 			onClick={props.onClick}
+			defaultValue={props.defaultValue}
 			onChange={props.onChange}
 			onSubmit={props.onSubmit}
 			fullWidth={props.fullWidth !== undefined ? props.fullWidth : mobile ? true : false}
@@ -92,6 +93,7 @@ const TextF = (props) => {
 			onKeyDownCapture={props.onKeyDown}
 			helperText={props.helperText}
 			endAdornment={props.endAdornment}
+			inputRef={props.inputRef}
 			InputProps={props.InputProps ? {
 				...props.InputProps,
 				style: { ...props.InputProps.style, boxSizing: 'border-box' },

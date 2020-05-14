@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components'
 import { Laptop } from 'variables/icons'
 import { Grid, ListItem, List, ListItemText, colors, InputAdornment, /* Switch */ } from '@material-ui/core'
@@ -24,8 +24,8 @@ function DisplaySettings(props) {
 	const rChangeHoverTime = e => dispatch(changeHoverTime(e.target.value))
 	const rChangeColorTheme = e => dispatch(changeColorTheme(e.target.value))
 	const rChangeUnit = e => dispatch(changeMeasureUnit(e.target.value))
-	const rChangeMDC = e => {
-		dispatch(changeMaxDailyConsumption(e.target.value))
+	const rChangeMDC = val => {
+		dispatch(changeMaxDailyConsumption(val))
 	}
 
 	//State
@@ -35,6 +35,7 @@ function DisplaySettings(props) {
 		theme, hoverTime, snackbarLocation,
 		colorTheme, mUnit, maxDailyConsumption
 	} = settings
+	const inputRef = useRef(React.createRef())
 	//useCallbacks
 
 	//useEffects
@@ -169,9 +170,23 @@ function DisplaySettings(props) {
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText primary={t('settings.chart.maxDailyConsumption')} />
 									<TextF
-										value={maxDailyConsumption}
-										onChange={rChangeMDC}
+										// value={maxDailyConsumption}
+										defaultValue={maxDailyConsumption}
+										// onChange={rChangeMDC}
+										inputRef={inputRef}
 										InputProps={{
+											// ref: inputRef,
+											onBlur: () => {
+												rChangeMDC(inputRef.current.value)
+											},
+											onKeyDown: e => {
+												console.log(e.key, inputRef.current)
+												if (e.key === 'Enter') {
+													// console.log(inputRef.current.value)
+													// rChangeMDC(inputRef.current.value)
+													inputRef.current.blur()
+												}
+											},
 											endAdornment: <InputAdornment position={'end'} > L</InputAdornment>
 										}}
 									/>
