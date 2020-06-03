@@ -4,7 +4,7 @@ import { makeStyles, Grid, Dialog, IconButton, Paper } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper } from 'Styles/containerStyle'
-import { CallMade, HelpOutline } from 'variables/icons'
+import { CallMade, /* HelpOutline */ } from 'variables/icons'
 import familyIcon from 'assets/icons/familie.svg'
 // import waterdrop from 'assets/icons/water.drop.blue.svg'
 import SlideT from 'Components/Transitions/SlideT'
@@ -12,7 +12,7 @@ import FullscreenDialog from './FullscreenDialog'
 import { useSelector } from 'react-redux'
 import cx from 'classnames'
 import { useLocalization } from 'Hooks'
-import PopperBubble from './PopperBubble'
+// import PopperBubble from './PopperBubble'
 import T from 'Components/Typography/T'
 import { formatShortNumber } from 'data/functions'
 
@@ -112,8 +112,8 @@ const Usage = props => {
 	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
-	const [anchorEl, setAnchorEl] = useState(null)
-	const [popperOpen, setPopperOpen] = useState(false)
+	// const [anchorEl, setAnchorEl] = useState(null)
+	// const [popperOpen, setPopperOpen] = useState(false)
 
 	//Redux
 	const avgData = useSelector(s => s.data.avgData)
@@ -122,8 +122,6 @@ const Usage = props => {
 	const [fsDialogOpen, setFsDialogOpen] = useState(false)
 
 	//Const
-
-	//useCallbacks
 
 	//useEffects
 
@@ -139,7 +137,9 @@ const Usage = props => {
 
 		})
 	}
-	console.log('Beng', avgData.waterusagem3, formatShortNumber(avgData.waterusagem3, 2))
+	const handleOnClose = () => {
+		setFsDialogOpen(false)
+	}
 	return (
 		<Grid container className={classes.container}> {/* ref */}
 			<ItemG xs={6} className={columnClasses(0)}>
@@ -151,9 +151,9 @@ const Usage = props => {
 					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
 						<T variant="body2" className={classes.cubicValue} style={{ color: '#6DD400' }}>
 
-							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2) : formatShortNumber(avgData.waterusageL, 2))}
+							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2) : formatShortNumber(avgData.waterusageL, 0))}
 							<span className={classes.cubicValueUnit}>
-								{mUnit === 'm3' ? "m³" : "L"}
+								{mUnit === 'm3' ? " m³" : "L"}
 							</span>
 						</T>
 						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
@@ -170,7 +170,7 @@ const Usage = props => {
 						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
 							{(mUnit === 'm3' ? parseFloat(avgData.benchmarkm3).toFixed(3).replace('.', ',') : parseFloat(avgData.benchmarkL).toFixed(0))}
 							<span className={classes.cubicValueUnit}>
-								{mUnit === 'm3' ? "m³" : "L"}
+								{mUnit === 'm3' ? " m³" : " L"}
 							</span>
 						</T>
 						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
@@ -180,13 +180,13 @@ const Usage = props => {
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
 			</IconButton>
-			<IconButton size="small" className={classes.helpOutline} onClick={e => { // clicking opens the popper
+			{/* <IconButton size="small" className={classes.helpOutline} onClick={e => { // clicking opens the popper
 				setPopperOpen(!popperOpen)
 				setAnchorEl(props.parentRef.current)
 			}}>
 				<HelpOutline />
-			</IconButton>
-
+			</IconButton> */}
+			{/*
 			<PopperBubble
 				open={popperOpen}
 				anchorEl={anchorEl}
@@ -197,7 +197,7 @@ const Usage = props => {
 				Ved at klikke på pilen kan du folde dette element ud og få en dybere indsigt,
 				samt tips og tricks til at spare vand i din hverdag.
 				`}
-			/>
+			/> */}
 
 			<Dialog
 				fullScreen
@@ -206,6 +206,7 @@ const Usage = props => {
 				open={fsDialogOpen}
 				onChange={() => setFsDialogOpen(false)}
 				TransitionComponent={SlideT}
+				onClose={handleOnClose}
 				PaperProps={{
 					style: {
 						// colors converted from hexadecimal to RGBA in order to have an opacity effect

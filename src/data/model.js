@@ -88,13 +88,13 @@ export const genMinF = (deviceData, filter, prev, diff) => {
 export const genMinATemp = (deviceData, filter, prev, diff) => {
 	let minATemp
 	if (filter && filter.length > 0) {
-		minATemp = deviceData.filter(d => d.minATemp && filter.indexOf(d.device_id) > -1)
+		minATemp = deviceData.filter(d => d.val && filter.indexOf(d.uuid) > -1)
 	}
 	else {
-		minATemp = deviceData.filter(d => d.minATemp)
+		minATemp = deviceData.filter(d => d.val)
 	}
 
-	minATemp = genReading(minATemp.map(d => ({ value: d.minATemp, date: d.time })))
+	minATemp = genReading(minATemp.map(d => ({ value: d.val, date: d.t })))
 
 	return minATemp
 }
@@ -236,7 +236,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 	 */
 	let minUsage = {}
 	minUsage.className = 'waterUsageA'
-	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0])).toFixed(3)
+	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0]).toFixed(3))
 	minUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	minUsage.type = 'chartTable.waterusage.line1'
 	waterusage.push(minUsage)
@@ -246,7 +246,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 	 */
 	let maxUsage = {}
 	maxUsage.className = 'waterUsageB'
-	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0])).toFixed(3)
+	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0]).toFixed(3))
 	maxUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)

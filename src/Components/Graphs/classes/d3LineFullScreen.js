@@ -75,7 +75,7 @@ const getMin = (arr) => {
 		return min > 0 ? Math.floor(min) : 0
 	}
 }
-class d3Line {
+class d3LineFS {
 
 	containerEl
 	props
@@ -96,7 +96,7 @@ class d3Line {
 		this.height = containerEl.clientHeight
 		this.width = containerEl.clientWidth
 		this.weatherData = props.weatherData ? props.weatherData : []
-		this.svg = d3.select(`#${props.id}`)
+		this.svg = d3.select(`#${props.id + 'fsLG'}`)
 		this.state = store.getState().appState.lines
 		this.generateXAxis()
 		this.generateYAxis()
@@ -110,9 +110,9 @@ class d3Line {
 		this.valueLine = d3.line()
 			.x((d) => this.x(moment(d.date).valueOf()))
 			.y(d => this.y(d.value))
-		this.div = d3.select(`#tooltip${props.id}`)
+		this.div = d3.select(`#tooltip${props.id}fsLG`)
 			.style("opacity", 0)
-		this.medianTooltip = d3.select(`#medianTooltip${this.props.id}`)
+		this.medianTooltip = d3.select(`#medianTooltip${this.props.id}fsLG`)
 			.style("opacity", 0)
 
 		//#region Ticks
@@ -132,9 +132,9 @@ class d3Line {
 	update = () => {
 		//#region Update Y-Axis
 		let data = this.props.data ? this.props.data[this.props.id] : []
-		let newData = data.filter(f => !this.state['L' + f.name])
+		let newData = data.filter(f => !this.state['LfsLG' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		this.y.domain([Math.floor(getMin(allData)), Math.round(getMax(allData))])
+		this.y.domain([getMin(allData), getMax(allData)])
 		this.yAxis.remove()
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
@@ -144,17 +144,15 @@ class d3Line {
 		this.generateMedian()
 		this.generateLegend()
 		this.generateDots()
-		// this.yAxis.call(d3.axisLeft(this.y))
 	}
-	generateYAxis = (noDomain) => {
+	generateYAxis = () => {
 
 		const classes = this.classes
 		const height = this.height
 		// let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 20])
-			// this.y.domain([getMin(allData), getMax(allData)])
+			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 15])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
@@ -186,7 +184,7 @@ class d3Line {
 		let period = this.props.period
 
 		let data = this.props.data ? this.props.data[this.props.id] : []
-		let newData = data.filter(f => !this.state['L' + f.name])
+		let newData = data.filter(f => !this.state['LfsLG' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
 
 		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
@@ -361,7 +359,7 @@ class d3Line {
 			if (line.prev || line.onlyMedian) {
 				return
 			}
-			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
+			let tooltipDiv = d3.select(`#tooltipfsLG${this.props.id}`)
 			this.svg.selectAll(".dot")
 				.data(line.data)
 				.enter()
@@ -395,7 +393,7 @@ class d3Line {
 				.attr('opacity', 0)
 				.transition()
 				.attr("id", `Dots${line.name}`)
-				.style("opacity", this.state['L' + line.name] ? 0 : 1)
+				.style("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
 				.delay((d, i) => { return i * (1500 / line.data.length) })
 				.attr("r", 6)
 		})
@@ -405,24 +403,25 @@ class d3Line {
 		let data = this.props.data[this.props.id]
 		data.forEach((line) => {
 			if (line.median & !line.noMedianLegend) {
-				let LegendMCheck = d3.select(`#LegendMedianCheckbox${line.name}`)
-				let LegendM = d3.select(`#LegendMedian${line.name}`)
-				let LegendMLabel = d3.select(`#LegendMedianLabel${line.name}`)
+				let LegendMCheck = d3.select(`#LegendMedianCheckboxfsLG${line.name}`)
+
+				let LegendM = d3.select(`#LegendMedianfsLG${line.name}`)
+				let LegendMLabel = d3.select(`#LegendMedianLabelfsLG${line.name}`)
 				LegendMCheck.on('click', () => {
 
-					var active = this.state['Median' + line.name] ? false : true,
+					var active = this.state['MedianfsLG' + line.name] ? false : true,
 						newOpacity = active ? 0 : 1, display = active ? 'none' : undefined,
 						newColor = active ? 'steelblue' : line.color ? colors[line.color][500] : "#fff"
 
 					// Hide or show the elements
 
-					d3.selectAll(`#MedianL${line.name}`)
+					d3.selectAll(`#MedianfsLG${line.name}`)
 						.transition().duration(200)
 						.style("opacity", newOpacity)
-					d3.selectAll(`#MedianLegend${line.name}`)
+					d3.selectAll(`#MedianLegendfsLG${line.name}`)
 						.transition().duration(200)
 						.style("fill", newColor)
-					d3.select(`#MedianH${line.name}`)
+					d3.select(`#MedianHfsLG${line.name}`)
 						.transition().duration(200)
 						.style("display", display)
 
@@ -431,31 +430,31 @@ class d3Line {
 					LegendM
 						.style("color", active ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500])
 					LegendMLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
-					this.setState('Median' + line.name, active)
+					this.setState('MedianfsLG' + line.name, active)
 				})
 			}
 
-			let Legend = d3.select(`#Legend${line.name}`)
-			let LegendCheck = d3.select(`#LegendCheckbox${line.name}`)
-			let LegendLabel = d3.select(`#LegendLabel${line.name}`)
+			let Legend = d3.select(`#LegendfsLG${line.name}`)
+			let LegendCheck = d3.select(`#LegendCheckboxfsLG${line.name}`)
+			let LegendLabel = d3.select(`#LegendLabelfsLG${line.name}`)
 			LegendCheck.on('click', () => {
-				let active = this.state['L' + line.name] ? false : true,
+				let active = this.state['LfsLG' + line.name] ? false : true,
 					newOpacity = active ? 0 : 1, display = active ? 'none' : undefined
 				// Hide or show the elements
 
-				d3.select(`#L${line.name}`)
+				d3.select(`#LfsLG${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.selectAll(`#Dots${line.name}`)
+				d3.selectAll(`#DotsfsLG${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.select(`#Area${line.name}`)
+				d3.select(`#AreafsLG${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.select(`#MArea${line.name}`)
+				d3.select(`#MAreafsLG${line.name}`)
 					.transition().duration(200)
 					.style("opacity", newOpacity)
-				d3.select(`#HArea${line.name}`)
+				d3.select(`#HAreafsLG${line.name}`)
 					.transition().duration(200)
 					.style("display", display)
 				// LegendCheck
@@ -464,7 +463,7 @@ class d3Line {
 					.style("color", active ? 'rgba(255,255,255,0.3)' : line.prev ? '#fff' : colors[line.color][500])
 				LegendLabel.style("color", active ? 'rgba(255,255,255,0.3)' : '#fff')
 
-				this.setState('L' + line.name, active)
+				this.setState('LfsLG' + line.name, active)
 			})
 
 
@@ -497,9 +496,9 @@ class d3Line {
 						.y0(this.height - this.margin.bottom)
 						.y1((d) => { return this.y(d.value) })
 					this.svg.append("path")
-						.attr('id', 'Area' + line.name)
+						.attr('id', 'AreafsLG' + line.name)
 						.data([line.data])
-						.attr("opacity", this.state['L' + line.name] ? 0 : 1)
+						.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
 						.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
 						.attr("d", animArea0)
 						.transition()
@@ -517,8 +516,8 @@ class d3Line {
 							.attr('stroke-width', '4px')
 							// .attr('class', classes.medianLinePrev)
 							.attr('d', this.valueLine)
-							.attr('id', 'Median' + line.name)
-							.attr('opacity', this.state[`L${line.name}`] ? 0 : 1)
+							.attr('id', 'MedianfsLG' + line.name)
+							.attr('opacity', this.state[`LfsLG${line.name}`] ? 0 : 1)
 							.attr('stroke-dasharray', ("3, 3"))
 
 						// Hidden overlay for Median tooltip
@@ -529,9 +528,9 @@ class d3Line {
 							.attr('opacity', 0)
 							.attr('stroke-width', '7px')
 							.attr('d', this.valueLine)
-							.attr('id', 'HArea' + line.name)
+							.attr('id', 'HAreafsLG' + line.name)
 							.on("mouseover", (d) => {
-								if (!this.state[`L${line.name}`]) {
+								if (!this.state[`LfsLG${line.name}`]) {
 
 									medianLine.transition()
 										.duration(100)
@@ -569,16 +568,16 @@ class d3Line {
 						//Set up your path as normal
 						var path = this.svg.append("path")
 							.data([line.data])
-							.attr('id', 'L' + line.name)
+							.attr('id', 'LfsLG' + line.name)
 							.attr('fill', 'none')
 							.attr('stroke', colors[line.color][500])
 							.attr('stroke-width', '4px')
 							.attr('d', this.valueLine)
-							.attr("opacity", this.state['L' + line.name] ? 0 : 1)
+							.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
 
 						//Get the total length of the path
 						var totalLength = 0
-						if (path.node())
+						if (path && path.node())
 							totalLength = path.node().getTotalLength()
 
 						/////// Create the required stroke-dasharray to animate a dashed pattern ///////
@@ -623,7 +622,7 @@ class d3Line {
 
 						this.svg.append('path')
 							.data([line.data])
-							.attr('id', 'L' + line.name)
+							.attr('id', 'LfsLG' + line.name)
 							// .attr('class', classes[line.name])
 							.attr('fill', 'none')
 							.attr('stroke', colors[line.color][500])
@@ -635,7 +634,7 @@ class d3Line {
 							.attr("stroke-dashoffset", function () {
 								return this.getTotalLength()
 							})
-							.attr("opacity", this.state["L" + line.name] ? 0 : 1)
+							.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
 							.transition()
 							.duration(1500)
 							.attr('stroke-dashoffset', 0)
@@ -663,20 +662,28 @@ class d3Line {
 					.data([medianData])
 					// .attr('class', classes.medianLine)
 					.attr('d', this.valueLine)
-					.attr('id', `MedianL${line.name}`)
-					.attr("opacity", this.state['L' + line.name] ? 0 : 1)
+					.attr('id', `MedianLfsLG${line.name}`)
+					.attr("opacity", this.state['LfsLG' + line.name] ? 0 : 1)
 					.attr('stroke-width', '4px')
 					.attr('stroke', colors[line.color][500])
 					.attr('stroke-dasharray', ("3, 3"))
+				// this.svg.append("text")
+				// 	.attr("transform", "translate(" + (this.margin.right + 50) + "," + (this.y(line.data[0].value) - 15) + ")")
+				// 	.attr("dy", ".35em")
+				// 	.attr("text-anchor", "start")
+				// 	.attr('style', `font-weight: 500;fill: ${colors[line.color][500]}`)
+				// 	// .style("font", "bold")
+				// 	// .style("fill", colors[line.color][500])
+				// 	.text(this.t(line.label))
 
 				this.svg.append('path')
 					.data([medianData])
 					.attr('class', classes.hiddenMedianLine)
 					.attr('d', this.valueLine)
-					.attr('id', `MedianH${line.name}`)
-					.style('display', this.state['Median' + line.name] ? 'none' : undefined)
+					.attr('id', `MedianHfsLG${line.name}`)
+					.style('display', this.state['MedianfsLG' + line.name] ? 'none' : undefined)
 					.on("mouseover", (d) => {
-						if (!this.state[`Median${line.name}`]) {
+						if (!this.state[`MedianfsLG${line.name}`]) {
 
 							medianLine.transition()
 								.duration(100)
@@ -702,27 +709,24 @@ class d3Line {
 						medianLine.transition()
 							.duration(100)
 							.style('stroke-width', '4px')
-						if (line.noTooltip) {
-
-						}
-						else {
-							medianTooltip.transition()
-								.duration(500)
-								.style('z-index', -1)
-								.style("opacity", 0)
-						}
+						medianTooltip.transition()
+							.duration(500)
+							.style('z-index', -1)
+							.style("opacity", 0)
+					}).on('click', function () {
+						// setExpand(true)
 					})
 			}
 
 			//Median line
-			if ((line.median && !line.noMedianLegend)) {
+			if (line.median & !line.noMedianLegend) {
 				let medianData = getMedianLineData(line.data)
 				let medianLine = this.svg.append('path')
 					.data([medianData])
 					// .attr('class', classes.medianLine)
 					.attr('d', this.valueLine)
-					.attr('id', `MedianL${line.name}`)
-					.attr('opacity', this.state[`Median${line.name}`] ? 0 : 1)
+					.attr('id', `MedianLfsLG${line.name}`)
+					.attr('opacity', this.state[`MedianfsLG${line.name}`] ? 0 : 1)
 					.attr('stroke-width', '4px')
 					.attr('stroke', colors[line.color][500])
 					.attr('stroke-dasharray', ("3, 3"))
@@ -732,10 +736,10 @@ class d3Line {
 					.data([medianData])
 					.attr('class', classes.hiddenMedianLine)
 					.attr('d', this.valueLine)
-					.attr('id', `MedianH${line.name}`)
-					.style('display', this.state['Median' + line.name] ? 'none' : undefined)
+					.attr('id', `MedianHfsLG${line.name}`)
+					.style('display', this.state['MedianfsLG' + line.name] ? 'none' : undefined)
 					.on("mouseover", (d) => {
-						if (!this.state[`Median${line.name}`]) {
+						if (!this.state[`MedianfsLG${line.name}`]) {
 
 							medianLine.transition()
 								.duration(100)
@@ -774,5 +778,5 @@ class d3Line {
 	}
 
 }
-
-export default d3Line
+window.d3 = d3
+export default d3LineFS

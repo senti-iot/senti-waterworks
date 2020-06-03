@@ -10,10 +10,11 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import Usage from 'Components/Custom/Usage/Usage'
 import PriceChart from 'Components/Custom/Usage/PriceChart'
-import { getNData } from 'Redux/data'
+import { getNData, getAdminDevices } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
+import FullScreenMainChart from 'Components/Custom/MainChart/FullScreenMainChart'
 
 const styles = makeStyles(theme => ({
 	smallWidget: {
@@ -40,8 +41,10 @@ const EndUserContainer = () => {
 
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const devices = useSelector(s => s.data.devices)
 	const period = useSelector(s => s.dateTime.period)
-
+	const isSuperUser = useSelector(s => s.auth.isSuperUser)
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
@@ -64,16 +67,20 @@ const EndUserContainer = () => {
 
 	useEffect(() => {
 		if (loading) {
-			// const getDeviceData = async () => dispatch(await getData())
+
+			const getDevices = async () => dispatch(await getAdminDevices())
 			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
+				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
+					await getDevices()
+				}
 				// await getDeviceData()
 				await getNewData()
 				setLoading(false)
 			}
 			loadData()
 		}
-	}, [dispatch, loading])
+	}, [devices.length, dispatch, isSWAdmin, isSuperUser, loading])
 
 	//Handlers
 
@@ -113,7 +120,7 @@ const EndUserContainer = () => {
 
 			</ItemG>
 		</ItemG>
-
+		<FullScreenMainChart loading={loading} chart={chart} setChart={setChart} />
 	</GridContainer>
 }
 EndUserContainer.whyDidYouRender = true

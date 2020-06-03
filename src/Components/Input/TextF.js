@@ -15,16 +15,16 @@ const styles = makeStyles(theme => ({
 	},
 	root: {
 		"&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
-			borderColor: "rgb(39,136,129, 0.67)"
+			borderColor: "rgba(255,255,255, 1)"
 		}
 	},
 	disabled: {},
 	focused: {},
 	error: {},
 	notchedOutline: {
-		borderColor: "rgb(39,136,129, 0.23)",
+		// borderColor: "rgb(39,136,129, 0.23)",
 		"&:hover": {
-			borderColor: "rgb(39,136,129, 1)"
+			borderColor: "rgba(255,255,255, 1)"
 		}
 	},
 	rootReversed: {
@@ -75,7 +75,9 @@ const TextF = (props) => {
 			label={props.label}
 			value={props.value}
 			onClick={props.onClick}
+			defaultValue={props.defaultValue}
 			onChange={props.onChange}
+			onSubmit={props.onSubmit}
 			fullWidth={props.fullWidth !== undefined ? props.fullWidth : mobile ? true : false}
 			// fullWidth={props.fullWidth || mobile ? true : false}
 			autoComplete={props.autoComplete}
@@ -88,7 +90,10 @@ const TextF = (props) => {
 			disabled={props.disabled ? props.disabled : false}
 			margin={props.margin ? props.margin : 'normal'}
 			notched={props.notched}
+			onKeyDownCapture={props.onKeyDown}
 			helperText={props.helperText}
+			endAdornment={props.endAdornment}
+			inputRef={props.inputRef}
 			InputProps={props.InputProps ? {
 				...props.InputProps,
 				style: { ...props.InputProps.style, boxSizing: 'border-box' },

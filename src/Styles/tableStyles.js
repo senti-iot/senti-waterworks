@@ -23,10 +23,10 @@ const tableStyles = makeStyles(theme => ({
 		/* background: ${({ theme }) => theme.palette.primary.light}; */
 		borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
 		/* border-color: ${({ theme }) => theme.boxBackground}; */
-		color: '#fff'
+		color: theme.palette.type === 'light' ? '#000' : '#fff'
 	},
 	activeHeader: {
-		color: '#fff !important'
+		color: theme.palette.type === 'light' ? '#bbb !important' : '#fff !important'
 	}
 
 	// header: {

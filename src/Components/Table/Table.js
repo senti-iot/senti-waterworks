@@ -85,7 +85,7 @@ function CTable(props) {
 					/>
 					<TableBody>
 						{body ? body.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-							const isSelectedRow = isSelected(row.id)
+							const isSelectedRow = isSelected(row.uuid)
 							return (
 								<TableRow
 									hover
@@ -99,7 +99,7 @@ function CTable(props) {
 								>
 									{mobile ? <Hidden lgUp>
 										<Fragment>
-											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(e, row.id)} />} />
+											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(e, row.uuid)} />} />
 											{bodyMobileStructure(row)}
 										</Fragment>
 									</Hidden> : null}
@@ -107,7 +107,7 @@ function CTable(props) {
 									<Hidden mdDown>
 
 										<Fragment>
-											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(!e.target.checked, row.id)} />} />
+											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(!e.target.checked, row.uuid)} />} />
 											{bodyStructure(row)}
 										</Fragment>
 

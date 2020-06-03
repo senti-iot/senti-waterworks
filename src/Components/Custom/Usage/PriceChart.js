@@ -1,12 +1,12 @@
 /* eslint-disable indent */
-import React, { useState } from 'react'
-import { makeStyles, Typography, IconButton, Tooltip } from '@material-ui/core'
+import React, { /* useState */ } from 'react'
+import { makeStyles, Typography, IconButton } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
 import creditCard from 'assets/icons/credit-card.svg'
-import { CallMade, HelpOutline } from 'variables/icons'
-import PopperBubble from './PopperBubble'
+import { CallMade, /* HelpOutline */ } from 'variables/icons'
+// import PopperBubble from './PopperBubble'
 import { formatNumber, formatShortNumber } from 'data/functions'
 
 const useStyles = makeStyles(theme => ({
@@ -71,8 +71,8 @@ const PriceChart = props => {
 	const t = useLocalization()
 	//Hooks
 	const classes = useStyles()
-	const [anchorEl, setAnchorEl] = useState(null)
-	const [popperOpen, setPopperOpen] = useState(false)
+	// const [anchorEl, setAnchorEl] = useState(null)
+	// const [popperOpen, setPopperOpen] = useState(false)
 
 	//Redux
 	const priceData = useSelector(s => s.data.priceData)
@@ -115,14 +115,14 @@ const PriceChart = props => {
 			<IconButton size="small" className={classes.callMade} onClick={() => { }}>
 				<CallMade />
 			</IconButton>
-			<IconButton size="small" className={classes.helpOutline} onClick={() => {
+			{/* <IconButton size="small" className={classes.helpOutline} onClick={() => {
 				setPopperOpen(!popperOpen)
 				setAnchorEl(props.parentRef.current)
 			}}>
 				<HelpOutline />
-			</IconButton>
+			</IconButton> */}
 
-			<PopperBubble
+			{/* <PopperBubble
 				open={popperOpen}
 				anchorEl={anchorEl}
 				placement="top"
@@ -132,7 +132,7 @@ const PriceChart = props => {
 				hvor meget prisen er for det vandforbrug du har og tilsvarende prisen
 				for spildevand. Ved at klikke på pilen kan du tilgå dine tidligere vandregninger.
 				`}
-			/>
+			/> */}
 		</div>
 	)
 }

@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import { formatNumber } from 'data/functions'
+import { formatShortNumber } from 'data/functions'
 // import moment from 'moment';
 
 // const getMedianLineData = (data, prevData) => {
@@ -20,7 +20,7 @@ class d3Arc {
 	props
 	svg
 	g
-	margin = { top: 50, right: 20, bottom: 50, left: 20 }
+	margin = { top: 10, right: 0, bottom: 10, left: 0 }
 
 	constructor(containerEl, props) {
 
@@ -90,33 +90,35 @@ class d3Arc {
 		this.svg = this.container.append("svg")
 			.attr("id", 'svg' + id)
 			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom)
+			.attr("height", height)
+
+		// .attr("width", width + margin.left + margin.right)
+		// .attr("height", height + margin.top + margin.bottom)
 		/**
 		 * Append the group of bars to the svg
 		 */
 
 		this.g = this.svg.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+			.attr("transform", "translate(" + 0 + "," + 0 + ")")
 
 		// ENTER
 		var bounds = d3.select('#bars').node().getBoundingClientRect(),
 			rWidth = bounds.width - this.margin.left - this.margin.right,
 			rHeight = bounds.height - this.margin.top - this.margin.bottom
-
 		this.x.rangeRound([0, rWidth])
-		this.y.rangeRound([rHeight, 0])
+		this.y.rangeRound([rHeight, 25]) //25 is the label
 
 		//#region Generate Bars
 		var bars = this.g.selectAll(".bar")
 			.data(barsData)
-
 		if (barsData.length === 4) {
+
 			bars
 				.enter().append("rect")
 
 				.attr("class", d => { return d.className + ' .bar' })
 				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) - (this.x.bandwidth() / 4) : this.x(d.type) + (this.x.bandwidth() / 4) })
-				.attr("y", (d) => { return this.y(d.value) })
+				.attr("y", (d) => { console.log('D', d); return this.y(parseFloat(d.value)) })
 				.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
 				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
 		}
@@ -126,8 +128,8 @@ class d3Arc {
 
 				.attr("class", d => { return d.className + ' .bar' })
 				.attr("x", (d, i) => { return this.x(d.type) })
-				.attr("y", (d) => { return this.y(d.value) })
-				.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
+				.attr("y", (d) => { console.log('D', d); return this.y(parseFloat(d.value)) })
+				.attr("width", (d) => d.hidden ? (this.x.bandwidth() / 2) : this.x.bandwidth())
 				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
 		}
 
@@ -146,7 +148,6 @@ class d3Arc {
 	}
 	generateLabels = () => {
 		const { classes, barsData } = this.props
-		console.log(barsData)
 
 		if (barsData.length === 4) {
 			this.g.selectAll(".text")
@@ -158,7 +159,7 @@ class d3Arc {
 				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) + this.x.bandwidth() / 4 : this.x(d.type) + this.x.bandwidth() / 2 + this.x.bandwidth() / 4 })
 				.attr("y", (d) => { return this.y(d.value) })
 				.attr("dy", "-.3em")
-				.text((d) => { return d.hidden ? '' : `${formatNumber(d.value, 2)} ${d.unit}` })
+				.text((d) => { return d.hidden ? '' : `${formatShortNumber(d.value)} ${d.unit}` })
 		}
 		else {
 
@@ -171,7 +172,7 @@ class d3Arc {
 				.attr("x", (d, i) => { return this.x(d.type) + this.x.bandwidth() / 2 })
 				.attr("y", (d) => { return this.y(d.value) })
 				.attr("dy", "-.3em")
-				.text((d) => { return d.hidden ? '' : `${formatNumber(d.value, 2)} ${d.unit}` })
+				.text((d) => { return d.hidden ? '' : `${formatShortNumber(d.value)} ${d.unit}` })
 		}
 	}
 	generateXAxis = () => {

@@ -1,28 +1,18 @@
 import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog } from '@material-ui/core'
-import { SlideT, T } from 'Components'
+import { SlideT } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected } from 'Components/Custom/Styles/deviceTableStyles'
+import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected, Title } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { setSelectedDevices } from 'Redux/appState'
 import { sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import ItemG from 'Components/Containers/ItemG'
-import styled from 'styled-components'
-import size from 'Styles/themes/mediaQueries'
 
-const Title = styled(T)`
-	color: #fff;
-	font-weight: 600;
-	font-size: 1.75em;
-	letter-spacing: 1.5px;
-	@media ${size.down.md} {
-		font-size: 1.25em;
-	}
-`
+
 
 const DeviceTable = (props) => {
 	//Hooks
@@ -48,8 +38,7 @@ const DeviceTable = (props) => {
 	//useEffects
 	useEffect(() => {
 		setSelDev(selectedDevices)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [selectedDevices])
 
 	//Handlers
 	const setSelDevices = devices => dispatch(setSelectedDevices(devices))
@@ -80,7 +69,7 @@ const DeviceTable = (props) => {
 		if (!s)
 			setSelDev(newSDevices)
 		else
-			setSelDev(customFilterItems(devices, filters).map(d => d.id))
+			setSelDev(customFilterItems(devices, filters).map(d => d.uuid))
 	}
 	//#region  Filters
 	const dLiveStatus = () => {
@@ -118,7 +107,12 @@ const DeviceTable = (props) => {
 		</Fragment>
 	}
 	const closeDialog = () => {
-		setSelDevices(selDev)
+		if (selDev.length === 0) {
+			setSelDevices(devices.map(d => d.uuid))
+		}
+		else {
+			setSelDevices(selDev)
+		}
 		setOpenTable(false)
 	}
 	const exitDialog = () => {

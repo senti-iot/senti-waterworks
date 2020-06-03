@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import { ItemG, DateTimeFilter, DMenu } from 'Components'
-import { Hidden } from '@material-ui/core'
+import { Hidden, IconButton } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
-import { useLocalization, useSelector } from 'Hooks'
+import { useLocalization, useSelector, useDispatch, } from 'Hooks'
 import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
 import { ExportModule } from 'Components/ExportModule/ExportModule'
 import ChartsButtonContainer from '../ChartsButton/ChartsButtonContainer'
-import { DateRange, ImportExport, MoreVert } from 'variables/icons'
+import { DateRange, ImportExport, MoreVert, CallMadeIcon } from 'variables/icons'
 import styled from 'styled-components'
 // import DSelect from 'Components/Input/DSelxect'
 import { makeStyles } from '@material-ui/styles'
 import DButton from 'Components/Input/DButton'
 import { lighten } from '@material-ui/core/styles'
+import { setFullScreenLineGraph } from 'Redux/appState'
+import cx from 'classnames'
 
 const DateRangeIcon = styled(DateRange)`
 color: #fff;
@@ -39,24 +41,36 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	icon: {
-		color: '#fff'
+		color: '#fff',
+		transition: 'all 400ms ease',
+
 	},
+
+	fullScreenIcon: {
+		transform: 'rotate(180deg);'
+	}
 
 }))
 export const MainChart = React.memo((props) => {
 	//Hooks
 	const t = useLocalization()
+	const dispatch = useDispatch()
 	const classes = useStyles()
 	//Redux
 	// const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
 	const data = useSelector(s => s.data.deviceData)
+	const fullScreenLineChart = useSelector(s => s.appState.fullScreenLineChart)
+
 	//State
 	const [openExport, setOpenExport] = useState(false)
 	//Const
 	const { chart, setChart } = props
 
 	//useCallbacks
+
+	//eventHandler
+
 
 	//useEffects
 
@@ -69,6 +83,13 @@ export const MainChart = React.memo((props) => {
 	}
 	const handleSetChart = (c) => () => setChart(c)
 
+	const handleOpenFullScreen = () => {
+		dispatch(setFullScreenLineGraph(!fullScreenLineChart))
+	}
+	const iconCX = cx({
+		[classes.icon]: true,
+		[classes.fullScreenIcon]: fullScreenLineChart
+	})
 	return (
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
@@ -76,6 +97,7 @@ export const MainChart = React.memo((props) => {
 					<ItemG container alignItems={'center'} justify={'space-evenly'}>
 						<ItemG xs={2} lg={2} container justify={'flex-start'} alignItems={'center'}>
 							<DButton
+								value={chart}
 								margin={'none'}
 								onChange={(value) => {
 									handleSetChart(value)()
@@ -88,7 +110,7 @@ export const MainChart = React.memo((props) => {
 									{ label: t('charts.types.waterusage'), value: 'waterusage' },
 									{ label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
 									{ label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
-									{ label: t('charts.types.readings'), value: 'readings' }
+									{ label: t('charts.types.readings'), value: 'readings', disabled: data && !data.readings.length > 0 }
 								]}
 							/>
 
@@ -119,6 +141,11 @@ export const MainChart = React.memo((props) => {
 								/>
 							</ItemG>
 
+							<ItemG>
+								<IconButton onClick={handleOpenFullScreen}>
+									<CallMadeIcon className={iconCX} />
+								</IconButton>
+							</ItemG>
 						</ItemG>
 					</ItemG>
 				</ChartsButtonContainer>
@@ -127,7 +154,7 @@ export const MainChart = React.memo((props) => {
 
 			{/* </ItemG> */}
 			<ItemG container style={{ flex: 1 }}>
-				<LineGraph loading={props.loading} id={chart} />
+				<LineGraph fullScreen={props.fullScreen} loading={props.loading} id={chart} />
 			</ItemG>
 
 		</ItemG >

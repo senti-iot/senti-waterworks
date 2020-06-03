@@ -3,7 +3,7 @@ import * as colors from '@material-ui/core/colors'
 import { darken } from '@material-ui/core/styles'
 import hexToRgba from 'hex-to-rgba'
 
-const override = (color, type) => ({
+const override = (color, type, secondaryColor) => ({
 	overrides: {
 		MuiPaper: {
 			root: {
@@ -86,14 +86,14 @@ const override = (color, type) => ({
 			}
 		},
 		MuiInput: {
-			// underline: {
-			// 	'&:hover:not($disabled):not($focused):not($error):before': {
-			// 		borderBottom: `2px solid ${colors[color][400]}'` /* + primaryColor */,
-			// 	},
-			// 	'&:after': {
-			// 		borderBottomColor: colors[color][500],
-			// 	},
-			// }
+			underline: {
+				'&:hover:not($disabled):not($focused):not($error):before': {
+					borderBottom: `2px solid ${colors[color][400]}'`,
+				},
+				'&:after': {
+					borderBottomColor: colors[secondaryColor][500],
+				},
+			}
 		},
 		MuiInputLabel: {
 			outlined: {

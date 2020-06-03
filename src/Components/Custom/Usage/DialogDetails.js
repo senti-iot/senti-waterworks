@@ -77,6 +77,8 @@ const DialogDetails = () => {
 	const avgData = useSelector(s => s.data.avgData)
 	const noOfAdults = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults)
 	const noOfChildren = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren)
+	const mUnit = useSelector(s => s.settings.mUnit)
+
 	let noOfPeople = noOfAdults + noOfChildren
 	if (noOfPeople === 0) {
 		noOfPeople = 1
@@ -108,13 +110,13 @@ const DialogDetails = () => {
 				textBelowHeadline: true
 			},
 			data: {
-				cubicMetres: avgData.waterusagem3,
-				forbrugPerson: (avgData.waterusagem3) / noOfPeople,
+				cubicMetres: mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL,
+				forbrugPerson: (mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople,
 			}
 		},
 		{
 			headline: t('Usage.dashboardUsage.comparison'),
-			subheadline: 'Mit vandvaerk',
+			subheadline: ' Mit vandværk',
 			descriptions: [
 				'Gennemsnitligt daglige vandforbrug for andre boliger',
 				'Forbrug pr. person',
@@ -125,13 +127,13 @@ const DialogDetails = () => {
 				textBelowHeadline: false
 			},
 			data: {
-				cubicMetres: avgData.benchmarkm3,
-				forbrugPerson: (avgData.benchmarkm3) / noOfPeople,
+				cubicMetres: mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL,
+				forbrugPerson: (mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople,
 			}
 		},
 		{
 			headline: '',
-			subheadline: 'Andre vandvaerker',
+			subheadline: 'Andre vandværker',
 			descriptions: [
 				'Gennemsnitligt daglige vandforbrug for andre boliger',
 				'Forbrug pr. person',
@@ -142,8 +144,8 @@ const DialogDetails = () => {
 				textBelowHeadline: false
 			},
 			data: {
-				cubicMetres: avgData.benchmarkm3,
-				forbrugPerson: (avgData.benchmarkm3) / noOfPeople,
+				cubicMetres: mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL,
+				forbrugPerson: (mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople,
 			}
 		}
 	]
@@ -160,8 +162,8 @@ const DialogDetails = () => {
 					{/* optional text below headline */}
 					<div style={{ padding: '0 24px', borderRight: index === 0 && '2px solid #fff' }}>{/* correct place */}
 						{style.textBelowHeadline ?
-							<Typography variant="h6" className={classes.optionalParagraph} style={{ marginBottom: 12 }}>4 personer i husstanden</Typography> :
-							<Typography variant="h6" className={classes.optionalParagraph} style={{ visibility: 'hidden', marginBottom: 0 }}>4 personer i husstanden</Typography>
+							<Typography variant="h6" className={classes.optionalParagraph} style={{ marginBottom: 12 }}>{noOfPeople} personer i husstanden</Typography> :
+							<Typography variant="h6" className={classes.optionalParagraph} style={{ visibility: 'hidden', marginBottom: 0 }}>{noOfPeople} personer i husstanden</Typography>
 						}
 					</div>
 
@@ -179,13 +181,14 @@ const DialogDetails = () => {
 						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>{/* correct place */}
 							<div style={{ display: 'flex' }}>
 								<div style={{ textAlign: 'center' }}>
-									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(3)}<span style={{ fontSize: 16 }}> m3</span></Typography>
+									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(mUnit === 'm3' ? 3 : 0)}
+										<span style={{ fontSize: 16 }}>{mUnit === 'm3' ? " m³" : " L"}</span></Typography>
 								</div>
 								<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 							</div>
 							<Typography variant="h5" style={{ color: style.dataColor }}>
-								{parseFloat(data.forbrugPerson).toFixed(3)} L
-							  <span style={{ marginLeft: 20 }}>
+								{parseFloat(data.forbrugPerson).toFixed(mUnit === 'm3' ? 3 : 0)} {mUnit === 'm3' ? " m³" : " L"}
+								<span style={{ marginLeft: 20 }}>
 									<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 								</span>
 							</Typography>
