@@ -12,9 +12,11 @@ const ArcGraph = (props) => {
 	const t = useLocalization()
 
 	//Redux
-
-	const arcData = useSelector(s => s.data.middleChartData.current)
-	const arcPrevData = useSelector(s => s.data.middleChartData.previous)
+	const arcData = useSelector(s => s.arcData.current)
+	const arcPrevData = useSelector(s => s.arcData.previous)
+	console.log(arcData, arcPrevData)
+	// const arcData = useSelector(s => s.data.middleChartData.current)
+	// const arcPrevData = useSelector(s => s.data.middleChartData.previous)
 	const period = useSelector(s => s.dateTime.period)
 	const mUnit = useSelector(s => s.settings.mUnit)
 	const colorTheme = useSelector((state) => state.settings.colorTheme)

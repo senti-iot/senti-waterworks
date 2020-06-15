@@ -90,8 +90,9 @@ export const getPriceList = async (orgId) => {
 }
 
 /**
- * databroker/v2/waterworks/data/totalbyday/489043f8-16ef-4b56-8f66-0b0bfa55e0d4/volume/2020-02-26/2020-03-05
- * @param {String} orgUUId
+ * Get total volume data
+ * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
+ * @param {String} orgUUID
  * @param {String} field
  * @param {String} from
  * @param {String} to
@@ -111,8 +112,9 @@ export const getTotalVolumeData = async (orgUUID, from, to, uuids) => {
 }
 
 /**
- * databroker/v2/waterworks/data/totalbyday/489043f8-16ef-4b56-8f66-0b0bfa55e0d4/volume/2020-02-26/2020-03-05
- * @param {String} orgUUId
+ * Get minimum water temperature
+ * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
+ * @param {String} orgUUID
  * @param {String} field
  * @param {String} from
  * @param {String} to
@@ -131,7 +133,8 @@ export const getMinWTemperatureData = async (orgUUID, from, to, uuids) => {
 	return response.ok ? response.data : []
 }
 /**
- * databroker/v2/waterworks/data/totalbyday/489043f8-16ef-4b56-8f66-0b0bfa55e0d4/volume/2020-02-26/2020-03-05
+ * Get minimum ambient temperature
+ * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
  * @param {String} orgUUId
  * @param {String} from
  * @param {String} to
@@ -152,7 +155,8 @@ export const getMinATemperatureData = async (orgUUID, from, to, uuids) => {
 }
 
 /**
- * databroker/v2/waterworks/data/totalbyday/489043f8-16ef-4b56-8f66-0b0bfa55e0d4/volume/2020-02-26/2020-03-05
+ * get minimum flow
+ * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
  * @param {String} orgUUId
  * @param {String} field
  * @param {String} from
@@ -173,7 +177,8 @@ export const getMinFlowData = async (orgUUID, from, to, uuids) => {
 }
 
 /**
- * databroker/v2/waterworks/data/totalbyday/489043f8-16ef-4b56-8f66-0b0bfa55e0d4/volume/2020-02-26/2020-03-05
+ * get maximum flow
+ * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
  * @param {String} orgUUId
  * @param {String} field
  * @param {String} from
