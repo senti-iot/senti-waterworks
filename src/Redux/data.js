@@ -12,6 +12,7 @@ import { getLatLongFromAddress, getWeather } from 'data/weather'
 import { colors } from 'variables/colors'
 import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
+import { setLineData } from 'Redux/charts/lineData'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -141,8 +142,8 @@ export const genMainGraphData = async () => {
 export const adminData = () =>
 	async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
-		let from = getState().dateTime.period.from.clone().subtract(1, 'day')
-		let to = getState().dateTime.period.to.clone().add(1, 'day')
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
 		let subtr = moment(to).diff(moment(from), 'day')
 		let prevFrom = moment(from).subtract(subtr, 'day').add(1, 'day')
 		let prevTo = moment(from).add(1, 'day')
@@ -152,12 +153,7 @@ export const adminData = () =>
 		let mUnit = getState().settings.mUnit
 		let currentPeriodData = {},
 			previousPeriodData = {}
-		let finalData = {
-			waterusage: [],
-			temperature: [],
-			waterflow: [],
-			readings: []
-		}
+
 
 		let finalBarData = {
 			waterusage: [],
@@ -167,8 +163,8 @@ export const adminData = () =>
 		}
 		let selectedDevices = getState().appState.selectedDevices
 		let devices = getState().data.devices
-		let suTo = to.clone().subtract(1, 'day')
-		let suFrom = from.clone().add(1, 'day')
+		let suTo = to.clone()/* .subtract(1, 'day') */
+		let suFrom = from.clone()/* .add(1, 'day') */
 		let waterUsageData, waterUsagePrevData, benchmarkData, temperatureWData, temperatureWPrevData, temperatureAData,
 			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData
 
@@ -208,177 +204,21 @@ export const adminData = () =>
 
 			readingsData = await getReadingUsage(suFrom, suTo)
 		}
-
-
-
-		//#region Water Usage
-		if (waterUsageData.length > 0) {
-
-			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.totalFlowPerDay, mUnit), date: d.d }))
-			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.totalFlowPerDay, mUnit), date: moment(d.d).add(subtr - 1, 'day') }))
-
-		}
-		if (benchmarkData.length > 0) {
-			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
-		}
-		if (readingsData) {
-			currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t, uuid: d.uuid }))
-
-		}
-		//#endregion
-
-		//#region Temperature
-		if (temperatureWData.length > 0) {
-			currentPeriodData.minWtemp = genMinATemp(temperatureWData)
-		}
-		if (temperatureWPrevData.length > 0) {
-			previousPeriodData.minWtemp = genMinATemp(temperatureWPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
-		}
-		if (temperatureAData.length > 0) {
-			currentPeriodData.minAtemp = genMinATemp(temperatureAData)
-		}
-		if (temperatureAPrevData.length > 0) {
-			previousPeriodData.minAtemp = genMinATemp(temperatureAPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
-		}
-		//#endregion
-		//#region WaterFlow
-		if (minFlowData.length > 0) {
-			currentPeriodData.minFlow = genMinATemp(minFlowData)
-		}
-		if (minFlowPrevData.length > 0) {
-			previousPeriodData.minFlow = genMinATemp(minFlowPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
-		}
-		if (maxFlowData.length > 0) {
-			currentPeriodData.maxFlow = genMinATemp(maxFlowData)
-		}
-		if (maxFlowPrevData.length > 0) {
-			previousPeriodData.maxFlow = genMinATemp(maxFlowPrevData.map(d => ({ ...d, t: moment(d.t).add(subtr - 1, 'day') })))
-		}
-		//#endregion
-
-		//#region Final Line Data Creation
-		if (currentPeriodData.waterusage) {
-			finalData.waterusage.push({
-				name: 'waterusageL',
-				median: true,
-				data: currentPeriodData.waterusage,
-				color: 'orange'
-			})
-		}
-		if (previousPeriodData.waterusage) {
-			finalData.waterusage.push({
-				name: 'waterusageP',
-				prev: true,
-				hidden: true,
-				noMedianLegend: true,
-				median: true,
-				data: previousPeriodData.waterusage
-			})
-		}
-		if (currentPeriodData.benchmark) {
-			finalData.waterusage.push({
-				name: 'benchmark',
-				hidden: true,
-				noArea: true,
-				dashed: true,
-				data: currentPeriodData.benchmark,
-				color: 'yellow'
-			})
-
-		}
-
-		if (currentPeriodData.minWtemp) {
-			finalData.temperature.push({
-				name: 'tempWater',
-				median: true,
-				data: currentPeriodData.minWtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
-				color: 'blue'
-
-			})
-		}
-
-		if (currentPeriodData.minAtemp) {
-			finalData.temperature.push({
-				name: 'tempAmbient',
-				median: true,
-				data: currentPeriodData.minAtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
-				color: 'red'
-
-			})
-		}
-		if (previousPeriodData.minWtemp) {
-			finalData.temperature.push({
-				name: 'tempWaterPrev',
-				prev: true,
-				hidden: true,
-				noMedianLegend: true,
-				median: true,
-				data: previousPeriodData.minWtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
-			})
-		}
-		if (previousPeriodData.minAtemp) {
-			finalData.temperature.push({
-				name: 'tempAmbientPrev',
-				prev: true,
-				hidden: true,
-				noMedianLegend: true,
-				median: true,
-				data: previousPeriodData.minAtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
-			})
-		}
-
-		if (currentPeriodData.minFlow) {
-			finalData.waterflow.push({
-				name: 'minFlow',
-				median: true,
-				data: currentPeriodData.minFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
-				color: 'purple'
-			})
-		}
-		if (currentPeriodData.maxFlow) {
-			finalData.waterflow.push({
-				name: 'maxFlow',
-				median: true,
-				data: currentPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
-				color: 'lightBlue'
-			})
-		}
-		if (previousPeriodData.minFlow) {
-			finalData.waterflow.push({
-				name: 'minFlowPrev',
-				prev: true,
-				hidden: true,
-				smallArea: true,
-				noMedianLegend: true,
-				median: true,
-				data: previousPeriodData.minFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
-			})
-		}
-		if (previousPeriodData.maxFlow) {
-			finalData.waterflow.push({
-				name: 'maxFlowPrev',
-				prev: true,
-				hidden: true,
-				noMedianLegend: true,
-				median: true,
-				data: previousPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
-			})
-		}
-
-		if (currentPeriodData.readings.length > 0 && selectedDevices.length < 11) {
-			let devices = getState().data.devices
-			let dataLines = selectedDevices.map((dev, i) => {
-				return ({
-					name: "" + devices[devices.findIndex(d => d.uuid === dev)].name,
-					color: colors[i],
-					noArea: true,
-					data: currentPeriodData.readings.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
-				})
-			})
-
-			finalData.readings.push(...dataLines)
-		}
-
+		//#region Line Data
+		dispatch(await setLineData({
+			waterUsageData: waterUsageData,
+			waterUsagePrevData: waterUsagePrevData,
+			benchmarkData: benchmarkData,
+			temperatureWData: temperatureWData,
+			temperatureWPrevData: temperatureWPrevData,
+			temperatureAData: temperatureAData,
+			temperatureAPrevData: temperatureAPrevData,
+			minFlowData: minFlowData,
+			minFlowPrevData: minFlowPrevData,
+			maxFlowData: maxFlowData,
+			maxFlowPrevData: maxFlowPrevData,
+			readingsData: readingsData
+		}))
 		//#endregion
 
 		//#region Arc Data
@@ -390,34 +230,19 @@ export const adminData = () =>
 		//#region Price & DailyUsage
 		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))
 
-		// let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
-		// finalAverageData.waterusagem3 = avgValue
-		// finalAverageData.waterusageL = avgValue * 1000
-		// let benchmarkSum = benchmarkData.reduce((total, d) => {
-		// 	total = total + d.averageFlowPerDay
-		// 	return total
-		// }, 0)
-		// let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(3)
-		// finalAverageData.benchmarkm3 = bavgValue
-		// finalAverageData.benchmarkL = bavgValue * 1000
-
-		// finalPriceData = {
-		// 	waterusage: parseFloat(priceList.waterTotal * middleData).toFixed(2).replace('.', ','),
-		// 	sewage: parseFloat(priceList.sewageTotal * middleData).toFixed(2).replace('.', ','),
-		// }
-		// finalPriceData.total = parseFloat((priceList.waterTotal * middleData) + (priceList.sewageTotal * middleData)).toFixed(2).replace('.', ',')
-
-
 		//#endregion
 
 		//#region Final bar Data
-		finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit, true)
+		/**
+		 * TODO
+		 */
+		// finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit, true)
 
 		//#endregion
-		dispatch({
-			type: deviceData,
-			payload: finalData
-		})
+		// dispatch({
+		// 	type: deviceData,
+		// 	payload: finalData
+		// })
 
 		// dispatch({
 		// 	type: middleChartData,

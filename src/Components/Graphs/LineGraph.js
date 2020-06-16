@@ -18,7 +18,7 @@ const LineGraph = (props) => {
 	const classes = lineStyles()
 	const dispatch = useDispatch()
 	//Redux
-	const deviceData = useSelector(s => s.data.deviceData)
+	const deviceData = useSelector(s => s.lineData)
 	const weatherData = useSelector(s => s.data.weatherData)
 	const period = useSelector(s => s.dateTime.period)
 	const mUnit = useSelector(s => s.settings.mUnit)
