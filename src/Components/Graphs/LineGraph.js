@@ -46,7 +46,6 @@ const LineGraph = (props) => {
 		dispatch(setGraphLine(id, value))
 	}, [dispatch])
 	useLayoutEffect(() => {
-		console.log("prevFullScreen", prevFullScreen, "fsLG", fsLG)
 
 		const unitType = () => {
 			switch (props.id) {
@@ -67,9 +66,9 @@ const LineGraph = (props) => {
 			/**
 		 * Generate state in redux
 		 * */
-			// console.trace()
 			let lineState = {}
-			if (deviceData[props.id] && Object.keys(graphLines).length === 0) {
+			if (deviceData[props.id] &&
+				(Object.keys(graphLines).length === 0 || Object.keys(graphLines).length !== Object.keys(lineState).length)) {
 
 				deviceData[props.id].forEach(line => {
 					if (!line.noMedianLegend && line.median) {
@@ -100,13 +99,18 @@ const LineGraph = (props) => {
 				weatherData: weatherData,
 				fsLG: props.fullScreen
 			}
+			if (props.fullScreen) {
+				line = new d3LineFS(lineChartContainer.current, cProps, classes)
+			}
+			else {
+				line = new d3Line(lineChartContainer.current, cProps, classes)
+			}
 
-			line = props.fullScreen ? new d3LineFS(lineChartContainer.current, cProps, classes) : new d3Line(lineChartContainer.current, cProps, classes)
 
 		}
-		if ((props.id !== prevId) && line) {
+		if ((props.id !== prevId) && line && lineChartContainer.current) {
 			console.log('Updated because of different chart id')
-			line.destroy()
+			// line.destroy()
 			genNewLine()
 		}
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
@@ -152,9 +156,9 @@ const LineGraph = (props) => {
 			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
 
-				if (line) {
-					line.destroy()
-				}
+				// if (line) {
+				// 	line.destroy()
+				// }
 				genNewLine()
 			}, 300)
 		}

@@ -89,7 +89,6 @@ const DateTimeArrows = () => {
 		}
 		handleSetDate(period.menuId, to, from, period.timeType)
 	}
-	console.log(period)
 	return (
 		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
 			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>

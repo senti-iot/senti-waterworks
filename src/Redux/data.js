@@ -6,13 +6,13 @@ import {
 	getMaxFlowData,
 	getWaterUsageByHour
 } from 'data/devices'
-import { /* genBenchmark, genArcData, genWR, genMinATemp,  genMaxF, genMinF, genBarData, */ /* genNBarData */ } from 'data/model'
 import moment from 'moment'
 // import { colors } from 'variables/colors'
 import { getLatLongFromAddress, getWeather } from 'data/weather'
 import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
+import { setBarData } from 'Redux/charts/barData'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -220,10 +220,8 @@ export const adminData = () =>
 		//#endregion
 
 		//#region Final bar Data
-		/**
-		 * TODO
-		 */
-		// finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit, true)
+
+		dispatch(await setBarData(waterUsageData))
 
 		//#endregion
 		// dispatch({
@@ -235,11 +233,6 @@ export const adminData = () =>
 		// 	type: middleChartData,
 		// 	payload: finalMiddleData
 		// })
-		dispatch({
-			type: barData,
-			payload: finalBarData
-		})
-
 		// dispatch({
 		// 	type: averageData,
 		// 	payload: finalAverageData
@@ -293,7 +286,7 @@ export const userData = () => {
 		//#endregion
 		//#region Generate bars Data
 
-		// finalBarData = genNBarData(currentPeriodData.waterusage, currentPeriodData.benchmark, noOfPersons, mUnit)
+		dispatch(await setBarData(waterUsageData))
 
 		//#endregion
 		//#region Generate Average Data

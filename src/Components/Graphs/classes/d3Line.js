@@ -71,7 +71,6 @@ const getMin = (arr) => {
 
 		// return min > 1 ? min - 10 : min - 0.1
 		// alert('min' + min)
-		console.log('final min', min)
 		return min > 0 ? Math.floor(min) : 0
 	}
 }

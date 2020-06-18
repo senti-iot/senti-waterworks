@@ -173,7 +173,8 @@ export const genArcData = (deviceData) => {
 
 
 //#region Bar Graph
-const getValues = arr => arr ? arr.map(a => a.value) : []
+const getValues = arr => arr ? arr.map(a => (a.value || a.averageFlowPerDay || a.averageFlowPerHour || a.totalFlowPerDay)) : []
+
 export const genBarData = (currentData, prevData, noOfPersons) => {
 	console.trace()
 	let waterusage = []
@@ -227,9 +228,8 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	}
 
 }
-export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, admin) => {
+export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 	let waterusage = []
-	console.trace()
 
 	//#region WaterUsage/Reading
 	let values = getValues(waterusageData)
