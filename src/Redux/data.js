@@ -1,6 +1,6 @@
 import { handleRequestSort, getDates } from 'data/functions'
 import {
-	getDevices, getWaterUsageByDay, getReadingUsage, getBenchmarkUsage,
+	getDevices, getWaterUsageByDay, getReadingUsage, getBenchmarkUsageByDay, getBenchmarkUsageByHour,
 	getTotalVolumeData, getDevicesV2, getMinATemperatureData, getMinWTemperatureData,
 	getMinFlowData,
 	getMaxFlowData,
@@ -158,7 +158,7 @@ export const adminData = () =>
 			let uuids = selectedDevices.map(s => s)
 			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
 			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
-			benchmarkData = await getBenchmarkUsage(orgId, from, suTo, uuids)
+			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
 
 			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo, uuids)
 			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
@@ -176,7 +176,7 @@ export const adminData = () =>
 		else {
 			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo)
 			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo)
-			benchmarkData = await getBenchmarkUsage(orgId, from, suTo)
+			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo)
 
 			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo)
 			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo)
@@ -273,7 +273,7 @@ export const userData = () => {
 		let waterUsageData = timeType > 1 ?  await getWaterUsageByDay(from, to) : await getWaterUsageByHour(from, to)
 		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo) : await getWaterUsageByHour(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(from.clone().add(1, 'day'), to)
-		let benchmarkData = await getBenchmarkUsage(orgId, from, to)
+		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
 		dispatch(await setLineData({
 			timeType: timeType,
 			isUser: true,

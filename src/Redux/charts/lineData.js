@@ -225,9 +225,8 @@ export const mapLineData = async data => {
 
 		}
 		if (benchmarkData && benchmarkData.length > 0) {
-			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.averageFlowPerDay, mUnit), date: d.d }))
+			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC((d.averageFlowPerDay || d.averageFlowPerHour), mUnit), date: (d.d || d.datehour) }))
 		}
-		console.log('readingsData', readingsData)
 		if (readingsData) {
 			currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t, uuid: d.uuid }))
 		}

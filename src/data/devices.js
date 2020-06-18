@@ -95,12 +95,27 @@ export const getReadingUsage = async (from, to, uuids) => {
 	return response.ok ? response.data : []
 }
 /**
+ * Get Benchmark usage by hour from an Org
+ * @param {string} orgUuid -  Organisation UUID
+ * @param {Date} from - Start Date
+ * @param {Date} to - End Date
+ */
+export const getBenchmarkUsageByHour = async (orgUuid, from, to) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	// /v2/waterworks/data/benchmark/byhour/:orguuid/:from/:to
+	let response = await servicesAPI.get(`/v2/waterworks/data/benchmark/byhour/${orgUuid}/${startDate}/${endDate}`)
+	return response.ok ? response.data : []
+
+}
+
+/**
  * Get Benchmark usage from an Org
  * @param {string} orgUuid -  Organisation UUID
  * @param {Date} from - Start Date
  * @param {Date} to - End Date
  */
-export const getBenchmarkUsage = async (orgUuid, from, to) => {
+export const getBenchmarkUsageByDay = async (orgUuid, from, to) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
 	let response = await servicesAPI.get(`/v2/waterworks/data/benchmark/${orgUuid}/${startDate}/${endDate}`)

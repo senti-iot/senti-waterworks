@@ -35,12 +35,12 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
 			sewageTotal: 0
 		}
 		let middleData = wsUsage.reduce((total, d) => {
-			total = total + (d.averageFlowPerDay || d.totalFlowPerDay)
+			total = total + (d.averageFlowPerDay || d.totalFlowPerDay || d.averageFlowPerHour)
 			return total
 		}, 0)
 
 		let benchmarkSum = benchmarkData.reduce((total, d) => {
-			total = total + (d.averageFlowPerDay || d.totalFlowPerDay)
+			total = total + (d.averageFlowPerDay || d.totalFlowPerDay || d.averageFlowPerHour)
 			return total
 		}, 0)
 
