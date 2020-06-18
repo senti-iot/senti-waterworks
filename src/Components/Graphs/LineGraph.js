@@ -33,7 +33,7 @@ const LineGraph = (props) => {
 	const prevId = usePrevious(props.id)
 	let prevData = usePrevious(deviceData)
 	let prevLoading = usePrevious(props.loading)
-
+	let prevFullScreen = usePrevious(fsLG)
 	//Const
 
 	//useCallbacks
@@ -46,6 +46,7 @@ const LineGraph = (props) => {
 		dispatch(setGraphLine(id, value))
 	}, [dispatch])
 	useLayoutEffect(() => {
+		console.log("prevFullScreen", prevFullScreen, "fsLG", fsLG)
 
 		const unitType = () => {
 			switch (props.id) {
@@ -66,6 +67,7 @@ const LineGraph = (props) => {
 			/**
 		 * Generate state in redux
 		 * */
+			// console.trace()
 			let lineState = {}
 			if (deviceData[props.id] && Object.keys(graphLines).length === 0) {
 
@@ -111,13 +113,31 @@ const LineGraph = (props) => {
 			console.log('Updated because of not loading')
 			genNewLine()
 		}
-		if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
-			console.log(lineChartContainer.current)
-			console.log('Updated because of fullscreen')
-
-			// line.destroy()
-			genNewLine()
-		}
+		// if ((fsLG !== prevFullScreen) && props.fullScreen && fsLG && lineChartContainer.current) {
+		// 	console.log(lineChartContainer.current)
+		// 	console.log('New Updated because of fullscreen')
+		// 	console.log(prevFullScreen, fsLG)
+		// 	if (prevFullScreen !== fsLG)
+		// 		setTimeout(() => {
+		// 			genNewLine()
+		// 		}, 300)
+		// 	else {
+		// 		genNewLine()
+		// 	}
+		// }
+		// if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
+		// 	console.log(lineChartContainer.current)
+		// 	console.log('Updated because of fullscreen')
+		// 	console.log(prevFullScreen, props.fullScreen)
+		// 	if (prevFullScreen !== props.fullScreen)
+		// 		setTimeout(() => {
+		// 			genNewLine()
+		// 		}, 300)
+		// 	else {
+		// 		genNewLine()
+		// 	}
+		// 	// line.destroy()
+		// }
 		// if ((!fsLG && !props.fullScreen && lineChartContainer.current) && !line) {
 		// 	console.log('Updated because of not fullscreen')
 		// 	genNewLine()
@@ -141,12 +161,11 @@ const LineGraph = (props) => {
 		window.addEventListener('resize', handleResize)
 		return () => {
 			window.removeEventListener('resize', handleResize)
-
 			// line = null
 			// setLines({})
 		}
 
-	}, [classes, setLine, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit, fsLG, props.fullScreen, graphLines, setLines])
+	}, [classes, setLine, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit, fsLG, graphLines, setLines, prevFullScreen, props.fullScreen])
 
 	//Handlers
 

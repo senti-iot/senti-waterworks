@@ -1,6 +1,11 @@
 import { servicesAPI, dataExportAPI, waterworksAPI } from './data'
 import moment from 'moment'
-
+/**
+ * Benchmark by hour
+ * /v2/waterworks/data/benchmark/byhour/:orguuid/:from/:to
+ * Data by hour
+ * https://dev.services.senti.cloud/databroker/v2/waterworks/data/usagebyhour/2020-06-13/2020-06-14
+ */
 
 /**
  * v2/devices - ALL devices
@@ -31,12 +36,34 @@ export const getDevicesDataCSV = async (config) => {
 	let response = await dataExportAPI.post(`v1/export/csv`, config)
 	return response.ok ? response.data : []
 }
+/**
+ * Get total volume data
+ * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
+ * @param {String} orgUUID
+ * @param {String} from
+ * @param {String} to
+ * @param {Array} uuids
+ */
+export const getWaterUsageByHour = async (from, to, uuids) => {
+	// v2/waterworks/data/usagebyhour/2020-06-13/2020-06-14
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response
+
+	if (uuids) {
+		response = await servicesAPI.post(`/v2/waterworks/data/usagebyhour/${startDate}/${endDate}`, uuids)
+	}
+	else {
+		response = await servicesAPI.get(`/v2/waterworks/data/usagebyhour/${startDate}/${endDate}`)
+	}
+	return response.ok ? response.data : []
+}
 
 /**
  * Get water usage data
  * [uuid, uuid, uuid] to post(‘/v2/waterworks/data/usagebyday/:from/:to’)
  */
-export const getWaterUsage = async (from, to, uuids) => {
+export const getWaterUsageByDay = async (from, to, uuids) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
 	let response
@@ -83,6 +110,7 @@ export const getBenchmarkUsage = async (orgUuid, from, to) => {
 
 /**
  * Get Price list for the org
+ * @param {string} orgId
  */
 export const getPriceList = async (orgId) => {
 	let data = await waterworksAPI.get(`/settings/price/${orgId}`).then(rs => rs.data)
@@ -93,11 +121,10 @@ export const getPriceList = async (orgId) => {
  * Get total volume data
  * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
  * @param {String} orgUUID
- * @param {String} field
  * @param {String} from
  * @param {String} to
+ * @param {Array} uuids
  */
-
 export const getTotalVolumeData = async (orgUUID, from, to, uuids) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
@@ -115,11 +142,10 @@ export const getTotalVolumeData = async (orgUUID, from, to, uuids) => {
  * Get minimum water temperature
  * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
  * @param {String} orgUUID
- * @param {String} field
  * @param {String} from
  * @param {String} to
+ * @param {Array} uuids
  */
-
 export const getMinWTemperatureData = async (orgUUID, from, to, uuids) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
@@ -135,12 +161,11 @@ export const getMinWTemperatureData = async (orgUUID, from, to, uuids) => {
 /**
  * Get minimum ambient temperature
  * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
- * @param {String} orgUUId
+ * @param {String} orgUUID
  * @param {String} from
  * @param {String} to
- * @param {Array} uuids*
+ * @param {Array} uuids
  */
-
 export const getMinATemperatureData = async (orgUUID, from, to, uuids) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
@@ -157,12 +182,11 @@ export const getMinATemperatureData = async (orgUUID, from, to, uuids) => {
 /**
  * get minimum flow
  * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
- * @param {String} orgUUId
- * @param {String} field
+ * @param {String} orgUUID
  * @param {String} from
  * @param {String} to
+ * @param {Array} uuids
  */
-
 export const getMinFlowData = async (orgUUID, from, to, uuids) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
@@ -179,12 +203,11 @@ export const getMinFlowData = async (orgUUID, from, to, uuids) => {
 /**
  * get maximum flow
  * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
- * @param {String} orgUUId
- * @param {String} field
+ * @param {String} orgUUID
  * @param {String} from
  * @param {String} to
+ * @param {Array} uuids
  */
-
 export const getMaxFlowData = async (orgUUID, from, to, uuids) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')

@@ -44,7 +44,8 @@ const FullScreenMainChart = props => {
 			open={fsLG}
 			TransitionComponent={SlideT}
 			onClose={handleOnClose}
-
+			keepMounted
+			disablePortal
 		>
 			<AppPaper color={colorTheme}>
 				<BPaper>
