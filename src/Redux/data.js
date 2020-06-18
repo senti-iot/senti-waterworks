@@ -132,21 +132,8 @@ export const adminData = () =>
 		let subtr = moment(to).diff(moment(from), 'day')
 		let prevFrom = moment(from).subtract(subtr, 'day')
 		let prevTo = moment(from)
-		// console.log(period)
-		// let noOfAdults = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults
-		// let noOfChildren = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren
-		// let noOfPersons = noOfAdults + noOfChildren
-		// let mUnit = getState().settings.mUnit
-		// let currentPeriodData = {},
-		// 	previousPeriodData = {}
 
 
-		let finalBarData = {
-			waterusage: [],
-			readings: [],
-			perPerson: [],
-			average: []
-		}
 		let selectedDevices = getState().appState.selectedDevices
 		let devices = getState().data.devices
 		let suTo = to.clone()
