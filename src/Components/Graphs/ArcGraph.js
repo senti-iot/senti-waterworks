@@ -14,7 +14,6 @@ const ArcGraph = (props) => {
 	//Redux
 	const arcData = useSelector(s => s.arcData.current)
 	const arcPrevData = useSelector(s => s.arcData.previous)
-	console.log(arcData, arcPrevData)
 	// const arcData = useSelector(s => s.data.middleChartData.current)
 	// const arcPrevData = useSelector(s => s.data.middleChartData.previous)
 	const period = useSelector(s => s.dateTime.period)

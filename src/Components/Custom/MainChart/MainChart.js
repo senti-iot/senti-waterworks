@@ -60,7 +60,6 @@ export const MainChart = React.memo((props) => {
 	// const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
 	const data = useSelector(s => s.lineData)
-	console.log(data)
 	const fullScreenLineChart = useSelector(s => s.appState.fullScreenLineChart)
 
 	//State

@@ -46,7 +46,6 @@ const getMax = (arr) => {
 const getMin = (arr) => {
 	if (arr.length > 0) {
 		let min = Math.min(...arr.map(d => d.value))
-		console.log("min", min)
 		if (min > 1) {
 			// min = min - 0.1
 			min = 0

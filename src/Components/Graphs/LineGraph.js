@@ -109,12 +109,10 @@ const LineGraph = (props) => {
 
 		}
 		if ((props.id !== prevId) && line && lineChartContainer.current) {
-			console.log('Updated because of different chart id')
 			// line.destroy()
 			genNewLine()
 		}
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
-			console.log('Updated because of not loading')
 			genNewLine()
 		}
 		// if ((fsLG !== prevFullScreen) && props.fullScreen && fsLG && lineChartContainer.current) {

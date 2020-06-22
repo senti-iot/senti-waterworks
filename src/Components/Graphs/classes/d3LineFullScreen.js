@@ -46,7 +46,6 @@ const getMax = (arr) => {
 const getMin = (arr) => {
 	if (arr.length > 0) {
 		let min = Math.min(...arr.map(d => d.value))
-		console.log("min", min)
 		if (min > 1) {
 			// min = min - 0.1
 			min = 0
@@ -71,7 +70,6 @@ const getMin = (arr) => {
 
 		// return min > 1 ? min - 10 : min - 0.1
 		// alert('min' + min)
-		console.log('final min', min)
 		return min > 0 ? Math.floor(min) : 0
 	}
 }

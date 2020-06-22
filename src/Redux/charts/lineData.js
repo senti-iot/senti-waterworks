@@ -1,4 +1,4 @@
-import { genMinATemp } from 'data/model'
+import { genLineData } from 'data/model'
 import moment from 'moment'
 import { colors } from 'variables/colors'
 
@@ -234,30 +234,30 @@ export const mapLineData = async data => {
 
 		//#region Temperature
 		if (temperatureWData && temperatureWData.length > 0) {
-			currentPeriodData.minWtemp = genMinATemp(temperatureWData)
+			currentPeriodData.minWtemp = genLineData(temperatureWData)
 		}
 		if (temperatureWPrevData && temperatureWPrevData.length > 0) {
-			previousPeriodData.minWtemp = genMinATemp(temperatureWPrevData.map(d => ({ ...d, t: moment(d.t).add(dateDiff, 'day') })))
+			previousPeriodData.minWtemp = genLineData(temperatureWPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
 		}
 		if (temperatureAData && temperatureAData.length > 0) {
-			currentPeriodData.minAtemp = genMinATemp(temperatureAData)
+			currentPeriodData.minAtemp = genLineData(temperatureAData)
 		}
 		if (temperatureAPrevData && temperatureAPrevData.length > 0) {
-			previousPeriodData.minAtemp = genMinATemp(temperatureAPrevData.map(d => ({ ...d, t: moment(d.t).add(dateDiff, 'day') })))
+			previousPeriodData.minAtemp = genLineData(temperatureAPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
 		}
 		//#endregion
 		//#region WaterFlow
 		if (minFlowData && minFlowData.length > 0) {
-			currentPeriodData.minFlow = genMinATemp(minFlowData)
+			currentPeriodData.minFlow = genLineData(minFlowData)
 		}
 		if (minFlowPrevData && minFlowPrevData.length > 0) {
-			previousPeriodData.minFlow = genMinATemp(minFlowPrevData.map(d => ({ ...d, t: moment(d.t).add(dateDiff, 'day') })))
+			previousPeriodData.minFlow = genLineData(minFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
 		}
 		if (maxFlowData && maxFlowData.length > 0) {
-			currentPeriodData.maxFlow = genMinATemp(maxFlowData)
+			currentPeriodData.maxFlow = genLineData(maxFlowData)
 		}
 		if (maxFlowPrevData && maxFlowPrevData.length > 0) {
-			previousPeriodData.maxFlow = genMinATemp(maxFlowPrevData.map(d => ({ ...d, t: moment(d.t).add(dateDiff, 'day') })))
+			previousPeriodData.maxFlow = genLineData(maxFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
 		}
 
 		//#endregion
