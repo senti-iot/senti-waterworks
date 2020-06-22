@@ -220,15 +220,15 @@ export const mapLineData = async data => {
 		//#region Water Usage
 		if (waterUsageData && waterUsageData.length > 0) {
 
-			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC((d.totalFlowPerDay || d.averageFlowPerDay || d.averageFlowPerHour ), mUnit), date: (d.d || d.datehour) }))
-			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC((d.totalFlowPerDay || d.averageFlowPerDay), mUnit), date: moment((d.d || d.datehour)).add(dateDiff, 'day') }))
+			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.value, mUnit), date: (d.datetime) }))
+			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.value, mUnit), date: moment((d.datetime)).add(dateDiff, 'day') }))
 
 		}
 		if (benchmarkData && benchmarkData.length > 0) {
-			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC((d.averageFlowPerDay || d.averageFlowPerHour), mUnit), date: (d.d || d.datehour) }))
+			currentPeriodData.benchmark = benchmarkData.map(d => ({ value: uC(d.value, mUnit), date: (d.datetime) }))
 		}
 		if (readingsData) {
-			currentPeriodData.readings = readingsData.map(d => ({ value: d.val, date: d.t, uuid: d.uuid }))
+			currentPeriodData.readings = readingsData.map(d => ({ value: d.value, date: d.datetime, uuid: d.uuid }))
 		}
 		//#endregion
 

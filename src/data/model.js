@@ -173,7 +173,7 @@ export const genArcData = (deviceData) => {
 
 
 //#region Bar Graph
-const getValues = arr => arr ? arr.map(a => (a.value || a.averageFlowPerDay || a.averageFlowPerHour || a.totalFlowPerDay)) : []
+const getValues = arr => arr ? arr.map(a => (a.value)) : []
 
 export const genBarData = (currentData, prevData, noOfPersons) => {
 	console.trace()

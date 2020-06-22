@@ -38,11 +38,11 @@ export const setArcData = async (wsUsage, wsPrevUsage) =>
 	async (dispatch, getState) => {
 		let mUnit = getState().settings.mUnit
 		let middleData = wsUsage.reduce((total, d) => {
-			total = total + (d.totalFlowPerDay || d.averageFlowPerDay) || 0
+			total = total + d.value || 0
 			return total
 		}, 0)
 		let prevMiddleData = wsPrevUsage.reduce((total, d) => {
-			total = total + (d.totalFlowPerDay || d.averageFlowPerDay) || 0
+			total = total + d.value || 0
 			return total
 		}, 0)
 		let data = {
