@@ -11,6 +11,8 @@ import { capitalizeFL, formatNumber } from 'data/functions'
 
 const TCard = styled(Card)`
 	min-width: 300px;
+	width: 300px;
+	max-width: 300px;
 	position: absolute;
 	border: 0;
 	border-radius: 4;
