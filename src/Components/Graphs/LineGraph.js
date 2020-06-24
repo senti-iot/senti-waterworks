@@ -116,9 +116,6 @@ const LineGraph = (props) => {
 			genNewLine()
 		}
 		// if ((fsLG !== prevFullScreen) && props.fullScreen && fsLG && lineChartContainer.current) {
-		// 	console.log(lineChartContainer.current)
-		// 	console.log('New Updated because of fullscreen')
-		// 	console.log(prevFullScreen, fsLG)
 		// 	if (prevFullScreen !== fsLG)
 		// 		setTimeout(() => {
 		// 			genNewLine()
@@ -128,9 +125,6 @@ const LineGraph = (props) => {
 		// 	}
 		// }
 		// if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
-		// 	console.log(lineChartContainer.current)
-		// 	console.log('Updated because of fullscreen')
-		// 	console.log(prevFullScreen, props.fullScreen)
 		// 	if (prevFullScreen !== props.fullScreen)
 		// 		setTimeout(() => {
 		// 			genNewLine()
@@ -141,7 +135,6 @@ const LineGraph = (props) => {
 		// 	// line.destroy()
 		// }
 		// if ((!fsLG && !props.fullScreen && lineChartContainer.current) && !line) {
-		// 	console.log('Updated because of not fullscreen')
 		// 	genNewLine()
 		// }
 		// if (prevData !== deviceData) {
@@ -150,7 +143,6 @@ const LineGraph = (props) => {
 		// }
 		let resizeTimer
 		const handleResize = () => {
-			console.log('Updated because of resize')
 			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
 

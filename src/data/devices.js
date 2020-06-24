@@ -101,8 +101,8 @@ export const getReadingUsage = async (from, to, uuids) => {
  * @param {Date} to - End Date
  */
 export const getBenchmarkUsageByHour = async (orgUuid, from, to) => {
-	let startDate = moment(from).format('YYYY-MM-DD')
-	let endDate = moment(to).format('YYYY-MM-DD')
+	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
 	// /v2/waterworks/data/benchmark/byhour/:orguuid/:from/:to
 	let response = await servicesAPI.get(`/v2/waterworks/data/benchmark/byhour/${orgUuid}/${startDate}/${endDate}`)
 	return response.ok ? response.data : []

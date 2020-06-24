@@ -180,9 +180,7 @@ function DisplaySettings(props) {
 												rChangeMDC(inputRef.current.value)
 											},
 											onKeyDown: e => {
-												console.log(e.key, inputRef.current)
 												if (e.key === 'Enter') {
-													// console.log(inputRef.current.value)
 													// rChangeMDC(inputRef.current.value)
 													inputRef.current.blur()
 												}

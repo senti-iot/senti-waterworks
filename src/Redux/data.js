@@ -75,14 +75,12 @@ export const getWeatherData = async () => {
 			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
 			let fWeather = []
 			// .map(r => r.daily.data[0])
-			console.log('timeType', timeType)
 			if (timeType > 1) {
 				fWeather = weather.map(r => r.daily.data[0])
 			}
 			else {
 				fWeather = weather[0]?.hourly?.data
 			}
-			console.log('weather', fWeather)
 			let finalData = fWeather.map(w => ({
 				date: moment(w.time),
 				icon: w.icon,
