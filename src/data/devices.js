@@ -46,8 +46,8 @@ export const getDevicesDataCSV = async (config) => {
  */
 export const getWaterUsageByHour = async (from, to, uuids) => {
 	// v2/waterworks/data/usagebyhour/2020-06-13/2020-06-14
-	let startDate = moment(from).format('YYYY-MM-DD')
-	let endDate = moment(to).format('YYYY-MM-DD')
+	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
 	let response
 
 	if (uuids) {

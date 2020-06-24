@@ -245,12 +245,12 @@ export const adminData = () =>
 export const userData = () => {
 	return async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
-		let from = getState().dateTime.period.from.clone().subtract(1, 'day')
+		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let timeType = getState().dateTime.period.timeType
 		let subtr = moment(to).diff(moment(from), timeType > 1 ? 'day' : 'hour')
 
-		let prevFrom = moment(from).subtract(subtr, 'day')
+		let prevFrom = moment(from).subtract(subtr, timeType > 1 ? 'day' : 'hour')
 		let prevTo = moment(from)
 
 		// let finalBarData = {

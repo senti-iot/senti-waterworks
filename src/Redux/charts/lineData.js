@@ -210,6 +210,7 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 export const mapLineData = async data => {
 	return async (dispatch, getState) => {
 		let mUnit = getState().settings.mUnit
+		let timeType = getState().dateTime.period.timeType
 		let { waterUsageData, waterUsagePrevData, benchmarkData,
 			temperatureWData, temperatureWPrevData, temperatureAData, temperatureAPrevData,
 			minFlowData, minFlowPrevData,
@@ -221,7 +222,7 @@ export const mapLineData = async data => {
 		if (waterUsageData && waterUsageData.length > 0) {
 
 			currentPeriodData.waterusage = waterUsageData.map(d => ({ value: uC(d.value, mUnit), date: (d.datetime) }))
-			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.value, mUnit), date: moment((d.datetime)).add(dateDiff, 'day') }))
+			previousPeriodData.waterusage = waterUsagePrevData.map(d => ({ value: uC(d.value, mUnit), date: moment((d.datetime)).add(dateDiff, timeType > 1 ? 'day' : 'hour') }))
 
 		}
 		if (benchmarkData && benchmarkData.length > 0) {
@@ -237,13 +238,13 @@ export const mapLineData = async data => {
 			currentPeriodData.minWtemp = genLineData(temperatureWData)
 		}
 		if (temperatureWPrevData && temperatureWPrevData.length > 0) {
-			previousPeriodData.minWtemp = genLineData(temperatureWPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
+			previousPeriodData.minWtemp = genLineData(temperatureWPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))
 		}
 		if (temperatureAData && temperatureAData.length > 0) {
 			currentPeriodData.minAtemp = genLineData(temperatureAData)
 		}
 		if (temperatureAPrevData && temperatureAPrevData.length > 0) {
-			previousPeriodData.minAtemp = genLineData(temperatureAPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
+			previousPeriodData.minAtemp = genLineData(temperatureAPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))
 		}
 		//#endregion
 		//#region WaterFlow
@@ -251,13 +252,13 @@ export const mapLineData = async data => {
 			currentPeriodData.minFlow = genLineData(minFlowData)
 		}
 		if (minFlowPrevData && minFlowPrevData.length > 0) {
-			previousPeriodData.minFlow = genLineData(minFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
+			previousPeriodData.minFlow = genLineData(minFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))
 		}
 		if (maxFlowData && maxFlowData.length > 0) {
 			currentPeriodData.maxFlow = genLineData(maxFlowData)
 		}
 		if (maxFlowPrevData && maxFlowPrevData.length > 0) {
-			previousPeriodData.maxFlow = genLineData(maxFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, 'day') })))
+			previousPeriodData.maxFlow = genLineData(maxFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))
 		}
 
 		//#endregion
