@@ -418,8 +418,8 @@ export const getNData = async () => {
 				return total
 			}, 0)
 			finalMiddleData = {
-				current: parseFloat(uC(middleData, mUnit)).toFixed(3),
-				previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(3)
+				current: parseFloat(uC(middleData, mUnit)).toFixed(2),
+				previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(2)
 			}
 
 			//#endregion
@@ -427,14 +427,14 @@ export const getNData = async () => {
 			//#region Price & DailyUsage
 
 
-			let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
+			let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(2)
 			finalAverageData.waterusagem3 = avgValue
 			finalAverageData.waterusageL = avgValue * 1000
 			let benchmarkSum = benchmarkData.reduce((total, d) => {
 				total = total + d.averageFlowPerDay
 				return total
 			}, 0)
-			let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(3)
+			let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(2)
 			finalAverageData.benchmarkm3 = bavgValue
 			finalAverageData.benchmarkL = bavgValue * 1000
 
@@ -586,8 +586,8 @@ export const getNData = async () => {
 			return total
 		}, 0)
 		finalMiddleData = {
-			current: parseFloat(uC(middleData, mUnit)).toFixed(3),
-			previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(3)
+			current: parseFloat(uC(middleData, mUnit)).toFixed(2),
+			previous: parseFloat(uC(prevMiddleData, mUnit)).toFixed(2)
 		}
 		//#endregion
 		//#region Generate bars Data
@@ -596,14 +596,14 @@ export const getNData = async () => {
 
 		//#endregion
 		//#region Generate Average Data
-		let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(3)
+		let avgValue = parseFloat(middleData / waterUsageData.length).toFixed(2)
 		finalAverageData.waterusagem3 = avgValue
 		finalAverageData.waterusageL = avgValue * 1000
 		let benchmarkSum = benchmarkData.reduce((total, d) => {
 			total = total + d.averageFlowPerDay
 			return total
 		}, 0)
-		let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(3)
+		let bavgValue = parseFloat(benchmarkSum / waterUsageData.length).toFixed(2)
 		finalAverageData.benchmarkm3 = bavgValue
 		finalAverageData.benchmarkL = bavgValue * 1000
 

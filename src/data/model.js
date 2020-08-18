@@ -28,7 +28,7 @@ export const genWaterPerDevice = (data) => {
 			})
 		})
 
-		Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(3)) }))
+		Object.keys(dataByDay).forEach(k => final.push({ date: k, value: parseFloat(dataByDay[k].toFixed(2)) }))
 		final = final.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 	}
 	return final
@@ -50,7 +50,7 @@ export const genReading = (deviceData) => {
 	Object.keys(dataByDay).forEach(d => {
 		fResult.push({
 			date: d,
-			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(3))
+			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(2))
 		})
 	})
 	return fResult
@@ -120,7 +120,7 @@ export const genBenchmark = (deviceData, noOfDevices, noOfSelectedDevices) => {
 	data = genWaterPerDevice(waterReading)
 	if (noOfDevices - noOfSelectedDevices !== 0) {
 		Object.keys(data).forEach(f => {
-			data[f].value = parseFloat(((data[f].value / noOfDevices) * (noOfSelectedDevices)).toFixed(3))
+			data[f].value = parseFloat(((data[f].value / noOfDevices) * (noOfSelectedDevices)).toFixed(2))
 		})
 	}
 	return data
@@ -155,7 +155,7 @@ const sumUpData = (data) => {
 		Object.keys(data).forEach(d => {
 			total = total + data[d].value
 		})
-	return parseFloat(total.toFixed(3))
+	return parseFloat(total.toFixed(2))
 
 }
 
@@ -184,7 +184,7 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	 */
 	let minUsage = {}
 	minUsage.className = 'waterUsageA'
-	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0])).toFixed(3)
+	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0])).toFixed(2)
 	minUsage.unit = 'm³'
 	minUsage.type = 'chartTable.waterusage.line1'
 	waterusage.push(minUsage)
@@ -193,7 +193,7 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	 */
 	let maxUsage = {}
 	maxUsage.className = 'waterUsageB'
-	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0])).toFixed(3)
+	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0])).toFixed(2)
 	maxUsage.unit = 'm³'
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)
@@ -202,7 +202,7 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	 */
 	let average = {}
 	average.className = 'waterUsageC'
-	average.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	average.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(2))
 	average.unit = 'm³'
 	average.type = 'chartTable.waterusage.line3'
 	waterusage.push(average)
@@ -212,7 +212,7 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	let nOP = noOfPersons > 0 ? noOfPersons : 1
 	let perPerson = {}
 	perPerson.className = 'waterUsageD'
-	perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
+	perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(2))
 	perPerson.unit = 'm³'
 	perPerson.type = 'chartTable.waterusage.line4'
 	waterusage.push(perPerson)
@@ -236,7 +236,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 	 */
 	let minUsage = {}
 	minUsage.className = 'waterUsageA'
-	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0]).toFixed(3))
+	minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0]).toFixed(2))
 	minUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	minUsage.type = 'chartTable.waterusage.line1'
 	waterusage.push(minUsage)
@@ -246,7 +246,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 	 */
 	let maxUsage = {}
 	maxUsage.className = 'waterUsageB'
-	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0]).toFixed(3))
+	maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0]).toFixed(2))
 	maxUsage.unit = unit === 'm3' ? 'm³' : 'L'
 	maxUsage.type = 'chartTable.waterusage.line2'
 	waterusage.push(maxUsage)
@@ -268,7 +268,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 	 */
 	let average = {}
 	average.className = 'waterUsageC'
-	average.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+	average.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(2))
 	average.unit = unit === 'm3' ? 'm³' : 'L'
 	average.type = 'chartTable.waterusage.line3'
 	waterusage.push(average)
@@ -279,7 +279,7 @@ export const genNBarData = (waterusageData, benchmarkData, noOfPersons, unit, ad
 		let nOP = noOfPersons > 0 ? noOfPersons : 1
 		let perPerson = {}
 		perPerson.className = 'waterUsageD'
-		perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
+		perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(2))
 		perPerson.unit = unit === 'm3' ? 'm³' : 'L'
 		perPerson.type = 'chartTable.waterusage.line4'
 		waterusage.push(perPerson)

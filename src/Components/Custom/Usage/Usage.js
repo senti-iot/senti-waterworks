@@ -168,7 +168,7 @@ const Usage = props => {
 					</div>
 					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
 						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
-							{(mUnit === 'm3' ? parseFloat(avgData.benchmarkm3).toFixed(3).replace('.', ',') : parseFloat(avgData.benchmarkL).toFixed(0))}
+							{(mUnit === 'm3' ? parseFloat(avgData.benchmarkm3).toFixed(2).replace('.', ',') : parseFloat(avgData.benchmarkL).toFixed(0))}
 							<span className={classes.cubicValueUnit}>
 								{mUnit === 'm3' ? " m³" : " L"}
 							</span>

@@ -9,7 +9,7 @@ const getMedianLineData = (data) => {
 	let medianValues = []
 	if (data.length > 0) {
 		let sum = data.map(d => d.value).reduce((total, val) => parseFloat(total) + parseFloat(val))
-		let avrg = parseFloat((sum / data.length).toFixed(3))
+		let avrg = parseFloat((sum / data.length).toFixed(2))
 		medianValues = [{ date: data[0].date, value: avrg }, { date: data[data.length - 1].date, value: avrg }]
 	}
 
