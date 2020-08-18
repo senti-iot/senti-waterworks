@@ -82,6 +82,7 @@ const DateTimeArrows = () => {
 		handleSetDate(period.timeType, to, from, period.timeType, period.id)
 	}
 
+	//Deleted width: 45% from itemg container
 	return (
 		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
 			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
