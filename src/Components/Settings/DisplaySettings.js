@@ -7,7 +7,7 @@ import { changeLanguage } from 'Redux/localization'
 import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, changeMaxDailyConsumption } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
 import TextF from 'Components/Input/TextF'
-
+//ItemG
 function DisplaySettings(props) {
 	//Hooks
 	const dispatch = useDispatch()
