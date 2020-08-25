@@ -78,11 +78,12 @@ const DialogDetails = () => {
 	const noOfAdults = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults)
 	const noOfChildren = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren)
 	const mUnit = useSelector(s => s.settings.mUnit)
-
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	let noOfPeople = noOfAdults + noOfChildren
 	if (noOfPeople === 0) {
 		noOfPeople = 1
 	}
+	console.log('isSWAdmin', isSWAdmin)
 	//State
 
 	//Const
@@ -102,7 +103,7 @@ const DialogDetails = () => {
 			subheadline: 'Min husstand',
 			descriptions: [
 				'Mit gennemsnitlige daglige vandforbrug',
-				'Forbrug pr. person',
+				isSWAdmin ? 'Forbrug pr. person' : "",
 				'Mit gennemsnitlige månedlige vandforbrug. Dette svarer til ca. 1,182 kg CO2 pr. måned'
 			],
 			style: {
@@ -111,7 +112,7 @@ const DialogDetails = () => {
 			},
 			data: {
 				cubicMetres: mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL,
-				forbrugPerson: (mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople,
+				forbrugPerson: !isSWAdmin ? ((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople) : null,
 			}
 		},
 		{
@@ -119,7 +120,7 @@ const DialogDetails = () => {
 			subheadline: ' Mit vandværk',
 			descriptions: [
 				'Gennemsnitligt daglige vandforbrug for andre boliger',
-				'Forbrug pr. person',
+				isSWAdmin ? 'Forbrug pr. person' : null,
 				'Gennemsnitlig månedlige vandforbrug for andre boliger. Dette svarer til ca. 1,506 kg CO2 pr. måned'
 			],
 			style: {
@@ -128,7 +129,7 @@ const DialogDetails = () => {
 			},
 			data: {
 				cubicMetres: mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL,
-				forbrugPerson: (mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople,
+				forbrugPerson: !isSWAdmin ? ((mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople) : null,
 			}
 		},
 		{
@@ -181,13 +182,13 @@ const DialogDetails = () => {
 						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>{/* correct place */}
 							<div style={{ display: 'flex' }}>
 								<div style={{ textAlign: 'center' }}>
-									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(mUnit === 'm3' ? 3 : 0)}
+									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
 										<span style={{ fontSize: 16 }}>{mUnit === 'm3' ? " m³" : " L"}</span></Typography>
 								</div>
 								<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 							</div>
 							<Typography variant="h5" style={{ color: style.dataColor }}>
-								{parseFloat(data.forbrugPerson).toFixed(mUnit === 'm3' ? 3 : 0)} {mUnit === 'm3' ? " m³" : " L"}
+								{parseFloat(data.forbrugPerson).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')} {mUnit === 'm3' ? " m³" : " L"}
 								<span style={{ marginLeft: 20 }}>
 									<img src={waterDrop} alt="senti-water-drop" className={classes.waterDrop} />
 								</span>

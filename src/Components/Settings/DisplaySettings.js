@@ -1,12 +1,13 @@
 import React, { useRef } from 'react'
-import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components'
-import { Laptop } from 'variables/icons'
-import { Grid, ListItem, List, ListItemText, colors, InputAdornment, /* Switch */ } from '@material-ui/core'
+import { InfoCard, ItemGrid, DSelect, CircularLoader, T } from 'Components'
+import { Laptop, Close, SettingsRounded } from 'variables/icons'
+import { Grid, ListItem, List, ListItemText, colors, InputAdornment, CardHeader, IconButton, /* Switch */ } from '@material-ui/core'
 import { settingsStyles } from 'Styles/settingsStyle'
 import { changeLanguage } from 'Redux/localization'
 import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, changeMaxDailyConsumption } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
 import TextF from 'Components/Input/TextF'
+import ItemG from 'Components/Containers/ItemG'
 
 function DisplaySettings(props) {
 	//Hooks
@@ -114,8 +115,11 @@ function DisplaySettings(props) {
 		{ value: 2000, label: t('settings.hover.values.2000') },
 		{ value: 3000, label: t('settings.hover.values.3000') },
 	]
+	let handleCloseButton = () => { }
+
 	return (
 		discSentiVal !== null && language !== null && trp !== null && sideBar !== null && theme !== null ?
+
 			<InfoCard
 				noExpand
 				avatar={<Laptop />}
@@ -193,7 +197,8 @@ function DisplaySettings(props) {
 						</List>
 					</Grid>
 				}
-			/> : <CircularLoader notCentered />
+			/>
+			: <CircularLoader notCentered />
 	)
 }
 

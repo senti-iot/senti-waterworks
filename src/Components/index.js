@@ -38,13 +38,13 @@ import DSelect from 'Components/Input/DSelect'
 import DMenu from 'Components/Input/DMenu'
 import CustomDateTime from 'Components/Input/CustomDateTime'
 import DateTimeFilter from 'Components/Input/DateTimeFilter'
-
+import Link from 'Components/Custom/Link/Link'
 //Transitions
 import SlideT from 'Components/Transitions/SlideT'
 
 //#endregion
 export {
-
+	Link,
 	//Transitions
 	SlideT,
 	//Containers

@@ -1,6 +1,6 @@
 import { handleRequestSort, getDates } from 'data/functions'
 import {
-	getDevices, getWaterUsageByDay, getReadingUsage, getBenchmarkUsageByDay, getBenchmarkUsageByHour,
+	/* getDevices, */ getWaterUsageByDay, getReadingUsage, getBenchmarkUsageByDay, getBenchmarkUsageByHour,
 	getTotalVolumeData, getDevicesV2, getMinATemperatureData, getMinWTemperatureData,
 	getMinFlowData,
 	getMaxFlowData,
@@ -43,20 +43,20 @@ export const sortData = (key, property, order) => {
 	}
 }
 
-export const getAllDevices = async () => {
-	return async (dispatch) => {
-		let devices = await getDevices()
-		dispatch({
-			type: GETDevice,
-			payload: devices
-		})
-		dispatch({
-			type: 'selectDevice',
-			// payload: devices ? devices.map(d => d.id) : []
-			payload: devices.length > 0 ? [devices[0].id, devices[1].id, devices[2].id] : []
-		})
-	}
-}
+// export const getAllDevices = async () => {
+// 	return async (dispatch) => {
+// 		let devices = await getDevices()
+// 		dispatch({
+// 			type: GETDevice,
+// 			payload: devices
+// 		})
+// 		dispatch({
+// 			type: 'selectDevice',
+// 			// payload: devices ? devices.map(d => d.id) : []
+// 			payload: devices.length > 0 ? [devices[0].id, devices[1].id, devices[2].id] : []
+// 		})
+// 	}
+// }
 /**
  * Get Weather Data for the Line Graph
  */
