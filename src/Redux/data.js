@@ -1,7 +1,18 @@
-import { handleRequestSort } from 'data/functions'
-import { getDevices, getDevicesData, /* getDevicesData */ } from 'data/devices'
-import { genBenchmark, genArcData, genWR, genMinATemp, genMinWTemp, genMaxF, genMinF } from 'data/model'
+import { handleRequestSort, getDates } from 'data/functions'
+import {
+	/* getDevices, */ getWaterUsageByDay, getReadingUsage, getBenchmarkUsageByDay, getBenchmarkUsageByHour,
+	getTotalVolumeData, getDevicesV2, getMinATemperatureData, getMinWTemperatureData,
+	getMinFlowData,
+	getMaxFlowData,
+	getWaterUsageByHour
+} from 'data/devices'
 import moment from 'moment'
+// import { colors } from 'variables/colors'
+import { getLatLongFromAddress, getWeather } from 'data/weather'
+import { setArcData } from 'Redux/charts/arcData'
+import { setPriceUsageData } from 'Redux/charts/priceUsageData'
+import { setLineData } from 'Redux/charts/lineData'
+import { setBarData } from 'Redux/charts/barData'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -9,6 +20,11 @@ const GETDevice = 'devices'
 const deviceData = 'deviceData'
 // const rawDataStore = 'storeOldData'
 const middleChartData = 'middleChartData'
+const barData = 'barData'
+const averageData = 'averageData'
+const pData = 'priceData'
+const wData = 'weatherData'
+const sDevice = 'selectDevice'
 
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
@@ -26,227 +42,310 @@ export const sortData = (key, property, order) => {
 
 	}
 }
-// let fakeDevice = {
-// 	nId: 0,
-// 	address: "fakestreet",
-// 	guid: "56970DF",
-// 	id: "348580",
-// 	type: "fakeDevice",
-// 	active: true
+
+// export const getAllDevices = async () => {
+// 	return async (dispatch) => {
+// 		let devices = await getDevices()
+// 		dispatch({
+// 			type: GETDevice,
+// 			payload: devices
+// 		})
+// 		dispatch({
+// 			type: 'selectDevice',
+// 			// payload: devices ? devices.map(d => d.id) : []
+// 			payload: devices.length > 0 ? [devices[0].id, devices[1].id, devices[2].id] : []
+// 		})
+// 	}
 // }
-export const getAllDevices = async () => {
-	return async (dispatch) => {
-		let devices = await getDevices()
+/**
+ * Get Weather Data for the Line Graph
+ */
+export const getWeatherData = async () => {
+	return async (dispatch, getState) => {
+		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
+
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
+		let dates = getDates(from, to)
+		let timeType = getState().dateTime.period.timeType
+		if (userExP.address) {
+			let adrs = userExP.address.split(' ')
+			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
+			let coords = await getLatLongFromAddress(address)
+			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
+			let fWeather = []
+			// .map(r => r.daily.data[0])
+			if (timeType > 1) {
+				fWeather = weather.map(r => r.daily.data[0])
+			}
+			else {
+				fWeather = weather[0]?.hourly?.data
+			}
+			let finalData = fWeather.map(w => ({
+				date: moment(w.time),
+				icon: w.icon,
+				description: w.summary
+			}))
+			dispatch({
+				type: wData,
+				payload: finalData
+			})
+		}
+		else {
+			dispatch({
+				type: wData,
+				payload: []
+			})
+		}
+	}
+}
+/**
+ * Get Admin devices
+ */
+export const getAdminDevices = async () => {
+	return async dispatch => {
+
+		/**
+		 * Get the devices for the admin
+		 */
+		let devices = await getDevicesV2()
 		dispatch({
 			type: GETDevice,
 			payload: devices
 		})
-		dispatch({
-			type: 'selectDevice',
-			payload: devices ? devices.map(d => d.id) : []
-			// payload: devices ? [devices[0].id, devices[1].id, devices[2].id] : []
+		await dispatch({
+			type: sDevice,
+			payload: devices.map(d => d.uuid)
 		})
 	}
 }
-export const getData = async () => {
+
+/**
+ * Generate Data for graph
+ */
+export const genMainGraphData = async () => {
 	return async (dispatch, getState) => {
-		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone().endOf('day')
-		let filterDevices = getState().appState.selectedDevices
-		let noOfDevices = getState().data.devices.length
-		let fromM1 = from.clone().subtract(1, 'day')
-		let subtr = moment(to).diff(moment(from), 'day')
-		let prevFrom = moment(from).subtract(1, 'day').subtract(subtr, 'day')
-
-		let prevTo = moment(from)
-		if (moment().diff(moment(to), 'day') === 0) {
-			prevTo = moment(fromM1)
-		}
-		let rawData, prevRawData, currentPeriodData, benchMarkData, previousPeriodData, finalData, middleData, prevMiddleData, finalMiddleData
-
-		/**
-		 * TODO: Filter the data of devices here ONCE instead of 4 times inside model
-		 */
-		let completeRawData = await getDevicesData(prevFrom, to)
-		rawData = completeRawData.filter(f => moment(f.time) >= fromM1 && moment(f.time) <= to)
-		prevRawData = completeRawData.filter(f => moment(f.time) >= prevFrom && moment(f.time) <= prevTo)
-
-		currentPeriodData = {
-			waterUsage: genWR(rawData, filterDevices),
-			temperature: {
-				ambient: genMinATemp(rawData, filterDevices),
-				water: genMinWTemp(rawData, filterDevices)
-			},
-			waterFlow: {
-				maxFlow: genMaxF(rawData, filterDevices),
-				minFlow: genMinF(rawData, filterDevices)
-			}
-		}
-		benchMarkData = genBenchmark(rawData, noOfDevices, filterDevices.length)
-
-		// previousPeriodData = {
-		// 	waterUsage: [],
-		// 	temperature: {
-		// 		ambient: [],
-		// 		water: [],
-		// 	},
-		// 	waterFlow: {
-		// 		maxFlow: [],
-		// 		minFlow: []
-		// 	}
-
-		// }
-		prevRawData.forEach(d => {
-			d.time = moment(d.time).add(subtr, 'day')
-		})
-
-		previousPeriodData = {
-			waterUsage: genWR(prevRawData, filterDevices),
-			temperature: {
-				ambient: genMinATemp(prevRawData, filterDevices),
-				water: genMinWTemp(prevRawData, filterDevices)
-			},
-			waterFlow: {
-				maxFlow: genMaxF(prevRawData, filterDevices),
-				minFlow: genMinF(prevRawData, filterDevices)
-			}
-		}
-		// currentPeriodData = genData(rawData, filterDevices)
-		// previousPeriodData = genData(prevRawData, filterDevices, true, subtr)
-
-		/**
-		 * TODO: Do not call the API for another set of data, filter it based on from
-		 */
-
-		let rawArcData = currentPeriodData.waterUsage
-		let prevRawArcData = previousPeriodData.waterUsage/* .filter(f => moment(f.created) > prevFrom) */
-
-		middleData = genArcData(rawArcData, filterDevices)
-		prevMiddleData = genArcData(prevRawArcData, filterDevices)
-
-		finalData = {
-			waterusage: [
-				{
-					name: 'waterusageL',
-					median: true,
-					data: currentPeriodData.waterUsage,
-					color: 'red'
-				},
-				{
-					name: 'waterusageP',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.waterUsage
-				},
-				{
-					name: 'benchmark',
-					hidden: true,
-					noArea: true,
-					dashed: true,
-					data: benchMarkData,
-					color: 'yellow'
-				}
-			],
-			// temperature: [],
-			// waterflow: []
-			temperature: [
-				{
-					name: 'tempAmbient',
-					median: true,
-					data: currentPeriodData.temperature.ambient,
-					color: 'red'
-				},
-				{
-					name: 'tempAmbientPrev',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.temperature.ambient
-				},
-				{
-					name: 'tempWater',
-					median: true,
-					data: currentPeriodData.temperature.water,
-					color: 'blue'
-				},
-
-				{
-					name: 'tempWaterPrev',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.temperature.water
-				}
-			],
-			waterflow: [
-				{
-					name: 'maxFlow',
-					median: true,
-					data: currentPeriodData.waterFlow.maxFlow,
-					color: 'lightBlue'
-				},
-				{
-					name: 'maxFlowPrev',
-					prev: true,
-					hidden: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.waterFlow.maxFlow
-				},
-				{
-					name: 'minFlow',
-					median: true,
-					data: currentPeriodData.waterFlow.minFlow,
-					color: 'purple'
-				},
-				{
-					name: 'minFlowPrev',
-					prev: true,
-					hidden: true,
-					smallArea: true,
-					noMedianLegend: true,
-					median: true,
-					data: previousPeriodData.waterFlow.minFlow
-				}
-			]
-
-		}
-		if (filterDevices.length === 1) {
-			finalData.readings = [
-				{
-					name: 'readingL',
-					// median: true,
-					color: 'yellow',
-					data: rawData.filter(d => d.value && d.device_id === filterDevices[0]).map(d => ({ value: d.value, date: moment(d.created).startOf('day') }))
-				}
-			]
-		}
-		//#endregion
-		//#region Middle Widget
-		finalMiddleData = {
-			current: middleData,
-			previous: prevMiddleData
-		}
-		//#endregion
-		dispatch({
-			type: deviceData,
-			payload: finalData
-		})
-
-		dispatch({
-			type: middleChartData,
-			payload: finalMiddleData
-		})
 
 	}
 }
+/**
+ * Generate Admin Data
+ *
+ */
+export const adminData = () =>
+	async (dispatch, getState) => {
+		let orgId = getState().settings.user.org.uuid
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
+		let subtr = moment(to).diff(moment(from), 'day')
+		let prevFrom = moment(from).subtract(subtr, 'day')
+		let prevTo = moment(from)
+
+
+		let selectedDevices = getState().appState.selectedDevices
+		let devices = getState().data.devices
+		let suTo = to.clone()
+		let suFrom = from.clone()
+		let waterUsageData, waterUsagePrevData, benchmarkData, temperatureWData, temperatureWPrevData, temperatureAData,
+			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData
+
+		if (selectedDevices.length !== devices.length) {
+			let uuids = selectedDevices.map(s => s)
+			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
+			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
+			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
+
+			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo, uuids)
+			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
+			temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo, uuids)
+			temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom, prevTo, uuids)
+
+			minFlowData = await getMinFlowData(orgId, suFrom, suTo, uuids)
+			minFlowPrevData = await getMinFlowData(orgId, prevFrom, prevTo, uuids)
+			maxFlowData = await getMaxFlowData(orgId, suFrom, suTo, uuids)
+			maxFlowPrevData = await getMaxFlowData(orgId, prevFrom, prevTo, uuids)
+
+			readingsData = await getReadingUsage(suFrom, suTo, uuids)
+
+		}
+		else {
+			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo)
+			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo)
+			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo)
+
+			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo)
+			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo)
+			temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo)
+			temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom, prevTo)
+
+			minFlowData = await getMinFlowData(orgId, suFrom, suTo)
+			minFlowPrevData = await getMinFlowData(orgId, prevFrom, prevTo)
+			maxFlowData = await getMaxFlowData(orgId, suFrom, suTo)
+			maxFlowPrevData = await getMaxFlowData(orgId, prevFrom, prevTo)
+
+			readingsData = await getReadingUsage(suFrom, suTo)
+		}
+		//#region Line Data
+		dispatch(await setLineData({
+			dateDiff: subtr,
+			waterUsageData: waterUsageData,
+			waterUsagePrevData: waterUsagePrevData,
+			benchmarkData: benchmarkData,
+			temperatureWData: temperatureWData,
+			temperatureWPrevData: temperatureWPrevData,
+			temperatureAData: temperatureAData,
+			temperatureAPrevData: temperatureAPrevData,
+			minFlowData: minFlowData,
+			minFlowPrevData: minFlowPrevData,
+			maxFlowData: maxFlowData,
+			maxFlowPrevData: maxFlowPrevData,
+			readingsData: readingsData
+		}))
+		//#endregion
+
+		//#region Arc Data
+		dispatch(await setArcData(waterUsageData, waterUsagePrevData))
+
+
+		//#endregion
+
+		//#region Price & DailyUsage
+		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))
+
+		//#endregion
+
+		//#region Final bar Data
+
+		dispatch(await setBarData(waterUsageData))
+
+		//#endregion
+		// dispatch({
+		// 	type: deviceData,
+		// 	payload: finalData
+		// })
+
+		// dispatch({
+		// 	type: middleChartData,
+		// 	payload: finalMiddleData
+		// })
+		// dispatch({
+		// 	type: averageData,
+		// 	payload: finalAverageData
+		// })
+		// dispatch({
+		// 	type: pData,
+		// 	payload: finalPriceData
+		// })
+
+
+	}
+
+export const userData = () => {
+	return async (dispatch, getState) => {
+		let orgId = getState().settings.user.org.uuid
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
+		let timeType = getState().dateTime.period.timeType
+		let subtr = moment(to).diff(moment(from), timeType > 1 ? 'day' : 'hour')
+
+		let prevFrom = moment(from).subtract(subtr, timeType > 1 ? 'day' : 'hour')
+		let prevTo = moment(from)
+
+		// let finalBarData = {
+		// 	waterusage: [],
+		// 	readings: [],
+		// 	perPerson: [],
+		// 	average: []
+		// }
+
+		let waterUsageData = timeType > 1 ?  await getWaterUsageByDay(from, to) : await getWaterUsageByHour(from, to)
+		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo) : await getWaterUsageByHour(prevFrom, prevTo)
+		let readingsData = await getReadingUsage(from.clone().add(1, 'day'), to)
+		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
+
+		await dispatch(await getWeatherData())
+		dispatch(await setLineData({
+			timeType: timeType,
+			isUser: true,
+			dateDiff: subtr,
+			waterUsageData: waterUsageData,
+			waterUsagePrevData: waterUsagePrevData,
+			benchmarkData: benchmarkData,
+			readingsData: readingsData
+		}))
+
+		//#endregion
+
+		//#region Gen Arc Data
+
+		dispatch(await setArcData(waterUsageData, waterUsagePrevData))
+
+		//#endregion
+		//#region Generate bars Data
+
+		dispatch(await setBarData(waterUsageData))
+
+		//#endregion
+		//#region Generate Average Data
+
+		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))
+
+		//#endregion
+
+		//#region Get Weather Data
+
+
+		//#endregion
+
+		//#region Dispatch the data
+		// dispatch({
+		// 	type: deviceData,
+		// 	payload: finalData
+		// })
+
+		// dispatch({
+		// 	type: barData,
+		// 	payload: finalBarData
+		// })
+
+		//#endregion
+
+	}
+}
+/**
+ * Get & Generate data for all graphs
+ */
+export const getNData = async () => {
+	return async (dispatch, getState) => {
+		let isSuperUser = getState().auth.isSuperUser
+		let isSWAdmin = getState().auth.privileges.indexOf('waterworks.admin') > -1 ? true : false
+		if (isSuperUser || isSWAdmin) {
+			await dispatch(await adminData())
+			return
+		}
+		else {
+			await dispatch(await userData())
+			return
+		}
+
+	}
+}
+
 const initialState = {
+	barData: {},
 	devices: [],
 	data: {},
+	priceData: {
+		waterusage: 0,
+		sewage: 0,
+		total: 0
+	},
+	avgData: {
+		waterusagem3: 0,
+		waterusageL: 0,
+		benchmarkm3: 0,
+		benchmarkL: 0
+	},
 	middleChartData: {
 		current: {
 			waterusage: 0
@@ -254,6 +353,12 @@ const initialState = {
 		previous: {
 			waterusage: 0
 		}
+	},
+	deviceData: {
+		waterusage: [],
+		temperature: [],
+		waterflow: [],
+		readings: []
 	}
 }
 
@@ -267,9 +372,17 @@ export const data = (state = initialState, { type, payload }) => {
 			return Object.assign({}, state, { devices: payload })
 		case deviceData:
 			return Object.assign({}, state, { deviceData: payload })
+		case barData:
+			return Object.assign({}, state, { barData: payload })
+		case averageData:
+			return Object.assign({}, state, { avgData: payload })
+		case pData:
+			return Object.assign({}, state, { priceData: payload })
+		case wData:
+			return Object.assign({}, state, { weatherData: payload })
 		case middleChartData:
 			return Object.assign({}, state, { middleChartData: payload })
 		default:
-			return state;
+			return state
 	}
 }

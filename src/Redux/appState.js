@@ -11,6 +11,8 @@ const changeT = 'changeTabs'
 const sDevice = 'selectDevice'
 const sExportDevice = 'selectExportDevice'
 const getSettings = 'getSettings'
+const fsLG = 'fullScreenLineGraph'
+const setLines = 'setGraphLines'
 
 export const changeSmallMenu = (val) => {
 	return dispatch => {
@@ -151,6 +153,18 @@ export const setSelectedDevices = (devices) => {
 		})
 	}
 }
+export const setTest = (devices) => {
+	return (dispatch, getState) => {
+		dispatch({
+			type: 'Test',
+			payload: devices
+		})
+	}
+}
+export const setFullScreenLineGraph = fs => ({
+	type: fsLG,
+	payload: fs
+})
 export const selectDevice = (b, device) => {
 	return (dispatch, getState) => {
 		let newSDevices = []
@@ -169,8 +183,27 @@ export const selectDevice = (b, device) => {
 
 	}
 }
+export const setGraphLines = (state) => {
+	return {
+		type: setLines,
+		payload: state
+	}
+}
+export const setGraphLine = (id, value) => {
+	return (dispatch, getState) => {
+		let lState = { ...getState().appState.lines }
 
+		lState[id] = value
+		dispatch({
+			type: setLines,
+			payload: lState
+		})
+
+	}
+}
 const initialState = {
+	lines: {},
+	fullScreenLineChart: false,
 	selectedExportDevices: [],
 	selectedDevices: [],
 	tabs: {
@@ -213,6 +246,10 @@ export const appState = (state = initialState, action) => {
 	switch (action.type) {
 		case 'RESET_APP':
 			return initialState
+		case setLines:
+			return Object.assign({}, state, { lines: action.payload })
+		case fsLG:
+			return Object.assign({}, state, { fullScreenLineChart: action.payload })
 		case changeT:
 			return Object.assign({}, state, { tabs: action.tabs })
 		case getSettings:

@@ -1,8 +1,15 @@
-import { grey } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors'
 import * as colors from '@material-ui/core/colors'
+import { darken } from '@material-ui/core/styles'
+import hexToRgba from 'hex-to-rgba'
 
-const override = color => ({
+const override = (color, type, secondaryColor) => ({
 	overrides: {
+		MuiPaper: {
+			root: {
+				backgroundColor: !type ? "#fff" : darken(hexToRgba(colors[color][700], 1), 0.5),
+			}
+		},
 		MuiTooltip: {
 			tooltipPlacementRight: {
 				background: grey[700],
@@ -46,8 +53,10 @@ const override = color => ({
 		},
 		MuiCard: {
 			root: {
-				overflow: "visible"
-			}
+				overflow: "visible",
+				background: !type ? "#fff" : darken(hexToRgba(colors[color][700], 1), 0.5),
+			},
+
 		},
 		MuiTypography: {
 			body1: {
@@ -79,10 +88,10 @@ const override = color => ({
 		MuiInput: {
 			underline: {
 				'&:hover:not($disabled):not($focused):not($error):before': {
-					borderBottom: `2px solid ${colors[color][400]}'` /* + primaryColor */,
+					borderBottom: `2px solid ${colors[color][400]}'`,
 				},
 				'&:after': {
-					borderBottomColor: colors[color][500],
+					borderBottomColor: colors[secondaryColor][500],
 				},
 			}
 		},

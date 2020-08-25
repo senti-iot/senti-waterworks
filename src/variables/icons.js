@@ -14,17 +14,20 @@ import Droplet from 'assets/icons/droplet.svg'
 import Thermometer from 'assets/icons/thermometer.svg'
 import Pipe from 'assets/icons/pipe.svg'
 import Google from 'assets/icons/google.svg'
+import SettingsIcon from '@material-ui/icons/Settings'
+import TableIcon from '@material-ui/icons/TableChart'
+import CallMadeIcon from '@material-ui/icons/CallMade'
 //#region weather Icons
-// import ClearDay from 'assets/weather/clear_day.svg'
-// import ClearNight from 'assets/weather/clear_night.svg'
-// import Cloudy from 'assets/weather/cloudy.svg'
-// import Fog from 'assets/weather/fog.svg'
-// import PartlyCloudyDay from 'assets/weather/partly_cloudy_day.svg'
-// import PartlyCloudyNight from 'assets/weather/partly_cloudy_night.svg'
-// import Rain from 'assets/weather/rain.svg'
-// import Sleet from 'assets/weather/sleet.svg'
-// import Snow from 'assets/weather/snow.svg'
-// import Wind from 'assets/weather/wind.svg'
+import ClearDay from 'assets/icons/weather/clear_day.svg'
+import ClearNight from 'assets/icons/weather/clear_night.svg'
+import Cloudy from 'assets/icons/weather/cloudy.svg'
+import Fog from 'assets/icons/weather/fog.svg'
+import PartlyCloudyDay from 'assets/icons/weather/partly_cloudy_day.svg'
+import PartlyCloudyNight from 'assets/icons/weather/partly_cloudy_night.svg'
+import Rain from 'assets/icons/weather/rain.svg'
+import Sleet from 'assets/icons/weather/sleet.svg'
+import Snow from 'assets/icons/weather/snow.svg'
+import Wind from 'assets/icons/weather/wind.svg'
 //#endregion
 import StorageIcon from '@material-ui/icons/Storage'
 import Cake from '@material-ui/icons/Cake'
@@ -50,6 +53,7 @@ import SignalWifi2Bar from '@material-ui/icons/SignalWifi2Bar'
 import SignalWifi2BarLock from '@material-ui/icons/SignalWifi2BarLock'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 import FilterList from '@material-ui/icons/FilterList'
@@ -117,7 +121,26 @@ import Airplay from '@material-ui/icons/Airplay'
 import Https from '@material-ui/icons/Https'
 import Palette from '@material-ui/icons/Palette'
 import ImportExport from '@material-ui/icons/ImportExport'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import CallMade from '@material-ui/icons/CallMade'
+import ChevronRight from '@material-ui/icons/ChevronRight'
+import ArrowBack from '@material-ui/icons/ArrowBack'
+import WarningIcon from '@material-ui/icons/Warning'
+import ErrorIcon from '@material-ui/icons/Error'
+import HelpOutline from '@material-ui/icons/HelpOutline'
+
 export {
+	CallMadeIcon,
+	HelpOutline,
+	KeyboardArrowDown,
+	ErrorIcon,
+	WarningIcon,
+	ArrowBack,
+	TableIcon,
+	SettingsIcon,
+	ChevronRight,
+	CallMade,
+	AccountCircle,
 	Droplet,
 	Thermometer,
 	Pipe,
@@ -157,16 +180,16 @@ export {
 	ZoomOut,
 	Cake,
 	//Weather Icons
-	// ClearDay,
-	// ClearNight,
-	// Cloudy,
-	// Fog,
-	// PartlyCloudyDay,
-	// PartlyCloudyNight,
-	// Rain,
-	// Sleet,
-	// Snow,
-	// Wind,
+	ClearDay,
+	ClearNight,
+	Cloudy,
+	Fog,
+	PartlyCloudyDay,
+	PartlyCloudyNight,
+	Rain,
+	Sleet,
+	Snow,
+	Wind,
 	//End Weather Icons
 	Star,
 	StarBorder,

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { T, ItemG } from 'Components'
 import { Checkbox, FormControlLabel, colors } from '@material-ui/core'
-import styled from 'styled-components';
-import { useLocalization } from 'Hooks/index';
+import styled from 'styled-components'
+import { useLocalization } from 'Hooks/index'
 
 let CheckedBox = styled(Checkbox)`
 color: inherit;
@@ -11,64 +11,64 @@ padding:4px;
 
 const Legend = props => {
 	const data = props.data ? props.data[props.id] : []
+	let fs = props.fullScreen
 	const t = useLocalization()
+	let lines = props.graphLines
 	return (
 		<ItemG container justify={'center'} alignItems={'center'}>
 			{data.map(line => {
+				if (line.noLegend) {
+					return null
+				}
 				if (line.median && !line.noMedianLegend) {
-					return <Fragment key={line.name + 'Legend54124'}>
+					return <Fragment key={'LegendFragment' + line.name}>
 						<FormControlLabel
-							key={line.name + 'Legend'}
-							id={line.name + 'Legend'}
-							style={{
-								color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500]
-							}}
+							key={'Legend' + line.name}
+							id={fs ? 'LegendfsLG' + line.name : 'Legend' + line.name}
+							style={{ color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500] }}
 							control={
 								<CheckedBox
+									checked={!fs ? !lines['L' + line.name] : !lines['LfsLG' + line.name]}
 									color={'default'}
-									defaultChecked={!line.hidden} id={line.name + 'LegendCheckbox'} />
+									id={fs ? 'LegendCheckboxfsLG' + line.name : 'LegendCheckbox' + line.name} />
 							}
-
 							label={<T
-								style={{
-									color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : '#fff'
-								}}
-								id={line.name + 'LegendLabel'}>{t('chartLines.' + line.name)}</T>}
+								style={{ color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : '#fff' }}
+								id={fs ? 'LegendLabelfsLG' + line.name : 'LegendLabel' + line.name}>{t('chartLines.' + line.name, { disableMissing: true })}</T>}
 						/>
 						<FormControlLabel
-							defaultChecked={false}
-							key={line.name + 'LegendMedian'}
-							style={{
-								color: 'rgba(255, 255, 255, 0.3)'
-							}}
+							key={'LegendMedian' + line.name}
+							// checked={lines['Median' + line.name]}
+							style={{ color: 'rgba(255, 255, 255, 0.3)' }}
 							control={
-								<CheckedBox color={'default'} id={line.name + 'LegendMedianCheckbox'} />
+								<CheckedBox
+									checked={!fs ? !lines['Median' + line.name] : !lines['MedianfsLG' + line.name]}
+									color={'default'}
+									id={fs ? 'LegendMedianCheckboxfsLG' + line.name : 'LegendMedianCheckbox' + line.name} />
 							}
 							label={<T
 								style={{
 									color: 'rgba(255, 255, 255, 0.3)'
 								}}
-								id={line.name + 'LegendMedianLabel'}>{t('chartLines.' + line.name) + ' ' + t('chartLines.average')}</T>}
+								id={fs ? 'LegendMedianLabelfsLG' + line.name : 'LegendMedianLabel' + line.name}>{t('chartLines.' + line.name, { disableMissing: true }) + ' ' + t('chartLines.average')}</T>}
 						/>
 					</Fragment>
 				}
 				return <FormControlLabel
-					key={line.name + 'Legend'}
-					id={line.name + 'Legend'}
-					style={{
-						color: !line.prev ? colors[line.color][500] : 'rgba(128,128,128,1)'
-					}}
+					checked={!lines['L' + line.name]}
+					key={'Legend' + line.name}
+					id={fs ? 'LegendfsLG' + line.name : 'Legend' + line.name}
+					style={{ color: !line.prev ? colors[line.color] ? colors[line.color][500] : line.color : 'rgba(128,128,128,1)' }}
 					control={
 						<CheckedBox
+							checked={!fs ? !lines['L' + line.name] : !lines['LfsLG' + line.name]}
 							color={'default'}
-							defaultChecked={!line.hidden} id={line.name + 'LegendCheckbox'} />
+							id={fs ? 'LegendCheckboxfsLG' + line.name : 'LegendCheckbox' + line.name} />
 					}
 
 					label={<T
-						style={{
-							color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : '#fff'
-						}}
-						id={line.name + 'LegendLabel'}>{t('chartLines.' + line.name)}</T>}
+						style={{ color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : '#fff' }}
+						id={fs ? 'LegendLabelfsLG' + line.name : 'LegendLabel' + line.name}>{t('chartLines.' + line.name, { disableMissing: true }) ? t('chartLines.' + line.name, { disableMissing: true }) : line.name}</T>}
 				/>
 
 			})}

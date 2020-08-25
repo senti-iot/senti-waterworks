@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import moment from 'moment';
+import moment from 'moment'
 import logo from 'assets/senti.waterworks.black.svg'
 import { Link } from 'react-router-dom'
-import cookie from 'react-cookies';
+import cookie from 'react-cookies'
 
 // Components
-import { ItemG, CookiesDialog, PrivacyDialog, FadeOutLoader } from 'Components';
-import { Hidden, InputAdornment, Link as MuiLink } from '@material-ui/core';
-import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks';
-import { Person, Visibility, VisibilityOff, Business } from 'variables/icons';
+import { ItemG, CookiesDialog, PrivacyDialog } from 'Components'
+import { Hidden, InputAdornment, Link as MuiLink } from '@material-ui/core'
+import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks'
+import { Person, Visibility, VisibilityOff, Business } from 'variables/icons'
 
 // Data & Redux
-import { loginUser } from 'data/login';
-import { getSettings } from 'Redux/settings';
-import { changeLanguage } from 'Redux/localization';
-import { setToken } from 'data/data';
-import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, NeedAccountT, LoginButton, LoginTF } from 'Styles/loginStyles';
-import LoginImages from 'Components/Custom/Login/NewLoginImages';
-import { ThemeProvider } from '@material-ui/styles';
-import { loginTheme } from 'Styles/themes';
+import { loginUser } from 'data/login'
+import { getSettings } from 'Redux/settings'
+import { changeLanguage } from 'Redux/localization'
+import { setToken } from 'data/data'
+import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, NeedAccountT, LoginButton, LoginTF } from 'Styles/loginStyles'
+import LoginImages from 'Components/Custom/Login/NewLoginImages'
+import { ThemeProvider } from '@material-ui/styles'
+import { loginTheme } from 'Styles/themes'
+import FadeLoader from 'Components/Loaders/FadeLoader'
 
 
 function Login() {
@@ -79,19 +80,18 @@ function Login() {
 	// }
 	const logUser = () => setLoggingIn(true)
 
-	//TODO
 	const handleLoginUser = async () => {
 		await loginUser(user, pass, orgId).then(async rs => {
 			if (rs) {
 				let exp = moment().add('1', 'day')
 				cookie.save('SESSION', rs, { path: '/', expires: exp.toDate() })
-				if (rs.isLoggedIn) {
-					if (setToken()) {
-						await redux.getSettings()
-						var prevURL = location.state ? location.state.prevURL : null
-						history.push(prevURL ? prevURL : /* defaultRoute */ '/')
-					}
+				if (setToken()) {
+					await redux.getSettings()
+					var prevURL = location.state ? location.state.prevURL : null
+					history.push(prevURL ? prevURL : /* defaultRoute */ '/')
+
 				}
+
 			}
 			else {
 				setError(true)
@@ -103,15 +103,15 @@ function Login() {
 		switch (e.target.id) {
 			case 'pass':
 				setPass(e.target.value)
-				break;
+				break
 			case 'user':
 				setUser(e.target.value)
-				break;
+				break
 			case 'orgId':
 				setOrgId(e.target.value)
-				break;
+				break
 			default:
-				break;
+				break
 		}
 		// if (error) {
 		// 	setError(false)
@@ -138,23 +138,19 @@ function Login() {
 	}, [location.pathname, history, redux])
 
 	const handleShowPassword = () => setShowPassword(!showPassword)
-	// const IconEndAd = cx({
-	// [classes.IconEndAd]: true,
-	// [classes.inputIconsColor]: !error,
-	// [classes.iconError]: error
-	// })
+
 	return (
 		<ThemeProvider theme={loginTheme}>
 
 			<LoginWrapper>
-				<ItemG xs={12} sm={12} md={4} lg={4} xl={3} container>
+				<ItemG xs={12} sm={12} md={5} lg={4} xl={3} container>
 					<MobileContainer>
 						<LeftPanel /* className={classes.paper} */>
 							<InputContainer>
 								<ItemG xs={12} container justify={'center'}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
-								<FadeOutLoader on={loggingIn} onChange={handleLoginUser}>
+								<FadeLoader on={loggingIn} onChange={handleLoginUser}>
 									<ItemG xs={12} container justify={'center'}>
 										<ItemG xs={12} container justify={'center'}>
 											<NeedAccountT>
@@ -165,7 +161,7 @@ function Login() {
 												</span>
 												<span>
 
-													<MuiLink component={Link} to={'/login'}>
+													<MuiLink component={Link} to={'/signup/da/step1'}>
 														{t('login.createAccount')}
 													</MuiLink>
 												</span>
@@ -227,8 +223,10 @@ function Login() {
 												{t('actions.login')}
 											</LoginButton>
 										</ItemG>
+										<ItemG xs={12} container justify={'center'}>
+										</ItemG>
 									</ItemG>
-								</FadeOutLoader>
+								</FadeLoader>
 								{/* </FadeOutLoader> */}
 							</InputContainer>
 							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
@@ -244,7 +242,7 @@ function Login() {
 				<CookiesDialog read t={t} open={cookies} handleClose={handleCookies} handleAcceptCookies={handleCookies} />
 				<PrivacyDialog t={t} open={privacy} handleClose={handlePrivacy} />
 				<Hidden smDown>
-					<ItemG md={8} lg={8} xl={9}>
+					<ItemG md={7} lg={8} xl={9}>
 						<LoginImages />
 					</ItemG>
 				</Hidden>

@@ -1,12 +1,12 @@
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Collapse, IconButton } from '@material-ui/core';
-import { ExpandMore } from 'variables/icons';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import React, { useState, useContext } from 'react';
-import { ItemG } from 'Components';
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Collapse, IconButton } from '@material-ui/core'
+import { ExpandMore } from 'variables/icons'
+import classnames from 'classnames'
+import PropTypes from 'prop-types'
+import React, { useState, useContext } from 'react'
+import { ItemG } from 'Components'
 import cx from 'classnames'
-import { TProvider } from 'Components/Providers/LocalizationProvider';
-import cardStyles from 'Styles/cardStyle';
+import { TProvider } from 'Components/Providers/LocalizationProvider'
+import cardStyles from 'Styles/cardStyle'
 
 const InfoCard = (props) => {
 	const [expanded, setExpanded] = useState(props.expanded ? props.expanded : false)
@@ -17,7 +17,7 @@ const InfoCard = (props) => {
 
 	const handleExpandClick = () => {
 		setExpanded(!expanded)
-	};
+	}
 
 
 	// const hasSubheader = (subheader) => subheader ? subheader.toString().length < 200 ? subheader ? subheader : null : null : null
@@ -57,7 +57,7 @@ const InfoCard = (props) => {
 
 	const { title, content, hiddenContent, avatar,
 		noAvatar, leftActionContent, color, noRightExpand,
-		whiteAvatar, noHeader, dashboard, headerClasses, bodyClasses } = props;
+		whiteAvatar, noHeader, dashboard, headerClasses, bodyClasses } = props
 	const cardClasses = cx({
 		[classes.card]: true,
 		[classes.plainCardCalsses]: true,
@@ -123,7 +123,7 @@ const InfoCard = (props) => {
 				</React.Fragment>
 				: null}
 		</Card>
-	);
+	)
 
 }
 
@@ -139,6 +139,6 @@ InfoCard.propTypes = {
 	hiddenContent: PropTypes.any,
 	noAvatar: PropTypes.any,
 	hideFacts: PropTypes.bool,
-};
+}
 
-export default InfoCard;
+export default InfoCard

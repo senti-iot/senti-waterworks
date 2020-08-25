@@ -1,4 +1,55 @@
 {
+	"Usage": {
+		"dashboardPrice": {
+			"headline": "Settlement",
+			"water": "Water: DKK ",
+			"sewage": "Sewage: DKK "
+		},
+		"dashboardUsage": {
+			"dailyConsumption": "Daily consumption",
+			"comparison": "Comparison"
+		},
+		"dialogScreens": {
+			"0": {
+				"headline": "How to save water when using the toilet",
+				"subheadline": "27 percent of water consumption goes to toilet flushing - one person uses an average of 10,841 liters of water a year to flush. Therefore, you can save a lot of water by following these tips:",
+				"steps": {
+					"0": "If you have a toilet with two flush options, and consistently use the larger one, every time you use the toilet, you use 3 liters more per use than necessary.",
+					"1": "You can also flush less often than usual. For example, flush if you have just urinated, or do not put snot paper and the like in the toilet and then flush.",
+					"2": "Use rainwater for toilet flushing. This is a slightly more comprehensive option as a collection system must be connected to the sewerage network by an authorized plumber and fulfill the building regulations, but it can then be used for more than toilet flushes, e.g. washing machine, garden watering and car wash."
+				}
+			},
+			"1": {
+				"headline": "How to save water when bathing",
+				"subheadline": "The bathtub and shower represent between 35% and 45% of your daily water consumption. Therefore, you can save a lot of water by following these tips:",
+				"steps": {
+					"0": "Choose a shower rather than a bathtub. A bathtub easily consumes 200 liters of water while the shower only uses approx. 35 liters.",
+					"1": "Take a short bath where you will not let the water run during the bath for more than 5 minutes in a row",
+					"2": "Turn off the water as you soak.",
+					"3": "Buy a saving shower. Then you only use 6-12 liters of water per minute - half as much as a regular shower."
+				}
+			},
+			"2": {
+				"headline": "How to save water when washing clothes",
+				"subheadline": "Did you know that the cost of water for washing is about 600-700 DKK a year? Therefore, you can save a lot of water by following these tips:",
+				"steps": {
+					"0": "Skip the pre-wash. The clothes are rarely so dirty that they need a pre-wash.",
+					"1": "The clothes stay clean on a short program unless they are very dirty. Select the normal wash or ironing program. The fine wash program has a high water level, and therefore uses more water.",
+					"2": "Fill up the washing machine and wash fewer wash times.",
+					"3": "Air the clothes (venting) instead of washing it. By venting clothes that are not tight fitted, it can easily be used for several days. That way, the clothes also last longer. Laundry also wears on your clothes."
+				}
+			},
+			"3": {
+				"headline": "How to save water when washing up or using the dishwasher",
+				"subheadline": "Did you know that the cost of water for washing is about 600-700 DKK a year? Therefore, you can save a lot of water by following these tips:",
+				"steps": {
+					"0": "Always use a tub rather than washing up under running water if you are washing using your hands.",
+					"1": "If you have a dishwasher, scan it completely before it starts. You do not have to rinse the dishes, it is enough to scrape off the leftovers. In addition, go for A-labeled products, like A++, which ensures low water and energy consumption.",
+					"2": "Newer dishwashers are all equipped with an eco-program that uses very little water for a wash. Some of them even use no more than 10 liters of water on a single dish. Older dishwashers without an eco-program will use about 20 liters of water."
+				}
+			}
+		}
+	},
 	"404": {
 		"contactSupport": "Please try again or contact our support on support@senti.io!",
 		"errorMessage": "The resource requested has not been found!",
@@ -9,6 +60,8 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"confirm": "Confirm",
+		"nextStep": "Next step",
 		"select": "Select",
 		"export": "Export data",
 		"accept": "Accept",
@@ -21,6 +74,7 @@
 		"back": "Previous",
 		"call": "Ring",
 		"cancel": "Cancel",
+		"change": "Change",
 		"changeLanguage": "Skift til Dansk",
 		"changePassword": "Change Password",
 		"close": "Close",
@@ -62,6 +116,7 @@
 		"read": "Read",
 		"readMore": "Read more",
 		"requestPasswordReset": "Reset password",
+		"retry": "Retry",
 		"reset": "Reset",
 		"save": "Save",
 		"search": "Type here to search",
@@ -332,7 +387,7 @@
 			"status": "Status",
 			"temp": "CPU temperature",
 			"type": "Type",
-			"uuid": "SigFox ID",
+			"uuid": "Device ID",
 			"weather": "Weather",
 			"wifiModule": "Wi-Fi module"
 		},
@@ -510,7 +565,7 @@
 		"fields": {
 			"sentiId": "Senti Device ID",
 			"meterNumber": "Meter Number",
-			"SigfoxID": "Sigfox ID",
+			"SigfoxID": "Device ID",
 			"Date": "Date",
 			"waterUsage": "Water Usage",
 			"waterReading": "Water Reading",
@@ -944,6 +999,8 @@
 			"time": "By time"
 		},
 		"chart": {
+			"maxDailyConsumption": "Max daily consumption",
+			"mUnit": "Measurement Unit",
 			"YAxis": {
 				"linear": "Linear scale",
 				"logarithmic": "Logarithmic scale"
@@ -1069,6 +1126,7 @@
 		}
 	},
 	"sidebar": {
+		"myprofile": "My Profile",
 		"api": "API",
 		"cloudfunction": "Cloud function",
 		"cloudfunctions": "Cloud functions",
@@ -1120,6 +1178,8 @@
 		"deleting": "Deleting...",
 		"deviceUpdated": "Device %{device} updated!",
 		"edit": {
+			"password": "Password has been updated!",
+			"user": "Personal details have been updated!",
 			"cloudfunction": "Cloud function %{cf} updated!",
 			"device": "Device %{device} updated!",
 			"devicetype": "Device Type %{dt} updated!",
@@ -1233,6 +1293,10 @@
 	"users": {
 		"editUser": "Edit user",
 		"fields": {
+			"address": "Address",
+			"city": "City",
+			"postnr": "Zip",
+			"country": "Country",
 			"accessLevel": "Access Level",
 			"active": "Active",
 			"bio": "Bio",
@@ -1287,6 +1351,40 @@
 			"noEmail": "E-mail is missing",
 			"noOrg": "Organisation is missing",
 			"userAlreadyExists": "E-mail is already assigned to a user account!"
+		}
+	},
+	"signup": {
+		"error": {
+			"missingData": "Error! Important data is missing and the signup process cannot continue...",
+			"missingDevice": "Error! Device identification failed...",
+			"passwordMismatch": "Error! Passwords do not match",
+			"emptyName": "Error! First name/Last name cannot be empty.",
+			"emptyPassword": "Error! Password cannot be empty.",
+			"emptyEmail": "Error! Email cannot be empty.",
+			"passwordTooShort": "Password must have at least 8 characters.",
+			"error": "Error"
+		},
+		"form": {
+			"token": "Token",
+			"finish": "Insert the token received on your email to finish creating your senti.waterworks account.",
+			"finishConfirmEmail": "Please check your email for completing your senti.waterworks account creation.",
+			"installationNrB": "Installation No.",
+			"deviceNr": "Device No.",
+			"insertDeviceNumber": "Insert device number, installation number and organisation ID to connect your water meter with senti.waterworks.If you do not know these codes please contact your waterworks.",
+			"dataAutoFill": "The following data is registered for the selected device number:",
+			"completeMissingFields": "Please complete all empty or incorrect fields:",
+			"finishProfileTitle": "Finish your profile",
+			"selectPassword": "Select a password for logging in",
+			"addPeopleCount": "Please fill the number of persons living in the house",
+			"adultNr": "No. of adults",
+			"childNr": "No. of children",
+			"personalDataTitle": "Use of personal data agreement",
+			"personalDataConfirm": "Yes, I accept the terms and conditions"
+		},
+		"confirm": {
+			"welcome": "Welcome",
+			"confirmSuccess": "You have now confirmed your account and are ready to login for the first time.",
+			"confirmFail": "Error! Confirmation failed due to a technical error. Please contact your waterworks regarding this issue."
 		}
 	}
 }

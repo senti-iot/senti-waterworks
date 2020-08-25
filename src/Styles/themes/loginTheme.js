@@ -1,13 +1,13 @@
 import { createMuiTheme, darken } from '@material-ui/core/styles'
 import override from './override'
-import * as colors from '@material-ui/core/colors';
-import hexToRgba from 'hex-to-rgba';
-import { bgColors } from 'Styles/backgroundColors';
-import { headerColor } from 'Styles/mainStyles';
+import * as colors from '@material-ui/core/colors'
+import hexToRgba from 'hex-to-rgba'
+import { bgColors } from 'Styles/backgroundColors'
+import { headerColor } from 'Styles/mainStyles'
 
 
 const theme = createMuiTheme({
-	...override('blue'),
+	...override('blue', undefined, 'orange'),
 	palette: {
 		type: "light",
 		primary: {
@@ -37,7 +37,7 @@ const theme = createMuiTheme({
 		ambientTempLine: colors.red[500],
 		waterTempLine: colors.blue[400]
 	},
-});
+})
 // export const chartColors = {
 // 	mainLine: colors.orange[500],
 // 	medianLine: colors.red[500],

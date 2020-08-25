@@ -1,4 +1,55 @@
 {
+	"Usage": {
+		"dashboardPrice": {
+			"headline": "Afregning",
+			"water": "Vand: Kr. ",
+			"sewage": "Spildevand: Kr. "
+		},
+		"dashboardUsage": {
+			"dailyConsumption": "Dagligt forbrug",
+			"comparison": "Sammenligning"
+		},
+		"dialogScreens": {
+			"0": {
+				"headline": "Sådan kan du spare vand når du bruger toilettet",
+				"subheadline": "27 procent af vores vandforbrug går til toiletskyl - en person bruger i gennemsnit 11 liter vand om dagen på at skylle. Du kan derfor spare rigtigt meget vand ved at følge disse råd:",
+				"steps": {
+					"0": "Hvis du har et nyere toilet med 2-skyl, og konsekvent bruger det store skyl, hver gang du her på toilet, bruger du 3 liter mere pr. gang end det er nødvendigt at bruge.",
+					"1": "Du kan også skylle sjældnere ud, end du plejer, lad fx. være med at skylle ud, hvis du blot har tisset, eller undlade at putte snotpapir og lignende i toilettet for derefter at skylle det ud.",
+					"2": "Brug regnvand til toiletskylning. Dette er en lidt mere omfattende mulighed, idet et opsamlingsanlæg skal tilsluttes kloaknettet af en autoriseret VVS'er og opfylde bygningsreglementet, men til gengæld kan en sådan tilslutning bruges til meget mere end toiletskyl, f.eks vaskemaskinen, havevanding og bilvask."
+				}
+			},
+			"1": {
+				"headline": "Sådan kan du spare vand når du bader",
+				"subheadline": "Karbad og brusebad repræsenterer mellem 35% og 45% af dit daglige forbrug. Du kan derfor spare meget vand ved at følge disse råd:",
+				"steps": {
+					"0": "Vælg et brusebad frem for et karbad. Et karbad forbruger nemt 200 liter vand, mens du kun bruger ca. 35 liter på et brusebad.",
+					"1": "Tag et kort bad hvor du i perioderne under badet ikke lader vandet løbe i mere end 5 min i træk.",
+					"2": "Sluk for vandet mens du sæber dig ind.",
+					"3": "Køb en sparebruser. Så bruger du kun 6-12 liter vand i minuttet - halvt så meget som en almindelig bruser."
+				}
+			},
+			"2": {
+				"headline": "Sådan kan du spare vand når du vasker tøj",
+				"subheadline": "Vidste du at vand udgiften til at vaske tøj ligger på cirka 600-700 kroner om året. Du kan derfor spare både penge og vand ved at følge disse råd:",
+				"steps": {
+					"0": "Spring forvasken over. Tøjet er sjældent så snavset, at det er nødvendigt med forvask.",
+					"1": "Tøjet bliver rent på et kort program, medmindre dit tøj er meget beskidt. Vælg “normalvask” eller “strygelet” programmet. “Finvask” programmet har en høj vandstand, og bruger derfor mere vand.",
+					"2": "Fyld vaskemaskinen op og vask færre gange.",
+					"3": "Luft tøjet i stedet for. Ved at lufte tøj som ikke er tætsiddende, kan det sagtens bruges flere dage. På den måde holder tøjet også længere. Forvask slider meget på dit tøj."
+				}
+			},
+			"3": {
+				"headline": "Sådan kan du spare vand når du vasker op eller bruger opvaskemaskinen",
+				"subheadline": "Vidste du at vand udgiften til at vaske op ligger på cirka 500-1200 kroner om året. Du kan derfor spare meget vand ved at følge disse råd:",
+				"steps": {
+					"0": "Brug altid en balje frem for at vaske op under rindende vand, hvis du vasker op i hånden.",
+					"1": "Har du en opvaskemaskine, skal den altid fyldes helt op, før den startes. Du behøver ikke skylle tallerkenerne, det er nok at skrabe madresterne af. Gå desuden efter A-mærkede hvidvare, gerne A++, som sikrer et lavt vand- og energiforbrug.",
+					"2": "Nyere opvaskemaskiner er alle sammen udstyret med et eco-program, som bruger meget lidt vand til en opvask. Nogle af dem bruger endda ikke mere end 10 liter vand på en enkelt opvask. Ældre opvaskemaskiner uden eco-program vil komme op på omtrent 20 liter vand til en opvask."
+				}
+			}
+		}
+	},
 	"404": {
 		"contactSupport": "Prøv igen eller kontakt support på support@senti.io!",
 		"errorMessage": "Den ønskede ressource er ikke fundet!",
@@ -9,6 +60,8 @@
 	"": "",
 	"Senti": "Senti",
 	"actions": {
+		"confirm": "Bekræft",
+		"nextStep": "Næste trin",
 		"select": "Vælg",
 		"export": "Eksporter data",
 		"accept": "Godkend",
@@ -21,6 +74,7 @@
 		"back": "Forrige",
 		"call": "Ring",
 		"cancel": "Anuller",
+		"change": "Skift",
 		"changeLanguage": "Change to English",
 		"changePassword": "Skift kodeord",
 		"close": "Luk",
@@ -62,6 +116,7 @@
 		"read": "Læs",
 		"readMore": "Læs mere",
 		"requestPasswordReset": "Nulstil kodeord",
+		"retry": "Prøv igen",
 		"reset": "Nulstil",
 		"save": "Gem",
 		"search": "Skriv her for at søge",
@@ -332,7 +387,7 @@
 			"status": "Driftstatus",
 			"temp": "CPU temperatur",
 			"type": "Type",
-			"uuid": "SigFox ID",
+			"uuid": "Enhed ID",
 			"weather": "Vejr",
 			"wifiModule": "Wi-Fi model"
 		},
@@ -510,7 +565,7 @@
 		"fields": {
 			"deviceId": "Senti Device ID",
 			"meterNumber": "Meter Nummer",
-			"SigfoxID": "Sigfox ID",
+			"SigfoxID": "Enhed ID",
 			"Date": "Dato",
 			"waterUsage": "Vandforbrug",
 			"waterReading": "Aflæsninger",
@@ -944,6 +999,8 @@
 			"time": "På tid"
 		},
 		"chart": {
+			"maxDailyConsumption": "Dagligt maks forbrug",
+			"mUnit": "Måleenhed",
 			"YAxis": {
 				"linear": "Lineær skala",
 				"logarithmic": "Logaritmisk skala"
@@ -1069,6 +1126,7 @@
 		}
 	},
 	"sidebar": {
+		"myprofile": "Min Profil",
 		"api": "API",
 		"cloudfunction": "Cloud funktion",
 		"cloudfunctions": "Cloud funktioner",
@@ -1120,6 +1178,8 @@
 		"deleting": "Sletter ...",
 		"deviceUpdated": "Enhed %{device} er opdateret!",
 		"edit": {
+			"password": "Kodeord er blevet opdateret!",
+			"user": "Personlige detaljer er blevet opdateret!",
 			"cloudfunction": "Cloud funktion %{cf} er opdateret!",
 			"device": "Enhed %{device} er opdateret!",
 			"devicetype": "Enhedtype %{dt} updated!",
@@ -1233,6 +1293,10 @@
 	"users": {
 		"editUser": "Rediger bruger",
 		"fields": {
+			"address": "Adresse",
+			"postnr": "Postnr.",
+			"city": "By",
+			"country": "Land",
 			"accessLevel": "Adgangsniveau",
 			"active": "Aktiv",
 			"bio": "Biografi",
@@ -1255,7 +1319,7 @@
 			"newsletter": "Nyhedsbrev",
 			"noOrg": "Uden Organisation",
 			"organisation": "Organisation",
-			"phone": "Telefon",
+			"phone": "Mobil nummer",
 			"position": "Stilling",
 			"profileImage": "Profilbillede",
 			"recoveryEmail": "Gendannelses E-mail",
@@ -1287,6 +1351,41 @@
 			"noEmail": "E-mail mangler",
 			"noOrg": "Organisation mangler",
 			"userAlreadyExists": "E-mail er allerede tilknyttet en bruger konto!"
+		}
+	},
+	"signup": {
+		"error": {
+			"missingData": "Fejl! Vigtige data mangler, og tilmeldingsprocessen kan ikke fortsætte.",
+			"missingDevice": "Fejl! Enhedsidentifikation mislykkedes.",
+			"passwordMismatch": "Fejl! Adgangskoden er ikke identisk.",
+			"emptyName": "Fejl! Fornavn/Efternavn kan ikke være tom.",
+			"emptyPassword": "Fejl! Adgangskoden kan ikke være tom.",
+			"emptyEmail": "Fejl! Email kan ikke være tom.",
+			"invalidEmail": "Fejl! Email er ugyldig",
+			"passwordTooShort": "Adgangskoden skal være minimum 8 tegn.",
+			"error": "Fejl"
+		},
+		"form": {
+			"token": "Token",
+			"finish": "Indsæt det token, der er modtaget i din e-mail for at afslutte oprettelsen af din senti.waterworks konto.",
+			"finishConfirmEmail": "Check venligst din mail for at bekræfte oprettelse af din senti.waterworks konto.",
+			"installationNrB": "Installationsnummer",
+			"deviceNr": "Måler nummer",
+			"insertDeviceNumber": "Indtast måler nummer, installationsnummer, og organisation ID for at tilslutte din vandmåler med senti.waterworks.  Kender du ikke disse numre kontakt venligst dit vandværk.",
+			"dataAutoFill": "Følgende stamdata er registreret for det indtastede måler nummer:",
+			"completeMissingFields": "Udfyld venligst alle nødvendige stamdata:",
+			"finishProfileTitle": "Færdiggør din brugerprofil",
+			"selectPassword": "Vælg en adgangskode til login",
+			"addPeopleCount": "Tilføj venligst husstandens antal beboere",
+			"adultNr": "Antal voksne",
+			"childNr": "Antal børn",
+			"personalDataTitle": "Persondata tilladelse",
+			"personalDataConfirm": "Ja, jeg accepter vilkår og betingelser for"
+		},
+		"confirm": {
+			"welcome": "Velkommen",
+			"confirmSuccess": "Du har nu bekræftet din oprettelse, og er klar til at logge ind for første gang.",
+			"confirmFail": "Der opstod en fejl under bekræftelsen af din brugerprofil."
 		}
 	}
 }

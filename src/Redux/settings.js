@@ -1,13 +1,13 @@
-import cookie from 'react-cookies';
-import { getUser, getValidSession } from 'data/users'
+import cookie from 'react-cookies'
 // import 'moment/locale/da'
 // import 'moment/locale/en-gb'
-import { saveSettings } from 'data/login';
+import { saveSettings, getValidSession, getAuthUser, saveInternal } from 'data/login'
 // import { setDates } from './dateTime';
-import { setPrefix, set, get } from 'data/storage';
+import { setPrefix, set } from 'data/storage'
+import { setAccessLevel } from 'Redux/auth'
 // import { getAllData } from './data';
 // import { setDashboards } from './dsSystem';
-require("moment/min/locales.min");
+require("moment/min/locales.min")
 var moment = require('moment')
 
 // window.moment = moment
@@ -33,6 +33,9 @@ const changeHT = 'changeHoverTime'
 const changeGS = 'changeGlobalSearch'
 const changeDSTheme = 'changeDashboardTheme'
 const changeCTheme = 'changeColorTheme'
+const changeUnit = 'changeMeasurementUnit'
+const changeMDC = 'changeMaxDailyConsumption'
+
 //Navigation
 
 const changeDR = 'changeDefaultRoute'
@@ -75,7 +78,7 @@ export const resetSettings = () => {
 }
 export const saveOnServ = (user) => {
 	return async (dispatch) => {
-		var saved = await saveSettings(user);
+		var saved = await saveSettings(user)
 		dispatch({
 			type: SAVESETTINGS,
 			saved: saved ? true : false
@@ -88,37 +91,20 @@ export const saveSettingsOnServ = () => {
 		let user = getState().settings.user
 		let s = getState().settings
 		let settings = {
+			mUnit: s.mUnit,
+			language: s.language,
 			dsTheme: s.dsTheme,
 			weekendColor: s.weekendColor,
-			// count: s.count,
-			// tcount: s.tcount,
-			// chartType: s.chartType,
-			// discSentiVal: s.discSentiVal,
-			// sideBar: s.sideBar,
 			theme: s.theme,
 			colorTheme: s.colorTheme,
 			trp: s.trp,
-			// alerts: s.alerts,
-			// didKnow: s.didKnow,
-			// rawData: s.rawData,
-			// mapTheme: s.mapTheme,
-			// defaultRoute: s.defaultRoute,
 			cookies: s.cookies,
-			// periods: s.periods,
 			snackbarLocation: s.snackbarLocation,
-			// detailsPanel: s.detailsPanel,
-			// drawer: s.drawer,
-			// drawerState: s.drawerState,
-			// drawerCloseOnNav: s.drawerCloseOnNav,
-			// headerBorder: s.headerBorder,
-			// breadcrumbs: s.breadcrumbs,
 			hoverTime: s.hoverTime,
+			maxDailyConsumption: s.maxDailyConsumption
 		}
-		user.aux = user.aux ? user.aux : {}
-		user.aux.sentiWaterworks = user.aux.sentiWaterworks ? user.aux.sentiWaterworks : {}
-		user.aux.sentiWaterworks.settings = settings
-		user.aux.odeum.language = s.language
-		var saved = await saveSettings(user);
+		user.internal.sentiWaterworks.settings = settings
+		var saved = await saveInternal(user.internal, user.uuid)
 		dispatch({
 			type: SAVESETTINGS,
 			saved: saved ? true : false
@@ -128,53 +114,50 @@ export const saveSettingsOnServ = () => {
 export const getSettings = async () => {
 	return async (dispatch, getState) => {
 		var sessionCookie = cookie.load('SESSION') ? cookie.load('SESSION') : null
+		var userId, user
 		if (sessionCookie) {
-			let vSession = await getValidSession(sessionCookie.userID).then(rs => rs.status)
-			if (vSession === 200) {
-
-				let exp = moment().add('1', 'day')
-				cookie.save('SESSION', sessionCookie, { path: '/', expires: exp.toDate() })
-				setPrefix(sessionCookie.userID)
+			let vSession = await getValidSession()
+			if (vSession.status === 200) {
+				// let exp = moment().add('1', 'day')
+				cookie.save('SESSION', sessionCookie, { path: '/', expires: moment(vSession.data.expires).toDate() })
+				setPrefix(sessionCookie.uuid)
 			}
 			else {
 				return cookie.remove('SESSION')
 			}
+			userId = sessionCookie.uuid
+			user = userId !== 0 ? await getAuthUser(userId) : null
+			dispatch(setAccessLevel({ role: user.role, privileges: user.privileges }))
 		}
-
-		var userId = cookie.load('SESSION') ? cookie.load('SESSION').userID : 0
-		var user = userId !== 0 ? await getUser(userId) : null
-
-		var settings = get('settings') ? get('settings') :
-			user ?
-				user.aux ?
-					user.aux.sentiWaterworks ?
-						user.aux.sentiWaterworks.settings ?
-							user.aux.sentiWaterworks.settings : null : null : null : null
-
 
 		moment.updateLocale('en-gb', {
 			week: {
 				dow: 1
 			}
 		})
+
 		if (user) {
-			// dispatch(await getAllData(true, user.org.id, user.privileges.apisuperuser ? true : false))
+			user.internal = user.internal || {}
+			user.internal.sentiWaterworks = user.internal.sentiWaterworks || {}
+			user.internal.sentiWaterworks.extendedProfile = user.internal.sentiWaterworks.extendedProfile || {}
+			user.aux = user.aux || {}
+			user.aux.sentiWaterworks = user.aux.sentiWaterworks || {}
+			user.aux.sentiWaterworks.extendedProfile = user.aux.sentiWaterworks.extendedProfile || {}
+			let settings = user.internal.sentiWaterworks.settings = user.internal.sentiWaterworks.settings || {}
+
 			if (settings) {
-				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
+				moment.locale(settings.language === 'en' ? 'en-gb' : settings.language)
 				dispatch({
 					type: GetSettings,
 					settings: {
-						...user.aux.sentiWaterworks.settings,
-						language: user.aux.odeum.language
+						...settings,
 					},
 					user
 				})
 			}
 			else {
-				moment.locale(user.aux.odeum.language === 'en' ? 'en-gb' : user.aux.odeum.language)
 				let s = {
 					...getState().settings,
-					language: user.aux.odeum.language
 				}
 				dispatch({
 					type: NOSETTINGS,
@@ -183,31 +166,27 @@ export const getSettings = async () => {
 					settings: s
 				})
 			}
-			// if (favorites) {
-			// 	dispatch({
-			// 		type: GETFAVS,
-			// 		payload:
-			// 			[...favorites]
-
-			// 	})
-			// }
-			// if (dashboards) {
-			// 	dispatch(setDashboards(dashboards))
-			// }
 		}
-		// else {
-		// 	moment.locale('da')
-		// 	let s = {
-		// 		...getState().settings,
-		// 	}
-		// 	dispatch({
-		// 		type: NOSETTINGS,
-		// 		loading: false,
-		// 		user,
-		// 		settings: s
-		// 	})
-		// 	return false
-		// }
+	}
+}
+export const changeMeasureUnit = val => {
+	return async dispatch => {
+		dispatch({
+			type: changeUnit,
+			mUnit: val
+		})
+		dispatch(await saveSettingsOnServ())
+
+	}
+
+}
+export const changeMaxDailyConsumption = val => {
+	return async dispatch => {
+		dispatch({
+			type: changeMDC,
+			payload: val
+		})
+		dispatch(saveSettingsOnServ())
 	}
 }
 export const changeGlobalSearch = val => {
@@ -552,6 +531,7 @@ export let initialState = {
 		hide: false
 	}],
 	cookies: true,
+	maxDailyConsumption: 0,
 	// defaultRoute: '/dashboard',
 	// defaultView: '/list',
 	// mapTheme: 0,
@@ -568,6 +548,7 @@ export let initialState = {
 	trp: 10,
 	// alerts: 1,
 	// didKnow: 0,
+	mUnit: 'l',
 	loading: true,
 	saved: false,
 	rowsPerPageOptions: [autoheight, 5, 7, 8, 10, 15, 20, 25, 50, 100],
@@ -594,6 +575,10 @@ export const settings = (state = initialState, action) => {
 			return Object.assign({}, state, { rowsPerPageOptions: [...newRowsPerPage] })
 		case reset:
 			return Object.assign({}, state, { ...initialState, user: action.user, cookies: false })
+		case changeMDC:
+			return Object.assign({}, state, { maxDailyConsumption: action.payload })
+		case changeUnit:
+			return Object.assign({}, state, { mUnit: action.mUnit })
 		case changeDSTheme:
 			return Object.assign({}, state, { dsTheme: action.dsTheme })
 		case changeGS:

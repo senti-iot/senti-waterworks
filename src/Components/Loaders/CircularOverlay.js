@@ -1,6 +1,6 @@
 import React from 'react'
-import { Grid, CircularProgress, Fade } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Grid, CircularProgress, Fade } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import cx from 'classnames'
 const clStyles = makeStyles((theme) => ({
 	container: {
@@ -42,8 +42,6 @@ const CircularOverlay = (props) => {
 		[classes.container]: true,
 		[classes.overlay]: overlay,
 		[classes.hidden]: !overlay,
-		// [classes.grid]: notCentered,
-		// [classes.fill]: fill,
 		[className]: className ? true : false
 	})
 	const circularClasses = cx({

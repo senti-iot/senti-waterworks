@@ -1,10 +1,10 @@
 import React, {
 	Fragment, useState
 } from 'react'
-import { IconButton, Menu, MenuItem, Button, Tooltip } from '@material-ui/core';
-import { ItemG } from 'Components';
-import { MoreVert } from 'variables/icons';
-import { useLocalization } from 'Hooks';
+import { IconButton, Menu, MenuItem, Button, Tooltip } from '@material-ui/core'
+import { ItemG } from 'Components'
+import { MoreVert } from 'variables/icons'
+import { useLocalization } from 'Hooks'
 
 const DMenu = (props) => {
 	//#region Variables

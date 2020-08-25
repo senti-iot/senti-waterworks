@@ -22,7 +22,7 @@ import InfoCard from 'Components/Cards/InfoCard'
 import T from 'Components/Typography/T'
 import Muted from 'Components/Typography/Muted'
 import Caption from 'Components/Typography/Caption'
-
+import Warning from 'Components/Typography/Warning'
 //#endregion
 
 //#region Loaders
@@ -38,12 +38,13 @@ import DSelect from 'Components/Input/DSelect'
 import DMenu from 'Components/Input/DMenu'
 import CustomDateTime from 'Components/Input/CustomDateTime'
 import DateTimeFilter from 'Components/Input/DateTimeFilter'
-
+import Link from 'Components/Custom/Link/Link'
 //Transitions
 import SlideT from 'Components/Transitions/SlideT'
 
 //#endregion
 export {
+	Link,
 	//Transitions
 	SlideT,
 	//Containers
@@ -53,6 +54,7 @@ export {
 	//Typography
 	T,
 	Muted,
+	Warning,
 	Caption,
 	//Inputs
 	TextF,

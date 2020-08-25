@@ -8,10 +8,15 @@ import {
 	primaryColor,
 	primaryBoxShadow,
 	headerColor
-} from "./mainStyles";
-import { makeStyles } from '@material-ui/styles';
+} from "./mainStyles"
+import { makeStyles } from '@material-ui/styles'
 
 const headerLinksStyle = makeStyles(theme => ({
+	selectDevButton: {
+		color: '#fff',
+		textTransform: 'none',
+		marginRight: 32
+	},
 	expand: {
 		// [theme.breakpoints.down('md')]: {
 		// 	marginLeft: 18,
@@ -176,4 +181,4 @@ const headerLinksStyle = makeStyles(theme => ({
 	}
 }))
 
-export default headerLinksStyle;
+export default headerLinksStyle

@@ -1,13 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
+import * as serviceWorker from './serviceWorker'
 
-import whyDidYouRender from "@welldone-software/why-did-you-render";
-import store from 'Redux/store';
-import { updateServiceworker } from 'Redux/serviceWorkerRedux';
+import whyDidYouRender from "@welldone-software/why-did-you-render"
+import store from 'Redux/store'
+import { updateServiceworker } from 'Redux/serviceWorkerRedux'
+import HotProviders from 'Providers'
 // import NewContent from 'Components/Loaders/NewContent';
+
 
 if (process.env.NODE_ENV !== 'production') {
 	whyDidYouRender(React, {
@@ -15,12 +17,12 @@ if (process.env.NODE_ENV !== 'production') {
 		onlyLogs: true,
 		titleColor: "green",
 		diffNameColor: "darkturquoise"
-	});
+	})
 }
 const onUpdate = () => {
-	store.dispatch(updateServiceworker())
+	store().dispatch(updateServiceworker())
 }
-serviceWorker.register({ onUpdate: onUpdate });
+serviceWorker.register({ onUpdate: onUpdate })
 
 // ReactDOM.render(<NewContent />, document.getElementById('update'));
 
@@ -29,4 +31,20 @@ serviceWorker.register({ onUpdate: onUpdate });
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<App />, document.getElementById('root'))
+
+
+var rootEl = document.getElementById('root')
+
+const render = Component => {
+	return ReactDOM.render(<HotProviders><Component /></HotProviders>, rootEl)
+}
+
+render(App)
+
+if (module.hot) {
+	module.hot.accept('./App', function () {
+		var NextApp = require('./App').default
+		render(NextApp)
+	})
+}
