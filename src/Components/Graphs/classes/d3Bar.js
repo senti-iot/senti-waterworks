@@ -118,7 +118,7 @@ class d3Arc {
 
 				.attr("class", d => { return d.className + ' .bar' })
 				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) - (this.x.bandwidth() / 4) : this.x(d.type) + (this.x.bandwidth() / 4) })
-				.attr("y", (d) => { console.log('D', d); return this.y(parseFloat(d.value)) })
+				.attr("y", (d) => { return this.y(parseFloat(d.value)) })
 				.attr("width", (d) => d.hidden ? this.x.bandwidth() / 2 : this.x.bandwidth())
 				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
 		}
@@ -128,7 +128,7 @@ class d3Arc {
 
 				.attr("class", d => { return d.className + ' .bar' })
 				.attr("x", (d, i) => { return this.x(d.type) })
-				.attr("y", (d) => { console.log('D', d); return this.y(parseFloat(d.value)) })
+				.attr("y", (d) => { return this.y(parseFloat(d.value)) })
 				.attr("width", (d) => d.hidden ? (this.x.bandwidth() / 2) : this.x.bandwidth())
 				.attr("height", (d) => { return d.hidden ? 0 : rHeight - this.y(d.value) + 3 })
 		}

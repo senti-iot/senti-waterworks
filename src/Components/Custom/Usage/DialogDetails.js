@@ -74,7 +74,7 @@ const DialogDetails = () => {
 	const t = useLocalization()
 
 	//Redux
-	const avgData = useSelector(s => s.data.avgData)
+	const avgData = useSelector(s => s.priceUsageData.usage)
 	const noOfAdults = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults)
 	const noOfChildren = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren)
 	const mUnit = useSelector(s => s.settings.mUnit)

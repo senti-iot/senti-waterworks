@@ -46,7 +46,6 @@ const getMax = (arr) => {
 const getMin = (arr) => {
 	if (arr.length > 0) {
 		let min = Math.min(...arr.map(d => d.value))
-		console.log("min", min)
 		if (min > 1) {
 			// min = min - 0.1
 			min = 0
@@ -71,7 +70,6 @@ const getMin = (arr) => {
 
 		// return min > 1 ? min - 10 : min - 0.1
 		// alert('min' + min)
-		console.log('final min', min)
 		return min > 0 ? Math.floor(min) : 0
 	}
 }
@@ -199,15 +197,23 @@ class d3Line {
 		const height = this.height
 		let timeType = period.timeType
 		let counter = moment(from)
+		let hourTicks = []
 		let ticks = []
 		let monthTicks = []
 		// ticks.push(counter.valueOf())
 		let add = 1
 		let lb = 0
 		if (moment(counter).diff(to, 'day') > 14) {
-
 			add = 3
 		}
+		/**
+		 * Hour tick generator
+		 */
+
+
+		/**
+		 * Month tick generator
+		 */
 		if (timeType === 4) {
 			monthTicks.push(counter.valueOf())
 			while (moment(counter).diff(to, 'day') < 0) {
@@ -235,11 +241,25 @@ class d3Line {
 			ticks.push(to.valueOf())
 			monthTicks.push(to.valueOf())
 		}
+		if (timeType === 1) {
+			while (moment(counter).diff(to, 'hour') < 0) {
+				hourTicks.push(counter.valueOf())
+				counter.add(add, 'hour')
+			}
+			hourTicks.push(to.valueOf())
+		}
 		else {
+			/**
+			 * Day tick generator
+			 */
+			while (moment(counter).diff(to, 'day') < 0) {
+				ticks.push(counter.valueOf())
+				counter.add(add, 'day')
+			}
+			ticks.push(to.valueOf())
 
 			monthTicks.push(counter.valueOf())
 			while (moment(counter).diff(to, 'day') < 0) {
-				ticks.push(counter.valueOf())
 				counter.add(add, 'day')
 				if (
 					monthTicks.findIndex(f => {
@@ -250,34 +270,70 @@ class d3Line {
 					monthTicks.push(counter.valueOf())
 				}
 			}
-			ticks.push(to.valueOf())
 			monthTicks.push(to.valueOf())
 		}
+		/**
+			 * Generate Hour axis
+			 */
+		var xAxis_hours = this.xAxis_hours = d3.axisBottom(this.x)
+			// .tickFormat(d3.timeFormat("%d"))
+			.tickFormat(f => moment(f).format('HH:mm'))
+			.tickValues(hourTicks)
 
+		/**
+		 * Append Day Axis
+		 */
+		this.xAxisHours = this.svg.append("g")
+			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
+			.call(xAxis_hours)
+
+		/**
+ 		* Day Axis Styling
+ 		*/
+		this.xAxisHours.selectAll('path').attr('class', classes.axis)
+		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
+		this.xAxisHours.selectAll('line').attr('class', classes.axis)
+		this.xAxisHours.selectAll('text').attr('class', classes.axisTick)
+
+
+		/**
+		 * Generate Day axis
+		 */
 		var xAxis_woy = this.xAxis_days = d3.axisBottom(this.x)
 			// .tickFormat(d3.timeFormat("%d"))
 			.tickFormat(f => moment(f).format('D'))
 			.tickValues(ticks)
 
-		// //Add the X axis
+		/**
+		 * Append Day Axis
+		 */
 		this.xAxis = this.svg.append("g")
 			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
 			.call(xAxis_woy)
 
-
-		// //Append style
-
+		/**
+ 		* Day Axis Styling
+ 		*/
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
 		this.xAxis.selectAll('text').attr('class', classes.axisTick)
 
+		/**
+		 * Generate Month Axis
+		 */
 		var xAxis_months = this.xAxis_months = d3.axisBottom(this.x)
 			.tickFormat(d => moment(d).format('MMM'))
 			.tickValues(monthTicks)
+		/**
+		 * Append Month Axis
+		 */
 		this.xAxisMonths = this.svg.append("g")
 			.attr("transform", "translate(-8," + (height - this.margin.bottom + 26) + ")")
 			.call(xAxis_months)
+		/**
+		* Month Axis Styling
+		*/
 		this.xAxisMonths.selectAll('path').attr('class', classes.axis)
 		this.xAxisMonths.selectAll('line').attr('class', classes.axis)
 		this.xAxisMonths.selectAll('text').attr('class', classes.axisText)
@@ -353,10 +409,45 @@ class d3Line {
 				// }
 			}
 		})
+		this.xAxisHours.selectAll('.tick').each(function (d, i) {
+			let parent = d3.select(this)
+			if (this.nextSibling) {
+
+				if (i % 2 === 0) {
+					parent.append('rect')
+						.attr('class', classes.axisLineWhite)
+						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+						.attr("height", height - margin.bottom - 26)
+						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+					if (weatherData[i]) {
+						parent.append("image")
+							.attr("xlink:href", getIcon(weatherData[i].icon))
+							.attr('class', classes.weatherIcon)
+							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
+							.attr("y", -(height - margin.bottom - 40))
+					}
+					// .attr("width", 32)
+					// .attr("height", 32)
+				}
+				else {
+					if (weatherData[i])
+
+						parent.append("image")
+							.attr("xlink:href", getIcon(weatherData[i].icon))
+							.attr('class', classes.weatherIcon)
+							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
+							.attr("y", -(height - margin.bottom - 40))
+					// .attr("width", 32)
+					// .attr("height", 32)
+				}
+				// }
+			}
+		})
 	}
 	generateDots = () => {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		const setTooltip = this.props.setTooltip
+		const width = this.width
 		data.forEach((line) => {
 			if (line.prev || line.onlyMedian) {
 				return
@@ -372,17 +463,20 @@ class d3Line {
 						.duration(200)
 						.style("opacity", 1)
 						.style('z-index', 1040)
-					tooltipDiv.style("left", (d3.event.pageX) - 235 + "px")
+					let left = d3.event.pageX < 175 ? 245 : d3.event.pageX
+					left = d3.event.pageX > width - 175 ? width - 150 : left
+					left = left - 150 - 25 //150 - half of the Tooltip, 25 default D3 tooltip
+					tooltipDiv.style("left", left + "px")
 						.style("top", (d3.event.pageY) - 250 + "px")
 					setTooltip(d)
 
 				}).on("mouseout", function () {
 					// setExpand(false)
 					d3.select(this).attr("r", 6)
-					tooltipDiv.transition()
-						.duration(500)
-						.style('z-index', -1)
-						.style("opacity", 0)
+					// tooltipDiv.transition()
+					// 	.duration(500)
+					// 	.style('z-index', -1)
+					// 	.style("opacity", 0)
 				}).on('click', function (d) {
 					// setExpand(true)
 					// alert(d.date + ' ' + d.value)

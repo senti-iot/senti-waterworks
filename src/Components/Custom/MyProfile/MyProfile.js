@@ -15,6 +15,9 @@ import { SmallActionButton } from 'Styles/loginStyles'
 import useSnackbar from 'Hooks/useSnackbar/useSnackbar'
 
 const useStyles = makeStyles(theme => ({
+	closeButton: {
+		color: '#fff'
+	},
 	password: {
 		background: 'rgba(255, 255, 255, 0.1)'
 	},
@@ -253,7 +256,7 @@ const MyProfile = () => {
 					avatar={<ItemG container alignItems={'center'}><Person className={classes.avatar} /></ItemG>}
 					title={<T variant={'h6'} style={{ color: '#fff' }}>{t('sidebar.myprofile')}</T>}
 					action={<IconButton onClick={handleCloseButton}>
-						<Close />
+						<Close className={classes.closeButton}/>
 					</IconButton>}
 				/>
 

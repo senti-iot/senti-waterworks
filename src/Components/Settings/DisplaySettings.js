@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
 import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components'
 import { Laptop } from 'variables/icons'
-import { Grid, ListItem, List, ListItemText, colors, InputAdornment, /* Switch */ } from '@material-ui/core'
+import { Grid, ListItem, List, ListItemText, colors, InputAdornment /* Switch */ } from '@material-ui/core'
 import { settingsStyles } from 'Styles/settingsStyle'
 import { changeLanguage } from 'Redux/localization'
 import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, changeMaxDailyConsumption } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
 import TextF from 'Components/Input/TextF'
-
+//ItemG
 function DisplaySettings(props) {
 	//Hooks
 	const dispatch = useDispatch()
@@ -114,8 +114,10 @@ function DisplaySettings(props) {
 		{ value: 2000, label: t('settings.hover.values.2000') },
 		{ value: 3000, label: t('settings.hover.values.3000') },
 	]
+
 	return (
 		discSentiVal !== null && language !== null && trp !== null && sideBar !== null && theme !== null ?
+
 			<InfoCard
 				noExpand
 				avatar={<Laptop />}
@@ -180,9 +182,7 @@ function DisplaySettings(props) {
 												rChangeMDC(inputRef.current.value)
 											},
 											onKeyDown: e => {
-												console.log(e.key, inputRef.current)
 												if (e.key === 'Enter') {
-													// console.log(inputRef.current.value)
 													// rChangeMDC(inputRef.current.value)
 													inputRef.current.blur()
 												}
@@ -195,7 +195,8 @@ function DisplaySettings(props) {
 						</List>
 					</Grid>
 				}
-			/> : <CircularLoader notCentered />
+			/>
+			: <CircularLoader notCentered />
 	)
 }
 
