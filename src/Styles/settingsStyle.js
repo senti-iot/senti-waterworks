@@ -2,6 +2,20 @@ import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/styles';
 
 export const settingsStyles = makeStyles(theme => ({
+	closeButton: {
+		color: "#fff"
+	},
+	avatar: {
+		background: '#fff',
+		color: theme.headerColor,
+		borderRadius: 8
+	},
+	cardHeader: {
+		display: 'flex',
+		justifyContent: 'center',
+		background: theme.headerColor,
+		borderRadius: "4px 4px 0px 0px"
+	},
 	list: {
 		width: "100%"
 	},

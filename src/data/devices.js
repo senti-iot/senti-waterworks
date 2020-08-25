@@ -17,20 +17,20 @@ export const getDevicesV2 = async () => {
 	return response
 }
 
-export const getDevices = async () => {
-	let response = await servicesAPI.get('v1/138230100010117/devices').then(rs => rs)
-	return response.ok ? response.data : []
-}
+// export const getDevices = async () => {
+// 	let response = await servicesAPI.get('v1/138230100010117/devices').then(rs => rs)
+// 	return response.ok ? response.data : []
+// }
 /**
  */
-export const getDevicesData = async (from, to, ) => {
-	let startDate = moment(from).format('YYYY-MM-DD')
-	let endDate = moment(to).format('YYYY-MM-DD')
+// export const getDevicesData = async (from, to ) => {
+// 	let startDate = moment(from).format('YYYY-MM-DD')
+// 	let endDate = moment(to).format('YYYY-MM-DD')
 
-	let response = await servicesAPI.get(`v1/deviceDataByCustomerID/138230100010117/${startDate}/${endDate}/-1`)
+// 	let response = await servicesAPI.get(`v1/deviceDataByCustomerID/138230100010117/${startDate}/${endDate}/-1`)
 
-	return response.ok ? response.data : []
-}
+// 	return response.ok ? response.data : []
+// }
 
 export const getDevicesDataCSV = async (config) => {
 	let response = await dataExportAPI.post(`v1/export/csv`, config)
