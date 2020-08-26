@@ -1,11 +1,11 @@
 /* eslint-disable indent */
 import React, { /* useState */ } from 'react'
-import { makeStyles, Typography, IconButton } from '@material-ui/core'
+import { makeStyles, Typography/* , IconButton */ } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
 import creditCard from 'assets/icons/credit-card.svg'
-import { CallMade, /* HelpOutline */ } from 'variables/icons'
+// import { /* CallMade, */ /* HelpOutline */ } from 'variables/icons'
 // import PopperBubble from './PopperBubble'
 import { formatNumber, formatShortNumber } from 'data/functions'
 
@@ -75,7 +75,7 @@ const PriceChart = props => {
 	// const [popperOpen, setPopperOpen] = useState(false)
 
 	//Redux
-	const priceData = useSelector(s => s.data.priceData)
+	const priceData = useSelector(s => s.priceUsageData.price)
 
 	//State
 
@@ -111,10 +111,10 @@ const PriceChart = props => {
 					</span>
 				</Typography>
 			</div>
-
+{/*
 			<IconButton size="small" className={classes.callMade} onClick={() => { }}>
 				<CallMade />
-			</IconButton>
+			</IconButton> */}
 			{/* <IconButton size="small" className={classes.helpOutline} onClick={() => {
 				setPopperOpen(!popperOpen)
 				setAnchorEl(props.parentRef.current)

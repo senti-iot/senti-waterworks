@@ -17,7 +17,7 @@ const DateFilterMenu = (props) => {
 	const [actionAnchor, setActionAnchor] = useState(null)
 
 	const dOptions = [
-		// { value: 0, label: t('filters.dateOptions.today') },
+		{ value: 0, label: t('filters.dateOptions.today') },
 		// { value: 1, label: t('filters.dateOptions.yesterday') },
 		{ value: 1, label: t('filters.dateOptions.thisWeek') },
 		{ value: 2, label: t('filters.dateOptions.7days') },
@@ -27,7 +27,7 @@ const DateFilterMenu = (props) => {
 		{ value: 6, label: t('filters.dateOptions.custom') },
 	]
 	const options = [
-		// { id: 0, label: t('filters.dateOptions.today') },
+		{ id: 0, label: t('filters.dateOptions.today') },
 		// { id: 1, label: t('filters.dateOptions.yesterday') },
 		{ id: 1, label: t('filters.dateOptions.thisWeek') },
 		{ id: 2, label: t('filters.dateOptions.7days') },
@@ -40,11 +40,11 @@ const DateFilterMenu = (props) => {
 	const handleSetDate = (menuId, to, from, timeType) => {
 		let defaultT = 0
 		switch (menuId) {
-			// case 0: // Today
-			// 	from = moment().startOf('day')
-			// 	to = moment()
-			// 	defaultT = 1
-			// 	break;
+			case 0: // Today
+				from = moment().startOf('day')
+				to = moment().endOf('day')
+				defaultT = 1
+				break;
 			// case 1: // Yesterday
 			// 	from = moment().subtract(1, 'd').startOf('day')
 			// 	to = moment().subtract(1, 'd').startOf('day')
@@ -64,22 +64,22 @@ const DateFilterMenu = (props) => {
 				// from = moment().subtract(30, 'd').startOf('day')
 				from = moment().startOf('month').startOf('day')
 				to = moment().startOf('day')
-				defaultT = 3
+				defaultT = 2
 				break;
 			case 4: // this year
 				from = moment().startOf('year')
 				to = moment()
-				defaultT = 4
+				defaultT = 2
 				break;
 			case 5: // last 90 days
 				from = moment().subtract(90, 'd').startOf('day')
 				to = moment().startOf('day')
-				defaultT = 4
+				defaultT = 2
 				break;
 			case 7: // last 30 days
 				from = moment().subtract(30, 'd').startOf('day')
 				to = moment().startOf('day')
-				defaultT = 3;
+				defaultT = 2;
 				break;
 			case 6:
 				from = moment(from)
@@ -207,7 +207,7 @@ const DateFilterMenu = (props) => {
 							</ItemG>
 							<Divider />
 						</Fragment>}
-						{/* <MenuItem selected={isSelected(0)} onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem> */}
+						<MenuItem selected={isSelected(0)} onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem>
 						<MenuItem selected={isSelected(1)} onClick={handleDateFilter} value={1}>{t('filters.dateOptions.thisWeek')}</MenuItem>
 						<MenuItem selected={isSelected(2)} onClick={handleDateFilter} value={2}>{t('filters.dateOptions.7days')}</MenuItem>
 						<MenuItem selected={isSelected(3)} onClick={handleDateFilter} value={3}>{t('filters.dateOptions.thisMonth')}</MenuItem>

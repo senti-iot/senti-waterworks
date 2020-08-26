@@ -59,7 +59,7 @@ export const MainChart = React.memo((props) => {
 	//Redux
 	// const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
-	const data = useSelector(s => s.data.deviceData)
+	const data = useSelector(s => s.lineData)
 	const fullScreenLineChart = useSelector(s => s.appState.fullScreenLineChart)
 
 	//State

@@ -116,7 +116,7 @@ const Usage = props => {
 	// const [popperOpen, setPopperOpen] = useState(false)
 
 	//Redux
-	const avgData = useSelector(s => s.data.avgData)
+	const avgData = useSelector(s => s.priceUsageData.usage)
 	const mUnit = useSelector(s => s.settings.mUnit)
 	//State
 	const [fsDialogOpen, setFsDialogOpen] = useState(false)

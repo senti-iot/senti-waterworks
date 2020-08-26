@@ -22,7 +22,7 @@ const ChartTable = props => {
 	const { chart } = props
 
 	//Redux
-	const barsData = useSelector(s => s.data.barData[chart])
+	const barsData = useSelector(s => s.barData[chart])
 
 	//State
 

@@ -162,10 +162,14 @@ function HeaderLinks(props) {
 			</Menu>
 		</div>
 	}
-
-	// const { classes } = props;
+	let rsp = {
+		xl: isSWAdmin ? 3 : 3,
+		lg: isSWAdmin ? 4 : 3,
+		md: isSWAdmin ? 5 : 3,
+		xs: isSWAdmin ? 5 : 3,
+	}
 	return (
-		<Grid container justify={'flex-end'} classes={{ container: classes.headerMargin }}>
+		<Grid container xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justify={'flex-end'} classes={{ container: classes.headerMargin }}>
 			{/* <ItemG>
 					{renderChristmasIcon()}
 				</ItemG> */}

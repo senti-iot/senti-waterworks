@@ -1,13 +1,13 @@
 {
 	"Usage": {
 		"dashboardPrice": {
-			"headline": "Settlement",
+			"headline": "Account",
 			"water": "Water: DKK ",
 			"sewage": "Sewage: DKK "
 		},
 		"dashboardUsage": {
 			"dailyConsumption": "Daily consumption",
-			"comparison": "Comparison"
+			"comparison": "Benchmark"
 		},
 		"dialogScreens": {
 			"0": {

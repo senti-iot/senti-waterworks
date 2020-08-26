@@ -33,56 +33,55 @@ const MonthYear = styled(T)`
 	white-space: nowrap;
 `
 const futureTester = (date, unit) => {
-	return moment()/* .subtract(1, 'day') */.diff(date, unit) <= 0
+	return moment().diff(date, unit) <= 0
 }
 
 const DateTimeArrows = () => {
-	const timeTypes = [
-		// { id: 0, format: 'lll dddd', chart: 'minute', tooltipFormat: 'LT' },
-		{ id: 1, format: 'lll dddd', chart: 'day', tooltipFormat: 'LT' },
-		{ id: 2, format: 'lll dddd', chart: 'day', tooltipFormat: 'lll' },
-		{ id: 3, format: 'lll dddd', chart: 'day', tooltipFormat: 'll' },
-	]
+	// const timeTypes = [
+	// 	// { id: 0, format: 'lll dddd', chart: 'minute', tooltipFormat: 'LT' },
+	// 	{ id: 1, format: 'lll dddd', chart: 'day', tooltipFormat: 'LT' },
+	// 	{ id: 2, format: 'lll dddd', chart: 'day', tooltipFormat: 'lll' },
+	// 	{ id: 3, format: 'lll dddd', chart: 'day', tooltipFormat: 'lll' },
+	// ]
+	// setDateTime(0, moment().endOf('day'), moment().startOf('day'), 1
 	const period = useSelector(s => s.dateTime.period)
 	const dispatch = useDispatch()
-	const handleSetDate = (id, to, from, timeType) => dispatch(changeDate(id, to, from, timeType))
+	const handleSetDate = (menuId, to, from, timeType) => dispatch(changeDate(menuId, to, from, timeType))
+
 	const handleNextPeriod = () => {
 		let from, to, diff
-		if (period.menuId === 3) {
-			from = moment(period.from).add(1, 'month').startOf('month')
-			to = !futureTester(to, 'day') ? moment(from).endOf('month') : moment().subtract(1, 'day')
+		if (period.timeType === 1) {
+			from = moment(period.from).add(1, 'day')
+			to = moment(period.to).add(1, 'day')
 		}
-		if (period.menuId === 2) {
-			from = moment(period.to).add(1, 'day')
-			to = futureTester(to, 'day') ? moment(period.to).add(7, 'day') : moment().subtract(1, 'day')
-		}
-		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
+		else {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
-			from = moment(period.from).add(diff + 1, 'minute').startOf('day')
-			to = moment(period.to).add(diff + 1, 'minute').endOf('day')
-			to = futureTester(to, 'day') ? moment().subtract(1, 'day') : to
+			console.log('diff', diff)
+			from = moment(period.from).add(diff, 'minute')
+			to = moment(period.to).add(diff, 'minute')
+			if (period.timeType > 1)
+				to = futureTester(to, 'day') ? moment()/* .subtract(1, 'day') */ : to
 		}
-		handleSetDate(period.timeType, to, from, period.timeType)
+		handleSetDate(6, to, from, period.timeType)
 	}
 	const handlePreviousPeriod = () => {
 		let from, to, diff
-		if (period.menuId === 3) {
-			from = moment(period.from).subtract(1, 'month').startOf('month')
-			to = moment(from).endOf('month')
+
+		if (period.timeType === 1) {
+			from = moment(period.from).subtract(1, 'day')
+			to = moment(period.to).subtract(1, 'day')
 		}
-		if (period.menuId === 2) {
-			from = moment(period.from).subtract(7, 'day').startOf('day')
-			to = moment(period.from).subtract(1, 'day')
+		else {
+			diff = moment(period.to).diff(moment(period.from), 'minute')
+			from = moment(period.from).subtract(diff, 'minute')
+			to = moment(period.to).subtract(diff, 'minute')
+
 		}
-		if ([1, 4, 5, 6].indexOf(period.menuId) !== -1) {
-			diff = moment(period.to).diff(moment(period.from), 'day')
-			from = moment(period.from).subtract(diff, 'day').startOf(timeTypes[period.timeType].chart)
-			to = moment(period.to).subtract(diff, 'day').endOf(timeTypes[period.timeType].chart)
-		}
-		handleSetDate(period.timeType, to, from, period.timeType, period.id)
+		handleSetDate(6, to, from, period.timeType)
 	}
 
 	//Deleted width: 45% from itemg container
+
 	return (
 		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
 			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
@@ -92,14 +91,14 @@ const DateTimeArrows = () => {
 			</ItemG>
 			<ItemG container /* xs={9} lg={9} xl={5} */ justify={'center'} alignItems={'center'} style={{ width: 'fit-content', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 
-				<MonthYear>{moment(period.from).format('ll')}</MonthYear>
+				<MonthYear>{moment(period.from).format(period.timeType > 1 ? 'll' : 'lll')}</MonthYear>
 				&nbsp;&nbsp;&nbsp;
 				<MonthYear>{` — `}</MonthYear>
 				&nbsp;&nbsp;&nbsp;
-				<MonthYear>{moment(period.to).format('ll')}</MonthYear>
+				<MonthYear>{moment(period.to).format(period.timeType > 1 ? 'll' : 'lll')}</MonthYear>
 			</ItemG>
 			<ItemG xs={2}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
-				<SIconButton disabled={futureTester(period.to, 'day')} onClick={handleNextPeriod}>
+				<SIconButton disabled={futureTester(period.to, period.timeType > 1 ? 'day' : 'hour')} onClick={handleNextPeriod}>
 					<RightArrow />
 				</SIconButton>
 			</ItemG>

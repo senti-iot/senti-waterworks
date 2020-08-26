@@ -1,4 +1,4 @@
-import React, { useRef, useState, useLayoutEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import d3Line from './classes/d3Line'
 import { usePrevious, useSelector, useLocalization, useDispatch } from 'Hooks'
 import Tooltip from './Tooltip'
@@ -18,7 +18,7 @@ const LineGraph = (props) => {
 	const classes = lineStyles()
 	const dispatch = useDispatch()
 	//Redux
-	const deviceData = useSelector(s => s.data.deviceData)
+	const deviceData = useSelector(s => s.lineData)
 	const weatherData = useSelector(s => s.data.weatherData)
 	const period = useSelector(s => s.dateTime.period)
 	const mUnit = useSelector(s => s.settings.mUnit)
@@ -33,7 +33,7 @@ const LineGraph = (props) => {
 	const prevId = usePrevious(props.id)
 	let prevData = usePrevious(deviceData)
 	let prevLoading = usePrevious(props.loading)
-
+	let prevFullScreen = usePrevious(fsLG)
 	//Const
 
 	//useCallbacks
@@ -45,7 +45,8 @@ const LineGraph = (props) => {
 	const setLine = useCallback((id, value) => {
 		dispatch(setGraphLine(id, value))
 	}, [dispatch])
-	useLayoutEffect(() => {
+
+	useEffect(() => {
 
 		const unitType = () => {
 			switch (props.id) {
@@ -67,7 +68,8 @@ const LineGraph = (props) => {
 		 * Generate state in redux
 		 * */
 			let lineState = {}
-			if (deviceData[props.id] && Object.keys(graphLines).length === 0) {
+			if (deviceData[props.id] &&
+				(Object.keys(graphLines).length === 0 || Object.keys(graphLines).length !== Object.keys(lineState).length)) {
 
 				deviceData[props.id].forEach(line => {
 					if (!line.noMedianLegend && line.median) {
@@ -98,55 +100,43 @@ const LineGraph = (props) => {
 				weatherData: weatherData,
 				fsLG: props.fullScreen
 			}
+			if (props.fullScreen) {
+				line = new d3LineFS(lineChartContainer.current, cProps, classes)
+			}
+			else {
+				line = new d3Line(lineChartContainer.current, cProps, classes)
+			}
 
-			line = props.fullScreen ? new d3LineFS(lineChartContainer.current, cProps, classes) : new d3Line(lineChartContainer.current, cProps, classes)
 
 		}
-		if ((props.id !== prevId) && line) {
-			console.log('Updated because of different chart id')
-			line.destroy()
-			genNewLine()
-		}
-		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
-			console.log('Updated because of not loading')
-			genNewLine()
-		}
-		if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
-			console.log(lineChartContainer.current)
-			console.log('Updated because of fullscreen')
 
+		if ((props.id !== prevId) && line && lineChartContainer.current) {
 			// line.destroy()
 			genNewLine()
 		}
-		// if ((!fsLG && !props.fullScreen && lineChartContainer.current) && !line) {
-		// 	console.log('Updated because of not fullscreen')
-		// 	genNewLine()
-		// }
-		// if (prevData !== deviceData) {
-		// 	line.destroy()
-		// 	genNewLine()
-		// }
+		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
+			genNewLine()
+		}
+
 		let resizeTimer
 		const handleResize = () => {
-			console.log('Updated because of resize')
 			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
 
-				if (line) {
-					line.destroy()
-				}
+				// if (line) {
+				// 	line.destroy()
+				// }
 				genNewLine()
 			}, 300)
 		}
 		window.addEventListener('resize', handleResize)
 		return () => {
 			window.removeEventListener('resize', handleResize)
-
 			// line = null
 			// setLines({})
 		}
 
-	}, [classes, setLine, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit, fsLG, props.fullScreen, graphLines, setLines])
+	}, [classes, setLine, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit, fsLG, graphLines, setLines, prevFullScreen, props.fullScreen])
 
 	//Handlers
 
