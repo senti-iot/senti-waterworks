@@ -13,7 +13,8 @@
 		"maxFlowPrev": "Prev. Period, Max",
 		"minFlow": "Min",
 		"minFlowPrev": "Prev. Period, Min",
-		"readingL": "Reading"
+		"readingL": "Reading",
+		"readings": "Water Consumption"
 	},
 	"chartTable": {
 		"waterusage": {

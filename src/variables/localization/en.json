@@ -1,7 +1,7 @@
 {
 	"Usage": {
 		"dashboardPrice": {
-			"headline": "Settlement",
+			"headline": "Account",
 			"water": "Water: DKK ",
 			"sewage": "Sewage: DKK "
 		},
