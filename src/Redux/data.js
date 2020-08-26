@@ -25,7 +25,17 @@ const averageData = 'averageData'
 const pData = 'priceData'
 const wData = 'weatherData'
 const sDevice = 'selectDevice'
+const hData = 'receivedData'
 
+
+export const setHaveData = d => {
+	return dispatch => {
+		dispatch({
+			type: hData,
+			payload: d
+		})
+	}
+}
 export const sortData = (key, property, order) => {
 	return (dispatch, getState) => {
 		let data = getState().data[key]
@@ -119,15 +129,6 @@ export const getAdminDevices = async () => {
 		})
 	}
 }
-
-/**
- * Generate Data for graph
- */
-export const genMainGraphData = async () => {
-	return async (dispatch, getState) => {
-
-	}
-}
 /**
  * Generate Admin Data
  *
@@ -218,6 +219,9 @@ export const adminData = () =>
 
 		dispatch(await setBarData(waterUsageData))
 
+		//Dispatch that we have the data
+
+		dispatch({ type: hData, payload: true })
 		//#endregion
 		// dispatch({
 		// 	type: deviceData,
@@ -240,8 +244,11 @@ export const adminData = () =>
 
 	}
 
-export const userData = () => {
-	return async (dispatch, getState) => {
+/**
+ * Generate user data
+ */
+export const userData = () =>
+	async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
@@ -290,6 +297,10 @@ export const userData = () => {
 
 		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))
 
+		//Dispatch that we have the data
+
+		dispatch({ type: hData, payload: true })
+
 		//#endregion
 
 		//#region Get Weather Data
@@ -309,9 +320,8 @@ export const userData = () => {
 		// })
 
 		//#endregion
-
 	}
-}
+
 /**
  * Get & Generate data for all graphs
  */
@@ -332,6 +342,7 @@ export const getNData = async () => {
 }
 
 const initialState = {
+	haveData: false,
 	barData: {},
 	devices: [],
 	data: {},
@@ -366,6 +377,8 @@ export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'RESET_APP':
 			return initialState
+		case hData:
+			return Object.assign({}, state, { haveData: payload })
 		case sData:
 			return Object.assign({}, state, { [payload.key]: payload.sortedData })
 		case GETDevice:
