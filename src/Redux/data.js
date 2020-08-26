@@ -82,29 +82,45 @@ export const getWeatherData = async () => {
 			let adrs = userExP.address.split(' ')
 			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
 			let coords = await getLatLongFromAddress(address)
-			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs.ok ? rs : null)
-			let fWeather = []
-			console.log(weather)
-			// .map(r => r.daily.data[0])
-			if (weather) {
+			console.log(coords)
+			if (coords && coords.lat !== 0 && coords.long !== 0) {
 
-				if (timeType > 1) {
-					fWeather = weather.map(r => r.daily.data[0])
+
+				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs.ok ? rs : null)
+				let fWeather = []
+				console.log(weather)
+				// .map(r => r.daily.data[0])
+				if (weather) {
+
+					if (timeType > 1) {
+						fWeather = weather.map(r => r.daily.data[0])
+					}
+					else {
+						fWeather = weather[0]?.hourly?.data
+					}
+					let finalData = fWeather.map(w => ({
+						date: moment(w.time),
+						icon: w.icon,
+						description: w.summary
+					}))
+					dispatch({
+						type: wData,
+						payload: finalData
+					})
 				}
 				else {
-					fWeather = weather[0]?.hourly?.data
+					dispatch({
+						type: wData,
+						payload: []
+					})
 				}
-				let finalData = fWeather.map(w => ({
-					date: moment(w.time),
-					icon: w.icon,
-					description: w.summary
-				}))
+			}
+			else {
 				dispatch({
 					type: wData,
-					payload: finalData
+					payload: []
 				})
 			}
-
 		}
 		else {
 			dispatch({
