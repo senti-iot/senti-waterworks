@@ -250,7 +250,6 @@ export const adminData = () =>
 export const userData = () =>
 	async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
-		console.log('Ce pula mea', getState().dateTime.period)
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let timeType = getState().dateTime.period.timeType

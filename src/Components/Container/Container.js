@@ -14,14 +14,11 @@ import { CircularLoader } from 'Components'
 import EndUserContainer from 'Components/Container/EndUserContainer'
 import MyProfile from 'Components/Custom/MyProfile/MyProfile'
 import MyProfileEdit from 'Components/Custom/MyProfile/MyProfileEdit'
-import { useMediaQuery } from '@material-ui/core'
 
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
-	const matches = useMediaQuery(theme => theme.breakpoints.up('lg'));
-	console.log(matches)
 
 	useEffect(() => {
 

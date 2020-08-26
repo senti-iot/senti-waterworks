@@ -56,7 +56,6 @@ const DateTimeArrows = () => {
 		}
 		else {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
-			console.log('diff', diff)
 			from = moment(period.from).add(diff, 'minute')
 			to = moment(period.to).add(diff, 'minute')
 			if (period.timeType > 1)
