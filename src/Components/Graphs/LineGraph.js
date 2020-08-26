@@ -1,4 +1,4 @@
-import React, { useRef, useState, useLayoutEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import d3Line from './classes/d3Line'
 import { usePrevious, useSelector, useLocalization, useDispatch } from 'Hooks'
 import Tooltip from './Tooltip'
@@ -45,7 +45,8 @@ const LineGraph = (props) => {
 	const setLine = useCallback((id, value) => {
 		dispatch(setGraphLine(id, value))
 	}, [dispatch])
-	useLayoutEffect(() => {
+
+	useEffect(() => {
 
 		const unitType = () => {
 			switch (props.id) {
@@ -108,6 +109,7 @@ const LineGraph = (props) => {
 
 
 		}
+
 		if ((props.id !== prevId) && line && lineChartContainer.current) {
 			// line.destroy()
 			genNewLine()
@@ -115,32 +117,7 @@ const LineGraph = (props) => {
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
 			genNewLine()
 		}
-		// if ((fsLG !== prevFullScreen) && props.fullScreen && fsLG && lineChartContainer.current) {
-		// 	if (prevFullScreen !== fsLG)
-		// 		setTimeout(() => {
-		// 			genNewLine()
-		// 		}, 300)
-		// 	else {
-		// 		genNewLine()
-		// 	}
-		// }
-		// if ((fsLG && props.fullScreen && lineChartContainer.current) && line) {
-		// 	if (prevFullScreen !== props.fullScreen)
-		// 		setTimeout(() => {
-		// 			genNewLine()
-		// 		}, 300)
-		// 	else {
-		// 		genNewLine()
-		// 	}
-		// 	// line.destroy()
-		// }
-		// if ((!fsLG && !props.fullScreen && lineChartContainer.current) && !line) {
-		// 	genNewLine()
-		// }
-		// if (prevData !== deviceData) {
-		// 	line.destroy()
-		// 	genNewLine()
-		// }
+
 		let resizeTimer
 		const handleResize = () => {
 			clearTimeout(resizeTimer)

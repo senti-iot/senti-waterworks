@@ -3,7 +3,7 @@ import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
 import { formatShortNumber } from 'data/functions'
-
+import moment from 'moment'
 let arc = null
 
 
@@ -41,12 +41,6 @@ const ArcGraph = (props) => {
 		switch (props.chart) {
 			case 'waterusage':
 				return mUnit === 'm3' ? 'm³' : 'L'
-			// case 'temperature':
-			// 	return '\u2103'
-			// case 'waterflow':
-			// 	return 'L'
-			// case 'readings':
-			// 	return 'm3'
 			default:
 				return 'm³'
 		}
@@ -103,7 +97,9 @@ const ArcGraph = (props) => {
 	}, [arcData, arcPrevData, classes, prevId, props.id, t])
 
 	const displayTime = () => {
-		switch (period.timeType) {
+		switch (period.menuId) {
+			case 0:
+				return t('filters.dateOptions.today')
 			case 1:
 				return t('filters.dateOptions.thisWeek')
 			case 2:
@@ -112,8 +108,15 @@ const ArcGraph = (props) => {
 				return t('filters.dateOptions.monthToDate')
 			case 4:
 				return t('filters.dateOptions.yearToDate')
+			case 6:
 			default:
-				break
+				return <>
+					{moment(period.from).format(period.timeType > 1 ? 'll' : 'lll')}
+					&nbsp;&nbsp;&nbsp;
+					{` — `}
+					&nbsp;&nbsp;&nbsp;
+					{moment(period.to).format(period.timeType > 1 ? 'll' : 'lll')}
+				</>
 		}
 	}
 	return (

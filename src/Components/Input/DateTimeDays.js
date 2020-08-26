@@ -20,12 +20,16 @@ const DateTimeDays = () => {
 	const setDateTime = (menuId, to, from, timeType) => () => {
 		dispatch(changeDate(menuId, to, from, timeType))
 	}
+	/*
+	from = moment().subtract(7, 'd').startOf('day')
+	to = moment().startOf('day')
+	*/
 	return (
 		<ItemG container style={{ width: 'auto' }} wrap={"nowrap"} alignItems={'center'} justify={'center'}>
-			<DayOption isSelected={period.timeType === 1} onClick={setDateTime(0, moment().endOf('day'), moment().startOf('day'), 1)}>{t('filters.dateOptions.today')}</DayOption>
-			<DayOption isSelected={period.timeType === 2} onClick={setDateTime(2, moment().startOf('day'), moment().subtract(6, 'day').startOf('day'), 2)}>{t('filters.dateOptions.7days')}</DayOption>
-			<DayOption isSelected={period.timeType === 3} onClick={setDateTime(3, moment().startOf('day'), moment().startOf('month').startOf('day'), 3)}>{t('filters.dateOptions.month')}</DayOption>
-			<DayOption isSelected={period.timeType === 4} onClick={setDateTime(4, moment().startOf('day'), moment().startOf('year').startOf('day'), 4)}>{t('filters.dateOptions.year')}</DayOption>
+			<DayOption isSelected={period.menuId === 0} onClick={setDateTime(0, moment().endOf('day'), moment().startOf('day'), 1)}>{t('filters.dateOptions.today')}</DayOption>
+			<DayOption isSelected={period.menuId === 2} onClick={setDateTime(2, moment().startOf('day'), moment().subtract(7, 'day').startOf('day'), 2)}>{t('filters.dateOptions.7days')}</DayOption>
+			<DayOption isSelected={period.menuId === 3} onClick={setDateTime(3, moment().startOf('day'), moment().startOf('month').startOf('day'), 2)}>{t('filters.dateOptions.month')}</DayOption>
+			<DayOption isSelected={period.menuId === 4} onClick={setDateTime(4, moment().startOf('day'), moment().startOf('year').startOf('day'), 2)}>{t('filters.dateOptions.year')}</DayOption>
 		</ItemG>
 	)
 }

@@ -1,16 +1,19 @@
 import React from 'react'
-import { AppBar, Button, Toolbar, ButtonBase } from '@material-ui/core'
+import { AppBar, Toolbar, ButtonBase } from '@material-ui/core'
 import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
 import logo from 'assets/senti.waterworks.svg'
 import { useHistory } from 'react-router'
-import { useLocalization } from 'Hooks'
+import { useLocalization, useSelector } from 'Hooks'
+import T from 'Components/Typography/T'
+import { ItemG } from 'Components'
 
 function Header({ ...props }) {
 	const classes = headerStyles()
 	const history = useHistory()
 	const t = useLocalization()
+	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
 
 	const goHome = () => history.push('/')
 
@@ -37,19 +40,19 @@ function Header({ ...props }) {
 	return (
 		<AppBar className={classes.appBar} >
 			<Toolbar className={classes.container}>
-				{/* <Hidden mdDown> */}
-				<div className={classes.logoContainer}>
-					{brand}
-				</div>
-				{/* </Hidden> */}
-				<div className={classes.flex}>
-					<Button className={classes.title}>
-						{props.title ? t(props.title, props.title.options) ? t(props.title, props.title.options) : props.title : ''}
-					</Button>
-				</div>
-				{/* <Hidden smDown implementation='css'> */}
+				<ItemG xs={3}>
+					<div className={classes.logoContainer}>
+						{brand}
+					</div>
+				</ItemG>
+				<ItemG xs container alignItems={'center'} justify={'center'}>
+
+					<T className={classes.title} variant={'h5'}>
+						{org.name}
+					</T>
+				</ItemG>
+
 				<HeaderLinks t={t} history={history} />
-				{/* </Hidden> */}
 			</Toolbar>
 		</AppBar>
 	)

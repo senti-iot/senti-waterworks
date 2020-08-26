@@ -473,10 +473,10 @@ class d3Line {
 				}).on("mouseout", function () {
 					// setExpand(false)
 					d3.select(this).attr("r", 6)
-					// tooltipDiv.transition()
-					// 	.duration(500)
-					// 	.style('z-index', -1)
-					// 	.style("opacity", 0)
+					tooltipDiv.transition()
+						.duration(200)
+						.style('z-index', -1)
+						.style("opacity", 0)
 				}).on('click', function (d) {
 					// setExpand(true)
 					// alert(d.date + ' ' + d.value)

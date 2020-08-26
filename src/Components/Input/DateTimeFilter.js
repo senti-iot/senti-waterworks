@@ -64,22 +64,22 @@ const DateFilterMenu = (props) => {
 				// from = moment().subtract(30, 'd').startOf('day')
 				from = moment().startOf('month').startOf('day')
 				to = moment().startOf('day')
-				defaultT = 3
+				defaultT = 2
 				break;
 			case 4: // this year
 				from = moment().startOf('year')
 				to = moment()
-				defaultT = 4
+				defaultT = 2
 				break;
 			case 5: // last 90 days
 				from = moment().subtract(90, 'd').startOf('day')
 				to = moment().startOf('day')
-				defaultT = 4
+				defaultT = 2
 				break;
 			case 7: // last 30 days
 				from = moment().subtract(30, 'd').startOf('day')
 				to = moment().startOf('day')
-				defaultT = 3;
+				defaultT = 2;
 				break;
 			case 6:
 				from = moment(from)
