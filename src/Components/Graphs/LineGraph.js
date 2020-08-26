@@ -13,7 +13,6 @@ import { useCallback } from 'react'
 let line = null
 
 const LineGraph = (props) => {
-	console.log(line)
 	//Hooks
 	const t = useLocalization()
 	const classes = lineStyles()

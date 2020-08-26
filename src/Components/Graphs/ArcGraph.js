@@ -3,7 +3,7 @@ import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
 import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
 import { formatShortNumber } from 'data/functions'
-
+import moment from 'moment'
 let arc = null
 
 
@@ -103,6 +103,7 @@ const ArcGraph = (props) => {
 	}, [arcData, arcPrevData, classes, prevId, props.id, t])
 
 	const displayTime = () => {
+		console.log('period.timeType', period.timeType)
 		switch (period.timeType) {
 			case 1:
 				return t('filters.dateOptions.thisWeek')
@@ -112,6 +113,14 @@ const ArcGraph = (props) => {
 				return t('filters.dateOptions.monthToDate')
 			case 4:
 				return t('filters.dateOptions.yearToDate')
+			case 6:
+				return <>
+					{moment(period.from).format(period.timeType > 1 ? 'll' : 'lll')}
+					&nbsp;&nbsp;&nbsp;
+					{` — `}
+					&nbsp;&nbsp;&nbsp;
+					{moment(period.to).format(period.timeType > 1 ? 'll' : 'lll')}
+				</>
 			default:
 				break
 		}

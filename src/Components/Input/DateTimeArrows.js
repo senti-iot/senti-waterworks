@@ -46,6 +46,7 @@ const DateTimeArrows = () => {
 	const period = useSelector(s => s.dateTime.period)
 	const dispatch = useDispatch()
 	const handleSetDate = (menuId, to, from, timeType) => dispatch(changeDate(menuId, to, from, timeType))
+
 	const handleNextPeriod = () => {
 		let from, to, diff
 		if (period.menuId === 3) {
@@ -66,10 +67,11 @@ const DateTimeArrows = () => {
 			to = moment(period.to).add(diff + 1, 'minute').endOf('day')
 			to = futureTester(to, 'day') ? moment().subtract(1, 'day') : to
 		}
-		handleSetDate(period.menuId, to, from, period.timeType)
+		handleSetDate(period.menuId, to, from, /* period.timeType */ 6)
 	}
 	const handlePreviousPeriod = () => {
 		let from, to, diff
+		console.log('period.menuId', period.menuId)
 		if (period.menuId === 3) {
 			from = moment(period.from).subtract(1, 'month').startOf('month')
 			to = moment(from).endOf('month')
@@ -82,12 +84,15 @@ const DateTimeArrows = () => {
 			from = moment(period.from).subtract(1, 'day')
 			to = moment(period.to).subtract(1, 'day')
 		}
-		if ([ 1, 4, 5, 6].indexOf(period.menuId) !== -1) {
+		else {
+			console.log(timeTypes, period.timeType)
 			diff = moment(period.to).diff(moment(period.from), 'day')
 			from = moment(period.from).subtract(diff, 'day').startOf(timeTypes[period.timeType].chart)
 			to = moment(period.to).subtract(diff, 'day').endOf(timeTypes[period.timeType].chart)
 		}
-		handleSetDate(period.menuId, to, from, period.timeType)
+		console.log('To', to)
+		console.log('from', from)
+		handleSetDate(period.menuId, to, from, /* period.timeType */ 6)
 	}
 
 	//Deleted width: 45% from itemg container
