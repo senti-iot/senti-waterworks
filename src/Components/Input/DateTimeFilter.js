@@ -70,7 +70,7 @@ const DateFilterMenu = (props) => {
 			case 4: // this year
 				from = moment().startOf('year')
 				to = moment()
-				defaultT = 2
+				defaultT = 4
 				break;
 			case 5: // last 90 days
 				from = moment().subtract(90, 'd').startOf('day')
