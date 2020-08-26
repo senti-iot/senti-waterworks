@@ -82,24 +82,29 @@ export const getWeatherData = async () => {
 			let adrs = userExP.address.split(' ')
 			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
 			let coords = await getLatLongFromAddress(address)
-			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
+			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs.ok ? rs : null)
 			let fWeather = []
+			console.log(weather)
 			// .map(r => r.daily.data[0])
-			if (timeType > 1) {
-				fWeather = weather.map(r => r.daily.data[0])
+			if (weather) {
+
+				if (timeType > 1) {
+					fWeather = weather.map(r => r.daily.data[0])
+				}
+				else {
+					fWeather = weather[0]?.hourly?.data
+				}
+				let finalData = fWeather.map(w => ({
+					date: moment(w.time),
+					icon: w.icon,
+					description: w.summary
+				}))
+				dispatch({
+					type: wData,
+					payload: finalData
+				})
 			}
-			else {
-				fWeather = weather[0]?.hourly?.data
-			}
-			let finalData = fWeather.map(w => ({
-				date: moment(w.time),
-				icon: w.icon,
-				description: w.summary
-			}))
-			dispatch({
-				type: wData,
-				payload: finalData
-			})
+
 		}
 		else {
 			dispatch({
@@ -265,7 +270,7 @@ export const userData = () =>
 		// 	average: []
 		// }
 
-		let waterUsageData = timeType > 1 ?  await getWaterUsageByDay(from, to) : await getWaterUsageByHour(from, to)
+		let waterUsageData = timeType > 1 ? await getWaterUsageByDay(from, to) : await getWaterUsageByHour(from, to)
 		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo) : await getWaterUsageByHour(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(from.clone().add(1, 'day'), to)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
