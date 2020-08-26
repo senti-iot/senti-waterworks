@@ -4,7 +4,7 @@ import moment from 'moment'
  * Short Number
  */
 export function formatShortNumber(num, digits = 2) {
-	let value = parseFloat(num)
+	let value = parseFloat(num.toString().replace(',', '.'))
 	var suffixes = ["", "", "mio.", "b", "t"]
 	var suffixNum = Math.floor((value.toFixed(0)).length / 3)
 	var shortValue = suffixNum > 1 ? parseFloat((value / Math.pow(1000, suffixNum))).toFixed(2).replace('.', ',') : formatNumber(value, digits)
@@ -19,7 +19,7 @@ export function formatShortNumber(num, digits = 2) {
 export function formatNumber(num, digits = 3) {
 	// return num.toString()
 
-	return num ? parseFloat(num).toFixed(digits).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
+	return num ? parseFloat(num.toString().replace(',', '.')).toFixed(digits).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
 }
 /**
  * Email validator
