@@ -11,6 +11,7 @@ const DayOption = styled(({ isSelected, ...props }) => <Button {...props} />)`
 	color: ${(props) => !props.isSelected ? '#fff' : orange[500]};
 	text-transform: none;
 	white-space: nowrap;
+	min-width: 36px;
 `
 
 const DateTimeDays = () => {

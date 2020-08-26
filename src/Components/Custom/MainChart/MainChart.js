@@ -115,10 +115,10 @@ export const MainChart = React.memo((props) => {
 							/>
 
 						</ItemG>
-						<ItemG xs={8} md={8} lg={4} container alignItems={'center'} >
+						<ItemG xs={8} md={8} lg={5} container alignItems={'center'} >
 							<DateTimeArrows />
 						</ItemG>
-						<ItemG xs={2} md={2} lg={6} container alignItems={'center'} justify={'flex-end'}>
+						<ItemG xs={2} md={2} lg={5} container alignItems={'center'} justify={'flex-end'}>
 							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
 								<Hidden mdDown>
 									<DateTimeDays />
