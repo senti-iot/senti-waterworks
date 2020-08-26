@@ -50,6 +50,10 @@ function Login() {
 	const handleCookies = () => setCookies(!cookies)
 	const handlePrivacy = () => setPrivacy(!privacy)
 
+	useEffect(() => {
+		dispatch({ type: 'RESET_APP' })
+		//eslint-disable-next-line
+	}, [])
 	//TODO
 	// const googleSignIn = async (googleUser) => {
 	// 	if (googleUser.error) {

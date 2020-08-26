@@ -472,7 +472,7 @@ class d3LineFS {
 					// setExpand(false)
 					d3.select(this).attr("r", 6)
 					tooltipDiv.transition()
-						.duration(500)
+						.duration(200)
 						.style('z-index', -1)
 						.style("opacity", 0)
 				}).on('click', function (d) {

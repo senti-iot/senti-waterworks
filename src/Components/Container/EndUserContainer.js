@@ -10,7 +10,7 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import Usage from 'Components/Custom/Usage/Usage'
 import PriceChart from 'Components/Custom/Usage/PriceChart'
-import { getNData, getAdminDevices } from 'Redux/data'
+import { getNData, getAdminDevices, setHaveData } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
@@ -32,7 +32,7 @@ const styles = makeStyles(theme => ({
 }))
 
 
-const EndUserContainer = () => {
+const EndUserContainer = props => {
 	//Hooks
 	const dispatch = useDispatch()
 	const classes = styles()
@@ -45,28 +45,40 @@ const EndUserContainer = () => {
 	const period = useSelector(s => s.dateTime.period)
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
+	const haveData = useSelector(s => s.data.haveData)
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
+
 
 	//Const
 
 	//useCallbacks
 	const prevPeriod = usePrevious(period)
 	const prevSelectedDevices = usePrevious(selectedDevices)
+	console.log(props.maxDailyConsumption, props.prevMdc)
 
 	//useEffects
 	useEffect(() => {
+		if (props.maxDailyConsumption !== props.prevMdc) {
+			setLoading(true)
+			dispatch(setHaveData(false))
+		}
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
+			dispatch(setHaveData(false))
 		}
 		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
 			setLoading(true)
+			dispatch(setHaveData(false))
 		}
-	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
+		// if (!haveData) {
+		// 	setLoading(true)
+		// }
+	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, props.maxDailyConsumption, props.prevMdc, selectedDevices])
 
 	useEffect(() => {
-		if (loading) {
+		if (loading && !haveData) {
 
 			const getDevices = async () => dispatch(await getAdminDevices())
 			const getNewData = async () => dispatch(await getNData())
@@ -80,7 +92,10 @@ const EndUserContainer = () => {
 			}
 			loadData()
 		}
-	}, [devices.length, dispatch, isSWAdmin, isSuperUser, loading])
+		else {
+			setLoading(false)
+		}
+	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser, loading])
 
 	//Handlers
 

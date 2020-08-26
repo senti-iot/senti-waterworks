@@ -38,10 +38,11 @@ const uC = (value, unit) => {
  */
 export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 	return async (dispatch, getState) => {
-		let mdc = getState().settings.maxDailyConsumption
-		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone()
-		let mUnit = getState().settings.mUnit
+		// let mdc = getState().settings.maxDailyConsumption
+		// let from = getState().dateTime.period.from.clone()
+		// let to = getState().dateTime.period.to.clone()
+		// let timeType = getState().dateTime.period.timeType.clone()
+		// let mUnit = getState().settings.mUnit
 
 		let finalData = {
 			waterusage: [],
@@ -158,20 +159,20 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				data: previousPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
 			})
 		}
-		if (mdc > 0) {
-			let fMdc = mUnit === 'm3' ? mdc / 1000 : mdc
-			finalData.waterusage.push({
-				name: 'maxDailyConsumption',
-				noArea: true,
-				hidden: true,
-				onlyMedian: true,
-				noTooltip: true,
-				color: 'red',
-				data: [{
-					date: moment(from).add(1, 'day'), value: fMdc
-				}, { date: moment(to).subtract(1, 'day'), value: fMdc }]
-			})
-		}
+		// if (mdc > 0) {
+		// 	let fMdc = mUnit === 'm3' ? mdc / 1000 : mdc
+		// 	finalData.waterusage.push({
+		// 		name: 'maxDailyConsumption',
+		// 		noArea: true,
+		// 		hidden: true,
+		// 		onlyMedian: true,
+		// 		noTooltip: true,
+		// 		color: 'red',
+		// 		data: [{
+		// 			date: moment(from).clone().add(1, timeType > 1 ? 'day' : 'minute'), value: fMdc
+		// 		}, { date: moment(to), value: fMdc }]
+		// 	})
+		// }
 		if (isUser) {
 			if (currentPeriodData.readings.length > 0) {
 				finalData.readings.push({
