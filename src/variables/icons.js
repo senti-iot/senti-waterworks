@@ -17,6 +17,8 @@ import Google from 'assets/icons/google.svg'
 import SettingsIcon from '@material-ui/icons/Settings'
 import TableIcon from '@material-ui/icons/TableChart'
 import CallMadeIcon from '@material-ui/icons/CallMade'
+//Custom icons
+import FamilyIcon from 'assets/icons/familie.svg'
 //#region weather Icons
 import ClearDay from 'assets/icons/weather/clear_day.svg'
 import ClearNight from 'assets/icons/weather/clear_night.svg'
@@ -130,6 +132,7 @@ import ErrorIcon from '@material-ui/icons/Error'
 import HelpOutline from '@material-ui/icons/HelpOutline'
 
 export {
+	FamilyIcon,
 	CallMadeIcon,
 	HelpOutline,
 	KeyboardArrowDown,

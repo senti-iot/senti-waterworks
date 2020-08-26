@@ -12,7 +12,7 @@ const DateFilterMenu = (props) => {
 
 	const { period, label, icon, button, settings, inputType, buttonProps } = props
 	const dispatch = useDispatch()
-	const uInternal = useSelector(s => s.settings.user.internal)
+	const uInternal = useSelector(s => s.settings.user?.internal)
 	const t = useLocalization()
 	const [openCustomDate, setOpenCustomDate] = useState(false)
 	const [actionAnchor, setActionAnchor] = useState(null)

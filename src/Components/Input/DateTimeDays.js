@@ -17,7 +17,7 @@ const DateTimeDays = () => {
 	const t = useLocalization()
 	const dispatch = useDispatch()
 	const period = useSelector(s => s.dateTime.period)
-	const uInternal = useSelector(s => s.settings.user.internal)
+	const uInternal = useSelector(s => s.settings.user?.internal)
 	const setDateTime = (menuId, to, from, timeType) => () => {
 		dispatch(changeDate(menuId, to, from, timeType))
 	}
