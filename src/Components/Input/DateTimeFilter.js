@@ -5,13 +5,14 @@ import { T, CustomDateTime, ItemG, DSelect } from 'Components';
 import { dateTimeFormatter } from 'variables/functions';
 import moment from 'moment'
 import { DateRange } from 'variables/icons';
-import { useLocalization, useDispatch } from 'Hooks';
+import { useLocalization, useDispatch, useSelector } from 'Hooks';
 import { changeDate } from 'Redux/dateTime';
 
 const DateFilterMenu = (props) => {
 
 	const { period, label, icon, button, settings, inputType, buttonProps } = props
 	const dispatch = useDispatch()
+	const uInternal = useSelector(s => s.settings.user.internal)
 	const t = useLocalization()
 	const [openCustomDate, setOpenCustomDate] = useState(false)
 	const [actionAnchor, setActionAnchor] = useState(null)
@@ -207,7 +208,8 @@ const DateFilterMenu = (props) => {
 							</ItemG>
 							<Divider />
 						</Fragment>}
-						<MenuItem selected={isSelected(0)} onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem>
+						{uInternal?.sentiWaterworks?.timeType === 1 ?
+							<MenuItem selected={isSelected(0)} onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem> : null}
 						<MenuItem selected={isSelected(1)} onClick={handleDateFilter} value={1}>{t('filters.dateOptions.thisWeek')}</MenuItem>
 						<MenuItem selected={isSelected(2)} onClick={handleDateFilter} value={2}>{t('filters.dateOptions.7days')}</MenuItem>
 						<MenuItem selected={isSelected(3)} onClick={handleDateFilter} value={3}>{t('filters.dateOptions.thisMonth')}</MenuItem>
