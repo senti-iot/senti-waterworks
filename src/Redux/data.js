@@ -70,7 +70,7 @@ export const sortData = (key, property, order) => {
 /**
  * Get Weather Data for the Line Graph
  */
-export const getWeatherData = async () => {
+/* export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
 		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
 
@@ -82,13 +82,48 @@ export const getWeatherData = async () => {
 			let adrs = userExP.address.split(' ')
 			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
 			let coords = await getLatLongFromAddress(address)
+			let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
+			let fWeather = []
+			// .map(r => r.daily.data[0])
+			if (timeType > 1) {
+				fWeather = weather.map(r => r.daily.data[0])
+			}
+			else {
+				fWeather = weather[0]?.hourly?.data
+			}
+			let finalData = fWeather.map(w => ({
+				date: moment(w.time),
+				icon: w.icon,
+				description: w.summary
+			}))
+			dispatch({
+				type: wData,
+				payload: finalData
+			})
+		}
+		else {
+			dispatch({
+				type: wData,
+				payload: []
+			})
+		}
+	}
+} */
+export const getWeatherData = async () => {
+	return async (dispatch, getState) => {
+		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
+		let dates = getDates(from, to)
+		let timeType = getState().dateTime.period.timeType
+		if (userExP.address) {
+			let adrs = userExP.address.split(' ')
+			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
+			let coords = await getLatLongFromAddress(address)
 			console.log(coords)
 			if (coords && coords.lat !== 0 && coords.long !== 0) {
-
-
-				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs.ok ? rs : null)
+				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
 				let fWeather = []
-				console.log(weather)
 				// .map(r => r.daily.data[0])
 				if (weather) {
 
@@ -108,18 +143,6 @@ export const getWeatherData = async () => {
 						payload: finalData
 					})
 				}
-				else {
-					dispatch({
-						type: wData,
-						payload: []
-					})
-				}
-			}
-			else {
-				dispatch({
-					type: wData,
-					payload: []
-				})
 			}
 		}
 		else {
