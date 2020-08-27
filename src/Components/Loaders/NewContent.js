@@ -70,10 +70,10 @@ function NewContent(props) {
 				<UpdateSnackbar
 					message={<Message>
 						<IconWarn />
-						{'Update Available'}
+						{'Opdatering tilgængelig'}
 					</Message>}
 					action={<RefreshButton size="small" onClick={handleClose}>
-						REFRESH</RefreshButton>}
+						Genindlæs</RefreshButton>}
 				>
 				</UpdateSnackbar>
 			</Snackbar>
@@ -93,12 +93,12 @@ function NewContent(props) {
 							<ItemG xs={8} container alignItems={'center'}>
 								<ItemG xs={12}>
 									<Message>
-										{`You are running on the \`beta\` version of Senti.Waterworks!`}
+										{`Du kører på "beta"-versionen af senti.waterworks!`}
 									</Message>
 								</ItemG>
 								<ItemG xs={12}>
 									<Message>
-										Please consider switching to the stable version at
+										Overvej venligst at skifte til den stabile version på
 									</Message>
 									<Link href={'https://waterworks.senti.io'}>
 										https://waterworks.senti.io
@@ -107,7 +107,7 @@ function NewContent(props) {
 							</ItemG>
 							<ItemG xs={3} container alignItems={'center'}>
 								<SuccessButton size="small" onClick={handleGoToApp}>
-									Go to App
+									Gå til App
 								</SuccessButton>
 								<RefreshButton onClick={handleBetaClose}>
 									<Close />
