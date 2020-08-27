@@ -7,9 +7,9 @@ import amber from '@material-ui/core/colors/amber'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { ItemG, Link } from 'Components'
-import { Close } from 'variables/icons'
 import { closeIsBeta } from 'Redux/serviceWorkerRedux'
-import { lighten } from '@material-ui/core/styles'
+import { Close } from 'variables/icons'
+import { lightGreen } from '@material-ui/core/colors'
 
 const IconWarn = styled(Warning)`
 	color: #ffffff;
@@ -24,9 +24,9 @@ const SuccessButton = styled(Button)`
 	color: #ffffff;
 	padding: 8px;
 	margin: 0px 8px;
-	background :#1a1b32;
+	background :#4caf50;
 	&:hover {
-    	background: ${lighten('#1a1b32', 0.3)};
+    	background: ${lightGreen[500]};
   	}
 `
 const RefreshButton = styled(Button)`
@@ -49,6 +49,7 @@ function NewContent(props) {
 	const serviceWorkerUpdated = useSelector(s => s.serviceWorkerReducer.serviceWorkerUpdated)
 	const isBeta = useSelector(s => s.serviceWorkerReducer.isBeta)
 	const handleClose = () => {
+		window.localStorage.clear()
 		window.location.reload()
 	}
 	const handleBetaClose = () => {
@@ -89,7 +90,7 @@ function NewContent(props) {
 							<ItemG xs={1} container justify={'center'} alignItems={'center'}>
 								<IconWarn />
 							</ItemG>
-							<ItemG xs={7} container alignItems={'center'}>
+							<ItemG xs={8} container alignItems={'center'}>
 								<ItemG xs={12}>
 									<Message>
 										{`You are running on the \`beta\` version of Senti.Waterworks!`}
@@ -104,9 +105,9 @@ function NewContent(props) {
 									</Link>
 								</ItemG>
 							</ItemG>
-							<ItemG xs={4} container alignItems={'center'}>
+							<ItemG xs={3} container alignItems={'center'}>
 								<SuccessButton size="small" onClick={handleGoToApp}>
-									Go to Waterworks
+									Go to App
 								</SuccessButton>
 								<RefreshButton onClick={handleBetaClose}>
 									<Close />
