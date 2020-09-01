@@ -95,7 +95,7 @@ export const MainChart = React.memo((props) => {
 			<Hidden xsDown>
 				<ChartsButtonContainer>
 					<ItemG container alignItems={'center'} justify={'space-evenly'}>
-						<ItemG xs={2} lg={2} container justify={'flex-start'} alignItems={'center'}>
+						<ItemG xs={2} md={2} lg={2} container justify={'flex-start'} alignItems={'center'}>
 							<DButton
 								value={chart}
 								margin={'none'}
@@ -115,10 +115,10 @@ export const MainChart = React.memo((props) => {
 							/>
 
 						</ItemG>
-						<ItemG xs={2} lg={5} container alignItems={'center'} >
+						<ItemG xs={8} md={8} lg={5} container alignItems={'center'} >
 							<DateTimeArrows />
 						</ItemG>
-						<ItemG xs={7} lg={4} container alignItems={'center'} justify={'flex-end'}>
+						<ItemG xs={2} md={2} lg={5} container alignItems={'center'} justify={'flex-end'}>
 							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
 								<Hidden mdDown>
 									<DateTimeDays />

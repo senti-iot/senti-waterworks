@@ -56,7 +56,6 @@ const DateTimeArrows = () => {
 		}
 		else {
 			diff = moment(period.to).diff(moment(period.from), 'minute')
-			console.log('diff', diff)
 			from = moment(period.from).add(diff, 'minute')
 			to = moment(period.to).add(diff, 'minute')
 			if (period.timeType > 1)
@@ -92,6 +91,7 @@ const DateTimeArrows = () => {
 			<ItemG container /* xs={9} lg={9} xl={5} */ justify={'center'} alignItems={'center'} style={{ width: 'fit-content', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 
 				<MonthYear>{moment(period.from).format(period.timeType > 1 ? 'll' : 'lll')}</MonthYear>
+
 				&nbsp;&nbsp;&nbsp;
 				<MonthYear>{` — `}</MonthYear>
 				&nbsp;&nbsp;&nbsp;

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 // import  from 'Components/Containers/GridContainer';
-import { ItemG, GridContainer, T, InfoCard } from 'Components'
+import { ItemG, GridContainer, T, /* InfoCard */ } from 'Components'
 import { HTitle } from 'App'
 import DisplaySettings from 'Components/Settings/DisplaySettings'
 import TermsAndConditionsSettings from 'Components/Settings/TermsAndConditionsSettings'
 import { useLocalization, useSelector, useDispatch, useHistory } from 'Hooks'
 import { finishedSaving } from 'Redux/settings'
 import useSnackbar from 'Hooks/useSnackbar/useSnackbar'
-import { Divider, CardHeader, IconButton } from '@material-ui/core'
+import { /* Divider, */ CardHeader, IconButton } from '@material-ui/core'
 import { settingsStyles } from 'Styles/settingsStyle'
 import { SettingsRounded, Close } from 'variables/icons'
 
@@ -64,16 +64,17 @@ const Settings = (props) => {
 			<ItemG xs={12}>
 				<DisplaySettings t={t} />
 			</ItemG>
-			<ItemG xs={12}>
+			{/* <ItemG xs={12}>
 				<InfoCard
 					noAvatar
 					noHeader
 					noExpand
 					content={<Divider style={{ margin: "0px 2px" }} />}
 				/>
-			</ItemG>
+			</ItemG> */}
 			<ItemG xs={12}>
 				<TermsAndConditionsSettings />
+
 			</ItemG>
 		</GridContainer>
 	)

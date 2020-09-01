@@ -35,14 +35,14 @@ const lineStyles = makeStyles(theme => ({
 		height: 64,
 		transform: 'translate(-42px, 0px)',
 		[theme.breakpoints.down('lg')]: {
-			width: 48,
-			height: 48,
-			transform: 'translate(-34px, 0px)'
-		},
-		[theme.breakpoints.down('md')]: {
 			width: 32,
 			height: 32,
-			transform: 'translate(-26px, 0px)'
+			transform: 'translate(-24px, 0px)'
+		},
+		[theme.breakpoints.down('md')]: {
+			width: 24,
+			height: 24,
+			transform: 'translate(-17px, 0px)'
 		}
 	}
 
