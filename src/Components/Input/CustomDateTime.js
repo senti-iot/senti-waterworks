@@ -96,11 +96,11 @@ const CustomDateTime = (props) => {
 									label={t('filters.dateOptions.daily')}
 								/>
 
-								<FormControlLabel
+								{/* <FormControlLabel
 									value={'3'}
 									control={<Radio />}
 									label={t('filters.dateOptions.summary')}
-								/>
+								/> */}
 							</RadioGroup>
 						</FormControl>
 					</ItemG>
