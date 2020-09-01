@@ -147,6 +147,7 @@ const DateFilterMenu = (props) => {
 			timeType={period ? period.timeType : undefined}
 			handleCustomCheckBox={handleCustomCheckBox}//
 			handleCancelCustomDate={handleCancelCustomDate}//
+			uInternal={uInternal}
 		// t={t}
 		/> : null
 	}
