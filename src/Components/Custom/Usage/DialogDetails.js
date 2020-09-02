@@ -83,7 +83,6 @@ const DialogDetails = () => {
 	if (noOfPeople === 0) {
 		noOfPeople = 1
 	}
-	console.log('isSWAdmin', isSWAdmin)
 	//State
 
 	//Const

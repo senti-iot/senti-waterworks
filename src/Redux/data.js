@@ -70,7 +70,7 @@ export const sortData = (key, property, order) => {
 /**
  * Get Weather Data for the Line Graph
  */
-export const getWeatherData = async () => {
+/* export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
 		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
 
@@ -100,6 +100,50 @@ export const getWeatherData = async () => {
 				type: wData,
 				payload: finalData
 			})
+		}
+		else {
+			dispatch({
+				type: wData,
+				payload: []
+			})
+		}
+	}
+} */
+export const getWeatherData = async () => {
+	return async (dispatch, getState) => {
+		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
+		let from = getState().dateTime.period.from.clone()
+		let to = getState().dateTime.period.to.clone()
+		let dates = getDates(from, to)
+		let timeType = getState().dateTime.period.timeType
+		if (userExP.address) {
+			let adrs = userExP.address.split(' ')
+			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
+			let coords = await getLatLongFromAddress(address)
+			console.log(coords)
+			if (coords && coords.lat !== 0 && coords.long !== 0) {
+				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
+				let fWeather = []
+				// .map(r => r.daily.data[0])
+				if (weather) {
+
+					if (timeType > 1) {
+						fWeather = weather.map(r => r.daily.data[0])
+					}
+					else {
+						fWeather = weather[0]?.hourly?.data
+					}
+					let finalData = fWeather.map(w => ({
+						date: moment(w.time),
+						icon: w.icon,
+						description: w.summary
+					}))
+					dispatch({
+						type: wData,
+						payload: finalData
+					})
+				}
+			}
 		}
 		else {
 			dispatch({
@@ -250,7 +294,6 @@ export const adminData = () =>
 export const userData = () =>
 	async (dispatch, getState) => {
 		let orgId = getState().settings.user.org.uuid
-		console.log('Ce pula mea', getState().dateTime.period)
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let timeType = getState().dateTime.period.timeType
@@ -266,7 +309,7 @@ export const userData = () =>
 		// 	average: []
 		// }
 
-		let waterUsageData = timeType > 1 ?  await getWaterUsageByDay(from, to) : await getWaterUsageByHour(from, to)
+		let waterUsageData = timeType > 1 ? await getWaterUsageByDay(from, to) : await getWaterUsageByHour(from, to)
 		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo) : await getWaterUsageByHour(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(from.clone().add(1, 'day'), to)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)

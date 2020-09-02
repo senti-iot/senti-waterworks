@@ -1,12 +1,12 @@
-import React, { useRef } from 'react'
+import React /* ,{ useRef } */ from 'react'
 import { InfoCard, ItemGrid, DSelect, CircularLoader } from 'Components'
 import { Laptop } from 'variables/icons'
-import { Grid, ListItem, List, ListItemText, colors, InputAdornment /* Switch */ } from '@material-ui/core'
+import { Grid, ListItem, List, ListItemText, colors, /* InputAdornment */ /* Switch */ } from '@material-ui/core'
 import { settingsStyles } from 'Styles/settingsStyle'
 import { changeLanguage } from 'Redux/localization'
-import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, changeMaxDailyConsumption } from 'Redux/settings'
+import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, /* changeMaxDailyConsumption */ } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
-import TextF from 'Components/Input/TextF'
+// import TextF from 'Components/Input/TextF'
 //ItemG
 function DisplaySettings(props) {
 	//Hooks
@@ -24,18 +24,18 @@ function DisplaySettings(props) {
 	const rChangeHoverTime = e => dispatch(changeHoverTime(e.target.value))
 	const rChangeColorTheme = e => dispatch(changeColorTheme(e.target.value))
 	const rChangeUnit = e => dispatch(changeMeasureUnit(e.target.value))
-	const rChangeMDC = val => {
-		dispatch(changeMaxDailyConsumption(val))
-	}
+	// const rChangeMDC = val => {
+	// 	dispatch(changeMaxDailyConsumption(val))
+	// }
 
 	//State
 
 	//Const
 	const { language, trp, sideBar, discSentiVal,
 		theme, hoverTime, snackbarLocation,
-		colorTheme, mUnit, maxDailyConsumption
+		colorTheme, mUnit, /* maxDailyConsumption */
 	} = settings
-	const inputRef = useRef(React.createRef())
+	// const inputRef = useRef(React.createRef())
 	//useCallbacks
 
 	//useEffects
@@ -162,13 +162,13 @@ function DisplaySettings(props) {
 									<DSelect menuItems={hoverTimes} value={hoverTime} onChange={rChangeHoverTime} />
 								</ItemGrid>
 							</ListItem>
-							<ListItem divider>
+							<ListItem /* divider */>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText primary={t('settings.chart.mUnit')} />
 									<DSelect menuItems={measureUnits} value={mUnit} onChange={rChangeUnit} />
 								</ItemGrid>
 							</ListItem>
-							<ListItem>
+							{/* <ListItem>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText primary={t('settings.chart.maxDailyConsumption')} />
 									<TextF
@@ -191,7 +191,7 @@ function DisplaySettings(props) {
 										}}
 									/>
 								</ItemGrid>
-							</ListItem>
+							</ListItem> */}
 						</List>
 					</Grid>
 				}

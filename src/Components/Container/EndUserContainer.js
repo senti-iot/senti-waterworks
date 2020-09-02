@@ -32,7 +32,7 @@ const styles = makeStyles(theme => ({
 }))
 
 
-const EndUserContainer = () => {
+const EndUserContainer = props => {
 	//Hooks
 	const dispatch = useDispatch()
 	const classes = styles()
@@ -46,7 +46,6 @@ const EndUserContainer = () => {
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	const haveData = useSelector(s => s.data.haveData)
-
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
@@ -57,9 +56,14 @@ const EndUserContainer = () => {
 	//useCallbacks
 	const prevPeriod = usePrevious(period)
 	const prevSelectedDevices = usePrevious(selectedDevices)
+	console.log(props.maxDailyConsumption, props.prevMdc)
 
 	//useEffects
 	useEffect(() => {
+		if (props.maxDailyConsumption !== props.prevMdc) {
+			setLoading(true)
+			dispatch(setHaveData(false))
+		}
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
 			dispatch(setHaveData(false))
@@ -71,7 +75,7 @@ const EndUserContainer = () => {
 		// if (!haveData) {
 		// 	setLoading(true)
 		// }
-	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
+	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, props.maxDailyConsumption, props.prevMdc, selectedDevices])
 
 	useEffect(() => {
 		if (loading && !haveData) {

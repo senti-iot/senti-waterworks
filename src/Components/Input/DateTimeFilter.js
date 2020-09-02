@@ -38,6 +38,11 @@ const DateFilterMenu = (props) => {
 		{ id: 6, label: t('filters.dateOptions.custom') },
 		{ id: 7, label: t('filters.dateOptions.30days') },
 	]
+	const handleTimeType = (from, to) => {
+		let diff = moment(from).diff(to, 'day')
+		console.log(diff)
+		return 2
+	}
 	const handleSetDate = (menuId, to, from, timeType) => {
 		let defaultT = 0
 		switch (menuId) {
@@ -70,7 +75,7 @@ const DateFilterMenu = (props) => {
 			case 4: // this year
 				from = moment().startOf('year')
 				to = moment()
-				defaultT = 2
+				defaultT = 4
 				break;
 			case 5: // last 90 days
 				from = moment().subtract(90, 'd').startOf('day')
@@ -85,7 +90,7 @@ const DateFilterMenu = (props) => {
 			case 6:
 				from = moment(from)
 				to = moment(to)
-				defaultT = timeType
+				defaultT = handleTimeType(from, to)
 				break;
 			default:
 				break;
@@ -142,6 +147,7 @@ const DateFilterMenu = (props) => {
 			timeType={period ? period.timeType : undefined}
 			handleCustomCheckBox={handleCustomCheckBox}//
 			handleCancelCustomDate={handleCancelCustomDate}//
+			uInternal={uInternal}
 		// t={t}
 		/> : null
 	}
