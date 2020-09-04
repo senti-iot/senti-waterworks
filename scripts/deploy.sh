@@ -3,7 +3,7 @@
 if [[ "$1" == "master" ]]; then
 	echo
 	echo Deploying Senti App $1 ...
-	rsync -r --quiet $2/build/ deploy@rey.webhouse.net:/srv/www/betawaterworks
+	rsync -r --quiet $2/build/ deploy@rey.webhouse.net:/srv/www/waterworks
 	echo
 	# Senti Workspace
 	curl -X POST -H 'Content-type: application/json' --data '{"text":"Senti Waterworks App Master updated!"}' $3

@@ -6,7 +6,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Settings from 'Routes/Settings'
 import Header from 'Components/Header'
 import cookie from 'react-cookies'
-import { useDispatch, useSelector, usePrevious } from 'Hooks'
+import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { CircularLoader } from 'Components'
 // import { getAllDevices } from 'Redux/data'
@@ -19,8 +19,6 @@ function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
-	const maxDailyConsumption = useSelector(s => s.settings.maxDailyConsumption)
-	const prevMdc = usePrevious(maxDailyConsumption)
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())
@@ -52,7 +50,7 @@ function Container(props) {
 								/>
 							</Route>
 							<Route exact path={'/'}>
-								<EndUserContainer maxDailyConsumption={maxDailyConsumption} prevMdc={prevMdc}/>
+								<EndUserContainer />
 							</Route>
 							<Redirect path={'*'} to={'/'}></Redirect>
 						</Switch>

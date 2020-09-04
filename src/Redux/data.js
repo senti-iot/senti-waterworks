@@ -26,7 +26,18 @@ const pData = 'priceData'
 const wData = 'weatherData'
 const sDevice = 'selectDevice'
 const hData = 'receivedData'
+const uhcData = 'unitHasChanged'
+const changeUnit = 'changeMeasurementUnit'
 
+
+export const setUnitHasChanged = () => {
+	return dispatch => {
+		dispatch({
+			type: uhcData,
+			// payload: false
+		})
+	}
+}
 
 export const setHaveData = d => {
 	return dispatch => {
@@ -386,6 +397,7 @@ export const getNData = async () => {
 }
 
 const initialState = {
+	unitHasChanged: false,
 	haveData: false,
 	barData: {},
 	devices: [],
@@ -419,6 +431,10 @@ const initialState = {
 
 export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
+		case uhcData:
+			return Object.assign({}, state, { unitHasChanged: false })
+		case changeUnit:
+			return Object.assign({}, state, { unitHasChanged: true })
 		case 'RESET_APP':
 			return initialState
 		case hData:
