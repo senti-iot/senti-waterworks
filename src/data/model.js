@@ -227,6 +227,7 @@ export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 		let minUsage = {}
 		minUsage.className = 'waterUsageA'
 		minUsage.value = parseFloat(values.reduce((min, p) => p < min ? p : min, values[0]).toFixed(3))
+		minUsage.value = unit === 'm3' ? minUsage.value : minUsage.value * 1000
 		minUsage.unit = unit === 'm3' ? 'm³' : 'L'
 		minUsage.type = 'chartTable.waterusage.line1'
 		waterusage.push(minUsage)
@@ -237,6 +238,7 @@ export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 		let maxUsage = {}
 		maxUsage.className = 'waterUsageB'
 		maxUsage.value = parseFloat(values.reduce((max, p) => p > max ? p : max, values[0]).toFixed(3))
+		maxUsage.value = unit === 'm3' ? maxUsage.value : maxUsage.value * 1000
 		maxUsage.unit = unit === 'm3' ? 'm³' : 'L'
 		maxUsage.type = 'chartTable.waterusage.line2'
 		waterusage.push(maxUsage)
@@ -259,6 +261,7 @@ export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 		let average = {}
 		average.className = 'waterUsageC'
 		average.value = parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(3))
+		average.value = unit === 'm3' ? average.value : average.value * 1000
 		average.unit = unit === 'm3' ? 'm³' : 'L'
 		average.type = 'chartTable.waterusage.line3'
 		waterusage.push(average)
@@ -270,6 +273,7 @@ export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 			let perPerson = {}
 			perPerson.className = 'waterUsageD'
 			perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
+			perPerson.value = unit === 'm3' ? perPerson.value : perPerson.value * 1000
 			perPerson.unit = unit === 'm3' ? 'm³' : 'L'
 			perPerson.type = 'chartTable.waterusage.line4'
 			waterusage.push(perPerson)

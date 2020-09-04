@@ -147,7 +147,7 @@ class d3Arc {
 			.remove()
 	}
 	generateLabels = () => {
-		const { classes, barsData } = this.props
+		const { classes, barsData, t } = this.props
 
 		if (barsData.length === 4) {
 			this.g.selectAll(".text")
@@ -159,7 +159,7 @@ class d3Arc {
 				.attr("x", (d, i) => { return i > 2 ? this.x(d.type) + this.x.bandwidth() / 4 : this.x(d.type) + this.x.bandwidth() / 2 + this.x.bandwidth() / 4 })
 				.attr("y", (d) => { return this.y(d.value) })
 				.attr("dy", "-.3em")
-				.text((d) => { return d.hidden ? '' : `${formatShortNumber(d.value)} ${d.unit}` })
+				.text((d) => { return d.hidden ? '' : `${formatShortNumber(d.value, d.unit === 'L' ? 0 : 2, t)} ${d.unit}` })
 		}
 		else {
 
@@ -172,7 +172,7 @@ class d3Arc {
 				.attr("x", (d, i) => { return this.x(d.type) + this.x.bandwidth() / 2 })
 				.attr("y", (d) => { return this.y(d.value) })
 				.attr("dy", "-.3em")
-				.text((d) => { return d.hidden ? '' : `${formatShortNumber(d.value)} ${d.unit}` })
+				.text((d) => { return d.hidden ? '' : `${formatShortNumber(d.value, d.unit === 'L' ? 0 : 2, t)} ${d.unit}` })
 		}
 	}
 	generateXAxis = () => {

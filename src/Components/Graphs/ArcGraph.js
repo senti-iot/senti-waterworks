@@ -37,10 +37,10 @@ const ArcGraph = (props) => {
 	// const [arcData, setArcData] = useState(generateArcData())
 
 
-	const unit = () => {
+	const unit = (data) => {
 		switch (props.chart) {
 			case 'waterusage':
-				return mUnit === 'm3' ? 'm³' : 'L'
+				return mUnit === 'm3' ? `${formatShortNumber(data, 2, t)} m³` : `${formatShortNumber(data, 0, t)} L`
 			default:
 				return 'm³'
 		}
@@ -125,8 +125,8 @@ const ArcGraph = (props) => {
 			<TotalUsageText variant={'h5'}>{period.from && period.to ? displayTime() : null}</TotalUsageText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
-					<DataText title={arcData} variant='h5'>{`${formatShortNumber(arcData)} ${unit()}`}</DataText>
-					<DataText title={arcPrevData} variant='h5' prev>{`(${formatShortNumber(arcPrevData)} ${unit()})`}</DataText>
+					<DataText title={arcData} variant='h5'>{`${unit(arcData)}`}</DataText>
+					<DataText title={arcPrevData} variant='h5' prev>{`(${unit(arcPrevData)})`}</DataText>
 				</TextContainer>
 			</Arc>
 		</ArcContainer>
