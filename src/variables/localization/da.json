@@ -1,4 +1,9 @@
 {
+	"numSuffix": {
+		"million": "mio.",
+		"billion": "b",
+		"trillion": "t"
+	},
 	"Usage": {
 		"dashboardPrice": {
 			"headline": "Afregning",

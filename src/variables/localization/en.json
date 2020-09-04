@@ -1,4 +1,9 @@
 {
+	"numSuffix": {
+		"million" : "mil.",
+		"billion": "bil.",
+		"trillion": "tril."
+	},
 	"Usage": {
 		"dashboardPrice": {
 			"headline": "Account",

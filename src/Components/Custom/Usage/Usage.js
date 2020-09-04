@@ -151,7 +151,9 @@ const Usage = props => {
 					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
 						<T variant="body2" className={classes.cubicValue} style={{ color: '#6DD400' }}>
 
-							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2) : formatShortNumber(avgData.waterusageL, 0))}
+							{(mUnit === 'm3' ?
+								formatShortNumber(avgData.waterusagem3, 2, t) :
+								formatShortNumber(avgData.waterusageL, 0, t))}
 							<span className={classes.cubicValueUnit}>
 								{mUnit === 'm3' ? " m³" : "L"}
 							</span>
