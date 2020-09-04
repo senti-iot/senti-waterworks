@@ -59,15 +59,14 @@ const usageStyle = makeStyles(theme => ({
 	dialogRoot: {
 		height: 'calc(100vh - 70px)',
 		marginTop: 70,
+		// background: theme.appBackground
 	},
 	fullscreenDialog: {
 		width: '100%',
 		height: 'calc(100vh - 70px)',
 		background: 'transparent',
-		display: 'flex'
-	},
-	bPaper: { // doesn't work
-		background: '#3799F1'
+		display: 'flex',
+
 	},
 	closeDialog: {
 		position: 'absolute',

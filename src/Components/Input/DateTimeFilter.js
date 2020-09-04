@@ -40,7 +40,7 @@ const DateFilterMenu = (props) => {
 	]
 	const handleTimeType = (from, to) => {
 		let diff = moment(from).diff(to, 'day')
-		console.log(diff)
+		console.log('diff', diff)
 		return 2
 	}
 	const handleSetDate = (menuId, to, from, timeType) => {

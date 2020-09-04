@@ -1,5 +1,5 @@
 {
-	"Usage": {
+	"usage": {
 		"dashboardPrice": {
 			"headline": "Account",
 			"water": "Water: DKK ",
@@ -8,6 +8,11 @@
 		"dashboardUsage": {
 			"dailyConsumption": "Daily consumption",
 			"comparison": "Benchmark"
+		},
+		"panel": {
+			"personsInHousehold": "persons in the household",
+			"myAverageWaterConsumption": "Average daily water consumption",
+			"usagePerPerson": "Usage per person"
 		},
 		"dialogScreens": {
 			"0": {

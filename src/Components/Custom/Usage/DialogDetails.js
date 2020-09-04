@@ -1,71 +1,37 @@
 import React from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
-import familyIcon from 'assets/icons/familie.svg'
-import waterDrop from 'assets/icons/water.drop.blue.svg'
+import { makeStyles } from '@material-ui/core'
+// import familyIcon from 'assets/icons/familie.svg'
+// import waterDrop from 'assets/icons/water.drop.blue.svg'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
 import ItemG from 'Components/Containers/ItemG'
 import GridContainer from 'Components/Containers/GridContainer'
+import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
+import T from 'Components/Typography/T'
 
 const useStyles = makeStyles(theme => ({
+	dataBlock: {
+		marginTop: 16
+	},
+	dataBox: {
+		background: theme.contrastBoxBackground,
+		borderRadius: 4,
+		padding: 24,
+		margin: 8
+	},
 	container: {
-		boxSizing: 'border-box',
-		minHeight: '55%',
-		height: 'fit-content',
-		background: 'rgba(12,59,105,0.7)',
+		// boxSizing: 'border-box',
+		// minHeight: '55%',
+		// height: 'fit-content',
+		background: theme.boxBackground,
 		borderTopLeftRadius: 4,
 		borderTopRightRadius: 4,
 		display: 'flex',
-		padding: '24px 0'
+		marginBottom: 48,
+		padding: 24
 	},
-	half: {
-		height: '100%',
-		width: '50%',
-		display: 'flex',
-		flexDirection: 'column',
-		marginBottom: 48
-	},
-	header: {
-		display: 'flex',
-		alignItems: 'flex-end'
-	},
-	icon: {
-		width: 64,
-		marginRight: 8
-	},
-	headline: {
-		fontSize: '1.75rem',
-		position: 'relative',
-		top: 6
-	},
-	optionalParagraph: {
-		marginTop: 12,
-		fontWeight: 300,
-		color: '#fff',
-		marginBottom: 32,
-		[theme.breakpoints.down('lg')]: {
-			marginBottom: 8
-		}
-	},
-	descriptionBox: {
-		color: '#fff',
-		width: '50%',
-		flex: 1,
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'space-between'
-	},
-	dataBox: {
-		width: '50%',
-		flex: 1,
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'space-between',
-		alignItems: 'center'
-	},
-	waterDrop: {
-		marginLeft: 20,
-		width: 30
+	value: {
+		fontSize: 30,
 	}
 }))
 
@@ -98,12 +64,12 @@ const DialogDetails = () => {
 	// the JSX should map these panels instead of hardcoding it
 	const panels = [
 		{
-			headline: t('Usage.dashboardUsage.dailyConsumption'),
+			headline: t('usage.dashboardUsage.dailyConsumption'),
 			subheadline: 'Min husstand',
 			descriptions: [
 				'Mit gennemsnitlige daglige vandforbrug',
-				isSWAdmin ? 'Forbrug pr. person' : "",
-				'Mit gennemsnitlige månedlige vandforbrug. Dette svarer til ca. 1,182 kg CO2 pr. måned'
+				isSWAdmin ? 'Forbrug pr. person' : ""
+				// 'Mit gennemsnitlige månedlige vandforbrug. Dette svarer til ca. 1,182 kg CO2 pr. måned'
 			],
 			style: {
 				dataColor: '#6DD400',
@@ -115,7 +81,7 @@ const DialogDetails = () => {
 			}
 		},
 		{
-			headline: t('Usage.dashboardUsage.comparison'),
+			headline: t('usage.dashboardUsage.comparison'),
 			subheadline: ' Mit vandværk',
 			descriptions: [
 				'Gennemsnitligt daglige vandforbrug for andre boliger',
@@ -152,33 +118,126 @@ const DialogDetails = () => {
 
 	return (
 		<GridContainer className={classes.container}>
-			{panels.map(({ headline, subheadline, descriptions, style, data }, index) => (
-				<ItemG xs={12} md={4} key={Math.random()} className={classes.half}>
-					{/* header with icon */}
-					<div className={classes.header} style={{ padding: '0 24px', visibility: index !== 2 ? 'visible' : 'hidden' }}>
-						<img src={familyIcon} alt="senti-family-icon" className={classes.icon} />
-						<Typography variant="h5" className={classes.headline} style={{ color: index % 2 === 1 ? style.dataColor : '#fff' }}>{headline}</Typography>
-					</div>
-					{/* optional text below headline */}
-					<div style={{ padding: '0 24px', borderRight: index === 0 && '2px solid #fff' }}>{/* correct place */}
-						{style.textBelowHeadline ?
-							<Typography variant="h6" className={classes.optionalParagraph} style={{ marginBottom: 12 }}>{noOfPeople} personer i husstanden</Typography> :
-							<Typography variant="h6" className={classes.optionalParagraph} style={{ visibility: 'hidden', marginBottom: 0 }}>{noOfPeople} personer i husstanden</Typography>
-						}
-					</div>
-
-					<div style={{ paddingLeft: 24, borderRight: index === 0 && '2px solid #fff' }}>
-						<Typography variant="h6" style={{ marginBottom: 24 }}>{subheadline}</Typography>
-					</div>
-
-					{/* descriptions */}
-					<div style={{ display: 'flex', flex: 1 }}>
+			<ItemG xs={6}>
+				<HeaderText variant='h4' >
+					{'My waterworks'}
+				</HeaderText>
+			</ItemG>
+			<ItemG xs={6}>
+				<HeaderText variant='h4'>
+					{'Other waterworks'}
+				</HeaderText>
+			</ItemG>
+			<ItemG xs={12} md={3} key={Math.random()} className={classes.dataBox}>
+				<HeaderText variant="h5" style={{ margin: 0 }}>
+					{t('usage.dashboardUsage.dailyConsumption')}
+				</HeaderText>
+				{isSWAdmin ?  null : <T variant={'body1'}>
+					{noOfPeople} {t('usage.panel.personsInHousehold')}
+				</T>}
+				<ItemG container xs={12} className={classes.dataBlock}>
+					<ItemG xs>
+						{t('usage.panel.myAverageWaterConsumption')}
+					</ItemG>
+					<ItemG className={classes.value}>
+						{parseFloat(mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}{mUnit === 'm3' ? " m³" : " L"}
+					</ItemG>
+				</ItemG>
+				{isSWAdmin ? null :
+					<ItemG container xs={12} className={classes.dataBlock}>
+						<ItemG xs>
+							{t('usage.panel.usagePerPerson')}
+						</ItemG>
+						<ItemG>
+							{parseFloat((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')} {mUnit === 'm3' ? " m³" : " L"}
+						</ItemG>
+					</ItemG>
+				}
+			</ItemG>
+			<ItemG xs={12} md={3} key={Math.random()} className={classes.dataBox}>
+				<HeaderText variant="h5" style={{ margin: 0 }}>
+					{t('usage.dashboardUsage.dailyConsumption')}
+				</HeaderText>
+				{isSWAdmin ? null : <T variant={'body1'}>
+					{noOfPeople} {t('usage.panel.personsInHousehold')}
+				</T>}
+				<ItemG container xs={12} className={classes.dataBlock}>
+					<ItemG xs>
+						{t('usage.panel.myAverageWaterConsumption')}
+					</ItemG>
+					<ItemG className={classes.value}>
+						{parseFloat(mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}{mUnit === 'm3' ? " m³" : " L"}
+					</ItemG>
+				</ItemG>
+				{isSWAdmin ? null :
+					<ItemG container xs={12} className={classes.dataBlock}>
+						<ItemG xs>
+							{t('usage.panel.usagePerPerson')}
+						</ItemG>
+						<ItemG>
+							{parseFloat((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')} {mUnit === 'm3' ? " m³" : " L"}
+						</ItemG>
+					</ItemG>
+				}
+			</ItemG>
+			<ItemG xs={12} md={3} key={Math.random()} className={classes.dataBox}>
+				<HeaderText variant="h5" style={{ margin: 0 }}>
+					{t('usage.dashboardUsage.dailyConsumption')}
+				</HeaderText>
+				{isSWAdmin ? null : <T variant={'body1'}>
+					{noOfPeople} {t('usage.panel.personsInHousehold')}
+				</T>}
+				<ItemG container xs={12} className={classes.dataBlock}>
+					<ItemG xs>
+						{t('usage.panel.myAverageWaterConsumption')}
+					</ItemG>
+					<ItemG className={classes.value}>
+						{parseFloat(mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}{mUnit === 'm3' ? " m³" : " L"}
+					</ItemG>
+				</ItemG>
+				{isSWAdmin ? null :
+					<ItemG container xs={12} className={classes.dataBlock}>
+						<ItemG xs>
+							{t('usage.panel.usagePerPerson')}
+						</ItemG>
+						<ItemG>
+							{parseFloat((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')} {mUnit === 'm3' ? " m³" : " L"}
+						</ItemG>
+					</ItemG>
+				}
+			</ItemG>
+			<ItemG xs={12} md={3} key={Math.random()} className={classes.dataBox}>
+				<HeaderText variant="h5" style={{ margin: 0 }}>
+					{t('usage.dashboardUsage.dailyConsumption')}
+				</HeaderText>
+				{isSWAdmin ? null : <T variant={'body1'}>
+					{noOfPeople} {t('usage.panel.personsInHousehold')}
+				</T>}
+				<ItemG container xs={12} className={classes.dataBlock}>
+					<ItemG xs>
+						{t('usage.panel.myAverageWaterConsumption')}
+					</ItemG>
+					<ItemG className={classes.value}>
+						{parseFloat(mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}{mUnit === 'm3' ? " m³" : " L"}
+					</ItemG>
+				</ItemG>
+				{isSWAdmin ? null :
+					<ItemG container xs={12} className={classes.dataBlock}>
+						<ItemG xs>
+							{t('usage.panel.usagePerPerson')}
+						</ItemG>
+						<ItemG>
+							{parseFloat((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')} {mUnit === 'm3' ? " m³" : " L"}
+						</ItemG>
+					</ItemG>
+				}
+			</ItemG>
+			{/* <div style={{ display: 'flex', flex: 1 }}>
 						<div className={classes.descriptionBox} style={{ paddingLeft: 24 }}>
 							{descriptions.map(desc => <Typography variant="body1">{desc}</Typography>)}
 						</div>
 
-						{/* data display */}
-						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>{/* correct place */}
+						<div className={classes.dataBox} style={{ borderRight: index !== 2 && '2px solid #fff' }}>
 							<div style={{ display: 'flex' }}>
 								<div style={{ textAlign: 'center' }}>
 									<Typography variant="h4" style={{ color: style.dataColor }}>{parseFloat(data.cubicMetres).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
@@ -194,9 +253,8 @@ const DialogDetails = () => {
 							</Typography>
 							<img src={familyIcon} alt="" style={{ height: 70 }} />
 						</div>
-					</div>
-				</ItemG>
-			))}
+					</div> */}
+
 		</GridContainer>
 	)
 }

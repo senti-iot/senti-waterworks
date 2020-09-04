@@ -1,5 +1,5 @@
 {
-	"Usage": {
+	"usage": {
 		"dashboardPrice": {
 			"headline": "Afregning",
 			"water": "Vand: Kr. ",
@@ -8,6 +8,14 @@
 		"dashboardUsage": {
 			"dailyConsumption": "Dagligt forbrug",
 			"comparison": "Sammenligning"
+		},
+		"panels": {
+			"daily": {
+				"subtitle": "Min husstand",
+				"averageDailyUsage": "Mit gennemsnitlige daglige vandforbrug",
+				"usagePerPerson": "Usage per person"
+
+			}
 		},
 		"dialogScreens": {
 			"0": {
