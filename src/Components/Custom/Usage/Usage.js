@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
-import { Grid, Dialog, IconButton, Paper } from '@material-ui/core'
-import GridContainer from 'Components/Containers/GridContainer'
+import { Grid, Dialog, IconButton } from '@material-ui/core'
+// import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper, AppPaper } from 'Styles/containerStyle'
 import { CallMade, /* HelpOutline */ } from 'variables/icons'
@@ -69,7 +69,7 @@ const Usage = props => {
 
 				<ItemG xs={8} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
 					<T variant="body2" className={classes.cubicValue}>
-						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2) : formatShortNumber(avgData.waterusageL, 0))}
+						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
 						<span className={classes.cubicValueUnit}>
 							{unit()}
 						</span>
@@ -84,7 +84,9 @@ const Usage = props => {
 					</div>
 					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
 						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
-							{(mUnit === 'm3' ? formatShortNumber(avgData.benchmarkm3) : formatShortNumber(avgData.benchmarkL, 0))}
+							{(mUnit === 'm3' ?
+								formatShortNumber(avgData.benchmarkm3, 2, t) :
+								formatShortNumber(avgData.benchmarkL, 0, t))}
 							<span className={classes.cubicValueUnit}>
 								{unit()}
 							</span>

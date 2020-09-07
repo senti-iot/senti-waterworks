@@ -10,7 +10,7 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import Usage from 'Components/Custom/Usage/Usage'
 import PriceChart from 'Components/Custom/Usage/PriceChart'
-import { getNData, getAdminDevices, setHaveData } from 'Redux/data'
+import { getNData, getAdminDevices, setHaveData, setUnitHasChanged } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
@@ -46,6 +46,7 @@ const EndUserContainer = props => {
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	const haveData = useSelector(s => s.data.haveData)
+	const unitHasChanged = useSelector(s => s.data.unitHasChanged)
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
@@ -59,10 +60,7 @@ const EndUserContainer = props => {
 
 	//useEffects
 	useEffect(() => {
-		if (props.maxDailyConsumption !== props.prevMdc) {
-			setLoading(true)
-			dispatch(setHaveData(false))
-		}
+
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
 			dispatch(setHaveData(false))
@@ -71,10 +69,16 @@ const EndUserContainer = props => {
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
-		// if (!haveData) {
-		// 	setLoading(true)
-		// }
-	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, props.maxDailyConsumption, props.prevMdc, selectedDevices])
+		const reloadData = async () => {
+			await dispatch(setHaveData(false))
+			setLoading(true)
+			dispatch(setUnitHasChanged())
+		}
+		if (unitHasChanged) {
+			reloadData()
+		}
+
+	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, selectedDevices, unitHasChanged])
 
 	useEffect(() => {
 		if (loading && !haveData) {
