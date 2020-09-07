@@ -4,7 +4,7 @@ import Toilet from "assets/icons/toilet.svg"
 import Bathroom from "assets/icons/bath.svg"
 import Dishwasher from "assets/icons/dishwasher.svg"
 import WashingMachine from "assets/icons/washmachine.svg"
-import { useLocalization, useSelector } from 'Hooks'
+import { useLocalization } from 'Hooks'
 import ItemG from 'Components/Containers/ItemG'
 import GridContainer from 'Components/Containers/GridContainer'
 import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
@@ -47,7 +47,6 @@ const UsageTips = props => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
-	const colorTheme = useSelector((state) => state.settings.colorTheme)
 
 	//State
 	// const [message, setMessage] = useState('')
@@ -141,15 +140,14 @@ const UsageTips = props => {
 				className={classes.dialogRoot}
 				open={descriptionOpen}
 				TransitionComponent={SlideT}
-				// onClose={handleOnClose}
+				onClose={() => setDescriptionOpen(false)}
+				onBackdropClick={() => setDescriptionOpen(false)}
 				keepMounted
 				disablePortal
-				PaperComponent={
-					(props) => <BPaper color={colorTheme} style={{ width: '100%', margin: 0, height: '100%'  }}>
-						{props.children}
-					</BPaper>
-				}
-				style={{ background: 'transparent' }}
+				PaperComponent={BPaper}
+				PaperProps={{
+					style: { width: '100%', margin: 0, height: '100%', padding: '0px 16px' }
+				}}
 			>
 				{/* <AppPaper color={colorTheme} style={{ padding: 30, background: "linear-gradient(180deg, rgba(7, 96, 167, 0.826049) 39.28%, rgba(1, 39, 96, 0.994564) 138.69%);" }}> */}
 				{/* <BPaper style={{ padding: 0 }}> */}
