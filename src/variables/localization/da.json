@@ -5,6 +5,12 @@
 		"trillion": "t"
 	},
 	"usage": {
+		"waterworks": {
+			"myWaterworks": "Mit vandværk",
+			"otherWaterworks": "Andre vandværk",
+			"usageHouse": "Forbrug  husstand",
+			"usageWaterworks": "Forbrug vandværk"
+		},
 		"dashboardPrice": {
 			"headline": "Afregning",
 			"water": "Vand: Kr. ",
@@ -14,12 +20,11 @@
 			"dailyConsumption": "Dagligt forbrug",
 			"comparison": "Sammenligning"
 		},
-		"panels": {
-			"daily": {
-				"subtitle": "Min husstand",
-				"averageDailyUsage": "Mit gennemsnitlige daglige vandforbrug",
-				"usagePerPerson": "Usage per person"
-			}
+		"panel": {
+			"personsInHousehold": "personer i husstanden",
+			"myAverageWaterConsumption": "Mit gennemsnitlige daglige vandforbrug",
+			"usagePerPerson": "Forbrug pr. person",
+			"periodTotalCO2": "Mit gennemsnitlige vandforbrug i den valgte periode. Dette svarer til ca. %{totalCO2}kg CO2 pr. måned."
 		},
 		"dialogScreens": {
 			"0": {

@@ -5,6 +5,12 @@
 		"trillion": "tril."
 	},
 	"usage": {
+		"waterworks": {
+			"myWaterworks": "My Waterworks",
+			"otherWaterworks": "Other waterworks",
+			"usageHouse": "Household usage",
+			"usageWaterworks": "Waterworks usage"
+		},
 		"dashboardPrice": {
 			"headline": "Account",
 			"water": "Water: DKK ",
@@ -17,7 +23,8 @@
 		"panel": {
 			"personsInHousehold": "persons in the household",
 			"myAverageWaterConsumption": "Average daily water consumption",
-			"usagePerPerson": "Usage per person"
+			"usagePerPerson": "Usage per person",
+			"periodTotalCO2": "My average water consumption on the selected period. This corresponds to approx. %{totalCO2} kg CO2 pr. month."
 		},
 		"dialogScreens": {
 			"0": {

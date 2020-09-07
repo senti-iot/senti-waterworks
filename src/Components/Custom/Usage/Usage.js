@@ -6,7 +6,7 @@ import ItemG from 'Components/Containers/ItemG'
 import { BPaper, AppPaper } from 'Styles/containerStyle'
 import { CallMade, /* HelpOutline */ } from 'variables/icons'
 import SlideT from 'Components/Transitions/SlideT'
-import FullscreenDialog from './FullscreenDialog'
+import UsageOverview from './UsageOverview'
 import { useSelector } from 'react-redux'
 import cx from 'classnames'
 import { useLocalization } from 'Hooks'
@@ -137,7 +137,7 @@ const Usage = props => {
 			>
 				<AppPaper color={colorTheme} style={{ padding: 30 }}>
 					<BPaper style={{ padding: 0 }}>
-						<FullscreenDialog closeDialog={setFsDialogOpen} />
+						<UsageOverview closeDialog={setFsDialogOpen} />
 					</BPaper>
 				</AppPaper>
 			</Dialog>
