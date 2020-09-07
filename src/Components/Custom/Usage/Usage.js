@@ -31,7 +31,7 @@ const Usage = props => {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 
 	//State
-	const [fsDialogOpen, setFsDialogOpen] = useState(true)
+	const [fsDialogOpen, setFsDialogOpen] = useState(false)
 
 	//Const
 
@@ -59,8 +59,8 @@ const Usage = props => {
 		setFsDialogOpen(false)
 	}
 	return (
-		<Grid container className={classes.container}> {/* ref */}
-			<ItemG container xs={6} className={columnClasses(0)}>
+		<Grid container className={classes.container}>
+			<ItemG container xs={4} className={columnClasses(0)}>
 
 				<ItemG xs={4} container style={{ maxWidth: '100%' }}>
 					<img src={FamilyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
@@ -76,7 +76,23 @@ const Usage = props => {
 					</T>
 				</ItemG>
 			</ItemG>
-			<ItemG xs={6} className={columnClasses(1)}>
+			<ItemG container xs={4} className={columnClasses(1)}>
+
+				<ItemG xs={4} container style={{ maxWidth: '100%' }}>
+					<img src={FamilyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
+					<HeaderText variant={'h5'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
+				</ItemG>
+
+				<ItemG xs={8} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
+					<T variant="body2" className={classes.cubicValue}>
+						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
+						<span className={classes.cubicValueUnit}>
+							{unit()}
+						</span>
+					</T>
+				</ItemG>
+			</ItemG>
+			<ItemG xs={4} className={columnClasses(1)}>
 				<div className={classes.flexColumn}>
 					<div style={{ display: 'flex' }}>
 						<img src={FamilyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
@@ -99,35 +115,9 @@ const Usage = props => {
 				<CallMade />
 			</IconButton>
 
-			{/* <Dialog
-				fullScreen
-				hideBackdrop // hides the dark overlay and makes it 'clickable-through'
-				className={classes.dialogRoot}
-				open={fsDialogOpen}
-				onChange={() => setFsDialogOpen(false)}
-				TransitionComponent={SlideT}
-				onClose={handleOnClose}
-				PaperProps={{
-					style: {
-						// colors converted from hexadecimal to RGBA in order to have an opacity effect
-						background: 'linear-gradient(to bottom,rgba(7,96,167,.8),rgba(1,39,96,.8))'
-					}
-				}}
-			>
-				<Paper className={classes.fullscreenDialog}>
-					<GridContainer style={{ flex: 1, overflow: 'hidden' }}>
-						<ItemG xs={12} style={{ height: '100%' }}>
-							<BPaper style={{ background: '#3799F1', height: '100%', padding: 0, overflow: 'auto' }}>
-								<FullscreenDialog closeDialog={setFsDialogOpen} />
-							</BPaper>
-						</ItemG>
-					</GridContainer>
-				</Paper>
-			</Dialog>
-			*/}
 			<Dialog
 				fullScreen
-				hideBackdrop // hides the dark overlay and makes it 'clickable-through'
+				hideBackdrop
 				className={classes.dialogRoot}
 				open={fsDialogOpen}
 				TransitionComponent={SlideT}
