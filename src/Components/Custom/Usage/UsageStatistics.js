@@ -56,6 +56,7 @@ const useStyles = makeStyles(theme => ({
 const UsageStatistics = () => {
 	//Hooks
 	const t = useLocalization()
+	const classes = useStyles()
 
 	//Redux
 	const avgData = useSelector(s => s.priceUsageData.usage)
@@ -76,63 +77,6 @@ const UsageStatistics = () => {
 	//useEffects
 
 	//Handlers
-
-	const classes = useStyles()
-
-	// the JSX should map these panels instead of hardcoding it
-	const panels = [
-		{
-			headline: t('usage.dashboardUsage.dailyConsumption'),
-			subheadline: 'Min husstand',
-			descriptions: [
-				'Mit gennemsnitlige daglige vandforbrug',
-				isSWAdmin ? 'Forbrug pr. person' : ""
-				// 'Mit gennemsnitlige månedlige vandforbrug. Dette svarer til ca. 1,182 kg CO2 pr. måned'
-			],
-			style: {
-				dataColor: '#6DD400',
-				textBelowHeadline: true
-			},
-			data: {
-				cubicMetres: mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL,
-				forbrugPerson: !isSWAdmin ? ((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople) : null,
-			}
-		},
-		{
-			headline: t('usage.dashboardUsage.comparison'),
-			subheadline: ' Mit vandværk',
-			descriptions: [
-				'Gennemsnitligt daglige vandforbrug for andre boliger',
-				isSWAdmin ? 'Forbrug pr. person' : null,
-				'Gennemsnitlig månedlige vandforbrug for andre boliger. Dette svarer til ca. 1,506 kg CO2 pr. måned'
-			],
-			style: {
-				dataColor: '#F7DC00',
-				textBelowHeadline: false
-			},
-			data: {
-				cubicMetres: mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL,
-				forbrugPerson: !isSWAdmin ? ((mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople) : null,
-			}
-		},
-		{
-			headline: '',
-			subheadline: 'Andre vandværker',
-			descriptions: [
-				'Gennemsnitligt daglige vandforbrug for andre boliger',
-				'Forbrug pr. person',
-				'Gennemsnitlig månedlige vandforbrug for andre boliger. Dette svarer til ca. 1,506 kg CO2 pr. måned'
-			],
-			style: {
-				dataColor: '#F7DC00',
-				textBelowHeadline: false
-			},
-			data: {
-				cubicMetres: mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL,
-				forbrugPerson: (mUnit === "m3" ? avgData.benchmarkm3 : avgData.benchmarkL) / noOfPeople,
-			}
-		}
-	]
 
 	return (
 		<GridContainer className={classes.container}>

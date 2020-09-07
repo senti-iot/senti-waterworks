@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles, Typography, Button, ButtonBase, Dialog, Paper } from '@material-ui/core'
+import { makeStyles, Typography, Button, ButtonBase, Dialog } from '@material-ui/core'
 import Toilet from "assets/icons/toilet.svg"
 import Bathroom from "assets/icons/bath.svg"
 import Dishwasher from "assets/icons/dishwasher.svg"
@@ -10,7 +10,7 @@ import GridContainer from 'Components/Containers/GridContainer'
 import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
 import { emphasize } from '@material-ui/core/styles'
 import UsageReduction from 'Components/Custom/Usage/UsageReduction'
-import { AppPaper, BPaper } from 'Styles/containerStyle'
+import { BPaper } from 'Styles/containerStyle'
 import SlideT from 'Components/Transitions/SlideT'
 
 const useStyles = makeStyles(theme => ({

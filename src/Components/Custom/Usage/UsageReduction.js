@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { makeStyles, IconButton, Typography } from '@material-ui/core'
 import { Close } from 'variables/icons'
 import { useLocalization } from 'Hooks'
