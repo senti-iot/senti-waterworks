@@ -90,7 +90,6 @@ export const MainChart = React.memo((props) => {
 		[classes.icon]: true,
 		[classes.fullScreenIcon]: fullScreenLineChart
 	})
-	console.log('data && !data.readings.length > 0', data, !data.readings.length > 0)
 	return (
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>

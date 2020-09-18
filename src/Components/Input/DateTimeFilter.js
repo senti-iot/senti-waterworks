@@ -39,8 +39,8 @@ const DateFilterMenu = (props) => {
 		{ id: 7, label: t('filters.dateOptions.30days') },
 	]
 	const handleTimeType = (from, to) => {
-		let diff = moment(from).diff(to, 'day')
-		console.log(diff)
+		// let diff = moment(from).diff(to, 'day')
+		// console.log(diff)
 		return 2
 	}
 	const handleSetDate = (menuId, to, from, timeType) => {

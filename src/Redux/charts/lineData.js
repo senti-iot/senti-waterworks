@@ -250,7 +250,6 @@ export const mapLineData = async data => {
 		//#endregion
 		//#region WaterFlow
 		if (minFlowData && minFlowData.length > 0) {
-			// console.log('minFlowData', minFlowData)
 			currentPeriodData.minFlow = genLineData(minFlowData)
 		}
 		if (minFlowPrevData && minFlowPrevData.length > 0) {

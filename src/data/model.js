@@ -53,7 +53,6 @@ export const genReading = (deviceData) => {
 			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(2)) ? parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(2)) : 0
 		})
 	})
-	console.log('fResult', fResult)
 	return fResult
 }
 export const genLineData = (deviceData, filter, prev, diff) => {
@@ -64,7 +63,6 @@ export const genLineData = (deviceData, filter, prev, diff) => {
 	else {
 		lineData = deviceData.filter(d => d.value !== null)
 	}
-	console.log(lineData)
 	lineData = genReading(lineData.map(d => ({ value: d.value, date: d.datetime })))
 
 	return lineData
