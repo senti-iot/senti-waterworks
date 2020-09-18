@@ -50,23 +50,23 @@ export const genReading = (deviceData) => {
 	Object.keys(dataByDay).forEach(d => {
 		fResult.push({
 			date: d,
-			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(2))
+			value: parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(2)) ? parseFloat((dataByDay[d].totalValue / dataByDay[d].count).toFixed(2)) : 0
 		})
 	})
+	console.log('fResult', fResult)
 	return fResult
 }
 export const genLineData = (deviceData, filter, prev, diff) => {
 	let lineData
 	if (filter && filter.length > 0) {
-		lineData = deviceData.filter(d => d.value && filter.indexOf(d.uuid) > -1)
+		lineData = deviceData.filter(d => d.value !== null && filter.indexOf(d.uuid) > -1)
 	}
 	else {
-		lineData = deviceData.filter(d => d.value)
+		lineData = deviceData.filter(d => d.value !== null)
 	}
-
+	console.log(lineData)
 	lineData = genReading(lineData.map(d => ({ value: d.value, date: d.datetime })))
 
-	// <<<<<<< HEAD
 	return lineData
 }
 // =======
