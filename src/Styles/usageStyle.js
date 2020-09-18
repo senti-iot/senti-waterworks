@@ -79,7 +79,7 @@ const usageStyle = makeStyles(theme => ({
 		position: 'relative'
 	},
 	leftColumnStyle: {
-		borderRight: '1px solid #fff',
+		// borderRight: '1px solid #fff',
 		paddingRight: 16,
 		position: 'relative',
 		flexFlow: 'column'

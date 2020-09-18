@@ -17,6 +17,7 @@
 			"sewage": "Spildevand: Kr. "
 		},
 		"dashboardUsage": {
+			"usageToday": "Aktuelt forbrug i dag",
 			"dailyConsumption": "Dagligt forbrug",
 			"comparison": "Sammenligning"
 		},

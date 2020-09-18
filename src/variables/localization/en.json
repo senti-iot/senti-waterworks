@@ -1,6 +1,6 @@
 {
 	"numSuffix": {
-		"million" : "mil.",
+		"million": "mil.",
 		"billion": "bil.",
 		"trillion": "tril."
 	},
@@ -17,6 +17,7 @@
 			"sewage": "Sewage: DKK "
 		},
 		"dashboardUsage": {
+			"usageToday": "Actual usage for today",
 			"dailyConsumption": "Daily consumption",
 			"comparison": "Benchmark"
 		},
