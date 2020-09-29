@@ -1144,6 +1144,12 @@
 		}
 	},
 	"sidebar": {
+		"clients":"Clients",
+		"movingOut":"Moving Out",
+		"contact":"Contact",
+		"support":"Support",
+		"dataPolicy":"Data Policy",
+		"about":"About Senti",
 		"myprofile": "My Profile",
 		"api": "API",
 		"cloudfunction": "Cloud function",

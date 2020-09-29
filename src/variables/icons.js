@@ -130,8 +130,18 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import WarningIcon from '@material-ui/icons/Warning'
 import ErrorIcon from '@material-ui/icons/Error'
 import HelpOutline from '@material-ui/icons/HelpOutline'
+import Group from '@material-ui/icons/Group'
+import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle'
+import ContactSupportIcon from '@material-ui/icons/ContactSupport'
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
+import Copyright from '@material-ui/icons/Copyright'
 
 export {
+	Copyright,
+	VerifiedUserIcon,
+	ContactSupportIcon,
+	SwapHorizontalCircleIcon,
+	Group,
 	FamilyIcon,
 	CallMadeIcon,
 	HelpOutline,

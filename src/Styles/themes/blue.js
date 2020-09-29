@@ -23,6 +23,7 @@ const theme = (type) => createMuiTheme({
 		}
 	},
 	headerColor: "#1a1b32",
+	sidebar: "rgba(8,46,85,1)",
 	appBackground: bgColors['blue'].background,
 	boxBackground: darken(hexToRgba(colors['blue'][700], 0.7), 0.5),
 	// boxBackground: '#1A5284',
