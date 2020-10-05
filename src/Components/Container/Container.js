@@ -1,4 +1,4 @@
-import React, { /* useContext, */ useEffect, useState, Fragment } from 'react'
+import React, { /* useContext, */ useEffect, useState, Fragment, Suspense } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 // import { HTitle } from 'App';
 import { AppBackground } from 'Styles/containerStyle'
@@ -14,6 +14,7 @@ import { CircularLoader } from 'Components'
 import EndUserContainer from 'Components/Container/EndUserContainer'
 import MyProfile from 'Components/Custom/MyProfile/MyProfile'
 import MyProfileEdit from 'Components/Custom/MyProfile/MyProfileEdit'
+import { routes } from 'Routes'
 
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
@@ -37,23 +38,29 @@ function Container(props) {
 				<Header title={props.title} />
 				{!loading ?
 					<AppBackground color={colorTheme}>
-						<Switch>
-							<Route path={'/settings'}>
-								<Settings />
-							</Route>
+						<Suspense fallback={<div></div>}>
 
-							<Route path={'/my-profile'}>
+							<Switch>
+								{routes.map(r => (<Route path={r.path} exact={r.exact}>
+									<r.component />
+								</Route>))}
+								{/* <Route path={'/settings'}>
+								<Settings />
+								</Route>
+
+								<Route path={'/my-profile'}>
 								<MyProfile />
-							</Route>
-							<Route path={'/my-profile/edit'}>
+								</Route>
+								<Route path={'/my-profile/edit'}>
 								<MyProfileEdit
 								/>
-							</Route>
-							<Route exact path={'/'}>
+								</Route>
+								<Route exact path={'/'}>
 								<EndUserContainer />
-							</Route>
-							<Redirect path={'*'} to={'/'}></Redirect>
-						</Switch>
+							</Route> */}
+								<Redirect path={'*'} to={'/'}></Redirect>
+							</Switch>
+						</Suspense>
 					</AppBackground>
 					: <CircularLoader fill />}
 			</Fragment>

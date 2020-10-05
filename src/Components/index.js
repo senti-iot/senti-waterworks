@@ -3,6 +3,7 @@
 import ItemG from 'Components/Containers/ItemG'
 import ItemGrid from 'Components/Containers/ItemGrid'
 import GridContainer from 'Components/Containers/GridContainer'
+import PageHeader from 'Components/Custom/PageHeader/PageHeader'
 
 //#endregion
 
@@ -44,6 +45,7 @@ import SlideT from 'Components/Transitions/SlideT'
 
 //#endregion
 export {
+	PageHeader,
 	Link,
 	//Transitions
 	SlideT,
