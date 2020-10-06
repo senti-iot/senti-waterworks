@@ -1,4 +1,4 @@
-import React, { /* useContext, */ useEffect, useState, Fragment } from 'react'
+import React, { /* useContext, */ useEffect, useState, Fragment, Suspense } from 'react'
 // import { TProvider } from 'Components/Providers/LocalizationProvider';
 // import { HTitle } from 'App';
 import { AppBackground } from 'Styles/containerStyle'
@@ -6,7 +6,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Settings from 'Routes/Settings'
 import Header from 'Components/Header'
 import cookie from 'react-cookies'
-import { useDispatch, useSelector, usePrevious } from 'Hooks'
+import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { CircularLoader } from 'Components'
 // import { getAllDevices } from 'Redux/data'
@@ -14,13 +14,12 @@ import { CircularLoader } from 'Components'
 import EndUserContainer from 'Components/Container/EndUserContainer'
 import MyProfile from 'Components/Custom/MyProfile/MyProfile'
 import MyProfileEdit from 'Components/Custom/MyProfile/MyProfileEdit'
+import { routes } from 'Routes'
 
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
-	const maxDailyConsumption = useSelector(s => s.settings.maxDailyConsumption)
-	const prevMdc = usePrevious(maxDailyConsumption)
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())
@@ -39,23 +38,29 @@ function Container(props) {
 				<Header title={props.title} />
 				{!loading ?
 					<AppBackground color={colorTheme}>
-						<Switch>
-							<Route path={'/settings'}>
-								<Settings />
-							</Route>
+						<Suspense fallback={<div></div>}>
 
-							<Route path={'/my-profile'}>
+							<Switch>
+								{routes.map(r => (<Route path={r.path} exact={r.exact}>
+									<r.component />
+								</Route>))}
+								{/* <Route path={'/settings'}>
+								<Settings />
+								</Route>
+
+								<Route path={'/my-profile'}>
 								<MyProfile />
-							</Route>
-							<Route path={'/my-profile/edit'}>
+								</Route>
+								<Route path={'/my-profile/edit'}>
 								<MyProfileEdit
 								/>
-							</Route>
-							<Route exact path={'/'}>
-								<EndUserContainer maxDailyConsumption={maxDailyConsumption} prevMdc={prevMdc}/>
-							</Route>
-							<Redirect path={'*'} to={'/'}></Redirect>
-						</Switch>
+								</Route>
+								<Route exact path={'/'}>
+								<EndUserContainer />
+							</Route> */}
+								<Redirect path={'*'} to={'/'}></Redirect>
+							</Switch>
+						</Suspense>
 					</AppBackground>
 					: <CircularLoader fill />}
 			</Fragment>

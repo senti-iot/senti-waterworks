@@ -1,13 +1,31 @@
 {
-	"Usage": {
+	"numSuffix": {
+		"million": "mil.",
+		"billion": "bil.",
+		"trillion": "tril."
+	},
+	"usage": {
+		"waterworks": {
+			"myWaterworks": "My Waterworks",
+			"otherWaterworks": "Other waterworks",
+			"usageHouse": "Household usage",
+			"usageWaterworks": "Waterworks usage"
+		},
 		"dashboardPrice": {
 			"headline": "Account",
 			"water": "Water: DKK ",
 			"sewage": "Sewage: DKK "
 		},
 		"dashboardUsage": {
+			"usageToday": "Actual usage for today",
 			"dailyConsumption": "Daily consumption",
 			"comparison": "Benchmark"
+		},
+		"panel": {
+			"personsInHousehold": "persons in the household",
+			"myAverageWaterConsumption": "Average daily water consumption",
+			"usagePerPerson": "Usage per person",
+			"periodTotalCO2": "My average water consumption on the selected period. This corresponds to approx. %{totalCO2} kg CO2 pr. month."
 		},
 		"dialogScreens": {
 			"0": {
@@ -1126,6 +1144,12 @@
 		}
 	},
 	"sidebar": {
+		"clients":"Clients",
+		"movingOut":"Moving Out",
+		"contact":"Contact",
+		"support":"Support",
+		"dataPolicy":"Data Policy",
+		"about":"About Senti",
 		"myprofile": "My Profile",
 		"api": "API",
 		"cloudfunction": "Cloud function",

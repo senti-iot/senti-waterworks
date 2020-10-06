@@ -96,18 +96,24 @@ const PriceChart = props => {
 		<div style={{ position: 'relative', height: '100%' }}>
 			<div className={classes.header}>
 				<img src={creditCard} alt="senti-credit-card" />
-				<Typography variant="body1" className={classes.headline}>{t('Usage.dashboardPrice.headline')}</Typography>
+				<Typography variant="body1" className={classes.headline}>{t('usage.dashboardPrice.headline')}</Typography>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
 
 
-			<Typography title={'DKK ' + formatNumber(priceData.waterusage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.water')}{formatShortNumber(priceData.waterusage)}</Typography>
+			<Typography title={'DKK ' + formatNumber(priceData.waterusage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>
+				{t('usage.dashboardPrice.water')}
+				{formatShortNumber(priceData.waterusage, 2, t)}
+			</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
-				<Typography title={'DKK ' + formatNumber(priceData.sewage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>{t('Usage.dashboardPrice.sewage')}{formatShortNumber(priceData.sewage)}</Typography>
+				<Typography title={'DKK ' + formatNumber(priceData.sewage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>
+					{t('usage.dashboardPrice.sewage')}
+					{formatShortNumber(priceData.sewage, 2, t)}
+				</Typography>
 				<Typography title={'DKK ' + formatNumber(priceData.total, 2)} variant="body1" gutterBottom={false} className={classes.body1} style={{ lineHeight: '1.5em', marginLeft: 48 }}>
 					Total:
           			<span className={classes.priceTag}>
-						Kr. {formatShortNumber(priceData.total)}
+						Kr. {formatShortNumber(priceData.total, 2, t)}
 					</span>
 				</Typography>
 			</div>

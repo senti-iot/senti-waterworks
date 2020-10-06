@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
-import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
+import arcStyles, { TextContainer, ArcContainer, Arc, HeaderText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
 import { formatShortNumber } from 'data/functions'
 import moment from 'moment'
 let arc = null
@@ -37,12 +37,12 @@ const ArcGraph = (props) => {
 	// const [arcData, setArcData] = useState(generateArcData())
 
 
-	const unit = () => {
+	const unit = (data) => {
 		switch (props.chart) {
 			case 'waterusage':
-				return mUnit === 'm3' ? 'm³' : 'L'
+				return mUnit === 'm3' ? `${formatShortNumber(data, 2, t)} m³` : `${formatShortNumber(data, 0, t)} L`
 			default:
-				return 'm³'
+				return mUnit === 'm3' ? `${formatShortNumber(data, 2, t)} m³` : `${formatShortNumber(data, 0, t)} L`
 		}
 	}
 
@@ -122,11 +122,11 @@ const ArcGraph = (props) => {
 	return (
 		<ArcContainer>
 
-			<TotalUsageText variant={'h5'}>{period.from && period.to ? displayTime() : null}</TotalUsageText>
+			<HeaderText variant={'h5'}>{period.from && period.to ? displayTime() : null}</HeaderText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
-					<DataText title={arcData} variant='h5'>{`${formatShortNumber(arcData)} ${unit()}`}</DataText>
-					<DataText title={arcPrevData} variant='h5' prev>{`(${formatShortNumber(arcPrevData)} ${unit()})`}</DataText>
+					<DataText title={arcData} variant='h5'>{`${unit(arcData)}`}</DataText>
+					<DataText title={arcPrevData} variant='h5' prev>{`(${unit(arcPrevData)})`}</DataText>
 				</TextContainer>
 			</Arc>
 		</ArcContainer>

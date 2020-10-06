@@ -83,8 +83,8 @@ export const getWaterUsageByDay = async (from, to, uuids) => {
  */
 
 export const getReadingUsage = async (from, to, uuids) => {
-	let startDate = moment(from).format('YYYY-MM-DD')
-	let endDate = moment(to).format('YYYY-MM-DD')
+	let startDate = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
 	let response
 	if (uuids) {
 		response = await servicesAPI.post(`/v2/waterworks/data/volume/${startDate}/${endDate}`, uuids)

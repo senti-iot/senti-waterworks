@@ -1,5 +1,5 @@
-import React from 'react'
-import { AppBar, Toolbar, ButtonBase } from '@material-ui/core'
+import React, { useState } from 'react'
+import { AppBar, Toolbar, ButtonBase, IconButton } from '@material-ui/core'
 import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
@@ -8,14 +8,35 @@ import { useHistory } from 'react-router'
 import { useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
+import { Menu } from 'variables/icons'
+import Sidebar from 'Components/Custom/Sidebar/Sidebar'
+import { routes } from 'Routes'
 
 function Header({ ...props }) {
+	//Hooks
 	const classes = headerStyles()
 	const history = useHistory()
 	const t = useLocalization()
+
+	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
 
+	//State
+	const [menu, setMenu] = useState(false)
+
+	//Const
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
+
 	const goHome = () => history.push('/')
+
+	const handleSwitchMenu = () => setMenu(!menu)
+	const handleCloseMenu = () => setMenu(false)
 
 	var brand = (
 		<ButtonBase
@@ -36,10 +57,27 @@ function Header({ ...props }) {
 			/>
 		</ButtonBase>
 	)
-
+	const renderMenu = () => {
+		return <Sidebar
+			open={menu}
+			handleCloseDrawer={handleCloseMenu}
+			routes={routes}
+		/>
+	}
 	return (
 		<AppBar className={classes.appBar} >
+			{renderMenu()}
 			<Toolbar className={classes.container}>
+				<ItemG>
+					<IconButton
+						className={classes.appResponsive}
+						color='primary'
+						aria-label='open drawer'
+						onClick={handleSwitchMenu}
+					>
+						<Menu />
+					</IconButton>
+				</ItemG>
 				<ItemG xs={3}>
 					<div className={classes.logoContainer}>
 						{brand}
