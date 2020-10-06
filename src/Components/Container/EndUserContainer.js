@@ -56,7 +56,6 @@ const EndUserContainer = props => {
 	//useCallbacks
 	const prevPeriod = usePrevious(period)
 	const prevSelectedDevices = usePrevious(selectedDevices)
-	console.log(props.maxDailyConsumption, props.prevMdc)
 
 	//useEffects
 	useEffect(() => {
@@ -79,7 +78,8 @@ const EndUserContainer = props => {
 
 	useEffect(() => {
 		if (loading && !haveData) {
-
+			console.log(devices.length, haveData, isSWAdmin, isSuperUser, loading)
+			console.log('Getting data')
 			const getDevices = async () => dispatch(await getAdminDevices())
 			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {

@@ -38,11 +38,11 @@ const DateFilterMenu = (props) => {
 		{ id: 6, label: t('filters.dateOptions.custom') },
 		{ id: 7, label: t('filters.dateOptions.30days') },
 	]
-	const handleTimeType = (from, to) => {
-		let diff = moment(from).diff(to, 'day')
-		console.log(diff)
-		return 2
-	}
+	/* TODO: Fix the Custom Date Time for >30 days set for monthly */
+	// const handleTimeType = (from, to) => {
+	// 	let diff = moment(from).diff(to, 'day')
+	// 	return 2
+	// }
 	const handleSetDate = (menuId, to, from, timeType) => {
 		let defaultT = 0
 		switch (menuId) {
@@ -90,7 +90,7 @@ const DateFilterMenu = (props) => {
 			case 6:
 				from = moment(from)
 				to = moment(to)
-				defaultT = handleTimeType(from, to)
+				defaultT = timeType
 				break;
 			default:
 				break;

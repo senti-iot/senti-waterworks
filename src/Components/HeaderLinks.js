@@ -169,7 +169,7 @@ function HeaderLinks(props) {
 		xs: isSWAdmin ? 5 : 3,
 	}
 	return (
-		<Grid container xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justify={'flex-end'} classes={{ container: classes.headerMargin }}>
+		<Grid container item xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justify={'flex-end'} classes={{ container: classes.headerMargin }}>
 			{/* <ItemG>
 					{renderChristmasIcon()}
 				</ItemG> */}

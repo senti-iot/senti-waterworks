@@ -120,7 +120,6 @@ export const getWeatherData = async () => {
 			let adrs = userExP.address.split(' ')
 			let address = `${adrs[0]} ${userExP.postnr} ${userExP.city}`
 			let coords = await getLatLongFromAddress(address)
-			console.log(coords)
 			if (coords && coords.lat !== 0 && coords.long !== 0) {
 				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
 				let fWeather = []
@@ -293,6 +292,7 @@ export const adminData = () =>
  */
 export const userData = () =>
 	async (dispatch, getState) => {
+		console.trace()
 		let orgId = getState().settings.user.org.uuid
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()

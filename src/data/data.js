@@ -137,7 +137,7 @@ export const api = create({
 
 
 //#region Senti Services
-const sentiServicesAPI = 'https://services.senti.cloud/'
+const sentiServicesAPI = 'https://dev.services.senti.cloud/'
 // const sentiServicesAPI = 'https://services.senti.cloud/databroker'
 export const servicesCoreAPI = create({
 	baseURL: sentiServicesAPI + 'core',
