@@ -1,19 +1,11 @@
-import React, { /* useContext, */ useEffect, useState, Fragment, Suspense } from 'react'
-// import { TProvider } from 'Components/Providers/LocalizationProvider';
-// import { HTitle } from 'App';
+import React, { useEffect, useState, Fragment, Suspense } from 'react'
 import { AppBackground } from 'Styles/containerStyle'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import Settings from 'Routes/Settings'
 import Header from 'Components/Header'
 import cookie from 'react-cookies'
 import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { CircularLoader } from 'Components'
-// import { getAllDevices } from 'Redux/data'
-// import ChartContainer from 'Components/Container/ChartContainer'
-import EndUserContainer from 'Components/Container/EndUserContainer'
-import MyProfile from 'Components/Custom/MyProfile/MyProfile'
-import MyProfileEdit from 'Components/Custom/MyProfile/MyProfileEdit'
 import { routes } from 'Routes'
 
 function Container(props) {
