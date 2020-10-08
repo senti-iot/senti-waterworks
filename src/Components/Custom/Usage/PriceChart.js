@@ -4,10 +4,11 @@ import { makeStyles, Typography/* , IconButton */ } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
-import creditCard from 'assets/icons/credit-card.svg'
+// import creditCard from 'assets/icons/credit-card.svg'
 // import { /* CallMade, */ /* HelpOutline */ } from 'variables/icons'
 // import PopperBubble from './PopperBubble'
 import { formatNumber, formatShortNumber } from 'data/functions'
+import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
 
 const useStyles = makeStyles(theme => ({
 	headline: {
@@ -95,19 +96,19 @@ const PriceChart = props => {
 	return (
 		<div style={{ position: 'relative', height: '100%' }}>
 			<div className={classes.header}>
-				<img src={creditCard} alt="senti-credit-card" />
-				<Typography variant="body1" className={classes.headline}>{t('Usage.dashboardPrice.headline')}</Typography>
+				{/* <img src={creditCard} alt="senti-credit-card" /> */}
+				<HeaderText variant={'h5'}>{t('usage.dashboardPrice.headline')}</HeaderText>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
 
 
 			<Typography title={'DKK ' + formatNumber(priceData.waterusage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>
-				{t('Usage.dashboardPrice.water')}
+				{t('usage.dashboardPrice.water')}
 				{formatShortNumber(priceData.waterusage, 2, t)}
 			</Typography>
 			<div className={classes.flex} style={{ maxHeight: 32, overflow: 'visible', alignItems: 'flex-end' }}>
 				<Typography title={'DKK ' + formatNumber(priceData.sewage, 2)} variant="body1" gutterBottom={false} className={classes.body1}>
-					{t('Usage.dashboardPrice.sewage')}
+					{t('usage.dashboardPrice.sewage')}
 					{formatShortNumber(priceData.sewage, 2, t)}
 				</Typography>
 				<Typography title={'DKK ' + formatNumber(priceData.total, 2)} variant="body1" gutterBottom={false} className={classes.body1} style={{ lineHeight: '1.5em', marginLeft: 48 }}>
@@ -117,7 +118,7 @@ const PriceChart = props => {
 					</span>
 				</Typography>
 			</div>
-{/*
+			{/*
 			<IconButton size="small" className={classes.callMade} onClick={() => { }}>
 				<CallMade />
 			</IconButton> */}

@@ -39,6 +39,16 @@ const arcStyles = makeStyles(theme => ({
 		marginLeft: 16, marginBottom: 16, height: 32
 	},
 }))
+export const HeaderText = styled(T)`
+	@media ${size.down.md} {
+		font-size: 1em;
+	}
+	margin: 16px;
+	font-weight: 600;
+	letter-spacing: 1;
+	height: 32px;
+`
+
 export const TotalUsageText = styled(T)`
 	@media ${size.down.md} {
 		font-size: 1em;

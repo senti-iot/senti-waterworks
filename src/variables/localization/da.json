@@ -4,15 +4,28 @@
 		"billion": "b",
 		"trillion": "t"
 	},
-	"Usage": {
+	"usage": {
+		"waterworks": {
+			"myWaterworks": "Mit vandværk",
+			"otherWaterworks": "Andre vandværk",
+			"usageHouse": "Forbrug  husstand",
+			"usageWaterworks": "Forbrug vandværk"
+		},
 		"dashboardPrice": {
 			"headline": "Afregning",
 			"water": "Vand: Kr. ",
 			"sewage": "Spildevand: Kr. "
 		},
 		"dashboardUsage": {
+			"usageToday": "Aktuelt forbrug i dag",
 			"dailyConsumption": "Dagligt forbrug",
 			"comparison": "Sammenligning"
+		},
+		"panel": {
+			"personsInHousehold": "personer i husstanden",
+			"myAverageWaterConsumption": "Mit gennemsnitlige daglige vandforbrug",
+			"usagePerPerson": "Forbrug pr. person",
+			"periodTotalCO2": "Mit gennemsnitlige vandforbrug i den valgte periode. Dette svarer til ca. %{totalCO2}kg CO2 pr. måned."
 		},
 		"dialogScreens": {
 			"0": {
@@ -1131,6 +1144,12 @@
 		}
 	},
 	"sidebar": {
+		"clients": "Kunder",
+		"movingOut": "Flytning",
+		"contact": "Kontakt",
+		"support": "Support",
+		"dataPolicy": "Datapolitik",
+		"about": "Om Senti",
 		"myprofile": "Min Profil",
 		"api": "API",
 		"cloudfunction": "Cloud funktion",
