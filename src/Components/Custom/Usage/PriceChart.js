@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 	body1: {
 		fontSize: 16,
 		color: '#fff',
-		margin: '4px 0'
+		// margin: '4px 0'
 	},
 	priceTag: {
 		marginLeft: 8,
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 	header: {
 		display: 'flex',
 		color: '#fff',
-		marginBottom: 16
+		// marginBottom: 8
 	},
 	callMade: {
 		position: 'absolute',
@@ -97,7 +97,7 @@ const PriceChart = props => {
 		<div style={{ position: 'relative', height: '100%' }}>
 			<div className={classes.header}>
 				{/* <img src={creditCard} alt="senti-credit-card" /> */}
-				<HeaderText variant={'h5'}>{t('usage.dashboardPrice.headline')}</HeaderText>
+				<HeaderText variant={'h6'}>{t('usage.dashboardPrice.headline')}</HeaderText>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
 

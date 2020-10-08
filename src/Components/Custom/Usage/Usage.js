@@ -78,7 +78,7 @@ const Usage = props => {
 			<ItemG container xs={6} className={columnClasses(0)}>
 
 				<ItemG xs={6} container style={{ maxWidth: '100%' }}>
-					<HeaderText variant={'h5'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
+					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
 				</ItemG>
 
 				<ItemG xs={6} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
@@ -91,8 +91,8 @@ const Usage = props => {
 				</ItemG>
 			</ItemG>
 			<ItemG container xs={6} className={columnClasses(1)}>
-				<ItemG xs={6} container style={{ maxWidth: '100%' }}>
-					<HeaderText variant={'h5'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
+				<ItemG xs={12} container style={{ maxWidth: '100%' }}>
+					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
 				</ItemG>
 				<ItemG xs={6} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
 					<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
