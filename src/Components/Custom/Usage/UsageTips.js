@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles, Typography, Button, ButtonBase, Dialog } from '@material-ui/core'
+import { makeStyles, /* Typography, Button, */ ButtonBase, Dialog } from '@material-ui/core'
 import Toilet from "assets/icons/toilet.svg"
 import Bathroom from "assets/icons/bath.svg"
 import Dishwasher from "assets/icons/dishwasher.svg"
@@ -96,7 +96,7 @@ const UsageTips = props => {
 			<GridContainer className={classes.container}>
 
 				{/* left column with pics */}
-				<ItemG xs={12} md={7} container>
+				<ItemG xs={12} md={12} container>
 					<HeaderText variant="h4">
 						{t('tipsAndTricks.title')}
 					</HeaderText>
@@ -121,7 +121,7 @@ const UsageTips = props => {
 				</ItemG>
 
 				{/* right column with textarea */}
-				<ItemG xs={12} md={5} className={classes.textareaContainer} /* onSubmit={handleSubmit} */>
+				{/* <ItemG xs={12} md={5} className={classes.textareaContainer} >
 					<Typography variant="h4" className={classes.textBox} style={{}}>
 					Mine gode råd
 					</Typography>
@@ -132,7 +132,7 @@ const UsageTips = props => {
 						placeholder="Her kan du skrive dine gode råd til at spare vand"
 					/>
 					<Button type="submit" variant="contained" color="secondary" className={classes.submitBtn}>Send</Button>
-				</ItemG>
+				</ItemG> */}
 			</GridContainer>
 			<Dialog
 				fullScreen

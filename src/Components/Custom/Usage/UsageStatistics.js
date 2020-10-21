@@ -60,8 +60,8 @@ const UsageStatistics = () => {
 
 	//Redux
 	const avgData = useSelector(s => s.priceUsageData.usage)
-	const noOfAdults = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults)
-	const noOfChildren = useSelector(s => s.settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren)
+	const noOfAdults = useSelector(s => s.settings.user?.aux?.sentiWaterworks.extendedProfile.noOfAdults)
+	const noOfChildren = useSelector(s => s.settings.user?.aux?.sentiWaterworks.extendedProfile.noOfChildren)
 	const mUnit = useSelector(s => s.settings.mUnit)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	let noOfPeople = noOfAdults + noOfChildren

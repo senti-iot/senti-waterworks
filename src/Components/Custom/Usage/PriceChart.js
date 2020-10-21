@@ -4,10 +4,11 @@ import { makeStyles, Typography/* , IconButton */ } from '@material-ui/core'
 // import { ChevronRight } from '../../../variables/icons'
 import { useSelector } from 'react-redux'
 import { useLocalization } from 'Hooks'
-import creditCard from 'assets/icons/credit-card.svg'
+// import creditCard from 'assets/icons/credit-card.svg'
 // import { /* CallMade, */ /* HelpOutline */ } from 'variables/icons'
 // import PopperBubble from './PopperBubble'
 import { formatNumber, formatShortNumber } from 'data/functions'
+import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
 
 const useStyles = makeStyles(theme => ({
 	headline: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 	body1: {
 		fontSize: 16,
 		color: '#fff',
-		margin: '4px 0'
+		// margin: '4px 0'
 	},
 	priceTag: {
 		marginLeft: 8,
@@ -51,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 	header: {
 		display: 'flex',
 		color: '#fff',
-		marginBottom: 16
+		// marginBottom: 8
 	},
 	callMade: {
 		position: 'absolute',
@@ -95,8 +96,8 @@ const PriceChart = props => {
 	return (
 		<div style={{ position: 'relative', height: '100%' }}>
 			<div className={classes.header}>
-				<img src={creditCard} alt="senti-credit-card" />
-				<Typography variant="body1" className={classes.headline}>{t('usage.dashboardPrice.headline')}</Typography>
+				{/* <img src={creditCard} alt="senti-credit-card" /> */}
+				<HeaderText variant={'h6'}>{t('usage.dashboardPrice.headline')}</HeaderText>
 				{/* <ChevronRight className={classes.chevronRight} onClick={handleClick} /> */}
 			</div>
 
@@ -117,7 +118,7 @@ const PriceChart = props => {
 					</span>
 				</Typography>
 			</div>
-{/*
+			{/*
 			<IconButton size="small" className={classes.callMade} onClick={() => { }}>
 				<CallMade />
 			</IconButton> */}

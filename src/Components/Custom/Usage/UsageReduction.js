@@ -69,7 +69,6 @@ const UsageReduction = props => {
 	// }
 
 	const classes = useStyles()
-	console.log('chosenDescription', chosenDescription)
 	return (
 		<div className={classes.container}>
 			{/* container for back and cancel buttons */}
@@ -84,8 +83,8 @@ const UsageReduction = props => {
 
 				<div className={classes.header}>
 					<div className={classes.headlineBox}>
-						<Typography variant="h4" style={{ fontWeight: 500 }}>{t(`usage.dialogScreens.${chosenDescription}.headline`)}</Typography>
-						<Typography variant="body1" className={classes.subheadline}>{t(`usage.dialogScreens.${chosenDescription}.subheadline`)}</Typography>
+						<Typography variant="h4" style={{ fontWeight: 500 }}>{t(`usage.dialogScreens.${chosenDescription}.headline`, { disableMissing: true })}</Typography>
+						<Typography variant="body1" className={classes.subheadline}>{t(`usage.dialogScreens.${chosenDescription}.subheadline`, { disableMissing: true })}</Typography>
 					</div>
 					<div className={classes.imageBox}>
 						{/* edit CSS for the image if necessary */}
@@ -96,10 +95,10 @@ const UsageReduction = props => {
 				<div style={{ width: '70%' }} >
 					<ul className={classes.list}>
 						{/* problem below */}
-						<Typography key={'step1'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.0`)}</Typography>
-						<Typography key={'step2'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.1`)}</Typography>
-						<Typography key={'step3'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.2`)}</Typography>
-						<Typography key={'step4'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.3`)}</Typography>
+						<Typography key={'step1'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.0`, { disableMissing: true })}</Typography>
+						<Typography key={'step2'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.1`, { disableMissing: true })}</Typography>
+						<Typography key={'step3'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.2`, { disableMissing: true })}</Typography>
+						<Typography key={'step4'} variant="body1" className={classes.listItem}>{t(`usage.dialogScreens.${chosenDescription}.steps.3`, { disableMissing: true })}</Typography>
 
 					</ul>
 				</div>

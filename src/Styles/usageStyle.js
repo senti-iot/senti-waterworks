@@ -40,7 +40,7 @@ const usageStyle = makeStyles(theme => ({
 	cubicValue: {
 		color: '#6DD400',
 		fontSize: 42,
-		marginTop: 16,
+		marginTop: 8,
 		lineHeight: 1,
 		[theme.breakpoints.down('lg')]: {
 			fontSize: 30
@@ -82,7 +82,7 @@ const usageStyle = makeStyles(theme => ({
 		// borderRight: '1px solid #fff',
 		paddingRight: 16,
 		position: 'relative',
-		flexFlow: 'column'
+		// flexFlow: 'column'
 	},
 	flexColumn: {
 		flexWrap: 'no-wrap',

@@ -14,7 +14,6 @@ import { useLocalization } from 'Hooks'
 import T from 'Components/Typography/T'
 import { formatShortNumber } from 'data/functions'
 import usageStyle from 'Styles/usageStyle'
-import { FamilyIcon } from 'variables/icons'
 import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
 
 const Usage = props => {
@@ -60,7 +59,7 @@ const Usage = props => {
 	}
 	return (
 		<Grid container className={classes.container}>
-			<ItemG container xs={4} className={columnClasses(0)}>
+			{/* <ItemG container xs={4} className={columnClasses(0)}>
 
 				<ItemG xs={4} container style={{ maxWidth: '100%' }}>
 					<img src={FamilyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
@@ -75,15 +74,14 @@ const Usage = props => {
 						</span>
 					</T>
 				</ItemG>
-			</ItemG>
-			<ItemG container xs={4} className={columnClasses(1)}>
+			</ItemG> */}
+			<ItemG container xs={6} className={columnClasses(0)}>
 
-				<ItemG xs={4} container style={{ maxWidth: '100%' }}>
-					<img src={FamilyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
-					<HeaderText variant={'h5'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
+				<ItemG xs={6} container style={{ maxWidth: '100%' }}>
+					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
 				</ItemG>
 
-				<ItemG xs={8} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
+				<ItemG xs={6} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
 					<T variant="body2" className={classes.cubicValue}>
 						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
 						<span className={classes.cubicValueUnit}>
@@ -92,24 +90,20 @@ const Usage = props => {
 					</T>
 				</ItemG>
 			</ItemG>
-			<ItemG xs={4} className={columnClasses(1)}>
-				<div className={classes.flexColumn}>
-					<div style={{ display: 'flex' }}>
-						<img src={FamilyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
-						<T variant="body1" className={classes.headline}>{t('usage.dashboardUsage.comparison')}</T>
-					</div>
-					<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 28 }}>
-						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
-							{(mUnit === 'm3' ?
-								formatShortNumber(avgData.benchmarkm3, 2, t) :
-								formatShortNumber(avgData.benchmarkL, 0, t))}
-							<span className={classes.cubicValueUnit}>
-								{unit()}
-							</span>
-						</T>
-						{/* <img src={waterdrop} className={classes.blueWaterdrop} alt="senti-waterdrop" /> */}
-					</div>
-				</div>
+			<ItemG container xs={6} className={columnClasses(1)}>
+				<ItemG xs={12} container style={{ maxWidth: '100%' }}>
+					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
+				</ItemG>
+				<ItemG xs={6} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
+					<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
+						{(mUnit === 'm3' ?
+							formatShortNumber(avgData.benchmarkm3, 2, t) :
+							formatShortNumber(avgData.benchmarkL, 0, t))}
+						<span className={classes.cubicValueUnit}>
+							{unit()}
+						</span>
+					</T>
+				</ItemG>
 			</ItemG>
 			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 				<CallMade />
