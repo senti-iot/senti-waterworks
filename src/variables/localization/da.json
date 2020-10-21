@@ -372,6 +372,7 @@
 		"editDetailsTitle": "Rediger %{deviceId}",
 		"editHardwareTitle": "Rediger hardware for enhed %{deviceId}",
 		"fields": {
+			"tags": "Tags",
 			"RPImodel": "Enhedsmodel",
 			"SIMID": "SIM-kort ID",
 			"SIMProvider": "SIM-kort leverandør",

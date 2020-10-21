@@ -372,6 +372,7 @@
 		"editDetailsTitle": "Edit %{deviceId}",
 		"editHardwareTitle": "Edit hardware for device %{deviceId}",
 		"fields": {
+			"tags": "Tags",
 			"RPImodel": "Device model",
 			"SIMID": "SIM-card ID",
 			"SIMProvider": "SIM-card provider",

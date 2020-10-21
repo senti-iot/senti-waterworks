@@ -14,6 +14,7 @@ import moment from 'moment'
  */
 export const getDevicesV2 = async () => {
 	let response = await servicesAPI.get('/v2/devices').then(rs => rs.ok ? rs.data : rs.ok)
+	console.log('devices', response)
 	return response
 }
 

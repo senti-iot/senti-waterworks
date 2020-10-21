@@ -2,13 +2,14 @@
 // import Settings from 'Routes/Settings'
 import React from 'react'
 // import { Copyright } from '@material-ui/icons's
-import { Business, ContactSupportIcon, Group, Mail, Copyright, Star, SwapHorizontalCircleIcon, VerifiedUserIcon } from 'variables/icons'
-import { Dashboard } from 'variables/icons'
+import { Business, ContactSupportIcon, Group, Mail, Copyright, Star, SwapHorizontalCircleIcon, VerifiedUserIcon, Dashboard, Devices } from 'variables/icons'
 
 const SettingsRoute = React.lazy(() => import('./Settings'))
 const MyProfileRoute = React.lazy(() => import('./MyProfile'))
 // const MyProfileEditRoute = React.lazy(() => import('./MyProfileEdit'))
 const DashboardRoute = React.lazy(() => import('./Dashboard'))
+
+const DevicesRoute = React.lazy(() => import('./Devices'))
 
 const AboutSentiRoute = React.lazy(() => import('./AboutSenti'))
 const FavoritesRoute = React.lazy(() => import('./Favorites'))
@@ -36,6 +37,13 @@ export const routes = [
 		icon: Star,
 		menuRoute: 'favorites',
 		component: FavoritesRoute
+	},
+	{
+		path: '/devices',
+		sidebarName: 'sidebar.device',
+		icon: Devices,
+		menuRoute: 'devices',
+		component: DevicesRoute
 	},
 	{
 		path: '/users',

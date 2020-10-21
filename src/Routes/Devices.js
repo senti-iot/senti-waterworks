@@ -1,5 +1,7 @@
 import { GridContainer, InfoCard, ItemG, PageHeader } from 'Components'
+import { Devices as DeviceIcon } from 'variables/icons'
 import React from 'react'
+import FullDeviceTable from 'Components/Custom/DevicesTable/FullDeviceTable'
 
 const Devices = () => {
 	//Hooks
@@ -21,6 +23,8 @@ const Devices = () => {
 			<ItemG xs={12} noMargin noPadding>
 				<PageHeader
 					label={'sidebar.devices'}
+					icon={DeviceIcon}
+
 				/>
 			</ItemG>
 			<ItemG xs={12}>
@@ -28,7 +32,7 @@ const Devices = () => {
 					noAvatar
 					noHeader
 					noExpand
-					content
+					content={<FullDeviceTable />}
 				/>
 			</ItemG>
 		</GridContainer>
