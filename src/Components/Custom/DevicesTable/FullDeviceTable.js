@@ -7,6 +7,7 @@ import { getAdminDevices, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import { Chip, Tooltip } from '@material-ui/core'
+import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
 
 
 
@@ -17,12 +18,11 @@ const FullDeviceTable = (props) => {
 
 	//Redux
 	const devices = useSelector(s => s.data.devices)
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const filters = useSelector(s => s.appState.filters.devices)
 
 	//State
 	const [selDev, setSelDev] = useState([])
-
+	const [loading, setLoading] = useState(true)
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
 
@@ -31,15 +31,14 @@ const FullDeviceTable = (props) => {
 	//useCallbacks
 
 	//useEffects
-	useEffect(() => {
-		setSelDev(selectedDevices)
-	}, [selectedDevices])
+
 	useEffect(() => {
 		const getDevices = async () => await dispatch(await getAdminDevices())
 		const loadData = async () => {
-			if (devices.length === 0) {
+			if (devices.length === 0 && loading) {
 				await getDevices()
 			}
+			setLoading(false)
 		}
 		loadData()
 		//eslint-disable-next-line
@@ -57,6 +56,7 @@ const FullDeviceTable = (props) => {
 		sortData(key, property, o)
 	}
 	const selectDevice = (s, device) => {
+		console.log(s, device)
 		let newSDevices = []
 		newSDevices = [...selDev]
 		if (s) {
@@ -66,6 +66,7 @@ const FullDeviceTable = (props) => {
 			newSDevices.push(device)
 		}
 		setSelDev(newSDevices)
+		console.log(selDev)
 	}
 	const selectAllDevices = (s) => {
 		let newSDevices = []
@@ -90,7 +91,7 @@ const FullDeviceTable = (props) => {
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
 		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
 		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
-		{ key: 'tags', name: t('devices.fields.tag'), type: 'dropDown', options: dTagList() },
+		{ key: 'tags', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
 
@@ -123,11 +124,13 @@ const FullDeviceTable = (props) => {
 			<TC content={renderTags(row)} />
 		</Fragment>
 	}
-
+	console.log(selDev)
 	return (
 
 		<>
-			<FilterToolbar reduxKey={'devices'} filters={deviceFilters} />
+
+			{selDev.length > 0 ? <DeviceToolbar devices={selDev}/> : <FilterToolbar reduxKey={'devices'} filters={deviceFilters} />}
+
 			<CTable
 				order={order}
 				orderBy={orderBy}

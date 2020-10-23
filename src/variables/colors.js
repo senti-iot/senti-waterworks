@@ -6,12 +6,12 @@ import {
 } from '@material-ui/core/colors'
 
 export const colors = [
-	'lightBlue',
-	'cyan',
-	'teal',
-	'green',
-	'lightGreen',
-	'lime',
+	lightBlue[400],
+	cyan[400],
+	teal[400],
+	green[400],
+	lightGreen[400],
+	lime[400],
 	yellow[400],
 	amber[400],
 	orange[400],

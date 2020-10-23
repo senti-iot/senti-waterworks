@@ -1145,7 +1145,7 @@
 		}
 	},
 	"sidebar": {
-		"clients": "Clients",
+		"clients": "Customers",
 		"movingOut": "Moving Out",
 		"contact": "Contact",
 		"support": "Support",
@@ -1410,6 +1410,14 @@
 			"welcome": "Welcome",
 			"confirmSuccess": "You have now confirmed your account and are ready to login for the first time.",
 			"confirmFail": "Error! Confirmation failed due to a technical error. Please contact your waterworks regarding this issue."
+		}
+	},
+	"tags": {
+		"createTag": "Create new tag",
+		"fields": {
+			"name": "Name",
+			"description": "Description",
+			"color": "Color"
 		}
 	}
 }

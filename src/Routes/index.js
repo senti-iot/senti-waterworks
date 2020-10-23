@@ -40,7 +40,7 @@ export const routes = [
 	},
 	{
 		path: '/devices',
-		sidebarName: 'sidebar.device',
+		sidebarName: 'sidebar.devices',
 		icon: Devices,
 		menuRoute: 'devices',
 		component: DevicesRoute
