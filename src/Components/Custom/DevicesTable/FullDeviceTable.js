@@ -124,7 +124,6 @@ const FullDeviceTable = (props) => {
 			<TC content={renderTags(row)} />
 		</Fragment>
 	}
-	console.log(selDev)
 	return (
 
 		<>

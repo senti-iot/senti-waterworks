@@ -9,6 +9,8 @@ import { useLocalization, useSelector } from 'Hooks'
 import React, { useState } from 'react'
 import { Add, Edit } from 'variables/icons'
 import { colors } from 'variables/colors'
+import { createTag } from 'data/tags'
+import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 
 const styles = makeStyles(theme => ({
 	section: {
@@ -37,6 +39,7 @@ const DeviceToolbar = props => {
 	const devices = useSelector(s => s.data.devices)
 	//State
 	const [openAddTags, setOpenAddTags] = useState(false)
+	const [creatingTags, setCreatingTags] = useState(false)
 	// const [openEditTags, setOpenEditTags] = useState(false)
 	const [tag, setTag] = useState({
 		name: '',
@@ -53,7 +56,10 @@ const DeviceToolbar = props => {
 
 	//Handlers
 	const handleOpenAddTags = () => setOpenAddTags(true)
-	const handleCloseAddTags = () => setOpenAddTags(false)
+	const handleCloseAddTags = () => {
+		setOpenAddTags(false)
+		setCreatingTags(false)
+	}
 
 
 	const handleChangeTag = field => e => {
@@ -61,6 +67,25 @@ const DeviceToolbar = props => {
 			...tag,
 			[field]: e.target.value
 		})
+	}
+	const handleConfirmCreateTag = () => {
+		setCreatingTags(true)
+
+	}
+	const handleCreateTags = () => {
+		let newTags = props.devices.map(d => ({
+			resourceUUID: d,
+			resourceType: 11,
+			tag: {
+				name: tag.name,
+				color: tag.color,
+				description: tag.description
+			}
+		}))
+		let result = Promise.all(newTags.map(async t => await createTag(t)))
+		console.log(result)
+		handleCloseAddTags()
+
 	}
 	//Renders
 	const renderAddTags = () => {
@@ -71,82 +96,88 @@ const DeviceToolbar = props => {
 		// 	style: { padding: 16 }
 		// }}
 		>
-			<DialogHeader label={'tags.createTag'} />
-			<ItemG container style={{ padding: 16 }}>
+			<FadeOutLoader overlay on={creatingTags} onChange={handleCreateTags}>
+				<div>
 
-				<ItemG container>
-					<ItemG xs={12}>
-						<T variant={'h6'} className={classes.section}>{`${t('sidebar.devices')} ${t('tables.selected')}:`}</T>
-						<Divider />
-					</ItemG>
-					<ItemG xs={12}>
+					<DialogHeader label={'tags.createTag'} />
+					<ItemG container style={{ padding: 16 }}>
 
-						<List dense className={classes.listContainer}>
-							{props.devices.map(d => {
-								let device = devices[devices.findIndex(f => f.uuid === d)]
-								console.log(device)
-								return <ListItem divider>{device.name} - {device.uuname}</ListItem>
-							})
-							}
-						</List>
-					</ItemG>
-				</ItemG>
-				<Divider />
-				<ItemG container spacing={1}>
-					<ItemG xs={12}>
-						<T variant={'h6'} className={classes.section}>{t('tags.createTag')}</T>
-						<Divider />
-					</ItemG>
-					<ItemG xs={6}>
-						<TextF
-							fullWidth
-							label={t('tags.fields.name')}
-							id={'tagName'}
-							value={tag.name}
-							onChange={handleChangeTag('name')}
-						/>
-					</ItemG>
-					<ItemG xs={6}>
-						<DSelect
-							fullWidth
-							margin={'normal'}
-							value={tag.color}
-							onChange={handleChangeTag('color')}
-							label={t('tags.fields.color')}
-							menuProps={{
-								PaperProps: {
-									style: {
-										maxHeight: 400,
+						<ItemG container>
+							<ItemG xs={12}>
+								<T variant={'h6'} className={classes.section}>{`${t('sidebar.devices')} ${t('tables.selected')}:`}</T>
+								<Divider />
+							</ItemG>
+							<ItemG xs={12}>
+
+								<List dense className={classes.listContainer}>
+									{props.devices.map(d => {
+										let device = devices[devices.findIndex(f => f.uuid === d)]
+										console.log(device)
+										return <ListItem divider>{device.name} - {device.uuname}</ListItem>
+									})
 									}
-								}
-							}}
-							leftIcon
-							menuItems={
-								colors.map(c => ({
-									icon: <div style={{ borderRadius: 4, background: c, width: 16, height: 16 }}></div>,
-									label: c, value: c
-								}))
-							}
-						/>
-					</ItemG>
-					<ItemG xs={12}>
-						<TextF
-							multiline
-							fullWidth
-							label={t('tags.fields.description')}
-							id={'tagName'}
-							value={tag.name}
-							onChange={handleChangeTag('description')}
-						/>
-					</ItemG>
-				</ItemG>
-				<DialogActions>
+								</List>
+							</ItemG>
+						</ItemG>
+						<Divider />
+						<ItemG container spacing={1}>
+							<ItemG xs={12}>
+								<T variant={'h6'} className={classes.section}>{t('tags.createTag')}</T>
+								<Divider />
+							</ItemG>
+							<ItemG xs={6}>
+								<TextF
+									fullWidth
+									label={t('tags.fields.name')}
+									id={'tagName'}
+									value={tag.name}
+									onChange={handleChangeTag('name')}
+								/>
+							</ItemG>
+							<ItemG xs={6}>
+								<DSelect
+									fullWidth
+									margin={'normal'}
+									value={tag.color}
+									onChange={handleChangeTag('color')}
+									label={t('tags.fields.color')}
+									menuProps={{
+										PaperProps: {
+											style: {
+												maxHeight: 400,
+											}
+										}
+									}}
+									leftIcon
+									menuItems={
+										colors.map(c => ({
+											icon: <div style={{ borderRadius: 4, background: c, width: 16, height: 16 }}></div>,
+											label: c, value: c
+										}))
+									}
+								/>
+							</ItemG>
+							<ItemG xs={12}>
+								<TextF
+									multiline
+									fullWidth
+									label={t('tags.fields.description')}
+									id={'tagName'}
+									value={tag.name}
+									onChange={handleChangeTag('description')}
+								/>
+							</ItemG>
+						</ItemG>
+						<DialogActions>
 
-					<ItemG container>
-						<Button onClick={handleCloseAddTags}>{t('actions.close')}</Button>
+							<ItemG container>
+								<Button onClick={handleCloseAddTags}>{t('actions.close')}</Button>
+								<Button onClick={handleConfirmCreateTag}>{t('actions.create')}</Button>
+							</ItemG>
+						</DialogActions>
 					</ItemG>
-				</DialogActions>
-			</ItemG>
+				</div>
+			</FadeOutLoader>
 		</Dialog>
 	}
 	return (

@@ -161,6 +161,15 @@ export const servicesAPI = create({
 	}
 })
 
+export const tagsServicesAPI = create({
+	baseURL: sentiServicesAPI + 'tagmanager',
+	timeout: 30000,
+	headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	}
+})
+
 export const dataExportAPI = create({
 	baseURL: sentiServicesAPI,
 	// baseURL: 'localhost:3021',
@@ -198,6 +207,7 @@ export const setToken = () => {
 		servicesCoreAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		// servicesCoreAPI.setHeader('wlHost', window.location.hostname)
 		waterworksAPI.setHeader('Authorization', `Bearer ${session.token}`)
+		tagsServicesAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		// waterworksAPI.setHeader('wlHost', window.location.hostname)
 		return true
 	}
