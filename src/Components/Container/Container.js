@@ -33,7 +33,7 @@ function Container(props) {
 						<Suspense fallback={<div></div>}>
 
 							<Switch>
-								{routes.map(r => (<Route path={r.path} exact={r.exact}>
+								{routes.map((r, i) => (<Route key={i} path={r.path} exact={r.exact}>
 									<r.component />
 								</Route>))}
 								{/* <Route path={'/settings'}>

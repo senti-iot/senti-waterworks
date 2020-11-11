@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
@@ -8,6 +8,8 @@ import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import { Chip, Tooltip } from '@material-ui/core'
 import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
+import { getTags } from 'Redux/tagManager'
+import { contrastColor } from 'data/functions'
 
 
 
@@ -18,6 +20,7 @@ const FullDeviceTable = (props) => {
 
 	//Redux
 	const devices = useSelector(s => s.data.devices)
+	const tags = useSelector(s => s.tagManager.tags)
 	const filters = useSelector(s => s.appState.filters.devices)
 
 	//State
@@ -34,9 +37,13 @@ const FullDeviceTable = (props) => {
 
 	useEffect(() => {
 		const getDevices = async () => await dispatch(await getAdminDevices())
+		const getDeviceTags = async () => await dispatch(await getTags())
 		const loadData = async () => {
 			if (devices.length === 0 && loading) {
 				await getDevices()
+			}
+			if (tags.length === 0 && loading) {
+				await getDeviceTags()
 			}
 			setLoading(false)
 		}
@@ -107,13 +114,13 @@ const FullDeviceTable = (props) => {
 		{ id: 'tags', label: t('devices.fields.tags') }
 	]
 	const renderTags = device => {
-		return device.tags?.map(t => (<Tooltip title={t.description}>
-			<Chip label={t.name} style={{ background: t.color, marginRight: 4 }}/>
+		return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
+			<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: contrastColor(t.color) }}/>
 		</Tooltip>
 		))
 	}
 	const bodyStructure = row => {
-		return <Fragment>
+		return <Fragment key={row.id}>
 			{/* <TC label={row.address} /> */}
 			<TC label={row.uuname} />
 			<TC label={row.name} />
@@ -150,9 +157,9 @@ const FullDeviceTable = (props) => {
 	)
 }
 
-FullDeviceTable.propTypes = {
-	openTable: PropTypes.bool.isRequired,
-	setOpenTable: PropTypes.func.isRequired,
-}
+// FullDeviceTable.propTypes = {
+// 	openTable: PropTypes.bool.isRequired,
+// 	setOpenTable: PropTypes.func.isRequired,
+// }
 
 export default FullDeviceTable

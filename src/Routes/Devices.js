@@ -20,7 +20,7 @@ const Devices = () => {
 
 	return (
 		<GridContainer>
-			<ItemG xs={12} noMargin noPadding>
+			<ItemG xs={12}>
 				<PageHeader
 					label={'sidebar.devices'}
 					icon={DeviceIcon}

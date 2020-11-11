@@ -17,3 +17,38 @@ export const createTag = async t => {
 	console.log(response)
 	return response
 }
+
+
+/**
+ * @desc Get all tags
+ * @param
+ */
+export const getAllTags = async () => {
+	let response = await tagsServicesAPI.get('/tags').then(rs => rs.ok ? rs.data : [])
+	return response
+}
+
+
+/**
+ * @param {Object} resources
+ * @param {uuidv4} resources.tagUUID
+ * @param {Array.<{resourceUUID: uuidv4, resourceType: Number }>} resources - Resources
+ */
+
+export const addTagToResources = async resources => {
+	let response = await tagsServicesAPI.post('/add', resources).then(rs => rs.ok ? rs.data : rs.ok)
+	console.log(response)
+	return response
+}
+
+/**
+ * @param {Object} resources
+ * @param {Array.<uuidv4>} resources.tagUUIDs
+ * @param {Array.<{resourceUUID: uuidv4, resourceType: Number }>} resources - Resources
+ */
+
+export const replaceTagsToResources = async resources => {
+	let response = await tagsServicesAPI.post('/replace', resources).then(rs => rs.ok ? rs.data : rs.ok)
+	console.log(response)
+	return response
+}

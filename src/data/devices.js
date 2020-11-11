@@ -8,9 +8,7 @@ import moment from 'moment'
  */
 
 /**
- * v2/devices - ALL devices
- * v2/devices/orgUUID - All devices under that org
- * v2/device/deviceUUID - get that device if you have access to it (403)
+ * @desc v2/devices - ALL devices
  */
 export const getDevicesV2 = async () => {
 	let response = await servicesAPI.get('/v2/devices').then(rs => rs.ok ? rs.data : rs.ok)
@@ -18,28 +16,13 @@ export const getDevicesV2 = async () => {
 	return response
 }
 
-// export const getDevices = async () => {
-// 	let response = await servicesAPI.get('v1/138230100010117/devices').then(rs => rs)
-// 	return response.ok ? response.data : []
-// }
-/**
- */
-// export const getDevicesData = async (from, to ) => {
-// 	let startDate = moment(from).format('YYYY-MM-DD')
-// 	let endDate = moment(to).format('YYYY-MM-DD')
-
-// 	let response = await servicesAPI.get(`v1/deviceDataByCustomerID/138230100010117/${startDate}/${endDate}/-1`)
-
-// 	return response.ok ? response.data : []
-// }
-
 export const getDevicesDataCSV = async (config) => {
 	let response = await dataExportAPI.post(`v1/export/csv`, config)
 	return response.ok ? response.data : []
 }
 /**
- * Get total volume data
- * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
+ * @desc Get total volume data
+ * @desc databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
  * @param {String} orgUUID
  * @param {String} from
  * @param {String} to

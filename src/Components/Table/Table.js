@@ -84,7 +84,7 @@ function CTable(props) {
 						]}
 					/>
 					<TableBody>
-						{body ? body.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+						{body ? body.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
 							const isSelectedRow = isSelected(row.uuid)
 							return (
 								<TableRow
@@ -93,7 +93,7 @@ function CTable(props) {
 									role='checkbox'
 									aria-checked={isSelectedRow}
 									tabIndex={-1}
-									key={row.id}
+									key={i}
 									selected={isSelectedRow}
 									style={{ cursor: 'pointer' }}
 								>
