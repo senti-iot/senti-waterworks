@@ -88,10 +88,10 @@ const DeviceToolbar = props => {
 	const handleConfirmCreateTag = () => {
 		setCreatingTags(true)
 	}
-	const handleConfirmReplaceTag = () => {
-		setReplace(true)
-		setEditingTags(true)
-	}
+	// const handleConfirmReplaceTag = () => {
+	// 	setReplace(true)
+	// 	setEditingTags(true)
+	// }
 	const handleConfirmEditTag = () => {
 		setReplace(false)
 		setEditingTags(true)
@@ -230,7 +230,7 @@ const DeviceToolbar = props => {
 
 							<ItemG container>
 								<Button onClick={handleCloseEditTags}>{t('actions.close')}</Button>
-								<Button onClick={handleConfirmReplaceTag}>{t('actions.replace')}</Button>
+								{/* <Button onClick={handleConfirmReplaceTag}>{t('actions.replace')}</Button> */}
 								<Button onClick={handleConfirmEditTag}>{t('actions.add')}</Button>
 							</ItemG>
 						</DialogActions>
