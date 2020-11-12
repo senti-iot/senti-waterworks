@@ -8,7 +8,7 @@ import T from 'Components/Typography/T'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import React, { useState } from 'react'
 import { Add, Edit } from 'variables/icons'
-import { colors } from 'variables/colors'
+import { tagColors } from 'variables/colors'
 import { addTagToResources, createTag, replaceTagsToResources } from 'data/tags'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 import { getAdminDevices } from 'Redux/data'
@@ -46,7 +46,6 @@ const DeviceToolbar = props => {
 	const [openAddTags, setOpenAddTags] = useState(false)
 	const [creatingTags, setCreatingTags] = useState(false)
 
-	const [selectedTag, setSelectedTag] = useState(-1)
 	const [selectedTags, setSelectedTags] = useState([])
 
 	const [openEditTags, setOpenEditTags] = useState(false)
@@ -68,8 +67,10 @@ const DeviceToolbar = props => {
 	//Handlers
 	const handleOpenEditTags = () => setOpenEditTags(true)
 	const handleCloseEditTags = () => {
+		setReplace(false)
 		setOpenEditTags(false)
 		setEditingTags(false)
+		setSelectedTags([])
 	}
 
 	const handleOpenAddTags = () => setOpenAddTags(true)
@@ -88,10 +89,10 @@ const DeviceToolbar = props => {
 	const handleConfirmCreateTag = () => {
 		setCreatingTags(true)
 	}
-	// const handleConfirmReplaceTag = () => {
-	// 	setReplace(true)
-	// 	setEditingTags(true)
-	// }
+	const handleConfirmReplaceTag = () => {
+		setReplace(true)
+		setEditingTags(true)
+	}
 	const handleConfirmEditTag = () => {
 		setReplace(false)
 		setEditingTags(true)
@@ -129,29 +130,15 @@ const DeviceToolbar = props => {
 		handleCloseEditTags()
 	}
 	const handleCreateTags = async () => {
-		if (selectedTag === -1) {
-			let ftag = await createTag(tag)
-			if (ftag.uuid) {
+		let ftag = await createTag(tag)
+		if (ftag.uuid) {
 
-				let assignTags = props.devices.map(d => ({
-					resourceUUID: d,
-					resourceType: 11,
-				}))
-				let fResources = {
-					tagUUIDs: [ftag.uuid],
-					resources: assignTags
-				}
-				let result = await addTagToResources(fResources)
-				console.log(result)
-			}
-		}
-		else {
 			let assignTags = props.devices.map(d => ({
 				resourceUUID: d,
 				resourceType: 11,
 			}))
 			let fResources = {
-				tagUUIDs: [selectedTag],
+				tagUUIDs: [ftag.uuid],
 				resources: assignTags
 			}
 			let result = await addTagToResources(fResources)
@@ -163,10 +150,6 @@ const DeviceToolbar = props => {
 		handleCloseAddTags()
 	}
 
-	const handleSetSelectedTag = e => {
-		console.log(e)
-		setSelectedTag(e.target.value)
-	}
 	//Renders
 	const renderEditTags = () => {
 		return <Dialog
@@ -230,7 +213,7 @@ const DeviceToolbar = props => {
 
 							<ItemG container>
 								<Button onClick={handleCloseEditTags}>{t('actions.close')}</Button>
-								{/* <Button onClick={handleConfirmReplaceTag}>{t('actions.replace')}</Button> */}
+								<Button onClick={handleConfirmReplaceTag}>{t('actions.replace')}</Button>
 								<Button onClick={handleConfirmEditTag}>{t('actions.add')}</Button>
 							</ItemG>
 						</DialogActions>
@@ -273,68 +256,53 @@ const DeviceToolbar = props => {
 						</ItemG>
 						<Divider />
 						<ItemG container spacing={1}>
-							<ItemG>
+							<ItemG xs={12}>
+								<T variant={'h6'} className={classes.section}>{t('tags.createTag')}</T>
+								<Divider />
+							</ItemG>
+							<ItemG xs={6}>
+								<TextF
+									fullWidth
+									label={t('tags.fields.name')}
+									id={'tagName'}
+									value={tag.name}
+									onChange={handleChangeTag('name')}
+								/>
+							</ItemG>
+							<ItemG xs={6}>
 								<DSelect
-									onChange={handleSetSelectedTag}
-									value={selectedTag}
+									fullWidth
+									margin={'normal'}
+									value={tag.color}
+									onChange={handleChangeTag('color')}
+									label={t('tags.fields.color')}
+									menuProps={{
+										PaperProps: {
+											style: {
+												maxHeight: 400,
+											}
+										}
+									}}
 									leftIcon
-									menuItems={[{ value: -1, label: t('tags.createTag'), icon: <div style={{ borderRadius: 4, background: '#fff', width: 16, height: 16 }}></div> },
-										...tags.map(t => ({ value: t.uuid, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div> }))]}
+									menuItems={
+										tagColors.map(c => ({
+											icon: <div style={{ borderRadius: 4, background: c, width: 16, height: 16 }}></div>,
+											label: c, value: c
+										}))
+									}
+								/>
+							</ItemG>
+							<ItemG xs={12}>
+								<TextF
+									multiline
+									fullWidth
+									label={t('tags.fields.description')}
+									id={'tagName'}
+									value={tag.description}
+									onChange={handleChangeTag('description')}
 								/>
 							</ItemG>
 						</ItemG>
-						{selectedTag === -1 ? <>
-
-							<Divider />
-							<ItemG container spacing={1}>
-								<ItemG xs={12}>
-									<T variant={'h6'} className={classes.section}>{t('tags.createTag')}</T>
-									<Divider />
-								</ItemG>
-								<ItemG xs={6}>
-									<TextF
-										fullWidth
-										label={t('tags.fields.name')}
-										id={'tagName'}
-										value={tag.name}
-										onChange={handleChangeTag('name')}
-									/>
-								</ItemG>
-								<ItemG xs={6}>
-									<DSelect
-										fullWidth
-										margin={'normal'}
-										value={tag.color}
-										onChange={handleChangeTag('color')}
-										label={t('tags.fields.color')}
-										menuProps={{
-											PaperProps: {
-												style: {
-													maxHeight: 400,
-												}
-											}
-										}}
-										leftIcon
-										menuItems={
-											colors.map(c => ({
-												icon: <div style={{ borderRadius: 4, background: c, width: 16, height: 16 }}></div>,
-												label: c, value: c
-											}))
-										}
-									/>
-								</ItemG>
-								<ItemG xs={12}>
-									<TextF
-										multiline
-										fullWidth
-										label={t('tags.fields.description')}
-										id={'tagName'}
-										value={tag.description}
-										onChange={handleChangeTag('description')}
-									/>
-								</ItemG>
-							</ItemG>
-						</> : null}
 						<DialogActions>
 
 							<ItemG container>
@@ -354,10 +322,10 @@ const DeviceToolbar = props => {
 					<Chip color={'primary'} label={`${props.devices.length} ${t('tables.selected')}`} />
 				</ItemG>
 				<ItemG>
-					<Chip style={{ color: '#fff' }} label={'Add Tags'} color={'secondary'} onClick={handleOpenAddTags} icon={<Add style={{ color: '#fff' }} />} />
+					<Chip style={{ color: '#fff' }} label={t('actions.addNewTag')} color={'secondary'} onClick={handleOpenAddTags} icon={<Add style={{ color: '#fff' }} />} />
 				</ItemG>
 				<ItemG>
-					<Chip style={{ color: '#fff' }} label={'Edit Tags'} color={'secondary'} onClick={handleOpenEditTags} icon={<Edit style={{ color: '#fff' }} />} />
+					<Chip style={{ color: '#fff' }} label={t('actions.editTags')} color={'secondary'} onClick={handleOpenEditTags} icon={<Edit style={{ color: '#fff' }} />} />
 				</ItemG>
 			</ItemG>
 			{renderEditTags()}

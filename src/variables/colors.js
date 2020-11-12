@@ -5,6 +5,20 @@ import {
 	green, lightGreen, lime, yellow, amber, orange, deepOrange
 } from '@material-ui/core/colors'
 
+
+export const tagColors = [
+	"#3799F1",
+	"#2097A1",
+	"#FA6400",
+	"#F8E020",
+	"#44D7B6",
+	"#2773B8",
+	"#FF5050",
+	"#6DD400",
+	"#FF9E00",
+	"#103B65",
+]
+
 export const colors = [
 	lightBlue[400],
 	cyan[400],
