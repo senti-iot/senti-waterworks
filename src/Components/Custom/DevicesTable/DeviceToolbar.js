@@ -77,6 +77,13 @@ const DeviceToolbar = props => {
 	const handleCloseAddTags = () => {
 		setOpenAddTags(false)
 		setCreatingTags(false)
+		setTag({
+			name: '',
+			color: '#2196f3',
+			description: '',
+			resourceUUID: '',
+			resourceType: 11,
+		})
 	}
 
 

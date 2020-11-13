@@ -11,8 +11,8 @@
 	"actions": {
 		"accept": "Godkend",
 		"add": "Tilføj",
-		"addNewTag": "Tilføj nyt mærkat",
-		"editTags": "Rediger mærkater",
+		"addNewTag": "Tilføj nyt etiket",
+		"editTags": "Rediger etiketter",
 		"addFilter": "Tilføj filter",
 		"addInboundFunc": "Tilføj funktion ved modtagelse af data",
 		"addKey": "Tilføj enhed datafelt",
