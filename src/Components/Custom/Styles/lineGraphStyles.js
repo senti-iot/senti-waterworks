@@ -1,3 +1,4 @@
+import { orange } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/styles'
 
 const lineStyles = makeStyles(theme => ({
@@ -44,6 +45,11 @@ const lineStyles = makeStyles(theme => ({
 			height: 24,
 			transform: 'translate(-17px, 0px)'
 		}
+	},
+	waterUsageA: {
+		rx: 4,
+		fill: orange[500],
+		background: orange[500]
 	}
 
 }))

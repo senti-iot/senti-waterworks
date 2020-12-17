@@ -142,6 +142,7 @@ class d3Line {
 		this.generateMedian()
 		this.generateLegend()
 		this.generateDots()
+		this.generateBars()
 		// this.yAxis.call(d3.axisLeft(this.y))
 	}
 	generateYAxis = (noDomain) => {
@@ -445,6 +446,39 @@ class d3Line {
 			}
 		})
 	}
+	generateBars = () => {
+		let data = this.props.data ? this.props.data[this.props.id] : []
+		// this.x = d3.scaleBand().padding(0.1)
+		// this.y = d3.scaleLinear()
+
+		this.g = this.svg.append("g")
+			.attr('class', 'bars-here')
+			.attr("transform", "translate(" + 0 + "," + 0 + ")")
+
+		// ENTER
+		// var bounds = d3.select('#bars').node().getBoundingClientRect(),
+		// 	rWidth = bounds.width - this.margin.left - this.margin.right,
+		// 	rHeight = bounds.height - this.margin.top - this.margin.bottom
+		// // this.x.rangeRound([0, rWidth])
+		// this.y.rangeRound([rHeight, 25]) //25 is the label
+
+		var bars = this.svg.selectAll(".bar")
+			.data(data[0].data)
+
+
+		bars
+			.enter().append("rect")
+			// .attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
+			// .attr("cy", (d) => { return this.y(d.value) })
+			.attr("class", d => { return this.classes.waterUsageA + ' .bar' })
+			// .attr("x", (d, i) => { return (this.x.bandwidth() / 4) })
+			.attr("x", (d, i) => { console.log(this.x(moment(d.date).valueOf()), d.date); return this.x(moment(d.date).valueOf()) })
+			.attr("y", (d) => this.y(d.value) )
+			.attr("width", (d) => 100)
+			.attr("height", (d) => this.height )
+	}
+
+
 	generateDots = () => {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		const setTooltip = this.props.setTooltip
@@ -454,6 +488,7 @@ class d3Line {
 				return
 			}
 			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
+			console.log(this.svg.selectAll('.dot'))
 			this.svg.selectAll(".dot")
 				.data(line.data)
 				.enter()
