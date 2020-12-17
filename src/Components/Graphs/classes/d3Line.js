@@ -377,7 +377,10 @@ class d3Line {
 					break
 			}
 		}
+		let y = this.y
+		let data = this.props.data ? this.props.data[this.props.id] : []
 		this.xAxis.selectAll('.tick').each(function (d, i) {
+			console.log(d)
 			let parent = d3.select(this)
 			if (this.nextSibling) {
 
@@ -387,6 +390,11 @@ class d3Line {
 						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
 						.attr("height", height - margin.bottom - 26)
 						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+					parent.append('rect')
+						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+						.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+						.attr('class', classes.waterUsageA)
+						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
 					if (weatherData[i]) {
 						parent.append("image")
 							.attr("xlink:href", getIcon(weatherData[i].icon))
@@ -398,13 +406,20 @@ class d3Line {
 					// .attr("height", 32)
 				}
 				else {
-					if (weatherData[i])
+					if (weatherData[i]) {
+
+						parent.append('rect')
+							.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+							.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+							.attr('class', classes.waterUsageB)
+							.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
 
 						parent.append("image")
 							.attr("xlink:href", getIcon(weatherData[i].icon))
 							.attr('class', classes.weatherIcon)
 							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
 							.attr("y", -(height - margin.bottom - 40))
+					}
 					// .attr("width", 32)
 					// .attr("height", 32)
 				}
@@ -465,17 +480,19 @@ class d3Line {
 		var bars = this.svg.selectAll(".bar")
 			.data(data[0].data)
 
-
-		bars
-			.enter().append("rect")
+		bars.enter().append('rect')
+		bars.selectAll('rect').each(function (d, i) {
+			let parent = d3.select(this)
+			console.log(parent)
 			// .attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
 			// .attr("cy", (d) => { return this.y(d.value) })
-			.attr("class", d => { return this.classes.waterUsageA + ' .bar' })
-			// .attr("x", (d, i) => { return (this.x.bandwidth() / 4) })
-			.attr("x", (d, i) => { console.log(this.x(moment(d.date).valueOf()), d.date); return this.x(moment(d.date).valueOf()) })
-			.attr("y", (d) => this.y(d.value) )
-			.attr("width", (d) => 100)
-			.attr("height", (d) => this.height )
+			parent.attr("class", d => { return this.classes.waterUsageA + ' .bar' })
+				// .attr("x", (d, i) => { return (this.x.bandwidth() / 4) })
+				.attr("x", (d, i) => { console.log(this.x(moment(d.date).valueOf()), d.date); return this.x(moment(d.date).valueOf()) })
+				.attr("y", (d) => this.y(d.value))
+				.attr("width", (d) => this.x(moment(d.date).valueOf()))
+				.attr("height", (d) => this.height)
+		})
 	}
 
 

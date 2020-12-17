@@ -48,10 +48,14 @@ const lineStyles = makeStyles(theme => ({
 	},
 	waterUsageA: {
 		rx: 4,
+		fill: orange[300],
+		// background: orange[500]
+	},
+	waterUsageB: {
+		rx: 4,
 		fill: orange[500],
-		background: orange[500]
+		// background: orange[500]
 	}
-
 }))
 
 export default lineStyles
