@@ -148,10 +148,11 @@ class d3Line {
 
 		const classes = this.classes
 		const height = this.height
-		// let data = this.props.data ? this.props.data[this.props.id] : []
+		let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
 			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 20])
+				.domain([0, d3.max(data, d => d.value)]).nice()
 			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
