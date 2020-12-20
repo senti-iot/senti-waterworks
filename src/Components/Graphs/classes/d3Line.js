@@ -137,12 +137,12 @@ class d3Line {
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
 		this.generateYAxis()
-		this.generateLines()
-		this.generateBars()
 		this.generateWeather()
 		this.generateMedian()
 		this.generateLegend()
 		this.generateDots()
+		this.generateLines()
+		this.generateBars()
 		// this.yAxis.call(d3.axisLeft(this.y))
 	}
 	generateYAxis = (noDomain) => {
@@ -152,8 +152,10 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 20])
-				.domain([0, d3.max(data, d => d.value)]).nice()
+			this.y = d3.scaleLinear()
+				.range([height - this.margin.bottom, this.margin.top + 20])
+				.domain([0, d3.max(data, d => d.value)])
+				// .nice()
 			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
@@ -183,6 +185,8 @@ class d3Line {
 		const width = this.width
 
 		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right])
+		// this.x = d3.scaleTime().range([0, width], .05).padding(0.1);
+
 		let period = this.props.period
 
 		let data = this.props.data ? this.props.data[this.props.id] : []
@@ -301,9 +305,10 @@ class d3Line {
 		/**
 		 * Generate Day axis
 		 */
-		var xAxis_woy = this.xAxis_days = d3.axisBottom(this.x)
+		this.xAxis_days = d3.axisBottom(this.x)
 			// .tickFormat(d3.timeFormat("%d"))
 			.tickFormat(f => moment(f).format('D'))
+			// .ticks(7)
 			.tickValues(ticks)
 
 		/**
@@ -311,7 +316,8 @@ class d3Line {
 		 */
 		this.xAxis = this.svg.append("g")
 			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
-			.call(xAxis_woy)
+			.call(this.xAxis_days)
+
 
 		/**
 			* Day Axis Styling
@@ -347,25 +353,55 @@ class d3Line {
 	generateBars = () => {
 		const classes = this.classes
 		const height = this.height
+		const width = this.width
 		const margin = this.margin
 		let y = this.y
 		let data = this.props.data ? this.props.data[this.props.id] : []
+		let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
+		const setTooltip = this.props.setTooltip
 		this.xAxis.selectAll('.tick').each(function (d, i) {
 			console.log(d)
 			let parent = d3.select(this)
 			if (this.nextSibling) {
 
 				if (i % 2 === 0) {
-					// parent.append('rect')
-					// 	.attr('class', classes.axisLineWhite)
-					// 	.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-					// 	.attr("height", height - margin.bottom - 26)
-					// 	.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
-					parent.append('rect')
+					parent
+						// .data(data[0].data).enter()
+						.append('rect')
 						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
 						.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
 						.attr('class', classes.waterUsageA)
 						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
+						.on("mouseover", function (d) {
+							d3.select(this).attr("r", 8)
+							tooltipDiv.transition()
+								.duration(200)
+								.style("opacity", 1)
+								.style('z-index', 1040)
+							let left = d3.event.pageX < 175 ? 245 : d3.event.pageX
+							left = d3.event.pageX > width - 175 ? width - 150 : left
+							left = left - 150 - 25 //150 - half of the Tooltip, 25 default D3 tooltip
+							tooltipDiv.style("left", left + "px")
+								.style("top", (d3.event.pageY) - 250 + "px")
+							setTooltip(d)
+
+						}).on("mouseout", function () {
+							// setExpand(false)
+							d3.select(this).attr("r", 6)
+							tooltipDiv.transition()
+								.duration(200)
+								.style('z-index', -1)
+								.style("opacity", 0)
+						}).on('click', function (d) {
+							// setExpand(true)
+							// alert(d.date + ' ' + d.value)
+						})
+						// .attr("cx", (d) => { return x(moment(d.date).valueOf()) })
+						.transition()
+						.attr("id", `DotsWaterUsageL`)
+					// .style("opacity", this.state['L' + line.name] ? 0 : 1)
+					// .delay((d, i) => { return i * (1500 / line.data.length) })
+
 
 				}
 				else {
@@ -384,6 +420,7 @@ class d3Line {
 			// }
 		}
 		)
+		this.xAxis.raise()
 	}
 	generateWeather = () => {
 		const classes = this.classes
@@ -500,39 +537,7 @@ class d3Line {
 			}
 		})
 	}
-	// generateBars = () => {
-	// 	let data = this.props.data ? this.props.data[this.props.id] : []
-	// 	// this.x = d3.scaleBand().padding(0.1)
-	// 	// this.y = d3.scaleLinear()
 
-	// 	this.g = this.svg.append("g")
-	// 		.attr('class', 'bars-here')
-	// 		.attr("transform", "translate(" + 0 + "," + 0 + ")")
-
-	// 	// ENTER
-	// 	// var bounds = d3.select('#bars').node().getBoundingClientRect(),
-	// 	// 	rWidth = bounds.width - this.margin.left - this.margin.right,
-	// 	// 	rHeight = bounds.height - this.margin.top - this.margin.bottom
-	// 	// // this.x.rangeRound([0, rWidth])
-	// 	// this.y.rangeRound([rHeight, 25]) //25 is the label
-
-	// 	var bars = this.svg.selectAll(".bar")
-	// 		.data(data[0].data)
-
-	// 	bars.enter().append('rect')
-	// 	bars.selectAll('rect').each(function (d, i) {
-	// 		let parent = d3.select(this)
-	// 		console.log(parent)
-	// 		// .attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
-	// 		// .attr("cy", (d) => { return this.y(d.value) })
-	// 		parent.attr("class", d => { return this.classes.waterUsageA + ' .bar' })
-	// 			// .attr("x", (d, i) => { return (this.x.bandwidth() / 4) })
-	// 			.attr("x", (d, i) => { console.log(this.x(moment(d.date).valueOf()), d.date); return this.x(moment(d.date).valueOf()) })
-	// 			.attr("y", (d) => this.y(d.value))
-	// 			.attr("width", (d) => this.x(moment(d.date).valueOf()))
-	// 			.attr("height", (d) => this.height)
-	// 	})
-	// }
 
 
 	generateDots = () => {
@@ -545,7 +550,6 @@ class d3Line {
 				return
 			}
 			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
-			console.log(this.svg.selectAll('.dot'))
 			this.svg.selectAll(".dot")
 				.data(line.data)
 				.enter()
