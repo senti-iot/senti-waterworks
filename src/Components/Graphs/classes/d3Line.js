@@ -137,11 +137,11 @@ class d3Line {
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
 		this.generateYAxis()
-		this.generateLines()
+		// this.generateLines()
 		this.generateWeather()
 		this.generateMedian()
 		this.generateLegend()
-		this.generateDots()
+		// this.generateDots()
 		this.generateBars()
 		// this.yAxis.call(d3.axisLeft(this.y))
 	}
