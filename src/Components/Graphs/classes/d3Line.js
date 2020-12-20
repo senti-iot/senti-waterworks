@@ -137,12 +137,12 @@ class d3Line {
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
 		this.generateYAxis()
-		// this.generateLines()
+		this.generateLines()
+		this.generateBars()
 		this.generateWeather()
 		this.generateMedian()
 		this.generateLegend()
-		// this.generateDots()
-		this.generateBars()
+		this.generateDots()
 		// this.yAxis.call(d3.axisLeft(this.y))
 	}
 	generateYAxis = (noDomain) => {
@@ -290,8 +290,8 @@ class d3Line {
 			.call(xAxis_hours)
 
 		/**
- 		* Day Axis Styling
- 		*/
+			* Day Axis Styling
+			*/
 		this.xAxisHours.selectAll('path').attr('class', classes.axis)
 		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxisHours.selectAll('line').attr('class', classes.axis)
@@ -314,8 +314,8 @@ class d3Line {
 			.call(xAxis_woy)
 
 		/**
- 		* Day Axis Styling
- 		*/
+			* Day Axis Styling
+			*/
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
@@ -343,6 +343,47 @@ class d3Line {
 		// 	.attr('transform', `translate(0,50)`)
 		// 	.attr('class', classes.axisText)
 		// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
+	}
+	generateBars = () => {
+		const classes = this.classes
+		const height = this.height
+		const margin = this.margin
+		let y = this.y
+		let data = this.props.data ? this.props.data[this.props.id] : []
+		this.xAxis.selectAll('.tick').each(function (d, i) {
+			console.log(d)
+			let parent = d3.select(this)
+			if (this.nextSibling) {
+
+				if (i % 2 === 0) {
+					// parent.append('rect')
+					// 	.attr('class', classes.axisLineWhite)
+					// 	.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+					// 	.attr("height", height - margin.bottom - 26)
+					// 	.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+					parent.append('rect')
+						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+						.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+						.attr('class', classes.waterUsageA)
+						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
+
+				}
+				else {
+
+
+					parent.append('rect')
+						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+						.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+						.attr('class', classes.waterUsageB)
+						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
+
+				}
+				// .attr("width", 32)
+				// .attr("height", 32)
+			}
+			// }
+		}
+		)
 	}
 	generateWeather = () => {
 		const classes = this.classes
@@ -377,8 +418,6 @@ class d3Line {
 					break
 			}
 		}
-		let y = this.y
-		let data = this.props.data ? this.props.data[this.props.id] : []
 		this.xAxis.selectAll('.tick').each(function (d, i) {
 			console.log(d)
 			let parent = d3.select(this)
@@ -390,11 +429,11 @@ class d3Line {
 						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
 						.attr("height", height - margin.bottom - 26)
 						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
-					parent.append('rect')
-						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-						.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
-						.attr('class', classes.waterUsageA)
-						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
+					// parent.append('rect')
+					// 	.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+					// 	.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+					// 	.attr('class', classes.waterUsageA)
+					// 	.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
 					if (weatherData[i]) {
 						parent.append("image")
 							.attr("xlink:href", getIcon(weatherData[i].icon))
@@ -408,11 +447,11 @@ class d3Line {
 				else {
 					if (weatherData[i]) {
 
-						parent.append('rect')
-							.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-							.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
-							.attr('class', classes.waterUsageB)
-							.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
+						// parent.append('rect')
+						// 	.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+						// 	.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+						// 	.attr('class', classes.waterUsageB)
+						// 	.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
 
 						parent.append("image")
 							.attr("xlink:href", getIcon(weatherData[i].icon))
@@ -461,39 +500,39 @@ class d3Line {
 			}
 		})
 	}
-	generateBars = () => {
-		let data = this.props.data ? this.props.data[this.props.id] : []
-		// this.x = d3.scaleBand().padding(0.1)
-		// this.y = d3.scaleLinear()
+	// generateBars = () => {
+	// 	let data = this.props.data ? this.props.data[this.props.id] : []
+	// 	// this.x = d3.scaleBand().padding(0.1)
+	// 	// this.y = d3.scaleLinear()
 
-		this.g = this.svg.append("g")
-			.attr('class', 'bars-here')
-			.attr("transform", "translate(" + 0 + "," + 0 + ")")
+	// 	this.g = this.svg.append("g")
+	// 		.attr('class', 'bars-here')
+	// 		.attr("transform", "translate(" + 0 + "," + 0 + ")")
 
-		// ENTER
-		// var bounds = d3.select('#bars').node().getBoundingClientRect(),
-		// 	rWidth = bounds.width - this.margin.left - this.margin.right,
-		// 	rHeight = bounds.height - this.margin.top - this.margin.bottom
-		// // this.x.rangeRound([0, rWidth])
-		// this.y.rangeRound([rHeight, 25]) //25 is the label
+	// 	// ENTER
+	// 	// var bounds = d3.select('#bars').node().getBoundingClientRect(),
+	// 	// 	rWidth = bounds.width - this.margin.left - this.margin.right,
+	// 	// 	rHeight = bounds.height - this.margin.top - this.margin.bottom
+	// 	// // this.x.rangeRound([0, rWidth])
+	// 	// this.y.rangeRound([rHeight, 25]) //25 is the label
 
-		var bars = this.svg.selectAll(".bar")
-			.data(data[0].data)
+	// 	var bars = this.svg.selectAll(".bar")
+	// 		.data(data[0].data)
 
-		bars.enter().append('rect')
-		bars.selectAll('rect').each(function (d, i) {
-			let parent = d3.select(this)
-			console.log(parent)
-			// .attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
-			// .attr("cy", (d) => { return this.y(d.value) })
-			parent.attr("class", d => { return this.classes.waterUsageA + ' .bar' })
-				// .attr("x", (d, i) => { return (this.x.bandwidth() / 4) })
-				.attr("x", (d, i) => { console.log(this.x(moment(d.date).valueOf()), d.date); return this.x(moment(d.date).valueOf()) })
-				.attr("y", (d) => this.y(d.value))
-				.attr("width", (d) => this.x(moment(d.date).valueOf()))
-				.attr("height", (d) => this.height)
-		})
-	}
+	// 	bars.enter().append('rect')
+	// 	bars.selectAll('rect').each(function (d, i) {
+	// 		let parent = d3.select(this)
+	// 		console.log(parent)
+	// 		// .attr("cx", (d) => { return this.x(moment(d.date).valueOf()) })
+	// 		// .attr("cy", (d) => { return this.y(d.value) })
+	// 		parent.attr("class", d => { return this.classes.waterUsageA + ' .bar' })
+	// 			// .attr("x", (d, i) => { return (this.x.bandwidth() / 4) })
+	// 			.attr("x", (d, i) => { console.log(this.x(moment(d.date).valueOf()), d.date); return this.x(moment(d.date).valueOf()) })
+	// 			.attr("y", (d) => this.y(d.value))
+	// 			.attr("width", (d) => this.x(moment(d.date).valueOf()))
+	// 			.attr("height", (d) => this.height)
+	// 	})
+	// }
 
 
 	generateDots = () => {
@@ -501,7 +540,8 @@ class d3Line {
 		const setTooltip = this.props.setTooltip
 		const width = this.width
 		data.forEach((line) => {
-			if (line.prev || line.onlyMedian) {
+			console.log('line', line)
+			if (line.prev || line.onlyMedian || line.dontShowLine) {
 				return
 			}
 			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
@@ -634,6 +674,9 @@ class d3Line {
 		data.forEach((line, i) => {
 			//#region Generate Line Area
 			if (data) {
+				if (line.dontShowLine) {
+					return
+				}
 				if (line.onlyMedian) {
 					return
 				}
@@ -711,7 +754,10 @@ class d3Line {
 				}
 				//#endregion
 				//#region Generate Line
-				if (!line.prev)
+				if (!line.prev) {
+					if (line.dontShowLine) {
+						return
+					}
 					if (line.dashed) {
 						//Set up your path as normal
 						var path = this.svg.append("path")
@@ -793,6 +839,7 @@ class d3Line {
 
 						//#endregion
 					}
+				}
 			}
 		})
 	}

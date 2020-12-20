@@ -63,7 +63,7 @@ const DateFilterMenu = (props) => {
 				break;
 			case 2: // Last 7 days
 				from = moment().subtract(7, 'd').startOf('day')
-				to = moment().startOf('day')
+				to = moment().subtract(1, 'd').startOf('day')
 				defaultT = 2
 				break;
 			case 3: // this month
