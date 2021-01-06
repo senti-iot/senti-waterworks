@@ -188,6 +188,7 @@ class d3Line {
 		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right])
 
 		let period = this.props.period
+		let timeType = period.timeType
 
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
@@ -196,12 +197,12 @@ class d3Line {
 		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
 		let to = moment.max(allData.map(d => moment(d.date)))
 
-		this.x.domain([from, moment(to).add(1, 'd')])
+
+		this.x.domain([from, moment(to).add(1, timeType === 1 ? 'h' : 'd')])
 
 
 		const classes = this.classes
 		const height = this.height
-		let timeType = period.timeType
 		let counter = moment(from)
 		let hourTicks = []
 		let ticks = []
@@ -253,6 +254,7 @@ class d3Line {
 				counter.add(add, 'hour')
 			}
 			hourTicks.push(to.valueOf())
+			hourTicks.push(moment(to).add(1, 'h').valueOf())
 		}
 		else {
 			/**
@@ -354,7 +356,8 @@ class d3Line {
 		const classes = this.classes
 		const height = this.height
 		const width = this.width
-		// const margin = this.margin
+		let period = this.props.period
+		let timeType = period.timeType
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
 		const setTooltip = this.props.setTooltip
@@ -371,7 +374,9 @@ class d3Line {
 					.attr('class', (d, i) => i % 2 === 0 ? classes.waterUsageA : classes.waterUsageB)
 					.attr("height", (d, i) => height - this.y(d.value) - this.margin.bottom)
 					.attr("y", (d, i) => this.y(d.value))
-					.attr("width", (d) => this.x(d3.timeHour.offset(moment(d.date).valueOf(), 24)) - this.x(moment(d.date).valueOf()))
+					.attr("width", (d) => {
+						return this.x(d3.timeHour.offset(moment(d.date).valueOf(), timeType === 1 ? 1 : 24)) - this.x(moment(d.date).valueOf())
+					})
 					.attr("x", (d, i) => this.x(moment(d.date).valueOf()))
 					// .attr("opacity", this.state['LwaterusageL'] ? 0 : 1)
 					.attr("opacity", this.state['L' + line.name] ? 0 : 1)
