@@ -58,7 +58,8 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				median: true,
 				data: currentPeriodData.waterusage,
 				color: 'orange',
-				dontShowLine: true
+				noArea: true,
+				bars: true
 			})
 		}
 		if (previousPeriodData.waterusage) {
