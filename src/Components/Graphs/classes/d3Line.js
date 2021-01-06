@@ -372,8 +372,15 @@ class d3Line {
 					.data(line.data)
 					.enter().append("rect")
 					.attr('class', (d, i) => i % 2 === 0 ? classes.waterUsageA : classes.waterUsageB)
-					.attr("height", (d, i) => height - this.y(d.value) - this.margin.bottom)
-					.attr("y", (d, i) => this.y(d.value))
+					.attr("height", (d, i) => {
+						let barHeight = height - this.y(d.value) - this.margin.bottom
+						return barHeight < 10 ? barHeight === 0 ? 0 : 10 : barHeight
+					})
+					.attr("y", (d, i) => {
+						let barHeight = height - this.y(d.value) - this.margin.bottom
+
+						return barHeight < 10 ? barHeight === 0 ? this.y(d.value) : this.y(d.value) - 10 : this.y(d.value)
+					})
 					.attr("width", (d) => {
 						return this.x(d3.timeHour.offset(moment(d.date).valueOf(), timeType === 1 ? 1 : 24)) - this.x(moment(d.date).valueOf())
 					})
