@@ -74,18 +74,20 @@ const getMin = (arr) => {
 	}
 }
 class d3Line {
-
 	containerEl
 	props
 	svg
 	classes
 	state = [];
 	t
+	chartType
+
 	constructor(containerEl, props, classes) {
 		this.t = props.t
 		this.classes = classes
 		this.setLine = props.setLine
 		this.containerEl = containerEl
+		this.chartType = props.chartType
 		this.props = props
 		this.period = props.period
 		this.margin = { top: 30, right: 50, bottom: 50, left: 50 }
@@ -128,19 +130,23 @@ class d3Line {
 
 	}
 	update = () => {
+		console.log(this.chartType)
 		//#region Update Y-Axis
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
 		this.y.domain([Math.floor(getMin(allData)), Math.round(getMax(allData))])
 		this.yAxis.remove()
+		// this.xAxis.remove()
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
 		this.generateYAxis()
 		this.generateWeather()
 		this.generateLegend()
 		this.generateAreas()
-		this.generateBars()
+		if (this.chartType === 1) {
+			this.generateBars()
+		}
 		this.generateMedian()
 		this.generateDots()
 		this.generateLines()
@@ -184,7 +190,7 @@ class d3Line {
 	}
 	generateXAxis = () => {
 		const width = this.width
-
+		let chartType = this.chartType
 		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right])
 
 		let period = this.props.period
@@ -198,7 +204,14 @@ class d3Line {
 		let to = moment.max(allData.map(d => moment(d.date)))
 
 
-		this.x.domain([from, moment(to).add(1, timeType === 1 ? 'h' : 'd')])
+		console.log('D3 ChartType', chartType)
+
+		if (chartType === 1) {
+			this.x.domain([from, moment(to).add(1, timeType === 1 ? 'h' : 'd')])
+		}
+		else {
+			this.x.domain([from, to])
+		}
 
 
 		const classes = this.classes
@@ -254,7 +267,8 @@ class d3Line {
 				counter.add(add, 'hour')
 			}
 			hourTicks.push(to.valueOf())
-			hourTicks.push(moment(to).add(1, 'h').valueOf())
+			if (this.chartType > 0)
+				hourTicks.push(moment(to).add(1, 'h').valueOf())
 		}
 		else {
 			/**
@@ -265,7 +279,9 @@ class d3Line {
 				counter.add(add, 'day')
 			}
 			ticks.push(to.valueOf())
-			ticks.push(moment(to).add(1, 'd').valueOf())
+			if (this.chartType > 0)
+				ticks.push(moment(to).add(1, 'd').valueOf())
+
 			monthTicks.push(counter.valueOf())
 			while (moment(counter).diff(to, 'day') < 0) {
 				counter.add(add, 'day')
@@ -584,7 +600,7 @@ class d3Line {
 		const width = this.width
 		data.forEach((line) => {
 			// console.log('line', line)
-			if (line.prev || line.onlyMedian || line.bars) {
+			if (line.prev || line.onlyMedian || (line.bars && this.chartType > 0)) {
 				return
 			}
 			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
@@ -799,7 +815,7 @@ class d3Line {
 		data.forEach((line, i) => {
 			//#region Generate Line Area
 			if (data) {
-				if (line.bars) {
+				if (line.bars && this.chartType > 0) {
 					return
 				}
 				if (line.onlyMedian) {

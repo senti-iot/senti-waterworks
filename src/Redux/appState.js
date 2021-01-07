@@ -221,7 +221,7 @@ const initialState = {
 	chartYAxis: 'linear',
 	trpStr: null,
 	heatMap: false,
-	chartType: null,
+	chartType: 1,
 	mapTheme: null,
 	smallMenu: true,
 	trp: null,

@@ -6,6 +6,7 @@ import { colors } from 'variables/colors'
  * Actions
  */
 const SetLineData = 'setLineData'
+
 /**
  * Dispatchers
  */
@@ -290,10 +291,8 @@ const initialState = {
 
 export const lineData = (state = initialState, { type, payload }) => {
 	switch (type) {
-
 		case SetLineData:
 			return Object.assign({}, state, payload)
-
 		default:
 			return state
 	}
