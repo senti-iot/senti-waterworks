@@ -32,9 +32,9 @@ const lineStyles = makeStyles(theme => ({
 		strokeWidth: '6px'
 	},
 	weatherIcon: {
-		width: 64,
-		height: 64,
-		transform: 'translate(-42px, 0px)',
+		width: 38,
+		height: 38,
+		transform: 'translate(-34px, 0px)',
 		[theme.breakpoints.down('lg')]: {
 			width: 32,
 			height: 32,
