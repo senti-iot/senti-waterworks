@@ -108,6 +108,20 @@ export const getBenchmarkUsageByDay = async (orgUuid, from, to) => {
 }
 
 /**
+ * Get Benchmark for specific UUIDs
+ * @url /v2/waterworks/data/custom-benchmark/:from/:to
+ * @param {Array} deviceUUIDs
+ * @param {Date} from - Start Date
+ * @param {Date} to - End Date
+ */
+export const getBenchmarkUsageByUUIDs = async (deviceUUIDs, from, to) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response = await servicesAPI.post(`/v2/waterworks/data/custom-benchmark/${startDate}/${endDate}`, deviceUUIDs)
+	console.log(response.ok, response.data)
+	return response.ok ? response.data : []
+}
+/**
  * Get Price list for the org
  * @param {string} orgId
  */

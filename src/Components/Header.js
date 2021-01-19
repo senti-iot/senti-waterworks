@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, ButtonBase, IconButton } from '@material-ui/core'
+import { AppBar, Toolbar, ButtonBase, IconButton, Button } from '@material-ui/core'
 import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
 import logo from 'assets/senti.waterworks.svg'
 import { useHistory } from 'react-router'
-import { useLocalization, useSelector } from 'Hooks'
+import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
-import { Menu } from 'variables/icons'
+import { Menu, PageviewIcon, TuneIcon } from 'variables/icons'
 import Sidebar from 'Components/Custom/Sidebar/Sidebar'
 import { routes } from 'Routes'
+import { changeOpenTagFilter } from 'Redux/appState'
 
 function Header({ ...props }) {
 	//Hooks
 	const classes = headerStyles()
 	const history = useHistory()
 	const t = useLocalization()
-
+	const dispatch = useDispatch()
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
 
@@ -37,6 +38,9 @@ function Header({ ...props }) {
 
 	const handleSwitchMenu = () => setMenu(!menu)
 	const handleCloseMenu = () => setMenu(false)
+	const handleOpenTagFilter = () => {
+		dispatch(changeOpenTagFilter())
+	}
 
 	var brand = (
 		<ButtonBase
@@ -92,7 +96,30 @@ function Header({ ...props }) {
 
 				<HeaderLinks t={t} history={history} />
 			</Toolbar>
+			<Toolbar className={classes.secondaryToolbar}>
+				<ItemG container>
+
+					<ItemG xs={1} container alignItems={'center'} justify={'center'}>
+						<Button
+							startIcon={<PageviewIcon />}
+							className={classes.toolbarButton}
+							onClick={() => history.push('/')}
+						>
+							{t('toolbar.overview')}
+
+						</Button>
+					</ItemG>
+					<ItemG xs container alignItems={'center'} justify={'flex-end'}>
+						<IconButton
+							onClick={handleOpenTagFilter}
+							className={classes.toolbarButton}>
+							<TuneIcon />
+						</IconButton>
+					</ItemG>
+				</ItemG>
+			</Toolbar>
 		</AppBar>
+
 	)
 }
 

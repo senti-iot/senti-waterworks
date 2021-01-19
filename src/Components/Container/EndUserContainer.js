@@ -15,6 +15,8 @@ import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
 import FullScreenMainChart from 'Components/Custom/MainChart/FullScreenMainChart'
+import TagFilterDialog from 'Components/TagFilterDialog/TagFilterDialog'
+import { getTags } from 'Redux/tagManager'
 
 const styles = makeStyles(theme => ({
 	smallWidget: {
@@ -85,9 +87,11 @@ const EndUserContainer = props => {
 
 			const getDevices = async () => await dispatch(await getAdminDevices())
 			const getNewData = async () => await dispatch(await getNData())
+			const getDeviceTags = async () => await dispatch(await getTags())
 			const loadData = async () => {
 				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
 					await getDevices()
+					await getDeviceTags()
 				}
 				// await getDeviceData()
 				await getNewData()
@@ -139,6 +143,7 @@ const EndUserContainer = props => {
 			</ItemG>
 		</ItemG>
 		<FullScreenMainChart loading={loading} chart={chart} setChart={setChart} />
+		<TagFilterDialog/>
 	</GridContainer>
 }
 EndUserContainer.whyDidYouRender = true
