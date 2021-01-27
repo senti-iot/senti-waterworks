@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import './assets/leaflet.css'
 import LocalizationProvider from 'Components/Providers/LocalizationProvider'
 import configureStore from 'Redux/store'
 import { Provider } from 'react-redux'

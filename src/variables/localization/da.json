@@ -1088,6 +1088,7 @@
         }
     },
     "sidebar": {
+		"deviceMap": "Kort",
         "about": "Om Senti",
         "api": "API",
         "clients": "Kunder",
