@@ -74,18 +74,20 @@ const getMin = (arr) => {
 	}
 }
 class d3Line {
-
 	containerEl
 	props
 	svg
 	classes
 	state = [];
 	t
+	chartType
+
 	constructor(containerEl, props, classes) {
 		this.t = props.t
 		this.classes = classes
 		this.setLine = props.setLine
 		this.containerEl = containerEl
+		this.chartType = props.chartType
 		this.props = props
 		this.period = props.period
 		this.margin = { top: 30, right: 50, bottom: 50, left: 50 }
@@ -128,30 +130,39 @@ class d3Line {
 
 	}
 	update = () => {
+		console.log(this.chartType)
 		//#region Update Y-Axis
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
 		this.y.domain([Math.floor(getMin(allData)), Math.round(getMax(allData))])
 		this.yAxis.remove()
+		// this.xAxis.remove()
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
 		this.generateYAxis()
-		this.generateLines()
 		this.generateWeather()
-		this.generateMedian()
 		this.generateLegend()
+		this.generateAreas()
+		if (this.chartType === 1) {
+			this.generateBars()
+		}
+		this.generateMedian()
 		this.generateDots()
+		this.generateLines()
 		// this.yAxis.call(d3.axisLeft(this.y))
 	}
 	generateYAxis = (noDomain) => {
 
 		const classes = this.classes
 		const height = this.height
-		// let data = this.props.data ? this.props.data[this.props.id] : []
+		let data = this.props.data ? this.props.data[this.props.id] : []
 		if (this.y === undefined) {
 			// let allData = [].concat(...data.map(d => d.data))
-			this.y = d3.scaleLinear().range([height - this.margin.bottom, this.margin.top + 20])
+			this.y = d3.scaleLinear()
+				.range([height - this.margin.bottom, this.margin.top + 20])
+				.domain([0, d3.max(data, d => d.value)])
+				// .nice()
 			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
@@ -179,9 +190,11 @@ class d3Line {
 	}
 	generateXAxis = () => {
 		const width = this.width
-
+		let chartType = this.chartType
 		this.x = d3.scaleTime().range([this.margin.left + 45, width - this.margin.right])
+
 		let period = this.props.period
+		let timeType = period.timeType
 
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
@@ -190,12 +203,19 @@ class d3Line {
 		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
 		let to = moment.max(allData.map(d => moment(d.date)))
 
-		this.x.domain([from, to])
+
+		console.log('D3 ChartType', chartType)
+
+		if (chartType === 1) {
+			this.x.domain([from, moment(to).add(1, timeType === 1 ? 'h' : 'd')])
+		}
+		else {
+			this.x.domain([from, to])
+		}
 
 
 		const classes = this.classes
 		const height = this.height
-		let timeType = period.timeType
 		let counter = moment(from)
 		let hourTicks = []
 		let ticks = []
@@ -247,6 +267,8 @@ class d3Line {
 				counter.add(add, 'hour')
 			}
 			hourTicks.push(to.valueOf())
+			if (this.chartType > 0)
+				hourTicks.push(moment(to).add(1, 'h').valueOf())
 		}
 		else {
 			/**
@@ -257,6 +279,8 @@ class d3Line {
 				counter.add(add, 'day')
 			}
 			ticks.push(to.valueOf())
+			if (this.chartType > 0)
+				ticks.push(moment(to).add(1, 'd').valueOf())
 
 			monthTicks.push(counter.valueOf())
 			while (moment(counter).diff(to, 'day') < 0) {
@@ -288,8 +312,8 @@ class d3Line {
 			.call(xAxis_hours)
 
 		/**
- 		* Day Axis Styling
- 		*/
+			* Day Axis Styling
+			*/
 		this.xAxisHours.selectAll('path').attr('class', classes.axis)
 		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxisHours.selectAll('line').attr('class', classes.axis)
@@ -299,9 +323,10 @@ class d3Line {
 		/**
 		 * Generate Day axis
 		 */
-		var xAxis_woy = this.xAxis_days = d3.axisBottom(this.x)
+		this.xAxis_days = d3.axisBottom(this.x)
 			// .tickFormat(d3.timeFormat("%d"))
 			.tickFormat(f => moment(f).format('D'))
+			// .ticks(7)
 			.tickValues(ticks)
 
 		/**
@@ -309,11 +334,12 @@ class d3Line {
 		 */
 		this.xAxis = this.svg.append("g")
 			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
-			.call(xAxis_woy)
+			.call(this.xAxis_days)
+
 
 		/**
- 		* Day Axis Styling
- 		*/
+			* Day Axis Styling
+			*/
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
@@ -341,6 +367,127 @@ class d3Line {
 		// 	.attr('transform', `translate(0,50)`)
 		// 	.attr('class', classes.axisText)
 		// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
+	}
+	generateBars = () => {
+		const classes = this.classes
+		const height = this.height
+		const width = this.width
+		let period = this.props.period
+		let timeType = period.timeType
+		let data = this.props.data ? this.props.data[this.props.id] : []
+		let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
+		const setTooltip = this.props.setTooltip
+		console.log(this.state)
+		data.forEach((line, i) => {
+			console.log(line)
+			if (!line.bars) {
+				return
+			}
+			if (line.bars) {
+				this.svg.selectAll(".bar")
+					.data(line.data)
+					.enter().append("rect")
+					.attr('class', (d, i) => i % 2 === 0 ? classes.waterUsageA : classes.waterUsageB)
+					.attr("height", (d, i) => {
+						let barHeight = height - this.y(d.value) - this.margin.bottom
+						return barHeight < 10 ? barHeight === 0 ? 0 : 10 : barHeight
+					})
+					.attr("y", (d, i) => {
+						let barHeight = height - this.y(d.value) - this.margin.bottom
+
+						return barHeight < 10 ? barHeight === 0 ? this.y(d.value) : this.y(d.value) - 10 : this.y(d.value)
+					})
+					.attr("width", (d) => {
+						return this.x(d3.timeHour.offset(moment(d.date).valueOf(), timeType === 1 ? 1 : 24)) - this.x(moment(d.date).valueOf())
+					})
+					.attr("x", (d, i) => this.x(moment(d.date).valueOf()))
+					// .attr("opacity", this.state['LwaterusageL'] ? 0 : 1)
+					.attr("opacity", this.state['L' + line.name] ? 0 : 1)
+					.on("mouseover", function (d) {
+						d3.select(this).attr("r", 8)
+						tooltipDiv.transition()
+							.duration(200)
+							.style("opacity", 1)
+							.style('z-index', 1040)
+						let left = d3.event.pageX < 175 ? 245 : d3.event.pageX
+						left = d3.event.pageX > width - 175 ? width - 150 : left
+						left = left - 150 - 25 //150 - half of the Tooltip, 25 default D3 tooltip
+						tooltipDiv.style("left", left + "px")
+							.style("top", (d3.event.pageY) - 250 + "px")
+						setTooltip(d)
+
+					}).on("mouseout", function () {
+					// setExpand(false)
+						d3.select(this).attr("r", 6)
+						tooltipDiv.transition()
+							.duration(200)
+							.style('z-index', -1)
+							.style("opacity", 0)
+					})
+			}
+		})
+		// this.xAxis.selectAll('.tick').each(function (d, i) {
+		// 	console.log(d)
+		// 	let parent = d3.select(this)
+		// 	if (this.nextSibling) {
+
+		// 		if (i % 2 === 0) {
+		// 			parent
+		// 				// .data(data[0].data).enter()
+		// 				.append('rect')
+		// 				.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+		// 				.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+		// 				.attr('class', classes.waterUsageA)
+		// 				.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
+		// 				.on("mouseover", function (d) {
+		// 					d3.select(this).attr("r", 8)
+		// 					tooltipDiv.transition()
+		// 						.duration(200)
+		// 						.style("opacity", 1)
+		// 						.style('z-index', 1040)
+		// 					let left = d3.event.pageX < 175 ? 245 : d3.event.pageX
+		// 					left = d3.event.pageX > width - 175 ? width - 150 : left
+		// 					left = left - 150 - 25 //150 - half of the Tooltip, 25 default D3 tooltip
+		// 					tooltipDiv.style("left", left + "px")
+		// 						.style("top", (d3.event.pageY) - 250 + "px")
+		// 					setTooltip(d)
+
+		// 				}).on("mouseout", function () {
+		// 					// setExpand(false)
+		// 					d3.select(this).attr("r", 6)
+		// 					tooltipDiv.transition()
+		// 						.duration(200)
+		// 						.style('z-index', -1)
+		// 						.style("opacity", 0)
+		// 				}).on('click', function (d) {
+		// 					// setExpand(true)
+		// 					// alert(d.date + ' ' + d.value)
+		// 				})
+		// 				// .attr("cx", (d) => { return x(moment(d.date).valueOf()) })
+		// 				.transition()
+		// 				.attr("id", `DotsWaterUsageL`)
+		// 			// .style("opacity", this.state['L' + line.name] ? 0 : 1)
+		// 			// .delay((d, i) => { return i * (1500 / line.data.length) })
+
+
+		// 		}
+		// 		else {
+
+
+		// 			parent.append('rect')
+		// 				.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+		// 				.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
+		// 				.attr('class', classes.waterUsageB)
+		// 				.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
+
+		// 		}
+		// 		// .attr("width", 32)
+		// 		// .attr("height", 32)
+		// 	}
+		// 	// }
+		// }
+		// )
+		// this.xAxis.raise()
 	}
 	generateWeather = () => {
 		const classes = this.classes
@@ -376,10 +523,11 @@ class d3Line {
 			}
 		}
 		this.xAxis.selectAll('.tick').each(function (d, i) {
+			console.log(d)
 			let parent = d3.select(this)
 			if (this.nextSibling) {
 
-				if (i % 2 === 0) {
+				if (i % 2 !== 0) {
 					parent.append('rect')
 						.attr('class', classes.axisLineWhite)
 						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
@@ -392,19 +540,18 @@ class d3Line {
 							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
 							.attr("y", -(height - margin.bottom - 40))
 					}
-					// .attr("width", 32)
-					// .attr("height", 32)
+
 				}
 				else {
-					if (weatherData[i])
+					if (weatherData[i]) {
 
 						parent.append("image")
 							.attr("xlink:href", getIcon(weatherData[i].icon))
 							.attr('class', classes.weatherIcon)
 							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
 							.attr("y", -(height - margin.bottom - 40))
-					// .attr("width", 32)
-					// .attr("height", 32)
+					}
+
 				}
 				// }
 			}
@@ -444,12 +591,16 @@ class d3Line {
 			}
 		})
 	}
+
+
+
 	generateDots = () => {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		const setTooltip = this.props.setTooltip
 		const width = this.width
 		data.forEach((line) => {
-			if (line.prev || line.onlyMedian) {
+			// console.log('line', line)
+			if (line.prev || line.onlyMedian || (line.bars && this.chartType > 0)) {
 				return
 			}
 			let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
@@ -565,7 +716,93 @@ class d3Line {
 		})
 
 	}
+	generateAreas = () => {
+		let data = this.props.data[this.props.id]
+		// data.forEach(d => {
+		// 	d.data = d.data.filter(f => moment(f.date).diff(period.from) >= 0)
+		// })
+		// window.moment = moment
+		// window.data = data
 
+		data.forEach((line, i) => {
+			let animArea0 = d3.area()
+				.y0(this.height - this.margin.bottom)
+				.y1(this.height - this.margin.bottom)
+				.x((d) => { return this.x(moment(d.date).valueOf()) })
+			if (!line.noArea) {
+				let defArea = d3.area()
+					.x((d) => { return this.x(moment(d.date).valueOf()) })
+					// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
+					.y0(this.height - this.margin.bottom)
+					.y1((d) => { return this.y(d.value) })
+				this.svg.append("path")
+					.attr('id', 'Area' + line.name)
+					.data([line.data])
+					.attr("opacity", this.state['L' + line.name] ? 0 : 1)
+					.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
+					.attr("d", animArea0)
+					.transition()
+					.duration(1500)
+					.attr("d", defArea)
+				if (line.noMedianLegend) {
+					let setMedianTooltip = this.props.setMedianTooltip
+					var medianTooltip = this.medianTooltip
+					let medianData = getMedianLineData(line.data)
+
+					let medianLine = this.svg.append('path')
+						.data([medianData])
+						.attr('fill', 'none')
+						.attr('stroke', 'rgba(255,255,255, 0.1)')
+						.attr('stroke-width', '4px')
+						// .attr('class', classes.medianLinePrev)
+						.attr('d', this.valueLine)
+						.attr('id', 'Median' + line.name)
+						.attr('opacity', this.state[`L${line.name}`] ? 0 : 1)
+						.attr('stroke-dasharray', ("3, 3"))
+
+					// Hidden overlay for Median tooltip
+					this.svg.append('path')
+						.data([medianData])
+						// .attr('class', classes.hiddenMedianLine)
+						.attr('stroke', '#fff')
+						.attr('opacity', 0)
+						.attr('stroke-width', '7px')
+						.attr('d', this.valueLine)
+						.attr('id', 'HArea' + line.name)
+						.on("mouseover", (d) => {
+							if (!this.state[`L${line.name}`]) {
+
+								medianLine.transition()
+									.duration(100)
+									.style('stroke-width', '7px')
+
+								medianTooltip.transition()
+									.duration(200)
+									.style("opacity", 1)
+									.style('z-index', 1040)
+
+								medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
+									.style("top", (d3.event.pageY) - 41 + "px")
+
+								setMedianTooltip(d[0])
+							}
+
+						}).on("mouseout", function () {
+							// setExpand(false)
+							medianLine.transition()
+								.duration(100)
+								.style('stroke-width', '4px')
+							medianTooltip.transition()
+								.duration(500)
+								.style('z-index', -1)
+								.style("opacity", 0)
+						}).on('click', function () {
+							// setExpand(true)
+						})
+				}
+			}
+		})
+	}
 	generateLines = () => {
 		// let period = this.props.period
 		let data = this.props.data[this.props.id]
@@ -574,172 +811,105 @@ class d3Line {
 		// })
 		// window.moment = moment
 		// window.data = data
-		let animArea0 = d3.area()
-			.y0(this.height - this.margin.bottom)
-			.y1(this.height - this.margin.bottom)
-			.x((d) => { return this.x(moment(d.date).valueOf()) })
+
 		data.forEach((line, i) => {
 			//#region Generate Line Area
 			if (data) {
+				if (line.bars && this.chartType > 0) {
+					return
+				}
 				if (line.onlyMedian) {
 					return
 				}
-				if (!line.noArea) {
-					let defArea = d3.area()
-						.x((d) => { return this.x(moment(d.date).valueOf()) })
-						// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
-						.y0(this.height - this.margin.bottom)
-						.y1((d) => { return this.y(d.value) })
-					this.svg.append("path")
-						.attr('id', 'Area' + line.name)
-						.data([line.data])
-						.attr("opacity", this.state['L' + line.name] ? 0 : 1)
-						.attr('fill', line.prev ? 'rgba(255,255,255, 0.1' : hexToRgba(colors[line.color][500], 0.1))
-						.attr("d", animArea0)
-						.transition()
-						.duration(1500)
-						.attr("d", defArea)
-					if (line.noMedianLegend) {
-						let setMedianTooltip = this.props.setMedianTooltip
-						var medianTooltip = this.medianTooltip
-						let medianData = getMedianLineData(line.data)
 
-						let medianLine = this.svg.append('path')
-							.data([medianData])
-							.attr('fill', 'none')
-							.attr('stroke', 'rgba(255,255,255, 0.1)')
-							.attr('stroke-width', '4px')
-							// .attr('class', classes.medianLinePrev)
-							.attr('d', this.valueLine)
-							.attr('id', 'Median' + line.name)
-							.attr('opacity', this.state[`L${line.name}`] ? 0 : 1)
-							.attr('stroke-dasharray', ("3, 3"))
-
-						// Hidden overlay for Median tooltip
-						this.svg.append('path')
-							.data([medianData])
-							// .attr('class', classes.hiddenMedianLine)
-							.attr('stroke', '#fff')
-							.attr('opacity', 0)
-							.attr('stroke-width', '7px')
-							.attr('d', this.valueLine)
-							.attr('id', 'HArea' + line.name)
-							.on("mouseover", (d) => {
-								if (!this.state[`L${line.name}`]) {
-
-									medianLine.transition()
-										.duration(100)
-										.style('stroke-width', '7px')
-
-									medianTooltip.transition()
-										.duration(200)
-										.style("opacity", 1)
-										.style('z-index', 1040)
-
-									medianTooltip.style("left", (d3.event.pageX) - 82 + "px")
-										.style("top", (d3.event.pageY) - 41 + "px")
-
-									setMedianTooltip(d[0])
-								}
-
-							}).on("mouseout", function () {
-								// setExpand(false)
-								medianLine.transition()
-									.duration(100)
-									.style('stroke-width', '4px')
-								medianTooltip.transition()
-									.duration(500)
-									.style('z-index', -1)
-									.style("opacity", 0)
-							}).on('click', function () {
-								// setExpand(true)
-							})
-					}
+			}
+			//#endregion
+			//#region Generate Line
+			if (!line.prev) {
+				if (line.dontShowLine) {
+					return
 				}
-				//#endregion
-				//#region Generate Line
-				if (!line.prev)
-					if (line.dashed) {
-						//Set up your path as normal
-						var path = this.svg.append("path")
-							.data([line.data])
-							.attr('id', 'L' + line.name)
-							.attr('fill', 'none')
-							.attr('stroke', colors[line.color][500])
-							.attr('stroke-width', '4px')
-							.attr('d', this.valueLine)
-							.attr("opacity", this.state['L' + line.name] ? 0 : 1)
+				if (line.dashed) {
+					//Set up your path as normal
+					var path = this.svg.append("path")
+						.data([line.data])
+						.attr('id', 'L' + line.name)
+						.attr('fill', 'none')
+						.attr('stroke', colors[line.color][500])
+						.attr('stroke-width', '4px')
+						.attr('d', this.valueLine)
+						.attr("opacity", this.state['L' + line.name] ? 0 : 1)
 
-						//Get the total length of the path
-						var totalLength = 0
-						if (path.node())
-							totalLength = path.node().getTotalLength()
+					//Get the total length of the path
+					var totalLength = 0
+					if (path.node())
+						totalLength = path.node().getTotalLength()
 
-						/////// Create the required stroke-dasharray to animate a dashed pattern ///////
+					/////// Create the required stroke-dasharray to animate a dashed pattern ///////
 
-						//Create a (random) dash pattern
-						//The first number specifies the length of the visible part, the dash
-						//The second number specifies the length of the invisible part
-						var dashing = "6, 6"
+					//Create a (random) dash pattern
+					//The first number specifies the length of the visible part, the dash
+					//The second number specifies the length of the invisible part
+					var dashing = "6, 6"
 
-						//This returns the length of adding all of the numbers in dashing
-						//(the length of one pattern in essence)
-						//So for "6,6", for example, that would return 6+6 = 12
-						var dashLength =
+					//This returns the length of adding all of the numbers in dashing
+					//(the length of one pattern in essence)
+					//So for "6,6", for example, that would return 6+6 = 12
+					var dashLength =
 							dashing
 								.split(/[\s,]/)
 								.map(function (a) { return parseFloat(a) || 0 })
 								.reduce(function (a, b) { return a + b })
 
-						//How many of these dash patterns will fit inside the entire path?
-						var dashCount = Math.ceil(totalLength / dashLength)
+					//How many of these dash patterns will fit inside the entire path?
+					var dashCount = Math.ceil(totalLength / dashLength)
 
-						//Create an array that holds the pattern as often
-						//so it will fill the entire path
-						var newDashes = new Array(dashCount).join(dashing + " ")
-						//Then add one more dash pattern, namely with a visible part
-						//of length 0 (so nothing) and a white part
-						//that is the same length as the entire path
-						var dashArray = newDashes + " 0, " + totalLength
+					//Create an array that holds the pattern as often
+					//so it will fill the entire path
+					var newDashes = new Array(dashCount).join(dashing + " ")
+					//Then add one more dash pattern, namely with a visible part
+					//of length 0 (so nothing) and a white part
+					//that is the same length as the entire path
+					var dashArray = newDashes + " 0, " + totalLength
 
-						/////// END ///////
+					/////// END ///////
 
-						//Now offset the entire dash pattern, so only the last white section is
-						//visible and then decrease this offset in a transition to show the dashes
-						path
-							.attr("stroke-dashoffset", totalLength)
-							//This is where it differs with the solid line example
-							.attr("stroke-dasharray", dashArray)
-							.transition().duration(1500)
-							.attr("stroke-dashoffset", 0)
-					}
-					else {
+					//Now offset the entire dash pattern, so only the last white section is
+					//visible and then decrease this offset in a transition to show the dashes
+					path
+						.attr("stroke-dashoffset", totalLength)
+					//This is where it differs with the solid line example
+						.attr("stroke-dasharray", dashArray)
+						.transition().duration(1500)
+						.attr("stroke-dashoffset", 0)
+				}
+				else {
 
-						this.svg.append('path')
-							.data([line.data])
-							.attr('id', 'L' + line.name)
-							// .attr('class', classes[line.name])
-							.attr('fill', 'none')
-							.attr('stroke', colors[line.color][500])
-							.attr('stroke-width', '4px')
-							.attr('d', this.valueLine)
-							.attr("stroke-dasharray", function () {
-								return this.getTotalLength()
-							})
-							.attr("stroke-dashoffset", function () {
-								return this.getTotalLength()
-							})
-							.attr("opacity", this.state["L" + line.name] ? 0 : 1)
-							.transition()
-							.duration(1500)
-							.attr('stroke-dashoffset', 0)
-							.transition()
-							.duration(100)
-							.style("stroke-dasharray", undefined)
+					this.svg.append('path')
+						.data([line.data])
+						.attr('id', 'L' + line.name)
+					// .attr('class', classes[line.name])
+						.attr('fill', 'none')
+						.attr('stroke', colors[line.color][500])
+						.attr('stroke-width', '4px')
+						.attr('d', this.valueLine)
+						.attr("stroke-dasharray", function () {
+							return this.getTotalLength()
+						})
+						.attr("stroke-dashoffset", function () {
+							return this.getTotalLength()
+						})
+						.attr("opacity", this.state["L" + line.name] ? 0 : 1)
+						.transition()
+						.duration(1500)
+						.attr('stroke-dashoffset', 0)
+						.transition()
+						.duration(100)
+						.style("stroke-dasharray", undefined)
 
 
-						//#endregion
-					}
+					//#endregion
+				}
 			}
 		})
 	}

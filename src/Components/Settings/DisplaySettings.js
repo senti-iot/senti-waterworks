@@ -4,26 +4,23 @@ import { Laptop } from 'variables/icons'
 import { Grid, ListItem, List, ListItemText, colors, /* InputAdornment */ /* Switch */ } from '@material-ui/core'
 import { settingsStyles } from 'Styles/settingsStyle'
 import { changeLanguage } from 'Redux/localization'
-import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, /* changeMaxDailyConsumption */ } from 'Redux/settings'
+import { changeTheme, changeMeasureUnit, changeSnackbarLocation, changeHoverTime, changeTRP, changeColorTheme, changeBTags, /* changeMaxDailyConsumption */ } from 'Redux/settings'
 import { useSelector, useDispatch } from 'react-redux'
+import ItemG from 'Components/Containers/ItemG'
+import { useLocalization } from 'Hooks'
 // import TextF from 'Components/Input/TextF'
 //ItemG
 function DisplaySettings(props) {
 	//Hooks
 	const dispatch = useDispatch()
+	const t = useLocalization()
 
 	//Redux
 	const lang = useSelector(state => state.localization.language)
 	const settings = useSelector(state => state.settings)
+	const benchmarkSplitByTags = useSelector(s => s.settings.benchmarkSplitByTags)
 
 
-	const rChangeLanguage = e => dispatch(changeLanguage(e.target.value))
-	const rChangeTRP = e => dispatch(changeTRP(e.target.value))
-	const rChangeTheme = e => dispatch(changeTheme(e.target.value))
-	const rChangeSnackbarLocation = e => dispatch(changeSnackbarLocation(e.target.value))
-	const rChangeHoverTime = e => dispatch(changeHoverTime(e.target.value))
-	const rChangeColorTheme = e => dispatch(changeColorTheme(e.target.value))
-	const rChangeUnit = e => dispatch(changeMeasureUnit(e.target.value))
 	// const rChangeMDC = val => {
 	// 	dispatch(changeMaxDailyConsumption(val))
 	// }
@@ -33,8 +30,9 @@ function DisplaySettings(props) {
 	//Const
 	const { language, trp, sideBar, discSentiVal,
 		theme, hoverTime, snackbarLocation,
-		colorTheme, mUnit, /* maxDailyConsumption */
+		colorTheme, mUnit,
 	} = settings
+
 	// const inputRef = useRef(React.createRef())
 	//useCallbacks
 
@@ -42,23 +40,30 @@ function DisplaySettings(props) {
 
 	//Handlers
 
+	const rChangeLanguage = e => dispatch(changeLanguage(e.target.value))
+	const rChangeTRP = e => dispatch(changeTRP(e.target.value))
+	const rChangeTheme = e => dispatch(changeTheme(e.target.value))
+	const rChangeSnackbarLocation = e => dispatch(changeSnackbarLocation(e.target.value))
+	const rChangeHoverTime = e => dispatch(changeHoverTime(e.target.value))
+	const rChangeColorTheme = e => dispatch(changeColorTheme(e.target.value))
+	const rChangeUnit = e => dispatch(changeMeasureUnit(e.target.value))
+	const rChangeBTags = e => dispatch(changeBTags(e.target.value))
 
-	const { t } = props
 
 
 	const classes = settingsStyles()
 
-	let measureUnits = [
+	const measureUnits = [
 		{ value: 'm3', label: 'm³' },
 		{ value: 'l', label: 'L' }
 	]
 
-	let languages = [
+	const languages = [
 		{ value: 'en', label: t('settings.languages.en') },
 		{ value: 'da', label: t('settings.languages.da') }
 	]
 
-	let themes = [
+	const themes = [
 		{ value: 1, label: t('settings.themes.dark') },
 		{ value: 0, label: t('settings.themes.light') }
 	]
@@ -66,7 +71,7 @@ function DisplaySettings(props) {
 		return <div style={{ background: color[500], width: 16, height: 16, borderRadius: 4 }} />
 	}
 
-	let colorThemes = [
+	const colorThemes = [
 		// { value: 'lightBlue', label: t('settings.chart.weekendColors.lightBlue'), icon: renderColor(colors.lightBlue) },
 		// { value: 'cyan', label: t('settings.chart.weekendColors.cyan'), icon: renderColor(colors.cyan) },
 		// { value: 'teal', label: t('settings.chart.weekendColors.teal'), icon: renderColor(colors.teal) },
@@ -86,9 +91,9 @@ function DisplaySettings(props) {
 	]
 
 	// rowsPerPageOptions: [autoheight, 5, 7, 8, 10, 15, 20, 25, 50, 100],
-	let autoheightStr = Math.round((window.innerHeight - 70 - 48 - 30 - 64 - 56 - 30 - 56 - 30) / 49) + ' - auto'
-	let autoheight = Math.round((window.innerHeight - 70 - 48 - 30 - 64 - 56 - 30 - 56 - 30) / 49)
-	let trps = [
+	const autoheightStr = Math.round((window.innerHeight - 70 - 48 - 30 - 64 - 56 - 30 - 56 - 30) / 49) + ' - auto'
+	const autoheight = Math.round((window.innerHeight - 70 - 48 - 30 - 64 - 56 - 30 - 56 - 30) / 49)
+	const trps = [
 		{ value: autoheight, label: autoheightStr },
 		{ value: 5, label: 5 },
 		{ value: 7, label: 7 },
@@ -101,11 +106,11 @@ function DisplaySettings(props) {
 		{ value: 100, label: 100 }
 	]
 
-	let snackbarLocations = [
+	const snackbarLocations = [
 		{ value: 'left', label: t('settings.snackbarLocations.left') },
 		{ value: 'right', label: t('settings.snackbarLocations.right') }
 	]
-	let hoverTimes = [
+	const hoverTimes = [
 		{ value: 0, label: t('settings.hover.values.0') },
 		{ value: 300, label: t('settings.hover.values.300') },
 		{ value: 500, label: t('settings.hover.values.500') },
@@ -114,7 +119,10 @@ function DisplaySettings(props) {
 		{ value: 2000, label: t('settings.hover.values.2000') },
 		{ value: 3000, label: t('settings.hover.values.3000') },
 	]
-
+	const onOff = [
+		{ value: 0, label: t('actions.off') },
+		{ value: 1, label: t('actions.on') }
+	]
 	return (
 		discSentiVal !== null && language !== null && trp !== null && sideBar !== null && theme !== null ?
 
@@ -162,11 +170,17 @@ function DisplaySettings(props) {
 									<DSelect menuItems={hoverTimes} value={hoverTime} onChange={rChangeHoverTime} />
 								</ItemGrid>
 							</ListItem>
-							<ListItem /* divider */>
+							<ListItem divider>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>
 									<ListItemText primary={t('settings.chart.mUnit')} />
 									<DSelect menuItems={measureUnits} value={mUnit} onChange={rChangeUnit} />
 								</ItemGrid>
+							</ListItem>
+							<ListItem>
+								<ItemG container alignItems={'center'}>
+									<ListItemText primary={t('settings.chart.splitBenchmarkByTags')} secondary={t('settings.chart.splitBenchmarkByTagsWarn', { type: 'markdown' })} />
+									<DSelect menuItems={onOff} value={benchmarkSplitByTags} onChange={rChangeBTags}/>
+								</ItemG>
 							</ListItem>
 							{/* <ListItem>
 								<ItemGrid container zeroMargin noPadding alignItems={'center'}>

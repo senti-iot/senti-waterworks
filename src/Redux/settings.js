@@ -35,7 +35,7 @@ const changeDSTheme = 'changeDashboardTheme'
 const changeCTheme = 'changeColorTheme'
 const changeUnit = 'changeMeasurementUnit'
 const changeMDC = 'changeMaxDailyConsumption'
-
+const changeBenchmarkType = 'changeBenchmarkType'
 //Navigation
 
 const changeDR = 'changeDefaultRoute'
@@ -101,7 +101,8 @@ export const saveSettingsOnServ = () => {
 			cookies: s.cookies,
 			snackbarLocation: s.snackbarLocation,
 			hoverTime: s.hoverTime,
-			maxDailyConsumption: s.maxDailyConsumption
+			maxDailyConsumption: s.maxDailyConsumption,
+			benchmarkSplitByTags: s.benchmarkSplitByTags
 		}
 		user.internal.sentiWaterworks.settings = settings
 		var saved = await saveInternal(user.internal, user.uuid)
@@ -167,6 +168,16 @@ export const getSettings = async () => {
 				})
 			}
 		}
+	}
+}
+
+export const changeBTags = val => {
+	return async dispatch => {
+		dispatch({
+			type: changeBenchmarkType,
+			benchmarkSplitByTags: val
+		})
+		dispatch(await saveSettingsOnServ())
 	}
 }
 export const changeMeasureUnit = val => {
@@ -563,7 +574,8 @@ export let initialState = {
 	hoverTime: 1000,
 	// globalSearch: true,
 	dsTheme: 0,
-	colorTheme: 'blue'
+	colorTheme: 'blue',
+	benchmarkSplitByTags: 0
 }
 export const settings = (state = initialState, action) => {
 	switch (action.type) {
@@ -575,6 +587,8 @@ export const settings = (state = initialState, action) => {
 			return Object.assign({}, state, { rowsPerPageOptions: [...newRowsPerPage] })
 		case reset:
 			return Object.assign({}, state, { ...initialState, user: action.user, cookies: false })
+		case changeBenchmarkType:
+			return Object.assign({}, state, { benchmarkSplitByTags: action.benchmarkSplitByTags })
 		case changeMDC:
 			return Object.assign({}, state, { maxDailyConsumption: action.payload })
 		case changeUnit:

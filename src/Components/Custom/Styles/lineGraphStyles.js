@@ -1,3 +1,4 @@
+import { orange } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/styles'
 
 const lineStyles = makeStyles(theme => ({
@@ -31,9 +32,9 @@ const lineStyles = makeStyles(theme => ({
 		strokeWidth: '6px'
 	},
 	weatherIcon: {
-		width: 64,
-		height: 64,
-		transform: 'translate(-42px, 0px)',
+		width: 38,
+		height: 38,
+		transform: 'translate(-34px, 0px)',
 		[theme.breakpoints.down('lg')]: {
 			width: 32,
 			height: 32,
@@ -44,8 +45,17 @@ const lineStyles = makeStyles(theme => ({
 			height: 24,
 			transform: 'translate(-17px, 0px)'
 		}
+	},
+	waterUsageA: {
+		rx: 4,
+		fill: orange[300],
+		// background: orange[500]
+	},
+	waterUsageB: {
+		rx: 4,
+		fill: orange[500],
+		// background: orange[500]
 	}
-
 }))
 
 export default lineStyles

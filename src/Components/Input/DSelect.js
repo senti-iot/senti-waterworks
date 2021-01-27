@@ -89,7 +89,6 @@ const DSelect = (props) => {
 						</ItemG>
 					</MenuItem>
 				})}
-				})}
 			</Select>
 			{helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
 		</FormControl>

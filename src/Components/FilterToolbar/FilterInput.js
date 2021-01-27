@@ -48,6 +48,7 @@ const styles = makeStyles(theme => {
 			// marginBottom: -2,
 			minHeight: 40,
 			padding: 8,
+			// margin: 2,
 			'&$labeled': {
 				marginTop: 18
 			},

@@ -4,7 +4,8 @@ import {
 	getTotalVolumeData, getDevicesV2, getMinATemperatureData, getMinWTemperatureData,
 	getMinFlowData,
 	getMaxFlowData,
-	getWaterUsageByHour
+	getWaterUsageByHour,
+	getBenchmarkUsageByUUIDs
 } from 'data/devices'
 import moment from 'moment'
 // import { colors } from 'variables/colors'
@@ -208,7 +209,8 @@ export const adminData = () =>
 			let uuids = selectedDevices.map(s => s)
 			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
 			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
-			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
+			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
+			benchmarkData = await getBenchmarkUsageByUUIDs(uuids, from, suTo)
 
 			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo, uuids)
 			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
@@ -303,6 +305,7 @@ export const adminData = () =>
  */
 export const userData = () =>
 	async (dispatch, getState) => {
+		console.trace()
 		let orgId = getState().settings.user.org.uuid
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()

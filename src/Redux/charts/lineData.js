@@ -6,6 +6,7 @@ import { colors } from 'variables/colors'
  * Actions
  */
 const SetLineData = 'setLineData'
+
 /**
  * Dispatchers
  */
@@ -57,7 +58,9 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				name: 'waterusageL',
 				median: true,
 				data: currentPeriodData.waterusage,
-				color: 'orange'
+				color: 'orange',
+				noArea: true,
+				bars: true
 			})
 		}
 		if (previousPeriodData.waterusage) {
@@ -288,10 +291,8 @@ const initialState = {
 
 export const lineData = (state = initialState, { type, payload }) => {
 	switch (type) {
-
 		case SetLineData:
 			return Object.assign({}, state, payload)
-
 		default:
 			return state
 	}

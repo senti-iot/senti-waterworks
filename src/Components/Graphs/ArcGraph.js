@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import d3Arc from './classes/d3Arc'
 import { usePrevious, useSelector, useLocalization } from 'Hooks'
-import arcStyles, { TextContainer, ArcContainer, Arc, TotalUsageText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
+import arcStyles, { TextContainer, ArcContainer, Arc, HeaderText, DataText } from 'Components/Custom/Styles/arcGraphStyles'
 import { formatShortNumber } from 'data/functions'
 import moment from 'moment'
 let arc = null
@@ -122,7 +122,7 @@ const ArcGraph = (props) => {
 	return (
 		<ArcContainer>
 
-			<TotalUsageText variant={'h5'}>{period.from && period.to ? displayTime() : null}</TotalUsageText>
+			<HeaderText variant={'h5'}>{period.from && period.to ? displayTime() : null}</HeaderText>
 			<Arc id={props.id} ref={arcChartContainer}>
 				<TextContainer >
 					<DataText title={arcData} variant='h5'>{`${unit(arcData)}`}</DataText>

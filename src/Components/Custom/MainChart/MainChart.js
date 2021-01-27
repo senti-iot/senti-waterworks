@@ -7,13 +7,13 @@ import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
 import { ExportModule } from 'Components/ExportModule/ExportModule'
 import ChartsButtonContainer from '../ChartsButton/ChartsButtonContainer'
-import { DateRange, ImportExport, MoreVert, CallMadeIcon } from 'variables/icons'
+import { DateRange, ImportExport, MoreVert, CallMadeIcon, BarChart } from 'variables/icons'
 import styled from 'styled-components'
 // import DSelect from 'Components/Input/DSelxect'
 import { makeStyles } from '@material-ui/styles'
 import DButton from 'Components/Input/DButton'
 import { lighten } from '@material-ui/core/styles'
-import { setFullScreenLineGraph } from 'Redux/appState'
+import { setFullScreenLineGraph, changeChartType } from 'Redux/appState'
 import cx from 'classnames'
 
 const DateRangeIcon = styled(DateRange)`
@@ -61,6 +61,8 @@ export const MainChart = React.memo((props) => {
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
 	const data = useSelector(s => s.lineData)
 	const fullScreenLineChart = useSelector(s => s.appState.fullScreenLineChart)
+	const chartType = useSelector(s => s.appState.chartType)
+
 
 	//State
 	const [openExport, setOpenExport] = useState(false)
@@ -75,6 +77,20 @@ export const MainChart = React.memo((props) => {
 	//useEffects
 
 	//Handlers
+	const handleChangeChartType = () => {
+		switch (chartType) {
+			case 0:
+				dispatch(changeChartType(1))
+				break;
+			case 1:
+				dispatch(changeChartType(0))
+				break;
+			default:
+				break;
+		}
+		// dispatch(changeChartType(!chartType))
+		console.log('chartType', chartType)
+	}
 	const handleOpenExport = () => {
 		setOpenExport(true)
 	}
@@ -126,11 +142,18 @@ export const MainChart = React.memo((props) => {
 								<DateTimeFilter icon={<DateRangeIcon />} />
 								<DMenu
 									icon={<MoreVertIcon />}
-									onChange={handleOpenExport}
+									// onChange={handleOpenExport}
 									menuItems={[{
 										dontShow: false,
 										icon: <ImportExport />,
-										label: t('actions.export')
+										label: t('actions.export'),
+										func: handleOpenExport
+									},
+									{
+										dontShow: false,
+										icon: <BarChart />,
+										label: t('charts.chartType'),
+										func: handleChangeChartType
 									}]}
 								/>
 							</ItemG>
