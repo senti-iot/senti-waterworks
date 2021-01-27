@@ -3,7 +3,7 @@
 		"id": 0,
 		"url": "https://tile-b.openstreetmap.fr/hot/{z}/{x}/{y}.png",
 		"attribution": "&copy; <a target='_blank' href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
-		"maxZoom": 20
+		"maxZoom": 18
 	},
 	{
 		"id": 1,
