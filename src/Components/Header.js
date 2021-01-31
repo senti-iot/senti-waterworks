@@ -8,7 +8,7 @@ import { useHistory } from 'react-router'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
-import { Map, Menu, PageviewIcon, TuneIcon } from 'variables/icons'
+import { /*  Map, */ Menu, PageviewIcon, TuneIcon } from 'variables/icons'
 import Sidebar from 'Components/Custom/Sidebar/Sidebar'
 import { routes } from 'Routes'
 import { changeOpenTagFilter } from 'Redux/appState'
@@ -109,7 +109,7 @@ function Header({ ...props }) {
 
 						</Button>
 					</ItemG>
-					<ItemG xs={1} container alignItems={'cneter'} justify={'center'}>
+					{/* <ItemG xs={1} container alignItems={'cneter'} justify={'center'}>
 						<Button
 							startIcon={<Map />}
 							className={classes.toolbarButton}
@@ -117,7 +117,7 @@ function Header({ ...props }) {
 							{t('sidebar.deviceMap')}
 						</Button>
 
-					</ItemG>
+					</ItemG> */}
 					<ItemG xs container alignItems={'center'} justify={'flex-end'}>
 						<IconButton
 							onClick={handleOpenTagFilter}
