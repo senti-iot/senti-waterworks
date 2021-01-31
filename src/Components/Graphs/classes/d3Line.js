@@ -395,7 +395,7 @@ class d3Line {
 					.attr("y", (d, i) => {
 						let barHeight = height - this.y(d.value) - this.margin.bottom
 
-						return barHeight < 10 ? barHeight === 0 ? this.y(d.value) : this.y(d.value) - 10 : this.y(d.value)
+						return barHeight < 10 ? barHeight === 0 ? this.y(d.value) : this.y(d.value) : this.y(d.value)
 					})
 					.attr("width", (d) => {
 						return this.x(d3.timeHour.offset(moment(d.date).valueOf(), timeType === 1 ? 1 : 24)) - this.x(moment(d.date).valueOf())

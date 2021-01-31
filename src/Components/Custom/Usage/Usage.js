@@ -77,11 +77,11 @@ const Usage = props => {
 			</ItemG> */}
 			<ItemG container xs={6} className={columnClasses(0)}>
 
-				<ItemG xs={6} container style={{ maxWidth: '100%' }}>
+				<ItemG container style={{ maxWidth: '100%' }}>
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
 				</ItemG>
 
-				<ItemG xs={6} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
+				<ItemG container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
 					<T variant="body2" className={classes.cubicValue}>
 						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
 						<span className={classes.cubicValueUnit}>
@@ -91,10 +91,10 @@ const Usage = props => {
 				</ItemG>
 			</ItemG>
 			<ItemG container xs={6} className={columnClasses(1)}>
-				<ItemG xs={12} container style={{ maxWidth: '100%' }}>
+				<ItemG container style={{ maxWidth: '100%' }}>
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
 				</ItemG>
-				<ItemG xs={6} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
+				<ItemG container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
 					<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
 						{(mUnit === 'm3' ?
 							formatShortNumber(avgData.benchmarkm3, 2, t) :

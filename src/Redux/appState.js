@@ -261,7 +261,7 @@ const initialState = {
 	trpStr: null,
 	heatMap: false,
 	chartType: 1,
-	mapTheme: null,
+	mapTheme: 0,
 	smallMenu: true,
 	trp: null,
 	filters: {

@@ -90,15 +90,15 @@ const FullDeviceTable = (props) => {
 		]
 	}
 	const dTagList = () => {
-		return [
-			{ value: 0, label: 0 }
-		]
+		return tags.map(t => ({
+			value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div> }))
+
 	}
 	const deviceFilters = [
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
 		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
 		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
-		{ key: 'tags', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
+		{ key: '', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
 
