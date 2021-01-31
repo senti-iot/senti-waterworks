@@ -86,6 +86,7 @@ const filterByDate = (items, k) => {
 }
 
 const filterByString = (items, k) => {
+	console.log('K', k, items)
 	if (k.key === "") {
 		return items = filterItems(items, { keyword: k.value })
 	}
