@@ -291,6 +291,8 @@ const initialState = {
 
 export const lineData = (state = initialState, { type, payload }) => {
 	switch (type) {
+		case 'RESET_APP':
+			return initialState
 		case SetLineData:
 			return Object.assign({}, state, payload)
 		default:

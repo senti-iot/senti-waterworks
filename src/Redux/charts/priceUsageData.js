@@ -94,7 +94,8 @@ const initialState = {
 
 export const priceUsageData = (state = initialState, { type, payload }) => {
 	switch (type) {
-
+		case 'RESET_APP':
+			return initialState
 		case SetUsageData:
 			return Object.assign({}, state, payload)
 		case SetPriceData:

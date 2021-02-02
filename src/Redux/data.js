@@ -433,12 +433,12 @@ const initialState = {
 
 export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
+		case 'RESET_APP':
+			return initialState
 		case uhcData:
 			return Object.assign({}, state, { unitHasChanged: false })
 		case changeUnit:
 			return Object.assign({}, state, { unitHasChanged: true })
-		case 'RESET_APP':
-			return initialState
 		case hData:
 			return Object.assign({}, state, { haveData: payload })
 		case sData:

@@ -62,7 +62,8 @@ const initialState = {
 
 export const arcData = (state = initialState, { type, payload }) => {
 	switch (type) {
-
+		case 'RESET_APP':
+			return initialState
 		case SetArcData:
 			return Object.assign({}, state, payload)
 

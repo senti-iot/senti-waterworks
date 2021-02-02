@@ -44,6 +44,8 @@ export const initialLocState = {
 }
 export const localization = (state = initialLocState, action) => {
 	switch (action.type) {
+		case "RESET_APP":
+			return initialLocState
 		case NOSETTINGS:
 			return Object.assign({}, state, {
 				language: action.settings.language,

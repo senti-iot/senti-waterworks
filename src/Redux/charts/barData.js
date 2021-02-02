@@ -39,7 +39,8 @@ const initialState = {
 
 export const barData = (state = initialState, { type, payload }) => {
 	switch (type) {
-
+		case 'RESET_APP':
+			return initialState
 		case SetBarData:
 			return Object.assign({}, state, payload)
 

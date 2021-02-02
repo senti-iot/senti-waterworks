@@ -19,6 +19,8 @@ function Header({ ...props }) {
 	const history = useHistory()
 	const t = useLocalization()
 	const dispatch = useDispatch()
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
+
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
 
@@ -118,13 +120,13 @@ function Header({ ...props }) {
 						</Button>
 
 					</ItemG> */}
-					<ItemG xs container alignItems={'center'} justify={'flex-end'}>
+					{isSWAdmin ? <ItemG xs container alignItems={'center'} justify={'flex-end'}>
 						<IconButton
 							onClick={handleOpenTagFilter}
 							className={classes.toolbarButton}>
 							<TuneIcon />
 						</IconButton>
-					</ItemG>
+					</ItemG> : null}
 				</ItemG>
 			</Toolbar>
 		</AppBar>

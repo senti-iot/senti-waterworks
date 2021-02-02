@@ -29,7 +29,8 @@ const initialState = {
 
 export const tagManager = (state = initialState, { type, payload }) => {
 	switch (type) {
-
+		case "RESET_APP":
+			return initialState
 		case getT:
 			return Object.assign({}, state, { tags: payload })
 
