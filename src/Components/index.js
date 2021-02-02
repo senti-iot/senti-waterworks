@@ -1,8 +1,14 @@
-//#region Containers
+//#region Map
 
+import MapContainer from 'Components/Custom/Map/MapContainer'
+import OpenStreetMap from 'Components/Custom/Map/OpenStreetMap'
+
+//#endregion
+//#region Containers
 import ItemG from 'Components/Containers/ItemG'
 import ItemGrid from 'Components/Containers/ItemGrid'
 import GridContainer from 'Components/Containers/GridContainer'
+import PageHeader from 'Components/Custom/PageHeader/PageHeader'
 
 //#endregion
 
@@ -44,6 +50,11 @@ import SlideT from 'Components/Transitions/SlideT'
 
 //#endregion
 export {
+	//Map
+	MapContainer,
+	OpenStreetMap,
+	//
+	PageHeader,
 	Link,
 	//Transitions
 	SlideT,

@@ -39,7 +39,8 @@ export const DPaper = styled(Paper)`
 	`
 export const AppBackground = styled.div`
 	margin-top: 70px;
-	height: calc(100vh - 70px);
+	padding-top: 40px;
+	height: calc(100vh - 110px);
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 	background: ${props => bgColors[props.color].background};

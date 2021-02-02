@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		flexWrap: 'wrap',
 		// width: 200,
-		height: 350,
+		height: 240,
 		justifyContent: 'center',
 		alignItems: 'center',
 		overflow: 'hidden',
@@ -33,11 +33,11 @@ const useStyles = makeStyles(theme => ({
 		transition: '300ms all ease'
 	},
 	img: {
-		width: 180,
-		height: 180
+		width: 160,
+		height: 160
 	},
 	dialogRoot: {
-		height: 'calc(100vh - 70px)',
+		height: 'calc(100vh - 100px)',
 		marginTop: 70,
 		// background: theme.appBackground
 	},
@@ -93,7 +93,7 @@ const UsageTips = props => {
 
 	return (
 		<>
-			<GridContainer className={classes.container}>
+			<ItemG container className={classes.container}>
 
 				{/* left column with pics */}
 				<ItemG xs={12} md={12} container>
@@ -133,7 +133,7 @@ const UsageTips = props => {
 					/>
 					<Button type="submit" variant="contained" color="secondary" className={classes.submitBtn}>Send</Button>
 				</ItemG> */}
-			</GridContainer>
+			</ItemG>
 			<Dialog
 				fullScreen
 				hideBackdrop // hides the dark overlay and makes it 'clickable-through'

@@ -11,10 +11,11 @@ import { arcData } from './charts/arcData'
 import { barData } from './charts/barData'
 import { lineData } from './charts/lineData'
 import { priceUsageData } from './charts/priceUsageData'
+import { tagManager } from './tagManager'
 
 let reducers = combineReducers({
-	auth, settings, localization, appState, data, dateTime, serviceWorkerReducer, mobileOnboarding,
-	arcData, barData, lineData, priceUsageData
+	auth, settings, localization, appState, data, serviceWorkerReducer, mobileOnboarding,
+	arcData, barData, lineData, priceUsageData, tagManager, dateTime,
 })
 
 const rootReducer = (state, action) => {

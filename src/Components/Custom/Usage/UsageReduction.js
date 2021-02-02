@@ -69,7 +69,6 @@ const UsageReduction = props => {
 	// }
 
 	const classes = useStyles()
-
 	return (
 		<div className={classes.container}>
 			{/* container for back and cancel buttons */}

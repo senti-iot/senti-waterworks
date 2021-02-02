@@ -8,6 +8,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 
 const headerStyles = makeStyles(theme => ({
+
 	drawerButton: {
 		color: '#fff',
 		'&:hover': {
@@ -68,6 +69,18 @@ const headerStyles = makeStyles(theme => ({
 		paddingLeft: 4,
 		height: "100%",
 		minHeight: "50px",
+	},
+	toolbarButton: {
+		color: '#ffffff',
+		textTransform: 'none'
+	},
+	secondaryToolbar: {
+		paddingLeft: 34,
+		display: 'flex',
+		// height: '100%',
+		minHeight: "24px",
+		height: "50px",
+		background: theme.boxBackground
 	},
 	flex: {
 		flex: 1,

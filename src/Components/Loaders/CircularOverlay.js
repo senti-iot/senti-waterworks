@@ -9,7 +9,7 @@ const clStyles = makeStyles((theme) => ({
 	overlay: {
 		position: 'absolute',
 		width: '100%',
-		height: 'calc(100% - 64px)',
+		height: 'calc(100%)',
 		background: theme.boxBackground,
 		zIndex: 99999
 	},

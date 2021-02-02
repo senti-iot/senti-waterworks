@@ -28,7 +28,8 @@ const checkisSuperUser = (role) => {
 
 export const auth = (state = initialState, { type, payload }) => {
 	switch (type) {
-
+		case 'RESET_APP':
+			return initialState
 		case sAL:
 			return Object.assign({}, state, {
 				role: payload.role,

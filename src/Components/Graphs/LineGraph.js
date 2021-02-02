@@ -24,6 +24,8 @@ const LineGraph = (props) => {
 	const mUnit = useSelector(s => s.settings.mUnit)
 	const fsLG = useSelector(s => s.appState.fullScreenLineChart)
 	const graphLines = useSelector(s => s.appState.lines)
+	const chartType = useSelector(s => s.appState.chartType)
+
 	//State
 	const lineChartContainer = useRef(React.createRef())
 	const [value, setValue] = useState({ value: null, date: null })
@@ -34,6 +36,7 @@ const LineGraph = (props) => {
 	let prevData = usePrevious(deviceData)
 	let prevLoading = usePrevious(props.loading)
 	let prevFullScreen = usePrevious(fsLG)
+	let prevChartType = usePrevious(chartType)
 	//Const
 
 	//useCallbacks
@@ -47,7 +50,6 @@ const LineGraph = (props) => {
 	}, [dispatch])
 
 	useEffect(() => {
-
 		const unitType = () => {
 			switch (props.id) {
 				case 'waterusage':
@@ -98,7 +100,8 @@ const LineGraph = (props) => {
 				period: period,
 				t: t,
 				weatherData: weatherData,
-				fsLG: props.fullScreen
+				fsLG: props.fullScreen,
+				chartType: chartType
 			}
 			if (props.fullScreen) {
 				line = new d3LineFS(lineChartContainer.current, cProps, classes)
@@ -117,15 +120,13 @@ const LineGraph = (props) => {
 		if ((lineChartContainer.current && !line && !props.loading) || ((prevLoading !== props.loading) && !props.loading)) {
 			genNewLine()
 		}
-
+		if (prevChartType !== chartType) {
+			genNewLine()
+		}
 		let resizeTimer
 		const handleResize = () => {
 			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
-
-				// if (line) {
-				// 	line.destroy()
-				// }
 				genNewLine()
 			}, 300)
 		}
@@ -136,7 +137,7 @@ const LineGraph = (props) => {
 			// setLines({})
 		}
 
-	}, [classes, setLine, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit, fsLG, graphLines, setLines, prevFullScreen, props.fullScreen])
+	}, [classes, setLine, prevId, props.id, deviceData, t, period, prevData, props.loading, prevLoading, weatherData, mUnit, fsLG, graphLines, setLines, prevFullScreen, props.fullScreen, chartType, prevChartType])
 
 	//Handlers
 

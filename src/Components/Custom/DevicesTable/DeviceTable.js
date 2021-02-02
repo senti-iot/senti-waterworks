@@ -1,16 +1,17 @@
 import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog } from '@material-ui/core'
+import { Chip, Dialog, Tooltip } from '@material-ui/core'
 import { SlideT } from 'Components'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected, Title } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
-import { setSelectedDevices } from 'Redux/appState'
+import { setSelectedDevices, setTagFilter } from 'Redux/appState'
 import { sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import ItemG from 'Components/Containers/ItemG'
+import { contrastColor } from 'data/functions'
 
 
 
@@ -21,6 +22,8 @@ const DeviceTable = (props) => {
 
 	//Redux
 	const devices = useSelector(s => s.data.devices)
+	const tags = useSelector(s => s.tagManager.tags)
+
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const filters = useSelector(s => s.appState.filters.devices)
 
@@ -78,10 +81,17 @@ const DeviceTable = (props) => {
 			{ value: 1, label: t("devices.fields.state.active") },
 		]
 	}
+	const dTagList = () => {
+		return tags.map(t => ({
+			value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div>
+		}))
+
+	}
 	const deviceFilters = [
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
 		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
 		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
+		{ key: '', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
 
@@ -94,7 +104,14 @@ const DeviceTable = (props) => {
 		// { id: 'type', label: t('devices.fields.type') },
 		// { id: 'group', label: t('devices.fields.group') },
 		{ id: 'communication', label: t('devices.fields.status') },
+		{ id: 'tags', label: t('devices.fields.tags') }
 	]
+	const renderTags = device => {
+		return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
+			<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
+		</Tooltip>
+		))
+	}
 	const bodyStructure = row => {
 		return <Fragment>
 			{/* <TC label={row.address} /> */}
@@ -104,13 +121,18 @@ const DeviceTable = (props) => {
 			{/* <TC label={row.type} /> */}
 			{/* <TC label={row.group} /> */}
 			<TC label={row.communication ? t('devices.fields.state.active') : t('devices.fields.state.inactive')} />
+			<TC content={renderTags(row)} />
 		</Fragment>
 	}
 	const closeDialog = () => {
 		if (selDev.length === 0) {
 			setSelDevices(devices.map(d => d.uuid))
+			dispatch(setTagFilter(-1))
 		}
 		else {
+			if (selectedDevices.length !== selDev) {
+				dispatch(setTagFilter(-1))
+			}
 			setSelDevices(selDev)
 		}
 		setOpenTable(false)

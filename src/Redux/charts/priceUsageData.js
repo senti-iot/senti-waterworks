@@ -67,10 +67,21 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
  */
 const initialState = {
 	loading: true,
+	prevPrice: {
+		waterusage: 0,
+		sewage: 0,
+		total: 0
+	},
 	price: {
 		waterusage: 0,
 		sewage: 0,
 		total: 0
+	},
+	prevUsage: {
+		waterusagem3: 0,
+		waterusageL: 0,
+		benchmarkm3: 0,
+		benchmarkL: 0
 	},
 	usage: {
 		waterusagem3: 0,
@@ -83,7 +94,8 @@ const initialState = {
 
 export const priceUsageData = (state = initialState, { type, payload }) => {
 	switch (type) {
-
+		case 'RESET_APP':
+			return initialState
 		case SetUsageData:
 			return Object.assign({}, state, payload)
 		case SetPriceData:

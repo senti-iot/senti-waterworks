@@ -13,7 +13,14 @@ const sExportDevice = 'selectExportDevice'
 const getSettings = 'getSettings'
 const fsLG = 'fullScreenLineGraph'
 const setLines = 'setGraphLines'
+const setTFilter = 'setTFilter'
+const setOpenTFilter = 'setOpenTFilter'
 
+export const changeOpenTagFilter = () => {
+	return ({
+		type: setOpenTFilter
+	})
+}
 export const changeSmallMenu = (val) => {
 	return dispatch => {
 		dispatch({
@@ -201,11 +208,41 @@ export const setGraphLine = (id, value) => {
 
 	}
 }
+export const setTagFilter = (tagUuid) => {
+	return (dispatch, getState) => {
+		// let newSDevices = []
+		// let selectedDevices = getState().appState.selectedDevices
+		let devices = getState().data.devices
+		if (tagUuid !== -1) {
+
+			// let devices = getState().data.devices
+			let tagDevices = devices.filter(d => d.tags.filter(t => t.uuid === tagUuid).length > 0).map(s => s.uuid)
+			dispatch({
+				type: sDevice,
+				payload: tagDevices
+			})
+
+		}
+		else {
+			dispatch({
+				type: sDevice,
+				payload: devices.map(s => s.uuid)
+			})
+		}
+		dispatch({
+			type: setTFilter,
+			payload: tagUuid
+		})
+	}
+}
 const initialState = {
+
 	lines: {},
 	fullScreenLineChart: false,
 	selectedExportDevices: [],
 	selectedDevices: [],
+	selectedTag: -1,
+	openTagFilter: false,
 	tabs: {
 		id: '',
 		route: 0,
@@ -221,8 +258,8 @@ const initialState = {
 	chartYAxis: 'linear',
 	trpStr: null,
 	heatMap: false,
-	chartType: null,
-	mapTheme: null,
+	chartType: 1,
+	mapTheme: 0,
 	smallMenu: true,
 	trp: null,
 	filters: {
@@ -246,6 +283,10 @@ export const appState = (state = initialState, action) => {
 	switch (action.type) {
 		case 'RESET_APP':
 			return initialState
+		case setOpenTFilter:
+			return Object.assign({}, state, { openTagFilter: !state.openTagFilter })
+		case setTFilter:
+			return Object.assign({}, state, { selectedTag: action.payload })
 		case setLines:
 			return Object.assign({}, state, { lines: action.payload })
 		case fsLG:

@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 		borderTopLeftRadius: 4,
 		borderTopRightRadius: 4,
 		display: 'flex',
-		marginBottom: 48,
+		marginBottom: 12,
 		padding: 24
 	},
 	value: {

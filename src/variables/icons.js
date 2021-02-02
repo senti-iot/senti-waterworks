@@ -135,8 +135,11 @@ import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle'
 import ContactSupportIcon from '@material-ui/icons/ContactSupport'
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
 import Copyright from '@material-ui/icons/Copyright'
-
+import PageviewIcon from '@material-ui/icons/Pageview';
+import TuneIcon from '@material-ui/icons/Tune';
 export {
+	TuneIcon,
+	PageviewIcon,
 	Copyright,
 	VerifiedUserIcon,
 	ContactSupportIcon,
