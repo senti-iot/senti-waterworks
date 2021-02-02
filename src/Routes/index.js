@@ -3,14 +3,14 @@
 import React from 'react'
 // import { Copyright } from '@material-ui/icons's
 import {
-	Business,
-	ContactSupportIcon,
-	Group,
-	Mail,
-	Copyright,
-	Star,
-	SwapHorizontalCircleIcon,
-	VerifiedUserIcon,
+	// Business,
+	// ContactSupportIcon,
+	// Group,
+	// Mail,
+	// Copyright,
+	// Star,
+	// SwapHorizontalCircleIcon,
+	// VerifiedUserIcon,
 	Dashboard, Devices
 } from 'variables/icons'
 
@@ -21,15 +21,15 @@ const DashboardRoute = React.lazy(() => import('./Dashboard'))
 
 const DevicesRoute = React.lazy(() => import('./Devices'))
 
-const AboutSentiRoute = React.lazy(() => import('./AboutSenti'))
-const FavoritesRoute = React.lazy(() => import('./Favorites'))
-const UsersRoute = React.lazy(() => import('./Users'))
-const ClientsRoute = React.lazy(() => import('./Clients'))
-const MovingOutRoute = React.lazy(() => import('./MovingOut'))
-const ContactRoute = React.lazy(() => import('./Contact'))
-const SupportRoute = React.lazy(() => import('./Support'))
-const DataPolicyRoute = React.lazy(() => import('./DataPolicy'))
-const DeviceMapRoute = React.lazy(() => import('./DeviceMap'))
+// const AboutSentiRoute = React.lazy(() => import('./AboutSenti'))
+// const FavoritesRoute = React.lazy(() => import('./Favorites'))
+// const UsersRoute = React.lazy(() => import('./Users'))
+// const ClientsRoute = React.lazy(() => import('./Clients'))
+// const MovingOutRoute = React.lazy(() => import('./MovingOut'))
+// const ContactRoute = React.lazy(() => import('./Contact'))
+// const SupportRoute = React.lazy(() => import('./Support'))
+// const DataPolicyRoute = React.lazy(() => import('./DataPolicy'))
+// const DeviceMapRoute = React.lazy(() => import('./DeviceMap'))
 
 
 export const routes = [
@@ -41,13 +41,13 @@ export const routes = [
 		menuRoute: 'dashboard',
 		component: DashboardRoute
 	},
-	{
-		path: '/favorites',
-		sidebarName: 'sidebar.favorites',
-		icon: Star,
-		menuRoute: 'favorites',
-		component: FavoritesRoute
-	},
+	// {
+	// 	path: '/favorites',
+	// 	sidebarName: 'sidebar.favorites',
+	// 	icon: Star,
+	// 	menuRoute: 'favorites',
+	// 	component: FavoritesRoute
+	// },
 	{
 		path: '/devices',
 		sidebarName: 'sidebar.devices',
@@ -55,60 +55,60 @@ export const routes = [
 		menuRoute: 'devices',
 		component: DevicesRoute
 	},
-	{
-		path: '/device-map',
-		hideFromSideBar: true,
-		component: DeviceMapRoute,
-	},
-	{
-		path: '/users',
-		sidebarName: 'sidebar.users',
-		icon: Group,
-		menuRoute: 'users',
-		component: UsersRoute
-	},
-	{
-		path: '/clients',
-		sidebarName: 'sidebar.clients',
-		icon: Business,
-		menuRoute: 'clients',
-		component: ClientsRoute
-	},
-	{
-		path: '/moving-out',
-		sidebarName: 'sidebar.movingOut',
-		icon: SwapHorizontalCircleIcon,
-		menuRoute: 'moving-out',
-		component: MovingOutRoute
-	},
-	{
-		path: '/contact',
-		sidebarName: 'sidebar.contact',
-		icon: Mail,
-		menuRoute: 'contact',
-		component: ContactRoute
-	},
-	{
-		path: '/support',
-		sidebarName: 'sidebar.support',
-		icon: ContactSupportIcon,
-		menuRoute: 'support',
-		component: SupportRoute
-	},
-	{
-		path: '/data-policy',
-		sidebarName: 'sidebar.dataPolicy',
-		icon: VerifiedUserIcon,
-		menuRoute: 'data-policy',
-		component: DataPolicyRoute
-	},
-	{
-		path: '/about',
-		sidebarName: 'sidebar.about',
-		icon: Copyright,
-		menuRoute: 'about',
-		component: AboutSentiRoute
-	},
+	// {
+	// 	path: '/device-map',
+	// 	hideFromSideBar: true,
+	// 	component: DeviceMapRoute,
+	// },
+	// {
+	// 	path: '/users',
+	// 	sidebarName: 'sidebar.users',
+	// 	icon: Group,
+	// 	menuRoute: 'users',
+	// 	component: UsersRoute
+	// },
+	// {
+	// 	path: '/clients',
+	// 	sidebarName: 'sidebar.clients',
+	// 	icon: Business,
+	// 	menuRoute: 'clients',
+	// 	component: ClientsRoute
+	// },
+	// {
+	// 	path: '/moving-out',
+	// 	sidebarName: 'sidebar.movingOut',
+	// 	icon: SwapHorizontalCircleIcon,
+	// 	menuRoute: 'moving-out',
+	// 	component: MovingOutRoute
+	// },
+	// {
+	// 	path: '/contact',
+	// 	sidebarName: 'sidebar.contact',
+	// 	icon: Mail,
+	// 	menuRoute: 'contact',
+	// 	component: ContactRoute
+	// },
+	// {
+	// 	path: '/support',
+	// 	sidebarName: 'sidebar.support',
+	// 	icon: ContactSupportIcon,
+	// 	menuRoute: 'support',
+	// 	component: SupportRoute
+	// },
+	// {
+	// 	path: '/data-policy',
+	// 	sidebarName: 'sidebar.dataPolicy',
+	// 	icon: VerifiedUserIcon,
+	// 	menuRoute: 'data-policy',
+	// 	component: DataPolicyRoute
+	// },
+	// {
+	// 	path: '/about',
+	// 	sidebarName: 'sidebar.about',
+	// 	icon: Copyright,
+	// 	menuRoute: 'about',
+	// 	component: AboutSentiRoute
+	// },
 	{
 		path: '/settings',
 		hideFromSideBar: true,
