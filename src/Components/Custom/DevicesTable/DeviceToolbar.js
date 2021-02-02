@@ -133,7 +133,7 @@ const DeviceToolbar = props => {
 		}
 		await dispatch(await getAdminDevices())
 		await dispatch(await getTags())
-		s.s('Created')
+		s.s(replace ? "snackbars.edit.tagReplace" : "snackbars.edit.tagEdit")
 		handleCloseEditTags()
 	}
 	const handleCreateTags = async () => {
@@ -149,11 +149,12 @@ const DeviceToolbar = props => {
 				resources: assignTags
 			}
 			let result = await addTagToResources(fResources)
+			//TODO Snackbar alert
 			console.log(result)
 		}
 		await dispatch(await getAdminDevices())
 		await dispatch(await getTags())
-		s.s('Created')
+		s.s('snackbars.create.tag', { tagName: ftag.name })
 		handleCloseAddTags()
 	}
 
@@ -178,7 +179,6 @@ const DeviceToolbar = props => {
 								<List dense className={classes.listContainer}>
 									{props.devices.map(d => {
 										let device = devices[devices.findIndex(f => f.uuid === d)]
-										console.log(device)
 										return <ListItem divider>{device?.name} - {device?.uuname}</ListItem>
 									})
 									}
@@ -254,7 +254,6 @@ const DeviceToolbar = props => {
 								<List dense className={classes.listContainer}>
 									{props.devices.map(d => {
 										let device = devices[devices.findIndex(f => f.uuid === d)]
-										console.log(device)
 										return <ListItem divider>{device?.name} - {device?.uuname}</ListItem>
 									})
 									}

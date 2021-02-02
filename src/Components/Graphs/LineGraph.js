@@ -50,7 +50,6 @@ const LineGraph = (props) => {
 	}, [dispatch])
 
 	useEffect(() => {
-		console.log('ChartType LineGraph', chartType)
 		const unitType = () => {
 			switch (props.id) {
 				case 'waterusage':
@@ -70,7 +69,6 @@ const LineGraph = (props) => {
 			/**
 		 * Generate state in redux
 		 * */
-			console.log('Generating New Graph')
 			let lineState = {}
 			if (deviceData[props.id] &&
 				(Object.keys(graphLines).length === 0 || Object.keys(graphLines).length !== Object.keys(lineState).length)) {

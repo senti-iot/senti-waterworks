@@ -130,7 +130,6 @@ class d3Line {
 
 	}
 	update = () => {
-		console.log(this.chartType)
 		//#region Update Y-Axis
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
@@ -204,7 +203,6 @@ class d3Line {
 		let to = moment.max(allData.map(d => moment(d.date)))
 
 
-		console.log('D3 ChartType', chartType)
 
 		if (chartType === 1) {
 			this.x.domain([from, moment(to).add(1, timeType === 1 ? 'h' : 'd')])
@@ -377,9 +375,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
 		const setTooltip = this.props.setTooltip
-		console.log(this.state)
 		data.forEach((line, i) => {
-			console.log(line)
 			if (!line.bars) {
 				return
 			}
@@ -426,68 +422,7 @@ class d3Line {
 					})
 			}
 		})
-		// this.xAxis.selectAll('.tick').each(function (d, i) {
-		// 	console.log(d)
-		// 	let parent = d3.select(this)
-		// 	if (this.nextSibling) {
 
-		// 		if (i % 2 === 0) {
-		// 			parent
-		// 				// .data(data[0].data).enter()
-		// 				.append('rect')
-		// 				.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-		// 				.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
-		// 				.attr('class', classes.waterUsageA)
-		// 				.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
-		// 				.on("mouseover", function (d) {
-		// 					d3.select(this).attr("r", 8)
-		// 					tooltipDiv.transition()
-		// 						.duration(200)
-		// 						.style("opacity", 1)
-		// 						.style('z-index', 1040)
-		// 					let left = d3.event.pageX < 175 ? 245 : d3.event.pageX
-		// 					left = d3.event.pageX > width - 175 ? width - 150 : left
-		// 					left = left - 150 - 25 //150 - half of the Tooltip, 25 default D3 tooltip
-		// 					tooltipDiv.style("left", left + "px")
-		// 						.style("top", (d3.event.pageY) - 250 + "px")
-		// 					setTooltip(d)
-
-		// 				}).on("mouseout", function () {
-		// 					// setExpand(false)
-		// 					d3.select(this).attr("r", 6)
-		// 					tooltipDiv.transition()
-		// 						.duration(200)
-		// 						.style('z-index', -1)
-		// 						.style("opacity", 0)
-		// 				}).on('click', function (d) {
-		// 					// setExpand(true)
-		// 					// alert(d.date + ' ' + d.value)
-		// 				})
-		// 				// .attr("cx", (d) => { return x(moment(d.date).valueOf()) })
-		// 				.transition()
-		// 				.attr("id", `DotsWaterUsageL`)
-		// 			// .style("opacity", this.state['L' + line.name] ? 0 : 1)
-		// 			// .delay((d, i) => { return i * (1500 / line.data.length) })
-
-
-		// 		}
-		// 		else {
-
-
-		// 			parent.append('rect')
-		// 				.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-		// 				.attr("height", () => { console.log(data, i, data[0].data[i]); return height + 5 - margin.bottom - y(data[0].data[i].value) })
-		// 				.attr('class', classes.waterUsageB)
-		// 				.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - y(data[0].data[i].value)}px)`)
-
-		// 		}
-		// 		// .attr("width", 32)
-		// 		// .attr("height", 32)
-		// 	}
-		// 	// }
-		// }
-		// )
-		// this.xAxis.raise()
 	}
 	generateWeather = () => {
 		const classes = this.classes
@@ -523,7 +458,6 @@ class d3Line {
 			}
 		}
 		this.xAxis.selectAll('.tick').each(function (d, i) {
-			console.log(d)
 			let parent = d3.select(this)
 			if (this.nextSibling) {
 
@@ -599,7 +533,6 @@ class d3Line {
 		const setTooltip = this.props.setTooltip
 		const width = this.width
 		data.forEach((line) => {
-			// console.log('line', line)
 			if (line.prev || line.onlyMedian || (line.bars && this.chartType > 0)) {
 				return
 			}

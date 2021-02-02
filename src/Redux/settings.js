@@ -1,14 +1,14 @@
 import cookie from 'react-cookies'
-// import 'moment/locale/da'
-// import 'moment/locale/en-gb'
+import 'moment/locale/da'
+import 'moment/locale/en-gb'
 import { saveSettings, getValidSession, getAuthUser, saveInternal } from 'data/login'
 // import { setDates } from './dateTime';
 import { setPrefix, set } from 'data/storage'
 import { setAccessLevel } from 'Redux/auth'
 // import { getAllData } from './data';
 // import { setDashboards } from './dsSystem';
-require("moment/min/locales.min")
-var moment = require('moment')
+// require("moment/min/locales.min")
+import moment from 'moment'
 
 // window.moment = moment
 const acceptCookies = 'acceptCookies'
@@ -157,6 +157,7 @@ export const getSettings = async () => {
 				})
 			}
 			else {
+				moment.locale(settings.language === 'en' ? 'en-gb' : settings.language)
 				let s = {
 					...getState().settings,
 				}

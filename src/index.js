@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-
 import whyDidYouRender from "@welldone-software/why-did-you-render"
 import store from 'Redux/store'
 import { updateServiceworker } from 'Redux/serviceWorkerRedux'
 import HotProviders from 'Providers'
 // import NewContent from 'Components/Loaders/NewContent';
-
 
 if (process.env.NODE_ENV !== 'production') {
 	whyDidYouRender(React, {

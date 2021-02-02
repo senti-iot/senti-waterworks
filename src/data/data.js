@@ -81,8 +81,7 @@ export const mapApi = create({
 //#region Senti Services
 // const sentiServicesAPI = 'https://dev.services.senti.cloud/'
 const sentiServicesAPI = process.env.REACT_APP_BACKEND
-console.log(process.env)
-console.log(sentiServicesAPI)
+
 
 // const sentiServicesAPI = 'https://services.senti.cloud/databroker'
 export const servicesCoreAPI = create({

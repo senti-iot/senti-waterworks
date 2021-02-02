@@ -217,8 +217,6 @@ export const setTagFilter = (tagUuid) => {
 
 			// let devices = getState().data.devices
 			let tagDevices = devices.filter(d => d.tags.filter(t => t.uuid === tagUuid).length > 0).map(s => s.uuid)
-			console.log(devices)
-			console.log(tagDevices)
 			dispatch({
 				type: sDevice,
 				payload: tagDevices

@@ -44,7 +44,6 @@ const TagFilterDialog = () => {
 
 	//Handlers
 	const handleSelectEditTag = (e) => {
-		console.log(e.target.value)
 		dispatch(setTagFilter(e.target.value))
 	}
 	const handleClose = () => {

@@ -14,7 +14,6 @@ import { tagsServicesAPI } from 'data/data'
 export const createTag = async t => {
 	let response = await tagsServicesAPI.post('/create', t).then(rs => rs.ok ? rs.data : rs.ok)
 	// let response = false
-	console.log(response)
 	return response
 }
 
@@ -37,7 +36,6 @@ export const getAllTags = async () => {
 
 export const addTagToResources = async resources => {
 	let response = await tagsServicesAPI.post('/add', resources).then(rs => rs.ok ? rs.data : rs.ok)
-	console.log(response)
 	return response
 }
 
@@ -49,6 +47,5 @@ export const addTagToResources = async resources => {
 
 export const replaceTagsToResources = async resources => {
 	let response = await tagsServicesAPI.post('/replace', resources).then(rs => rs.ok ? rs.data : rs.ok)
-	console.log(response)
 	return response
 }

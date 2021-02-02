@@ -44,6 +44,7 @@ const DateTimeArrows = () => {
 	// 	{ id: 3, format: 'lll dddd', chart: 'day', tooltipFormat: 'lll' },
 	// ]
 	// setDateTime(0, moment().endOf('day'), moment().startOf('day'), 1
+
 	const period = useSelector(s => s.dateTime.period)
 	const dispatch = useDispatch()
 	const handleSetDate = (menuId, to, from, timeType) => dispatch(changeDate(menuId, to, from, timeType))

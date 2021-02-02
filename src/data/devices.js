@@ -12,7 +12,6 @@ import moment from 'moment'
  */
 export const getDevicesV2 = async () => {
 	let response = await servicesAPI.get('/v2/devices').then(rs => rs.ok ? rs.data : rs.ok)
-	console.log('devices', response)
 	return response
 }
 
@@ -118,7 +117,6 @@ export const getBenchmarkUsageByUUIDs = async (deviceUUIDs, from, to) => {
 	let startDate = moment(from).format('YYYY-MM-DD')
 	let endDate = moment(to).format('YYYY-MM-DD')
 	let response = await servicesAPI.post(`/v2/waterworks/data/custom-benchmark/${startDate}/${endDate}`, deviceUUIDs)
-	console.log(response.ok, response.data)
 	return response.ok ? response.data : []
 }
 /**

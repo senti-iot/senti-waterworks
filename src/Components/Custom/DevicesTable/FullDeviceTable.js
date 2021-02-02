@@ -63,7 +63,6 @@ const FullDeviceTable = (props) => {
 		sortData(key, property, o)
 	}
 	const selectDevice = (s, device) => {
-		console.log(s, device)
 		let newSDevices = []
 		newSDevices = [...selDev]
 		if (s) {
@@ -73,7 +72,6 @@ const FullDeviceTable = (props) => {
 			newSDevices.push(device)
 		}
 		setSelDev(newSDevices)
-		console.log(selDev)
 	}
 	const selectAllDevices = (s) => {
 		let newSDevices = []
@@ -114,7 +112,6 @@ const FullDeviceTable = (props) => {
 		{ id: 'tags', label: t('devices.fields.tags') }
 	]
 	const renderTags = device => {
-		console.log(device)
 		return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
 			<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }}/>
 		</Tooltip>

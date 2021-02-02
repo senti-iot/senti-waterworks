@@ -89,7 +89,6 @@ export const MainChart = React.memo((props) => {
 				break;
 		}
 		// dispatch(changeChartType(!chartType))
-		console.log('chartType', chartType)
 	}
 	const handleOpenExport = () => {
 		setOpenExport(true)
