@@ -1,6 +1,6 @@
 import { genLineData } from 'data/model'
 import moment from 'moment'
-import { colors } from 'variables/colors'
+import { colorNames } from 'variables/colors'
 
 /**
  * Actions
@@ -192,7 +192,7 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				let dataLines = selectedDevices.map((dev, i) => {
 					return ({
 						name: "" + devices[devices.findIndex(d => d.uuid === dev)].name,
-						color: colors[i],
+						color: colorNames[i],
 						noArea: true,
 						data: currentPeriodData.readings.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
 					})

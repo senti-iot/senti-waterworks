@@ -11,8 +11,7 @@ import { capitalizeFL, formatNumber } from 'data/functions'
 
 const TCard = styled(Card)`
 	min-width: 300px;
-	width: 300px;
-	max-width: 300px;
+	max-width: 450px;
 	position: absolute;
 	border: 0;
 	border-radius: 4;
@@ -34,11 +33,7 @@ const waterUsageTooltip = (props) => {
 					</ItemG>
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
-					{/* <MuiTooltip> */}
-
 					<T variant={'h5'}>{`${formatNumber(props.tooltip.value, 2)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
-					{/* </MuiTooltip> */}
-
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
 			</ItemG>
@@ -121,7 +116,7 @@ const readingTooltip = (props) => {
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('lll')}</T>
 					</ItemG>
 				</ItemG>
-				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 					<T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
