@@ -18,6 +18,9 @@ export const tagColors = [
 	"#FF9E00",
 	"#103B65",
 ]
+export const colorNames = [
+	'lightBlue', 'cyan', 'teal', 'green', 'lightGreen', 'lime', 'yellow', 'amber', 'orange', 'red', 'purple'
+]
 
 export const colors = [
 	lightBlue[400],
