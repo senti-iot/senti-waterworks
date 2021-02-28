@@ -103,11 +103,13 @@ class d3Line {
 
 		//Define the area for the values
 		this.valueArea = d3.area()
+			.curve(d3.curveStepBefore)
 			.x((d) => { return this.x(moment(d.date).valueOf()) })
 			.y0(this.y(0))
 			.y1((d) => { return this.y(d.value) })
 
 		this.valueLine = d3.line()
+			.curve(d3.curveStepBefore)
 			.x((d) => this.x(moment(d.date).valueOf()))
 			.y(d => this.y(d.value))
 		this.div = d3.select(`#tooltip${props.id}`)
@@ -659,11 +661,13 @@ class d3Line {
 
 		data.forEach((line, i) => {
 			let animArea0 = d3.area()
+				.curve(d3.curveStepBefore)
 				.y0(this.height - this.margin.bottom)
 				.y1(this.height - this.margin.bottom)
 				.x((d) => { return this.x(moment(d.date).valueOf()) })
 			if (!line.noArea) {
 				let defArea = d3.area()
+					.curve(d3.curveStepBefore)
 					.x((d) => { return this.x(moment(d.date).valueOf()) })
 					// .y0(this.y(((i === 0) || (line.prev) || (!line.smallArea)) ? 0 : min > 1 ? min - 10 : min - 0.1))
 					.y0(this.height - this.margin.bottom)
