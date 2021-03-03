@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { ItemG } from 'Components'
+import React, { useState } from 'react'
+import { DSelect, ItemG } from 'Components'
 import { ImportExport, Close, DateRange, AccessTime, KeyboardArrowRight, KeyboardArrowLeft } from 'variables/icons'
 import { useLocalization, useSelector } from 'Hooks'
 import { Dialog, DialogContent, DialogActions, Button, Checkbox, FormGroup, FormControlLabel, FormLabel, DialogTitle } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
-import { getDevicesDataCSV } from 'data/devices'
+import {  getExportData } from 'data/devices'
 import DeviceTableExportWidget from 'Components/Custom/DevicesTable/DeviceTableExportWidget'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 import styled from 'styled-components'
+import { saveAs } from 'file-saver';
+
 
 const MDialogHeader = styled(DialogTitle)`
 	background: ${({ theme }) => theme.palette.type === 'dark' ? theme.chartButton : undefined};
@@ -22,41 +24,46 @@ const MDialogActions = styled(DialogActions)`
 	background: ${({ theme }) => theme.palette.type === 'dark' ? theme.boxBackground : undefined};
 `
 
-const columns = [
-	{ id: 9, field: 'device_id', label: 'deviceId', isReq: true, hidden: true },
-	{ id: 0, field: 'name', label: 'meterNumber', type: 'device', isReq: true },
-	{ id: 1, field: 'uuid', label: 'SigfoxID', type: 'device', isReq: true },
-	{ id: 2, field: 'time', label: 'time', type: 'json', isReq: true, hidden: true },
-	{ id: 3, field: 'value', label: 'waterUsage', type: 'json', cf: 53 },
-	{ id: 4, field: 'value', label: 'waterReading', type: 'json', cf: 56 },
-	{ id: 5, field: 'minWTemp', label: 'minWaterTemperature', type: 'json' },
-	{ id: 6, field: 'minATemp', label: 'minAmbientTemperature', type: 'json' },
-	{ id: 7, field: 'minFlow', label: 'minWaterFlow', type: 'json' },
-	{ id: 8, field: 'maxFlow', label: 'maxWaterFlow', type: 'json' },
-
-]
 
 
 export const ExportModule = props => {
+	//Hooks
 	const t = useLocalization()
+	//Redux
+	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
+	const orgUUID = useSelector(s => s.settings.user.org.uuid)
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
+
+	//State
+	const [fileType, setFileType] = useState('csv')
 	const [loading, setLoading] = useState(false)
 	const [sColumns, setSColumns] = useState([]) //selected columns
 	const [from, setFrom] = useState(moment().subtract(6, 'day').startOf('day'))
 	const [to, setTo] = useState(moment().startOf('day'))
-	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
+
+	//Const
 	const { open, handleCloseExport } = props
-	useEffect(() => {
-		setSColumns(columns.filter(c => c.isReq).map(c => c.id))
-	}, [])
+	const columns = ['usage', 'benchmark', /*' temperature', */ 'reading']
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
+
+	// useEffect(() => {
+	// 	// setSColumns(columns.filter(c => c.isReq).map(c => c.id))
+	// }, [])
 	//#region Handlers
 
 	const handleCheckboxClick = (c) => (e) => {
 		let newSColumns = [...sColumns]
-		if (newSColumns.indexOf(c.id) !== -1) {
-			newSColumns.splice(newSColumns.indexOf(c.id), 1)
+		if (newSColumns.indexOf(c) !== -1) {
+			newSColumns.splice(newSColumns.indexOf(c), 1)
 		}
 		else {
-			newSColumns.push(c.id)
+			newSColumns.push(c)
 		}
 		newSColumns = newSColumns.sort()
 		setSColumns(newSColumns)
@@ -68,45 +75,31 @@ export const ExportModule = props => {
 	const getData = async () => {
 		// setLoading(true)
 		let config = {
-			type: 'deviceData',
-			config: {
-				customerId: 138230100010117,
-				columns: columns.filter(f => sColumns.indexOf(f.id) !== -1),
-				period: {
-					from: from.clone().subtract(1, 'day').format('YYYY-MM-DD'),
-					to: to.format('YYYY-MM-DD')
-				},
-				filters: {
-					pre: selectedDevices.map(s => ({
-						"key": "device_id",
-						"value": s,
-						"type": "equal"
-					})),
-					post: [
-						{
-							type: "datetime",
-							key: "time",
-							from: from.format('YYYY-MM-DD'),
-							to: to.format('YYYY-MM-DD')
-						}
-					]
-				}
-			}
+			"dateFormat": "YYYY-MM-DD HH:mm:ss",
+			"dateLang": "da",
+			"fields": sColumns,
+			"isAdmin": isSWAdmin,
+			"orgUUID": orgUUID,
+			"type": fileType,
+			"from": from,
+			"to": to,
+			"uuids": selectedDevices.length > 1 ? selectedDevices : null,
+
 		}
-		await getDevicesDataCSV(config).then(rs => {
-			const url = window.URL.createObjectURL(new Blob([rs]))
-			const link = document.createElement('a')
-			link.href = url
-			link.setAttribute('download', `senti-waterworks-${moment().valueOf()}.csv`)
-			document.body.appendChild(link)
-			link.click()
+		await getExportData(config).then(rs => {
+
+			var blob = new Blob([rs], { type: "application/octet-stream" })
+			var fileName = "SW-data-export" + moment().format('YYYY-MM-DD_HH-mm') + ".zip"
+			saveAs(blob, fileName);
 		})
 		handleCloseExport()
 		setLoading(false)
 
-
-
 	}
+	const handleSelectFileType = e => {
+		setFileType(e.target.value)
+	}
+
 	//#endregion
 	return (
 		<Dialog
@@ -120,23 +113,33 @@ export const ExportModule = props => {
 				<MDialogContent >
 
 					<GridContainer>
-						<ItemG xs={6}>
-							<FormGroup>
-								<FormLabel>{t('exports.columns')}</FormLabel>
-								{columns.map((c, i) => {
-									return c.hidden ? null :
-										<FormControlLabel
+						<ItemG xs={6} container spacing={2}>
+							<ItemG xs={12}>
+
+								<FormGroup>
+									<FormLabel>{t('exports.files')}</FormLabel>
+									{columns.map((c, i) => {
+										return <FormControlLabel
 											key={i}
 											control={<Checkbox
 												onChange={handleCheckboxClick(c)}
-												id={c.field}
-												disabled={c.isReq}
-												checked={c.isReq ? true : sColumns.indexOf(c.id) !== -1 ? true : false} />}
-											label={t("exports.fields." + c.label) + ` (${c.label})`}
+												id={c}
+												checked={sColumns.indexOf(c) !== -1 ? true : false} />}
+											label={t("exports.fields." + c) + ` (${c})`}
 											style={{ marginTop: 8 }}
 										/>
-								})}
-							</FormGroup>
+									})}
+								</FormGroup>
+							</ItemG>
+							<ItemG xs={12}>
+								<DSelect
+									label={t('exports.fileType')}
+									simple
+									value={fileType}
+									onChange={handleSelectFileType}
+									menuItems={["csv", 'json'] }
+								/>
+							</ItemG>
 						</ItemG>
 						<ItemG xs={6}>
 							<ItemG container spacing={2}>

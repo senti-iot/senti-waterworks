@@ -512,8 +512,10 @@
 		}
 	},
 	"exports": {
+		"files": "Files",
 		"columns": "Kolonne",
 		"customColumns": "Vælg kolonner",
+				"fileType": "File Type",
 		"fields": {
 			"Date": "Dato",
 			"SigfoxID": "Enhed ID",
@@ -523,8 +525,10 @@
 			"minAmbientTemperature": "Mindste omgivelsestemperatur",
 			"minWaterFlow": "Mindste vandgennemstrømning",
 			"minWaterTemperature": "Mindste vandtemperatur",
-			"waterReading": "Aflæsninger",
-			"waterUsage": "Vandforbrug"
+			"reading": "Aflæsninger",
+			"usage": "Vandforbrug",
+			"benchmark": "Sammenligning",
+			"temperature":"Temperatur"
 		},
 		"period": "Periode",
 		"standardColumns": "Standard kolonner"

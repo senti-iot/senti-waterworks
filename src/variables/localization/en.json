@@ -512,8 +512,10 @@
 		}
 	},
 	"exports": {
+		"files": "Files",
 		"columns": "Columns",
 		"customColumns": "Select Columns",
+		"fileType":"File Type",
 		"fields": {
 			"Date": "Date",
 			"SigfoxID": "Device ID",
@@ -523,8 +525,10 @@
 			"minWaterFlow": "Min. Water Flow",
 			"minWaterTemperature": "Min. Water Temperature",
 			"sentiId": "Senti Device ID",
-			"waterReading": "Water Reading",
-			"waterUsage": "Water Usage"
+			"reading": "Water Reading",
+			"usage": "Water Usage",
+			"temperature":"Temperature",
+			"benchmark":"Benchmark"
 		},
 		"period": "Period",
 		"standardColumns": "Default Columns"
