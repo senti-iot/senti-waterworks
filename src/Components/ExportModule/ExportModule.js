@@ -43,7 +43,7 @@ export const ExportModule = props => {
 
 	//Const
 	const { open, handleCloseExport } = props
-	const columns = ['usage', 'benchmark', /*' temperature', */ 'reading']
+	const columns = isSWAdmin ? ['usage', 'benchmark', 'temperature', 'waterflow', 'reading'] : ["usage", "benchmark", "reading"]
 
 	//useCallbacks
 
