@@ -410,6 +410,7 @@
         "pageTitle": "Device Type"
     },
     "dialogs": {
+
         "cookies": {
             "message": {
                 "snackbar": "Senti.cloud uses cookies for functional purposes. For more information please read our cookies policy."
@@ -479,8 +480,8 @@
             "message": "Data details:"
         },
         "login": {
-            "passwordReseted": "Your password resetted!",
-            "resetPassRequestMessage": "An E-mail sent with instructions on how to reset your password!",
+			"passwordReseted": "Your password has been reset!",
+			"resetPassRequestMessage": "An E-mail sent with instructions on how to reset your password!",
             "resetPasswordMessage": "Reset your password by entering your E-mail"
         },
         "tokens": {

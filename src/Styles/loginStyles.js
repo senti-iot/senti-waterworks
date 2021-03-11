@@ -102,9 +102,15 @@ export const NeedAccountT = styled(T)`
 	}
 `
 export const LoginButton = styled(Button)`
-	margin: 36px 0px;
+	margin: 8px 0px;
 	color: #fff;
-	max-width: 120px;
+	@media ${size.down.md} {
+		max-width: 100%;
+		margin: 8px 0px;
+	}
+`
+export const ResetPasswordButton = styled(Button)`
+	margin: 8px 0px;
 	@media ${size.down.md} {
 		max-width: 100%;
 		margin: 8px 0px;

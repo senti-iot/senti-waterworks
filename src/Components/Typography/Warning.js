@@ -6,6 +6,9 @@ import cx from 'classnames'
 import { WarningIcon, ErrorIcon } from 'variables/icons'
 import ItemG from 'Components/Containers/ItemG'
 const useStyles = makeStyles(theme => ({
+	fullWidth: {
+		width: '100%'
+	},
 	success: {
 		background: green[400]
 	},
@@ -45,9 +48,10 @@ const Warning = (props) => {
 	//State
 
 	//Const
-	const { size, type, label, open } = props
+	const { size, type, label, fullWidth, open } = props
 	const boxClasses = cx({
 		[classes.box]: true,
+		[classes.fullWidth]: fullWidth ? true : false,
 		[classes.mediumBox]: !size ? true : false,
 		[classes.smallBox]: size === "small" ? true : false,
 		[classes.largeBox]: size === 'large' ? true : false,

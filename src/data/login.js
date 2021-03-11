@@ -40,36 +40,36 @@ export const logOut = async () => {
 	cookie.remove('SESSION')
 	// return data
 }
-// /**
-//  *
-//  * @param {object} obj
-//  * @param {String} obj.email User's e-mail
-//  */
-// export const resetPassword = async (obj) => {
-// 	let response = await api.post(`/core/user/forgotpassword`, obj).then(rs => rs)
-// 	return response.ok ? response.data : response.status
-// }
-// /**
-//  *
-//  * @param {object} obj
-//  * @param {String} obj.newPassword New Password
-//  * @param {String} obj.passwordToken Confirm new password token
-//  */
-// export const confirmPassword = async (obj) => {
-// 	let response = await api.post(`/core/user/forgotpassword/set`, obj).then(rs => rs)
-// 	return response.ok ? response.data : response.status
-// }
-// /**
-//  *
-//  * @param {object} obj
-//  * @param {String} obj.id User ID
-//  * @param {String} obj.oldPassword Old Password - Not required
-//  * @param {String} obj.newPassword New Password
-//  */
-// export const setPassword = async (obj) => {
-// 	let data = await api.post(`/core/user/setpassword`, obj).then(rs => rs.data)
-// 	return data
-// }
+/**
+ *
+ * @param {object} obj
+ * @param {String} obj.email User's e-mail
+ */
+export const resetPassword = async (obj) => {
+	let response = await servicesCoreAPI.post(`v2/entity/user/forgotpassword`, obj).then(rs => rs)
+	return response.ok
+}
+/**
+ *
+ * @param {object} obj
+ * @param {String} obj.newPassword New Password
+ * @param {String} obj.passwordToken Confirm new password token
+ */
+export const confirmPassword = async (obj) => {
+	let response = await servicesCoreAPI.post(`v2/entity/user/forgotpassword/set`, obj).then(rs => rs)
+	return response.ok ? response.data : response.status
+}
+/**
+ *
+ * @param {object} obj
+ * @param {String} obj.uuid User UUID
+ * @param {String} obj.oldPassword Old Password - Not required
+ * @param {String} obj.newPassword New Password
+ */
+export const setPassword = async (obj) => {
+	let data = await servicesCoreAPI.post(`v2/entity/user/${obj.uuid}/setpassword`, obj).then(rs => rs.ok)
+	return data
+}
 /**
  *
  * @param {object} user
