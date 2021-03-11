@@ -19,6 +19,11 @@ export const getDevicesDataCSV = async (config) => {
 	let response = await dataExportAPI.post(`v1/export/csv`, config)
 	return response.ok ? response.data : []
 }
+
+export const getExportData = async (config) => {
+	let response = await dataExportAPI.post(`v2/waterworks/export`, config)
+	return response.data
+}
 /**
  * @desc Get total volume data
  * @desc databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to

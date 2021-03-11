@@ -116,8 +116,9 @@ export const tagsServicesAPI = create({
 })
 
 export const dataExportAPI = create({
-	baseURL: sentiServicesAPI,
+	baseURL: sentiServicesAPI + 'data-export',
 	// baseURL: 'localhost:3021',
+	responseType: 'arraybuffer',
 	timeout: 300000,
 	headers: {
 		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
@@ -153,6 +154,7 @@ export const setToken = () => {
 		waterworksAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		tagsServicesAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		tagsServicesAPI.setHeader('appid', process.env.REACT_APP_APPID)
+		dataExportAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		return true
 	}
 	catch (error) {

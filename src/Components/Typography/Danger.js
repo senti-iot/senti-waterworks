@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
 
-import typographyStyle from 'assets/jss/material-dashboard-react/typographyStyle.js';
 
 function Danger({ ...props }) {
 	const { classes, children } = props;
@@ -13,8 +11,6 @@ function Danger({ ...props }) {
 	);
 }
 
-Danger.propTypes = {
-	classes: PropTypes.object.isRequired
-};
 
-export default withStyles(typographyStyle)(Danger);
+
+export default (Danger);

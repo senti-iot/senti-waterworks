@@ -15,7 +15,7 @@ import { loginUser } from 'data/login'
 import { getSettings } from 'Redux/settings'
 import { changeLanguage } from 'Redux/localization'
 import { setToken } from 'data/data'
-import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, NeedAccountT, LoginButton, LoginTF } from 'Styles/loginStyles'
+import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, NeedAccountT, LoginButton, LoginTF, ResetPasswordButton } from 'Styles/loginStyles'
 import LoginImages from 'Components/Custom/Login/NewLoginImages'
 import { ThemeProvider } from '@material-ui/styles'
 import { loginTheme } from 'Styles/themes'
@@ -143,6 +143,10 @@ function Login() {
 
 	const handleShowPassword = () => setShowPassword(!showPassword)
 
+	const handleResetPassword = () => {
+		history.push('/resetpassword')
+	}
+
 	return (
 		<ThemeProvider theme={loginTheme}>
 
@@ -156,21 +160,7 @@ function Login() {
 								</ItemG>
 								<FadeLoader on={loggingIn} onChange={handleLoginUser}>
 									<ItemG xs={12} container justify={'center'}>
-										<ItemG xs={12} container justify={'center'}>
-											<NeedAccountT>
-												<span style={{ marginRight: 4 }}>
-													{t('login.needAnAccount1')}
-													<span style={{ fontWeight: 600 }}> Senti </span>
-													<span>{t('login.needAnAccount2')}</span>?
-												</span>
-												<span>
 
-													<MuiLink component={Link} to={'/signup/da/step1'}>
-														{t('login.createAccount')}
-													</MuiLink>
-												</span>
-											</NeedAccountT>
-										</ItemG>
 
 										<ItemG container xs={12} style={{ marginTop: 48 }}>
 											<LoginTF
@@ -222,12 +212,30 @@ function Login() {
 											/>
 											{/* </ItemG> */}
 										</ItemG>
-										<ItemG xs={12} container justify={'center'}>
+										<ItemG xs={12} container justify={'center'} alignItems={'center'}>
 											<LoginButton variant={'contained'} fullWidth color={'secondary'} onClick={logUser}>
 												{t('actions.login')}
 											</LoginButton>
 										</ItemG>
-										<ItemG xs={12} container justify={'center'}>
+										<ItemG xs={12} container justify={'center'} alignItems={'center'}>
+											<ResetPasswordButton variant={'outlined'} fullWidth color={'secondary'} onClick={handleResetPassword}>
+												{t('login.forgotPassword')}
+											</ResetPasswordButton>
+										</ItemG>
+										<ItemG xs={12} container justify={'center'} style={{ marginTop: 36 }}>
+											<NeedAccountT>
+												<span style={{ marginRight: 4 }}>
+													{t('login.needAnAccount1')}
+													<span style={{ fontWeight: 600 }}> Senti </span>
+													<span>{t('login.needAnAccount2')}</span>?
+												</span>
+												<span>
+
+													<MuiLink component={Link} to={'/signup/da/step1'}>
+														{t('login.createAccount')}
+													</MuiLink>
+												</span>
+											</NeedAccountT>
 										</ItemG>
 									</ItemG>
 								</FadeLoader>

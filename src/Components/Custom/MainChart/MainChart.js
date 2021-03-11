@@ -157,7 +157,7 @@ export const MainChart = React.memo((props) => {
 								/>
 							</ItemG>
 							<ItemG>
-								<ExportModule open={openExport}
+								<ExportModule open={openExport} /* open={true} */
 									handleOpenExport={handleOpenExport}
 									handleCloseExport={handleCloseExport}
 								/>

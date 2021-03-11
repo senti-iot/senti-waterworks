@@ -11,6 +11,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 // import Header from 'Components/Header';
 import { Route, Switch } from 'react-router-dom'
 import Login from './Login'
+import ResetPassword from './ResetPassword'
 // import MobileOnboarding from './MobileOnboarding'
 // import BottomNavGuide from '../Components/MobileOnboarding/InAppScreens/BottomNavGuide' // temp
 import * as themes from 'Styles/themes'
@@ -37,6 +38,9 @@ function Main() {
 					<Switch>
 						<Route path={'/signup/:language/:step/:token?'}>
 							<Onboarding />
+						</Route>
+						<Route path={'/resetpassword/:token?'}>
+							<ResetPassword/>
 						</Route>
 						<Route path={'/login/:language?'}>
 							<Login />
