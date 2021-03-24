@@ -31,7 +31,7 @@ export const ExportModule = props => {
 	const t = useLocalization()
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
-	const orgUUID = useSelector(s => s.settings.user.org.uuid)
+	const orgUUID = useSelector(s => s.settings.user?.org.uuid)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 
 	//State

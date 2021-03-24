@@ -306,7 +306,7 @@ export const adminData = () =>
 export const userData = () =>
 	async (dispatch, getState) => {
 		console.trace()
-		let orgId = getState().settings.user.org.uuid
+		let orgId = getState().settings.user?.org.uuid
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let timeType = getState().dateTime.period.timeType
