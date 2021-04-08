@@ -108,7 +108,11 @@
     "charts": {
         "allDevices": "Alle",
         "chartType": "Chart type",
-        "controlPanel": "Data kontrolpanel",
+		"chartTypes": {
+			"line": "Linje chart",
+			"bar": "Søjle chart"
+		},
+		"controlPanel": "Data kontrolpanel",
         "device": {
             "active": "Aktiverede målere",
             "inactive": "Målere ude af drift"

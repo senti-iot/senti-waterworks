@@ -7,7 +7,7 @@ import DateTimeArrows from 'Components/Input/DateTimeArrows'
 import DateTimeDays from 'Components/Input/DateTimeDays'
 import { ExportModule } from 'Components/ExportModule/ExportModule'
 import ChartsButtonContainer from '../ChartsButton/ChartsButtonContainer'
-import { DateRange, ImportExport, MoreVert, CallMadeIcon, BarChart } from 'variables/icons'
+import { DateRange, ImportExport, MoreVert, CallMadeIcon, BarChart, ShowChart } from 'variables/icons'
 import styled from 'styled-components'
 // import DSelect from 'Components/Input/DSelxect'
 import { makeStyles } from '@material-ui/styles'
@@ -61,7 +61,7 @@ export const MainChart = React.memo((props) => {
 	// const isAdmin = useSelector(s => s.auth.isAdmin)
 	const data = useSelector(s => s.lineData)
 	const fullScreenLineChart = useSelector(s => s.appState.fullScreenLineChart)
-	const chartType = useSelector(s => s.appState.chartType)
+	// const chartType = useSelector(s => s.appState.chartType)
 
 
 	//State
@@ -77,17 +77,19 @@ export const MainChart = React.memo((props) => {
 	//useEffects
 
 	//Handlers
-	const handleChangeChartType = () => {
-		switch (chartType) {
-			case 0:
-				dispatch(changeChartType(1))
-				break;
-			case 1:
-				dispatch(changeChartType(0))
-				break;
-			default:
-				break;
-		}
+	const handleChangeChartType = (index) => {
+		dispatch(changeChartType(index))
+
+		// switch (chartType) {
+		// 	case 0:
+		// 		dispatch(changeChartType(1))
+		// 		break
+		// 	case 1:
+		// 		dispatch(changeChartType(0))
+		// 		break
+		// 	default:
+		// 		break
+		// }
 		// dispatch(changeChartType(!chartType))
 	}
 	const handleOpenExport = () => {
@@ -101,10 +103,12 @@ export const MainChart = React.memo((props) => {
 	const handleOpenFullScreen = () => {
 		dispatch(setFullScreenLineGraph(!fullScreenLineChart))
 	}
+
 	const iconCX = cx({
 		[classes.icon]: true,
 		[classes.fullScreenIcon]: fullScreenLineChart
 	})
+
 	return (
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
@@ -149,10 +153,20 @@ export const MainChart = React.memo((props) => {
 										func: handleOpenExport
 									},
 									{
-										dontShow: false,
-										icon: <BarChart />,
 										label: t('charts.chartType'),
-										func: handleChangeChartType
+										dontShow: false,
+										dropdown: true,
+										options: [{
+											id: 1,
+											icon: <BarChart />,
+											label: t('charts.chartTypes.bar'),
+										},
+										{
+											id: 0,
+											icon: <ShowChart />,
+											label: t('charts.chartTypes.line'),
+										}],
+										handleClick: handleChangeChartType
 									}]}
 								/>
 							</ItemG>

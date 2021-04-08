@@ -108,6 +108,10 @@
     "charts": {
         "allDevices": "All",
         "chartType": "Chart type",
+		"chartTypes": {
+			"line": "Line chart",
+			"bar": "Bar chart"
+		},
         "controlPanel": "Data control panel",
         "device": {
             "active": "Active devices",
