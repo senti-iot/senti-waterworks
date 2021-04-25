@@ -1097,6 +1097,7 @@
         }
     },
     "sidebar": {
+		"groups": "Grupper",
         "about": "Om Senti",
         "api": "API",
         "clients": "Kunder",

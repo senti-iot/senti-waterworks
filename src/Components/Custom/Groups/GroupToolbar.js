@@ -42,6 +42,8 @@ const DeviceToolbar = props => {
 	//Redux
 	const devices = useSelector(s => s.data.devices)
 	const tags = useSelector(s => s.tagManager.tags)
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
+
 	//State
 	const [openAddTags, setOpenAddTags] = useState(false)
 	const [creatingTags, setCreatingTags] = useState(false)
@@ -133,7 +135,7 @@ const DeviceToolbar = props => {
 		}
 		await dispatch(await getAdminDevices())
 		await dispatch(await getTags())
-		s.s('Created')
+		s.s(replace ? "snackbars.edit.tagReplace" : "snackbars.edit.tagEdit")
 		handleCloseEditTags()
 	}
 	const handleCreateTags = async () => {
@@ -149,11 +151,12 @@ const DeviceToolbar = props => {
 				resources: assignTags
 			}
 			let result = await addTagToResources(fResources)
+			//TODO Snackbar alert
 			console.log(result)
 		}
 		await dispatch(await getAdminDevices())
 		await dispatch(await getTags())
-		s.s('Created')
+		s.s('snackbars.create.tag', { tagName: ftag.name })
 		handleCloseAddTags()
 	}
 
@@ -178,7 +181,6 @@ const DeviceToolbar = props => {
 								<List dense className={classes.listContainer}>
 									{props.devices.map(d => {
 										let device = devices[devices.findIndex(f => f.uuid === d)]
-										console.log(device)
 										return <ListItem divider>{device?.name} - {device?.uuname}</ListItem>
 									})
 									}
@@ -254,7 +256,6 @@ const DeviceToolbar = props => {
 								<List dense className={classes.listContainer}>
 									{props.devices.map(d => {
 										let device = devices[devices.findIndex(f => f.uuid === d)]
-										console.log(device)
 										return <ListItem divider>{device?.name} - {device?.uuname}</ListItem>
 									})
 									}
@@ -328,12 +329,13 @@ const DeviceToolbar = props => {
 				<ItemG>
 					<Chip color={'primary'} label={`${props.devices.length} ${t('tables.selected')}`} />
 				</ItemG>
-				<ItemG>
-					<Chip style={{ color: '#fff' }} label={t('actions.addNewTag')} color={'secondary'} onClick={handleOpenAddTags} icon={<Add style={{ color: '#fff' }} />} />
-				</ItemG>
-				<ItemG>
-					<Chip style={{ color: '#fff' }} label={t('actions.editTags')} color={'secondary'} onClick={handleOpenEditTags} icon={<Edit style={{ color: '#fff' }} />} />
-				</ItemG>
+				{isSWAdmin ? <>
+					<ItemG>
+						<Chip style={{ color: '#fff' }} label={t('actions.addNewTag')} color={'secondary'} onClick={handleOpenAddTags} icon={<Add style={{ color: '#fff' }} />} />
+					</ItemG>
+					<ItemG>
+						<Chip style={{ color: '#fff' }} label={t('actions.editTags')} color={'secondary'} onClick={handleOpenEditTags} icon={<Edit style={{ color: '#fff' }} />} />
+					</ItemG> </> : null}
 			</ItemG>
 			{renderEditTags()}
 			{renderAddTags()}

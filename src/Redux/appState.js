@@ -267,6 +267,7 @@ const initialState = {
 		favorites: [],
 		projects: [],
 		devices: [],
+		groups: [],
 		collections: [],
 		orgs: [],
 		users: [],

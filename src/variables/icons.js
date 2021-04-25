@@ -137,7 +137,10 @@ import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
 import Copyright from '@material-ui/icons/Copyright'
 import PageviewIcon from '@material-ui/icons/Pageview';
 import TuneIcon from '@material-ui/icons/Tune';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
+
 export {
+	GroupWorkIcon,
 	TuneIcon,
 	PageviewIcon,
 	Copyright,

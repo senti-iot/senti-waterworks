@@ -11,7 +11,7 @@ import {
 	// Star,
 	// SwapHorizontalCircleIcon,
 	// VerifiedUserIcon,
-	Dashboard, Devices
+	Dashboard, Devices, GroupWorkIcon
 } from 'variables/icons'
 
 const SettingsRoute = React.lazy(() => import('./Settings'))
@@ -20,6 +20,7 @@ const MyProfileRoute = React.lazy(() => import('./MyProfile'))
 const DashboardRoute = React.lazy(() => import('./Dashboard'))
 
 const DevicesRoute = React.lazy(() => import('./Devices'))
+const GroupsRoute = React.lazy(() => import('./Groups'))
 
 // const AboutSentiRoute = React.lazy(() => import('./AboutSenti'))
 // const FavoritesRoute = React.lazy(() => import('./Favorites'))
@@ -54,6 +55,13 @@ export const routes = [
 		icon: Devices,
 		menuRoute: 'devices',
 		component: DevicesRoute
+	},
+	{
+		path: '/groups',
+		sidebarName: 'sidebar.groups',
+		icon: GroupWorkIcon,
+		menuRoute: 'groups',
+		component: GroupsRoute
 	},
 	// {
 	// 	path: '/device-map',
