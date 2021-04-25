@@ -372,6 +372,7 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let tooltipDiv = d3.select(`#tooltip${this.props.id}`)
 		const setTooltip = this.props.setTooltip
+		//TODO: Generate multiple bars on the same tile, filter the data for lines with bars active and then stack them
 		data.forEach((line, i) => {
 			if (!line.bars) {
 				return
@@ -380,7 +381,7 @@ class d3Line {
 				this.svg.selectAll(".bar")
 					.data(line.data)
 					.enter().append("rect")
-					.attr('class', (d, i) => i % 2 === 0 ? classes.waterUsageA : classes.waterUsageB)
+					.attr('class', (d, i) => i % 2 === 0 ? classes[`${line.name}A`] : classes[`${line.name}B`])
 					.attr("height", (d, i) => {
 						let barHeight = height - this.y(d.value) - this.margin.bottom
 						return barHeight < 10 ? barHeight === 0 ? 0 : 10 : barHeight

@@ -1,4 +1,4 @@
-import { orange } from '@material-ui/core/colors'
+import { blue, orange, red } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/styles'
 
 const lineStyles = makeStyles(theme => ({
@@ -46,14 +46,34 @@ const lineStyles = makeStyles(theme => ({
 			transform: 'translate(-17px, 0px)'
 		}
 	},
-	waterUsageA: {
+	waterusageLA: {
 		rx: 4,
 		fill: orange[300],
 		// background: orange[500]
 	},
-	waterUsageB: {
+	waterusageLB: {
 		rx: 4,
 		fill: orange[500],
+		// background: orange[500]
+	},
+	tempWaterA: {
+		rx: 4,
+		fill: blue[300],
+		// background: orange[500]
+	},
+	tempWaterB: {
+		rx: 4,
+		fill: blue[500],
+		// background: orange[500]
+	},
+	tempAmbientA: {
+		rx: 4,
+		fill: red[300],
+		// background: orange[500]
+	},
+	tempAmbientB: {
+		rx: 4,
+		fill: red[500],
 		// background: orange[500]
 	}
 }))

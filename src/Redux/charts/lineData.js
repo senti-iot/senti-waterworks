@@ -90,7 +90,8 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				name: 'tempWater',
 				median: true,
 				data: currentPeriodData.minWtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
-				color: 'blue'
+				color: 'blue',
+				bars: true
 
 			})
 		}
@@ -100,7 +101,8 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				name: 'tempAmbient',
 				median: true,
 				data: currentPeriodData.minAtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
-				color: 'red'
+				color: 'red',
+				bars: true
 
 			})
 		}
