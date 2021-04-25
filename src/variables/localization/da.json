@@ -15,7 +15,7 @@
         "addInboundFunc": "Tilføj funktion ved modtagelse af data",
         "addKey": "Tilføj enhed datafelt",
         "addMtdKey": "Tilføj enhed metadata felt",
-        "addNewTag": "Tilføj nyt etiket",
+        "addNewTag": "Tilføj nyt gruppe",
         "apply": "Anvend",
         "back": "Forrige",
         "call": "Ring",
@@ -33,7 +33,7 @@
         "edit": "Rediger",
         "editFilter": "Rediger filter",
         "editLocation": "Rediger lokation",
-        "editTags": "Rediger etiketter",
+        "editTags": "Rediger grupper",
         "export": "Eksporter data",
         "extendProfile": "Udvidet profil",
         "filter": "Filtrering",
@@ -767,7 +767,7 @@
         "org": "Ingen organisation",
         "project": "Ingen projekt",
         "projects": "Ingen projekter",
-        "tag": "Ingen etiket"
+        "tag": "Ingen gruppe"
     },
     "numSuffix": {
         "billion": "b",
@@ -978,8 +978,8 @@
             "period": "Periode",
             "periods": "Perioder",
             "rawData": "Rådata",
-            "splitBenchmarkByTags": "Opdel sammenligning i flere linjer efter etiketter",
-            "splitBenchmarkByTagsWarn": "Denne mulighed deaktiverer det almindelig sammenligning og genererer nye sammenligninglinjer for hver gruppe af enheder under en bestemt etiket",
+            "splitBenchmarkByTags": "Opdel sammenligning i flere linjer efter grupper",
+            "splitBenchmarkByTagsWarn": "Denne mulighed deaktiverer det almindelig sammenligning og genererer nye sammenligninglinjer for hver gruppe af enheder under en bestemt gruppe",
             "weekendColor": "Weekend farve",
             "weekendColors": {
                 "amber": "Rav",
@@ -1198,8 +1198,8 @@
             "devicetype": "Enhedtype %{dt} updated!",
             "password": "Kodeord er blevet opdateret!",
             "registry": "Register %{reg} er opdateret!",
-            "tagEdit": "Etiketter tilføjet til valgte målere!",
-            "tagReplace": "Etiketter erstattet til valgte målere!",
+            "tagEdit": "grupper tilføjet til valgte målere!",
+            "tagReplace": "grupper erstattet til valgte målere!",
             "user": "Personlige detaljer er blevet opdateret!"
         },
         "emailsCopied": "E-mail adresser kopieret til klippebord",
@@ -1266,8 +1266,8 @@
         "users": "Brugere"
     },
     "tags": {
-        "createTag": "Tilføj nyt etiket",
-        "editTag": "Rediger etiketter",
+        "createTag": "Tilføj nyt gruppe",
+        "editTag": "Rediger grupper",
         "fields": {
             "color": "Farve",
             "description": "Beskrivelse",
@@ -1276,8 +1276,8 @@
         "filter": {
             "title": "Filtrer enheder"
         },
-        "tag": "Etiket",
-        "tags": "Etiketter"
+        "tag": "gruppe",
+        "tags": "grupper"
     },
     "tokens": {
         "fields": {

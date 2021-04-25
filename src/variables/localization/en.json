@@ -15,7 +15,7 @@
         "addInboundFunc": "Add function on receiving data",
         "addKey": "Add device data field",
         "addMtdKey": "Add device metadata field",
-        "addNewTag": "Add new tag",
+        "addNewTag": "Create new group",
         "apply": "Apply",
         "back": "Previous",
         "call": "Ring",
@@ -33,7 +33,7 @@
         "edit": "Edit",
         "editFilter": "Edit filter",
         "editLocation": "Edit location",
-        "editTags": "Edit tags",
+        "editTags": "Edit groups",
         "export": "Export data",
         "extendProfile": "Extended Profile",
         "filter": "Filter",
@@ -342,7 +342,7 @@
                 "inactive": "Inactive"
             },
             "status": "Status",
-            "tags": "Tags",
+            "tags": "Groups",
             "temp": "CPU temperature",
             "type": "Type",
             "uuid": "Device ID",
@@ -768,7 +768,7 @@
         "org": "No organisation",
         "project": "No project",
         "projects": "No projects",
-        "tag": "No tag"
+        "tag": "No group"
     },
     "numSuffix": {
         "billion": "bil.",
@@ -979,8 +979,8 @@
             "period": "Period",
             "periods": "Periods",
             "rawData": "Raw data",
-            "splitBenchmarkByTags": "Split benchmark in multiple lines by tags",
-            "splitBenchmarkByTagsWarn": "This option will disable the normal benchmark and generate new benchmark lines for each group of devices under a specific tag",
+            "splitBenchmarkByTags": "Split benchmark in multiple lines by groups",
+            "splitBenchmarkByTagsWarn": "This option will disable the normal benchmark and generate new benchmark lines for each group of devices under a specific group",
             "weekendColor": "Farve til weekend",
             "weekendColors": {
                 "amber": "Amber",
@@ -1183,7 +1183,7 @@
             "device": "Device %{device} created!",
             "devicetype": "Device Type %{dt} created!",
             "registry": "Registry %{reg} created!",
-            "tag": "Tag %{tagName} created and assigned to selected devices!"
+            "tag": "Group %{tagName} created and selected devices assigned to it!"
         },
         "createdFail": "Creation failed!",
         "createdSuccess": "Created!",
@@ -1198,8 +1198,8 @@
             "devicetype": "Device Type %{dt} updated!",
             "password": "Password has been updated!",
             "registry": "Registry %{reg} updated!",
-            "tagEdit": "Tags assigned to selected devices!",
-            "tagReplace": "Tags replaced to selected devices!",
+            "tagEdit": "Selected devices assigned to groups!",
+            "tagReplace": "Selected devices moved to groups!",
             "user": "Personal details have been updated!"
         },
         "emailsCopied": "E-mail adresses copied to clipboard",
@@ -1266,8 +1266,8 @@
         "users": "Users"
     },
     "tags": {
-        "createTag": "Create new tag",
-        "editTag": "Edit tags",
+        "createTag": "Create new group",
+        "editTag": "Edit group",
         "fields": {
             "color": "Color",
             "description": "Description",
@@ -1276,8 +1276,8 @@
         "filter": {
             "title": "Filter devices"
         },
-        "tag": "Tag",
-        "tags": "Tags"
+        "tag": "Group",
+        "tags": "Groups"
     },
     "tokens": {
         "fields": {
@@ -1421,7 +1421,7 @@
             "postnr": "Zip",
             "profileImage": "Profile image",
             "recoveryEmail": "Recovery email",
-            "tags": "Tags",
+            "tags": "Groups",
             "twitterURL": "Twitter",
             "userName": "Username"
         },
