@@ -107,7 +107,7 @@
     },
     "charts": {
         "allDevices": "Alle",
-        "chartType": "Chart type",
+        "chartType": "Diagramtype",
 		"chartTypes": {
 			"line": "Linje chart",
 			"bar": "Søjle chart"
