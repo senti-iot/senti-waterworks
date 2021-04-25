@@ -1,5 +1,5 @@
 import { GridContainer, InfoCard, ItemG, PageHeader } from 'Components'
-import { Devices as DeviceIcon } from 'variables/icons'
+import { GroupWorkIcon } from 'variables/icons'
 import React from 'react'
 import GroupTable from 'Components/Custom/Groups/GroupTable'
 
@@ -23,7 +23,7 @@ const Groups = () => {
 			<ItemG xs={12}>
 				<PageHeader
 					label={'sidebar.Groups'}
-					icon={DeviceIcon}
+					icon={GroupWorkIcon}
 
 				/>
 			</ItemG>
