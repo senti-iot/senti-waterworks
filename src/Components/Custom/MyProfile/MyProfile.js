@@ -446,7 +446,7 @@ const MyProfile = () => {
 							type={'error'}
 						/>
 						<Button onClick={handleOpenPasswordDialog} color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.changePassword')} </Button>
-						<Button onClick={handleSaveEdit} disabled={!edited} color={'secondary'} style={{ margin: 16, color: '#fff' }} variant={'contained'}>{saving ? <CircularProgress size={24} /> : t('actions.edit')}</Button>
+						<Button onClick={handleSaveEdit} disabled={!edited} color={'secondary'} style={{ margin: 16, color: '#fff' }} variant={'contained'}>{saving ? <CircularProgress size={24} /> : t('actions.save')}</Button>
 
 					</ItemG>
 				</CardActions>
