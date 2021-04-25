@@ -151,7 +151,6 @@ class d3Line {
 		this.generateMedian()
 		this.generateDots()
 		this.generateLines()
-		// this.yAxis.call(d3.axisLeft(this.y))
 	}
 	generateYAxis = (noDomain) => {
 
@@ -163,8 +162,6 @@ class d3Line {
 			this.y = d3.scaleLinear()
 				.range([height - this.margin.bottom, this.margin.top + 20])
 				.domain([0, d3.max(data, d => d.value)])
-				// .nice()
-			// this.y.domain([getMin(allData), getMax(allData)])
 		}
 
 		let yAxis = this.yAxis = this.svg.append("g")
@@ -312,8 +309,8 @@ class d3Line {
 			.call(xAxis_hours)
 
 		/**
-			* Day Axis Styling
-			*/
+		* Day Axis Styling
+		*/
 		this.xAxisHours.selectAll('path').attr('class', classes.axis)
 		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxisHours.selectAll('line').attr('class', classes.axis)
@@ -324,9 +321,7 @@ class d3Line {
 		 * Generate Day axis
 		 */
 		this.xAxis_days = d3.axisBottom(this.x)
-			// .tickFormat(d3.timeFormat("%d"))
 			.tickFormat(f => moment(f).format('D'))
-			// .ticks(7)
 			.tickValues(ticks)
 
 		/**
@@ -338,8 +333,8 @@ class d3Line {
 
 
 		/**
-			* Day Axis Styling
-			*/
+		* Day Axis Styling
+		*/
 		this.xAxis.selectAll('path').attr('class', classes.axis)
 		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
 		this.xAxis.selectAll('line').attr('class', classes.axis)
@@ -415,7 +410,6 @@ class d3Line {
 						setTooltip(d)
 
 					}).on("mouseout", function () {
-					// setExpand(false)
 						d3.select(this).attr("r", 6)
 						tooltipDiv.transition()
 							.duration(200)
@@ -527,8 +521,6 @@ class d3Line {
 			}
 		})
 	}
-
-
 
 	generateDots = () => {
 		let data = this.props.data ? this.props.data[this.props.id] : []
@@ -793,10 +785,10 @@ class d3Line {
 					//(the length of one pattern in essence)
 					//So for "6,6", for example, that would return 6+6 = 12
 					var dashLength =
-							dashing
-								.split(/[\s,]/)
-								.map(function (a) { return parseFloat(a) || 0 })
-								.reduce(function (a, b) { return a + b })
+						dashing
+							.split(/[\s,]/)
+							.map(function (a) { return parseFloat(a) || 0 })
+							.reduce(function (a, b) { return a + b })
 
 					//How many of these dash patterns will fit inside the entire path?
 					var dashCount = Math.ceil(totalLength / dashLength)
