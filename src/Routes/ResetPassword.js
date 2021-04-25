@@ -8,7 +8,7 @@ import { useEventListener, useDispatch, useHistory, useLocation, useLocalization
 import { Email, Visibility, VisibilityOff } from 'variables/icons'
 
 // Data & Redux
-import { getSettings } from 'Redux/settings'
+// import { getSettings } from 'Redux/settings'
 import { changeLanguage } from 'Redux/localization'
 import { LoginWrapper, MobileContainer, ImgLogo, /* SmallActionButton,  */Footer, FooterText, MutedButton, InputContainer, LeftPanel, /* NeedAccountT, */ LoginButton, LoginTF, ResetPasswordButton, SmallActionButton } from 'Styles/loginStyles'
 import LoginImages from 'Components/Custom/Login/NewLoginImages'
@@ -29,10 +29,10 @@ function ResetPassword() {
 	const params = useParams()
 	let token = params.token
 	//Redux
-	const redux = {
-		getSettings: async () => dispatch(await getSettings()),
-		setLanguage: lang => dispatch(changeLanguage(lang, true))
-	}
+	// const redux = {
+	// 	getSettings: async () => dispatch(await getSettings()),
+	// 	setLanguage: lang => dispatch(changeLanguage(lang, true))
+	// }
 
 	//State
 	const [email, setEmail] = useState('')
@@ -197,9 +197,9 @@ function ResetPassword() {
 
 	useEffect(() => {
 		if (location.pathname.includes('en')) {
-			redux.setLanguage('en')
+			dispatch(changeLanguage('en', true))
 		}
-	}, [location.pathname, history, redux])
+	}, [location.pathname, history, dispatch])
 
 	const handleCancelReset = () => {
 		history.push('/login')

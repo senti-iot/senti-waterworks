@@ -41,10 +41,10 @@ function Login() {
 	const history = useHistory()
 	const dispatch = useDispatch()
 
-	const redux = {
-		getSettings: async () => dispatch(await getSettings()),
-		setLanguage: lang => dispatch(changeLanguage(lang, true))
-	}
+	// const redux = {
+	// 	getSettings: async () => dispatch(await getSettings()),
+	// 	setLanguage: lang => dispatch(changeLanguage(lang, true))
+	// }
 	const t = useLocalization()
 
 	const handleCookies = () => setCookies(!cookies)
@@ -90,7 +90,7 @@ function Login() {
 				let exp = moment().add('1', 'day')
 				cookie.save('SESSION', rs, { path: '/', expires: exp.toDate() })
 				if (setToken()) {
-					await redux.getSettings()
+					await dispatch(await getSettings())
 					var prevURL = location.state ? location.state.prevURL : null
 					history.push(prevURL ? prevURL : /* defaultRoute */ '/')
 
@@ -136,10 +136,11 @@ function Login() {
 			}
 		}
 		if (location.pathname.includes('en')) {
-			redux.setLanguage('en')
+			// redux.setLanguage('en')
+			dispatch(changeLanguage('en', true))
 			// setLanguage('en')
 		}
-	}, [location.pathname, history, redux])
+	}, [location.pathname, history, dispatch])
 
 	const handleShowPassword = () => setShowPassword(!showPassword)
 

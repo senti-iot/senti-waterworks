@@ -23,9 +23,9 @@ const Settings = (props) => {
 
 	//Redux
 	const saved = useSelector(state => state.settings.saved)
-	const redux = {
-		finishedSaving: () => dispatch(finishedSaving())
-	}
+	// const redux = {
+	// 	finishedSaving: () => dispatch(finishedSaving())
+	// }
 	//State
 
 	//Const
@@ -40,9 +40,8 @@ const Settings = (props) => {
 	useEffect(() => {
 		if (saved === true) {
 			s('snackbars.settingsSaved')
-			redux.finishedSaving()
-		}
-	}, [redux, saved, s])
+			dispatch(finishedSaving())		}
+	}, [saved, s, dispatch])
 	//Handlers
 
 	const handleCloseButton = () => {
