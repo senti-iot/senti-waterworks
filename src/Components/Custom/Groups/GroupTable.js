@@ -8,6 +8,8 @@ import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 // import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
 import { getTags } from 'Redux/tagManager'
+import { Dialog } from '@material-ui/core'
+import Group from 'Components/Custom/Groups/Group'
 
 
 
@@ -25,7 +27,8 @@ const GroupTable = (props) => {
 	const [loading, setLoading] = useState(true)
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
-
+	const [clickedTag, setClickedTag] = useState(null)
+	const [openGroup, setOpenGroup] = useState(false)
 	//Const
 
 	//useCallbacks
@@ -90,10 +93,21 @@ const GroupTable = (props) => {
 	const bodyStructure = row => {
 		return <Fragment key={row.id}>
 			{/* <TC label={row.address} /> */}
-			<TC label={row.name} />
-			<TC label={row.description} />
-			<TC label={<div style={{ borderRadius: 4, background: row.color, width: 72, height: 24 }}/>} />
+			<TC onClick={handleSetClickedTag(row)} label={row.name} />
+			<TC onClick={handleSetClickedTag(row)} label={row.description} />
+			<TC onClick={handleSetClickedTag(row)} label={<div style={{ borderRadius: 4, background: row.color, width: 72, height: 24 }} />} />
 		</Fragment>
+	}
+	const handleSetClickedTag = (tag) => e => {
+		console.log('Tag', tag)
+		setOpenGroup(true)
+		setClickedTag(tag)
+	}
+	const handleCloseClickedTag = () => {
+		setOpenGroup(false)
+		setTimeout(() => {
+			setClickedTag(false)
+		}, 300);
 	}
 	return (
 
@@ -117,6 +131,12 @@ const GroupTable = (props) => {
 				handleClick={() => { }}
 				handleSort={handleRequestSort}
 			/>
+			<Dialog
+				open={openGroup}
+				onClose={handleCloseClickedTag}
+			>
+				<Group g={clickedTag} handleClose={handleCloseClickedTag}/>
+			</Dialog>
 		</>
 
 	)

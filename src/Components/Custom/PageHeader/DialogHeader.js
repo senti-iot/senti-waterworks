@@ -35,7 +35,7 @@ const DialogHeader = props => {
 	//State
 
 	//Const
-	const { label, close, handleCloseButton, icon } = props
+	const { label, close, handleCloseButton, icon, noLoc } = props
 	//useCallbacks
 
 	//useEffects
@@ -49,7 +49,7 @@ const DialogHeader = props => {
 				 <props.icon className={classes.avatar} />
 				{/* <SettingsRounded className={classes.avatar} /> */}
 			</ItemG> : null}
-			title={<T variant={'h6'} style={{ color: '#fff' }}>{t(label)}</T>}
+			title={<T variant={'h6'} style={{ color: '#fff' }}>{noLoc ? label : t(label)}</T>}
 			action={close ? <IconButton onClick={handleCloseButton}>
 				<Close className={classes.closeButton} />
 			</IconButton> : null}

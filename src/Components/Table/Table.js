@@ -1,5 +1,5 @@
 import {
-	/* Checkbox, */ Hidden, Table, TableBody, TableCell,
+	/* Checkbox, */ /* Hidden, */ Table, TableBody, TableCell,
 	TableRow,
 	Checkbox
 } from '@material-ui/core'
@@ -32,7 +32,7 @@ function CTable(props) {
 
 	//Const
 	const { selected, data, order, orderBy, handleClick, columns, handleCheckboxClick, handleSelectAllClick, handleSort, sortKey } = props
-	const { body, bodyStructure, bodyMobileStructure, mobile } = props
+	const { body, bodyStructure, /* bodyMobileStructure, mobile */ } = props
 	let emptyRows
 	if (data)
 		emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)
@@ -89,7 +89,7 @@ function CTable(props) {
 							return (
 								<TableRow
 									hover
-									onClick={handleClick(row.id)}
+									onClick={handleClick(row)}
 									role='checkbox'
 									aria-checked={isSelectedRow}
 									tabIndex={-1}
@@ -97,22 +97,22 @@ function CTable(props) {
 									selected={isSelectedRow}
 									style={{ cursor: 'pointer' }}
 								>
-									{mobile ? <Hidden lgUp>
+									{/* {mobile ? <Hidden lgUp>
 										<Fragment>
 											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(e, row.uuid)} />} />
 											{bodyMobileStructure(row)}
 										</Fragment>
-									</Hidden> : null}
+									</Hidden> : null} */}
 
-									<Hidden mdDown>
+									{/* <Hidden mdDown> */}
 
-										<Fragment>
-											<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(!e.target.checked, row.uuid)} />} />
-											{bodyStructure(row)}
-										</Fragment>
+									<Fragment>
+										<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(!e.target.checked, row.uuid)} />} />
+										{bodyStructure(row)}
+									</Fragment>
 
 
-									</Hidden>
+									{/* </Hidden> */}
 								</TableRow>
 							)
 						}) : null}
