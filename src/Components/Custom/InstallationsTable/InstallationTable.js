@@ -6,21 +6,28 @@ import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { getAdminDevices, getAdminInstallations, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
-import { Chip, Tooltip } from '@material-ui/core'
+// import { Chip, Tooltip } from '@material-ui/core'
 // import InstallationToolbar from 'Components/Custom/InstallationsTable/InstallationToolbar'
-import { getTags } from 'Redux/tagManager'
-import { contrastColor } from 'data/functions'
+// import { getTags } from 'Redux/tagManager'
+// import { contrastColor } from 'data/functions'
+import { makeStyles } from '@material-ui/styles'
+import { red } from '@material-ui/core/colors'
+import { SwapHorizontalCircleIcon } from 'variables/icons'
 
-
+const styles = makeStyles(theme => ({
+	movingOut: {
+		fill: red[500]
+	}
+}))
 
 const FullInstallationTable = (props) => {
 	//Hooks
 	const dispatch = useDispatch()
 	const t = useLocalization()
-
+	const classes = styles()
 	//Redux
 	const installations = useSelector(s => s.data.installations)
-	const tags = useSelector(s => s.tagManager.tags)
+	// const tags = useSelector(s => s.tagManager.tags)
 	const filters = useSelector(s => s.appState.filters.installations)
 
 	//State
@@ -83,35 +90,41 @@ const FullInstallationTable = (props) => {
 			setSelDev(customFilterItems(installations, filters).map(d => d.uuid))
 	}
 	//#region  Filters
-	const dLiveStatus = () => {
+	const dOperation = () => {
 		return [
-			{ value: 0, label: t("installations.fields.state.inactive") },
-			{ value: 1, label: t("installations.fields.state.active") },
+			{ value: 0, label: t("installations.operations.inactive") },
+			{ value: 1, label: t("installations.operations.active") },
 		]
 	}
-	const dTagList = () => {
-		return tags.map(t => ({
-			value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div> }))
-
+	const dState = () => {
+		return [
+			{ value: 0, label: t("installations.states.onboarded") },
+			{ value: 1, label: t("installations.states.provisioned") }
+		]
 	}
+	// const dTagList = () => {
+	// 	return tags.map(t => ({
+	// 		value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div> }))
+	// }
 	const installationFilters = [
-		{ key: 'name', name: t('installations.fields.name'), type: 'string' },
 		{ key: 'address', name: t('installations.fields.address'), type: 'string' },
-		{ key: 'communication', name: t('installations.fields.status'), type: 'dropDown', options: dLiveStatus() },
-		{ key: '', name: t('installations.fields.tags'), type: 'dropDown', options: dTagList() },
+		{ key: 'state', name: t('installations.fields.state'), type: 'dropDown', options: dState() },
+		{ key: 'operation', name: t('installations.fields.operation'), type: 'dropDown', options: dOperation() },
+		// { key: '', name: t('installations.fields.tags'), type: 'dropDown', options: dTagList() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
 
 	//#endregion
 	const columns = [
-		// { id: 'address', label: t('installations.fields.address') },
-		{ id: 'uuid', label: t('installations.fields.uuid') },
-		{ id: 'name', label: t('installations.fields.name') },
+		{ id: 'address', label: t('installations.fields.address') },
+		{ id: 'uuid', label: t('installations.fields.instId') },
+		{ id: 'instDevUUID', label: t('installations.fields.deviceId') },
+		{ id: 'operation', label: t('installations.fields.operation') },
+		{ id: 'moving', label: t('installations.fields.moving') },
+		{ id: 'state', label: t('installations.fields.state') }
 		// { id: 'id', label: t('installations.fields.id') },
 		// { id: 'type', label: t('installations.fields.type') },
 		// { id: 'group', label: t('installations.fields.group') },
-		{ id: 'communication', label: t('installations.fields.status') },
-		{ id: 'tags', label: t('installations.fields.tags') }
 	]
 	// const renderTags = installation => {
 	// 	return installation.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
@@ -119,21 +132,54 @@ const FullInstallationTable = (props) => {
 	// 	</Tooltip>
 	// 	))
 	// }
+	const renderState = (state) => {
+		switch (state) {
+			case 0:
+				return t("installations.states.onboarded")
+			case 1:
+				return t("installations.states.provisioned")
+			default:
+				break;
+		}
+	}
+	const renderOperation = (op) => {
+		switch (op) {
+			case 0:
+				return t("installations.operations.inactive")
+			case 1:
+				return t("installations.operations.active")
+			default:
+				break
+		}
+	}
+	const renderMoving = (mv) => {
+		switch (mv) {
+			case 0:
+				return
+			case 1:
+				return <SwapHorizontalCircleIcon className={classes.movingOut}/>
+			default:
+				return
+		}
+	}
 	const bodyStructure = row => {
 		return <Fragment key={row.id}>
 			<TC label={row.address} />
 			<TC label={row.uuid} />
-			<TC label={row.deviceUUID} />
-			<TC label={row.operation} />
-			<TC label={row.moving} />
-			<TC label={row.state} />
+			<TC label={row.instDevUUID} />
+			<TC label={renderOperation(row.operation)} />
+			<TC label={renderMoving(row.moving)} />
+			<TC label={renderState(row.state)} />
 		</Fragment>
 	}
 	return (
 
 		<>
 
-			{/* {selDev.length > 0 ? <InstallationToolbar installations={selDev}/> : <FilterToolbar reduxKey={'installations'} filters={installationFilters} />} */}
+			{selDev.length > 0 ? <Fragment>
+				{/* <InstallationToolbar installations={selDev}/> */}
+			</Fragment>
+				: <FilterToolbar reduxKey={'installations'} filters={installationFilters} />}
 
 			<CTable
 				order={order}

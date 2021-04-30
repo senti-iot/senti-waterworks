@@ -112,7 +112,7 @@ function Header({ ...props }) {
 						</Button>
 					</ItemG>
 					<ItemG xs={1} container alignItems={'center'} justify={'center'}>
-						<Button className={classes.toolbarButton} onClick={() => history.push('/devices')} startIcon={<ViewList />}>
+						<Button className={classes.toolbarButton} onClick={() => history.push('/installations')} startIcon={<ViewList />}>
 							{t('toolbar.list')}
 						</Button>
 
