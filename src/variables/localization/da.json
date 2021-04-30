@@ -108,11 +108,11 @@
     "charts": {
         "allDevices": "Alle",
         "chartType": "Diagramtype",
-		"chartTypes": {
-			"line": "Linje chart",
-			"bar": "Søjle chart"
-		},
-		"controlPanel": "Data kontrolpanel",
+        "chartTypes": {
+            "bar": "Søjle chart",
+            "line": "Linje chart"
+        },
+        "controlPanel": "Data kontrolpanel",
         "device": {
             "active": "Aktiverede målere",
             "inactive": "Målere ude af drift"
@@ -612,6 +612,25 @@
         "uploadFailed": "Billeder ikke overført! Genindlæs Senti og prøv igen!",
         "uploadSuccess": "Billeder overført"
     },
+    "installations": {
+        "fields": {
+            "address": "Addresse",
+            "deviceId": "Måler ID",
+            "instId": "Installations ID",
+            "moving": "Flytning",
+            "operation": "Driftstatus",
+            "state": "Tilstand",
+            "tags": "Grupper"
+        },
+        "operations": {
+            "active": "Aktiveret",
+            "inactive": "Ikke aktiv"
+        },
+        "states": {
+            "onboarded": "Onboardet",
+            "provisioned": "Provisioneret"
+        }
+    },
     "links": {
         "googleMaps": "Vis på Google Maps",
         "mailTo": "Send E-mail til",
@@ -1097,7 +1116,6 @@
         }
     },
     "sidebar": {
-		"groups": "Grupper",
         "about": "Om Senti",
         "api": "API",
         "clients": "Kunder",
@@ -1114,6 +1132,7 @@
         "devicetype": "Enhedstype",
         "devicetypes": "Enhedstyper",
         "favorites": "Favoritter",
+        "groups": "Grupper",
         "home": "Hjem",
         "manage": "Konfiguration",
         "messages": "Beskeder",
@@ -1294,6 +1313,7 @@
         }
     },
     "toolbar": {
+        "list": "Liste",
         "overview": "Overblik"
     },
     "tooltips": {

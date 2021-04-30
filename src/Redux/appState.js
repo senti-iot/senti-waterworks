@@ -269,6 +269,7 @@ const initialState = {
 		devices: [],
 		groups: [],
 		collections: [],
+		installations: [],
 		orgs: [],
 		users: [],
 		registries: [],

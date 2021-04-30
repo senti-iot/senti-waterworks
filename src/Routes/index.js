@@ -21,6 +21,7 @@ const DashboardRoute = React.lazy(() => import('./Dashboard'))
 
 const DevicesRoute = React.lazy(() => import('./Devices'))
 const GroupsRoute = React.lazy(() => import('./Groups'))
+const InstallationsRoute = React.lazy(() => import('./Installations'))
 
 // const AboutSentiRoute = React.lazy(() => import('./AboutSenti'))
 // const FavoritesRoute = React.lazy(() => import('./Favorites'))
@@ -62,6 +63,13 @@ export const routes = [
 		icon: GroupWorkIcon,
 		menuRoute: 'groups',
 		component: GroupsRoute
+	},
+	{
+		path: '/installations',
+		sidebarName: 'sidebar.installations',
+		icon: Devices,
+		menuRoute: 'installations',
+		component: InstallationsRoute
 	},
 	// {
 	// 	path: '/device-map',

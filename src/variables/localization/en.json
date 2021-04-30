@@ -108,10 +108,10 @@
     "charts": {
         "allDevices": "All",
         "chartType": "Chart type",
-		"chartTypes": {
-			"line": "Line chart",
-			"bar": "Bar chart"
-		},
+        "chartTypes": {
+            "bar": "Bar chart",
+            "line": "Line chart"
+        },
         "controlPanel": "Data control panel",
         "device": {
             "active": "Active devices",
@@ -414,7 +414,6 @@
         "pageTitle": "Device Type"
     },
     "dialogs": {
-
         "cookies": {
             "message": {
                 "snackbar": "Senti.cloud uses cookies for functional purposes. For more information please read our cookies policy."
@@ -484,8 +483,8 @@
             "message": "Data details:"
         },
         "login": {
-			"passwordReseted": "Your password has been reset!",
-			"resetPassRequestMessage": "An E-mail sent with instructions on how to reset your password!",
+            "passwordReseted": "Your password has been reset!",
+            "resetPassRequestMessage": "An E-mail sent with instructions on how to reset your password!",
             "resetPasswordMessage": "Reset your password by entering your E-mail"
         },
         "tokens": {
@@ -612,6 +611,25 @@
         "upload": "Upload",
         "uploadFailed": "Images failed to upload! Please refresh browser and try again!",
         "uploadSuccess": "Images was uploaded"
+    },
+    "installations": {
+        "fields": {
+            "address": "Address",
+            "deviceId": "Water Meter ID",
+            "instId": "Installation ID",
+            "moving": "Moving",
+            "operation": "Operation",
+            "state": "State",
+            "tags": "Groups"
+        },
+        "operations": {
+            "active": "Active",
+            "inactive": "Not Active"
+        },
+        "states": {
+            "onboarded": "Onboarded",
+            "provisioned": "Provisioned"
+        }
     },
     "links": {
         "googleMaps": "Show on Google Maps",
@@ -1114,6 +1132,7 @@
         "devicetype": "Device type",
         "devicetypes": "Device types",
         "favorites": "Favorites",
+        "groups": "Groups",
         "home": "Home",
         "manage": "Configuration",
         "messages": "Messages",
@@ -1294,6 +1313,7 @@
         }
     },
     "toolbar": {
+        "list": "List",
         "overview": "Overview"
     },
     "tooltips": {

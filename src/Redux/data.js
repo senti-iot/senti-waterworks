@@ -14,6 +14,7 @@ import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
+import { getInstallations } from 'data/installations'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -29,7 +30,7 @@ const sDevice = 'selectDevice'
 const hData = 'receivedData'
 const uhcData = 'unitHasChanged'
 const changeUnit = 'changeMeasurementUnit'
-
+const GetInst = 'getInstallations'
 
 export const setUnitHasChanged = () => {
 	return dispatch => {
@@ -164,6 +165,20 @@ export const getWeatherData = async () => {
 		}
 	}
 }
+/**
+ * Get Admin Installations
+ */
+export const getAdminInstallations = async () => {
+	return async (dispatch, getState) => {
+		let orgUUID = getState().settings.user?.org.uuid
+		let installations = await getInstallations(orgUUID)
+		dispatch({
+			type: GetInst,
+			payload: installations
+		})
+	}
+}
+
 /**
  * Get Admin devices
  */
@@ -403,6 +418,7 @@ const initialState = {
 	haveData: false,
 	barData: {},
 	devices: [],
+	installations: [],
 	data: {},
 	priceData: {
 		waterusage: 0,
@@ -435,6 +451,8 @@ export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'RESET_APP':
 			return initialState
+		case GetInst:
+			return Object.assign({}, state, { installations: payload })
 		case uhcData:
 			return Object.assign({}, state, { unitHasChanged: false })
 		case changeUnit:

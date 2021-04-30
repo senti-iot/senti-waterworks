@@ -81,6 +81,7 @@ export const mapApi = create({
 //#region Senti Services
 // const sentiServicesAPI = 'https://dev.services.senti.cloud/'
 const sentiServicesAPI = process.env.REACT_APP_BACKEND
+const sentiWaterWorksBackend = process.env.REACT_APP_WBACKEND
 
 
 // const sentiServicesAPI = 'https://services.senti.cloud/databroker'
@@ -95,6 +96,14 @@ export const servicesCoreAPI = create({
 	}
 })
 
+export const wbAPI = create({
+	baseURL: sentiWaterWorksBackend,
+	timeout: 30000,
+	headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	}
+})
 export const servicesAPI = create({
 	baseURL: sentiServicesAPI + 'databroker',
 	timeout: 30000,
@@ -155,6 +164,7 @@ export const setToken = () => {
 		tagsServicesAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		tagsServicesAPI.setHeader('appid', process.env.REACT_APP_APPID)
 		dataExportAPI.setHeader('Authorization', `Bearer ${session.token}`)
+		wbAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		return true
 	}
 	catch (error) {
