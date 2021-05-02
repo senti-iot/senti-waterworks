@@ -12,9 +12,11 @@ import { customFilterItems } from 'variables/functions/filters'
 // import { contrastColor } from 'data/functions'
 import { makeStyles } from '@material-ui/styles'
 import { red } from '@material-ui/core/colors'
-import { Add, Delete, Edit, SwapHorizontalCircleIcon } from 'variables/icons'
+import { Add, Delete, Edit, SwapHorizontalCircleIcon, Devices as DeviceIcon } from 'variables/icons'
 import { ItemG } from 'Components'
 import { Chip } from '@material-ui/core'
+import DeleteDialog from 'Components/Dialogs/DeleteDialog'
+import { deleteInstallation } from 'data/installations'
 
 const styles = makeStyles(theme => ({
 	chipIcon: {
@@ -56,7 +58,7 @@ const FullInstallationTable = (props) => {
 	const [loading, setLoading] = useState(true)
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
-
+	const [openDelete, setOpenDelete] = useState(false)
 	//Const
 	const { handleOpenEdit } = props
 	//useCallbacks
@@ -105,10 +107,12 @@ const FullInstallationTable = (props) => {
 	}
 	const selectAllInstallations = (s) => {
 		let newSInstallations = []
-		if (!s)
+		if (!s) {
 			setSelDev(newSInstallations)
-		else
+		}
+		else {
 			setSelDev(customFilterItems(installations, filters).map(d => d.uuid))
+		}
 	}
 	//#region  Filters
 	const dOperation = () => {
@@ -206,15 +210,41 @@ const FullInstallationTable = (props) => {
 					<Chip className={classes.chipIcon} label={t('menus.edits.installation')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0])}} icon={<Edit className={classes.chipIcon} />} />
 				</ItemG> : null}
 				<ItemG>
-					<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { }} icon={<Delete className={classes.chipIcon}/> }/>
+					<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon}/> }/>
 				</ItemG>
 			</ItemG>
 		</div>
 	}
+	const handleCloseDeleteDialog = () => setOpenDelete(false)
+	const handleDelete = () => {
+		Promise.all([selDev.map(u => {
+			return deleteInstallation(u)
+		})]).then(async () => {
+			setOpenDelete(false)
+			setSelDev([])
+			await dispatch(await getAdminDevices())
+			await dispatch(await getAdminInstallations())
+		})
+	}
+	const renderDeleteDialog = () => {
+		let data = selDev.map(s => installations[installations.findIndex(d => d.uuid === s)])
+		return <DeleteDialog
+			t={t}
+			title={'dialogs.delete.title.installations'}
+			message={'dialogs.delete.message.installations'}
+			open={openDelete}
+			icon={<DeviceIcon />}
+			handleCloseDeleteDialog={handleCloseDeleteDialog}
+			handleDelete={handleDelete}
+			data={data}
+			dataKey={'address'}
+			dataKeySec={'uuid'}
+		/>
+	}
 	return (
 
 		<>
-
+			{renderDeleteDialog()}
 			{selDev.length > 0 ? <Fragment>
 				{ renderSelectedToolbar()}
 			</Fragment>

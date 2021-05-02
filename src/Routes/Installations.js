@@ -82,7 +82,6 @@ const Installations = () => {
 						/>
 						<InstallationTable
 							handleOpenEdit={handleOpenEdit}
-
 						/>
 					</>
 

@@ -431,6 +431,7 @@
 		},
 		"delete": {
 			"message": {
+				"installations": "Er du sikker på du ønsker at slette denne Installationer:",
 				"cloudfunction": "Er du sikker på du ønsker at slette denne Cloud Funktion ( %{cf} ) ?",
 				"cloudfunctions": "Er du sikker på du ønsker at slette disse cloud funktioner:",
 				"collection": "Er du sikker på du ønsker at slette denne datasamling ( %{collection} ) ?",
@@ -452,6 +453,7 @@
 				"users": "Er du sikker på du ønsker at slette disse brugere:"
 			},
 			"title": {
+				"installations": "Slet installationer?",
 				"cloudfunction": "Slet cloud funktion?",
 				"cloudfunctions": "Slet cloud funktioner?",
 				"collection": "Slet datasamling?",

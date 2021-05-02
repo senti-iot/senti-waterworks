@@ -52,3 +52,13 @@ export const getInstallation = async (instUUID) => {
 	console.log('Response GET', response)
 	return response
 }
+
+/**
+ * @desc DELETE v3/installation
+ */
+
+export const deleteInstallation = async (instUUID) => {
+	let response = await wbAPI.delete(`/v3/installation/${instUUID}`).then(rs => rs.ok)
+	console.log('Response installation DELETE', response)
+	return response
+}
