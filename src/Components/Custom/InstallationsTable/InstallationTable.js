@@ -12,12 +12,33 @@ import { customFilterItems } from 'variables/functions/filters'
 // import { contrastColor } from 'data/functions'
 import { makeStyles } from '@material-ui/styles'
 import { red } from '@material-ui/core/colors'
-import { SwapHorizontalCircleIcon } from 'variables/icons'
+import { Add, Delete, Edit, SwapHorizontalCircleIcon } from 'variables/icons'
+import { ItemG } from 'Components'
+import { Chip } from '@material-ui/core'
 
 const styles = makeStyles(theme => ({
+	chipIcon: {
+		color: '#fff'
+	},
 	movingOut: {
 		fill: red[500]
-	}
+	},
+	section: {
+		margin: 8
+	},
+	listContainer: {
+		maxHeight: 300,
+		overflow: 'auto',
+		minWidth: 300
+	},
+	chipContainer: {
+		background: 'rgba(0, 0, 0, 0.1)',
+		display: 'flex',
+		borderRadius: 4,
+		minHeight: 40,
+		padding: 12,
+
+	},
 }))
 
 const FullInstallationTable = (props) => {
@@ -37,7 +58,7 @@ const FullInstallationTable = (props) => {
 	const [orderBy, setOrderBy] = useState('id')
 
 	//Const
-
+	const { handleOpenEdit } = props
 	//useCallbacks
 
 	//useEffects
@@ -172,12 +193,30 @@ const FullInstallationTable = (props) => {
 			<TC label={renderState(row.state)} />
 		</Fragment>
 	}
+	const renderSelectedToolbar = () => {
+		return <div className={classes.chipContainer}>
+			<ItemG container spacing={1} alignItems={'center'}>
+				<ItemG>
+					<Chip color={'primary'} label={`${selDev.length} ${t('tables.selected')}`} />
+				</ItemG>
+				<ItemG>
+					<Chip className={classes.chipIcon} label={t('menus.create.installation')} color={'secondary'} onClick={() => { }} icon={<Add className={classes.chipIcon} />} />
+				</ItemG>
+				{selDev.length === 1 ? <ItemG>
+					<Chip className={classes.chipIcon} label={t('menus.edits.installation')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0])}} icon={<Edit className={classes.chipIcon} />} />
+				</ItemG> : null}
+				<ItemG>
+					<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { }} icon={<Delete className={classes.chipIcon}/> }/>
+				</ItemG>
+			</ItemG>
+		</div>
+	}
 	return (
 
 		<>
 
 			{selDev.length > 0 ? <Fragment>
-				{/* <InstallationToolbar installations={selDev}/> */}
+				{ renderSelectedToolbar()}
 			</Fragment>
 				: <FilterToolbar reduxKey={'installations'} filters={installationFilters} />}
 

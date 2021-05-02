@@ -142,3 +142,33 @@ export const customFilterItems = (items, keyValues) => {
 	})
 	return items
 }
+
+
+const suggestionSlicer = (obj) => {
+	var arr = []
+	for (var prop in obj) {
+		if (obj.hasOwnProperty(prop)) {
+			var innerObj = {}
+			if (typeof obj[prop] === 'object') {
+				arr.push(...suggestionSlicer(obj[prop]))
+			}
+			else {
+				innerObj = {
+					id: prop.toString().toLowerCase(),
+					label: obj[prop] ? obj[prop].toString() : ''
+				}
+				arr.push(innerObj)
+			}
+		}
+	}
+	return arr
+}
+
+export const suggestionGen = (arrayOfObjs) => {
+	let arr = []
+	arrayOfObjs.forEach(obj => {
+		arr.push(...suggestionSlicer(obj))
+	})
+	arr = _.uniqBy(arr, 'label')
+	return arr
+}

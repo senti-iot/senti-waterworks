@@ -46,6 +46,7 @@ function FadeOutLoader(props) {
 	useEffect(() => {
 		async function loadLoader() {
 			const execute = async (on) => {
+				console.log('on', on)
 				if (on) {
 					setLoading(true)
 					setTimeout(async () => {

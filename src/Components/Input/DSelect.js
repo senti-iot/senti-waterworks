@@ -32,14 +32,14 @@ const DSelect = (props) => {
 			return 100
 		}
 	}
-	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon, id } = props
+	const { error, helperText, value, onKeyPress, margin, onChange, simple, menuItems, label, fullWidth, leftIcon, id, readOnly } = props
 	const { selectClasses, formControlClasses, inputClasses, menuProps, IconComponent, variant } = props
 	//TO DO
 	let mobile = window.innerWidth < theme.breakpoints.values.md ? true : false
 	// let mobile = false
 	const classes = styles()
 	const renderInput = (props) => {
-		return variant === 'outlined' || !variant ? <OutlinedInput id={id} labelWidth={lWidth()} variant={variant ? variant : 'outlined'} classes={{ root: classes.label, ...inputClasses }} /> : <Input id={id} variant={variant ? variant : 'outlined'} classes={{ root: classes.label, ...inputClasses }} />
+		return variant === 'outlined' || !variant ? <OutlinedInput id={id} labelWidth={lWidth()} variant={variant ? variant : 'outlined'} classes={{ root: classes.label, ...inputClasses }} /> : <Input labelWidth={lWidth()} id={id} variant={variant ? variant : 'outlined'} classes={{ root: classes.label, ...inputClasses }} />
 	}
 	return (
 		<FormControl variant={variant ? variant : "outlined"} margin={margin} classes={formControlClasses} fullWidth={mobile || fullWidth} styles={props.styles}>
@@ -52,6 +52,7 @@ const DSelect = (props) => {
 				{label}
 			</InputLabel>
 			<Select
+				readOnly={readOnly}
 				classes={selectClasses}
 				id={id}
 				variant={variant ? variant : 'outlined'}

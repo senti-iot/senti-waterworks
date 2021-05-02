@@ -35,7 +35,7 @@ const PageHeader = props => {
 	//State
 
 	//Const
-	const { label, close, handleCloseButton } = props
+	const { label, close, handleCloseButton, actions } = props
 	//useCallbacks
 
 	//useEffects
@@ -52,7 +52,7 @@ const PageHeader = props => {
 			title={<T variant={'h6'} style={{ color: '#fff' }}>{t(label)}</T>}
 			action={close ? <IconButton onClick={handleCloseButton}>
 				<Close className={classes.closeButton} />
-			</IconButton> : null}
+			</IconButton> : actions ? actions : null}
 		/>
 	)
 }
