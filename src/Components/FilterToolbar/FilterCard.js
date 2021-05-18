@@ -54,6 +54,7 @@ const styles = makeStyles(theme => ({
 }))
 const FilterCard = (props) => {
 	const [value, setValue] = useState()
+	const [filterType, setFilterType] = useState('AND')
 	const [date, setDate] = useState(moment())
 	const [after, setAfter] = useState(false)
 	const [diff, setDiff] = useState({ value: -1, icon: '', label: '' })
@@ -356,7 +357,17 @@ const FilterCard = (props) => {
 	const errorClassname = cx({
 		[classes.error]: error
 	})
+	const filterTypeOptions = [{
+		value: "OR",
+		label: "OR",
+	}, {
+		value: "AND",
+		label: "AND"
+	}]
+	const handleChangeFilterType = (e) => {
+		setFilterType(e.target.value)
 
+	}
 	return (
 		<Popover
 			anchorEl={anchorEl}
@@ -379,6 +390,16 @@ const FilterCard = (props) => {
 					<ItemG container justify={'center'}>
 						<ItemG xs={12}>
 							{renderType()}
+						</ItemG>
+						<ItemG xs={12}>
+							<DSelect
+								margin={'normal'}
+								fullWidth
+								// label={title}
+								value={filterType}
+								onChange={handleChangeFilterType}
+								menuItems={filterTypeOptions}
+							/>
 						</ItemG>
 					</ItemG>
 				</CardContent>

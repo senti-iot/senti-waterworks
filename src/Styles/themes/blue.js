@@ -32,6 +32,7 @@ const theme = (type) => createMuiTheme({
 	contrastBoxBackground: 'rgba(55, 153, 241, 0.1)',
 	textColor: '#fff',
 	primary: colors.blue[500],
+	secondary: colors.orange[500],
 	activeChartButton: colors.orange[500],
 	chartButton: headerColor,
 	chart: {

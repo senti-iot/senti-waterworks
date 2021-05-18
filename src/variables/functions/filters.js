@@ -122,27 +122,56 @@ const filterByDiff = (items, k) => {
 	return items
 }
 
-export const customFilterItems = (items, keyValues) => {
-	keyValues.forEach(k => {
+// export const customFilterItems = (items, keyValues) => {
+// 	keyValues.forEach(k => {
+// 		switch (k.type) {
+// 			case 'string':
+// 			case 'dropDown':
+// 			case null:
+// 				items = filterByString(items, k)
+// 				break;
+// 			case 'date':
+// 				items = filterByDate(items, k)
+// 				break;
+// 			case 'diff':
+// 				items = filterByDiff(items, k)
+// 				break;
+// 			default:
+// 				break;
+// 		}
+// 	})
+// 	return items
+// }
+export const customFilterItems = (itm, keyValues) => {
+	let ORItems = null
+	let items = itm
+	const filterItem = (k, items) => {
 		switch (k.type) {
 			case 'string':
 			case 'dropDown':
 			case null:
-				items = filterByString(items, k)
-				break;
+				return filterByString(items, k)
 			case 'date':
-				items = filterByDate(items, k)
-				break;
+				return filterByDate(items, k)
 			case 'diff':
-				items = filterByDiff(items, k)
-				break;
+				return filterByDiff(items, k)
 			default:
-				break;
+				break
+		}
+	}
+	keyValues.forEach(k => {
+		if (k.filterType === 'OR') {
+			ORItems = items
+			let filtered = filterItem(k, itm)
+			items = [...ORItems, ...filtered]
+			items = items.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i)
+		}
+		if (k.filterType === 'AND') {
+			items = filterItem(k, items)
 		}
 	})
 	return items
 }
-
 
 const suggestionSlicer = (obj) => {
 	var arr = []
