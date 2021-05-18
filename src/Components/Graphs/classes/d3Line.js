@@ -20,9 +20,12 @@ const getMax = (arr) => {
 	if (arr.length > 0) {
 		let max = Math.max(...arr.map(d => d.value))
 		if (max < 1) {
-			return max + 0.1
+			return 1
 		}
-		if (max < 5) {
+		if (max > 1 && max < 5) {
+			return 5
+		}
+		if (max > 5) {
 			return max + 1
 		}
 		if (max > 100000) {
@@ -136,9 +139,8 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		this.y.domain([Math.floor(getMin(allData)), Math.round(getMax(allData))])
+		this.y.domain([Math.floor(getMin(allData)), getMax(allData)])
 		this.yAxis.remove()
-		// this.xAxis.remove()
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
 		this.generateYAxis()

@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import FilterInput from './FilterInput'
 import FilterCard from './FilterCard'
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,79 +7,157 @@ import { addFilter, editFilter as eF, removeFilter, changeEH } from 'Redux/appSt
 import { useLocalization } from 'Hooks'
 import PropTypes from 'prop-types'
 
-const FilterToolbar = (props) => {
-	const [error, setError] = useState(false)
-	const [state, setState] = useState({})
-	const [openFilterCard, setOpenFilterCard] = useState(false)
-	const [actionAnchor, setActionAnchor] = useState(null)
-	const [focusedMenu, setFocusedMenu] = useState(-1)
-	const [editFilter, setEditFilter] = useState(null)
-	const [editChip, setEditChip] = useState(null)
-	const dispatch = useDispatch()
-	const redux = {
-		addFilter: (filter, type) => dispatch(addFilter(filter, type)),
-		editFilter: (filter, type) => dispatch(eF(filter, type)),
-		removeFilter: (filter, type) => dispatch(removeFilter(filter, type)),
-		disableEH: () => dispatch(changeEH(false)),
-		enableEH: () => dispatch(changeEH(true))
-	}
-	const chip = useRef(null)
-	const input = useRef(null)
+const FilterToolbar = props => {
+	//Hooks
 	const t = useLocalization()
+	const dispatch = useDispatch()
 
-	const { filters, reduxKey } = props
+	//Redux
+	const chips = useSelector(state => state.appState.filters)
+	/**
+	 * TODO
+	 * unused
+	 * eH - eventHandler - hooks to the window so that all the handlers are passed to the filtertoolbar
+	 */
+	const eH = useSelector(state => state.appState.EH)
 
-	const chips = useSelector(s => s.appState.filters)
-	const eH = useSelector(s => s.appState.eH)
+	//State
+	const [actionAnchor, setActionAnchor] = useState(null)
+	// const [focusedMenu, setFocusedMenu] = useState(-1)
+	const [error, setError] = useState(false)
+	const [openFilterCard, setOpenFilterCard] = useState(false)
+	const [editFilter, setEditFilter] = useState(null) // added
+	const [editChip, setEditChip] = useState(null) // added
+	const [state, setState] = useState({})
 
-	const handleMenuNav = e => {
-		if (actionAnchor !== null) {
-			switch (e.keyCode) {
-				case 13:
-					const ft = filters[focusedMenu]
-					if (ft) {
-						setState(prevState => ({ ...prevState, [ft.name]: true }))
-						setActionAnchor(null)
-						setFocusedMenu(-1)
-						setOpenFilterCard(true)
-					}
-					break;
-				case 40: //keyboard down
-					let nFocusedMenu = focusedMenu === (filters.length - 1) ? 0 : focusedMenu + 1
-					setFocusedMenu(nFocusedMenu)
-					break;
-				case 38: //keyboard up
-					setFocusedMenu(focusedMenu === 0 ? filters.length - 1 : focusedMenu - 1)
-					break;
-				case 27:
-					// window.addEventListener('keydown', handleWindowKeyPress, false)
-					setActionAnchor(null)
-					setFocusedMenu(-1)
-					break;
-				default:
-					if (actionAnchor !== null) {
-						setActionAnchor(null)
-					}
-					break;
-			}
-			e.stopPropagation()
+	//Const
+	const { reduxKey, filters } = props
+
+	let inputRef = useRef(null)
+	let chipRef = useRef(null)
+
+	//useCallbacks
+
+	//useEffects
+
+	useEffect(() => {
+		// window.addEventListener('keydown', handleWindowKeyPress, false)
+		return () => {
+			window.removeEventListener('keydown', handleWindowKeyPress, false)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
+	useEffect(() => {
+		if (eH) {
+			// window.addEventListener('keydown', handleWindowKeyPress, false)
 		}
 		else {
-			if (e.keyCode === 40)
-				handleClick()
-			if (e.keyCode === 27) {
-				//TODO
-				input.current.blur()
-				handleBlur()
-			}
+			// window.removeEventListener('keydown', handleWindowKeyPress, false)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [eH])
+
+	//Handlers
+
+
+	const handleBlur = () => {
+		// window.removeEventListener('keydown', handleMenuNav, false)
+		// window.addEventListener('keydown', handleWindowKeyPress, false)
+	}
+
+	const handleFocus = () => {
+		handleClose()
+		// window.addEventListener('keydown', handleMenuNav, false)
+		// window.removeEventListener('keydown', handleWindowKeyPress, false)
+	}
+
+	const handleClose = () => {
+		// console.log('Did this')
+		// console.trace()
+		// window.addEventListener('keydown', handleWindowKeyPress, false)
+		if (actionAnchor) {
+			setActionAnchor(null)
 		}
 	}
-	const handleClick = () => {
+
+	const onBeforeAdd = (chip) => {
+		if (typeof chip === 'string')
+			if (chip.length >= 2)
+				return true
+			else {
+				// setError(true)
+				// setTimeout(() => {
+				// 	setError(false)
+				// }, 500);
+				return false
+			}
+		else {
+			return true
+		}
+	}
+
+
+	const handleDoubleClick = chip => {
+		let allChips = chips[reduxKey]
+		let findChip = allChips[allChips.findIndex(c => c.id === chip.id)]
+		let editFilterr = filters[filters.findIndex(f => {
+			return f.key === findChip.key && f.type === findChip.type
+		})]
+		setEditFilter(editFilterr)
+		setEditChip(findChip)
+		dispatch(changeEH(false))
+	}
+
+	// const handleMenuNav = e => {
+	// 	if (actionAnchor !== null) {
+	// 		switch (e.keyCode) {
+	// 			case 13:
+	// 				const ft = filters[focusedMenu]
+	// 				if (ft) {
+	// 					setState({ ...state, [ft.name]: true })
+	// 					setActionAnchor(null)
+	// 					setFocusedMenu(-1)
+	// 					setOpenFilterCard(true)
+	// 				}
+	// 				break
+
+	// 			case 40: //keyboard down
+	// 				let nFocusedMenu = focusedMenu === (filters.length - 1) ? 0 : focusedMenu + 1
+	// 				setFocusedMenu(nFocusedMenu)
+	// 				break
+	// 			case 38: //keyboard up
+	// 				setFocusedMenu(focusedMenu === 0 ? filters.length - 1 : focusedMenu - 1)
+	// 				break
+	// 			case 27:
+	// 				// window.addEventListener('keydown', handleWindowKeyPress, false)
+	// 				setActionAnchor(null)
+	// 				setFocusedMenu(-1)
+	// 				break
+	// 			default:
+	// 				if (actionAnchor !== null) {
+	// 					setActionAnchor(null)
+	// 				}
+	// 				break
+	// 		}
+	// 		e.stopPropagation()
+	// 	}
+	// 	else {
+	// 		if (e.keyCode === 40)
+	// 			handleClick()
+	// 		if (e.keyCode === 27) {
+	// 			//TODO
+	// 			inputRef.current.blur()
+	// 			handleBlur()
+	// 		}
+	// 	}
+	// }
+	const handleClick = e => {
 		// window.removeEventListener('keydown', handleWindowKeyPress, false)
 		if (actionAnchor === null) {
-			setActionAnchor(chip.current)
+			setActionAnchor(chipRef)
 			// window.addEventListener('keydown', handleMenuNav, false)
-			input.current.focus()
+			// inputRef.current.focus()
 		}
 		else {
 			// window.addEventListener('keydown', handleWindowKeyPress, false)
@@ -92,109 +170,62 @@ const FilterToolbar = (props) => {
 			handleClick()
 		}
 	}
-	useEffect(() => {
-		// window.addEventListener('keydown', handleWindowKeyPress, false)
-		return () => {
-			window.removeEventListener('keydown', handleMenuNav, false)
-			window.removeEventListener('keydown', handleWindowKeyPress, false)
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
 
-	useEffect(() => {
-		if (eH) {
-			// window.addEventListener('keydown', handleWindowKeyPress, false)
-		}
-		else {
-			// window.removeEventListener('keydown', handleWindowKeyPress, false)
-		}
-
-	})
-
-
-	const handleBlur = () => {
-		// window.removeEventListener('keydown', handleMenuNav, false)
-		// window.addEventListener('keydown', handleWindowKeyPress, false)
-	}
-	const handleFocus = () => {
-		// window.addEventListener('keydown', handleMenuNav, false)
-		// window.removeEventListener('keydown', handleWindowKeyPress, false)
-	}
-	const handleClose = () => {
-		// window.addEventListener('keydown', handleWindowKeyPress, false)
-		setActionAnchor(null)
-	}
-
-	const onBeforeAdd = (chip) => {
-		if (typeof chip === 'string')
-			if (chip.length >= 2)
-				return true
-			else {
-				setError(true)
-				setTimeout(() => {
-					setError(false)
-				}, 500);
-				return false
-			}
-		else {
-			return true
-		}
-	}
-
-	const handleDoubleClick = chip => {
-
-		let allChips = chips[reduxKey]
-		let editChip = allChips[allChips.findIndex(c => c.id === chip.id)]
-		let editFilter = filters[filters.findIndex(f => {
-			return f.key === editChip.key && f.type === editChip.type
-		})]
-		setEditFilter(editFilter)
-		setEditChip(editChip)
-		redux.disableEH()
-	}
-
-	const handleAdd = (displayValue, value, key, type, icon, name) => {
+	const handleAdd = (displayValue, value, key, type, icon, name, filterType) => {
 		if (onBeforeAdd(value)) {
-			setState(prevState => ({ ...prevState, [name]: false }))
+			setState({ ...state, [name]: false })
 			setOpenFilterCard(false)
-			redux.addFilter({ value, key, type: type ? type : null, icon, displayValue: displayValue }, reduxKey)
+			setActionAnchor(null)
+			dispatch(addFilter({ value, key, type: type ? type : "", icon, displayValue: displayValue, filterType }, reduxKey))
 		}
 	}
-	const handleEdit = (displayValue, value, key, type, icon, id) => {
-		redux.editFilter({ id, value, key, type: type ? type : null, icon, displayValue: displayValue }, reduxKey)
+
+	const handleEdit = (displayValue, value, key, type, icon, id, filterType) => {
+		dispatch(eF({ id, value, key, type: type, icon, displayValue: displayValue, filterType: filterType }, reduxKey))
 		setEditFilter(false)
 		setEditChip(null)
-		redux.enableEH()
+		dispatch(changeEH(false))
+	}
+
+	const handleChangeFilterType = (chip, filterType) => {
+		dispatch(eF({ ...chip, filterType: filterType }, reduxKey))
+		dispatch(changeEH(false))
 	}
 	const handleDelete = (deletedChip) => {
-		redux.removeFilter(deletedChip, reduxKey)
+		dispatch(removeFilter(deletedChip, reduxKey))
 	}
+
 	const handleMenuItem = ft => {
-		setState(prevState => ({ ...prevState, [ft]: true }))
+		setState({ ...state, [ft]: true })
 		setOpenFilterCard(true)
 	}
 
-	const isSelected = id => focusedMenu === id ? true : false
+	// const isSelected = id => focusedMenu === id ? true : false
 
 	return (
 		<ClickAwayListener onClickAway={handleClose}>
-			<Fragment>
+			<div style={{ width: '100%' }}>
 				<FilterInput
 					onBlur={handleBlur}
-					inputRef={ref => input.current = ref}
-					chipRef={ref => chip.current = ref}
+					inputRef={r => inputRef = r}
+					chipRef={r => chipRef = r}
 					chips={chips[reduxKey]}
 					onBeforeAdd={(chip) => onBeforeAdd(chip)}
-					onBeforeDelete={handleClose}
+					// onBeforeDelete={handleClose}
 					handleDoubleClick={handleDoubleClick}
 					onFocus={handleFocus}
-					onAdd={(displayValue, value, key) => handleAdd(displayValue, value, key)}
+					onAdd={(displayValue, value, key, type, filterType) => {
+						handleAdd(displayValue, value, key, type, null, null, filterType)
+					}}
 					onDelete={(deletedChip, i) => handleDelete(deletedChip, i)}
 					handleClick={handleClick}
 					dataSourceConfig={{ id: 'id', text: 'displayValue', value: 'displayValue' }}
+					handleChangeFilterType={handleChangeFilterType}
 					placeholder={t('actions.search')}
 					fullWidth
+					t={t}
 				/>
+
 				<Popper
 					open={actionAnchor ? true : false}
 					anchorEl={actionAnchor}
@@ -225,7 +256,7 @@ const FilterToolbar = (props) => {
 								<MenuList>
 									{filters ? filters.map((ft, i) =>
 										ft.hidden ? null :
-											<MenuItem selected={isSelected(i)} key={i} onClick={() => handleMenuItem(ft.name)}>
+											<MenuItem key={i} onClick={() => handleMenuItem(ft.name)}>
 												{ft.name}
 											</MenuItem>
 									) : null}
@@ -233,9 +264,10 @@ const FilterToolbar = (props) => {
 							</Paper>
 						</Grow>)}
 				</Popper>
+
 				{editFilter ? <FilterCard
 					open={editFilter ? true : false}
-					anchorEl={input.current}
+					anchorEl={inputRef.current}
 					title={editFilter.name}
 					type={editFilter.type}
 					options={editFilter.options}
@@ -243,34 +275,39 @@ const FilterToolbar = (props) => {
 					hidden={editFilter.hidden}
 					edit
 					pValue={editChip.value}
-					handleButton={(displayValue, value, icon) => { handleEdit(displayValue, value, editFilter.key, editFilter.type, icon, editChip.id) }}
-					handleClose={() => { setEditFilter(false); setEditChip(null) }}
+					pFilterType={editChip.filterType}
+					handleButton={(displayValue, value, icon, filterType) => { handleEdit(displayValue, value, editFilter.key, editFilter.type, icon, editChip.id, filterType) }}
+					handleClose={() => {
+						setEditFilter(false)
+						setEditChip(null)
+					}}
 				/> : null}
-				{filters ? filters.map((ft, i) => {
+				{(filters && inputRef) ? filters.map((ft, i) => {
 					return <FilterCard
 						resetError={() => setError(false)}
 						error={error}
 						key={i}
 						open={state[ft.name]}
-						anchorEl={input.current}
+						anchorEl={inputRef.current}
 						title={ft.name}
 						hidden={ft.hidden}
 						type={ft.type}
 						options={ft.options}
 						content={ft.content}
-						handleButton={(displayValue, value, icon) => { handleAdd(displayValue, value, ft.key, ft.type, icon, ft.name) }}
+						handleButton={(displayValue, value, icon, filterType) => handleAdd(displayValue, value, ft.key, ft.type, icon, ft.name, filterType)}
 						handleClose={() => {
-							setState(prevState => ({ ...prevState, [ft.name]: false }))
+							setState({
+								...state,
+								[ft.name]: false
+							})
 							setOpenFilterCard(false)
 						}}
 					/>
 				}) : null}
-			</Fragment>
+			</div>
 		</ClickAwayListener>
 	)
-
 }
-
 FilterToolbar.propTypes = {
 	reduxKey: PropTypes.string.isRequired,
 	filters: PropTypes.array.isRequired,

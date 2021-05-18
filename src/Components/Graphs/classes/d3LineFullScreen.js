@@ -20,9 +20,12 @@ const getMax = (arr) => {
 	if (arr.length > 0) {
 		let max = Math.max(...arr.map(d => d.value))
 		if (max < 1) {
-			return max + 0.1
+			return 1
 		}
-		if (max < 5) {
+		if (max > 1 && max < 5) {
+			return 5
+		}
+		if (max > 5) {
 			return max + 1
 		}
 		if (max > 100000) {
@@ -82,6 +85,7 @@ class d3LineFS {
 	state = [];
 	t
 	chartType
+
 	constructor(containerEl, props, classes) {
 		this.t = props.t
 		this.classes = classes
@@ -136,7 +140,7 @@ class d3LineFS {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['LfsLG' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-		this.y.domain([Math.floor(getMin(allData)), Math.round(getMax(allData))])
+		this.y.domain([Math.floor(getMin(allData)), getMax(allData)])
 		this.yAxis.remove()
 		this.svg.selectAll("*").remove()
 		this.generateXAxis()
@@ -371,6 +375,7 @@ class d3LineFS {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let tooltipDiv = d3.select(`#tooltipfsLG${this.props.id}`)
 		const setTooltip = this.props.setTooltip
+		//TODO: Generate multiple bars on the same tile, filter the data for lines with bars active and then stack them
 		data.forEach((line, i) => {
 			if (!line.bars) {
 				return
@@ -379,7 +384,7 @@ class d3LineFS {
 				this.svg.selectAll(".bar")
 					.data(line.data)
 					.enter().append("rect")
-					.attr('class', (d, i) => i % 2 === 0 ? classes.waterUsageA : classes.waterUsageB)
+					.attr('class', (d, i) => i % 2 === 0 ? classes[`${line.name}A`] : classes[`${line.name}B`])
 					.attr("height", (d, i) => {
 						let barHeight = height - this.y(d.value) - this.margin.bottom
 						return barHeight < 10 ? barHeight === 0 ? 0 : 10 : barHeight
@@ -577,7 +582,6 @@ class d3LineFS {
 		data.forEach((line) => {
 			if (line.median & !line.noMedianLegend) {
 				let LegendMCheck = d3.select(`#LegendMedianCheckboxfsLG${line.name}`)
-
 				let LegendM = d3.select(`#LegendMedianfsLG${line.name}`)
 				let LegendMLabel = d3.select(`#LegendMedianLabelfsLG${line.name}`)
 				LegendMCheck.on('click', () => {
@@ -740,10 +744,7 @@ class d3LineFS {
 		// })
 		// window.moment = moment
 		// window.data = data
-		// let animArea0 = d3.area()
-		// 	.y0(this.height - this.margin.bottom)
-		// 	.y1(this.height - this.margin.bottom)
-		// 	.x((d) => { return this.x(moment(d.date).valueOf()) })
+
 		data.forEach((line, i) => {
 			//#region Generate Line Area
 			if (data) {
@@ -810,7 +811,7 @@ class d3LineFS {
 					//visible and then decrease this offset in a transition to show the dashes
 					path
 						.attr("stroke-dashoffset", totalLength)
-						//This is where it differs with the solid line example
+					//This is where it differs with the solid line example
 						.attr("stroke-dasharray", dashArray)
 						.transition().duration(1500)
 						.attr("stroke-dashoffset", 0)
@@ -820,7 +821,7 @@ class d3LineFS {
 					this.svg.append('path')
 						.data([line.data])
 						.attr('id', 'LfsLG' + line.name)
-						// .attr('class', classes[line.name])
+					// .attr('class', classes[line.name])
 						.attr('fill', 'none')
 						.attr('stroke', colors[line.color][500])
 						.attr('stroke-width', '4px')
