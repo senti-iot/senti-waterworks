@@ -1,8 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
 import { Card, IconButton, CardContent, Button, Popover, Typography, CardActions, Checkbox, colors } from '@material-ui/core';
-import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+import { DateTimePicker } from '@material-ui/pickers';
 import { Close, DateRange, AccessTime, KeyboardArrowRight, KeyboardArrowLeft } from 'variables/icons';
 import { dateTimeFormatter } from 'data/functions';
 import { TextF, DSelect, ItemG } from 'Components';
@@ -59,11 +58,12 @@ const FilterCard = (props) => {
 	const [after, setAfter] = useState(false)
 	const [diff, setDiff] = useState({ value: -1, icon: '', label: '' })
 	const [dropdown, setDropdown] = useState({ value: -1, icon: '', label: '' })
-	const { open, type, options, edit, pValue, handleButton, title, hidden, error, resetError, handleClose, anchorEl } = props
+	const { open, type, options, edit, pValue, pFilterType, handleButton, title, hidden, error, resetError, handleClose, anchorEl } = props
 	const t = useLocalization()
 	const prevOpen = usePrevious(open)
 	const color = useSelector(s => s.settings.colorTheme)
 	const classes = styles({ color })
+
 	useEffect(() => {
 		if (open && prevOpen !== open) {
 			let obj = null
@@ -102,109 +102,41 @@ const FilterCard = (props) => {
 
 		}
 	}, [open, options, prevOpen, type])
-	// componentDidUpdate = (prevProps, prevState) => {
-	// 	const { type, options } = this.props
-	// 	if (this.props.open && prevProps.open !== this.props.open) {
-	// 		let obj = null
-	// 		if (type === 'diff') {
-	// 			obj = options.dropdown[options.dropdown.findIndex(d => d.value === 0 || d.value === false)]
-	// 		}
-	// 		if (type === 'dropDown') {
-	// 			obj = options[options.findIndex(d => d.value === 0 || d.value === false)]
-	// 		}
-	// 		this.setState({
-	// 			diff: {
-	// 				value: type === 'diff' ? obj ? obj.value !== undefined || null ? obj.value : null : null : null,
-	// 				icon: type === 'diff' ? obj ? obj.icon ? obj.icon : null : null : null,
-	// 				label: type === 'diff' ? obj ? obj.label ? obj.label : null : null : null
-	// 			},
-	// 			dropdown: {
-	// 				value: type === 'dropDown' ? obj ? obj.value !== undefined || null ? obj.value : null : null : null,
-	// 				icon: type === 'dropDown' ? obj ? obj.icon ? obj.icon : null : null : null,
-	// 				label: type === 'dropDown' ? obj ? obj.label ? obj.label : null : null : null
-	// 			}
-	// 		})
-	// 	}
-	// }
+
 	useEffect(() => {
 		if (edit) {
 			switch (type) {
 				case 'dropDown':
 					setDropdown({ value: pValue })
-					// this.setState({
-					// 	dropdown: {
-					// 		value: value
-					// 	}
-					// })
-					break;
+					break
 				case 'diff':
 					setDiff({ value: pValue })
-					// this.setState({
-					// diff: { value: value }
-					// })
-					break;
+					break
 				case 'date':
 					setDate({ date: moment(pValue.date, 'lll') })
 					setAfter(pValue.after)
-					// this.setState({
-					// 	date: moment(value.date, 'lll'),
-					// 	after: value.after
-					// })
-					break;
+					break
 				case 'string':
 				case undefined:
 				case '':
 				case null:
 					setValue(pValue)
-					break;
+					setFilterType(pFilterType)
+					break
 				default:
-					break;
+					break
 			}
 		}
-	}, [edit, pValue, type])
-	// componentDidMount = (prevProps, prevState) => {
-	// 	const { edit, type, pValue } = this.props
-	// 	if (edit)
-	// 		switch (type) {
-	// 			case 'dropDown':
-	// 				this.setState({
-	// 					dropdown: {
-	// 						value: value
-	// 					}
-	// 				})
-	// 				break;
-	// 			case 'diff':
-	// 				this.setState({
-	// 					diff: { value: value }
-	// 				})
-	// 				break;
-	// 			case 'date':
-	// 				this.setState({
-	// 					date: moment(value.date, 'lll'),
-	// 					after: value.after
-	// 				})
-	// 				break;
-	// 			case 'string':
-	// 			case undefined:
-	// 			case '':
-	// 			case null:
-	// 				this.setState({
-	// 					value: value,
-	// 				})
-	// 				break;
-	// 			default:
-	// 				break;
-	// 		}
-	// }
+	}, [edit, pFilterType, pValue, type])
 
 	const handleKeyDown = (key) => {
 		if (open)
 			switch (key.keyCode) {
 				case 13:
 					_handleButton()
-					break;
+					break
 				default:
-					break;
+					break
 			}
 	}
 	const handleKeyPress = (key) => {
@@ -212,28 +144,28 @@ const FilterCard = (props) => {
 			switch (key.keyCode) {
 				case 13:
 					_handleButton()
-					break;
+					break
 
 				default:
-					break;
+					break
 			}
 	}
 	const _handleButton = () => {
 		if (type === 'dropDown') {
-			handleButton(`${title}: ${dropdown.label}`, dropdown.value, dropdown.icon)
+			handleButton(`${title}: ${dropdown.label}`, dropdown.value, dropdown.icon, filterType)
 		}
 		if (type === 'string') {
 			if (hidden) {
-				handleButton(`${value}`, value)
+				handleButton(`${value}`, value, null, filterType)
 			}
 			else {
-				handleButton(`${title}: '${value}'`, value)
+				handleButton(`${title}: '${value}'`, value, null, filterType)
 			}
 		}
 		if (type === 'date')
-			handleButton(`${title} ${after ? t('filters.after') : t('filters.before')}: '${dateTimeFormatter(date)}'`, { date, after })
+			handleButton(`${title} ${after ? t('filters.after') : t('filters.before')}: '${dateTimeFormatter(date)}'`, { date, after }, filterType)
 		if (type === 'diff')
-			handleButton(`${title}: ${diff.label}`, { diff: diff.value, values: options.values })
+			handleButton(`${title}: ${diff.label}`, { diff: diff.value, values: options.values }, null, filterType)
 
 		setValue('')
 		setDate(moment())
@@ -316,28 +248,28 @@ const FilterCard = (props) => {
 						<Typography>{t('filters.afterDate')}</Typography>
 					</ItemG>
 					<ItemG>
-						<MuiPickersUtilsProvider utils={MomentUtils}>
-							<DateTimePicker
-								id={'date'}
-								autoOk
-								fullWidth
-								clearable
-								disableFuture
-								ampm={false}
-								format='LLL'
-								value={date}
-								autoFocus
-								onChange={handleCustomDate}
-								animateYearScrolling={false}
-								color='primary'
-								dateRangeIcon={<DateRange />}
-								timeIcon={<AccessTime />}
-								rightArrowIcon={<KeyboardArrowRight />}
-								leftArrowIcon={<KeyboardArrowLeft />}
-								InputLabelProps={{/*  FormLabelClasses: { root: classes.label, focused: classes.focused } */ }}
-								InputProps={{ classes: { underline: classes.underline } }}
-							/>
-						</MuiPickersUtilsProvider>
+						{/* <MuiPickersUtilsProvider utils={MomentUtils}> */}
+						<DateTimePicker
+							id={'date'}
+							autoOk
+							fullWidth
+							clearable
+							disableFuture
+							ampm={false}
+							format='LLL'
+							value={date}
+							autoFocus
+							onChange={handleCustomDate}
+							animateYearScrolling={false}
+							color='primary'
+							dateRangeIcon={<DateRange />}
+							timeIcon={<AccessTime />}
+							rightArrowIcon={<KeyboardArrowRight />}
+							leftArrowIcon={<KeyboardArrowLeft />}
+							InputLabelProps={{/*  FormLabelClasses: { root: classes.label, focused: classes.focused } */ }}
+							InputProps={{ classes: { underline: classes.underline } }}
+						/>
+						{/* </MuiPickersUtilsProvider> */}
 					</ItemG>
 				</Fragment>
 			case 'string':
@@ -350,7 +282,7 @@ const FilterCard = (props) => {
 					value={value ? value : ""}
 					onChange={handleInput} />
 			default:
-				break;
+				break
 		}
 	}
 

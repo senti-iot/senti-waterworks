@@ -9,7 +9,7 @@ export const dateFormatter = (date) => {
 }
 
 const isObject = (obj) => {
-	return obj === Object(obj);
+	return obj === Object(obj)
 }
 
 export const keyTester = (obj, sstr) => {
@@ -89,21 +89,43 @@ const filterByString = (items, k) => {
 	if (k.key === "") {
 		return items = filterItems(items, { keyword: k.value })
 	}
-	else
-		return items = items.reduce((newArr, d) => {
-			let objVal = index(d, k.key)
+	else {
+		items = items.reduce((newArr, d) => {
+			let objVal = index(d, k.key)//?
 			if (objVal !== null && objVal !== undefined) {
-				if (objVal.toString().toLowerCase().includes(k.value.toString().toLowerCase()))
-					newArr.push(d)
-				else {
-					if (objVal.hasOwnProperty(k.value)) {
-						newArr.push(d)
-					}
+				if (objVal.toString().toLowerCase().includes(k.value.toString().toLowerCase()))//?
+				{
+					console.log(d)
+					let newD = d
+					newArr.push(newD)
 				}
-			}
+				if (Array.isArray(objVal)) {
+					if (objVal[0] === undefined) { return newArr }
 
+					var keys = Object.keys(objVal[0])
+					objVal.filter(c => {
+						return keys.map(key => {
+							if (c) {
+								let res = keyTester(c[key], k.value)
+								if (res) {
+									newArr.push(d)
+								}
+							}
+							return newArr
+						})
+					})
+				}
+				if (objVal.hasOwnProperty(k.value)) {
+					newArr.push(d)
+				}
+
+			}
+			console.log(newArr)
 			return newArr
 		}, [])
+		console.log(items)
+		return items
+	}
 }
 
 const filterByDiff = (items, k) => {

@@ -93,10 +93,10 @@ const FullDeviceTable = (props) => {
 
 	}
 	const deviceFilters = [
+		{ key: 'uuname', name: t('devices.fields.uuid'), type: 'string' },
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
-		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
 		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
-		{ key: '', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
+		{ key: 'tags', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
 
