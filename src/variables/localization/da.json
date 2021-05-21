@@ -345,7 +345,8 @@
 			"tags": "Tags",
 			"temp": "CPU temperatur",
 			"type": "Type",
-			"uuid": "Enhed ID",
+			"uuid": "Unik ID",
+			"uuname": "Enhed ID",
 			"weather": "Vejr",
 			"wifiModule": "Wi-Fi model"
 		},

@@ -345,7 +345,8 @@
 			"tags": "Groups",
 			"temp": "CPU temperature",
 			"type": "Type",
-			"uuid": "Device ID",
+			"uuid": "Unique ID",
+			"uuname": "Device ID",
 			"weather": "Weather",
 			"wifiModule": "Wi-Fi module"
 		},

@@ -103,8 +103,9 @@ const FullDeviceTable = (props) => {
 	//#endregion
 	const columns = [
 		// { id: 'address', label: t('devices.fields.address') },
-		{ id: 'uuid', label: t('devices.fields.uuid') },
+		{ id: 'uuname', label: t('devices.fields.uuname') },
 		{ id: 'name', label: t('devices.fields.name') },
+		{ id: 'uuid', label: t('devices.fields.uuid') },
 		// { id: 'id', label: t('devices.fields.id') },
 		// { id: 'type', label: t('devices.fields.type') },
 		// { id: 'group', label: t('devices.fields.group') },
@@ -122,6 +123,7 @@ const FullDeviceTable = (props) => {
 			{/* <TC label={row.address} /> */}
 			<TC label={row.uuname} />
 			<TC label={row.name} />
+			<TC label={row.uuid} />
 			{/* <TC label={row.id} /> */}
 			{/* <TC label={row.type} /> */}
 			{/* <TC label={row.group} /> */}
