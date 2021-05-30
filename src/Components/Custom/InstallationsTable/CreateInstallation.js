@@ -1,12 +1,13 @@
-import { Button, Dialog, DialogActions } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core'
 import { FadeOutLoader } from 'Components'
 import CreateInstallationForm from 'Components/Custom/InstallationsTable/CreateInstallationForm'
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
-import { putDevice, putInstallation } from 'data/installations'
+import { putDevice, putInstallation, putUser } from 'data/installations'
+import { createUser } from 'data/users'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import moment from 'moment'
-import React, { useState } from 'react'
-import { getAdminDevices, getAdminInstallations } from 'Redux/data'
+import { getAdminDevices, getAdminInstallations, getAdminUsers } from 'Redux/data'
 
 const CreateInstallation = (props) => {
 	//Hooks
@@ -19,7 +20,7 @@ const CreateInstallation = (props) => {
 	//State
 	const [inst, setInst] = useState({
 		address: '',
-		orgUUID: org.uuid, //Webhouse ApS UUID
+		orgUUID: org.uuid,
 		state: 0,
 		operation: 0,
 		moving: 0
@@ -31,6 +32,16 @@ const CreateInstallation = (props) => {
 		startDate: moment(),
 		endDate: null
 	})
+	const [instUser, setInstUser] = useState({
+		adults: 1,
+		children: 0
+	})
+	const [user, setUser] = useState({
+		firstName: '',
+		lastName: '',
+		email: ''
+	})
+	const [existingUser, setExistingUser] = useState(false)
 	const [creating, setCreating] = useState(false)
 
 	//Const
@@ -40,6 +51,12 @@ const CreateInstallation = (props) => {
 	//useEffects
 
 	//Handlers
+	const handleSetUser = what => value => {
+		setInstUser({
+			...instUser,
+			[what]: value
+		})
+	}
 	const handleSetDevice = what => value => {
 		setInstDevice({
 			...instDevice,
@@ -52,6 +69,10 @@ const CreateInstallation = (props) => {
 			[what]: value
 		})
 	}
+	const handleSelectUser = user => {
+		// setInstUser({
+		// })
+	}
 	const handleSelectDevice = device => {
 		setInstDevice({
 			...instDevice,
@@ -62,6 +83,13 @@ const CreateInstallation = (props) => {
 	}
 	const handleStartCreate = () => {
 		setCreating(true)
+	}
+
+	const handleSetSentiUser = what => value => {
+		setUser({
+			...user,
+			[what]: value
+		})
 	}
 
 	const handleCreate = async () => {
@@ -80,6 +108,46 @@ const CreateInstallation = (props) => {
 				instUUID: createInstallation.uuid
 			}
 			let createDeviceInst = await putDevice(device)
+
+			if (existingUser) {
+
+
+			}
+			else {
+				let SentiUser = {
+					...user,
+					userName: user.email,
+					org: {
+						uuid: org.uuid
+					},
+					state: 2,
+					role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
+
+				}
+				let resUser = await createUser(SentiUser).then(rs => rs.data)
+				if (resUser.uuid) {
+					// id
+					// uuid
+					// startDate
+					// endDate
+					// userUUID
+					// instUUID
+					// adults
+					// children
+					// deleted
+					let InstUser = {
+						...instUser,
+						instUUID: createInstallation.uuid,
+						startDate: instDevice.startDate,
+						endDate: instDevice.endDate,
+						userUUID: resUser.uuid,
+					}
+					let resInstUser = await putUser(InstUser)
+					if (resInstUser) {
+						console.log(resInstUser)
+					}
+				}
+			}
 			if (createDeviceInst.uuid) {
 			}
 			else {
@@ -89,6 +157,7 @@ const CreateInstallation = (props) => {
 
 		//End
 		await dispatch(await getAdminDevices())
+		await dispatch(await getAdminUsers())
 		await dispatch(await getAdminInstallations())
 		// const getInstallationTags = async () => await dispatch(await getTags())
 		setCreating(false)
@@ -99,21 +168,32 @@ const CreateInstallation = (props) => {
 	return (
 		<Dialog
 			open={open}
+			maxWidth={'lg'}
 		>
 			<FadeOutLoader overlay on={creating} onChange={handleCreate}>
-				<div>
+				<div style={{ height: '100%' }}>
 
 					<DialogHeader label={'menus.create.installation'} />
-					<CreateInstallationForm
-						loading={creating}
-						inst={inst}
-						instDevice={instDevice}
-						org={org}
-						handleSetDevice={handleSetDevice}
-						handleSetInstallation={handleSetInstallation}
-						//Handlers
-						handleSelectDevice={handleSelectDevice}
-					/>
+					<DialogContent >
+
+						<CreateInstallationForm
+							loading={creating}
+							inst={inst}
+							instDevice={instDevice}
+							instUser={instUser}
+							org={org}
+							handleSetUser={handleSetUser}
+							handleSetDevice={handleSetDevice}
+							handleSetInstallation={handleSetInstallation}
+							//Handlers
+							handleSelectDevice={handleSelectDevice}
+							handleSelectUser={handleSelectUser}
+							existingUser={existingUser}
+							setExistingUser={setExistingUser}
+							user={user}
+							handleSetSentiUser={handleSetSentiUser}
+						/>
+					</DialogContent>
 					<DialogActions>
 						<Button onClick={handleStartCreate}>{t('actions.create')}</Button>
 						<Button onClick={handleClose}>{t('actions.close')}</Button>

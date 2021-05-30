@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
-import { getAdminDevices, getAdminInstallations, sortData as rSortData } from 'Redux/data'
+import { getAdminDevices, getAdminInstallations, getAdminUsers, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 // import { Chip, Tooltip } from '@material-ui/core'
@@ -67,12 +67,14 @@ const FullInstallationTable = (props) => {
 
 	useEffect(() => {
 		const getDevices = async () => await dispatch(await getAdminDevices())
+		const getUsers = async () => await dispatch(await getAdminUsers())
 		const getInstallations = async () => await dispatch(await getAdminInstallations())
 		// const getInstallationTags = async () => await dispatch(await getTags())
 		const loadData = async () => {
 			if (installations.length === 0 && loading) {
 				await getInstallations()
 				await getDevices()
+				await getUsers()
 			}
 			// if (tags.length === 0 && loading) {
 			// 	await getInstallationTags()

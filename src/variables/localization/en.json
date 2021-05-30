@@ -616,6 +616,7 @@
 		"uploadSuccess": "Images was uploaded"
 	},
 	"installations": {
+		"useExistingUser": "Use existing user?",
 		"fields": {
 			"endDate": "End date",
 			"startDate": "Start date",

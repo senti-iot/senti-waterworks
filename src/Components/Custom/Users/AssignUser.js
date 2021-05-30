@@ -42,14 +42,14 @@ const assignStyles = makeStyles(theme => ({
 }))
 
 
-const AssignDevice = props => {
+const AssignUser = props => {
 
 	//Hooks
 	const t = useLocalization()
 	const classes = assignStyles()
 
 	//Redux
-	const sensors = useSelector(s => s.data.devices)
+	const users = useSelector(s => s.data.users)
 
 	//State
 	const [page, setPage] = useState(0)
@@ -76,8 +76,8 @@ const AssignDevice = props => {
 
 
 	const assignSensor = sId => e => {
-		let device = sensors[sensors.findIndex(o => o.id === sId)]
-		props.callBack(device)
+		let user = users[users.findIndex(o => o.id === sId)]
+		props.callBack(user)
 	}
 	const closeDialog = () => {
 		props.handleClose(false)
@@ -102,7 +102,7 @@ const AssignDevice = props => {
 						<ItemG container alignItems={'center'}>
 							<ItemG xs={3} container alignItems={'center'}>
 								<Typography variant='h6' color='inherit' className={classes.flex}>
-									{t('sidebar.devices')}
+									{t('sidebar.users')}
 								</Typography>
 							</ItemG>
 							<ItemG xs>
@@ -110,7 +110,7 @@ const AssignDevice = props => {
 									fullWidth
 									open={true}
 									focusOnMount
-									suggestions={sensors ? suggestionGen(sensors) : []}
+									suggestions={users ? suggestionGen(users) : []}
 									handleFilterKeyword={handleFilterKeyword}
 									searchValue={filters.keyword} />
 							</ItemG>
@@ -139,7 +139,7 @@ const AssignDevice = props => {
 									fullWidth
 									open={true}
 									focusOnMount
-									suggestions={sensors ? suggestionGen(sensors) : []}
+									suggestions={users ? suggestionGen(users) : []}
 									handleFilterKeyword={handleFilterKeyword}
 									searchValue={filters.keyword} />
 							</ItemG>
@@ -148,10 +148,10 @@ const AssignDevice = props => {
 				</Toolbar>
 			</AppBar>
 			<List>
-				{sensors ? filterItems(sensors, filters).slice(page * rows, page * rows + rows).map((p, i) => (
+				{users ? filterItems(users, filters).slice(page * rows, page * rows + rows).map((p, i) => (
 					<Fragment key={i}>
 						<ListItem button onClick={assignSensor(p.id)} value={p.id}>
-							<ListItemText primary={p.name} />
+							<ListItemText primary={p.firstName + ' ' + p.lastName} />
 						</ListItem>
 						<Divider />
 					</Fragment>
@@ -159,7 +159,7 @@ const AssignDevice = props => {
 				) : <CircularLoader />}
 				<TP
 					disableRowsPerPage
-					count={sensors ? sensors.length : 0}
+					count={users ? users.length : 0}
 					page={page}
 					t={t}
 					handleChangePage={handleChangePage}
@@ -171,4 +171,4 @@ const AssignDevice = props => {
 }
 
 
-export default AssignDevice
+export default AssignUser

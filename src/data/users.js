@@ -1,16 +1,18 @@
 import { servicesCoreAPI } from './data'
 
 //#region GET User,Users
-// export const getAllUsers = async () => {
-// 	var data = await api.get('core/users').then(rs => rs.data)
-// 	data.forEach(d => {
-// 		if (d.aux) {
-// 			delete d.aux.favorites
-// 			delete d.aux.settings
-// 		}
-// 	})
-// 	return data
-// }
+export const getAllUsers = async () => {
+	var data = await servicesCoreAPI.get('/v2/entity/users').then(rs => rs.data)
+	if (data.length > 0) {
+		data.forEach(d => {
+			if (d.aux) {
+				delete d.aux.favorites
+				delete d.aux.settings
+			}
+		})
+	}
+	return data
+}
 // export const getValidSession = async (userId) => {
 // 	var data = await api.get(`core/user/${userId}`).then(rs => rs)
 
@@ -44,5 +46,10 @@ export const updateUser = async (user) => {
 export const updatePassword = async (userId, obj) => {
 	var response = await servicesCoreAPI.post(`/v2/entity/user/${userId}/setpassword`, obj).then(rs => rs.ok)
 	return response
+}
+
+export const createUser = async (user) => {
+	var res = await servicesCoreAPI.post(`/v2/entity/user`, user).then(rs => rs)
+	return res
 }
 //#endregion

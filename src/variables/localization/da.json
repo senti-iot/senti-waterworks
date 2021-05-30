@@ -616,6 +616,7 @@
 		"uploadSuccess": "Billeder overført"
 	},
 	"installations": {
+		"useExistingUser": "Bruge eksisterende bruger?",
 		"fields": {
 			"endDate": "Slutdato",
 			"startDate": "Startdato",

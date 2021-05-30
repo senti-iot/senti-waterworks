@@ -15,6 +15,7 @@ import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
 import { getInstallations } from 'data/installations'
+import { getAllUsers } from 'data/users'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -31,6 +32,7 @@ const hData = 'receivedData'
 const uhcData = 'unitHasChanged'
 const changeUnit = 'changeMeasurementUnit'
 const GetInst = 'getInstallations'
+const GetUsers = 'getUsers'
 
 export const setUnitHasChanged = () => {
 	return dispatch => {
@@ -178,7 +180,23 @@ export const getAdminInstallations = async () => {
 		})
 	}
 }
+/**
+ * Get Admin users
+ */
+export const getAdminUsers = async () => {
+	return async dispatch => {
 
+		/**
+		 * Get the users for the admin
+		 */
+		let users = await getAllUsers()
+		dispatch({
+			type: GetUsers,
+			payload: users
+		})
+
+	}
+}
 /**
  * Get Admin devices
  */
@@ -451,6 +469,8 @@ export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'RESET_APP':
 			return initialState
+		case GetUsers:
+			return Object.assign({}, state, { users: payload })
 		case GetInst:
 			return Object.assign({}, state, { installations: payload })
 		case uhcData:

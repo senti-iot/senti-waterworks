@@ -62,3 +62,12 @@ export const deleteInstallation = async (instUUID) => {
 	console.log('Response installation DELETE', response)
 	return response
 }
+
+/**
+ * @desc PUT /v3/installation/user
+ */
+export const putUser = async (user) => {
+	let response = await wbAPI.put(`/v3/installation/user`, user).then(rs => rs.ok ? rs.data : rs.ok)
+	console.log('Response PUT user', response)
+	return response
+}
