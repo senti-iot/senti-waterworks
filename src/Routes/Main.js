@@ -17,7 +17,7 @@ import ResetPassword from './ResetPassword'
 import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
 import NewContent from 'Components/Loaders/NewContent'
-import Onboarding from 'Routes/Onboarding'
+import Onboarding from 'Routes/NewOnboarding'
 import SnackbarProvider from 'Hooks/useSnackbar/SnackbarProvider'
 
 // import size from 'Styles/themes/mediaQueries'

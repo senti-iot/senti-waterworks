@@ -151,7 +151,8 @@ export const waterworksAPI = create({
 
 export const setHeaders = () => {
 	servicesAPI.setHeader('wlHost', window.location.hostname)
-	servicesCoreAPI.setHeader('wlHost', window.location.hostname)
+	// servicesCoreAPI.setHeader('wlHost', window.location.hostname)
+	servicesCoreAPI.setHeader('wlHost', "waterworks.senti.io")
 	waterworksAPI.setHeader('wlHost', window.location.hostname)
 }
 export const setToken = () => {

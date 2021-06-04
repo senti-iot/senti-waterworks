@@ -26,7 +26,7 @@ export const createOnboardingUser = async (user, authUUID) => {
  * @param {object} token - confirm token
  */
 
-export const confirmOnboardingUser = async (token) => {
-	let data = await servicesCoreAPI.post(`/v2/entity/user/confirmwithpassword`, { token: token })
+export const confirmOnboardingUser = async (token, password) => {
+	let data = await servicesCoreAPI.post(`/v2/entity/user/confirm`, { token: token, newPassword: password })
 	return data
 }
