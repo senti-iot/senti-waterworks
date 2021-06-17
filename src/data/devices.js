@@ -1,4 +1,4 @@
-import { servicesAPI, dataExportAPI, waterworksAPI } from './data'
+import { servicesAPI, dataExportAPI, waterworksAPI, wbAPI } from './data'
 import moment from 'moment'
 /**
  * Benchmark by hour
@@ -59,7 +59,8 @@ export const getWaterUsageByDay = async (from, to, uuids) => {
 
 	console.log('uuids', uuids)
 	if (uuids) {
-		response = await servicesAPI.post(`/v2/waterworks/data/usagebyday/${startDate}/${endDate}`, uuids)
+		response = await wbAPI.get(`/v3/usage/byday/${uuids[0]}/${startDate}/${endDate}/`)
+		// response = await servicesAPI.post(`/v2/waterworks/data/usagebyday/${startDate}/${endDate}`, uuids)
 	}
 	else {
 		response = await servicesAPI.get(`/v2/waterworks/data/usagebyday/${startDate}/${endDate}`)

@@ -344,13 +344,13 @@ export const userData = () =>
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let installation = getState().data.installation
+		let deviceUUID = installation.deviceUUID
 		let timeType = getState().dateTime.period.timeType
 		let subtr = moment(to).diff(moment(from), timeType > 1 ? 'day' : 'hour')
 
 		let prevFrom = moment(from).subtract(subtr, timeType > 1 ? 'day' : 'hour')
 		let prevTo = moment(from)
 
-		console.log('Installation', installation)
 		// let finalBarData = {
 		// 	waterusage: [],
 		// 	readings: [],
@@ -358,7 +358,7 @@ export const userData = () =>
 		// 	average: []
 		// }
 
-		let waterUsageData = timeType > 1 ? await getWaterUsageByDay(from, to) : await getWaterUsageByHour(from, to)
+		let waterUsageData = timeType > 1 ? await getWaterUsageByDay(from, to, [deviceUUID]) : await getWaterUsageByHour(from, to, [deviceUUID])
 		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo) : await getWaterUsageByHour(prevFrom, prevTo)
 		let readingsData = await getReadingUsage(from/* .clone().add(1, 'day') */, to)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
