@@ -115,8 +115,9 @@ function HeaderLinks(props) {
 						[classes.expandOpen]: openProfile,
 					})} />
 					{user ? <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${user.firstName}`}</T> : <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${'Not logged in'}`}</T>}
-					{user ? user.img ? <img src={user.img} alt='UserProfile' className={classes.img} /> : <Gravatar default='mp' email={user.email} className={classes.img} size={36} /> : <Gravatar default='mp' email={null} className={classes.img} size={36} />}
-					{/* <Gravatar default='mp' email={''} className={classes.img} size={36} /> */}
+					{user ? user.img ? <img src={user.img} alt='UserProfile' className={classes.img} /> :
+						<Gravatar default='mp' email={user.email} className={classes.img} size={36} /> :
+						<Gravatar default='mp' email={''} className={classes.img} size={36} />}
 				</Button>
 			</Tooltip>
 			<Menu
