@@ -223,7 +223,6 @@ const FilterToolbar = props => {
 					handleChangeFilterType={handleChangeFilterType}
 					placeholder={t('actions.search')}
 					fullWidth
-					t={t}
 				/>
 
 				<Popper

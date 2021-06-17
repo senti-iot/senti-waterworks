@@ -176,7 +176,7 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 		disableUnderline, error, filter, FormHelperTextProps, fullWidth, fullWidthInput, helperText, id,
 		InputProps, InputLabelProps = {}, label, onBeforeAdd, onKeyPress, placeholder, required,
 		rootRef, handleClick, chipRef, dataSourceConfig, onAdd, onChange, handleDoubleClick,
-		onDelete, inputRef, onBeforeDelete, onKeyDown, onBlur, onFocus, onUpdateInput, onKeyUp,
+		onDelete, inputRef, onBeforeDelete, onKeyDown, onBlur, onFocus, onUpdateInput, onKeyUp, handleChangeFilterType,
 		...other
 	} = props
 	const hasInput = chips.length > 0 || inputValue.length > 0
