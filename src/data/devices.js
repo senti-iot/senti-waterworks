@@ -56,6 +56,8 @@ export const getWaterUsageByDay = async (from, to, uuids) => {
 	let endDate = moment(to).format('YYYY-MM-DD')
 	let response
 
+
+	console.log('uuids', uuids)
 	if (uuids) {
 		response = await servicesAPI.post(`/v2/waterworks/data/usagebyday/${startDate}/${endDate}`, uuids)
 	}

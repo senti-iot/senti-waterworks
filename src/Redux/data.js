@@ -68,20 +68,6 @@ export const sortData = (key, property, order) => {
 	}
 }
 
-// export const getAllDevices = async () => {
-// 	return async (dispatch) => {
-// 		let devices = await getDevices()
-// 		dispatch({
-// 			type: GETDevice,
-// 			payload: devices
-// 		})
-// 		dispatch({
-// 			type: 'selectDevice',
-// 			// payload: devices ? devices.map(d => d.id) : []
-// 			payload: devices.length > 0 ? [devices[0].id, devices[1].id, devices[2].id] : []
-// 		})
-// 	}
-// }
 /**
  * Get Weather Data for the Line Graph
  */
@@ -209,11 +195,11 @@ export const getAdminDevices = async () => {
 		let devices = await getDevicesV2()
 		dispatch({
 			type: GETDevice,
-			payload: devices
+			payload: devices ? devices : []
 		})
 		await dispatch({
 			type: sDevice,
-			payload: devices.map(d => d.uuid)
+			payload: devices ? devices.map(d => d.uuid) : []
 		})
 	}
 }
@@ -338,7 +324,6 @@ export const adminData = () =>
  */
 export const userData = () =>
 	async (dispatch, getState) => {
-		console.trace()
 		let orgId = getState().settings.user?.org.uuid
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()

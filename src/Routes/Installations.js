@@ -6,6 +6,7 @@ import { useLocalization } from 'Hooks'
 import { makeStyles } from '@material-ui/core'
 import CreateInstallation from 'Components/Custom/InstallationsTable/CreateInstallation'
 import EditInstallation from 'Components/Custom/InstallationsTable/EditInstallation'
+import { useSelector } from 'react-redux'
 
 const styles = makeStyles(theme => ({
 	icon: {
@@ -17,7 +18,9 @@ const Installations = () => {
 	//Hooks
 	const t = useLocalization()
 	const classes = styles()
+
 	//Redux
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 
 	//State
 	const [openCreate, setOpenCreate] = useState(false)
@@ -44,7 +47,7 @@ const Installations = () => {
 
 
 	const renderMenu = () => {
-		return <DMenu
+		return isSWAdmin ? <DMenu
 			icon={<MoreVert className={classes.icon} />}
 			// onChange={handleOpenExport}
 			menuItems={[{
@@ -54,7 +57,7 @@ const Installations = () => {
 				func: handleOpenCreate
 			}
 			]}
-		/>
+		/> : null
 	}
 	return (
 		<GridContainer>

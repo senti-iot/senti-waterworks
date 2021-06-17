@@ -52,6 +52,7 @@ const FullInstallationTable = (props) => {
 	const installations = useSelector(s => s.data.installations)
 	// const tags = useSelector(s => s.tagManager.tags)
 	const filters = useSelector(s => s.appState.filters.installations)
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 
 	//State
 	const [selDev, setSelDev] = useState([])
@@ -205,15 +206,18 @@ const FullInstallationTable = (props) => {
 				<ItemG>
 					<Chip color={'primary'} label={`${selDev.length} ${t('tables.selected')}`} />
 				</ItemG>
-				<ItemG>
-					<Chip className={classes.chipIcon} label={t('menus.create.installation')} color={'secondary'} onClick={() => { }} icon={<Add className={classes.chipIcon} />} />
-				</ItemG>
-				{selDev.length === 1 ? <ItemG>
-					<Chip className={classes.chipIcon} label={t('menus.edits.installation')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0])}} icon={<Edit className={classes.chipIcon} />} />
-				</ItemG> : null}
-				<ItemG>
-					<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon}/> }/>
-				</ItemG>
+
+				{isSWAdmin ? <Fragment>
+					<ItemG>
+						<Chip className={classes.chipIcon} label={t('menus.create.installation')} color={'secondary'} onClick={() => { }} icon={<Add className={classes.chipIcon} />} />
+					</ItemG>
+					{selDev.length === 1 ? <ItemG>
+						<Chip className={classes.chipIcon} label={t('menus.edits.installation')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0]) }} icon={<Edit className={classes.chipIcon} />} />
+					</ItemG> : null}
+					<ItemG>
+						<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon} />} />
+					</ItemG>
+				</Fragment> : null}
 			</ItemG>
 		</div>
 	}
