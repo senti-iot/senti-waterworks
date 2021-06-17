@@ -71,3 +71,9 @@ export const putUser = async (user) => {
 	console.log('Response PUT user', response)
 	return response
 }
+
+export const getFullInstallation = async userUUID => {
+	let response = await wbAPI.get(`/v3/installation/senti/${userUUID}`).then(rs => rs.ok ? rs.data : rs.ok)
+	console.log('Response GET Full Inst', response)
+	return response
+}

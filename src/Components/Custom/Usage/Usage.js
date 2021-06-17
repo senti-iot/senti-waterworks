@@ -75,7 +75,7 @@ const Usage = props => {
 					</T>
 				</ItemG>
 			</ItemG> */}
-			<ItemG container xs={6} className={columnClasses(0)}>
+			<ItemG xs={6} className={columnClasses(0)}>
 
 				<ItemG container style={{ maxWidth: '100%' }}>
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
@@ -90,7 +90,7 @@ const Usage = props => {
 					</T>
 				</ItemG>
 			</ItemG>
-			<ItemG container xs={6} className={columnClasses(1)}>
+			<ItemG xs={6} className={columnClasses(1)}>
 				<ItemG container style={{ maxWidth: '100%' }}>
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
 				</ItemG>

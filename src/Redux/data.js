@@ -14,7 +14,7 @@ import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
-import { getInstallations } from 'data/installations'
+import { getFullInstallation, getInstallations } from 'data/installations'
 import { getAllUsers } from 'data/users'
 // import { genBenchmarkAll } from 'data/model'
 
@@ -33,6 +33,7 @@ const uhcData = 'unitHasChanged'
 const changeUnit = 'changeMeasurementUnit'
 const GetInst = 'getInstallations'
 const GetUsers = 'getUsers'
+const getUserInstallation = 'getUserInstallation'
 
 export const setUnitHasChanged = () => {
 	return dispatch => {
@@ -67,6 +68,21 @@ export const sortData = (key, property, order) => {
 
 	}
 }
+/**
+ * Get User installation
+ */
+export const getUserInst = async () => {
+	return async (dispatch, getState) => {
+		let userUUID = getState().settings.user.uuid
+		let data = await getFullInstallation(userUUID)
+
+		dispatch({
+			type: getUserInstallation,
+			payload: data
+		})
+	}
+}
+
 
 /**
  * Get Weather Data for the Line Graph
@@ -327,12 +343,14 @@ export const userData = () =>
 		let orgId = getState().settings.user?.org.uuid
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
+		let installation = getState().data.installation
 		let timeType = getState().dateTime.period.timeType
 		let subtr = moment(to).diff(moment(from), timeType > 1 ? 'day' : 'hour')
 
 		let prevFrom = moment(from).subtract(subtr, timeType > 1 ? 'day' : 'hour')
 		let prevTo = moment(from)
 
+		console.log('Installation', installation)
 		// let finalBarData = {
 		// 	waterusage: [],
 		// 	readings: [],
@@ -409,6 +427,7 @@ export const getNData = async () => {
 			return
 		}
 		else {
+			await dispatch(await getUserInst())
 			await dispatch(await userData())
 			return
 		}
@@ -421,6 +440,7 @@ const initialState = {
 	haveData: false,
 	barData: {},
 	devices: [],
+	installation: null,
 	installations: [],
 	data: {},
 	priceData: {
@@ -454,6 +474,8 @@ export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'RESET_APP':
 			return initialState
+		case getUserInstallation:
+			return Object.assign({}, state, { installation: payload })
 		case GetUsers:
 			return Object.assign({}, state, { users: payload })
 		case GetInst:

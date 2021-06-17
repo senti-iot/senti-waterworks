@@ -96,14 +96,14 @@ const UsageTips = props => {
 			<ItemG container className={classes.container}>
 
 				{/* left column with pics */}
-				<ItemG xs={12} md={12} container>
+				<ItemG xs={12} md={12}>
 					<HeaderText variant="h4">
 						{t('tipsAndTricks.title')}
 					</HeaderText>
-					<GridContainer xs={12} container>
+					<GridContainer>
 
 						{picsAndText.map(({ imgSrc, text }, index) => (
-							<ItemG xs={6} md={3} key={index} container justify={'center'}>
+							<ItemG xs={6} md={3} key={index}>
 								<ButtonBase variant={'contained'} onClick={() => {
 									setDescriptionOpen(true)
 									setChosenDescription(index)
