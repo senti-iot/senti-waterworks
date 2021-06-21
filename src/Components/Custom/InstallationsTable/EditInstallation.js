@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions } from '@material-ui/core'
+import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core'
 import { FadeOutLoader } from 'Components'
 import CreateInstallationForm from 'Components/Custom/InstallationsTable/CreateInstallationForm'
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
@@ -22,7 +22,7 @@ const EditInstallation = (props) => {
 	//State
 	const [inst, setInst] = useState({
 		address: '',
-		orgUUID: org.uuid, //Webhouse ApS UUID
+		orgUUID: org.uuid,
 		state: 0,
 		operation: 0,
 		moving: 0
@@ -34,6 +34,17 @@ const EditInstallation = (props) => {
 		startDate: moment(),
 		endDate: null
 	})
+	const [instUser, setInstUser] = useState({
+		adults: 1,
+		children: 0
+	})
+	const [user, setUser] = useState({
+		firstName: '',
+		lastName: '',
+		email: ''
+	})
+
+	const [existingUser, setExistingUser] = useState(false)
 	const [editing, setEditing] = useState(false)
 	const [loading, setLoading] = useState(false)
 	//Const
@@ -65,6 +76,18 @@ const EditInstallation = (props) => {
 		}
 		setLoading(false)
 	}
+	const handleSetUser = what => value => {
+		setInstUser({
+			...instUser,
+			[what]: value
+		})
+	}
+
+	const handleSelectUser = user => {
+		// setInstUser({
+		// })
+	}
+
 	const handleSetDevice = what => value => {
 		setInstDevice({
 			...instDevice,
@@ -100,6 +123,13 @@ const EditInstallation = (props) => {
 			moving: 0
 		})
 	}
+	const handleSetSentiUser = what => value => {
+		setUser({
+			...user,
+			[what]: value
+		})
+	}
+
 	const handleEdit = async () => {
 		//Edit Installation
 		let editInstallation = await postInstallation(inst).then(rs => rs)
@@ -136,22 +166,34 @@ const EditInstallation = (props) => {
 	return (
 		<Dialog
 			open={open}
+			maxWidth={'lg'}
 		>
 			<FadeLoader overlay on={loading} onChange={handleGetData}>
 				<FadeOutLoader overlay on={editing} onChange={handleEdit}>
-					<div>
+					<div style={{ height: '100%' }}>
 
 						<DialogHeader label={'menus.edits.installation'} />
-						<CreateInstallationForm
-							loading={editing}
-							inst={inst}
-							instDevice={instDevice}
-							org={org}
-							handleSetDevice={handleSetDevice}
-							handleSetInstallation={handleSetInstallation}
-							//Handlers
-							handleSelectDevice={handleSelectDevice}
-						/>
+						<DialogContent>
+
+							<CreateInstallationForm
+								loading={editing}
+								inst={inst}
+								instDevice={instDevice}
+								instUser={instUser}
+								org={org}
+								handleSetUser={handleSetUser}
+								handleSetDevice={handleSetDevice}
+								handleSetInstallation={handleSetInstallation}
+								//Handlers
+								handleSelectDevice={handleSelectDevice}
+								handleSelectUser={handleSelectUser}
+								existingUser={existingUser}
+								setExistingUser={setExistingUser}
+								user={user}
+								handleSetSentiUser={handleSetSentiUser}
+							/>
+						</DialogContent>
+
 						<DialogActions>
 							<Button onClick={handleStartEditing}>{t('actions.edit')}</Button>
 							<Button onClick={handleFullClose}>{t('actions.close')}</Button>
