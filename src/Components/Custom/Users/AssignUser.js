@@ -76,7 +76,10 @@ const AssignUser = props => {
 
 
 	const assignSensor = sId => e => {
-		let user = users[users.findIndex(o => o.id === sId)]
+		let user = users[users.findIndex(o => o.uuid === sId)]
+		console.log('sId', sId)
+		console.log('U', user)
+		// console.log('sId', sId)
 		props.callBack(user)
 	}
 	const closeDialog = () => {
@@ -150,7 +153,7 @@ const AssignUser = props => {
 			<List>
 				{users ? filterItems(users, filters).slice(page * rows, page * rows + rows).map((p, i) => (
 					<Fragment key={i}>
-						<ListItem button onClick={assignSensor(p.id)} value={p.id}>
+						<ListItem button onClick={assignSensor(p.uuid)} value={p.uuid}>
 							<ListItemText primary={p.firstName + ' ' + p.lastName} />
 						</ListItem>
 						<Divider />

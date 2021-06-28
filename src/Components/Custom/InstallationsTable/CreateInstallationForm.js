@@ -169,7 +169,7 @@ const CreateInstallationForm = (props) => {
 						<TextF
 							onClick={() => setOpenUserAssign(true)}
 							readOnly
-							value={instDevice.uuname ? instDevice.name + ' - ' + instDevice.uuname : t('actions.select') + ' ' + t('sidebar.user')}
+							value={instUser.firstName ? instUser.firstName + ' ' + instUser.lastName : t('actions.select') + ' ' + t('sidebar.user')}
 						/>
 						<AssignUser open={openUserAssign}
 							handleClose={() => setOpenUserAssign(false)}

@@ -20,7 +20,7 @@ const CreateInstallation = (props) => {
 	//State
 	const [inst, setInst] = useState({
 		address: '',
-		orgUUID: org.uuid,
+		orgUUID: org ? org.uuid : null,
 		state: 0,
 		operation: 0,
 		moving: 0
@@ -70,6 +70,10 @@ const CreateInstallation = (props) => {
 		})
 	}
 	const handleSelectUser = user => {
+		console.log("User", user)
+		setInstUser({
+			...user
+		})
 		// setInstUser({
 		// })
 	}
@@ -110,7 +114,17 @@ const CreateInstallation = (props) => {
 			let createDeviceInst = await putDevice(device)
 
 			if (existingUser) {
-
+				let InstUser = {
+					...instUser,
+					instUUID: createInstallation.uuid,
+					startDate: instDevice.startDate,
+					endDate: instDevice.endDate,
+					userUUID: instUser.uuid,
+				}
+				let resInstUser = await putUser(InstUser)
+				if (resInstUser) {
+					console.log(resInstUser)
+				}
 
 			}
 			else {
