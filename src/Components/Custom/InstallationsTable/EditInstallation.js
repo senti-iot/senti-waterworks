@@ -45,8 +45,10 @@ const EditInstallation = (props) => {
 	})
 
 	const [existingUser, setExistingUser] = useState(false)
+	const [withoutUser, setWithoutUser] = useState(false)
 	const [editing, setEditing] = useState(false)
 	const [loading, setLoading] = useState(false)
+
 	//Const
 	const { open, handleClose } = props
 	//useCallbacks
@@ -138,6 +140,18 @@ const EditInstallation = (props) => {
 		setTimeout(() => {
 			//debounce the edit
 		}, 300)
+
+		//Do the user Part
+
+		if (withoutUser) {
+			//End the instUser
+		}
+		else {
+			if (existingUser) {
+				// create a new existing user
+			}
+		}
+
 		if (editInstallation.uuid) {
 			let device = {
 				startDate: moment(instDevice.startDate).format('YYYY-MM-DD HH:mm:ss'),
@@ -189,6 +203,8 @@ const EditInstallation = (props) => {
 								handleSelectUser={handleSelectUser}
 								existingUser={existingUser}
 								setExistingUser={setExistingUser}
+								withoutUser={withoutUser}
+								setWithoutUser={setWithoutUser}
 								user={user}
 								handleSetSentiUser={handleSetSentiUser}
 							/>

@@ -17,7 +17,7 @@ const CreateInstallationForm = (props) => {
 	const [openUserAssign, setOpenUserAssign] = useState(false)
 	//Const
 	const { inst, instDevice, org, handleSelectDevice, handleSetDevice, handleSetInstallation,
-		handleSelectUser, instUser, handleSetUser, existingUser, setExistingUser, user, handleSetSentiUser
+		handleSelectUser, instUser, handleSetUser, existingUser, setExistingUser, user, handleSetSentiUser, setWithoutUser, withoutUser
 	} = props
 
 	// console.log('instDevice', instDevice)
@@ -139,69 +139,82 @@ const CreateInstallationForm = (props) => {
 				</ItemG>
 				<ItemG xs={12}>
 					<FormControlLabel
+						control={<Checkbox checked={withoutUser} onChange={() => setWithoutUser(!withoutUser)} name="withoutUserCheck" />}
+						label={t('installations.withoutUser')}
+					/>
+
+					<FormControlLabel
+						disabled={withoutUser}
 						control={<Checkbox checked={existingUser} onChange={() => setExistingUser(!existingUser)} name="existingUserCheck" />}
 						label={t('installations.useExistingUser')}
 					/>
-					<Collapse in={!existingUser}>
-						<ItemG xs={12}>
-							<TextF
-								label={t('users.fields.firstName')}
-								value={user.firstName}
-								onChange={e => handleSetSentiUser('firstName')(e.target.value)}
-							/>
-						</ItemG>
-						<ItemG xs={12}>
-							<TextF
-								label={t('users.fields.lastName')}
-								value={user.lastName}
-								onChange={e => handleSetSentiUser('lastName')(e.target.value)}
-							/>
-						</ItemG>
-						<ItemG xs={12}>
-							<TextF
-								label={t('users.fields.email')}
-								value={user.email}
-								onChange={e => handleSetSentiUser('email')(e.target.value)}
-							/>
-						</ItemG>
-					</Collapse>
-					<Collapse in={existingUser}>
-						<TextF
-							onClick={() => setOpenUserAssign(true)}
-							readOnly
-							value={instUser.firstName ? instUser.firstName + ' ' + instUser.lastName : t('actions.select') + ' ' + t('sidebar.user')}
-						/>
-						<AssignUser open={openUserAssign}
-							handleClose={() => setOpenUserAssign(false)}
-							callBack={(dev) => { handleSelectUser(dev); setOpenUserAssign(false) }}
-						/>
-					</Collapse>
 				</ItemG>
-				<ItemG xs={12}>
+				<Collapse in={!withoutUser}>
 					<ItemG xs={12}>
-						<DSelect
-							id={'adultNr'}
-							label={t('signup.form.adultNr')}
-							value={instUser.adults}
-							type={'text'}
-							margin={'normal'}
-							menuItems={handleGenMenuItems().slice(1)}
-							onChange={(e) => handleSetUser('adults')(e.target.value)}
-						/>
-					</ItemG>
 
-					<ItemG xs={12}>
-						<DSelect
-							label={t('signup.form.childNr')}
-							value={instUser.children}
-							type={'text'}
-							margin={'normal'}
-							menuItems={handleGenMenuItems()}
-							onChange={(e) => handleSetUser('children')(e.target.value)}
-						/>
+						<Collapse in={!existingUser}>
+							<ItemG xs={12}>
+								<TextF
+									label={t('users.fields.firstName')}
+									value={user.firstName}
+									onChange={e => handleSetSentiUser('firstName')(e.target.value)}
+								/>
+							</ItemG>
+							<ItemG xs={12}>
+								<TextF
+									label={t('users.fields.lastName')}
+									value={user.lastName}
+									onChange={e => handleSetSentiUser('lastName')(e.target.value)}
+								/>
+							</ItemG>
+							<ItemG xs={12}>
+								<TextF
+									label={t('users.fields.email')}
+									value={user.email}
+									onChange={e => handleSetSentiUser('email')(e.target.value)}
+								/>
+							</ItemG>
+						</Collapse>
+						<Collapse in={existingUser}>
+							<TextF
+								onClick={() => setOpenUserAssign(true)}
+								readOnly
+								value={instUser.firstName ? instUser.firstName + ' ' + instUser.lastName : t('actions.select') + ' ' + t('sidebar.user')}
+							/>
+							<AssignUser open={openUserAssign}
+								handleClose={() => setOpenUserAssign(false)}
+								callBack={(dev) => { handleSelectUser(dev); setOpenUserAssign(false) }}
+							/>
+						</Collapse>
 
 					</ItemG>
-				</ItemG>
+					<ItemG xs={12}>
+						<ItemG xs={12}>
+							<DSelect
+								id={'adultNr'}
+								label={t('signup.form.adultNr')}
+								value={instUser.adults}
+								type={'text'}
+								margin={'normal'}
+								menuItems={handleGenMenuItems().slice(1)}
+								onChange={(e) => handleSetUser('adults')(e.target.value)}
+							/>
+						</ItemG>
+
+						<ItemG xs={12}>
+							<DSelect
+								label={t('signup.form.childNr')}
+								value={instUser.children}
+								type={'text'}
+								margin={'normal'}
+								menuItems={handleGenMenuItems()}
+								onChange={(e) => handleSetUser('children')(e.target.value)}
+							/>
+
+						</ItemG>
+					</ItemG>
+				</Collapse>
+
 			</ItemG>
 
 		</ItemG>

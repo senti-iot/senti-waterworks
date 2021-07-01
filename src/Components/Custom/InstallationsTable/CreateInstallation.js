@@ -42,6 +42,7 @@ const CreateInstallation = (props) => {
 		email: ''
 	})
 	const [existingUser, setExistingUser] = useState(false)
+	const [withoutUser, setWithoutUser] = useState(false)
 	const [creating, setCreating] = useState(false)
 
 	//Const
@@ -112,53 +113,50 @@ const CreateInstallation = (props) => {
 				instUUID: createInstallation.uuid
 			}
 			let createDeviceInst = await putDevice(device)
-
-			if (existingUser) {
-				let InstUser = {
-					...instUser,
-					instUUID: createInstallation.uuid,
-					startDate: instDevice.startDate,
-					endDate: instDevice.endDate,
-					userUUID: instUser.uuid,
-				}
-				let resInstUser = await putUser(InstUser)
-				if (resInstUser) {
-					console.log(resInstUser)
-				}
-
+			if (withoutUser) {
+				//Don't do anything about users
 			}
 			else {
-				let SentiUser = {
-					...user,
-					userName: user.email,
-					org: {
-						uuid: org.uuid
-					},
-					state: 2,
-					role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
-
-				}
-				let resUser = await createUser(SentiUser).then(rs => rs.data)
-				if (resUser.uuid) {
-					// id
-					// uuid
-					// startDate
-					// endDate
-					// userUUID
-					// instUUID
-					// adults
-					// children
-					// deleted
+				if (existingUser) {
 					let InstUser = {
 						...instUser,
 						instUUID: createInstallation.uuid,
 						startDate: instDevice.startDate,
 						endDate: instDevice.endDate,
-						userUUID: resUser.uuid,
+						userUUID: instUser.uuid,
 					}
 					let resInstUser = await putUser(InstUser)
 					if (resInstUser) {
 						console.log(resInstUser)
+					}
+
+				}
+				else {
+
+
+					let SentiUser = {
+						...user,
+						userName: user.email,
+						org: {
+							uuid: org.uuid
+						},
+						state: 2,
+						role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
+
+					}
+					let resUser = await createUser(SentiUser).then(rs => rs.data)
+					if (resUser.uuid) {
+						let InstUser = {
+							...instUser,
+							instUUID: createInstallation.uuid,
+							startDate: instDevice.startDate,
+							endDate: instDevice.endDate,
+							userUUID: resUser.uuid,
+						}
+						let resInstUser = await putUser(InstUser)
+						if (resInstUser) {
+							console.log(resInstUser)
+						}
 					}
 				}
 			}
@@ -204,6 +202,8 @@ const CreateInstallation = (props) => {
 							handleSelectUser={handleSelectUser}
 							existingUser={existingUser}
 							setExistingUser={setExistingUser}
+							withoutUser={withoutUser}
+							setWithoutUser={setWithoutUser}
 							user={user}
 							handleSetSentiUser={handleSetSentiUser}
 						/>
