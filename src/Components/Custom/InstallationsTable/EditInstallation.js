@@ -2,13 +2,14 @@ import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core'
 import { FadeOutLoader } from 'Components'
 import CreateInstallationForm from 'Components/Custom/InstallationsTable/CreateInstallationForm'
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
-import { getInstallation, postDevice, postInstallation } from 'data/installations'
+import { getInstallation, getInstUser, postDevice, postInstallation, postInstUser, putUser } from 'data/installations'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import moment from 'moment'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { getAdminDevices, getAdminInstallations } from 'Redux/data'
 import FadeLoader from 'Components/Loaders/FadeLoader'
+import { createUser } from 'data/users'
 
 const EditInstallation = (props) => {
 	//Hooks
@@ -77,7 +78,7 @@ const EditInstallation = (props) => {
 				instDevUUID: inst.instDevUUID
 			})
 		}
-		let user = users ? users[users.findIndex(f => f.uuid === inst.instUserUUID)] : null
+		let user = users ? users[users.findIndex(f => f.uuid === inst.sentiUserUUID)] : null
 		console.log(users)
 		console.log('user', user)
 		if (user) {
@@ -98,8 +99,9 @@ const EditInstallation = (props) => {
 	}
 
 	const handleSelectUser = user => {
-		// setInstUser({
-		// })
+		setInstUser({
+			...user
+		})
 	}
 
 	const handleSetDevice = what => value => {
@@ -127,15 +129,33 @@ const EditInstallation = (props) => {
 	const handleStartEditing = () => {
 		setEditing(true)
 	}
-	const handleFullClose = () => {
-		handleClose()
+	const handleSetClose = () => {
 		setInst({
 			address: '',
-			orgUUID: org.uuid, //Webhouse ApS UUID
+			orgUUID: org ? org.uuid : null,
 			state: 0,
 			operation: 0,
 			moving: 0
 		})
+		setInstDevice({
+			uuid: '',
+			uuname: '',
+			name: '',
+			startDate: moment(),
+			endDate: null
+		})
+		setInstUser({
+			adults: 1,
+			children: 0
+		})
+		setUser({
+			firstName: '',
+			lastName: '',
+			email: ''
+		})
+		setExistingUser(false)
+		setWithoutUser(false)
+		handleClose()
 	}
 	const handleSetSentiUser = what => value => {
 		setUser({
@@ -153,26 +173,82 @@ const EditInstallation = (props) => {
 			//debounce the edit
 		}, 300)
 
-		//Do the user Part
+		//#region User Part
 
 		if (withoutUser) {
+			//Set the current instUser to ended
+			console.log(inst.instUserUUID)
+			let user = await getInstUser(inst.instUserUUID)
+			console.log('instUser', user)
+			user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
+			await postInstUser(user)
+			setTimeout(() => {
+				//debounce the edit
+			}, 300)
 			//End the instUser
 		}
 		else {
 			if (existingUser) {
-				// create a new existing user
+				if (inst.sentiUserUUID !== instUser.uuid) {
+					console.log('Close the current instUser')
+					let user = await getInstUser(inst.instUserUUID)
+					console.log('instUser', user)
+					user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
+					await postInstUser(user)
+					console.log('Create a new one')
+					let InstUser = {
+						...instUser,
+						instUUID: inst.uuid,
+						startDate: instDevice.startDate,
+						endDate: instDevice.endDate,
+						userUUID: instUser.uuid,
+					}
+					let resInstUser = await putUser(InstUser)
+					if (resInstUser) {
+						console.log(resInstUser)
+					}
+				}
+				else {
+
+					let SentiUser = {
+						...user,
+						userName: user.email,
+						org: {
+							uuid: org.uuid
+						},
+						state: 2,
+						role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
+
+					}
+					let resUser = await createUser(SentiUser).then(rs => rs.data)
+					if (resUser.uuid) {
+						let InstUser = {
+							...instUser,
+							instUUID: inst.uuid,
+							startDate: instDevice.startDate,
+							endDate: instDevice.endDate,
+							userUUID: resUser.uuid,
+						}
+						let resInstUser = await putUser(InstUser)
+						if (resInstUser) {
+							console.log(resInstUser)
+						}
+					}
+				}
 			}
 		}
+		//#endregion
 
+		//#region Device Part
 		if (editInstallation.uuid) {
 			let device = {
 				startDate: moment(instDevice.startDate).format('YYYY-MM-DD HH:mm:ss'),
-				endDate: moment(instDevice.endDate).format('YYYY-MM-DD HH:mm:ss'),
+				endDate: instDevice.endDate ? moment(instDevice.endDate).format('YYYY-MM-DD HH:mm:ss') : null,
 				deviceUUID: instDevice.uuid,
 				instUUID: editInstallation.uuid,
 				uuid: editInstallation.instDevUUID
 			}
-			console.log(device)
+			console.log('instDevice', device)
 			let editDeviceInst = await postDevice(device)
 			if (editDeviceInst.uuid) {
 			}
@@ -180,13 +256,13 @@ const EditInstallation = (props) => {
 				console.log(editDeviceInst)
 			}
 		}
+		//#endregion
 
-		//End
 		await dispatch(await getAdminDevices())
 		await dispatch(await getAdminInstallations())
 		// const getInstallationTags = async () => await dispatch(await getTags())
 		setEditing(false)
-		handleFullClose()
+		handleSetClose()
 	}
 
 	return (
@@ -224,7 +300,7 @@ const EditInstallation = (props) => {
 
 						<DialogActions>
 							<Button onClick={handleStartEditing}>{t('actions.edit')}</Button>
-							<Button onClick={handleFullClose}>{t('actions.close')}</Button>
+							<Button onClick={handleSetClose}>{t('actions.close')}</Button>
 							{/* <Button onClick={() => setLoading(true)}>{t('actions.edit')}</Button> */}
 						</DialogActions>
 					</div>

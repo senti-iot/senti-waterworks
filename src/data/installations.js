@@ -71,9 +71,26 @@ export const putUser = async (user) => {
 	console.log('Response PUT user', response)
 	return response
 }
+/**
+ * @desc GET /v3/installation/user
+ */
+export const getInstUser = async (uuid) => {
+	let response = await wbAPI.get(`/v3/installation/user/${uuid}`).then(rs => rs.ok ? rs.data : rs.ok)
+	console.log('Response GET user', response)
+	return response
+}
+/**
+ * @desc POST /v3/installation/user
+ */
+export const postInstUser = async (user) => {
+	let response = await wbAPI.post(`/v3/installation/user/`, user).then(rs => rs.ok ? rs.data : rs.ok)
+	console.log('Response POST user', response)
+	return response
+}
 
 export const getFullInstallation = async userUUID => {
 	let response = await wbAPI.get(`/v3/installation/senti/${userUUID}`).then(rs => rs.ok ? rs.data : rs.ok)
 	console.log('Response GET Full Inst', response)
 	return response
 }
+

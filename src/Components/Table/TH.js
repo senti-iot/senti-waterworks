@@ -54,7 +54,6 @@ const TH = (props) => {
 				<Hidden lgUp>
 					{
 						mdDown ? mdDown.map((a, c) => {
-							console.log(columns[c].id, columns)
 							return <TableCell
 								key={c}
 								sortDirection={orderBy === columns[c].id ? order : false}
