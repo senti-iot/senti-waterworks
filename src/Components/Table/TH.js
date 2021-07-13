@@ -53,10 +53,10 @@ const TH = (props) => {
 				</Hidden>
 				<Hidden lgUp>
 					{
-						mdDown ? mdDown.map(c => {
+						mdDown ? mdDown.map((a, c) => {
+							console.log(columns[c].id, columns)
 							return <TableCell
-								className={classes.header}
-								key={columns[c].id}
+								key={c}
 								sortDirection={orderBy === columns[c].id ? order : false}
 							>
 								<TableSortLabel
@@ -70,7 +70,7 @@ const TH = (props) => {
 									direction={order}
 									onClick={createSortHandler(columns[c].id)}
 								>
-									<T paragraph>{columns[c].label}</T>
+									<T>{columns[c].label}</T>
 								</TableSortLabel>
 							</TableCell>
 						}) : customColumn ? customColumn.map(c => {
