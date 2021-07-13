@@ -189,12 +189,14 @@ const EditInstallation = (props) => {
 		}
 		else {
 			if (existingUser) {
-				if (inst.sentiUserUUID !== instUser.uuid) {
+				if ((inst.sentiUserUUID !== instUser.uuid) && inst.sentiUserUUID !== null) {
 					console.log('Close the current instUser')
 					let user = await getInstUser(inst.instUserUUID)
-					console.log('instUser', user)
-					user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
-					await postInstUser(user)
+					if (user) {
+						console.log('instUser', user)
+						user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
+						await postInstUser(user)
+					}
 					console.log('Create a new one')
 					let InstUser = {
 						...instUser,
@@ -273,9 +275,11 @@ const EditInstallation = (props) => {
 
 		await dispatch(await getAdminDevices())
 		await dispatch(await getAdminInstallations())
+		await dispatch(await getAdminInstallations())
+
 		// const getInstallationTags = async () => await dispatch(await getTags())
-		setEditing(false)
 		handleSetClose()
+		setEditing(false)
 	}
 
 	return (

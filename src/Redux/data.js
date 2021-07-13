@@ -14,7 +14,7 @@ import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
-import { getFullInstallation, getInstallations } from 'data/installations'
+import { getFullInstallation, getInstallations, getUserInstallations } from 'data/installations'
 import { getAllUsers } from 'data/users'
 // import { genBenchmarkAll } from 'data/model'
 
@@ -167,6 +167,19 @@ export const getWeatherData = async () => {
 				payload: []
 			})
 		}
+	}
+}
+/**
+ * Get User Installations
+ */
+export const getUInstallation = async () => {
+	return async (dispatch, getState) => {
+		let userUUID = getState().settings.user?.uuid
+		let installations = await getUserInstallations(userUUID)
+		dispatch({
+			type: GetInst,
+			payload: installations
+		})
 	}
 }
 /**

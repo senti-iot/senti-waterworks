@@ -7,7 +7,14 @@ export const getInstallations = async (orgUUID) => {
 	let response = await wbAPI.get(`/v3/installations/${orgUUID}`).then(rs => rs.ok ? rs.data : rs.ok)
 	return response
 }
-
+/**
+ * @desc v3/installations - user Installations
+ */
+export const getUserInstallations = async (userUUID) => {
+	let response = await wbAPI.get(`/v3/installations/user/${userUUID}`).then(rs => rs.ok ? rs.data : rs.ok)
+	console.log('Response GET installations', response)
+	return response
+}
 /**
  * @desc PUT v3/installation
  */
