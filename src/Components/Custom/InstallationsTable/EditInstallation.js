@@ -209,30 +209,43 @@ const EditInstallation = (props) => {
 					}
 				}
 				else {
-
-					let SentiUser = {
-						...user,
-						userName: user.email,
-						org: {
-							uuid: org.uuid
-						},
-						state: 2,
-						role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
-
+					let InstUser = {
+						...instUser,
+						instUUID: inst.uuid,
+						startDate: instDevice.startDate,
+						endDate: instDevice.endDate,
+						userUUID: instUser.uuid,
 					}
-					let resUser = await createUser(SentiUser).then(rs => rs.data)
-					if (resUser.uuid) {
-						let InstUser = {
-							...instUser,
-							instUUID: inst.uuid,
-							startDate: instDevice.startDate,
-							endDate: instDevice.endDate,
-							userUUID: resUser.uuid,
-						}
-						let resInstUser = await putUser(InstUser)
-						if (resInstUser) {
-							console.log(resInstUser)
-						}
+					let resInstUser = await postInstUser(InstUser)
+					if (resInstUser) {
+						console.log(resInstUser)
+					}
+				}
+			}
+			else {
+
+				let SentiUser = {
+					...user,
+					userName: user.email,
+					org: {
+						uuid: org.uuid
+					},
+					state: 2,
+					role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
+
+				}
+				let resUser = await createUser(SentiUser).then(rs => rs.data)
+				if (resUser.uuid) {
+					let InstUser = {
+						...instUser,
+						instUUID: inst.uuid,
+						startDate: instDevice.startDate,
+						endDate: instDevice.endDate,
+						userUUID: resUser.uuid,
+					}
+					let resInstUser = await putUser(InstUser)
+					if (resInstUser) {
+						console.log(resInstUser)
 					}
 				}
 			}
