@@ -69,19 +69,8 @@ function CTable(props) {
 						rowCount={body ? body.length : 0}
 						columns={columns}
 						classes={classes}
-						customColumn={[
-							// {
-							// 	id: 'liveStatus', label: <ItemG container justify={'center'}>
-							// 		<SignalWifi2Bar />
-							// 	</ItemG>, checkbox: true
-							// },
-							// {
-							// 	id: 'id',
-							// 	label: <Typography paragraph classes={{ root: classes.paragraphCell + ' ' + classes.headerCell }}>
-							// 		{t('collections.fields.device')}
-							// 	</Typography>
-							// }
-						]}
+						customColumn={[]}
+						mdDown={columns}
 					/>
 					<TableBody>
 						{body ? body.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {

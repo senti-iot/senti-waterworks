@@ -18,6 +18,7 @@ const EditInstallation = (props) => {
 	//Redux
 	const org = useSelector(s => s.settings.user?.org)
 	const devices = useSelector(s => s.data.devices)
+	const users = useSelector(s => s.data.users)
 
 	//State
 	const [inst, setInst] = useState({
@@ -75,6 +76,17 @@ const EditInstallation = (props) => {
 				endDate: inst.endDate,
 				instDevUUID: inst.instDevUUID
 			})
+		}
+		let user = users ? users[users.findIndex(f => f.uuid === inst.instUserUUID)] : null
+		console.log(users)
+		console.log('user', user)
+		if (user) {
+			setExistingUser(true)
+			setInstUser(user)
+			setUser(user)
+		}
+		else {
+			setWithoutUser(true)
 		}
 		setLoading(false)
 	}

@@ -12,7 +12,7 @@ import { customFilterItems } from 'variables/functions/filters'
 // import { contrastColor } from 'data/functions'
 import { makeStyles } from '@material-ui/styles'
 import { red } from '@material-ui/core/colors'
-import { Delete, /* Edit, */ SwapHorizontalCircleIcon, Devices as DeviceIcon } from 'variables/icons'
+import { Delete, Edit, SwapHorizontalCircleIcon, Devices as DeviceIcon } from 'variables/icons'
 import { ItemG } from 'Components'
 import { Chip } from '@material-ui/core'
 import DeleteDialog from 'Components/Dialogs/DeleteDialog'
@@ -61,7 +61,7 @@ const FullInstallationTable = (props) => {
 	const [orderBy, setOrderBy] = useState('id')
 	const [openDelete, setOpenDelete] = useState(false)
 	//Const
-	// const { handleOpenEdit } = props
+	const { handleOpenEdit } = props
 	//useCallbacks
 
 	//useEffects
@@ -200,6 +200,16 @@ const FullInstallationTable = (props) => {
 			<TC label={renderState(row.state)} />
 		</Fragment>
 	}
+	const bodyMobileStructure = row => {
+		return <Fragment key={row.id}>
+			<TC label={row.address} />
+			<TC label={row.uuid} />
+			<TC label={row.instDevUUID} />
+			<TC label={renderOperation(row.operation)} />
+			<TC label={renderMoving(row.moving)} />
+			<TC label={renderState(row.state)} />
+		</Fragment>
+	}
 	const renderSelectedToolbar = () => {
 		return <div className={classes.chipContainer}>
 			<ItemG container spacing={1} alignItems={'center'}>
@@ -208,9 +218,9 @@ const FullInstallationTable = (props) => {
 				</ItemG>
 
 				{isSWAdmin ? <Fragment>
-					{/* {selDev.length === 1 ? <ItemG>
+					{selDev.length === 1 ? <ItemG>
 						<Chip className={classes.chipIcon} label={t('menus.edits.installation')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0]) }} icon={<Edit className={classes.chipIcon} />} />
-					</ItemG> : null} */}
+					</ItemG> : null}
 					<ItemG>
 						<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon} />} />
 					</ItemG>
@@ -260,7 +270,7 @@ const FullInstallationTable = (props) => {
 				body={customFilterItems(installations, filters)}
 				bodyStructure={bodyStructure}
 				mobile
-				bodyMobileStructure={() => { }}
+				bodyMobileStructure={bodyMobileStructure}
 				selected={selDev}
 				columns={columns}
 				handleCheckboxClick={selectInstallation}

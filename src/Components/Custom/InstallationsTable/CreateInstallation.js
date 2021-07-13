@@ -173,9 +173,35 @@ const CreateInstallation = (props) => {
 		await dispatch(await getAdminInstallations())
 		// const getInstallationTags = async () => await dispatch(await getTags())
 		setCreating(false)
+		handleSetClose()
+	}
+	const handleSetClose = async () => {
+		setInst({
+			address: '',
+			orgUUID: org ? org.uuid : null,
+			state: 0,
+			operation: 0,
+			moving: 0
+		})
+		setInstDevice({
+			uuid: '',
+			uuname: '',
+			name: '',
+			startDate: moment(),
+			endDate: null
+		})
+		setInstUser({
+			adults: 1,
+			children: 0
+		})
+		setUser({
+			firstName: '',
+			lastName: '',
+			email: ''
+		})
+		setExistingUser(false)
+		setWithoutUser(false)
 		handleClose()
-
-
 	}
 	return (
 		<Dialog
@@ -210,7 +236,7 @@ const CreateInstallation = (props) => {
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={handleStartCreate}>{t('actions.create')}</Button>
-						<Button onClick={handleClose}>{t('actions.close')}</Button>
+						<Button onClick={handleSetClose}>{t('actions.close')}</Button>
 
 					</DialogActions>
 				</div>
