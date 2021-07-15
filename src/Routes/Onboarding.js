@@ -17,12 +17,12 @@ import { loginTheme } from 'Styles/themes'
 import Step1 from 'Components/Onboarding/Step1'
 import { useParams } from 'react-router'
 import Step2 from 'Components/Onboarding/Step2'
-import Step3 from 'Components/Onboarding/Step3'
-import { getOnboardingData, createOnboardingUser, confirmOnboardingUser } from 'data/onboarding'
+import {  createOnboardingUser, confirmOnboardingUser, getOnboardData, createSentiUser, createInstUser } from 'data/onboarding'
 import { validateEmail } from 'data/functions'
 import OnboardingDone from 'Components/Onboarding/OnboardingDone'
 import OnboardingConfirm from 'Components/Onboarding/OnboardingConfirm'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 
 const Onboarding = props => {
@@ -50,9 +50,7 @@ const Onboarding = props => {
 	//#endregion
 
 	//#region Step 2
-	const [authUUID, setAuthUUID] = useState('')
 	const [org, setOrg] = useState('')
-	const [role, setRole] = useState(0)
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
@@ -60,6 +58,8 @@ const Onboarding = props => {
 	const [address, setAddress] = useState('')
 	const [postnr, setPostnr] = useState('')
 	const [city, setCity] = useState('')
+	const [startDate, setStartDate] = useState('')
+	const [instUUID, setInstUUID] = useState('')
 	//#endregion
 
 	//#region Step 3
@@ -112,19 +112,16 @@ const Onboarding = props => {
 			org: {
 				uuid: org
 			},
-			role: {
-				uuid: role
-			},
 			state: 4
 		}
-		let result = await createOnboardingUser(user, authUUID)
+		let result = await createOnboardingUser(user)
 		if (result.ok) {
 			return true
 		}
 		else {
 			return false
 		}
-	}, [address, authUUID, city, email, firstName, lastName, noOfAdults, noOfChildren, org, pass, phone, postnr, role])
+	}, [address, city, email, firstName, lastName, noOfAdults, noOfChildren, org, pass, phone, postnr])
 
 	const handleNextStep = useCallback(async () => {
 		let step = params.step
@@ -132,8 +129,8 @@ const Onboarding = props => {
 		if (step === 'step1') {
 
 			setLoading(true)
-			let autoCompleteData = await getOnboardingData(orgIdent, installationId, deviceIdent)
-			if (autoCompleteData === 404) {
+			let autoCompleteData = await getOnboardData(orgIdent, installationId, deviceIdent)
+			if (autoCompleteData === 404 || autoCompleteData === 401) {
 				setError('signup.error.missingDevice')
 				setLoading(false)
 			}
@@ -143,10 +140,11 @@ const Onboarding = props => {
 				}
 				handleAutoComplete(autoCompleteData)
 				setLoading(false)
-				history.push(`/signup/${params.language}/step2`)
+				history.push(`/onboard/${params.lang}/step2`)
 			}
 		}
 		if (step === 'step2') {
+			setLoading(true)
 			switch (true) {
 				case lastName.length === 0:
 				case firstName.length === 0:
@@ -168,7 +166,38 @@ const Onboarding = props => {
 				return
 			}
 			else {
-				history.push(`/signup/${params.language}/step3`)
+				//Do the magic here
+				let user = {
+					userName: email,
+					email: email,
+					org: {
+						uuid: org
+					},
+					firstName: firstName,
+					lastName: lastName
+				}
+				//Create Senti User
+				let createUser = await createSentiUser(user)
+				if (createUser) {
+					//Create InstUser
+					let instUser = {
+						startDate: startDate,
+						userUUID: createUser.uuid,
+						instUUID: instUUID,
+					}
+					let cInstUser = await createInstUser(instUser)
+					if (cInstUser) {
+						setLoading(false)
+						history.push(`/onboard/${params.lang}/done`)
+					}
+					else {
+						setError('signup.error.missingData')
+					}
+				}
+				else {
+					setError('signup.error.missingData')
+				}
+				setLoading(false)
 			}
 		}
 		if (step === 'step3') {
@@ -191,7 +220,7 @@ const Onboarding = props => {
 				setError(null)
 				let result = handleCreateUser()
 				if (result) {
-					history.push(`/signup/${params.language}/done`)
+					history.push(`/onboard/${params.lang}/done`)
 				}
 				else {
 					setError('signup.error.missingData')
@@ -217,7 +246,7 @@ const Onboarding = props => {
 				setSuccess('confirmUser.welcomeMessage')
 			}
 		}
-	}, [confirmPass, deviceIdent, email, error, firstName.length, handleCreateUser, history, installationId, lastName.length, orgIdent, params.language, params.step, params.token, pass])
+	}, [confirmPass, deviceIdent, email, error, firstName, handleCreateUser, history, instUUID, installationId, lastName, org, orgIdent, params.lang, params.step, params.token, pass, startDate])
 
 	const handleKeyPress = useCallback((event) => {
 		if (event.key === 'Enter') {
@@ -237,11 +266,11 @@ const Onboarding = props => {
 				history.push('/')
 			}
 		}
-		if (params.language === 'en') {
+		if (params.lang === 'en') {
 			dispatch(changeLanguage('en', true))
 			// setLanguage('en')
 		}
-	}, [params.language, history, dispatch])
+	}, [params.lang, history, dispatch])
 
 	/**
 	 * AntiCheat
@@ -257,7 +286,7 @@ const Onboarding = props => {
 	}, [])
 	useEffect(() => {
 		if (antiCheat) {
-			history.push(`/signup/${params.language}/step1`)
+			history.push(`/onboard/${params.lang}/step1`)
 		}
 		//eslint-disable-next-line
 	}, [antiCheat])
@@ -356,15 +385,9 @@ const Onboarding = props => {
 		setCity(data.city ? data.city : "")
 		setNoOfAdults(data.adults ? data.adults : 1)
 		setNoOfChildren(data.children ? data.children : 0)
-		if (!data.orgUUID || !data.roleUUID || !data.uuid) {
-			setError('signup.error.missingData')
-		}
-		else {
-			setError(false)
-			setOrg(data.orgUUID ? data.orgUUID : "")
-			setRole(data.roleUUID ? data.roleUUID : "")
-			setAuthUUID(data.uuid ? data.uuid : '')
-		}
+		setOrg(data.orgUUID ? data.orgUUID : "")
+		setStartDate(data.startDate ? moment(data.startDate).format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss'))
+		setInstUUID(data.installationUUID ? data.installationUUID : null)
 	}
 
 
@@ -395,20 +418,21 @@ const Onboarding = props => {
 						postnr={postnr}
 						city={city}
 						goToNextStep={handleNextStep}
-
-					/>)
-			case "step3":
-				return (
-					<Step3
-						t={t}
-						error={error === 'signup.error.passwordMismatch' ? true : false}
-						goToNextStep={handleNextStep}
-						handleInput={handleInput}
-						pass={pass}
-						confirmPass={confirmPass}
 						noOfChildren={noOfChildren}
 						noOfAdults={noOfAdults}
 					/>)
+			// case "step3":
+			// 	return (
+			// 		<Step3
+			// 			t={t}
+			// 			error={error === 'signup.error.passwordMismatch' ? true : false}
+			// 			goToNextStep={handleNextStep}
+			// 			handleInput={handleInput}
+			// 			pass={pass}
+			// 			confirmPass={confirmPass}
+			// 			noOfChildren={noOfChildren}
+			// 			noOfAdults={noOfAdults}
+			// 		/>)
 			case "done":
 				return <OnboardingDone
 					t={t}

@@ -5,6 +5,7 @@ import { TextField } from '@material-ui/core'
 import cx from 'classnames'
 import { useTheme } from 'Hooks'
 import { makeStyles } from '@material-ui/styles'
+import hexToRgba from 'hex-to-rgba'
 
 const styles = makeStyles(theme => ({
 	leftIcon: {
@@ -15,7 +16,8 @@ const styles = makeStyles(theme => ({
 	},
 	root: {
 		"&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
-			borderColor: "rgba(255,255,255, 1)"
+			borderColor: hexToRgba(theme.palette.primary.main, 0.67)
+			// borderColor: "rgb(39,136,129, 0.67)"
 		}
 	},
 	disabled: {},
@@ -23,8 +25,9 @@ const styles = makeStyles(theme => ({
 	error: {},
 	notchedOutline: {
 		// borderColor: "rgb(39,136,129, 0.23)",
+		borderColor: hexToRgba(theme.palette.primary.main, 0.23),
 		"&:hover": {
-			borderColor: "rgba(255,255,255, 1)"
+			borderColor: theme.hover
 		}
 	},
 	rootReversed: {
@@ -68,19 +71,17 @@ const TextF = (props) => {
 	return (
 		<TextField
 			style={{ maxWidth: props.fullWidth !== undefined ? undefined : mobile ? undefined : 230, ...props.style }}
-			variant={props.variant ? props.variant : 'outlined'}
+			variant={'outlined'}
 			autoFocus={props.autoFocus ? props.autoFocus : undefined}
 			placeholder={props.placeholder ? props.placeholder : undefined}
 			id={props.id}
 			label={props.label}
 			value={props.value}
-			onClick={props.onClick}
-			defaultValue={props.defaultValue}
+			onClick={props.onClick || props.handleClick}
 			onChange={props.onChange}
-			onSubmit={props.onSubmit}
+			onBlur={props.onBlur}
 			fullWidth={props.fullWidth !== undefined ? props.fullWidth : mobile ? true : false}
 			// fullWidth={props.fullWidth || mobile ? true : false}
-			autoComplete={props.autoComplete}
 			multiline={props.multiline ? props.multiline : undefined}
 			rows={props.rows ? props.rows : undefined}
 			className={classNames}
@@ -90,10 +91,7 @@ const TextF = (props) => {
 			disabled={props.disabled ? props.disabled : false}
 			margin={props.margin ? props.margin : 'normal'}
 			notched={props.notched}
-			onKeyDownCapture={props.onKeyDown}
 			helperText={props.helperText}
-			endAdornment={props.endAdornment}
-			inputRef={props.inputRef}
 			InputProps={props.InputProps ? {
 				...props.InputProps,
 				style: { ...props.InputProps.style, boxSizing: 'border-box' },
@@ -119,7 +117,7 @@ const TextF = (props) => {
 	)
 }
 TextF.propTypes = {
-	id: PropTypes.string.isRequired,
+	// id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
 	onChange: PropTypes.func,
 	onClick: PropTypes.func,

@@ -1,12 +1,25 @@
 import React from 'react'
 import ItemG from 'Components/Containers/ItemG'
-import { NeedAccountT, LoginTF, NextStepButton, AdressTF } from 'Styles/loginStyles'
+import { NeedAccountT, NextStepButton, AdressTF } from 'Styles/loginStyles'
+import DSelect from 'Components/Input/DSelect'
+import TextF from 'Components/Input/TextF'
 
 const Step2 = props => {
-	const { t, handleInput, firstName, city, lastName, email, phone, address, postnr, goToNextStep } = props
+	const { t, handleInput, firstName, city, lastName, email, phone, address, postnr, goToNextStep, noOfAdults, noOfChildren } = props
 	const handleNextStep = () => {
 		goToNextStep()
 	}
+
+
+	const handleGenMenuAItems = () => {
+		let array = [0, 1, 2, 3, 4, 5, 6]
+		return array.map(a => ({ value: a, label: a }))
+	}
+	const handleGenMenuCItems = () => {
+		let array = [0, 1, 2, 3, 4, 5, 6]
+		return array.map(a => ({ value: a, label: a }))
+	}
+
 	return (
 		<ItemG xs={12} container justify={'center'}>
 			<ItemG container xs={12}>
@@ -16,7 +29,7 @@ const Step2 = props => {
 				<NeedAccountT >
 					{t('signup.form.completeMissingFields')}
 				</NeedAccountT>
-				<LoginTF
+				<TextF
 					id={'firstName'}
 					autoFocus
 					label={t('users.fields.firstName')}
@@ -24,7 +37,7 @@ const Step2 = props => {
 					onChange={handleInput}
 					value={firstName}
 				/>
-				<LoginTF
+				<TextF
 					id={'lastName'}
 					autoFocus
 					label={t('users.fields.lastName')}
@@ -32,7 +45,7 @@ const Step2 = props => {
 					onChange={handleInput}
 					value={lastName}
 				/>
-				<LoginTF
+				<TextF
 					id={'email'}
 					autoFocus
 					label={t('users.fields.email')}
@@ -40,7 +53,7 @@ const Step2 = props => {
 					onChange={handleInput}
 					value={email}
 				/>
-				<LoginTF
+				<TextF
 					id={'phone'}
 					autoFocus
 					label={t('users.fields.phone')}
@@ -48,7 +61,7 @@ const Step2 = props => {
 					onChange={handleInput}
 					value={phone}
 				/>
-				<LoginTF
+				<TextF
 					id={'address'}
 					autoFocus
 					label={t('users.fields.address')}
@@ -82,12 +95,34 @@ const Step2 = props => {
 					</ItemG>
 				</ItemG>
 
-
+				<NeedAccountT styles={{ marginTop: 48 }}>
+					{t('signup.form.addPeopleCount')}:
+				</NeedAccountT>
+				<DSelect
+					id={'noOfAdults'}
+					label={t('signup.form.adultNr')}
+					type={'text'}
+					fullWidth
+					onChange={handleInput}
+					value={noOfAdults}
+					margin={'normal'}
+					menuItems={handleGenMenuAItems()}
+				/>
+				<DSelect
+					id={'noOfChildren'}
+					label={t('signup.form.childNr')}
+					type={'text'}
+					fullWidth
+					onChange={handleInput}
+					value={noOfChildren}
+					margin={'normal'}
+					menuItems={handleGenMenuCItems()}
+				/>
 				{/* </ItemG> */}
 			</ItemG>
 			<ItemG xs={12} container justify={'center'}>
 				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
-					{t('actions.nextStep')}
+					{t('actions.confirm')}
 				</NextStepButton>
 			</ItemG>
 		</ItemG>

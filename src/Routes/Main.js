@@ -18,6 +18,7 @@ import * as themes from 'Styles/themes'
 // import { darkTheme } from 'variables/themes';
 import NewContent from 'Components/Loaders/NewContent'
 import Onboarding from 'Routes/NewOnboarding'
+import ManualOnboarding from 'Routes/Onboarding'
 import SnackbarProvider from 'Hooks/useSnackbar/SnackbarProvider'
 
 // import size from 'Styles/themes/mediaQueries'
@@ -36,6 +37,9 @@ function Main() {
 
 					<NewContent />
 					<Switch>
+						<Route path={'/onboard/:lang/:step/:token?'}>
+							<ManualOnboarding/>
+						</Route>
 						<Route path={'/signup/:language/:step/:token?'}>
 							<Onboarding />
 						</Route>

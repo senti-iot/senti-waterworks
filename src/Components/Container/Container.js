@@ -57,7 +57,7 @@ function Container(props) {
 					: <CircularLoader fill />}
 			</Fragment>
 			: <Redirect from={window.location.pathname} to={{
-				pathname: window.location.pathname.includes('signup') ? '/signup/da/step1' : '/login', state: {
+				pathname: window.location.pathname.includes('onboard') ? '/onboard/da/step1' : '/login', state: {
 					prevURL: window.location.pathname
 				}
 			}} />

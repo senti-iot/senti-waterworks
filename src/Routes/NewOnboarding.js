@@ -53,8 +53,7 @@ const NewOnboarding = props => {
 	//#region Step 3
 	const [pass, setPass] = useState('')
 	const [confirmPass, setConfirmPass] = useState('')
-	const [noOfChildren, setNoOfChildren] = useState(0)
-	const [noOfAdults, setNoOfAdults] = useState(1)
+
 
 	//#endregion
 	//Const
@@ -156,16 +155,6 @@ const NewOnboarding = props => {
 				break
 		}
 
-		switch (id) {
-			case 'noOfChildren':
-				setNoOfChildren(e.target.value)
-				break
-			case 'noOfAdults':
-				setNoOfAdults(e.target.value)
-				break
-			default:
-				break
-		}
 		//#endregion
 	}
 
@@ -182,8 +171,6 @@ const NewOnboarding = props => {
 						handleInput={handleInput}
 						pass={pass}
 						confirmPass={confirmPass}
-						noOfChildren={noOfChildren}
-						noOfAdults={noOfAdults}
 					/>)
 			case 1:
 				return <OnboardingDone

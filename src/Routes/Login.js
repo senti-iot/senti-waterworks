@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import logo from 'assets/senti.waterworks.black.svg'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import cookie from 'react-cookies'
 
 // Components
-import { ItemG, CookiesDialog, PrivacyDialog } from 'Components'
-import { Hidden, InputAdornment, Link as MuiLink } from '@material-ui/core'
+import { ItemG, CookiesDialog, PrivacyDialog, TextF } from 'Components'
+import { Hidden, InputAdornment, /* Link as MuiLink */ } from '@material-ui/core'
 import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks'
 import { Person, Visibility, VisibilityOff, Business } from 'variables/icons'
 
@@ -15,7 +15,7 @@ import { loginUser } from 'data/login'
 import { getSettings } from 'Redux/settings'
 import { changeLanguage } from 'Redux/localization'
 import { setToken } from 'data/data'
-import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, NeedAccountT, LoginButton, LoginTF, ResetPasswordButton } from 'Styles/loginStyles'
+import { LoginWrapper, MobileContainer, ImgLogo, SmallActionButton, Footer, FooterText, MutedButton, InputContainer, LeftPanel, /* NeedAccountT, */ LoginButton, /* LoginTF, */ ResetPasswordButton } from 'Styles/loginStyles'
 import LoginImages from 'Components/Custom/Login/NewLoginImages'
 import { ThemeProvider } from '@material-ui/styles'
 import { loginTheme } from 'Styles/themes'
@@ -164,7 +164,7 @@ function Login() {
 
 
 										<ItemG container xs={12} style={{ marginTop: 48 }}>
-											<LoginTF
+											<TextF
 												id={'user'}
 												autoFocus
 												label={t('login.username')}
@@ -179,7 +179,7 @@ function Login() {
 													</InputAdornment>
 												}}
 											/>
-											<LoginTF
+											<TextF
 												id={'pass'}
 												label={t('login.pass')}
 												error={error}
@@ -197,7 +197,7 @@ function Login() {
 													</InputAdornment>
 												}}
 											/>
-											<LoginTF
+											<TextF
 												id={'orgId'}
 												label={t('login.nickname')}
 												error={error}
@@ -223,7 +223,7 @@ function Login() {
 												{t('login.forgotPassword')}
 											</ResetPasswordButton>
 										</ItemG>
-										<ItemG xs={12} container justify={'center'} style={{ marginTop: 36 }}>
+										{/* <ItemG xs={12} container justify={'center'} style={{ marginTop: 36 }}>
 											<NeedAccountT>
 												<span style={{ marginRight: 4 }}>
 													{t('login.needAnAccount1')}
@@ -237,7 +237,7 @@ function Login() {
 													</MuiLink>
 												</span>
 											</NeedAccountT>
-										</ItemG>
+										</ItemG> */}
 									</ItemG>
 								</FadeLoader>
 								{/* </FadeOutLoader> */}
