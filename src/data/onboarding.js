@@ -1,5 +1,17 @@
 import { waterworksAPI, servicesCoreAPI, wbAPI } from 'data/data'
 
+
+
+/**
+ * V3 Update Installation address
+ */
+
+export const updateInstallationAddress = async (data) => {
+	let response = await wbAPI.post(`/v3/onboard/update-installation-address`, data).then(rs => rs)
+	console.log(response.ok ? response.data : response.status)
+	return response.ok ? response.data : response.ok
+}
+
 /**
  * V3 Create Installation User
  */

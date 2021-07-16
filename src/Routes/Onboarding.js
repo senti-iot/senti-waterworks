@@ -17,7 +17,7 @@ import { loginTheme } from 'Styles/themes'
 import Step1 from 'Components/Onboarding/Step1'
 import { useParams } from 'react-router'
 import Step2 from 'Components/Onboarding/Step2'
-import {  createOnboardingUser, confirmOnboardingUser, getOnboardData, createSentiUser, createInstUser } from 'data/onboarding'
+import {  createOnboardingUser, confirmOnboardingUser, getOnboardData, createSentiUser, createInstUser, updateInstallationAddress } from 'data/onboarding'
 import { validateEmail } from 'data/functions'
 import OnboardingDone from 'Components/Onboarding/OnboardingDone'
 import OnboardingConfirm from 'Components/Onboarding/OnboardingConfirm'
@@ -187,8 +187,20 @@ const Onboarding = props => {
 					}
 					let cInstUser = await createInstUser(instUser)
 					if (cInstUser) {
-						setLoading(false)
-						history.push(`/onboard/${params.lang}/done`)
+						//Update the installation address
+						let installation = {
+							uuid: instUUID,
+							address: address
+						}
+						let uInstAddress = await updateInstallationAddress(installation)
+						if (uInstAddress) {
+
+							setLoading(false)
+							history.push(`/onboard/${params.lang}/done`)
+						}
+						else {
+							setError('signup.error.missingData')
+						}
 					}
 					else {
 						setError('signup.error.missingData')
@@ -246,7 +258,7 @@ const Onboarding = props => {
 				setSuccess('confirmUser.welcomeMessage')
 			}
 		}
-	}, [confirmPass, deviceIdent, email, error, firstName, handleCreateUser, history, instUUID, installationId, lastName, org, orgIdent, params.lang, params.step, params.token, pass, startDate])
+	}, [address, confirmPass, deviceIdent, email, error, firstName, handleCreateUser, history, instUUID, installationId, lastName, org, orgIdent, params.lang, params.step, params.token, pass, startDate])
 
 	const handleKeyPress = useCallback((event) => {
 		if (event.key === 'Enter') {
