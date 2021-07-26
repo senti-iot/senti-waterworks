@@ -128,7 +128,9 @@ export const getSettings = async () => {
 			}
 			userId = sessionCookie.uuid
 			user = userId !== 0 ? await getAuthUser(userId) : null
-			dispatch(setAccessLevel({ role: user.role, privileges: user.privileges }))
+			if (user) { //Nasty error in Senti-core
+				dispatch(setAccessLevel({ role: user.role, privileges: user.privileges }))
+			}
 		}
 
 		moment.updateLocale('en-gb', {

@@ -1,4 +1,15 @@
 {
+	"time": {
+		"ms": "miliseconds",
+		"m": "minutes",
+		"h": "hours",
+		"s": "seconds",
+		"d": "days",
+		"w": "weeks",
+		"M": "months",
+		"Q": "quarters",
+		"y": "years"
+	},
 	"404": {
 		"contactSupport": "Please try again or contact our support on support@senti.io!",
 		"errorMessage": "The resource requested has not been found!",
@@ -1128,6 +1139,8 @@
 		}
 	},
 	"sidebar": {
+		"alarms": "Alarms",
+		"notifications": "Notifications",
 		"about": "About Senti",
 		"api": "API",
 		"clients": "Customers",

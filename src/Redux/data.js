@@ -453,6 +453,8 @@ const initialState = {
 	haveData: false,
 	barData: {},
 	devices: [],
+	alarms: [],
+	notifications: [],
 	installation: null,
 	installations: [],
 	data: {},

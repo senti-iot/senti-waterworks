@@ -15,6 +15,11 @@ export const getDevicesV2 = async () => {
 	return response
 }
 
+export const getDevice = async (uuid) => {
+	let response = await servicesAPI.get(`/v2/device/${uuid}`).then(rs => rs.ok ? rs.data : rs.ok)
+	return response
+}
+
 export const getDevicesDataCSV = async (config) => {
 	let response = await dataExportAPI.post(`v1/export/csv`, config)
 	return response.ok ? response.data : []

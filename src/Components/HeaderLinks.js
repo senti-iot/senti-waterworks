@@ -1,5 +1,5 @@
 import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core'
-import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, Person, /*  Person,  *//* Notifications */ } from 'variables/icons'
+import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, Person, /*  Person,  */Notifications } from 'variables/icons'
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
 import React, { useState } from 'react'
 import cookie from 'react-cookies'
@@ -15,6 +15,9 @@ import cx from 'classnames'
 import headerLinksStyle from 'Styles/headerLinksStyle'
 import { useDispatch, useSelector } from 'Hooks'
 import DeviceTable from 'Components/Custom/DevicesTable/DeviceTable'
+import ItemG from 'Components/Containers/ItemG'
+import Dropdown from 'Components/Dropdown/Dropdown'
+import DNotificationMenu from 'Components/Input/DNotificationMenu'
 // import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
@@ -79,11 +82,26 @@ function HeaderLinks(props) {
 		handleProfileClose()
 		history.push(`/my-profile`)
 	}
-	// renderNotifications = () => {
-	// 	return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }}>
-	// 		<Notifications />
-	// 	</ItemG>
-	// }
+
+	const renderNotifications = () => {
+		return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }}>
+			<DNotificationMenu
+				transformOrigin={{
+					vertical: 'bottom',
+					horizontal: 'center',
+				}}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'center',
+				}}
+				icon={<Notifications style={{ color: '#fff' }}/>}
+				menuItems={[{
+
+				}]}
+				PaperProps={{ style: { marginTop: 50, minWidth: 200, minHeight: 300 } }}
+			/>
+		</ItemG>
+	}
 
 	const renderDeviceTable = () => {
 		return <>
@@ -95,11 +113,13 @@ function HeaderLinks(props) {
 		</>
 
 	}
+	const renderDeviceSelectMenu = () => {
+		return isSuperUser || isSWAdmin ? <div>{renderDeviceTable()}</div> : null
+	}
 	const renderUserMenu = () => {
 		const openProfile = Boolean(anchorProfile)
 
 		return <div>
-			{isSuperUser || isSWAdmin ? renderDeviceTable() : null}
 
 			<Tooltip title={t('menus.user.profile')}>
 
@@ -170,15 +190,16 @@ function HeaderLinks(props) {
 		xs: isSWAdmin ? 5 : 3,
 	}
 	return (
-		<Grid item container xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justify={'flex-end'} classes={{ container: classes.headerMargin }}>
+		<Grid item container xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justify={'flex-end'} alignItems={'center'} classes={{ container: classes.headerMargin }}>
 			{/* <ItemG>
 					{renderChristmasIcon()}
 				</ItemG> */}
 			{/* <Hidden mdDown>
 					{renderSearch()}
 				</Hidden> */}
+			{renderDeviceSelectMenu()}
+			{renderNotifications()}
 			{renderUserMenu()}
-			{/* {renderNotifications()} */}
 		</Grid>
 	)
 

@@ -25,7 +25,7 @@ const styles = makeStyles(theme => ({
 	error: {},
 	notchedOutline: {
 		// borderColor: "rgb(39,136,129, 0.23)",
-		borderColor: hexToRgba(theme.palette.primary.main, 0.23),
+		borderColor: `${hexToRgba(theme.palette.primary.main, 0.23)} !important`,
 		"&:hover": {
 			borderColor: theme.hover
 		}
@@ -92,10 +92,10 @@ const TextF = (props) => {
 			margin={props.margin ? props.margin : 'normal'}
 			notched={props.notched}
 			helperText={props.helperText}
-			InputProps={props.InputProps ? {
+			InputProps={{
 				...props.InputProps,
-				style: { ...props.InputProps.style, boxSizing: 'border-box' },
-				classes: props.InputProps.classes ? props.InputProps.classes : props.reversed ? {
+				style: { ...props.InputProps?.style, boxSizing: 'border-box' },
+				classes: props.InputProps?.classes ? props.InputProps.classes : props.reversed ? {
 					root: classes.rootReversed,
 					disabled: classes.disabledReversed,
 					focused: classes.focusedReversed,
@@ -109,7 +109,7 @@ const TextF = (props) => {
 						error: classes.error,
 						notchedOutline: classes.notchedOutline
 					}
-			} : null}
+			}}
 			onKeyPress={props.onKeyPress}
 			onKeyDown={props.onKeyDown}
 		/>

@@ -1,4 +1,15 @@
 {
+	"time": {
+		"ms": "millisekunder",
+		"s": "sekunder",
+		"m": "minutter",
+		"h": "timer",
+		"d": "dage",
+		"w": "uger",
+		"M": "måneder",
+		"Q": "kvartaler",
+		"y": "år"
+	},
 	"404": {
 		"contactSupport": "Prøv igen eller kontakt support på support@senti.io!",
 		"errorMessage": "Den ønskede ressource er ikke fundet!",
@@ -8,10 +19,34 @@
 	},
 	"": "",
 	"Senti": "Senti",
+	"alarms": {
+		"create": {
+			"details": "Alarmoplysninger",
+			"notifications": "Notifikationoplysninger",
+			"subject":"Email emne",
+			"recipients":"Modtagere"
+		},
+		"fields": {
+			"emailNotification": "E-mail notifikation",
+			"smsNotification": "SMS notifikation",
+			"apiSimplePost": "HTTP POST",
+			"name": "Alarm Navn",
+			"ttl": "Udløbstid",
+			"ttls": {
+				"always": "Udløber aldrig",
+				"fromFirstEvent": "Udløber efter første meddelelse om",
+				"fromNow": "Udløber om"
+			},
+			"metric": "Data felt",
+			"operator": "Operatør",
+			"quantifier": "Kvalifikator"
+		}
+	},
 	"actions": {
 		"accept": "Godkend",
 		"add": "Tilføj",
 		"addFilter": "Tilføj filter",
+		"addRecipient": "Tilføj modtager",
 		"addInboundFunc": "Tilføj funktion ved modtagelse af data",
 		"addKey": "Tilføj enhed datafelt",
 		"addMtdKey": "Tilføj enhed metadata felt",
@@ -711,6 +746,7 @@
 		},
 		"copyEmails": "Kopier E-mail adresser",
 		"create": {
+			"alarm": "Opret alarm",
 			"installation": "Opret installation",
 			"cloudfunction": "Opret cloud funktion",
 			"collection": "Opret datasamling",
@@ -1128,6 +1164,8 @@
 		}
 	},
 	"sidebar": {
+		"alarms": "Alarmer",
+		"notifications": "Notifikationer",
 		"about": "Om Senti",
 		"api": "API",
 		"clients": "Kunder",

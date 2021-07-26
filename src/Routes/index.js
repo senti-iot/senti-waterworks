@@ -11,7 +11,7 @@ import {
 	// Star,
 	// SwapHorizontalCircleIcon,
 	// VerifiedUserIcon,
-	Dashboard, Devices, GroupWorkIcon
+	Dashboard, Devices, GroupWorkIcon, Notifications
 } from 'variables/icons'
 
 const SettingsRoute = React.lazy(() => import('./Settings'))
@@ -33,6 +33,8 @@ const InstallationsRoute = React.lazy(() => import('./Installations'))
 // const DataPolicyRoute = React.lazy(() => import('./DataPolicy'))
 // const DeviceMapRoute = React.lazy(() => import('./DeviceMap'))
 
+const AlarmsRoute = React.lazy(() => import('./Alarms'))
+const NotificationsRoute = React.lazy(() => import('./Notifications'))
 
 export const routes = [
 	{
@@ -71,6 +73,23 @@ export const routes = [
 		menuRoute: 'installations',
 		component: InstallationsRoute
 	},
+	{
+		path: '/alarms',
+		sidebarName: 'sidebar.alarms',
+		icon: Notifications,
+		menuRoute: 'alarms',
+		component: AlarmsRoute
+	},
+	{
+		path: '/notifications',
+		sidebarName: 'sidebar.notifications',
+		icon: Notifications,
+		menuRoute: 'notifications',
+		component: NotificationsRoute,
+		hideFromSideBar: true,
+
+	},
+
 	// {
 	// 	path: '/device-map',
 	// 	hideFromSideBar: true,
