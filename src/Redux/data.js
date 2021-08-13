@@ -16,6 +16,7 @@ import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
 import { getFullInstallation, getInstallations, getUserInstallations } from 'data/installations'
 import { getAllUsers } from 'data/users'
+import { getAlarmsV1, getAlarmV1, getNotificationsV1 } from 'data/alarms'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
@@ -34,6 +35,11 @@ const changeUnit = 'changeMeasurementUnit'
 const GetInst = 'getInstallations'
 const GetUsers = 'getUsers'
 const getUserInstallation = 'getUserInstallation'
+const gAlarms = 'getAlarms'
+const gAlarm = 'getAlarm'
+const gNotifs = 'getNotifications'
+const gNotif = 'getNotifications'
+
 
 export const setUnitHasChanged = () => {
 	return dispatch => {
@@ -229,6 +235,44 @@ export const getAdminDevices = async () => {
 		await dispatch({
 			type: sDevice,
 			payload: devices ? devices.map(d => d.uuid) : []
+		})
+	}
+}
+/**
+ * getAllNotifications
+ */
+export const getAllNotifications = async () => {
+	return async (dispatch, getState) => {
+		let userUUID = getState().settings.user.uuid
+		let notifs = await getNotificationsV1(userUUID)
+		dispatch({
+			type: gNotifs,
+			payload: notifs ? notifs : []
+		})
+	}
+}
+/**
+ * Get Alarm
+ */
+export const getAlarm = async (uuid) => {
+	return async dispatch => {
+		let alarm = await getAlarmV1(uuid)
+		dispatch({
+			type: gAlarm,
+			payload: alarm
+		})
+	}
+}
+/**
+ * Get Alarms
+ */
+export const getAlarms = async () => {
+	return async (dispatch, getState) => {
+		let userUUID = getState().settings.user.uuid
+		let alarms = await getAlarmsV1(userUUID)
+		dispatch({
+			type: gAlarms,
+			payload: alarms ? alarms : []
 		})
 	}
 }
@@ -454,6 +498,7 @@ const initialState = {
 	barData: {},
 	devices: [],
 	alarms: [],
+	alarm: {},
 	notifications: [],
 	installation: null,
 	installations: [],
@@ -489,6 +534,12 @@ export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'RESET_APP':
 			return initialState
+		case gNotifs:
+			return Object.assign({}, state, { notifications: payload })
+		case gAlarm:
+			return Object.assign({}, state, { alarm: payload })
+		case gAlarms:
+			return Object.assign({}, state, { alarms: payload })
 		case getUserInstallation:
 			return Object.assign({}, state, { installation: payload })
 		case GetUsers:

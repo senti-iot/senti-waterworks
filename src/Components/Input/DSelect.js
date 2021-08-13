@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { FormControl, Select, MenuItem, InputLabel, OutlinedInput, FormHelperText, Input, Tooltip } from '@material-ui/core'
+import { FormControl, Select, MenuItem, InputLabel, OutlinedInput, FormHelperText, Input, Tooltip, Divider } from '@material-ui/core'
 import { ItemG } from 'Components'
 import { makeStyles } from '@material-ui/styles'
 import { useTheme } from '@material-ui/styles'
@@ -54,6 +54,11 @@ const styles = makeStyles(theme => ({
 		"&:hover": {
 			borderColor: '#fff !important;'
 		}
+	},
+	categoryBorder: {
+		// borderTop: "1px solid rgba(0, 0, 0, 0.23)",
+		borderBottom: "1px solid rgba(0, 0, 0, 0.23)",
+		// borderColor: 'rgba(0, 0, 0, 0.23)',
 	}
 	// formControl: {
 	// 	marginTop: 16,
@@ -135,10 +140,20 @@ const DSelect = (props) => {
 			// end
 			>
 				{!simple && menuItems.map((m, i) => {
+					if (m.category) {
+						return <MenuItem disabled className={classes.categoryBorder}>
+							<Divider/>
+							{m.category}
+							<Divider/>
+						</MenuItem>
+					}
+					if (m.divider) {
+						return <Divider />
+					}
 					if (m.hide) {
 						return null
 					}
-					return <MenuItem id={id} key={i} value={m.value}>
+					return <MenuItem id={id} key={i} value={m.value} disabled={m.disabled}>
 						<Tooltip title={m.label} enterDelay={1000}>
 							<ItemG container justify={'space-between'} alignItems={'center'}>
 								{leftIcon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon ? m.icon : null}</ItemG> : null}

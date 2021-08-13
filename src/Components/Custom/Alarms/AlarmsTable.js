@@ -1,15 +1,15 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment } from 'react'
 // import PropTypes from 'prop-types'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
-import { getAdminDevices, sortData as rSortData } from 'Redux/data'
+import { useSelector, useLocalization, useState, useDispatch, useHistory } from 'Hooks'
+import { sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
-import { Chip, Tooltip } from '@material-ui/core'
+// import { Chip, Tooltip } from '@material-ui/core'
 import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
-import { getTags } from 'Redux/tagManager'
-import { contrastColor } from 'data/functions'
+// import { getTags } from 'Redux/tagManager'
+// import { contrastColor } from 'data/functions'
 
 
 
@@ -17,15 +17,14 @@ const AlarmsTable = (props) => {
 	//Hooks
 	const dispatch = useDispatch()
 	const t = useLocalization()
-
+	const history = useHistory()
 	//Redux
-	const devices = useSelector(s => s.data.devices)
+	const alarms = useSelector(s => s.data.alarms)
 	const tags = useSelector(s => s.tagManager.tags)
 	const filters = useSelector(s => s.appState.filters.devices)
 
 	//State
 	const [selDev, setSelDev] = useState([])
-	const [loading, setLoading] = useState(true)
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
 
@@ -35,21 +34,6 @@ const AlarmsTable = (props) => {
 
 	//useEffects
 
-	useEffect(() => {
-		const getDevices = async () => await dispatch(await getAdminDevices())
-		const getDeviceTags = async () => await dispatch(await getTags())
-		const loadData = async () => {
-			if (devices.length === 0 && loading) {
-				await getDevices()
-			}
-			if (tags.length === 0 && loading) {
-				await getDeviceTags()
-			}
-			setLoading(false)
-		}
-		loadData()
-		//eslint-disable-next-line
-	}, [])
 	//Handlers
 	const sortData = (key, property, order) => dispatch(rSortData(key, property, order))
 
@@ -78,7 +62,7 @@ const AlarmsTable = (props) => {
 		if (!s)
 			setSelDev(newSDevices)
 		else
-			setSelDev(customFilterItems(devices, filters).map(d => d.uuid))
+			setSelDev(customFilterItems(alarms, filters).map(d => d.uuid))
 	}
 	//#region  Filters
 	const dLiveStatus = () => {
@@ -104,32 +88,49 @@ const AlarmsTable = (props) => {
 	//#endregion
 	const columns = [
 		// { id: 'address', label: t('devices.fields.address') },
-		{ id: 'uuname', label: t('devices.fields.uuname') },
-		{ id: 'name', label: t('devices.fields.name') },
-		{ id: 'uuid', label: t('devices.fields.uuid') },
+		{ id: 'name', label: t('alarms.fields.name') },
+		// { id: 'name', label: t('devices.fields.name') },
+		{ id: 'uuid', label: t('alarms.fields.uuid') },
+		{ id: 'ttlType', label: t('alarms.fields.ttl') },
+		{ id: 'count', label: t('alarms.fields.count') },
+		{ id: 'state', label: t('alarms.fields.state') }
 		// { id: 'id', label: t('devices.fields.id') },
 		// { id: 'type', label: t('devices.fields.type') },
 		// { id: 'group', label: t('devices.fields.group') },
-		{ id: 'communication', label: t('devices.fields.status') },
-		{ id: 'tags', label: t('devices.fields.tags') }
+		// { id: 'communication', label: t('devices.fields.status') },
+		// { id: 'tags', label: t('devices.fields.tags') }
 	]
-	const renderTags = device => {
-		return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
-			<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
-		</Tooltip>
-		))
+	// const renderTags = device => {
+	// 	return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
+	// 		<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
+	// 	</Tooltip>
+	// 	))
+	// }
+	const renderTtlType = ttlType => {
+		switch (ttlType) {
+			case 1:
+				return t('alarms.fields.ttls.fromNow')
+			case 2:
+				return t('alarms.fields.ttls.fromFirstEvent')
+			case 3:
+				return t('alarms.fields.ttls.always')
+			default:
+				break;
+		}
+
 	}
 	const bodyStructure = row => {
 		return <Fragment key={row.id}>
 			{/* <TC label={row.address} /> */}
-			<TC label={row.uuname} />
 			<TC label={row.name} />
 			<TC label={row.uuid} />
+			<TC label={renderTtlType(row.config?.ttlType)} />
+			<TC label={row.count}/>
+			<TC label={row.state}/>
 			{/* <TC label={row.id} /> */}
 			{/* <TC label={row.type} /> */}
 			{/* <TC label={row.group} /> */}
-			<TC label={row.communication ? t('devices.fields.state.active') : t('devices.fields.state.inactive')} />
-			<TC content={renderTags(row)} />
+			{/* <TC content={renderTags(row)} /> */}
 		</Fragment>
 	}
 	return (
@@ -141,8 +142,8 @@ const AlarmsTable = (props) => {
 			<CTable
 				order={order}
 				orderBy={orderBy}
-				sortKey={'devices'}
-				body={customFilterItems(devices, filters)}
+				sortKey={'alarms'}
+				body={customFilterItems(alarms, filters)}
 				bodyStructure={bodyStructure}
 				mobile
 				bodyMobileStructure={() => { }}
@@ -150,7 +151,7 @@ const AlarmsTable = (props) => {
 				columns={columns}
 				handleCheckboxClick={selectDevice}
 				handleSelectAllClick={selectAllDevices}
-				handleClick={() => { }}
+				handleClick={(r) => () => { history.push(`/alarm/${r.uuid}`) }}
 				handleSort={handleRequestSort}
 			/>
 		</>

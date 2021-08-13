@@ -30,6 +30,7 @@ const CreateAlarmNotificationForm = props => {
 	const typesOfNotification = [
 		{ value: 1, label: t('alarms.fields.emailNotification') },
 		{ value: 2, label: t('alarms.fields.smsNotification') },
+		{ value: 13, label: t('alarms.fields.emailNotification') },
 		// { value: 12, label: t('alarms.fields.apiSimplePost') }
 	]
 	//useCallbacks
@@ -54,7 +55,7 @@ const CreateAlarmNotificationForm = props => {
 				/>
 			</ItemG>
 			<ItemG xs={12}>
-				<Collapse fullWidth in={typeOfNotification === 1}>
+				<Collapse fullWidth in={typeOfNotification === 1 || typeOfNotification === 13}>
 					<ItemG xs={12}>
 						<TextF
 							label={t('alarms.create.subject')}

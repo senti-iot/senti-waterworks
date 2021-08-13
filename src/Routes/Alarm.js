@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react'
 import CreateAlarm from 'Components/Custom/Alarms/CreateAlarm'
 import { makeStyles } from '@material-ui/core'
 import { useDispatch, useLocalization } from 'Hooks'
-import { getAlarms } from 'Redux/data'
-import AlarmsTable from 'Components/Custom/Alarms/AlarmsTable'
+import { getAlarm } from 'Redux/data'
+import Alarm from 'Components/Custom/Alarms/Alarm'
+import { useParams } from 'react-router'
 
 
 const styles = makeStyles(theme => ({
@@ -14,11 +15,12 @@ const styles = makeStyles(theme => ({
 	}
 }))
 
-const Alarms = () => {
+const AlarmRoute = () => {
 	//Hooks
 	const t = useLocalization()
 	const classes = styles()
 	const dispatch = useDispatch()
+	const params = useParams()
 	//Redux
 
 	//State
@@ -32,11 +34,11 @@ const Alarms = () => {
 
 	//useEffects
 	useEffect(() => {
-		const getAlarm = async () => await dispatch(await getAlarms())
+		const gAlarm = async (uuid) => await dispatch(await getAlarm(uuid))
 		// const getDeviceTags = async () => await dispatch(await getTags())
 		const loadData = async () => {
 			if (loading) {
-				await getAlarm()
+				await gAlarm(params.uuid)
 			}
 			setLoading(false)
 		}
@@ -65,7 +67,7 @@ const Alarms = () => {
 		<GridContainer>
 			<ItemG xs={12}>
 				<PageHeader
-					label={'sidebar.alarms'}
+					label={'sidebar.alarm'}
 					icon={AlarmIco}
 					actions={renderMenu()}
 				/>
@@ -80,7 +82,7 @@ const Alarms = () => {
 							open={openCreate}
 							handleClose={handleCloseCreate}
 						/>
-						{loading ? <CircularLoader fill /> : <AlarmsTable/>}
+						{loading ? <CircularLoader fill /> : <Alarm />}
 					</>}
 				/>
 			</ItemG>
@@ -88,4 +90,4 @@ const Alarms = () => {
 	)
 }
 
-export default Alarms
+export default AlarmRoute

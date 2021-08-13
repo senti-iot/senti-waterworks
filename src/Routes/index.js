@@ -34,7 +34,9 @@ const InstallationsRoute = React.lazy(() => import('./Installations'))
 // const DeviceMapRoute = React.lazy(() => import('./DeviceMap'))
 
 const AlarmsRoute = React.lazy(() => import('./Alarms'))
+const AlarmRoute = React.lazy(() => import('./Alarm'))
 const NotificationsRoute = React.lazy(() => import('./Notifications'))
+const NotificationRoute = React.lazy(() => import('./Notification'))
 
 export const routes = [
 	{
@@ -81,6 +83,11 @@ export const routes = [
 		component: AlarmsRoute
 	},
 	{
+		path: '/alarm/:uuid',
+		hideFromSideBar: true,
+		component: AlarmRoute
+	},
+	{
 		path: '/notifications',
 		sidebarName: 'sidebar.notifications',
 		icon: Notifications,
@@ -89,7 +96,11 @@ export const routes = [
 		hideFromSideBar: true,
 
 	},
-
+	{
+		path: '/notification/:uuid',
+		hideFromSideBar: true,
+		component: NotificationRoute
+	},
 	// {
 	// 	path: '/device-map',
 	// 	hideFromSideBar: true,

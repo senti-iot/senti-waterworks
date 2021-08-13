@@ -263,6 +263,7 @@ const initialState = {
 	smallMenu: true,
 	trp: null,
 	filters: {
+		alarms: [],
 		tokens: [],
 		favorites: [],
 		projects: [],

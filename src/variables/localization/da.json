@@ -27,15 +27,25 @@
 			"recipients":"Modtagere"
 		},
 		"fields": {
+			"type":"Type",
+			"state":"Status",
+			"count": "Count",
+			"uuid": "Unik ID",
 			"emailNotification": "E-mail notifikation",
 			"smsNotification": "SMS notifikation",
 			"apiSimplePost": "HTTP POST",
 			"name": "Alarm Navn",
 			"ttl": "Udløbstid",
+			"time": "Tid",
 			"ttls": {
 				"always": "Udløber aldrig",
 				"fromFirstEvent": "Udløber efter første meddelelse om",
 				"fromNow": "Udløber om"
+			},
+			"condition": "Betingelse",
+			"types": {
+				"math": "Mathematical comparation",
+				"cf": "Cloud Funktion"
 			},
 			"metric": "Data felt",
 			"operator": "Operatør",
@@ -1165,6 +1175,7 @@
 	},
 	"sidebar": {
 		"alarms": "Alarmer",
+		"alarm": "Alarm",
 		"notifications": "Notifikationer",
 		"about": "Om Senti",
 		"api": "API",

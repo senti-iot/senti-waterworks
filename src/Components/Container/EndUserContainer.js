@@ -10,7 +10,7 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import Usage from 'Components/Custom/Usage/Usage'
 import PriceChart from 'Components/Custom/Usage/PriceChart'
-import { getNData, getAdminDevices, setHaveData, setUnitHasChanged } from 'Redux/data'
+import { getNData, getAdminDevices, setHaveData, setUnitHasChanged, getAllNotifications } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
@@ -88,12 +88,14 @@ const EndUserContainer = props => {
 			const getDevices = async () => await dispatch(await getAdminDevices())
 			const getNewData = async () => await dispatch(await getNData())
 			const getDeviceTags = async () => await dispatch(await getTags())
+			const getNotifications = async () => await dispatch(await getAllNotifications())
 			const loadData = async () => {
 				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
 					await getDevices()
 					await getDeviceTags()
 				}
 				// await getDeviceData()
+				await getNotifications()
 				await getNewData()
 				setLoading(false)
 			}

@@ -96,6 +96,16 @@ export const servicesCoreAPI = create({
 	}
 })
 
+export const eAPI = create({
+	baseURL: sentiServicesAPI + 'eventbroker',
+	timeout: 30000,
+	headers: {
+		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+	}
+})
+
 export const wbAPI = create({
 	baseURL: sentiWaterWorksBackend,
 	timeout: 30000,
@@ -166,6 +176,7 @@ export const setToken = () => {
 		tagsServicesAPI.setHeader('appid', process.env.REACT_APP_APPID)
 		dataExportAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		wbAPI.setHeader('Authorization', `Bearer ${session.token}`)
+		eAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		return true
 	}
 	catch (error) {

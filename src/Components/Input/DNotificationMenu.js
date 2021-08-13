@@ -1,7 +1,7 @@
 import React, {
 	Fragment, useEffect, useState
 } from 'react'
-import { IconButton, Menu, MenuItem, Button, Tooltip, Collapse, ListItem, ListItemIcon, ListItemText, List } from '@material-ui/core'
+import { IconButton, Menu, MenuItem, Button, Tooltip, Collapse, ListItem, ListItemIcon, ListItemText, List, Divider } from '@material-ui/core'
 import { ItemG } from 'Components'
 import { ExpandMore, MoreVert, Visibility } from 'variables/icons'
 import { useLocalization } from 'Hooks'
@@ -114,7 +114,8 @@ const DMenu = (props) => {
 				transformOrigin={transformOrigin}
 				anchorOrigin={anchorOrigin}
 				disablePortal
-				PaperProps={{ style: { minWidth: 200 }, ...PaperProps }}>
+				style={{ maxWidth: 200 }}
+				PaperProps={{ style: { minWidth: 100, maxWidth: 100 }, ...PaperProps }}>
 				{menuItems.map((m, i) => {
 					if (m.dropdown) {
 						return [<MenuItem style={{ display: 'flex' }} button onClick={() => handleDropdownOpen(i)}>
@@ -143,13 +144,17 @@ const DMenu = (props) => {
 					}
 					if (m.dontShow)
 						return null
-					return <MenuItem divider={divider ? i === menuItems.length - 1 ? false : true : false} selected={m.selected} key={i}
+					return <><MenuItem divider={divider ? i === menuItems.length - 1 ? false : true : false} selected={m.selected} key={i}
 						onClick={handleMenuItemClick(m)}>
 						<ItemG container justify={'space-between'} alignItems={'center'}>
 							{m.icon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon}</ItemG> : null}
-							<ItemG xs>{m.label}</ItemG>
+							<Tooltip title={m.label} enterDelay={500}>
+								<ItemG xs style={{ maxWidth: 200, textOverflow: 'ellipsis', overflow: 'hidden' }}>{m.label}</ItemG>
+							</Tooltip>
 						</ItemG>
 					</MenuItem>
+					<Divider />
+					</>
 				})}
 			</Menu>
 		</Fragment>

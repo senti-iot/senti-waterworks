@@ -3,8 +3,9 @@ import CreateAlarmDetailsForm from 'Components/Custom/Alarms/CreateAlarmDetailsF
 import CreateAlarmNotificationForm from 'Components/Custom/Alarms/CreateAlarmNotificationForm'
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
 import TabPanel from 'Components/Custom/Tabs/TabPanel'
+import { createAlarm as cAlarmFunc } from 'data/alarms'
 import { getDevice } from 'data/devices'
-import { useLocalization } from 'Hooks'
+import { useLocalization, useSelector } from 'Hooks'
 import React from 'react'
 import { useState } from 'react'
 
@@ -12,6 +13,7 @@ const CreateAlarm = props => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
+	const user = useSelector(state => state.settings.user)
 
 	//State
 	const [tab, setTab] = useState(0)
@@ -33,7 +35,7 @@ const CreateAlarm = props => {
 	const [typeOfNotification, setTypeOfNotification] = useState(1)
 	//Email
 	const [emailBody, setEmailBody] = useState(`<span>
-Alarm: @METRIC @(@DATA_METRIC @) er @QUALIFIER @på @DEVICE_NAME @
+Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 </span>`)
 	const [emailSubject, setEmailSubject] = useState('')
 	const [recipients, setRecipients] = useState([])
@@ -45,7 +47,7 @@ Alarm: @METRIC @(@DATA_METRIC @) er @QUALIFIER @på @DEVICE_NAME @
 
 	//Const
 	// const gateway = 'uni-tel'
-	// const host = 'waterworks.senti.io'
+	const host = 'waterworks.senti.io'
 	const { open, handleClose } = props
 
 	//useCallbacks
@@ -103,7 +105,7 @@ Alarm: @METRIC @(@DATA_METRIC @) er @QUALIFIER @på @DEVICE_NAME @
 
 	const handleChangeTab = (event, newValue) => {
 		setTab(newValue)
-	};
+	}
 	const handleSetTypeOfNotification = e => {
 		setTypeOfNotification(e.target.value)
 	}
@@ -115,14 +117,60 @@ Alarm: @METRIC @(@DATA_METRIC @) er @QUALIFIER @på @DEVICE_NAME @
 		setEmailBody(value)
 	}
 
-	const handleStartCreate = () => { }
-	const handleSetClose = () => { }
+	const handleStartCreate = async () => {
+		let finalAlarm = null
+		if (typeOfNotification === 1) {
+
+			finalAlarm = {
+				name: alarm.name,
+				userUUID: user.uuid,
+				deviceId: alarm.device.id,
+				dataSource: alarm.device.id,
+				config: {
+					ttl: { [config.ttl]: config.ttlValue, },
+					ttlType: ttl
+				},
+				condition: {
+					metric: metric,
+					operation: operator,
+					qualifier: quantifier
+				},
+				host: host,
+				notification: {
+					type: typeOfNotification,
+					config: {
+						message: {
+							body: emailBody,
+							subject: emailSubject,
+						},
+						recipients: recipients,
+					}
+				}
+			}
+
+			let cAlarm = await cAlarmFunc(finalAlarm)
+			if (cAlarm) {
+				console.log(cAlarm)
+				handleSetClose()
+			}
+		}
+		if (typeOfNotification === 2) {
+
+		}
+
+
+
+	}
+	const handleSetClose = () => {
+
+		handleClose()
+	}
 
 	const handleAddRecipient = () => {
 		let rec = [...recipients, { name: "", email: "" }]
 		setRecipients(rec)
 	}
-	const handleRemoveRecipient = (index) =>  () => {
+	const handleRemoveRecipient = (index) => () => {
 		let rec = recipients.filter((v, i) => i !== index)
 		setRecipients(rec)
 	}
@@ -166,7 +214,7 @@ Alarm: @METRIC @(@DATA_METRIC @) er @QUALIFIER @på @DEVICE_NAME @
 					textColor="primary"
 					centered
 				>
-					<Tab label={t('alarms.create.details')}/>
+					<Tab label={t('alarms.create.details')} />
 					<Tab label={t('alarms.create.notifications')} />
 					{/* <Tab label="Item Three" /> */}
 				</Tabs>

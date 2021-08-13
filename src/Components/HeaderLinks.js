@@ -1,7 +1,7 @@
 import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core'
 import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, Person, /*  Person,  */Notifications } from 'variables/icons'
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cookie from 'react-cookies'
 // import { withRouter } from 'react-router-dom';
 // import { connect } from 'react-redux';
@@ -16,7 +16,7 @@ import headerLinksStyle from 'Styles/headerLinksStyle'
 import { useDispatch, useSelector } from 'Hooks'
 import DeviceTable from 'Components/Custom/DevicesTable/DeviceTable'
 import ItemG from 'Components/Containers/ItemG'
-import Dropdown from 'Components/Dropdown/Dropdown'
+// import Dropdown from 'Components/Dropdown/Dropdown'
 import DNotificationMenu from 'Components/Input/DNotificationMenu'
 // import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
@@ -34,6 +34,8 @@ function HeaderLinks(props) {
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const notifications = useSelector(s => s.data.notifications)
+
 	const redux = {
 		resetRedux: () => dispatch({ type: 'RESET_APP' })
 	}
@@ -41,13 +43,17 @@ function HeaderLinks(props) {
 	//State
 	const [anchorProfile, setAnchorProfile] = useState(null)
 	const [openTable, setOpenTable] = useState(false)
+	const [stateNotf, setStateNotf] = useState([])
 	//Const
 	const { t, history } = props
 
 	//useCallbacks
-
+	console.log(stateNotf, notifications)
 	//useEffects
+	useEffect(() => {
+		setStateNotf(notifications)
 
+	}, [notifications])
 	//Handlers
 	const handleOpenTable = () => setOpenTable(true)
 
@@ -94,10 +100,10 @@ function HeaderLinks(props) {
 					vertical: 'bottom',
 					horizontal: 'center',
 				}}
+				onChange={r => history.push(`/notification/${r}`)}
 				icon={<Notifications style={{ color: '#fff' }}/>}
-				menuItems={[{
-
-				}]}
+				menuItems={notifications.map(n => ({ value: n.uuid, label: n.message }))}
+				// menuItems={[{ value: 3, label: "Test" }]}
 				PaperProps={{ style: { marginTop: 50, minWidth: 200, minHeight: 300 } }}
 			/>
 		</ItemG>

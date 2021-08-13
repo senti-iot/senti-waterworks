@@ -131,6 +131,25 @@ const CreateAlarmDetailsForm = props => {
 			}
 			<Collapse in={alarm.device} style={{ flex: 1 }}>
 				<ItemG xs={12}>
+					<ItemG container alignItems={'center'}>
+						<DSelect
+							label={'alarms.fields.conditionValidator'}
+							value={5}
+							onChange={() => { }}
+							menuItems={[
+								{ category: "Data fields" },
+								{ value: 0, label: 'Mathematic comparation' },
+								{ category: "Default device alarm" },
+								{ value: 1, label: 'Dry' },
+								{ value: 1, label: 'Burst' },
+								{ value: 1, label: 'Leak' },
+								{ value: 1, label: 'Reverse flow' },
+								{ value: 1, label: "All" },
+								{ category: "Custom" },
+								{ value: 1, label: 'Cloud function', disabled: true }
+							]}
+						/>
+					</ItemG>
 
 					<ItemG container alignItems={'center'}>
 						<ItemG xs={6}>
