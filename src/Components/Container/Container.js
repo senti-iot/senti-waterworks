@@ -7,11 +7,42 @@ import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { CircularLoader } from 'Components'
 import { routes } from 'Routes'
+import { getAdminDevices, getAllNotifications, getNData } from 'Redux/data'
+import { getTags } from 'Redux/tagManager'
 
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
+
+	const devices = useSelector(s => s.data.devices)
+	const isSuperUser = useSelector(s => s.auth.isSuperUser)
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
+	const haveData = useSelector(s => s.data.haveData)
+
+	useEffect(() => {
+		if (loading && !haveData) {
+
+			const getDevices = async () => await dispatch(await getAdminDevices())
+			const getNewData = async () => await dispatch(await getNData())
+			const getDeviceTags = async () => await dispatch(await getTags())
+			const getNotifications = async () => await dispatch(await getAllNotifications())
+			const loadData = async () => {
+				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
+					await getDevices()
+					await getDeviceTags()
+				}
+				// await getDeviceData()
+				await getNotifications()
+				await getNewData()
+				setLoading(false)
+			}
+			loadData()
+		}
+		else {
+			setLoading(false)
+		}
+	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser, loading])
 	useEffect(() => {
 
 		const getSetting = async () => dispatch(await getSettings())

@@ -85,21 +85,21 @@ const EndUserContainer = props => {
 	useEffect(() => {
 		if (loading && !haveData) {
 
-			const getDevices = async () => await dispatch(await getAdminDevices())
-			const getNewData = async () => await dispatch(await getNData())
-			const getDeviceTags = async () => await dispatch(await getTags())
-			const getNotifications = async () => await dispatch(await getAllNotifications())
-			const loadData = async () => {
-				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
-					await getDevices()
-					await getDeviceTags()
-				}
-				// await getDeviceData()
-				await getNotifications()
-				await getNewData()
-				setLoading(false)
-			}
-			loadData()
+			// const getDevices = async () => await dispatch(await getAdminDevices())
+			// const getNewData = async () => await dispatch(await getNData())
+			// const getDeviceTags = async () => await dispatch(await getTags())
+			// const getNotifications = async () => await dispatch(await getAllNotifications())
+			// const loadData = async () => {
+			// 	if ((isSuperUser || isSWAdmin) && devices.length === 0) {
+			// 		await getDevices()
+			// 		await getDeviceTags()
+			// 	}
+			// 	// await getDeviceData()
+			// 	await getNotifications()
+			// 	await getNewData()
+			// 	setLoading(false)
+			// }
+			// loadData()
 		}
 		else {
 			setLoading(false)
