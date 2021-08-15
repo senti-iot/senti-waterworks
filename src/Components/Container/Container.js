@@ -41,7 +41,7 @@ function Container(props) {
 				}
 				// await getDeviceData()
 				await getNotifications()
-				// await getNewData()
+				await getNewData()
 				setLoading(false)
 			}
 			loadData()
