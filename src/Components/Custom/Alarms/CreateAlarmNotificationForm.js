@@ -29,7 +29,7 @@ const CreateAlarmNotificationForm = props => {
 	const { handleSetTypeOfNotification, handleSetEmailSubject, handleSetEmailBody, handleAddRecipient,
 		handleRemoveRecipient, handleChangeSMSRecipient, handleRemoveSMSRecipient, handleAddSMSRecipient,
 		handleChangeRecipient, handleSetSMSBody, webBody, setWebBody,
-		handleSetTypesOfNotfs
+		handleSetTypesOfNotfs, webSubject, setWebSubject
 
 	} = props
 	const typesOfNotification = [
@@ -178,19 +178,29 @@ const CreateAlarmNotificationForm = props => {
 				<Collapse fullWidth in={typeOfNotification === 13}>
 
 					<ItemG xs={12}>
-						<Caption>{t('alarms.fields.webNotification')}</Caption>
-						<AceEditor
-							mode={'text'}
-							theme={'tomorrow'}
-							onChange={setWebBody}
-							value={webBody}
-							highlightActiveLine={true}
-							showPrintMargin={false}
-							showGutter={true}
-							style={{ width: '100%', maxHeight: 160 }}
-							name="CloudFunctionCode"
-							editorProps={{ $blockScrolling: true }}
-						/>
+						<ItemG xs={12}>
+							<TextF
+								label={t('alarms.create.subject')}
+								value={webSubject}
+								onChange={e => setWebSubject(e.target.value)}
+							/>
+						</ItemG>
+						<ItemG xs={12}>
+
+							<Caption>{t('alarms.fields.webNotification')}</Caption>
+							<AceEditor
+								mode={'text'}
+								theme={'tomorrow'}
+								onChange={setWebBody}
+								value={webBody}
+								highlightActiveLine={true}
+								showPrintMargin={false}
+								showGutter={true}
+								style={{ width: '100%', maxHeight: 160 }}
+								name="CloudFunctionCode"
+								editorProps={{ $blockScrolling: true }}
+							/>
+						</ItemG>
 					</ItemG>
 					{/* {recipients.map((r, i) =>
 

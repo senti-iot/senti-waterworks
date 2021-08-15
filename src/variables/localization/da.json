@@ -23,12 +23,15 @@
 		"create": {
 			"details": "Alarmoplysninger",
 			"notifications": "Notifikationoplysninger",
-			"subject":"Email emne",
+			"subject":"Emne",
 			"recipients":"Modtagere",
 			"typeOfNotifications":"Notifikationtyper",
 			"typeOfNotificationSettings":"Notifikationtyper oplysninger"
 		},
 		"fields": {
+			"date": "Dato",
+			"id": "Unique ID",
+			"deviceName":"Enhed ID",
 			"type":"Type",
 			"state":"Status",
 			"count": "Count",

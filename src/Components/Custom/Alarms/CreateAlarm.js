@@ -39,6 +39,7 @@ const CreateAlarm = props => {
 Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 </span>`)
 	const [webBody, setWebBody] = useState(`@METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@`)
+	const [webSubject, setWebSubject] = useState('')
 	const [emailSubject, setEmailSubject] = useState('')
 	const [recipients, setRecipients] = useState([])
 	//SMS
@@ -49,7 +50,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 
 	//Const
-	// const gateway = 'uni-tel'
+	const gateway = 'uni-tel'
 	const host = 'waterworks.senti.io'
 	const { open, handleClose } = props
 
@@ -150,12 +151,14 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 	}
 
 	const handleStartCreate = async () => {
-		let finalAlarm = null
+		let finalAlarm = {}
+		console.log(alarm)
 		finalAlarm.name = alarm.name
 		finalAlarm.userUUID = user.uuid
 		finalAlarm.deviceId = alarm.device.id
 		finalAlarm.dataSource = alarm.device.id
 		finalAlarm.host = host
+		finalAlarm.actions = []
 
 		if (ttl === 3) {
 			finalAlarm.config = {
@@ -170,11 +173,12 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			}
 		}
 
-		if (typeOfNotification === 1) {
+		console.log('typeOfNotification', typesOfNotfs)
 
+		if (typesOfNotfs.indexOf(1) > -1) {
 
-			finalAlarm.notification = {
-				type: typeOfNotification,
+			let emailNotf = {
+				type: 1,
 				config: {
 					message: {
 						body: emailBody,
@@ -182,16 +186,43 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 					},
 					recipients: recipients,
 				}
-
 			}
-
-
-
-		}
-		if (typeOfNotification === 2) {
+			finalAlarm.actions.push(emailNotf)
 
 		}
+		if (typesOfNotfs.indexOf(2) > -1) {
+			let smsNotf = {
+				type: 2,
+				config: {
+					gateway: gateway,
+					message: {
+						body: smsBody
+					},
+					recipients: smsRecipients,
+				}
+			}
+			finalAlarm.actions.push(smsNotf)
+		}
 
+		if (typesOfNotfs.indexOf(13) > -1) {
+			/**
+			 *
+			 */
+			let webNotf = {
+				type: 13,
+				config: {
+					local: {
+						userUUID: user.uuid
+					},
+					message: {
+						body: webBody,
+						subject: webSubject
+					},
+					userType: 'local'
+				}
+			}
+			finalAlarm.actions.push(webNotf)
+		}
 		if (conditionValidator === 0) {
 			finalAlarm.condition = {
 				metric: metric,
@@ -199,9 +230,13 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 				qualifier: quantifier
 			}
 		}
-		else {
-			finalAlarm.cloudFunction = cfs[conditionValidator].id
+		if ([1, 2, 3, 4, 5].indexOf(conditionValidator) !== -1) {
+			finalAlarm.cloudFunction = cfs[conditionValidator - 1].id
 		}
+		else {
+			//To do custom cloud function
+		}
+
 		let cAlarm = await cAlarmFunc(finalAlarm)
 		if (cAlarm) {
 			console.log(cAlarm)
@@ -250,6 +285,11 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 		setTypeOfNotification(e.target.value[0])
 		setTypesOfNotfs(e.target.value)
 	}
+	const handleSetConditionValidator = e => {
+		console.log(e)
+		console.log(e)
+		setConditionValidator(e)
+	}
 	return (
 		<Dialog
 			open={open}
@@ -288,7 +328,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 						handleSetOperator={handleSetOperator}
 						handleSetQuantifier={handleSetQuantifier}
 						conditionValidator={conditionValidator}
-						setConditionValidator={setConditionValidator}
+						setConditionValidator={handleSetConditionValidator}
 					/>
 				</TabPanel>
 				<TabPanel value={tab} index={1}>
@@ -316,7 +356,9 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 						handleRemoveSMSRecipient={handleRemoveSMSRecipient}
 						handleAddSMSRecipient={handleAddSMSRecipient}
 						typesOfNotfs ={typesOfNotfs}
-						handleSetTypesOfNotfs ={handleSetTypesOfNotfs}
+						handleSetTypesOfNotfs={handleSetTypesOfNotfs}
+						webSubject={webSubject}
+						setWebSubject={setWebSubject}
 					/>
 				</TabPanel>
 			</DialogContent>

@@ -151,8 +151,8 @@ const CreateAlarmDetailsForm = props => {
 								{ value: 0, label: 'Mathematic comparation' },
 								{ category: "Default device alarm" },
 								{ value: 1, label: 'Dry' },
-								{ value: 2, label: 'Burst' },
-								{ value: 3, label: 'Leak' },
+								{ value: 2, label: 'Leak' },
+								{ value: 3, label: 'Burst' },
 								{ value: 4, label: 'Reverse flow' },
 								{ value: 5, label: "All" },
 								{ category: "Custom" },
@@ -197,7 +197,7 @@ const CreateAlarmDetailsForm = props => {
 						<ItemG xs={12}>
 							<TextF
 								label={t('sidebar.cloudfunction')}
-								value={cfs[conditionValidator].name}
+								value={cfs[conditionValidator - 1].name}
 								fullWidth
 								readOnly={true}
 							/>

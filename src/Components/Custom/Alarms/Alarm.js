@@ -45,7 +45,22 @@ const Alarm = () => {
 			case (alarm.condition !== null) && !Array.isArray(alarm.condition):
 				return alarm.condition.metric + ' ' + alarm.condition.operation + ' ' + alarm.condition.qualifier
 			case alarm.condition === null && alarm.cloudFunction !== null:
-				return alarm.cloudFunction
+				return <><ItemG xs={12}>
+					{t('sidebar.cloudfunction') + ' ' + alarm.cloudFunction.id}
+					<AceEditor
+						readOnly
+						mode={'html'}
+						theme={'tomorrow'}
+						highlightActiveLine={true}
+						showPrintMargin={false}
+						showGutter={true}
+						style={{ width: '100%', maxHeight: 240, marginBottom: 16 }}
+						name="CloudFunctionCode"
+						editorProps={{ $blockScrolling: true }}
+						value={alarm.cloudFunction.code}
+					/>
+				</ItemG>
+				</>
 			default:
 				break;
 		}
@@ -70,7 +85,7 @@ const Alarm = () => {
 					{a.uuid}
 				</ItemG>
 				<ItemG>
-					<Caption>{t('notification.fields.type')}</Caption>
+					{/* <Caption>{t('notification.fields.type')}</Caption> */}
 					<Info>{renderActionType(a.type)}</Info>
 				</ItemG>
 				<ItemG>
@@ -95,15 +110,15 @@ const Alarm = () => {
 			let device = devices[devices.findIndex(f => f.id === e.deviceId)]
 			return <ItemG xs={12} container>
 				<ItemG xs={12}>
-					<Caption>{t('notifications.fields.deviceName')}</Caption>
+					<Caption>{t('alarms.fields.deviceName')}</Caption>
 					<Info>{device.uuname}</Info>
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('notification.fields.id')}</Caption>
+					<Caption>{t('alarms.fields.id')}</Caption>
 					<Info>{e.id}</Info>
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('notififcations.fields.date')}</Caption>
+					<Caption>{t('alarms.fields.date')}</Caption>
 					<Info>{moment(e.expires).format('dddd DD.MM.YYYY HH:mm:ss')}</Info>
 				</ItemG>
 
@@ -141,8 +156,8 @@ const Alarm = () => {
 			</ItemG>
 			<ItemG xs={3}>
 				<Caption>{t('alarms.fields.condition')}</Caption>
-				<Info>{renderCondition()}</Info>
 			</ItemG>
+			{renderCondition()}
 			<ItemG xs={12}>
 				<Divider/>
 			</ItemG>
@@ -152,12 +167,15 @@ const Alarm = () => {
 					{JSON.stringify(alarm.actions)}
 				</Info>
 			</ItemG> */}
+			<ItemG>
+				<Caption>{t('alarms.fields.type')}</Caption>
+			</ItemG>
 			{renderActions()}
 			<ItemG xs={12}>
 				<Divider />
 			</ItemG>
 			<ItemG>
-				<Info>{t('alarms.triggers')}</Info>
+				<Info>{t('sidebar.notifications')}</Info>
 			</ItemG>
 			{renderNotifications()}
 			{/* {JSON.stringify(alarm.condition)} */}
