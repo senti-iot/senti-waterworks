@@ -90,21 +90,23 @@ function HeaderLinks(props) {
 	}
 
 	const renderNotifications = () => {
+		console.log(notifications)
 		return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }}>
 			<DNotificationMenu
+				divider
 				transformOrigin={{
 					vertical: 'bottom',
 					horizontal: 'center',
 				}}
 				anchorOrigin={{
 					vertical: 'bottom',
-					horizontal: 'center',
+					horizontal: 'left',
 				}}
-				onChange={r => history.push(`/notification/${r}`)}
+
 				icon={<Notifications style={{ color: '#fff' }}/>}
-				menuItems={notifications.map(n => ({ value: n.uuid, label: n.message }))}
+				menuItems={notifications}
 				// menuItems={[{ value: 3, label: "Test" }]}
-				PaperProps={{ style: { marginTop: 50, minWidth: 200, minHeight: 300 } }}
+				// PaperProps={{ style: { marginTop: 50, minHeight: 300 } }}
 			/>
 		</ItemG>
 	}
