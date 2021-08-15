@@ -29,6 +29,7 @@
 			"typeOfNotificationSettings":"Notifikationtyper oplysninger"
 		},
 		"fields": {
+			"conditionValidator": "Tilstandsvaliderer",
 			"date": "Dato",
 			"id": "Unique ID",
 			"deviceName":"Enhed Navn",

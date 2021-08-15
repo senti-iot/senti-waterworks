@@ -197,7 +197,7 @@ const CreateAlarmDetailsForm = props => {
 						<ItemG xs={12}>
 							<TextF
 								label={t('sidebar.cloudfunction')}
-								value={cfs[conditionValidator - 1].name}
+								value={cfs[conditionValidator - 1]?.name}
 								fullWidth
 								readOnly={true}
 							/>
