@@ -21,20 +21,27 @@ function Container(props) {
 	const haveData = useSelector(s => s.data.haveData)
 
 	useEffect(() => {
+		// const loadSettings = async () => {
+		// 	// await getDevices()
+		// 	setLoading(false)
+		// }
+		// loadSettings()
 		if (loading && !haveData) {
-
+			const getSetting = async () => await dispatch(await getSettings())
 			const getDevices = async () => await dispatch(await getAdminDevices())
 			const getNewData = async () => await dispatch(await getNData())
 			const getDeviceTags = async () => await dispatch(await getTags())
 			const getNotifications = async () => await dispatch(await getAllNotifications())
 			const loadData = async () => {
+				await getSetting()
+
 				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
 					await getDevices()
 					await getDeviceTags()
 				}
 				// await getDeviceData()
 				await getNotifications()
-				await getNewData()
+				// await getNewData()
 				setLoading(false)
 			}
 			loadData()
@@ -43,17 +50,7 @@ function Container(props) {
 			setLoading(false)
 		}
 	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser, loading])
-	useEffect(() => {
 
-		const getSetting = async () => dispatch(await getSettings())
-		// const getDevices = async () => dispatch(await getAllDevices())
-		const loadSettings = async () => {
-			await getSetting()
-			// await getDevices()
-			setLoading(false)
-		}
-		loadSettings()
-	}, [dispatch])
 
 	return (
 		cookie.load('SESSION') ?
@@ -85,7 +82,7 @@ function Container(props) {
 							</Switch>
 						</Suspense>
 					</AppBackground>
-					: <CircularLoader fill />}
+					: <AppBackground color={colorTheme}><CircularLoader fill /></AppBackground>}
 			</Fragment>
 			: <Redirect from={window.location.pathname} to={{
 				pathname: window.location.pathname.includes('onboard') ? '/onboard/da/step1' : '/login', state: {

@@ -38,7 +38,7 @@ const getUserInstallation = 'getUserInstallation'
 const gAlarms = 'getAlarms'
 const gAlarm = 'getAlarm'
 const gNotifs = 'getNotifications'
-const gNotif = 'getNotifications'
+// const gNotif = 'getNotifications'
 
 
 export const setUnitHasChanged = () => {

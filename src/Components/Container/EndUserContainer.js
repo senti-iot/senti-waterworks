@@ -10,13 +10,13 @@ import { CircularLoader } from 'Components'
 import ArcGraph from 'Components/Graphs/ArcGraph'
 import Usage from 'Components/Custom/Usage/Usage'
 import PriceChart from 'Components/Custom/Usage/PriceChart'
-import { getNData, getAdminDevices, setHaveData, setUnitHasChanged, getAllNotifications } from 'Redux/data'
+import { /* getNData, getAdminDevices, */ setHaveData, setUnitHasChanged, /*  getAllNotifications */ } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
 import { makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
 import FullScreenMainChart from 'Components/Custom/MainChart/FullScreenMainChart'
 import TagFilterDialog from 'Components/TagFilterDialog/TagFilterDialog'
-import { getTags } from 'Redux/tagManager'
+// import { getTags } from 'Redux/tagManager'
 
 const styles = makeStyles(theme => ({
 	smallWidget: {

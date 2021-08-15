@@ -29,26 +29,58 @@ const CreateAlarm = props => {
 		ttl: "m",
 		ttlValue: 60
 	})
-
 	const [alarm, setAlarm] = useState({})
+
+	const [conditionValidator, setConditionValidator] = useState(0)
 	//Notifications
-	const [typeOfNotification, setTypeOfNotification] = useState(1)
+	const [typeOfNotification, setTypeOfNotification] = useState(13)
 	//Email
 	const [emailBody, setEmailBody] = useState(`<span>
 Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 </span>`)
+	const [webBody, setWebBody] = useState(`@METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@`)
 	const [emailSubject, setEmailSubject] = useState('')
 	const [recipients, setRecipients] = useState([])
 	//SMS
 	const [smsBody, setSmsBody] = useState(`Alarm(id: @EVENT_ID@): @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@`)
 	const [smsRecipients, setSmsRecipients] = useState([])
-
+	const [typesOfNotfs, setTypesOfNotfs] = useState([13])
 	//API call
+
 
 	//Const
 	// const gateway = 'uni-tel'
 	const host = 'waterworks.senti.io'
 	const { open, handleClose } = props
+
+	let cfs = [
+		{
+			"id": 160,
+			"uuid": "c73c1d32-95ac-413a-b776-ac10c41433b5",
+			"name": "[Alarm - Kamstrup] Dry field"
+		},
+		{
+			"id": 161,
+			"uuid": "eb1ea24f-3078-4c58-91b6-8f4b4e36273f",
+			"name": "[Alarm - Kamstrup] Leak field"
+		},
+		{
+			"id": 162,
+			"uuid": "9680570b-d1d5-42e1-be7a-e21ca18fec90",
+			"name": "[Alarm - Kamstrup] Burst field"
+		},
+		{
+			"id": 163,
+			"uuid": "70b8da9d-ee56-4df2-b98f-44ced8c2c533",
+			"name": "[Alarm - Kamstrup] Reverse field"
+		},
+		{
+			"id": 164,
+			"uuid": "fc1889cf-66fb-44dd-a949-9914884238d7",
+			"name": "[Alarm - Kamstrup] All infocodes"
+		}
+	]
+
 
 	//useCallbacks
 
@@ -119,45 +151,62 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 	const handleStartCreate = async () => {
 		let finalAlarm = null
+		finalAlarm.name = alarm.name
+		finalAlarm.userUUID = user.uuid
+		finalAlarm.deviceId = alarm.device.id
+		finalAlarm.dataSource = alarm.device.id
+		finalAlarm.host = host
+
+		if (ttl === 3) {
+			finalAlarm.config = {
+				ttl: { y: 2099 },
+				ttlType: ttl
+			}
+		}
+		else {
+			finalAlarm.config = {
+				ttl: { [config.ttl]: config.ttlValue, },
+				ttlType: ttl
+			}
+		}
+
 		if (typeOfNotification === 1) {
 
-			finalAlarm = {
-				name: alarm.name,
-				userUUID: user.uuid,
-				deviceId: alarm.device.id,
-				dataSource: alarm.device.id,
+
+			finalAlarm.notification = {
+				type: typeOfNotification,
 				config: {
-					ttl: { [config.ttl]: config.ttlValue, },
-					ttlType: ttl
-				},
-				condition: {
-					metric: metric,
-					operation: operator,
-					qualifier: quantifier
-				},
-				host: host,
-				notification: {
-					type: typeOfNotification,
-					config: {
-						message: {
-							body: emailBody,
-							subject: emailSubject,
-						},
-						recipients: recipients,
-					}
+					message: {
+						body: emailBody,
+						subject: emailSubject,
+					},
+					recipients: recipients,
 				}
+
 			}
 
-			let cAlarm = await cAlarmFunc(finalAlarm)
-			if (cAlarm) {
-				console.log(cAlarm)
-				handleSetClose()
-			}
+
+
 		}
 		if (typeOfNotification === 2) {
 
 		}
 
+		if (conditionValidator === 0) {
+			finalAlarm.condition = {
+				metric: metric,
+				operation: operator,
+				qualifier: quantifier
+			}
+		}
+		else {
+			finalAlarm.cloudFunction = cfs[conditionValidator].id
+		}
+		let cAlarm = await cAlarmFunc(finalAlarm)
+		if (cAlarm) {
+			console.log(cAlarm)
+			handleSetClose()
+		}
 
 
 	}
@@ -195,9 +244,11 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 	}
 	const handleAddSMSRecipient = () => {
 		let smsRec = [...smsRecipients, { name: "", address: "" }]
-		console.log(smsRec)
 		setSmsRecipients(smsRec)
-		console.log(smsRecipients)
+	}
+	const handleSetTypesOfNotfs = e => {
+		setTypeOfNotification(e.target.value[0])
+		setTypesOfNotfs(e.target.value)
 	}
 	return (
 		<Dialog
@@ -228,7 +279,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 						config={config}
 						operator={operator}
 						quantifier={quantifier}
-
+						cfs={cfs}
 						handleSetAlarm={handleSetAlarm}
 						handleSetDevice={handleSetDevice}
 						handleSetTtl={handleSetTtl}
@@ -236,6 +287,8 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 						handleSetMetric={handleSetMetric}
 						handleSetOperator={handleSetOperator}
 						handleSetQuantifier={handleSetQuantifier}
+						conditionValidator={conditionValidator}
+						setConditionValidator={setConditionValidator}
 					/>
 				</TabPanel>
 				<TabPanel value={tab} index={1}>
@@ -250,7 +303,8 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 						smsBody={smsBody}
 						smsRecipients={smsRecipients}
-
+						webBody={webBody}
+						setWebBody={setWebBody}
 						handleSetEmailSubject={handleSetEmailSubject}
 						handleSetEmailBody={handleSetEmailBody}
 						handleAddRecipient={handleAddRecipient}
@@ -261,6 +315,8 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 						handleChangeSMSRecipient={handleChangeSMSRecipient}
 						handleRemoveSMSRecipient={handleRemoveSMSRecipient}
 						handleAddSMSRecipient={handleAddSMSRecipient}
+						typesOfNotfs ={typesOfNotfs}
+						handleSetTypesOfNotfs ={handleSetTypesOfNotfs}
 					/>
 				</TabPanel>
 			</DialogContent>

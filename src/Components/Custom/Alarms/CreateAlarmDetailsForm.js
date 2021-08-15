@@ -18,7 +18,9 @@ const CreateAlarmDetailsForm = props => {
 	//Const
 	const { alarm, metrics, metric, ttl, config, operator, quantifier,
 	} = props
-	const { handleSetAlarm, handleSetDevice, handleSetTtl, handleSetOperator, handleSetQuantifier, handleSetConfig, handleSetMetric } = props
+	const { handleSetAlarm, handleSetDevice, handleSetTtl, handleSetOperator, handleSetQuantifier, handleSetConfig, handleSetMetric,
+		conditionValidator, setConditionValidator, cfs
+	} = props
 
 
 	// const ttlTypes = {
@@ -61,6 +63,14 @@ const CreateAlarmDetailsForm = props => {
 	 * name, dataSource, condition, cloudFunction* , ttl, config(ttl, ttlType), deviceId
 	 * condition()
 	 */
+	const showDefaultAlarms = val => {
+		console.log([1, 2, 3, 4, 5].includes(val))
+		if ([1, 2, 3, 4, 5].includes(val)) {
+			return true
+		}
+		else
+			return false
+	}
 	return (
 		<ItemG container>
 			{/**
@@ -134,54 +144,65 @@ const CreateAlarmDetailsForm = props => {
 					<ItemG container alignItems={'center'}>
 						<DSelect
 							label={'alarms.fields.conditionValidator'}
-							value={5}
-							onChange={() => { }}
+							value={conditionValidator}
+							onChange={(e) => {setConditionValidator(e.target.value) }}
 							menuItems={[
 								{ category: "Data fields" },
 								{ value: 0, label: 'Mathematic comparation' },
 								{ category: "Default device alarm" },
 								{ value: 1, label: 'Dry' },
-								{ value: 1, label: 'Burst' },
-								{ value: 1, label: 'Leak' },
-								{ value: 1, label: 'Reverse flow' },
-								{ value: 1, label: "All" },
+								{ value: 2, label: 'Burst' },
+								{ value: 3, label: 'Leak' },
+								{ value: 4, label: 'Reverse flow' },
+								{ value: 5, label: "All" },
 								{ category: "Custom" },
-								{ value: 1, label: 'Cloud function', disabled: true }
+								{ value: 6, label: 'Cloud function', disabled: true }
 							]}
 						/>
 					</ItemG>
+					<Collapse in={conditionValidator === 0}>
+						<ItemG container alignItems={'center'}>
+							<ItemG xs={6}>
 
-					<ItemG container alignItems={'center'}>
-						<ItemG xs={6}>
+								<DSelect
+									label={t('alarms.fields.metric')}
+									value={metric}
+									onChange={handleSetMetric}
+									menuItems={metrics}
+								/>
+							</ItemG>
+							<ItemG xs={2}>
 
-							<DSelect
-								label={t('alarms.fields.metric')}
-								value={metric}
-								onChange={handleSetMetric}
-								menuItems={metrics}
-							/>
+								<DSelect
+									label={t('alarms.fields.operator')}
+									value={operator}
+									onChange={handleSetOperator}
+									menuItems={operators}
+									style={{ minWidth: 75 }}
+								/>
+							</ItemG>
+							<ItemG xs={1}>
+
+								<TextF
+									label={t('alarms.fields.quantifier')}
+									value={quantifier}
+									onChange={handleSetQuantifier}
+									style={{ minWidth: 105, maxWidth: 150 }}
+
+								/>
+							</ItemG>
 						</ItemG>
-						<ItemG xs={2}>
-
-							<DSelect
-								label={t('alarms.fields.operator')}
-								value={operator}
-								onChange={handleSetOperator}
-								menuItems={operators}
-								style={{ minWidth: 75 }}
-							/>
-						</ItemG>
-						<ItemG xs={1}>
-
+					</Collapse>
+					<Collapse in={showDefaultAlarms(conditionValidator)}>
+						<ItemG xs={12}>
 							<TextF
-								label={t('alarms.fields.quantifier')}
-								value={quantifier}
-								onChange={handleSetQuantifier}
-								style={{ minWidth: 105, maxWidth: 150 }}
-
+								label={t('sidebar.cloudfunction')}
+								value={cfs[conditionValidator].name}
+								fullWidth
+								readOnly={true}
 							/>
 						</ItemG>
-					</ItemG>
+					</Collapse>
 					<ItemG xs={12}>
 
 					</ItemG>

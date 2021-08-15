@@ -24,7 +24,9 @@
 			"details": "Alarmoplysninger",
 			"notifications": "Notifikationoplysninger",
 			"subject":"Email emne",
-			"recipients":"Modtagere"
+			"recipients":"Modtagere",
+			"typeOfNotifications":"Notifikationtyper",
+			"typeOfNotificationSettings":"Notifikationtyper oplysninger"
 		},
 		"fields": {
 			"type":"Type",
@@ -34,6 +36,7 @@
 			"emailNotification": "E-mail notifikation",
 			"smsNotification": "SMS notifikation",
 			"apiSimplePost": "HTTP POST",
+			"webNotification": "Web notifikation",
 			"name": "Alarm Navn",
 			"ttl": "Udløbstid",
 			"time": "Tid",

@@ -4,12 +4,20 @@ import Caption from 'Components/Typography/Caption'
 import Info from 'Components/Typography/Info'
 import { useLocalization, useSelector } from 'Hooks'
 import React from 'react'
+import AceEditor from 'react-ace'
+
+import 'ace-builds/src-noconflict/mode-javascript'
+import 'ace-builds/src-noconflict/mode-html'
+import 'ace-builds/src-noconflict/theme-tomorrow'
+import 'ace-builds/src-noconflict/theme-monokai'
+import moment from 'moment'
 
 const Alarm = () => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
 	const alarm = useSelector(s => s.data.alarm)
+	const devices = useSelector(s => s.data.devices)
 	//State
 
 	//Const
@@ -32,7 +40,6 @@ const Alarm = () => {
 		}
 
 	}
-
 	const renderCondition = () => {
 		switch (true) {
 			case (alarm.condition !== null) && !Array.isArray(alarm.condition):
@@ -42,6 +49,69 @@ const Alarm = () => {
 			default:
 				break;
 		}
+	}
+	const renderActionType = (type) => {
+		switch (type) {
+			case 13:
+				return t('alarms.fields.webNotification')
+			case 1:
+				return t('alarms.fields.emailNotification')
+			case 2:
+				return t('alarms.fields.smsNotification')
+
+			default:
+				break;
+		}
+	 }
+	const renderActions = () => {
+		return alarm.actions.map(a => {
+			return <ItemG xs={12}>
+				<ItemG>
+					{a.uuid}
+				</ItemG>
+				<ItemG>
+					<Caption>{t('notification.fields.type')}</Caption>
+					<Info>{renderActionType(a.type)}</Info>
+				</ItemG>
+				<ItemG>
+					<AceEditor
+						readOnly
+						mode={'html'}
+						theme={'tomorrow'}
+						highlightActiveLine={true}
+						showPrintMargin={false}
+						showGutter={true}
+						style={{ width: '100%', maxHeight: 160 }}
+						name="CloudFunctionCode"
+						editorProps={{ $blockScrolling: true }}
+						value={a.config?.message?.body}
+					/>
+				</ItemG>
+			</ItemG>
+		})
+	}
+	const renderNotifications = () => {
+		return alarm.events.map(e => {
+			let device = devices[devices.findIndex(f => f.id === e.deviceId)]
+			return <ItemG xs={12} container>
+				<ItemG xs={12}>
+					<Caption>{t('notifications.fields.deviceName')}</Caption>
+					<Info>{device.uuname}</Info>
+				</ItemG>
+				<ItemG xs={6}>
+					<Caption>{t('notification.fields.id')}</Caption>
+					<Info>{e.id}</Info>
+				</ItemG>
+				<ItemG xs={6}>
+					<Caption>{t('notififcations.fields.date')}</Caption>
+					<Info>{moment(e.expires).format('dddd DD.MM.YYYY HH:mm:ss')}</Info>
+				</ItemG>
+
+				<ItemG xs={12}>
+					<Divider />
+				</ItemG>
+			</ItemG>
+		})
 	}
 	// console.log(alarm)
 	return (
@@ -76,13 +146,20 @@ const Alarm = () => {
 			<ItemG xs={12}>
 				<Divider/>
 			</ItemG>
-			<ItemG xs={12}>
+			{/* <ItemG xs={12}>
 				<Caption>{t('alarms.actions')}</Caption>
-				<Caption>'alarms.actions'</Caption>
 				<Info>
 					{JSON.stringify(alarm.actions)}
 				</Info>
+			</ItemG> */}
+			{renderActions()}
+			<ItemG xs={12}>
+				<Divider />
 			</ItemG>
+			<ItemG>
+				<Info>{t('alarms.triggers')}</Info>
+			</ItemG>
+			{renderNotifications()}
 			{/* {JSON.stringify(alarm.condition)} */}
 		</ItemG>
 	)

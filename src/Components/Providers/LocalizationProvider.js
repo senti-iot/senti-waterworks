@@ -61,7 +61,7 @@ const LocalizationProvider = ({ children }) => {
 			else {
 				console.info('Missing key: "' + key + '"')
 			}
-			result = null
+			result = key
 		}
 		if (typeof phrase === 'string') {
 			result = transformPhrase(phrase, opts)
