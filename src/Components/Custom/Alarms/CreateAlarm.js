@@ -31,13 +31,13 @@ const CreateAlarm = props => {
 	})
 	const [alarm, setAlarm] = useState({})
 
-	const [conditionValidator, setConditionValidator] = useState(0)
+	const [conditionValidator, setConditionValidator] = useState(1)
 	//Notifications
 	const [typeOfNotification, setTypeOfNotification] = useState(13)
 	//Email
-	const [emailBody, setEmailBody] = useState(`<span>
+	const [emailBody, setEmailBody] = useState(`
 Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
-</span>`)
+`)
 	const [webBody, setWebBody] = useState(`@METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@`)
 	const [webSubject, setWebSubject] = useState('')
 	const [emailSubject, setEmailSubject] = useState('')

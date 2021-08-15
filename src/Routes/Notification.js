@@ -32,7 +32,7 @@ const NotificationRoute = () => {
 		<GridContainer>
 			<ItemG xs={12}>
 				<PageHeader
-					label={t('sidebar.notification') + ' - ' + notification.ruleName}
+					label={t('sidebar.notification', { disableMissing: true }) + ' - ' + notification?.ruleName}
 					icon={AlarmIco}
 
 				/>
