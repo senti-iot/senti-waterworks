@@ -19,7 +19,7 @@ const TH = (props) => {
 	return (
 		<TableHead>
 			<TableRow>
-				{noCheckbox ? null : <TableCell>
+				{noCheckbox ? null : <TableCell /* padding={'checkbox'} */>
 					<Checkbox
 						indeterminate={numSelected > 0 && numSelected < rowCount}
 						checked={numSelected === rowCount && numSelected > 0}
@@ -31,6 +31,7 @@ const TH = (props) => {
 					{columns.map((column, i) => {
 						return (
 							<TableCell
+								className={classes.header}
 								key={i}
 								sortDirection={orderBy === column.id ? order : false}
 							>
@@ -55,6 +56,7 @@ const TH = (props) => {
 					{
 						mdDown ? mdDown.map((a, c) => {
 							return <TableCell
+								className={classes.header}
 								key={c}
 								sortDirection={orderBy === columns[c].id ? order : false}
 							>

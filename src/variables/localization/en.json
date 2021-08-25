@@ -151,6 +151,7 @@
 		},
 		"seeing": "Seeing",
 		"selectedDevices": "Selected devices",
+		"selectedInstallations": "Selected installations",
 		"totalUsage": "Total usage",
 		"totalUsageMessages": {
 			"less": "To date, there is less water consumed than last period",

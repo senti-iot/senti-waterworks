@@ -21,9 +21,9 @@ const tableStyles = makeStyles(theme => ({
 	header: {
 		padding: "4px 8px",
 		/* background: ${({ theme }) => theme.palette.primary.light}; */
-		borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+		// borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
 		/* border-color: ${({ theme }) => theme.boxBackground}; */
-		color: theme.palette.type === 'light' ? '#000' : '#fff'
+		color: theme.palette.type === 'light' ? '#000' : '#fff',
 	},
 	activeHeader: {
 		color: theme.palette.type === 'light' ? '#bbb !important' : '#fff !important'

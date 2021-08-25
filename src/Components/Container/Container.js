@@ -1,11 +1,10 @@
-import React, { useEffect, useState, Fragment, Suspense } from 'react'
+import React, { useEffect, Fragment, Suspense } from 'react'
 import { AppBackground } from 'Styles/containerStyle'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Header from 'Components/Header'
 import cookie from 'react-cookies'
 import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
-import { CircularLoader } from 'Components'
 import { routes } from 'Routes'
 import { getAdminDevices, getAllNotifications, getNData } from 'Redux/data'
 import { getTags } from 'Redux/tagManager'
@@ -13,7 +12,7 @@ import { getTags } from 'Redux/tagManager'
 function Container(props) {
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 	const dispatch = useDispatch()
-	const [loading, setLoading] = useState(true)
+	// const [loading, setLoading] = useState(true)
 
 	const devices = useSelector(s => s.data.devices)
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
@@ -26,7 +25,7 @@ function Container(props) {
 		// 	setLoading(false)
 		// }
 		// loadSettings()
-		if (loading && !haveData) {
+		if (!haveData) {
 			const getSetting = async () => await dispatch(await getSettings())
 			const getDevices = async () => await dispatch(await getAdminDevices())
 			const getNewData = async () => await dispatch(await getNData())
@@ -42,29 +41,29 @@ function Container(props) {
 				// await getDeviceData()
 				await getNotifications()
 				await getNewData()
-				setLoading(false)
+				// setLoading(false)
 			}
 			loadData()
 		}
-		else {
-			setLoading(false)
-		}
-	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser, loading])
+		// else {
+		// 	setLoading(false)
+		// }
+	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser])
 
 
 	return (
 		cookie.load('SESSION') ?
 			<Fragment>
 				<Header title={props.title} />
-				{!loading ?
-					<AppBackground color={colorTheme}>
-						<Suspense fallback={<div></div>}>
+				{/* {!loading ? */}
+				<AppBackground color={colorTheme}>
+					<Suspense fallback={<div></div>}>
 
-							<Switch>
-								{routes.map((r, i) => (<Route key={i} path={r.path} exact={r.exact}>
-									<r.component />
-								</Route>))}
-								{/* <Route path={'/settings'}>
+						<Switch>
+							{routes.map((r, i) => (<Route key={i} path={r.path} exact={r.exact}>
+								<r.component />
+							</Route>))}
+							{/* <Route path={'/settings'}>
 								<Settings />
 								</Route>
 
@@ -78,11 +77,11 @@ function Container(props) {
 								<Route exact path={'/'}>
 								<EndUserContainer />
 							</Route> */}
-								<Redirect path={'*'} to={'/'}></Redirect>
-							</Switch>
-						</Suspense>
-					</AppBackground>
-					: <AppBackground color={colorTheme}><CircularLoader fill /></AppBackground>}
+							<Redirect path={'*'} to={'/'}></Redirect>
+						</Switch>
+					</Suspense>
+				</AppBackground>
+				{/* : <AppBackground color={colorTheme}><CircularLoader fill /></AppBackground>} */}
 			</Fragment>
 			: <Redirect from={window.location.pathname} to={{
 				pathname: window.location.pathname.includes('onboard') ? '/onboard/da/step1' : '/login', state: {

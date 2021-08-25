@@ -194,6 +194,7 @@
 		},
 		"seeing": "Viser",
 		"selectedDevices": "Valgte målere",
+		"selectedInstallations": "Valgte installationer",
 		"totalUsage": "Samlet forbrug",
 		"totalUsageMessages": {
 			"less": "Der er til dato forbrugt mindre vand end sidste periode",

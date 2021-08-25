@@ -1,7 +1,7 @@
 import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core'
 import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, Person, /*  Person,  */Notifications } from 'variables/icons'
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
-import React, { useEffect, useState } from 'react'
+import React, { /* useEffect, */ useState } from 'react'
 import cookie from 'react-cookies'
 // import { withRouter } from 'react-router-dom';
 // import { connect } from 'react-redux';
@@ -43,17 +43,16 @@ function HeaderLinks(props) {
 	//State
 	const [anchorProfile, setAnchorProfile] = useState(null)
 	const [openTable, setOpenTable] = useState(false)
-	const [stateNotf, setStateNotf] = useState([])
+	// const [stateNotf, setStateNotf] = useState([])
 	//Const
 	const { t, history } = props
 
 	//useCallbacks
-	console.log(stateNotf, notifications)
 	//useEffects
-	useEffect(() => {
-		setStateNotf(notifications)
+	// useEffect(() => {
+	// 	setStateNotf(notifications)
 
-	}, [notifications])
+	// }, [notifications])
 	//Handlers
 	const handleOpenTable = () => setOpenTable(true)
 
@@ -90,7 +89,6 @@ function HeaderLinks(props) {
 	}
 
 	const renderNotifications = () => {
-		console.log(notifications)
 		return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }}>
 			<DNotificationMenu
 				divider
@@ -115,7 +113,7 @@ function HeaderLinks(props) {
 		return <>
 			<Button className={classes.selectDevButton} variant={'contained'} color={'secondary'} onClick={handleOpenTable}
 				endIcon={<KeyboardArrowRight />}>
-				{`${t('charts.selectedDevices')}: ${selectedDevices.length}`}
+				{`${t('charts.selectedInstallations')}: ${selectedDevices.length}`}
 			</Button>
 			<DeviceTable openTable={openTable} setOpenTable={setOpenTable} />
 		</>

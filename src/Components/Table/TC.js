@@ -6,7 +6,7 @@ import { T } from 'Components'
 import tcStyles from 'Styles/tableCellStyles'
 
 const TC = (props) => {
-	const { checkbox, noCheckbox, label, content, className, center, FirstC, ...rest } = props
+	const { checkbox, noCheckbox, label, content, className, center, FirstC, children, ...rest } = props
 	const classes = tcStyles()
 	let tcClasses = classNames({
 		[className]: className,
@@ -20,6 +20,7 @@ const TC = (props) => {
 		>
 			{(label !== null || label !== undefined) ? <T variant={'body1'} classes={{ root: classes.paragraphCell + ' ' + (center ? classes.center : '') }}>
 				{label ? label : ""}
+				{children ? children : ""}
 			</T> : null}
 			{content ? content : null}
 		</TableCell>
