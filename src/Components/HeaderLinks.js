@@ -18,6 +18,7 @@ import DeviceTable from 'Components/Custom/DevicesTable/DeviceTable'
 import ItemG from 'Components/Containers/ItemG'
 // import Dropdown from 'Components/Dropdown/Dropdown'
 import DNotificationMenu from 'Components/Input/DNotificationMenu'
+import { getAllNotifications } from 'Redux/data'
 // import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
@@ -87,9 +88,12 @@ function HeaderLinks(props) {
 		handleProfileClose()
 		history.push(`/my-profile`)
 	}
+	const handleGetNewNotifications = async (e) => {
+		await dispatch(await getAllNotifications())
+	}
 
 	const renderNotifications = () => {
-		return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }}>
+		return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }} onClick={handleGetNewNotifications}>
 			<DNotificationMenu
 				divider
 				transformOrigin={{

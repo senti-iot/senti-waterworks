@@ -19,7 +19,7 @@ const DMenu = (props) => {
 	//Redux
 
 	//Const
-	const { menuItems, icon, button, divider, tooltip, buttonClassName, transformOrigin, anchorOrigin, PaperProps } = props
+	const { menuItems, icon, button, divider, tooltip, buttonClassName, transformOrigin, anchorOrigin, PaperProps, onMenuClick } = props
 
 	//State
 	const [anchor, setAnchor] = useState(null)
@@ -79,6 +79,7 @@ const DMenu = (props) => {
 				id='long-menu'
 				anchorEl={anchor}
 				open={Boolean(anchor)}
+				onClick={onMenuClick}
 				onClose={handleCloseActionsDetails}
 				transformOrigin={transformOrigin}
 				anchorOrigin={anchorOrigin}
