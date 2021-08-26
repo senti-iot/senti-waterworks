@@ -104,7 +104,7 @@ const DMenu = (props) => {
 									<T>{m.ruleName}</T>
 								</ItemG>
 								<ItemG xs={12}>
-									<Caption>
+									<Caption style={{ whiteSpace: 'pre-wrap' }}>
 										{m.message}
 									</Caption>
 								</ItemG>
