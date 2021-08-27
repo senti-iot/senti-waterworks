@@ -56,7 +56,7 @@ const LocalizationProvider = ({ children }) => {
 			result = onMissingKey(key, opts, this.tokenRegex)
 		} */ else {
 			if (opts.disableMissing) {
-
+				return null
 			}
 			else {
 				console.info('Missing key: "' + key + '"')
