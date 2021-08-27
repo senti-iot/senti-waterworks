@@ -8,6 +8,7 @@ import { useHistory, useLocalization } from 'Hooks'
 
 import T from 'Components/Typography/T'
 import Caption from 'Components/Typography/Caption'
+import moment from 'moment'
 
 
 
@@ -111,6 +112,11 @@ const DMenu = (props) => {
 								<ItemG xs={12}>
 									<Caption>
 										{`${m.deviceName} - ${m.deviceUUNAME}`}
+									</Caption>
+								</ItemG>
+								<ItemG xs={12}>
+									<Caption>
+										{moment(m.dataTime).format("HH:mm:ss DD-MM-YYYY")}
 									</Caption>
 								</ItemG>
 							</ItemG>
