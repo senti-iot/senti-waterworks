@@ -299,10 +299,11 @@ export const adminData = () =>
 
 		if (selectedDevices.length !== devices.length) {
 			let uuids = selectedDevices.map(s => s)
+			let alldeviceUUIDS = devices.map(s => s.uuid)
 			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
 			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
 			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
-			benchmarkData = await getBenchmarkUsageByUUIDs(uuids, from, suTo)
+			benchmarkData = await getBenchmarkUsageByUUIDs(alldeviceUUIDS, from, suTo)
 
 			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo, uuids)
 			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
