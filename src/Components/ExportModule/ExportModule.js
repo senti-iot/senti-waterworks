@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { DSelect, ItemG } from 'Components'
 import { ImportExport, Close, DateRange, AccessTime, KeyboardArrowRight, KeyboardArrowLeft } from 'variables/icons'
 import { useLocalization, useSelector } from 'Hooks'
-import { Dialog, DialogContent, DialogActions, Button, Checkbox, FormGroup, FormControlLabel, FormLabel, DialogTitle } from '@material-ui/core'
+import { Dialog, DialogContent, DialogActions, Button, Checkbox, FormGroup, FormControlLabel, FormLabel, DialogTitle, Collapse } from '@material-ui/core'
 import GridContainer from 'Components/Containers/GridContainer'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
@@ -129,6 +129,16 @@ export const ExportModule = props => {
 											style={{ marginTop: 8 }}
 										/>
 									})}
+									<Collapse in={sColumns.indexOf('reading') !== -1 ? true : false}>
+										<FormControlLabel
+
+											control={<Checkbox
+												onChange={handleCheckboxClick('firstLast')}
+												checked={sColumns.indexOf('firstLast') !== -1 ? true : false} />}
+											label={t('exports.fields.firstLast')}
+											style={{ marginTop: 0, marginLeft: 8 }}
+										/>
+									</Collapse>
 								</FormGroup>
 							</ItemG>
 							<ItemG xs={12}>

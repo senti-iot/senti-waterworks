@@ -546,7 +546,8 @@
 			"sentiId": "Senti Device ID",
 			"temperature": "Temperature",
 			"usage": "Water Usage",
-			"waterflow": "Water flow"
+			"waterflow": "Water flow",
+			"firstLast": "Only the first and last data packet"
 		},
 		"fileType": "File Type",
 		"files": "Files",

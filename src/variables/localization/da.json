@@ -589,7 +589,8 @@
 			"sentiId": "Senti Enhed ID",
 			"temperature": "Temperatur",
 			"usage": "Vandforbrug",
-			"waterflow": "Gennemstrømning"
+			"waterflow": "Gennemstrømning",
+			"firstLast": "Kun første og sidste datapakke"
 		},
 		"fileType": "File Type",
 		"files": "Files",
