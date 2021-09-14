@@ -79,7 +79,7 @@ export const sortData = (key, property, order) => {
  */
 export const getUserInst = async () => {
 	return async (dispatch, getState) => {
-		let userUUID = getState().settings.user.uuid
+		let userUUID = getState().settings.user?.uuid
 		let data = await getFullInstallation(userUUID)
 
 		dispatch({
@@ -134,7 +134,7 @@ export const getUserInst = async () => {
 } */
 export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
-		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
+		let userExP = getState().settings.user?.aux.sentiWaterworks.extendedProfile
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let dates = getDates(from, to)
@@ -184,7 +184,7 @@ export const getUInstallation = async () => {
 		let installations = await getUserInstallations(userUUID)
 		dispatch({
 			type: GetInst,
-			payload: installations
+			payload: installations ? installations : []
 		})
 	}
 }
@@ -197,7 +197,7 @@ export const getAdminInstallations = async () => {
 		let installations = await getInstallations(orgUUID)
 		dispatch({
 			type: GetInst,
-			payload: installations
+			payload: installations ? installations : []
 		})
 	}
 }
@@ -401,8 +401,8 @@ export const adminData = () =>
 export const userData = () =>
 	async (dispatch, getState) => {
 		let orgId = getState().settings.user?.org.uuid
-		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone()
+		let from = getState().dateTime.period.from?.clone()
+		let to = getState().dateTime.period.to?.clone()
 		let installation = getState().data.installation
 		let deviceUUID = installation.deviceUUID
 		let timeType = getState().dateTime.period.timeType
@@ -503,7 +503,7 @@ const initialState = {
 	alarms: [],
 	alarm: {},
 	notifications: [],
-	installation: null,
+	installation: {},
 	installations: [],
 	data: {},
 	priceData: {

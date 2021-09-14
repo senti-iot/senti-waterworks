@@ -15,7 +15,7 @@ import { contrastColor } from 'data/functions'
 
 
 
-const DeviceTable = (props) => {
+const DeviceTableExport = (props) => {
 	//Hooks
 	const dispatch = useDispatch()
 	const t = useLocalization()
@@ -197,9 +197,9 @@ const DeviceTable = (props) => {
 	)
 }
 
-DeviceTable.propTypes = {
+DeviceTableExport.propTypes = {
 	openTable: PropTypes.bool.isRequired,
 	setOpenTable: PropTypes.func.isRequired,
 }
 
-export default DeviceTable
+export default DeviceTableExport
