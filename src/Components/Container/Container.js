@@ -6,7 +6,7 @@ import cookie from 'react-cookies'
 import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { routes } from 'Routes'
-import { getAdminDevices, getAllNotifications, getNData } from 'Redux/data'
+import { getAdminDevices, getAllNotifications, getNData, getAdminInstallations } from 'Redux/data'
 import { getTags } from 'Redux/tagManager'
 
 function Container(props) {
@@ -31,16 +31,19 @@ function Container(props) {
 			const getNewData = async () => await dispatch(await getNData())
 			const getDeviceTags = async () => await dispatch(await getTags())
 			const getNotifications = async () => await dispatch(await getAllNotifications())
+			const getInstallations = async () => await dispatch(await getAdminInstallations())
 			const loadData = async () => {
 				await getSetting()
 
 				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
+					await getInstallations()
 					await getDevices()
 					await getDeviceTags()
 				}
 				// await getDeviceData()
 				await getNotifications()
 				await getNewData()
+
 				// setLoading(false)
 			}
 			loadData()

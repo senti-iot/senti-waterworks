@@ -243,12 +243,14 @@ export const getAdminDevices = async () => {
  */
 export const getAllNotifications = async () => {
 	return async (dispatch, getState) => {
-		let userUUID = getState().settings.user.uuid
-		let notifs = await getNotificationsV1(userUUID)
-		dispatch({
-			type: gNotifs,
-			payload: notifs ? notifs : []
-		})
+		let userUUID = getState().settings.user?.uuid
+		if (userUUID) {
+			let notifs = await getNotificationsV1(userUUID)
+			dispatch({
+				type: gNotifs,
+				payload: notifs ? notifs : []
+			})
+		}
 	}
 }
 /**
