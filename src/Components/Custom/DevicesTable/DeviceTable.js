@@ -73,7 +73,6 @@ const DeviceTable = (props) => {
 		else {
 			newSDevices.push(device)
 		}
-		console.log('newSDevices', newSDevices)
 		setSelDev(newSDevices)
 	}
 	const selectAllDevices = (s) => {
