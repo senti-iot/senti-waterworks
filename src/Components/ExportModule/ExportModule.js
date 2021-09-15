@@ -125,7 +125,7 @@ export const ExportModule = props => {
 												onChange={handleCheckboxClick(c)}
 												id={c}
 												checked={sColumns.indexOf(c) !== -1 ? true : false} />}
-											label={t("exports.fields." + c) + ` (${c})`}
+											label={t("exports.fields." + c)}
 											style={{ marginTop: 8 }}
 										/>
 									})}

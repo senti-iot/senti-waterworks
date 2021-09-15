@@ -592,8 +592,8 @@
 			"waterflow": "Gennemstrømning",
 			"firstLast": "Kun første og sidste datapakke"
 		},
-		"fileType": "File Type",
-		"files": "Files",
+		"fileType": "Filtype",
+		"files": "Data",
 		"period": "Periode",
 		"standardColumns": "Standard kolonner"
 	},
