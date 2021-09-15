@@ -24,7 +24,9 @@ const DeviceTableExport = (props) => {
 	const devices = useSelector(s => {
 		let d = s.data.devices
 		let i = s.data.installations
+		console.log(d, i)
 		let di = d.map(dev => {
+			console.log(i, i.findIndex(f => f.deviceUUID === dev.uuid))
 			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }
 			return n
 		})
@@ -143,6 +145,7 @@ const DeviceTableExport = (props) => {
 			}
 			setSelDevices(selDev)
 		}
+		console.log('selectedDevices', selectedDevices, selDev)
 		setOpenTable(false)
 	}
 	const exitDialog = () => {

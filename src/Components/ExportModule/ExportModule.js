@@ -83,7 +83,7 @@ export const ExportModule = props => {
 			"type": fileType,
 			"from": from,
 			"to": to,
-			"uuids": selectedDevices.length > 1 ? selectedDevices : null,
+			"uuids": selectedDevices.length > 0 ? selectedDevices : null,
 
 		}
 		await getExportData(config).then(rs => {
