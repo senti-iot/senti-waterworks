@@ -151,6 +151,7 @@
 		},
 		"seeing": "Seeing",
 		"selectedDevices": "Selected devices",
+		"selectedInstallations": "Selected installations",
 		"totalUsage": "Total usage",
 		"totalUsageMessages": {
 			"less": "To date, there is less water consumed than last period",
@@ -545,7 +546,8 @@
 			"sentiId": "Senti Device ID",
 			"temperature": "Temperature",
 			"usage": "Water Usage",
-			"waterflow": "Water flow"
+			"waterflow": "Water flow",
+			"firstLast": "Only the first and last data packet"
 		},
 		"fileType": "File Type",
 		"files": "Files",

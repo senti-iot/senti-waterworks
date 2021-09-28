@@ -8,6 +8,7 @@ import { useHistory, useLocalization } from 'Hooks'
 
 import T from 'Components/Typography/T'
 import Caption from 'Components/Typography/Caption'
+import moment from 'moment'
 
 
 
@@ -19,7 +20,7 @@ const DMenu = (props) => {
 	//Redux
 
 	//Const
-	const { menuItems, icon, button, divider, tooltip, buttonClassName, transformOrigin, anchorOrigin, PaperProps } = props
+	const { menuItems, icon, button, divider, tooltip, buttonClassName, transformOrigin, anchorOrigin, PaperProps, onMenuClick } = props
 
 	//State
 	const [anchor, setAnchor] = useState(null)
@@ -79,6 +80,7 @@ const DMenu = (props) => {
 				id='long-menu'
 				anchorEl={anchor}
 				open={Boolean(anchor)}
+				onClick={onMenuClick}
 				onClose={handleCloseActionsDetails}
 				transformOrigin={transformOrigin}
 				anchorOrigin={anchorOrigin}
@@ -103,13 +105,18 @@ const DMenu = (props) => {
 									<T>{m.ruleName}</T>
 								</ItemG>
 								<ItemG xs={12}>
-									<Caption>
+									<Caption style={{ whiteSpace: 'pre-wrap' }}>
 										{m.message}
 									</Caption>
 								</ItemG>
 								<ItemG xs={12}>
 									<Caption>
 										{`${m.deviceName} - ${m.deviceUUNAME}`}
+									</Caption>
+								</ItemG>
+								<ItemG xs={12}>
+									<Caption>
+										{moment(m.dataTime).format("HH:mm:ss DD-MM-YYYY")}
 									</Caption>
 								</ItemG>
 							</ItemG>

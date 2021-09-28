@@ -79,7 +79,7 @@ export const sortData = (key, property, order) => {
  */
 export const getUserInst = async () => {
 	return async (dispatch, getState) => {
-		let userUUID = getState().settings.user.uuid
+		let userUUID = getState().settings.user?.uuid
 		let data = await getFullInstallation(userUUID)
 
 		dispatch({
@@ -134,7 +134,7 @@ export const getUserInst = async () => {
 } */
 export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
-		let userExP = getState().settings.user.aux.sentiWaterworks.extendedProfile
+		let userExP = getState().settings.user?.aux.sentiWaterworks.extendedProfile
 		let from = getState().dateTime.period.from.clone()
 		let to = getState().dateTime.period.to.clone()
 		let dates = getDates(from, to)
@@ -184,7 +184,7 @@ export const getUInstallation = async () => {
 		let installations = await getUserInstallations(userUUID)
 		dispatch({
 			type: GetInst,
-			payload: installations
+			payload: installations ? installations : []
 		})
 	}
 }
@@ -197,7 +197,7 @@ export const getAdminInstallations = async () => {
 		let installations = await getInstallations(orgUUID)
 		dispatch({
 			type: GetInst,
-			payload: installations
+			payload: installations ? installations : []
 		})
 	}
 }
@@ -243,12 +243,14 @@ export const getAdminDevices = async () => {
  */
 export const getAllNotifications = async () => {
 	return async (dispatch, getState) => {
-		let userUUID = getState().settings.user.uuid
-		let notifs = await getNotificationsV1(userUUID)
-		dispatch({
-			type: gNotifs,
-			payload: notifs ? notifs : []
-		})
+		let userUUID = getState().settings.user?.uuid
+		if (userUUID) {
+			let notifs = await getNotificationsV1(userUUID)
+			dispatch({
+				type: gNotifs,
+				payload: notifs ? notifs : []
+			})
+		}
 	}
 }
 /**
@@ -299,10 +301,11 @@ export const adminData = () =>
 
 		if (selectedDevices.length !== devices.length) {
 			let uuids = selectedDevices.map(s => s)
+			let alldeviceUUIDS = devices.map(s => s.uuid)
 			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
 			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
 			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
-			benchmarkData = await getBenchmarkUsageByUUIDs(uuids, from, suTo)
+			benchmarkData = await getBenchmarkUsageByUUIDs(alldeviceUUIDS, from, suTo)
 
 			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo, uuids)
 			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
@@ -398,8 +401,8 @@ export const adminData = () =>
 export const userData = () =>
 	async (dispatch, getState) => {
 		let orgId = getState().settings.user?.org.uuid
-		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone()
+		let from = getState().dateTime.period.from?.clone()
+		let to = getState().dateTime.period.to?.clone()
 		let installation = getState().data.installation
 		let deviceUUID = installation.deviceUUID
 		let timeType = getState().dateTime.period.timeType
@@ -500,7 +503,7 @@ const initialState = {
 	alarms: [],
 	alarm: {},
 	notifications: [],
-	installation: null,
+	installation: {},
 	installations: [],
 	data: {},
 	priceData: {

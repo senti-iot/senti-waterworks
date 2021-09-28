@@ -25,7 +25,7 @@ const LineGraph = (props) => {
 	const fsLG = useSelector(s => s.appState.fullScreenLineChart)
 	const graphLines = useSelector(s => s.appState.lines)
 	const chartType = useSelector(s => s.appState.chartType)
-
+	console.log('Lbenchmark', graphLines['Lbenchmark'])
 	//State
 	const lineChartContainer = useRef(React.createRef())
 	const [value, setValue] = useState({ value: null, date: null })
@@ -73,22 +73,26 @@ const LineGraph = (props) => {
 			if (deviceData[props.id] &&
 				(Object.keys(graphLines).length === 0 || Object.keys(graphLines).length !== Object.keys(lineState).length)) {
 
+				console.log(graphLines, deviceData[props.id])
 				deviceData[props.id].forEach(line => {
 					if (!line.noMedianLegend && line.median) {
-						lineState['Median' + line.name] = true
-						lineState['L' + line.name] = line.hidden ? true : false
-						lineState['MedianfsLG' + line.name] = line.hidden ? true : false
-						lineState['LfsLG' + line.name] = line.hidden ? true : false
+						lineState['Median' + line.name] = graphLines['Median' + line.name] !== undefined ? graphLines['Median' + line.name] : true
+						lineState['L' + line.name] = graphLines['L' + line.name] !== undefined ? graphLines['L' + line.name] : line.hidden ? true : false
+						lineState['MedianfsLG' + line.name] = graphLines['MedianfsLG' + line.name] !== undefined ? graphLines['MedianfsLG' + line.name] : line.hidden ? true : false
+						lineState['LfsLG' + line.name] = graphLines['LfsLG' + line.name] !== undefined ? graphLines['LfsLG' + line.name] : line.hidden ? true : false
 						// this.setState('Median' + line.name, true)
 						// this.setState('L' + line.name, line.hidden ? true : false)
 					}
 					else {
-						lineState['L' + line.name] = line.hidden ? true : false
-						lineState['LfsLG' + line.name] = line.hidden ? true : false
+						lineState['L' + line.name] = graphLines['L' + line.name] !== undefined ? graphLines['L' + line.name] : line.hidden ? true : false
+						lineState['LfsLG' + line.name] = graphLines['LfsLG' + line.name] !== undefined ? graphLines['LfsLG' + line.name] : line.hidden ? true : false
 						// this.setState('L' + line.name, line.hidden ? true : false)
 					}
 				})
+
 				setLines(lineState)
+
+
 			}
 			let cProps = {
 				unit: unitType(),

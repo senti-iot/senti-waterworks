@@ -21,7 +21,15 @@ const DeviceTable = (props) => {
 	const t = useLocalization()
 
 	//Redux
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => {
+		let d = s.data.devices
+		let i = s.data.installations
+		let di = d.map(dev => {
+			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }
+			return n
+		})
+		return di
+	})
 	const tags = useSelector(s => s.tagManager.tags)
 
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
@@ -97,9 +105,9 @@ const DeviceTable = (props) => {
 
 	//#endregion
 	const columns = [
-		// { id: 'address', label: t('devices.fields.address') },
 		{ id: 'uuid', label: t('devices.fields.uuid') },
 		{ id: 'name', label: t('devices.fields.name') },
+		{ id: 'address', label: t('devices.fields.address') },
 		// { id: 'id', label: t('devices.fields.id') },
 		// { id: 'type', label: t('devices.fields.type') },
 		// { id: 'group', label: t('devices.fields.group') },
@@ -114,9 +122,9 @@ const DeviceTable = (props) => {
 	}
 	const bodyStructure = row => {
 		return <Fragment>
-			{/* <TC label={row.address} /> */}
 			<TC label={row.uuname} />
 			<TC label={row.name} />
+			<TC label={row.address} />
 			{/* <TC label={row.id} /> */}
 			{/* <TC label={row.type} /> */}
 			{/* <TC label={row.group} /> */}
@@ -158,7 +166,7 @@ const DeviceTable = (props) => {
 		>
 			<DBox>
 				<TitleContainer>
-					<Title variant={'h6'}>{t('charts.selectedDevices')}</Title>
+					<Title variant={'h6'}>{t('charts.selectedInstallations')}</Title>
 					<ItemG container style={{ width: 'auto' }}>
 						<ItemG>
 							<DevicesSelected>{selDev.length}</DevicesSelected>

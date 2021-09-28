@@ -1,7 +1,7 @@
 import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core'
 import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, Person, /*  Person,  */Notifications } from 'variables/icons'
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
-import React, { useEffect, useState } from 'react'
+import React, { /* useEffect, */ useState } from 'react'
 import cookie from 'react-cookies'
 // import { withRouter } from 'react-router-dom';
 // import { connect } from 'react-redux';
@@ -18,6 +18,7 @@ import DeviceTable from 'Components/Custom/DevicesTable/DeviceTable'
 import ItemG from 'Components/Containers/ItemG'
 // import Dropdown from 'Components/Dropdown/Dropdown'
 import DNotificationMenu from 'Components/Input/DNotificationMenu'
+import { getAllNotifications } from 'Redux/data'
 // import { useHistory } from 'react-router';
 // import Search from 'components/Search/Search';
 // import GlobalSearch from 'components/Search/GlobalSearch';
@@ -43,17 +44,16 @@ function HeaderLinks(props) {
 	//State
 	const [anchorProfile, setAnchorProfile] = useState(null)
 	const [openTable, setOpenTable] = useState(false)
-	const [stateNotf, setStateNotf] = useState([])
+	// const [stateNotf, setStateNotf] = useState([])
 	//Const
 	const { t, history } = props
 
 	//useCallbacks
-	console.log(stateNotf, notifications)
 	//useEffects
-	useEffect(() => {
-		setStateNotf(notifications)
+	// useEffect(() => {
+	// 	setStateNotf(notifications)
 
-	}, [notifications])
+	// }, [notifications])
 	//Handlers
 	const handleOpenTable = () => setOpenTable(true)
 
@@ -88,10 +88,12 @@ function HeaderLinks(props) {
 		handleProfileClose()
 		history.push(`/my-profile`)
 	}
+	const handleGetNewNotifications = async (e) => {
+		await dispatch(await getAllNotifications())
+	}
 
 	const renderNotifications = () => {
-		console.log(notifications)
-		return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }}>
+		return <ItemG container style={{ width: 'auto', alignItems: 'center', marginLeft: 8, marginRight: 8, }} onClick={handleGetNewNotifications}>
 			<DNotificationMenu
 				divider
 				transformOrigin={{
@@ -115,7 +117,7 @@ function HeaderLinks(props) {
 		return <>
 			<Button className={classes.selectDevButton} variant={'contained'} color={'secondary'} onClick={handleOpenTable}
 				endIcon={<KeyboardArrowRight />}>
-				{`${t('charts.selectedDevices')}: ${selectedDevices.length}`}
+				{`${t('charts.selectedInstallations')}: ${selectedDevices.length}`}
 			</Button>
 			<DeviceTable openTable={openTable} setOpenTable={setOpenTable} />
 		</>

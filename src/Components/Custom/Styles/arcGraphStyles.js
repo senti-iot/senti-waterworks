@@ -43,7 +43,7 @@ export const HeaderText = styled(T)`
 	@media ${size.down.md} {
 		font-size: 1em;
 	}
-	margin: 8px;
+	margin: 8px 0px;
 	font-weight: 600;
 	letter-spacing: 1;
 	height: 24px;

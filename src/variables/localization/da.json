@@ -194,6 +194,7 @@
 		},
 		"seeing": "Viser",
 		"selectedDevices": "Valgte målere",
+		"selectedInstallations": "Valgte installationer",
 		"totalUsage": "Samlet forbrug",
 		"totalUsageMessages": {
 			"less": "Der er til dato forbrugt mindre vand end sidste periode",
@@ -588,10 +589,11 @@
 			"sentiId": "Senti Enhed ID",
 			"temperature": "Temperatur",
 			"usage": "Vandforbrug",
-			"waterflow": "Gennemstrømning"
+			"waterflow": "Gennemstrømning",
+			"firstLast": "Kun første og sidste datapakke"
 		},
-		"fileType": "File Type",
-		"files": "Files",
+		"fileType": "Filtype",
+		"files": "Data",
 		"period": "Periode",
 		"standardColumns": "Standard kolonner"
 	},
