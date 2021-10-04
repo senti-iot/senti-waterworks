@@ -549,6 +549,7 @@
 			"waterflow": "Water flow",
 			"firstLast": "Only the first and last data packet"
 		},
+		"locale": "Locale",
 		"fileType": "File Type",
 		"files": "Files",
 		"period": "Period",

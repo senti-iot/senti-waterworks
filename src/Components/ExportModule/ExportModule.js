@@ -33,14 +33,14 @@ export const ExportModule = props => {
 	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
 	const orgUUID = useSelector(s => s.settings.user?.org.uuid)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
-
+	const language = useSelector(s => s.settings.language)
 	//State
 	const [fileType, setFileType] = useState('csv')
 	const [loading, setLoading] = useState(false)
 	const [sColumns, setSColumns] = useState([]) //selected columns
 	const [from, setFrom] = useState(moment().subtract(6, 'day').startOf('day'))
 	const [to, setTo] = useState(moment().startOf('day'))
-
+	const [locale, setLocale] = useState(language)
 	//Const
 	const { open, handleCloseExport } = props
 	const columns = isSWAdmin ? ['usage', 'benchmark', 'temperature', 'waterflow', 'reading'] : ["usage", "benchmark", "reading"]
@@ -113,7 +113,7 @@ export const ExportModule = props => {
 				<MDialogContent >
 
 					<GridContainer>
-						<ItemG xs={6} container spacing={2}>
+						<ItemG xs={6} container>
 							<ItemG xs={12}>
 
 								<FormGroup>
@@ -151,7 +151,7 @@ export const ExportModule = props => {
 								/>
 							</ItemG>
 						</ItemG>
-						<ItemG xs={6}>
+						<ItemG xs={6} container>
 							<ItemG container spacing={2}>
 								<ItemG xs={12}>
 									<FormGroup>
@@ -193,7 +193,19 @@ export const ExportModule = props => {
 									</FormGroup>
 								</ItemG>
 								<ItemG xs={12}>
-									<FormGroup style={{ marginTop: 36 }}>
+									<DSelect
+										label={t('exports.locale')}
+										value={locale}
+										menuItems={[
+											{ value: 'da', label: t("settings.languages.da") + " - da-DK" },
+											{ value: 'en', label: t("settings.language.en") + " - en-US" },
+
+										]}
+										onChange={(e) => setLocale(e.target.value)}
+									/>
+								</ItemG>
+								<ItemG xs={12}>
+									<FormGroup style={{ marginTop: 0 }}>
 										<DeviceTableExportWidget />
 									</FormGroup>
 
