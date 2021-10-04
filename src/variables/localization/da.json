@@ -593,6 +593,7 @@
 			"firstLast": "Kun første og sidste datapakke"
 		},
 		"locale": "Landestandard",
+		"noLocale": "Uden landestandard",
 		"fileType": "Filtype",
 		"files": "Data",
 		"period": "Periode",

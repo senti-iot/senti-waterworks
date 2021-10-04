@@ -550,6 +550,7 @@
 			"firstLast": "Only the first and last data packet"
 		},
 		"locale": "Locale",
+		"noLocale": "Without locale",
 		"fileType": "File Type",
 		"files": "Files",
 		"period": "Period",

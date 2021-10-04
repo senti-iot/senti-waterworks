@@ -27,7 +27,11 @@ export const getDevicesDataCSV = async (config) => {
 
 export const getExportData = async (config) => {
 	let response = await dataExportAPI.post(`v2/waterworks/export`, config)
-	return response.data
+	if (response.ok)
+		return response.data
+	else {
+		return false
+	}
 }
 /**
  * @desc Get total volume data
