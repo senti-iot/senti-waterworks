@@ -691,6 +691,15 @@
         "phoneTo": "Call"
     },
     "login": {
+		"accountDeleted": "Account is deleted",
+		"accountNotActive": "Account is not active",
+		"accountDeactivated": "Account is deactivated",
+		"wrongPassword": "Incorrect account or password",
+		"accountNotFound": "Account not found",
+		"missingOrganisation": "Organisation field is empty",
+		"missingUsername": "Account field is empty",
+		"missingPassword": "Password field is empty",
+		"unknownError": "Unknown error",
         "cards": {
             "0": "**Senti** is a managed IoT service to easily and securely connect, manage, and ingest data from citywide dispersed devices.",
             "1": "**Senti** is a managed IoT service to easily and securely connect, manage, and ingest data from citywide dispersed devices.",

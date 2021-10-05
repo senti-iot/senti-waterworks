@@ -5,7 +5,7 @@ import logo from 'assets/senti.waterworks.black.svg'
 import cookie from 'react-cookies'
 
 // Components
-import { ItemG, CookiesDialog, PrivacyDialog, TextF } from 'Components'
+import { ItemG, CookiesDialog, PrivacyDialog, TextF, Warning } from 'Components'
 import { Hidden, InputAdornment, /* Link as MuiLink */ } from '@material-ui/core'
 import { useEventListener, useDispatch, useHistory, useLocation, useLocalization } from 'Hooks'
 import { Person, Visibility, VisibilityOff, Business } from 'variables/icons'
@@ -23,7 +23,7 @@ import FadeLoader from 'Components/Loaders/FadeLoader'
 
 
 function Login() {
-	const [error, setEError] = useState(false)
+	const [error, setError] = useState(false)
 	const [user, setUser] = useState('')
 	const [pass, setPass] = useState('')
 	const [orgId, setOrgId] = useState('')
@@ -33,9 +33,7 @@ function Login() {
 	const [cookies, setCookies] = useState(false)
 	const [privacy, setPrivacy] = useState(false)
 	const [showPassword, setShowPassword] = useState(false)
-	const setError = val => {
-		setEError(val)
-	}
+
 	// const inputRef = useRef(null)
 	const location = useLocation()
 	const history = useHistory()
@@ -86,7 +84,7 @@ function Login() {
 
 	const handleLoginUser = async () => {
 		await loginUser(user, pass, orgId).then(async rs => {
-			if (rs) {
+			if (rs && !rs.error) {
 				let exp = moment().add('1', 'day')
 				cookie.save('SESSION', rs, { path: '/', expires: exp.toDate() })
 				if (setToken()) {
@@ -98,7 +96,7 @@ function Login() {
 
 			}
 			else {
-				setError(true)
+				setError(rs.error)
 				setLoggingIn(false)
 			}
 		})
@@ -117,9 +115,9 @@ function Login() {
 			default:
 				break
 		}
-		// if (error) {
-		// 	setError(false)
-		// }
+		if (error) {
+			setError(false)
+		}
 	}
 	const handleKeyPress = (event) => {
 		if (event.key === 'Enter') {
@@ -162,7 +160,11 @@ function Login() {
 								<FadeLoader on={loggingIn} onChange={handleLoginUser}>
 									<ItemG xs={12} container justify={'center'}>
 
-
+										<Warning
+											open={Boolean(error)}
+											type={'error'}
+											label={t(error)}
+										/>
 										<ItemG container xs={12} style={{ marginTop: 48 }}>
 											<TextF
 												id={'user'}

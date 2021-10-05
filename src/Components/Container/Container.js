@@ -63,7 +63,7 @@ function Container(props) {
 				<Header title={props.title} />
 				{!loading ?
 					<AppBackground color={colorTheme}>
-						<Suspense fallback={<div></div>}>
+						<Suspense fallback={<CircularLoader fill />}>
 
 							<Switch>
 								{routes.map((r, i) => (<Route key={i} path={r.path} exact={r.exact}>

@@ -270,12 +270,14 @@ export const getAlarm = async (uuid) => {
  */
 export const getAlarms = async () => {
 	return async (dispatch, getState) => {
-		let userUUID = getState().settings.user.uuid
-		let alarms = await getAlarmsV1(userUUID)
-		dispatch({
-			type: gAlarms,
-			payload: alarms ? alarms : []
-		})
+		let userUUID = getState().settings?.user.uuid
+		if (userUUID) {
+			let alarms = await getAlarmsV1(userUUID)
+			dispatch({
+				type: gAlarms,
+				payload: alarms ? alarms : []
+			})
+		}
 	}
 }
 /**
