@@ -108,24 +108,28 @@ const Alarm = () => {
 	const renderNotifications = () => {
 		return alarm.events.map(e => {
 			let device = devices[devices.findIndex(f => f.id === e.deviceId)]
-			return <ItemG xs={12} container>
-				<ItemG xs={12}>
-					<Caption>{t('alarms.fields.deviceName')}</Caption>
-					<Info>{device.uuname}</Info>
-				</ItemG>
-				<ItemG xs={6}>
-					<Caption>{t('alarms.fields.id')}</Caption>
-					<Info>{e.id}</Info>
-				</ItemG>
-				<ItemG xs={6}>
-					<Caption>{t('alarms.fields.date')}</Caption>
-					<Info>{moment(e.expires).format('dddd DD.MM.YYYY HH:mm:ss')}</Info>
-				</ItemG>
+			if (device) {
 
-				<ItemG xs={12}>
-					<Divider />
+				return <ItemG xs={12} container>
+					<ItemG xs={12}>
+						<Caption>{t('alarms.fields.deviceName')}</Caption>
+						<Info>{device.uuname}</Info>
+					</ItemG>
+					<ItemG xs={6}>
+						<Caption>{t('alarms.fields.id')}</Caption>
+						<Info>{e.id}</Info>
+					</ItemG>
+					<ItemG xs={6}>
+						<Caption>{t('alarms.fields.date')}</Caption>
+						<Info>{moment(e.expires).format('dddd DD.MM.YYYY HH:mm:ss')}</Info>
+					</ItemG>
+
+					<ItemG xs={12}>
+						<Divider />
+					</ItemG>
 				</ItemG>
-			</ItemG>
+			}
+			return null
 		})
 	}
 	// console.log(alarm)

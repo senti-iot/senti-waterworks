@@ -8,7 +8,7 @@ import { useHistory } from 'react-router'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
-import { /*  Map, */ Menu, PageviewIcon, TuneIcon, ViewList } from 'variables/icons'
+import {  Map, Menu, PageviewIcon, TuneIcon, ViewList, Notifications } from 'variables/icons'
 import Sidebar from 'Components/Custom/Sidebar/Sidebar'
 import { routes } from 'Routes'
 import { changeOpenTagFilter } from 'Redux/appState'
@@ -99,9 +99,9 @@ function Header({ ...props }) {
 				<HeaderLinks t={t} history={history} />
 			</Toolbar>
 			<Toolbar className={classes.secondaryToolbar}>
-				<ItemG container>
+				<ItemG container alignItems={'center'} justify={'center'}>
 
-					<ItemG xs={1} container alignItems={'center'} justify={'center'}>
+					<ItemG xs={1} container >
 						<Button
 							startIcon={<PageviewIcon />}
 							className={classes.toolbarButton}
@@ -111,21 +111,29 @@ function Header({ ...props }) {
 
 						</Button>
 					</ItemG>
-					<ItemG xs={1} container alignItems={'center'} justify={'center'}>
+					<ItemG xs={1} container >
 						<Button className={classes.toolbarButton} onClick={() => history.push('/installations')} startIcon={<ViewList />}>
 							{t('toolbar.list')}
 						</Button>
-
 					</ItemG>
-					{/* <ItemG xs={1} container alignItems={'cneter'} justify={'center'}>
+					<ItemG xs={1} container >
 						<Button
 							startIcon={<Map />}
 							className={classes.toolbarButton}
-							onClick={() => history.push('/device-map')}>
+							onClick={() => { /* history.push('/device-map') */}}>
 							{t('sidebar.deviceMap')}
 						</Button>
 
-					</ItemG> */}
+					</ItemG>
+					<ItemG xs={1} container >
+						<Button
+							startIcon={<Notifications />}
+							className={classes.toolbarButton}
+							onClick={() => history.push('/alarms')}
+						>
+							{t('sidebar.alarms')}
+						</Button>
+					</ItemG>
 					{isSWAdmin ? <ItemG xs container alignItems={'center'} justify={'flex-end'}>
 						<IconButton
 							onClick={handleOpenTagFilter}

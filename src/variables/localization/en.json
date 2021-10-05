@@ -776,6 +776,7 @@
         },
         "edit": "Edit",
         "edits": {
+			"alarm": "Edit alarm",
             "cloudfunction": "Edit cloud function",
             "collection": "Edit data collection",
             "device": "Edit device",

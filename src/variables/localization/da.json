@@ -776,6 +776,7 @@
         },
         "edit": "Rediger",
         "edits": {
+			"alarm": "Rediger alarm",
             "cloudfunction": "Rediger cloud funktion",
             "collection": "Rediger datasamling",
             "device": "Rediger enhed",
