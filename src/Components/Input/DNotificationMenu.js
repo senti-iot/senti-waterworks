@@ -32,7 +32,9 @@ const DMenu = (props) => {
 
 
 	const handleOpenActionsDetails = event => {
-		setAnchor(event.currentTarget)
+		if (menuItems.length > 0) {
+			setAnchor(event.currentTarget)
+		}
 		// setState({ anchor: event.currentTarget });
 	}
 
