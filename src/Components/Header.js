@@ -8,7 +8,7 @@ import { useHistory } from 'react-router'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
-import {  Map, Menu, PageviewIcon, TuneIcon, ViewList, Notifications } from 'variables/icons'
+import {  Map, Menu, PageviewIcon, TuneIcon, Devices as DeviceIcon, Notifications } from 'variables/icons'
 import Sidebar from 'Components/Custom/Sidebar/Sidebar'
 import { routes } from 'Routes'
 import { changeOpenTagFilter } from 'Redux/appState'
@@ -112,8 +112,8 @@ function Header({ ...props }) {
 						</Button>
 					</ItemG>
 					<ItemG xs={1} container >
-						<Button className={classes.toolbarButton} onClick={() => history.push('/installations')} startIcon={<ViewList />}>
-							{t('toolbar.list')}
+						<Button className={classes.toolbarButton} onClick={() => history.push('/installations')} startIcon={<DeviceIcon />}>
+							{t('sidebar.installations')}
 						</Button>
 					</ItemG>
 					<ItemG xs={1} container >
