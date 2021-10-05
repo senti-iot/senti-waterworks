@@ -134,13 +134,13 @@ function Header({ ...props }) {
 							{t('sidebar.alarms')}
 						</Button>
 					</ItemG>
-					{isSWAdmin ? <ItemG xs container alignItems={'center'} justify={'flex-end'}>
-						<IconButton
+					 <ItemG xs container alignItems={'center'} justify={'flex-end'}>
+						{isSWAdmin ? <IconButton
 							onClick={handleOpenTagFilter}
 							className={classes.toolbarButton}>
 							<TuneIcon />
-						</IconButton>
-					</ItemG> : null}
+						</IconButton> : null}
+					</ItemG>
 				</ItemG>
 			</Toolbar>
 		</AppBar>
