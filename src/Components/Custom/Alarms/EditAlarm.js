@@ -3,7 +3,7 @@ import CreateAlarmDetailsForm from 'Components/Custom/Alarms/CreateAlarmDetailsF
 import CreateAlarmNotificationForm from 'Components/Custom/Alarms/CreateAlarmNotificationForm'
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
 import TabPanel from 'Components/Custom/Tabs/TabPanel'
-import { createAlarm as cAlarmFunc, getAlarmV1 } from 'data/alarms'
+import { /* createAlarm as cAlarmFunc, */ getAlarmV1 } from 'data/alarms'
 import { getDevice } from 'data/devices'
 import { useLocalization, useSelector } from 'Hooks'
 import React, { useEffect, useMemo } from 'react'
@@ -329,11 +329,11 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			//To do custom cloud function
 		}
 
-		let cAlarm = await cAlarmFunc(finalAlarm)
-		if (cAlarm) {
-			console.log(cAlarm)
-			handleSetClose()
-		}
+		// let cAlarm = await cAlarmFunc(finalAlarm)
+		// if (cAlarm) {
+		// 	console.log(cAlarm)
+		handleSetClose()
+		// }
 
 
 	}

@@ -24,7 +24,7 @@ const EditInstallation = (props) => {
 	//State
 	const [inst, setInst] = useState({
 		address: '',
-		orgUUID: org.uuid,
+		orgUUID: org?.uuid,
 		state: 0,
 		operation: 0,
 		moving: 0
