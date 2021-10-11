@@ -19,14 +19,14 @@ function Container(props) {
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	const haveData = useSelector(s => s.data.haveData)
-
+	const loggedIn = useSelector(s => s.data.loggedIn)
 	useEffect(() => {
 		// const loadSettings = async () => {
 		// 	// await getDevices()
 		// 	setLoading(false)
 		// }
 		// loadSettings()
-		if (!haveData) {
+		if (!haveData && loggedIn) {
 			const getSetting = async () => await dispatch(await getSettings())
 			const getDevices = async () => await dispatch(await getAdminDevices())
 			const getDeviceTags = async () => await dispatch(await getTags())
@@ -54,7 +54,7 @@ function Container(props) {
 		// else {
 		// 	setLoading(false)
 		// }
-	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser])
+	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser, loggedIn])
 
 
 	return (

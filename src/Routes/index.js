@@ -31,7 +31,7 @@ const InstallationsRoute = React.lazy(() => import('./Installations'))
 // const ContactRoute = React.lazy(() => import('./Contact'))
 // const SupportRoute = React.lazy(() => import('./Support'))
 // const DataPolicyRoute = React.lazy(() => import('./DataPolicy'))
-// const DeviceMapRoute = React.lazy(() => import('./DeviceMap'))
+const DeviceMapRoute = React.lazy(() => import('./DeviceMap'))
 
 const AlarmsRoute = React.lazy(() => import('./Alarms'))
 const AlarmRoute = React.lazy(() => import('./Alarm'))
@@ -101,11 +101,11 @@ export const routes = [
 		hideFromSideBar: true,
 		component: NotificationRoute
 	},
-	// {
-	// 	path: '/device-map',
-	// 	hideFromSideBar: true,
-	// 	component: DeviceMapRoute,
-	// },
+	{
+		path: '/device-map',
+		hideFromSideBar: true,
+		component: DeviceMapRoute,
+	},
 	// {
 	// 	path: '/users',
 	// 	sidebarName: 'sidebar.users',

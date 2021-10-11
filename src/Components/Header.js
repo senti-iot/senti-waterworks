@@ -120,7 +120,7 @@ function Header({ ...props }) {
 						<Button
 							startIcon={<Map />}
 							className={classes.toolbarButton}
-							onClick={() => { /* history.push('/device-map') */}}>
+							onClick={() => { history.push('/device-map')}}>
 							{t('sidebar.deviceMap')}
 						</Button>
 

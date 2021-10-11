@@ -89,6 +89,10 @@ function Login() {
 				cookie.save('SESSION', rs, { path: '/', expires: exp.toDate() })
 				if (setToken()) {
 					await dispatch(await getSettings())
+					await dispatch({
+						type: "loggedIn",
+						payload: true
+					})
 					var prevURL = location.state ? location.state.prevURL : null
 					history.push(prevURL ? prevURL : /* defaultRoute */ '/')
 

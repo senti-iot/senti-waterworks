@@ -481,6 +481,7 @@ export const userData = () =>
  * Get & Generate data for all graphs
  */
 export const getNData = async () => {
+	console.trace()
 	return async (dispatch, getState) => {
 		let isSuperUser = getState().auth.isSuperUser
 		let isSWAdmin = getState().auth.privileges.indexOf('waterworks.admin') > -1 ? true : false
@@ -498,6 +499,7 @@ export const getNData = async () => {
 }
 
 const initialState = {
+	loggedIn: false,
 	unitHasChanged: false,
 	haveData: false,
 	barData: {},
@@ -537,8 +539,11 @@ const initialState = {
 
 export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
+
 		case 'RESET_APP':
 			return initialState
+		case 'loggedIn':
+			return Object.assign({}, state, { loggedIn: true })
 		case gNotifs:
 			return Object.assign({}, state, { notifications: payload })
 		case gAlarm:
