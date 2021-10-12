@@ -6,7 +6,7 @@ import L from 'leaflet'
 
 import { useSelector } from 'react-redux'
 import MarkerIcon from './MarkerIcon'
-// import mapStyles from './mapStyles'
+import mapStyles from './mapStyles'
 // import OpenPopup from './OpenPopup'
 
 /**
@@ -15,6 +15,7 @@ import MarkerIcon from './MarkerIcon'
 import layers from 'variables/LeafletPlugins/leafletMaps.json'
 import FullScreen from 'variables/LeafletPlugins/FullScreenV2'
 import ZoomControl from 'variables/LeafletPlugins/ZoomControlV2'
+import { useTheme } from '@material-ui/core'
 // import HeatLayer from 'variables/LeafletPlugins/HeatLayer'
 // import HeatMapLegend from 'variables/LeafletPlugins/HeatMapLegend'
 // import MyLocationControl from 'variables/LeafletPlugins/MyLocationControl'
@@ -22,14 +23,15 @@ import ZoomControl from 'variables/LeafletPlugins/ZoomControlV2'
 const OpenStreetMap = (props) => {
 	//Hooks
 	// const map = useMap()
-
+	const theme = useTheme()
+	const classes = mapStyles()
 	//Redux
 	const mapTheme = useSelector(s => s.appState.mapTheme)
 	//State
 	const [zoom, setZoom] = useState(props.markers.length === 1 ? 17 : 13)
 
 	//Const
-	const { markers, classes, theme } = props
+	const { markers } = props
 	//useCallbacks
 
 	//useEffects

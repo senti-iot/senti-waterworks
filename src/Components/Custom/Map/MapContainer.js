@@ -1,21 +1,33 @@
 import { OpenStreetMap } from 'Components'
 import ItemG from 'Components/Containers/ItemG'
 import { useLocalization } from 'Hooks'
-import React /*, { useState } */ from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const MapContainer = () => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
+	const installations = useSelector(s => s.data.installations)
 
 	//State
-	// const [markers, setMarkers] = useState([])
+	const [markers, setMarkers] = useState([])
 	//Const
 
 	//useCallbacks
 
 	//useEffects
+	useEffect(() => {
+		if (installations.length > 0) {
+			setMarkers(installations.map(i => ({
+				...i,
+				address: i.address,
+				lat: 52.40659620271129,
+				long: 7.965604486775992
+			})))
+		}
 
+	}, [installations])
 	//Handlers
 
 	// const getLatLngFromMap = async (e) => {
@@ -36,7 +48,7 @@ const MapContainer = () => {
 			<ItemG xs style={{ height: 'calc(100vh - 288px)' }}>
 				<OpenStreetMap
 					t={t}
-					markers={[]}
+					markers={markers}
 				/>
 			</ItemG>
 		</ItemG>

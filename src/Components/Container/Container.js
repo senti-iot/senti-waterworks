@@ -26,7 +26,7 @@ function Container(props) {
 		// 	setLoading(false)
 		// }
 		// loadSettings()
-		if (!haveData && loggedIn) {
+		if (!haveData && cookie.load('SESSION')) {
 			const getSetting = async () => await dispatch(await getSettings())
 			const getDevices = async () => await dispatch(await getAdminDevices())
 			const getDeviceTags = async () => await dispatch(await getTags())
