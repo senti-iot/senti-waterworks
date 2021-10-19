@@ -135,8 +135,8 @@ export const getUserInst = async () => {
 export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
 		let userExP = getState().settings.user?.aux.sentiWaterworks.extendedProfile
-		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone()
+		let from = getState().dateTime.period.from?.clone()
+		let to = getState().dateTime.period.to?.clone()
 		let dates = getDates(from, to)
 		let timeType = getState().dateTime.period.timeType
 		if (userExP.address) {
