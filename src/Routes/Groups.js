@@ -22,7 +22,7 @@ const Groups = () => {
 		<GridContainer>
 			<ItemG xs={12}>
 				<PageHeader
-					label={'sidebar.Groups'}
+					label={'sidebar.groups'}
 					icon={GroupWorkIcon}
 
 				/>
