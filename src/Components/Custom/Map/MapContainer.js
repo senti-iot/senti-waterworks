@@ -19,7 +19,7 @@ const MapContainer = () => {
 	//useEffects
 	useEffect(() => {
 		if (installations.length > 0) {
-			console.log('Setting markers', installations)
+			// console.log('Setting markers', installations)
 			let markers = installations.map(i => ({
 				...i,
 				address: i.address,

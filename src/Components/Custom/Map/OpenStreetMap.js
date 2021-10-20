@@ -105,7 +105,7 @@ const OpenStreetMap = (props) => {
 	// }
 
 	const averageGeolocation = (coords) => {
-		console.log('Bing', coords)
+		// console.log('Bing', coords)
 		if (coords.length === 1) {
 			return coords[0]
 		}

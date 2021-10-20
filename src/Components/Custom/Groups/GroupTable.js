@@ -99,7 +99,7 @@ const GroupTable = (props) => {
 		</Fragment>
 	}
 	const handleSetClickedTag = (tag) => e => {
-		console.log('Tag', tag)
+		// console.log('Tag', tag)
 		setOpenGroup(true)
 		setClickedTag(tag)
 	}

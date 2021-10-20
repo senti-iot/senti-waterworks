@@ -48,8 +48,8 @@ function NewContent(props) {
 	// const history = useHistory()
 	const serviceWorkerUpdated = useSelector(s => s.serviceWorkerReducer.serviceWorkerUpdated)
 	const isBeta = useSelector(s => s.serviceWorkerReducer.isBeta)
-	console.log('serviceWorkerUpdated', serviceWorkerUpdated)
-	console.log('isBeta', isBeta)
+	// console.log('serviceWorkerUpdated', serviceWorkerUpdated)
+	// console.log('isBeta', isBeta)
 	const handleClose = () => {
 		window.localStorage.clear()
 		window.location.reload()

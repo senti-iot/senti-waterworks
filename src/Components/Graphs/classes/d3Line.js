@@ -103,7 +103,7 @@ class d3Line {
 		this.state = store.getState().appState.lines
 		this.generateXAxis()
 		this.generateYAxis()
-		console.log('this.state.Lbenchmark', this.state['Lbenchmark'])
+		// console.log('this.state.Lbenchmark', this.state['Lbenchmark'])
 		//Define the area for the values
 		this.valueArea = d3.area()
 			.curve(d3.curveStepBefore)
@@ -763,7 +763,7 @@ class d3Line {
 				}
 				if (line.dashed) {
 					//Set up your path as normal
-					console.log(this.state['L' + line.name], line.name)
+					// console.log(this.state['L' + line.name], line.name)
 					var path = this.svg.append("path")
 						.data([line.data])
 						.attr('id', 'L' + line.name)

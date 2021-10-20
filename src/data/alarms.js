@@ -7,7 +7,7 @@ import { eAPI } from './data'
  */
 export const createAlarm = async alarm => {
 	let response = await eAPI.put('/alarm', alarm).then(rs => rs.ok ? rs.data : rs.ok)
-	console.log(response)
+	// console.log(response)
 	return response
 }
 

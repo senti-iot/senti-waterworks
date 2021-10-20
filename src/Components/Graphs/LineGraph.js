@@ -25,7 +25,7 @@ const LineGraph = (props) => {
 	const fsLG = useSelector(s => s.appState.fullScreenLineChart)
 	const graphLines = useSelector(s => s.appState.lines)
 	const chartType = useSelector(s => s.appState.chartType)
-	console.log('Lbenchmark', graphLines['Lbenchmark'])
+	// console.log('Lbenchmark', graphLines['Lbenchmark'])
 	//State
 	const lineChartContainer = useRef(React.createRef())
 	const [value, setValue] = useState({ value: null, date: null })
@@ -73,7 +73,7 @@ const LineGraph = (props) => {
 			if (deviceData[props.id] &&
 				(Object.keys(graphLines).length === 0 || Object.keys(graphLines).length !== Object.keys(lineState).length)) {
 
-				console.log(graphLines, deviceData[props.id])
+				// console.log(graphLines, deviceData[props.id])
 				deviceData[props.id].forEach(line => {
 					if (!line.noMedianLegend && line.median) {
 						lineState['Median' + line.name] = graphLines['Median' + line.name] !== undefined ? graphLines['Median' + line.name] : true

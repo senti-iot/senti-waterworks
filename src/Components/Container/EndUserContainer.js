@@ -62,13 +62,13 @@ const EndUserContainer = props => {
 
 	//useEffects
 	useEffect(() => {
-		console.log('useEffects triggered')
+		// console.log('useEffects triggered')
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
 		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
-			console.log('Different number of devices')
+			// console.log('Different number of devices')
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}

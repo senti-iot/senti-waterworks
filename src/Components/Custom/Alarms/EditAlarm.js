@@ -94,7 +94,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 		let loadData = async () => {
 			if (loading && !sAlarm) {
 				let a = await getAlarm()
-				console.log(a)
+				// console.log(a)
 				setSAlarm(a)
 				setLoading(false)
 			}
@@ -102,9 +102,9 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 		loadData()
 	}, [loading, props.uuid, sAlarm])
 	useEffect(() => {
-		console.log('sAlarm', sAlarm)
+		// console.log('sAlarm', sAlarm)
 		if (sAlarm) {
-			console.log('sAlarm', sAlarm.name)
+			// console.log('sAlarm', sAlarm.name)
 			/**
 			 * finalAlarm.name = alarm.name
 			finalAlarm.userUUID = user.uuid
@@ -163,7 +163,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 					}
 				}
 				gDev()
-				console.log(sAlarm.condition.operator)
+				// console.log(sAlarm.condition.operator)
 				setOperator(sAlarm.condition.operation)
 				setMetric(sAlarm.condition.metric)
 				setQuantifier(sAlarm.condition.qualifier)
@@ -190,9 +190,9 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 	const handleSetDevice = async device => {
 
-		console.log(device)
+		// console.log(device)
 		let dev = await getDevice(device.uuid)
-		console.log(dev)
+		// console.log(dev)
 		if (dev.dataKeys.length > 0) {
 			let metrics = dev.dataKeys.map(i => ({ value: i.key, label: i.key }))
 			setMetrics(metrics)
@@ -207,16 +207,16 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 	}
 
 	const handleSetConfig = what => value => {
-		console.log(what, value)
+		// console.log(what, value)
 		setConfig({
 			...config,
 			[what]: value
 		})
-		console.log(config)
+		// console.log(config)
 	}
 
 	const handleSetMetric = e => {
-		console.log(e.target.value)
+		// console.log(e.target.value)
 		setMetric(e.target.value)
 	}
 
@@ -244,7 +244,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 	const handleStartCreate = async () => {
 		let finalAlarm = {}
-		console.log(alarm)
+		// console.log(alarm)
 		finalAlarm.name = alarm.name
 		finalAlarm.userUUID = user.uuid
 		finalAlarm.deviceId = alarm.device.id
@@ -265,7 +265,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			}
 		}
 
-		console.log('typeOfNotification', typesOfNotfs)
+		// console.log('typeOfNotification', typesOfNotfs)
 
 		if (typesOfNotfs.indexOf(1) > -1) {
 
@@ -378,8 +378,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 		setTypesOfNotfs(e.target.value)
 	}
 	const handleSetConditionValidator = e => {
-		console.log(e)
-		console.log(e)
+		// console.log(e)
 		setConditionValidator(e)
 	}
 	return (

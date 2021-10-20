@@ -38,7 +38,7 @@ const CreateAlarmNotificationForm = props => {
 		{ value: 13, label: t('alarms.fields.webNotification')  },
 		// { value: 12, label: t('alarms.fields.apiSimplePost') }
 	]
-	console.log(typesOfNotfs.indexOf(13))
+	// console.log(typesOfNotfs.indexOf(13))
 	const typesOfNotificationSettings = [
 		{ value: 1, label: t('alarms.fields.emailNotification'), hide: !(typesOfNotfs.indexOf(1) > -1) },
 		{ value: 2, label: t('alarms.fields.smsNotification'), hide: !(typesOfNotfs.indexOf(2) > -1) },
