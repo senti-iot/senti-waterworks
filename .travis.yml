@@ -29,7 +29,7 @@ deploy:
       branch: alpha
 language: node_js
 node_js:
-  - 16.10.0
+  - 16
 notifications:
   email:
     recipients:
