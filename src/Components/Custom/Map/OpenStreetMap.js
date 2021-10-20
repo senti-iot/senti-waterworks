@@ -1,12 +1,12 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import {
-	MapContainer, TileLayer, Marker, Popup
+	MapContainer, TileLayer, Marker, /*  Popup */
 } from 'react-leaflet'
 import L from 'leaflet'
 
 import { useSelector } from 'react-redux'
 import MarkerIcon from './MarkerIcon'
-import mapStyles from './mapStyles'
+// import mapStyles from './mapStyles'
 // import OpenPopup from './OpenPopup'
 
 /**
@@ -15,7 +15,8 @@ import mapStyles from './mapStyles'
 import layers from 'variables/LeafletPlugins/leafletMaps.json'
 import FullScreen from 'variables/LeafletPlugins/FullScreenV2'
 import ZoomControl from 'variables/LeafletPlugins/ZoomControlV2'
-import { useTheme } from '@material-ui/core'
+// import CenterUpdater from 'variables/LeafletPlugins/CenterUpdater'
+// import { useTheme } from '@material-ui/core'
 // import HeatLayer from 'variables/LeafletPlugins/HeatLayer'
 // import HeatMapLegend from 'variables/LeafletPlugins/HeatMapLegend'
 // import MyLocationControl from 'variables/LeafletPlugins/MyLocationControl'
@@ -23,19 +24,23 @@ import { useTheme } from '@material-ui/core'
 const OpenStreetMap = (props) => {
 	//Hooks
 	// const map = useMap()
-	const theme = useTheme()
-	const classes = mapStyles()
+	// const theme = useTheme()
+	// const classes = mapStyles()
 	//Redux
 	const mapTheme = useSelector(s => s.appState.mapTheme)
 	//State
-	const [zoom, setZoom] = useState(props.markers.length === 1 ? 17 : 13)
 
+	const [map, setMap] = useState(null)
+	const [zoom, setZoom] = useState(props.markers.length === 1 ? 17 : 9)
 	//Const
 	const { markers } = props
 	//useCallbacks
 
 	//useEffects
-
+	useEffect(() => {
+		if (map)
+			map.setView(averageGeolocation(markers), zoom)
+	}, [map, markers, zoom])
 	//Handlers
 
 	// const handleClick = (event) => {
@@ -98,18 +103,43 @@ const OpenStreetMap = (props) => {
 	// 	}
 
 	// }
-	const getCenter = () => {
-		let center = []
+
+	const averageGeolocation = (coords) => {
+		console.log('Bing', coords)
+		if (coords.length === 1) {
+			return coords[0]
+		}
+
+		let x = 0.0
+		let y = 0.0
+		let z = 0.0
+
+		for (let coord of coords) {
+			// console.log("coord", coord)
+			let latitude = coord.lat * Math.PI / 180
+			let longitude = coord.long * Math.PI / 180
+
+			x += Math.cos(latitude) * Math.cos(longitude)
+			y += Math.cos(latitude) * Math.sin(longitude)
+			z += Math.sin(latitude)
+		}
+
+		let total = coords.length
+
+		x = x / total
+		y = y / total
+		z = z / total
+
 		let defaultLat = parseFloat(56.2639) //Denmark,
 		let defaultLng = parseFloat(9.5018) //Denmark
 
-		if (props.markers.length === 1)
-			center = [props.markers[0].lat, props.markers[0].long]
-		else {
-			center = [defaultLat, defaultLng]
+		let centralLongitude = Math.atan2(y, x)
+		let centralSquareRoot = Math.sqrt(x * x + y * y)
+		let centralLatitude = Math.atan2(z, centralSquareRoot)
 
-		}
-		return center
+		return [centralLatitude ? centralLatitude * 180 / Math.PI : defaultLat,
+			centralLongitude ? centralLongitude * 180 / Math.PI : defaultLng
+		]
 	}
 
 	return (
@@ -118,13 +148,15 @@ const OpenStreetMap = (props) => {
 				attributionControl={true}
 				zoomControl={false}
 				// ref={r => this.map = r}
-				center={getCenter()}
+				center={averageGeolocation([])}
 				zoom={zoom}
 				onzoomend={setZoom}
 				maxZoom={layers[mapTheme].maxZoom}
 				// className={classes.map}
 				style={{ height: 'calc(100%)', width: '100%', padding: 8 }}
+				whenCreated={setMap}
 			>
+				{/* <CenterUpdater markers={markers}/> */}
 				<FullScreen position={'topleft'} />
 				<ZoomControl position={'topleft'}/>
 				{/* <PZtoMarkers markers={markers}/> */}
@@ -140,9 +172,9 @@ const OpenStreetMap = (props) => {
 							position={[m.lat, m.long]}
 							key={i}
 							icon={returnSvgIcon(m.liveStatus)}>
-							 <Popup className={theme.palette.type === 'dark' ? classes.popupDark : classes.popup}>
-								{/* <OpenPopup dontShow={calibrate} m={m} noSeeMore={markers.length === 1} heatMap={heatMap} /> */}
-							</Popup>
+							 {/* <Popup className={theme.palette.type === 'dark' ? classes.popupDark : classes.popup}>
+								{/* <OpenPopup dontShow={calibrate} m={m} noSeeMore={markers.length === 1} heatMap={heatMap} />
+							</Popup> */}
 						</Marker>
 					}
 					return null

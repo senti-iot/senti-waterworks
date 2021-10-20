@@ -19,15 +19,18 @@ const MapContainer = () => {
 	//useEffects
 	useEffect(() => {
 		if (installations.length > 0) {
-			setMarkers(installations.map(i => ({
+			console.log('Setting markers', installations)
+			let markers = installations.map(i => ({
 				...i,
 				address: i.address,
-				lat: 52.40659620271129,
-				long: 7.965604486775992
-			})))
+				lat: i.lat,
+				long: i.long
+			}))
+			setMarkers(markers.filter(f => f.lat && f.long))
 		}
 
 	}, [installations])
+
 	//Handlers
 
 	// const getLatLngFromMap = async (e) => {

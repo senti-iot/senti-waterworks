@@ -481,7 +481,6 @@ export const userData = () =>
  * Get & Generate data for all graphs
  */
 export const getNData = async () => {
-	console.trace()
 	return async (dispatch, getState) => {
 		let isSuperUser = getState().auth.isSuperUser
 		let isSWAdmin = getState().auth.privileges.indexOf('waterworks.admin') > -1 ? true : false

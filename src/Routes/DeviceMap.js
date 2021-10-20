@@ -1,7 +1,7 @@
 import { GridContainer, InfoCard, ItemG, MapContainer } from 'Components'
 import PageHeader from 'Components/Custom/PageHeader/PageHeader'
 import React from 'react'
-import { Copyright } from 'variables/icons'
+import { Map } from 'variables/icons'
 
 const AboutSenti = () => {
 	return (
@@ -9,7 +9,7 @@ const AboutSenti = () => {
 			<ItemG xs={12} noMargin noPadding>
 				<PageHeader
 					label={'sidebar.deviceMap'}
-					icon={Copyright}
+					icon={Map}
 				/>
 			</ItemG>
 			<ItemG xs={12}>
