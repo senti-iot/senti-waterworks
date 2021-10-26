@@ -5,6 +5,7 @@ import { getPriceList } from 'data/devices'
  */
 const SetPriceData = 'setPriceData'
 const SetUsageData = 'setUsageData'
+const SetOrgSettings = 'setOrgSettings'
 /**
  * Dispatchers
  */
@@ -29,6 +30,14 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
 		let usageData = {}, priceData = {}
 		let orgId = getState().settings.user?.org.uuid
 		let price = await getPriceList(orgId)
+
+		let settings = price?.settings ? price.settings : {}
+
+		console.log('sett', settings, price)
+		dispatch({
+			type: SetOrgSettings,
+			payload: settings
+		})
 
 		let priceList = price ? price : {
 			waterTotal: 0,

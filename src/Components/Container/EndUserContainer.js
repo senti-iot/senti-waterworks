@@ -49,6 +49,7 @@ const EndUserContainer = props => {
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	const haveData = useSelector(s => s.data.haveData)
 	const unitHasChanged = useSelector(s => s.data.unitHasChanged)
+	const orgSettings = useSelector(s => s.settings.orgSettings)
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
@@ -118,16 +119,16 @@ const EndUserContainer = props => {
 
 			</ItemG>
 			<ItemG xs={12} container style={{ height: "20%" }}>
-				<ItemG xs={6} style={{ height: '100%' }}>
+				<ItemG xs style={{ height: '100%' }}>
 					<BPaper ref={usageRef}>
 						<Usage parentRef={usageRef} />
 					</BPaper>
 				</ItemG>
-				<ItemG xs={6} style={{ height: '100%' }}>
+				{orgSettings.priceInfo === 0 ? null : <ItemG xs={6} style={{ height: '100%' }}>
 					<BPaper ref={priceRef}>
 						<PriceChart parentRef={priceRef} />
 					</BPaper>
-				</ItemG>
+				</ItemG>}
 			</ItemG>
 		</ItemG>
 		<ItemG xs={12} md={3} container style={{ height: "100%" }}>
