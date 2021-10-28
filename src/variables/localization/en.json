@@ -727,7 +727,7 @@
             "23": "**Senti** is a managed IoT service to easily and securely connect, manage, and ingest data from citywide dispersed devices."
         },
         "createAccount": "Create an account",
-        "footer": "©2016–2019 All rights reserved. Senti is an open source IoT platform designed and developed by WebHouse.",
+        "footer": "©2016–2021 All rights reserved. Senti is an open source IoT platform designed and developed by WebHouse.",
         "forgotPassword": "Forgot password?",
         "forgotUsername": "Forgot username?",
         "needAnAccount1": "Need a",

@@ -22,8 +22,8 @@ const dispSetBarData = (data, loading) => ({
 export const setBarData = async (wsUsage) =>
 	async (dispatch, getState) => {
 		let mUnit = getState().settings.mUnit
-		let noOfAdults = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfAdults
-		let noOfChildren = getState().settings.user.aux.sentiWaterworks.extendedProfile.noOfChildren
+		let noOfAdults = getState().settings.user?.aux.sentiWaterworks.extendedProfile.noOfAdults
+		let noOfChildren = getState().settings.user?.aux.sentiWaterworks.extendedProfile.noOfChildren
 		let noOfPersons = noOfAdults + noOfChildren
 
 		let barData = genNBarData(wsUsage, noOfPersons, mUnit)
