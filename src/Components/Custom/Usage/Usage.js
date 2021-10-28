@@ -38,12 +38,13 @@ const Usage = props => {
 
 	//Handlers
 	const unit = () => {
-		switch (props.chart) {
-			case 'waterusage':
-				return mUnit === 'm3' ? 'm³' : 'L'
-			default:
-				return 'm³'
-		}
+		return mUnit === 'm3' ? 'm³' : 'L';
+		// switch (props.chart) {
+		// 	case 'waterusage':
+		// 		return mUnit === 'm3' ? 'm³' : 'L'
+		// 	default:
+		// 		return 'm³'
+		// }
 	}
 
 	const columnClasses = (index) => {
