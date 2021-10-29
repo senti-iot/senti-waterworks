@@ -147,23 +147,28 @@ export const getWeatherData = async () => {
 				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
 				let fWeather = []
 				// .map(r => r.daily.data[0])
+				console.log(weather)
 				if (weather) {
 
 					if (timeType > 1) {
-						fWeather = weather.map(r => r.daily.data[0])
+						fWeather = weather.map(r => r ? r.daily.data[0] : null)
 					}
 					else {
 						fWeather = weather[0]?.hourly?.data
 					}
-					let finalData = fWeather.map(w => ({
-						date: moment(w.time),
-						icon: w.icon,
-						description: w.summary
-					}))
-					dispatch({
-						type: wData,
-						payload: finalData
-					})
+					console.log(fWeather)
+					if (fWeather) {
+
+						let finalData = fWeather.map(w => ({
+							date: moment(w.time),
+							icon: w.icon,
+							description: w.summary
+						}))
+						dispatch({
+							type: wData,
+							payload: finalData
+						})
+					}
 				}
 			}
 		}
@@ -425,7 +430,7 @@ export const userData = () =>
 		let readingsData = await getReadingUsage(from/* .clone().add(1, 'day') */, to)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
 
-		await dispatch(await getWeatherData())
+		// await dispatch(await getWeatherData())
 		dispatch(await setLineData({
 			timeType: timeType,
 			isUser: true,
