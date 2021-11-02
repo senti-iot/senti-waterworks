@@ -17,6 +17,7 @@ const mapStyles = makeStyles(theme => ({
 		background: "#ffffff",
 		color: "#000",
 		borderRadius: 3,
+
 	},
 	popupDark: {
 		background: "#424242",

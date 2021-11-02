@@ -37,6 +37,8 @@ const AlarmsRoute = React.lazy(() => import('./Alarms'))
 const AlarmRoute = React.lazy(() => import('./Alarm'))
 const NotificationsRoute = React.lazy(() => import('./Notifications'))
 const NotificationRoute = React.lazy(() => import('./Notification'))
+const InstallationRoute = React.lazy(() => import('./Installation'))
+
 
 export const routes = [
 	{
@@ -74,6 +76,11 @@ export const routes = [
 		icon: Devices,
 		menuRoute: 'installations',
 		component: InstallationsRoute
+	},
+	{
+		path: '/installation/:uuid',
+		hideFromSideBar: true,
+		component: InstallationRoute
 	},
 	{
 		path: '/alarms',

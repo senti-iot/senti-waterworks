@@ -35,7 +35,7 @@ const PageHeader = props => {
 	//State
 
 	//Const
-	const { label, close, handleCloseButton, actions } = props
+	const { label, close, handleCloseButton, actions, subheader } = props
 	//useCallbacks
 
 	//useEffects
@@ -50,6 +50,7 @@ const PageHeader = props => {
 				{/* <SettingsRounded className={classes.avatar} /> */}
 			</ItemG>}
 			title={<T variant={'h6'} style={{ color: '#fff' }}>{t(label)}</T>}
+			subheader={<T style={{ color: '#fff' }}>{subheader}</T>}
 			action={close ? <IconButton onClick={handleCloseButton}>
 				<Close className={classes.closeButton} />
 			</IconButton> : actions ? actions : null}

@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import {
-	MapContainer, TileLayer, Marker, /*  Popup */
+	MapContainer, TileLayer, Marker,  Popup
 } from 'react-leaflet'
 import L from 'leaflet'
 
 import { useSelector } from 'react-redux'
-import MarkerIcon from './MarkerIcon'
-// import mapStyles from './mapStyles'
-// import OpenPopup from './OpenPopup'
+import { waterMeter } from './MarkerIcon'
+import mapStyles from './mapStyles'
+import OpenPopup from './OpenPopup'
 
 /**
  * Plugins
@@ -15,8 +15,8 @@ import MarkerIcon from './MarkerIcon'
 import layers from 'variables/LeafletPlugins/leafletMaps.json'
 import FullScreen from 'variables/LeafletPlugins/FullScreenV2'
 import ZoomControl from 'variables/LeafletPlugins/ZoomControlV2'
+import { useTheme } from '@material-ui/core'
 // import CenterUpdater from 'variables/LeafletPlugins/CenterUpdater'
-// import { useTheme } from '@material-ui/core'
 // import HeatLayer from 'variables/LeafletPlugins/HeatLayer'
 // import HeatMapLegend from 'variables/LeafletPlugins/HeatMapLegend'
 // import MyLocationControl from 'variables/LeafletPlugins/MyLocationControl'
@@ -24,8 +24,8 @@ import ZoomControl from 'variables/LeafletPlugins/ZoomControlV2'
 const OpenStreetMap = (props) => {
 	//Hooks
 	// const map = useMap()
-	// const theme = useTheme()
-	// const classes = mapStyles()
+	const theme = useTheme()
+	const classes = mapStyles()
 	//Redux
 	const mapTheme = useSelector(s => s.appState.mapTheme)
 	//State
@@ -55,14 +55,15 @@ const OpenStreetMap = (props) => {
 	const returnSvgIcon = (state) => {
 		var CustomIcon = L.Icon.extend({
 			options: {
-				iconSize: [25, 41],
+				iconSize: [40, 41],
 				// iconAnchor: [12, 20],
 				popupAnchor: [1, -34],
 			}
 		})
 
-		const icon = MarkerIcon(state)
-		var iconUrl = 'data:image/svg+xml;base64,' + btoa(icon)
+		// const icon = MarkerIcon(state)
+		// var iconUrl = 'data:image/svg+xml;base64,' + btoa(icon)
+		var iconUrl = waterMeter
 		return new CustomIcon({
 			iconUrl: iconUrl
 		})
@@ -172,9 +173,9 @@ const OpenStreetMap = (props) => {
 							position={[m.lat, m.long]}
 							key={i}
 							icon={returnSvgIcon(m.liveStatus)}>
-							 {/* <Popup className={theme.palette.type === 'dark' ? classes.popupDark : classes.popup}>
-								{/* <OpenPopup dontShow={calibrate} m={m} noSeeMore={markers.length === 1} heatMap={heatMap} />
-							</Popup> */}
+							<Popup className={theme.palette.type === 'dark' ? classes.popupDark : classes.popup}>
+								 <OpenPopup /* dontShow={calibrate}  */m={m}  /* heatMap={heatMap} */ />
+							</Popup>
 						</Marker>
 					}
 					return null
