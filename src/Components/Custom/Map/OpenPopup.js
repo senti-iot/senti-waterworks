@@ -11,7 +11,6 @@ const OpenPopup = props => {
 
 	//Hooks
 	const t = useLocalization()
-
 	//Redux
 
 	//State
@@ -49,7 +48,7 @@ const OpenPopup = props => {
 
 
 			<ItemG xs={12} container justify={'flex-end'}>
-				<Button variant={'text'} component={Link} to={`/device/${m.id}`}>
+				<Button variant={'text'} component={Link} to={`/installation/${m.uuid}`}>
 					{t('menus.seeMore')}
 				</Button>
 			</ItemG>
