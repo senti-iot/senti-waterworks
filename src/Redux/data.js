@@ -14,7 +14,7 @@ import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
-import { getFullInstallation, getInstallations, getUserInstallations } from 'data/installations'
+import { getFullInstallation, getInstallation, getInstallations, getUserInstallations } from 'data/installations'
 import { getAllUsers } from 'data/users'
 import { getAlarmsV1, getAlarmV1, getNotificationsV1 } from 'data/alarms'
 // import { genBenchmarkAll } from 'data/model'
@@ -38,6 +38,7 @@ const getUserInstallation = 'getUserInstallation'
 const gAlarms = 'getAlarms'
 const gAlarm = 'getAlarm'
 const gNotifs = 'getNotifications'
+const gInst = 'getInstallation'
 // const gNotif = 'getNotifications'
 
 
@@ -178,6 +179,19 @@ export const getWeatherData = async () => {
 				payload: []
 			})
 		}
+	}
+}
+/**
+ * Get installation
+ */
+export const gInstallation = async (uuid) => {
+	return async (dispatch, getState) => {
+		let installation = await getInstallation(uuid)
+		dispatch({
+			type: gInst,
+			payload: installation
+
+		})
 	}
 }
 /**
@@ -548,6 +562,8 @@ export const data = (state = initialState, { type, payload }) => {
 			return initialState
 		case 'loggedIn':
 			return Object.assign({}, state, { loggedIn: true })
+		case gInst:
+			return Object.assign({}, state, { installation: payload })
 		case gNotifs:
 			return Object.assign({}, state, { notifications: payload })
 		case gAlarm:
