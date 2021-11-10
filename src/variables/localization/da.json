@@ -98,7 +98,7 @@
 			"apiSimplePost": "HTTP POST",
 			"condition": "Betingelse",
 			"conditionValidator": "Tilstandsvaliderer",
-			"count": "Count",
+			"count": "Tæller",
 			"date": "Dato",
 			"deviceId": "Enhed ID",
 			"deviceName": "Enhed Navn",
