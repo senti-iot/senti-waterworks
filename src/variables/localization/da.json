@@ -386,7 +386,7 @@
 				"inactive": "Ikke aktiv"
 			},
 			"status": "Driftstatus",
-			"tags": "Tags",
+			"tags": "Grupper",
 			"temp": "CPU temperatur",
 			"type": "Type",
 			"uuid": "Unik ID",

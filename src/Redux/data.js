@@ -527,6 +527,7 @@ const initialState = {
 	notifications: [],
 	installation: {},
 	installations: [],
+	users: [],
 	data: {},
 	priceData: {
 		waterusage: 0,

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 // import PropTypes from 'prop-types'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
+import { useSelector, useLocalization, useState, useDispatch, useHistory } from 'Hooks'
 import { getAdminDevices, getAdminInstallations, getAdminUsers, getUInstallation, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
@@ -47,6 +47,7 @@ const FullInstallationTable = (props) => {
 	//Hooks
 	const dispatch = useDispatch()
 	const t = useLocalization()
+	const history = useHistory()
 	const classes = styles()
 	//Redux
 	const installations = useSelector(s => s.data.installations)
@@ -245,6 +246,10 @@ const FullInstallationTable = (props) => {
 			await dispatch(await getAdminInstallations())
 		})
 	}
+	const handleGoToInstallation = (row) => e => {
+		console.log(row)
+		history.push(`/installation/${row.uuid}`)
+	}
 	const renderDeleteDialog = () => {
 		let data = selDev.map(s => installations[installations.findIndex(d => d.uuid === s)])
 		return <DeleteDialog
@@ -281,7 +286,7 @@ const FullInstallationTable = (props) => {
 				columns={columns}
 				handleCheckboxClick={selectInstallation}
 				handleSelectAllClick={selectAllInstallations}
-				handleClick={() => { }}
+				handleClick={handleGoToInstallation}
 				handleSort={handleRequestSort}
 			/>
 		</>
