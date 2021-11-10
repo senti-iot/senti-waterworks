@@ -133,8 +133,8 @@ const FullInstallationTable = (props) => {
 	}
 	const dState = () => {
 		return [
-			{ value: 0, label: t("installations.states.onboarded") },
-			{ value: 1, label: t("installations.states.provisioned") }
+			{ value: 0, label: t("installations.states.provisioned") },
+			{ value: 1, label: t("installations.states.onboarded") }
 		]
 	}
 	// const dTagList = () => {
