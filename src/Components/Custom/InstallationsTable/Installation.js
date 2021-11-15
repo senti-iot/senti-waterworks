@@ -57,13 +57,55 @@ const Installation = () => {
 			{user ? <Info>{`${user.firstName} ${user.lastName}`}</Info> : null}
 		</ItemG>
 	}
+	const renderOperation = () => {
+		switch (installation.operation) {
+			case 0:
+				return t('installations.operations.inactive')
 
+			case 1:
+				return t('installations.operations.active')
+
+			default:
+				break;
+		}
+
+	}
+	const renderState = () => {
+
+		switch (installation.state) {
+			case 0:
+				return t('installations.states.provisioned')
+
+			case 1:
+				return t('installations.states.onboarded')
+
+			default:
+				break
+		}
+	}
+	console.log(installation)
 	return (
 		loading ? <CircularLoader/> :
 			<ItemG container style={{ padding: 16 }}>
 				<ItemG xs={12}>
 					<T variant={'h6'}>{t('installations.header.details')}</T>
 					<Divider />
+				</ItemG>
+				<ItemG xs={3}>
+					<Caption>{t('installations.fields.operation')}</Caption>
+					<Info>{renderOperation()}</Info>
+				</ItemG>
+				<ItemG xs={9}>
+					<Caption>{t('installations.fields.state')}</Caption>
+					<Info>{renderState()}</Info>
+				</ItemG>
+				<ItemG xs={3}>
+					<Caption>{t('installations.fields.address')}</Caption>
+					<Info>{installation.address}</Info>
+				</ItemG>
+				<ItemG xs={9}>
+					<Caption>{t('installations.fields.moving')}</Caption>
+					<Info>{installation.moving ? t("actions.yes") : t("actions.no")}</Info>
 				</ItemG>
 				<ItemG xs={3}>
 					<Caption>{t('installations.fields.startDate')}</Caption>
@@ -73,8 +115,9 @@ const Installation = () => {
 					<Caption>{t('installations.fields.endDate')}</Caption>
 					<Info>{dateFormatter(installation.endDate) === 'Invalid date' ? '-' : dateFormatter(installation.endDate)}</Info>
 				</ItemG>
+
 				<ItemG xs={12}>
-					<T variant={'h6'}>{t('installation.header.map')}</T>
+					<T variant={'h6'}>{t('installations.header.map')}</T>
 					<Divider />
 				</ItemG>
 				<ItemG xs={12}>
@@ -105,27 +148,27 @@ const Installation = () => {
 			</ItemG>
 			{renderCondition()} */}
 				<ItemG xs={12}>
-					<T variant={'h6'}>{t('installation.header.softwareIDs')}</T>
+					<T variant={'h6'}>{t('installations.header.softwareIDs')}</T>
 					<Divider />
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('installation.fields.deviceUUID')}</Caption>
+					<Caption>{t('installations.fields.deviceUUID')}</Caption>
 					<Info>{installation.deviceUUID}</Info>
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('installation.fields.instDevUUID')}</Caption>
+					<Caption>{t('installations.fields.instDevUUID')}</Caption>
 					<Info>{installation.instDevUUID}</Info>
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('installation.fields.instUserUUID')}</Caption>
+					<Caption>{t('installations.fields.instUserUUID')}</Caption>
 					<Info>{installation.instUserUUID}</Info>
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('installation.fields.sentiUserUUID')}</Caption>
+					<Caption>{t('installations.fields.sentiUserUUID')}</Caption>
 					<Info>{installation.sentiUserUUID}</Info>
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('installation.fields.deviceUUID')}</Caption>
+					<Caption>{t('installations.fields.deviceUUID')}</Caption>
 					<Info>{installation.uuid}</Info>
 				</ItemG>
 			</ItemG>

@@ -663,7 +663,20 @@
 		"uploadSuccess": "Billeder overført"
 	},
 	"installations": {
+		"header": {
+			"details": "Installation",
+			"map": "Lokation",
+			"ownership": "Ejerskab",
+			"softwareIDs": "Identifikation"
+		},
 		"fields": {
+			"user": "Bruger",
+			"org": "Organisation",
+			"orgNickname": "Organisation Identifikation",
+			"deviceUUID": "Måler ID",
+			"instDevUUID": "Måler-Installation Identifikation",
+			"instUserUUID": "Colletion Identifikation",
+			"sentiUserUUID": "Senti User Identifikation",
 			"address": "Addresse",
 			"deviceId": "Måler ID",
 			"endDate": "Slutdato",

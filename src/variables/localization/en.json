@@ -663,7 +663,20 @@
         "uploadSuccess": "Images was uploaded"
     },
     "installations": {
-        "fields": {
+		"header": {
+			"details": "Installation",
+			"map": "Location",
+			"ownership": "Ownership",
+			"softwareIDs": "Identification"
+		},
+		"fields": {
+			"user": "User",
+			"org": "Organisation",
+			"orgNickname": "Organisation Identification",
+			"deviceUUID": "Device Identification",
+			"instDevUUID": "Device-Installation Identification",
+			"instUserUUID": "Colletion Identification",
+			"sentiUserUUID": "Senti User Identification",
             "address": "Address",
             "deviceId": "Water Meter ID",
             "endDate": "End date",
