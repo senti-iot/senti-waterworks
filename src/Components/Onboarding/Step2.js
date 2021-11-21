@@ -5,7 +5,7 @@ import DSelect from 'Components/Input/DSelect'
 import TextF from 'Components/Input/TextF'
 
 const Step2 = props => {
-	const { t, handleInput, firstName, city, lastName, email, phone, address, postnr, goToNextStep, noOfAdults, noOfChildren } = props
+	const { t, handleInput, firstName, lastName, email, phone, streetName, zip, city, streetNumber, goToNextStep, noOfAdults, noOfChildren  } = props
 	const handleNextStep = () => {
 		goToNextStep()
 	}
@@ -39,7 +39,7 @@ const Step2 = props => {
 				/>
 				<TextF
 					id={'lastName'}
-					autoFocus
+
 					label={t('users.fields.lastName')}
 					fullWidth
 					onChange={handleInput}
@@ -47,7 +47,7 @@ const Step2 = props => {
 				/>
 				<TextF
 					id={'email'}
-					autoFocus
+
 					label={t('users.fields.email')}
 					fullWidth
 					onChange={handleInput}
@@ -55,39 +55,53 @@ const Step2 = props => {
 				/>
 				<TextF
 					id={'phone'}
-					autoFocus
+
 					label={t('users.fields.phone')}
 					fullWidth
 					onChange={handleInput}
 					value={phone}
 				/>
-				<TextF
-					id={'address'}
-					autoFocus
-					label={t('users.fields.address')}
-					fullWidth
-					onChange={handleInput}
-					value={address}
-				/>
 				<ItemG xs={12} container>
-
-					<ItemG xs={3} container>
+					<ItemG xs={9} container>
 
 						<AdressTF
 
-							id={'postnr'}
-							autoFocus
-							label={t('users.fields.postnr')}
+							id={'streetName'}
+
+							label={t('onboarding.fields.streetName')}
+							fullWidth
 							onChange={handleInput}
-							value={postnr}
+							value={streetName}
 						/>
 					</ItemG>
-					<ItemG xs={9} container>
+					<ItemG xs={3} container>
+						<AdressTF
+							style={{ marginLeft: 8 }}
+							id={'streetNumber'}
+
+							label={t('onboarding.fields.streetNumber')}
+							fullWidth
+							onChange={handleInput}
+							value={streetNumber}
+						/>
+					</ItemG>
+				</ItemG>
+				<ItemG xs={12} container>
+
+					<ItemG xs={4} container>
+
+						<AdressTF
+							id={'zip'}
+							label={t('onboarding.fields.zip')}
+							onChange={handleInput}
+							value={zip}
+						/>
+					</ItemG>
+					<ItemG xs={8} container>
 						<AdressTF
 							style={{ marginLeft: 8 }}
 							id={'city'}
-							autoFocus
-							label={t('users.fields.city')}
+							label={t('onboarding.fields.city')}
 							fullWidth
 							onChange={handleInput}
 							value={city}

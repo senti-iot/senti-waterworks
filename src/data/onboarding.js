@@ -1,6 +1,14 @@
 import { waterworksAPI, servicesCoreAPI, wbAPI } from 'data/data'
 
+/**
+ * V3 Finish Onboarding
+ */
 
+export const finishOnboarding = async (data) => {
+	let response = await wbAPI.post(`/v3/onboard/complete`, data).then(rs => rs)
+	console.log(response.ok ? response.data : response)
+	return response.ok ? response.data : response.ok
+}
 
 /**
  * V3 Update Installation address

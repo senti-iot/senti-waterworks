@@ -1,4 +1,12 @@
 {
+	"onboarding": {
+		"fields": {
+			"city": "City",
+			"zip": "Postal Code",
+			"streetName": "Street name",
+			"streetNumber": "Street nr."
+		}
+	},
     "404": {
         "contactSupport": "Please try again or contact our support on support@senti.io!",
         "errorMessage": "The resource requested has not been found!",

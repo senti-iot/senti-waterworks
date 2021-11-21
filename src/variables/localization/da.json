@@ -1,4 +1,12 @@
 {
+	"onboarding": {
+		"fields": {
+			"city": "By",
+			"zip": "Postnummer",
+			"streetName": "Vejnavn",
+			"streetNumber": "Vejnr."
+		}
+	},
 	"404": {
 		"contactSupport": "Prøv igen eller kontakt support på support@senti.io!",
 		"errorMessage": "Den ønskede ressource er ikke fundet!",
