@@ -83,7 +83,11 @@ const Installation = () => {
 				break
 		}
 	}
-	console.log(installation)
+	const renderAddress = () => {
+		let i = installation
+		let str = i.streetName + (i.streetNumber ? ' ' + i.streetNumber + '' : '')  + (i.side ? ', ' + i.side + ', ' : ', ')  + i.zip + ' ' + i.city
+		return str
+	}
 	return (
 		loading ? <CircularLoader/> :
 			<ItemG container style={{ padding: 16 }}>
@@ -101,7 +105,7 @@ const Installation = () => {
 				</ItemG>
 				<ItemG xs={3}>
 					<Caption>{t('installations.fields.address')}</Caption>
-					<Info>{installation.address}</Info>
+					<Info>{renderAddress()}</Info>
 				</ItemG>
 				<ItemG xs={9}>
 					<Caption>{t('installations.fields.moving')}</Caption>

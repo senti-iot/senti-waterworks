@@ -1,12 +1,4 @@
 {
-	"onboarding": {
-		"fields": {
-			"city": "City",
-			"zip": "Postal Code",
-			"streetName": "Street name",
-			"streetNumber": "Street nr."
-		}
-	},
     "404": {
         "contactSupport": "Please try again or contact our support on support@senti.io!",
         "errorMessage": "The resource requested has not been found!",
@@ -671,29 +663,33 @@
         "uploadSuccess": "Images was uploaded"
     },
     "installations": {
-		"header": {
-			"details": "Installation",
-			"map": "Location",
-			"ownership": "Ownership",
-			"softwareIDs": "Identification"
-		},
-		"fields": {
-			"user": "User",
-			"org": "Organisation",
-			"orgNickname": "Organisation Identification",
-			"deviceUUID": "Device Identification",
-			"instDevUUID": "Device-Installation Identification",
-			"instUserUUID": "Colletion Identification",
-			"sentiUserUUID": "Senti User Identification",
+        "fields": {
             "address": "Address",
+            "city": "City",
             "deviceId": "Water Meter ID",
+            "deviceUUID": "Device Identification",
             "endDate": "End date",
+            "instDevUUID": "Device-Installation Identification",
             "instId": "Installation ID",
+            "instUserUUID": "Colletion Identification",
             "moving": "Moving",
             "operation": "Operation",
+            "org": "Organisation",
+            "orgNickname": "Organisation Identification",
+            "sentiUserUUID": "Senti User Identification",
             "startDate": "Start date",
             "state": "State",
-            "tags": "Groups"
+            "streetName": "Street name",
+            "streetNumber": "Street nr.",
+            "tags": "Groups",
+            "user": "User",
+            "zip": "Postal Code"
+        },
+        "header": {
+            "details": "Installation",
+            "map": "Location",
+            "ownership": "Ownership",
+            "softwareIDs": "Identification"
         },
         "operations": {
             "active": "Active",
@@ -712,15 +708,10 @@
         "phoneTo": "Call"
     },
     "login": {
-		"accountDeleted": "Account is deleted",
-		"accountNotActive": "Account is not active",
-		"accountDeactivated": "Account is deactivated",
-		"wrongPassword": "Incorrect account or password",
-		"accountNotFound": "Account not found",
-		"missingOrganisation": "Organisation field is empty",
-		"missingUsername": "Account field is empty",
-		"missingPassword": "Password field is empty",
-		"unknownError": "Unknown error",
+        "accountDeactivated": "Account is deactivated",
+        "accountDeleted": "Account is deleted",
+        "accountNotActive": "Account is not active",
+        "accountNotFound": "Account not found",
         "cards": {
             "0": "**Senti** is a managed IoT service to easily and securely connect, manage, and ingest data from citywide dispersed devices.",
             "1": "**Senti** is a managed IoT service to easily and securely connect, manage, and ingest data from citywide dispersed devices.",
@@ -751,12 +742,17 @@
         "footer": "©2016–2021 All rights reserved. Senti is an open source IoT platform designed and developed by WebHouse.",
         "forgotPassword": "Forgot password?",
         "forgotUsername": "Forgot username?",
+        "missingOrganisation": "Organisation field is empty",
+        "missingPassword": "Password field is empty",
+        "missingUsername": "Account field is empty",
         "needAnAccount1": "Need a",
         "needAnAccount2": "account",
         "nickname": "Organisation ID",
         "pass": "Password",
         "text": "The new smart way of controlling your water consumption",
-        "username": "Username"
+        "unknownError": "Unknown error",
+        "username": "Username",
+        "wrongPassword": "Incorrect account or password"
     },
     "map": {
         "themes": {
@@ -788,7 +784,7 @@
         },
         "copyEmails": "Copy E-mail addresses",
         "create": {
-			"alarm": "Create alarm",
+            "alarm": "Create alarm",
             "cloudfunction": "Create cloud function",
             "collection": "Create data collection",
             "device": "Create device",
@@ -806,7 +802,7 @@
         },
         "edit": "Edit",
         "edits": {
-			"alarm": "Edit alarm",
+            "alarm": "Edit alarm",
             "cloudfunction": "Edit cloud function",
             "collection": "Edit data collection",
             "device": "Edit device",
@@ -883,6 +879,14 @@
         "billion": "bil.",
         "million": "mil.",
         "trillion": "tril."
+    },
+    "onboarding": {
+        "fields": {
+            "city": "City",
+            "streetName": "Street name",
+            "streetNumber": "Street nr.",
+            "zip": "Postal Code"
+        }
     },
     "orgs": {
         "create": "Create",
@@ -1233,7 +1237,7 @@
         "messages": "Messages",
         "movingOut": "Moving Out",
         "myprofile": "My Profile",
-		"notification": "Notification",
+        "notification": "Notification",
         "notifications": "Notifications",
         "org": "Organisation",
         "orgs": "Organisations",
