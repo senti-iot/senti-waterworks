@@ -19,6 +19,18 @@ import TagFilterDialog from 'Components/TagFilterDialog/TagFilterDialog'
 // import { getTags } from 'Redux/tagManager'
 
 const styles = makeStyles(theme => ({
+	chartGrid: {
+		height: '80%',
+		[theme.breakpoints.down('sm')]: {
+			height: 'auto'
+		}
+	},
+	mobileGrid: {
+		height: '100%',
+		[theme.breakpoints.down('sm')]: {
+			height: 'auto',
+		}
+	},
 	smallWidget: {
 		height: '25%',
 		[theme.breakpoints.down('sm')]: {
@@ -110,9 +122,9 @@ const EndUserContainer = props => {
 
 	//Handlers
 
-	return <GridContainer style={{ height: '100%' }}>
-		<ItemG xs={12} md={9} container style={{ height: "100%" }}>
-			<ItemG xs={12} style={{ height: "80%" }}>
+	return <GridContainer  className={classes.mobileGrid}>
+		<ItemG xs={12} md={9} container className={classes.mobileGrid}>
+			<ItemG xs={12} className={classes.chartGrid}>
 				<BPaper>
 					<MainChart loading={loading} chart={chart} setChart={setChart} />
 				</BPaper>

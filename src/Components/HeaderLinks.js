@@ -1,5 +1,5 @@
-import { Grid, Menu, MenuItem, Divider, Tooltip, Button, /* Hidden */ } from '@material-ui/core'
-import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, Person, /*  Person,  */Notifications } from 'variables/icons'
+import { Grid, Menu, MenuItem, Divider, Tooltip, Button, Hidden, /* Hidden */ } from '@material-ui/core'
+import { /* AccountBox, Business, */ PowerSettingsNew, SettingsRounded, ExpandMore, KeyboardArrowRight, Person, /*  Person,  */Notifications, Devices } from 'variables/icons'
 // import headerLinksStyle from 'assets/jss/material-dashboard-react/headerLinksStyle';
 import React, { /* useEffect, */ useState } from 'react'
 import cookie from 'react-cookies'
@@ -116,8 +116,18 @@ function HeaderLinks(props) {
 	const renderDeviceTable = () => {
 		return <>
 			<Button className={classes.selectDevButton} variant={'contained'} color={'secondary'} onClick={handleOpenTable}
-				endIcon={<KeyboardArrowRight />}>
-				{`${t('charts.selectedInstallations')}: ${selectedDevices.length}`}
+				endIcon={<Hidden smDown>
+					<KeyboardArrowRight />
+				</Hidden>
+				}>
+				<Hidden smDown>
+					{`${t('charts.selectedInstallations')}: ${selectedDevices.length}`}
+				</Hidden>
+				<Hidden smUp>
+					<ItemG container style={{ flexWrap: "noWrap" }} justifyContent="space-between">
+						{selectedDevices.length} <Devices style={{ marginLeft: 8 }}/>
+					</ItemG>
+				</Hidden>
 			</Button>
 			<DeviceTable openTable={openTable} setOpenTable={setOpenTable} />
 		</>
@@ -129,7 +139,7 @@ function HeaderLinks(props) {
 	const renderUserMenu = () => {
 		const openProfile = Boolean(anchorProfile)
 
-		return <div>
+		return <Hidden smDown>
 
 			<Tooltip title={t('menus.user.profile')}>
 
@@ -191,13 +201,13 @@ function HeaderLinks(props) {
 
 				</GoogleLogout>
 			</Menu>
-		</div>
+		</Hidden>
 	}
 	let rsp = {
 		xl: isSWAdmin ? 3 : 3,
 		lg: isSWAdmin ? 4 : 3,
 		md: isSWAdmin ? 5 : 3,
-		xs: isSWAdmin ? 5 : 3,
+		xs: isSWAdmin ? 6 : 3,
 	}
 	return (
 		<Grid item container xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justify={'flex-end'} alignItems={'center'} classes={{ container: classes.headerMargin }}>
@@ -207,9 +217,15 @@ function HeaderLinks(props) {
 			{/* <Hidden mdDown>
 					{renderSearch()}
 				</Hidden> */}
-			{renderDeviceSelectMenu()}
-			{renderNotifications()}
-			{renderUserMenu()}
+			<ItemG xs={5}>
+				{renderDeviceSelectMenu()}
+			</ItemG>
+			<ItemG xs={3}>
+				{renderNotifications()}
+			</ItemG>
+			<ItemG>
+				{renderUserMenu()}
+			</ItemG>
 		</Grid>
 	)
 

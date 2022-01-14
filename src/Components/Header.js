@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, ButtonBase, IconButton, Button } from '@material-ui/core'
+import { AppBar, Toolbar, ButtonBase, IconButton, Button, Hidden } from '@material-ui/core'
 import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
@@ -84,11 +84,13 @@ function Header({ ...props }) {
 						<Menu />
 					</IconButton>
 				</ItemG>
-				<ItemG xs={3}>
-					<div className={classes.logoContainer}>
-						{brand}
-					</div>
-				</ItemG>
+				<Hidden smDown>
+					<ItemG xs={3}>
+						<div className={classes.logoContainer}>
+							{brand}
+						</div>
+					</ItemG>
+				</Hidden>
 				<ItemG xs container alignItems={'center'} justify={'center'}>
 
 					<T className={classes.title} variant={'h5'}>
@@ -107,21 +109,27 @@ function Header({ ...props }) {
 							className={classes.toolbarButton}
 							onClick={() => history.push('/')}
 						>
-							{t('toolbar.overview')}
+							<Hidden smDown>
+								{t('toolbar.overview')}
+							</Hidden>
 
 						</Button>
 					</ItemG>
 					<ItemG xs={1} container >
 						<Button className={classes.toolbarButton} onClick={() => history.push('/installations')} startIcon={<DeviceIcon />}>
-							{t('sidebar.installations')}
+							<Hidden smDown>
+								{t('sidebar.installations')}
+							</Hidden>
 						</Button>
 					</ItemG>
 					<ItemG xs={1} container >
 						<Button
 							startIcon={<Map />}
 							className={classes.toolbarButton}
-							onClick={() => { history.push('/device-map')}}>
-							{t('sidebar.deviceMap')}
+							onClick={() => { history.push('/device-map') }}>
+							<Hidden smDown>
+								{t('sidebar.deviceMap')}
+							</Hidden>
 						</Button>
 
 					</ItemG>
@@ -131,7 +139,9 @@ function Header({ ...props }) {
 							className={classes.toolbarButton}
 							onClick={() => history.push('/alarms')}
 						>
-							{t('sidebar.alarms')}
+							<Hidden smDown>
+								{t('sidebar.alarms')}
+							</Hidden>
 						</Button>
 					</ItemG>
 					 <ItemG xs container alignItems={'center'} justify={'flex-end'}>

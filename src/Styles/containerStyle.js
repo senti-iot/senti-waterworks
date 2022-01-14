@@ -19,6 +19,9 @@ import size from 'Styles/themes/mediaQueries'
 export const BPaper = styled(Paper)`
 	position: relative;
 	height: calc(100% - 32px);
+	@media ${size.down.sm}{
+		height: auto;
+	}
 	padding: 8px 16px;
 	margin: 8px;
 	color: #fff;
