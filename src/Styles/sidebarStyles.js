@@ -5,12 +5,24 @@
 import {
 	drawerWidth,
 	transition,
-	// primaryColor
+	headerColor
 } from "./mainStyles"
+
 import { getContrast } from 'variables/functions'
 import { makeStyles } from '@material-ui/styles'
 
 const sidebarStyle = makeStyles(theme => ({
+	iconRoot: {
+		color: "#FFF",
+		background: theme.secondary,
+		margin: 16,
+		"&:hover": {
+			background: theme.palette.secondary.light,
+		}
+	},
+	leftIcon: {
+		marginRight: 8
+	},
 	nested: {
 		paddingLeft: `${theme.spacing(2)}px !important`,
 	},
@@ -163,11 +175,12 @@ const sidebarStyle = makeStyles(theme => ({
 		marginRight: "15px"
 	},
 	img: {
-		top: "10px",
-		height: "50px",
-		verticalAlign: "middle",
-		border: "0"
+		borderRadius: 50,
+		height: 36,
+		width: 36,
+		color: headerColor
 	},
+
 	image: {
 		position: "relative",
 		height: 48,
