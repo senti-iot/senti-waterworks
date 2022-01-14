@@ -182,7 +182,12 @@ const Onboarding = props => {
 						uuid: org,
 					},
 					firstName: firstName,
-					lastName: lastName
+					lastName: lastName,
+					noOfAdults: noOfAdults,
+					noOfChildren: noOfChildren,
+					address: streetName + " " + streetNumber,
+					postnr: zip,
+					city: city
 				}
 				console.log(startDate)
 				data.wUserBody = {
