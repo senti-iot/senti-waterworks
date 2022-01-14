@@ -217,13 +217,13 @@ function HeaderLinks(props) {
 			{/* <Hidden mdDown>
 					{renderSearch()}
 				</Hidden> */}
-			<ItemG xs={5}>
+			<ItemG xs={5} lg={6}>
 				{renderDeviceSelectMenu()}
 			</ItemG>
-			<ItemG xs={3}>
+			<ItemG xs={3} lg={1}>
 				{renderNotifications()}
 			</ItemG>
-			<ItemG>
+			<ItemG lg={3}>
 				{renderUserMenu()}
 			</ItemG>
 		</Grid>

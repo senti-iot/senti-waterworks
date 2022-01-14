@@ -103,14 +103,20 @@ const headerStyles = makeStyles(theme => ({
 	title: {
 		maxWidth: "calc(100vw - 130px)",
 		fontWeight: 500,
-		// [theme.breakpoints.down('sm')]: {
-		// 	fontSize: "1rem",
-		// },
+		[theme.breakpoints.down('sm')]: {
+			fontSize: "1rem",
+			maxWidth: "35vw",
+			textOverflow: 'ellipsis',
+			overflow: "hidden",
+			lineHeight: "1rem",
+		},
 		lineHeight: "1.16667em",
 		fontSize: "1.3125rem",
 		borderRadius: "3px",
 		textTransform: "none",
+		whiteSpace: "nowrap",
 		color: "inherit",
+
 		"&:hover,&:focus": {
 			background: "transparent"
 		}
