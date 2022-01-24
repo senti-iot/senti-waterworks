@@ -141,7 +141,7 @@ const DeviceTableExport = (props) => {
 		}
 		else {
 			if (selectedDevices.length !== selDev) {
-				dispatch(setTagFilter(-1))
+				// dispatch(setTagFilter(-1))
 			}
 			setSelDevices(selDev)
 		}
