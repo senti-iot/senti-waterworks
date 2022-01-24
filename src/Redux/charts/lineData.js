@@ -1,3 +1,4 @@
+import { monthRedux } from 'data/functions'
 import { genLineData } from 'data/model'
 import moment from 'moment'
 import { colorNames } from 'variables/colors'
@@ -91,7 +92,7 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				median: true,
 				data: currentPeriodData.minWtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 				color: 'blue',
-				bars: true
+				// bars: false
 
 			})
 		}
@@ -102,7 +103,7 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				median: true,
 				data: currentPeriodData.minAtemp.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 				color: 'red',
-				bars: true
+				// bars: false
 
 			})
 		}
@@ -266,7 +267,13 @@ export const mapLineData = async data => {
 		if (maxFlowPrevData && maxFlowPrevData.length > 0) {
 			previousPeriodData.maxFlow = genLineData(maxFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))
 		}
+		if (timeType === 4) {
+			currentPeriodData.waterusage = monthRedux(currentPeriodData.waterusage)
+			previousPeriodData.waterusage = monthRedux(previousPeriodData.waterusage)
+			currentPeriodData.benchmark = monthRedux(currentPeriodData.benchmark)
 
+
+		}
 		//#endregion
 		dispatch(await genLines(currentPeriodData, previousPeriodData, data.isUser))
 	}

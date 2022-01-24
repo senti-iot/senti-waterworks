@@ -621,6 +621,7 @@
             "hourly": "Hver time",
             "minutely": "Hver minut",
             "month": "Måned",
+			"monthly": "Hver Måned",
             "monthToDate": "Måned til dato",
             "summary": "Resumé",
             "thisMonth": "Denne måned",

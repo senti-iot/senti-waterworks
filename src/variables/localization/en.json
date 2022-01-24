@@ -621,6 +621,7 @@
             "hourly": "Hourly",
             "minutely": "Minutely",
             "month": "Month",
+			"monthly":"Monthly",
             "monthToDate": "Month to date",
             "summary": "Summary",
             "thisMonth": "This month",
