@@ -39,7 +39,7 @@ const Installation = () => {
 	const renderOrg = () => {
 		return <>
 			<ItemG xs={3}>
-				<Caption>{t('installation.fields.org')}</Caption>
+				<Caption>{t('installations.fields.org')}</Caption>
 				<Info>{installation.org?.name}</Info>
 			</ItemG>
 			<ItemG xs={9}>

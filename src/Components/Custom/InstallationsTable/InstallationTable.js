@@ -173,9 +173,9 @@ const FullInstallationTable = (props) => {
 	// }
 	const renderState = (state) => {
 		switch (state) {
-			case 0:
-				return t("installations.states.onboarded")
 			case 1:
+				return t("installations.states.onboarded")
+			case 0:
 				return t("installations.states.provisioned")
 			default:
 				break;
