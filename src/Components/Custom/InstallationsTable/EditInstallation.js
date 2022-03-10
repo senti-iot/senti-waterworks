@@ -24,7 +24,7 @@ const EditInstallation = (props) => {
 	//State
 	const [inst, setInst] = useState({
 		address: '',
-		orgUUID: org.uuid,
+		orgUUID: org?.uuid,
 		state: 0,
 		operation: 0,
 		moving: 0
@@ -64,7 +64,7 @@ const EditInstallation = (props) => {
 	//Handlers
 	const handleGetData = async () => {
 		let inst = await getInstallation(props.instUUID)
-		console.log('inst', inst)
+		// console.log('inst', inst)
 		setInst({
 			...inst
 		})
@@ -79,8 +79,8 @@ const EditInstallation = (props) => {
 			})
 		}
 		let user = users ? users[users.findIndex(f => f.uuid === inst.sentiUserUUID)] : null
-		console.log(users)
-		console.log('user', user)
+		// console.log(users)
+		// console.log('user', user)
 		if (user) {
 			setExistingUser(true)
 			setInstUser(user)
@@ -177,9 +177,9 @@ const EditInstallation = (props) => {
 
 		if (withoutUser) {
 			//Set the current instUser to ended
-			console.log(inst.instUserUUID)
+			// console.log(inst.instUserUUID)
 			let user = await getInstUser(inst.instUserUUID)
-			console.log('instUser', user)
+			// console.log('instUser', user)
 			user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
 			await postInstUser(user)
 			setTimeout(() => {
@@ -190,14 +190,14 @@ const EditInstallation = (props) => {
 		else {
 			if (existingUser) {
 				if ((inst.sentiUserUUID !== instUser.uuid) && inst.sentiUserUUID !== null) {
-					console.log('Close the current instUser')
+					// console.log('Close the current instUser')
 					let user = await getInstUser(inst.instUserUUID)
 					if (user) {
-						console.log('instUser', user)
+						// console.log('instUser', user)
 						user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
 						await postInstUser(user)
 					}
-					console.log('Create a new one')
+					// console.log('Create a new one')
 					let InstUser = {
 						...instUser,
 						instUUID: inst.uuid,
@@ -207,7 +207,7 @@ const EditInstallation = (props) => {
 					}
 					let resInstUser = await putUser(InstUser)
 					if (resInstUser) {
-						console.log(resInstUser)
+						// console.log(resInstUser)
 					}
 				}
 				else {
@@ -220,7 +220,7 @@ const EditInstallation = (props) => {
 					}
 					let resInstUser = await postInstUser(InstUser)
 					if (resInstUser) {
-						console.log(resInstUser)
+						// console.log(resInstUser)
 					}
 				}
 			}
@@ -247,7 +247,7 @@ const EditInstallation = (props) => {
 					}
 					let resInstUser = await putUser(InstUser)
 					if (resInstUser) {
-						console.log(resInstUser)
+						// console.log(resInstUser)
 					}
 				}
 			}
@@ -263,12 +263,12 @@ const EditInstallation = (props) => {
 				instUUID: editInstallation.uuid,
 				uuid: editInstallation.instDevUUID
 			}
-			console.log('instDevice', device)
+			// console.log('instDevice', device)
 			let editDeviceInst = await postDevice(device)
 			if (editDeviceInst.uuid) {
 			}
 			else {
-				console.log(editDeviceInst)
+				// console.log(editDeviceInst)
 			}
 		}
 		//#endregion

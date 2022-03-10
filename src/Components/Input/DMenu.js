@@ -1,5 +1,5 @@
 import React, {
-	Fragment, useEffect, useState
+	Fragment, /* useEffect, */ useState
 } from 'react'
 import { IconButton, Menu, MenuItem, Button, Tooltip, Collapse, ListItem, ListItemIcon, ListItemText, List } from '@material-ui/core'
 import { ItemG } from 'Components'
@@ -37,10 +37,10 @@ const DMenu = (props) => {
 	//useCallbacks
 
 	//useEffects
-	useEffect(() => {
-		console.log('dropdowns', dropdowns)
+	// useEffect(() => {
+	// 	// console.log('dropdowns', dropdowns)
 
-	}, [dropdowns])
+	// }, [dropdowns])
 	//Handlers
 
 	//#region Handlers
@@ -49,7 +49,7 @@ const DMenu = (props) => {
 		let arrD = dropdowns
 		let d = arrD[index] ? !arrD[index] : true
 		arrD[index] = d
-		console.log('arrD', arrD)
+		// console.log('arrD', arrD)
 		setDropdowns([...arrD])
 		// setOpened(!opened)
 	}

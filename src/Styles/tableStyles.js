@@ -11,7 +11,7 @@ const tableStyles = makeStyles(theme => ({
 	},
 	gridItemBackground: {
 		position: 'relative',
-		height: 'calc(100% - 32px)',
+		// height: 'calc(100% - 32px)',
 		padding: '8px 16px',
 		margin: 8,
 		// margin: 30,

@@ -64,7 +64,7 @@ const CreateAlarmDetailsForm = props => {
 	 * condition()
 	 */
 	const showDefaultAlarms = val => {
-		console.log([1, 2, 3, 4, 5].includes(val))
+		// console.log([1, 2, 3, 4, 5].includes(val))
 		if ([1, 2, 3, 4, 5].includes(val)) {
 			return true
 		}

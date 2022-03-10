@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, ButtonBase, IconButton, Button } from '@material-ui/core'
+import { AppBar, Toolbar, ButtonBase, IconButton, Button, Hidden } from '@material-ui/core'
 import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
@@ -8,7 +8,7 @@ import { useHistory } from 'react-router'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
-import { /*  Map, */ Menu, PageviewIcon, TuneIcon, ViewList } from 'variables/icons'
+import {  Map, Menu, PageviewIcon, TuneIcon, Devices as DeviceIcon, Notifications } from 'variables/icons'
 import Sidebar from 'Components/Custom/Sidebar/Sidebar'
 import { routes } from 'Routes'
 import { changeOpenTagFilter } from 'Redux/appState'
@@ -84,11 +84,13 @@ function Header({ ...props }) {
 						<Menu />
 					</IconButton>
 				</ItemG>
-				<ItemG xs={3}>
-					<div className={classes.logoContainer}>
-						{brand}
-					</div>
-				</ItemG>
+				<Hidden smDown>
+					<ItemG xs={3}>
+						<div className={classes.logoContainer}>
+							{brand}
+						</div>
+					</ItemG>
+				</Hidden>
 				<ItemG xs container alignItems={'center'} justify={'center'}>
 
 					<T className={classes.title} variant={'h5'}>
@@ -99,40 +101,56 @@ function Header({ ...props }) {
 				<HeaderLinks t={t} history={history} />
 			</Toolbar>
 			<Toolbar className={classes.secondaryToolbar}>
-				<ItemG container>
+				<ItemG container alignItems={'center'} justify={'center'}>
 
-					<ItemG xs={1} container alignItems={'center'} justify={'center'}>
+					<ItemG xs={1} container >
 						<Button
 							startIcon={<PageviewIcon />}
 							className={classes.toolbarButton}
 							onClick={() => history.push('/')}
 						>
-							{t('toolbar.overview')}
+							<Hidden smDown>
+								{t('toolbar.overview')}
+							</Hidden>
 
 						</Button>
 					</ItemG>
-					<ItemG xs={1} container alignItems={'center'} justify={'center'}>
-						<Button className={classes.toolbarButton} onClick={() => history.push('/installations')} startIcon={<ViewList />}>
-							{t('toolbar.list')}
+					<ItemG xs={1} container >
+						<Button className={classes.toolbarButton} onClick={() => history.push('/installations')} startIcon={<DeviceIcon />}>
+							<Hidden smDown>
+								{t('sidebar.installations')}
+							</Hidden>
 						</Button>
-
 					</ItemG>
-					{/* <ItemG xs={1} container alignItems={'cneter'} justify={'center'}>
+					<ItemG xs={1} container >
 						<Button
 							startIcon={<Map />}
 							className={classes.toolbarButton}
-							onClick={() => history.push('/device-map')}>
-							{t('sidebar.deviceMap')}
+							onClick={() => { history.push('/device-map') }}>
+							<Hidden smDown>
+								{t('sidebar.deviceMap')}
+							</Hidden>
 						</Button>
 
-					</ItemG> */}
-					{isSWAdmin ? <ItemG xs container alignItems={'center'} justify={'flex-end'}>
-						<IconButton
+					</ItemG>
+					<ItemG xs={1} container >
+						<Button
+							startIcon={<Notifications />}
+							className={classes.toolbarButton}
+							onClick={() => history.push('/alarms')}
+						>
+							<Hidden smDown>
+								{t('sidebar.alarms')}
+							</Hidden>
+						</Button>
+					</ItemG>
+					 <ItemG xs container alignItems={'center'} justify={'flex-end'}>
+						{isSWAdmin ? <IconButton
 							onClick={handleOpenTagFilter}
 							className={classes.toolbarButton}>
 							<TuneIcon />
-						</IconButton>
-					</ItemG> : null}
+						</IconButton> : null}
+					</ItemG>
 				</ItemG>
 			</Toolbar>
 		</AppBar>

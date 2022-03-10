@@ -1,6 +1,14 @@
 import { waterworksAPI, servicesCoreAPI, wbAPI } from 'data/data'
 
+/**
+ * V3 Finish Onboarding
+ */
 
+export const finishOnboarding = async (data) => {
+	let response = await wbAPI.post(`/v3/onboard/complete`, data).then(rs => rs)
+	console.log(response.ok ? response.data : response)
+	return response.ok ? response.data : response.ok
+}
 
 /**
  * V3 Update Installation address
@@ -8,7 +16,7 @@ import { waterworksAPI, servicesCoreAPI, wbAPI } from 'data/data'
 
 export const updateInstallationAddress = async (data) => {
 	let response = await wbAPI.post(`/v3/onboard/update-installation-address`, data).then(rs => rs)
-	console.log(response.ok ? response.data : response.status)
+	// console.log(response.ok ? response.data : response.status)
 	return response.ok ? response.data : response.ok
 }
 
@@ -18,7 +26,7 @@ export const updateInstallationAddress = async (data) => {
 
 export const createInstUser = async (instUser) => {
 	let response = await wbAPI.post(`/v3/onboard/create-waterworks-user`, instUser).then(rs => rs)
-	console.log(response.ok ? response.data : response.status)
+	// console.log(response.ok ? response.data : response.status)
 	return response.ok ? response.data : response.ok
 }
 
@@ -29,7 +37,7 @@ export const createInstUser = async (instUser) => {
 
 export const createSentiUser = async (user) => {
 	let response = await wbAPI.post(`/v3/onboard/create-senti-user`, user).then(rs => rs)
-	console.log(response.ok ? response.data : response.status)
+	// console.log(response.ok ? response.data : response.status)
 	return response.ok ? response.data : response.ok
 }
 
@@ -39,7 +47,7 @@ export const createSentiUser = async (user) => {
 
 export const getOnboardData = async (orgIdent, installationIdent, deviceIdent) => {
 	let response = await wbAPI.post(`/v3/onboard/get-installation`, { deviceIndent: deviceIdent, installationIndent: installationIdent, orgIndent: orgIdent  }).then(rs => rs)
-	console.log(response.ok ? response.data : response.status)
+	// console.log(response.ok ? response.data : response.status)
 	return response.ok ? response.data : response.status
 }
 

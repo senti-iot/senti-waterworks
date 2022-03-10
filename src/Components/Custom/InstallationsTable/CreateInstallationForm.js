@@ -23,8 +23,8 @@ const CreateInstallationForm = (props) => {
 	// console.log('instDevice', instDevice)
 	// console.log('inst', inst)
 	const states = [
-		{ value: 0, label: t("installations.states.onboarded") },
-		{ value: 1, label: t("installations.states.provisioned") }
+		{ value: 0, label: t("installations.states.provisioned") },
+		{ value: 1, label: t("installations.states.onboarded") }
 	]
 	const moving = [
 		{ value: 0, label: t('actions.no') },

@@ -17,7 +17,7 @@ import { loginTheme } from 'Styles/themes'
 import Step1 from 'Components/Onboarding/Step1'
 import { useParams } from 'react-router'
 import Step2 from 'Components/Onboarding/Step2'
-import {  createOnboardingUser, confirmOnboardingUser, getOnboardData, createSentiUser, createInstUser, updateInstallationAddress } from 'data/onboarding'
+import { createOnboardingUser, confirmOnboardingUser, getOnboardData, finishOnboarding } from 'data/onboarding'
 import { validateEmail } from 'data/functions'
 import OnboardingDone from 'Components/Onboarding/OnboardingDone'
 import OnboardingConfirm from 'Components/Onboarding/OnboardingConfirm'
@@ -55,8 +55,9 @@ const Onboarding = props => {
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
 	const [phone, setPhone] = useState('')
-	const [address, setAddress] = useState('')
-	const [postnr, setPostnr] = useState('')
+	const [streetName, setStreetName] = useState('')
+	const [streetNumber, setStreetNumber] = useState('')
+	const [zip, setZip] = useState('')
 	const [city, setCity] = useState('')
 	const [startDate, setStartDate] = useState('')
 	const [instUUID, setInstUUID] = useState('')
@@ -86,9 +87,9 @@ const Onboarding = props => {
 			aux: {
 				sentiWaterworks: {
 					extendedProfile: {
-						address: address,
+						streetName: streetName,
 						city: city,
-						postnr: postnr,
+						zip: zip,
 						noOfChildren: noOfChildren,
 						noOfAdults: noOfAdults
 					}
@@ -121,7 +122,7 @@ const Onboarding = props => {
 		else {
 			return false
 		}
-	}, [address, city, email, firstName, lastName, noOfAdults, noOfChildren, org, pass, phone, postnr])
+	}, [streetName, city, email, firstName, lastName, noOfAdults, noOfChildren, org, pass, phone, zip])
 
 	const handleNextStep = useCallback(async () => {
 		let step = params.step
@@ -163,53 +164,98 @@ const Onboarding = props => {
 					break
 			}
 			if (err) {
+				setLoading(false)
+				console.log(startDate)
 				return
 			}
 			else {
-				//Do the magic here
-				let user = {
+				/** new Magic */
+				let data = {
+					sUserBody: null,
+					wUserBody: null,
+					instBody: null
+				}
+				data.sUserBody = {
 					userName: email,
 					email: email,
 					org: {
-						uuid: org
+						uuid: org,
 					},
 					firstName: firstName,
-					lastName: lastName
+					lastName: lastName,
+					noOfAdults: noOfAdults,
+					noOfChildren: noOfChildren,
+					address: streetName + " " + streetNumber,
+					postnr: zip,
+					city: city
 				}
-				//Create Senti User
-				let createUser = await createSentiUser(user)
-				if (createUser) {
-					//Create InstUser
-					let instUser = {
-						startDate: startDate,
-						userUUID: createUser.uuid,
-						instUUID: instUUID,
-					}
-					let cInstUser = await createInstUser(instUser)
-					if (cInstUser) {
-						//Update the installation address
-						let installation = {
-							uuid: instUUID,
-							address: address
-						}
-						let uInstAddress = await updateInstallationAddress(installation)
-						if (uInstAddress) {
-
-							setLoading(false)
-							history.push(`/onboard/${params.lang}/done`)
-						}
-						else {
-							setError('signup.error.missingData')
-						}
-					}
-					else {
-						setError('signup.error.missingData')
-					}
+				console.log(startDate)
+				data.wUserBody = {
+					startDate: startDate,
+					instUUID: instUUID,
+					adults: noOfAdults,
+					children: noOfChildren
+				}
+				data.instBody = {
+					uuid: instUUID,
+					streetName: streetName,
+					streetNumber: streetNumber,
+					zip: zip,
+					city: city
+				}
+				let create = await finishOnboarding(data)
+				console.log('create', create)
+				setLoading(false)
+				if (!create?.Error) {
+					history.push(`/onboard/${params.lang}/done`)
 				}
 				else {
 					setError('signup.error.missingData')
 				}
-				setLoading(false)
+				// //Do the magic here
+				// let user = {
+				// 	userName: email,
+				// 	email: email,
+				// 	org: {
+				// 		uuid: org
+				// 	},
+				// 	firstName: firstName,
+				// 	lastName: lastName
+				// }
+				// //Create Senti User
+				// let createUser = await createSentiUser(user)
+				// if (createUser) {
+				// 	//Create InstUser
+				// 	let instUser = {
+				// 		startDate: startDate,
+				// 		userUUID: createUser.uuid,
+				// 		instUUID: instUUID,
+				// 	}
+				// 	let cInstUser = await createInstUser(instUser)
+				// 	if (cInstUser) {
+				// 		//Update the installation streetName
+				// 		let installation = {
+				// 			uuid: instUUID,
+				// 			streetName: streetName
+				// 		}
+				// 		let uInstStreetName = await updateInstallationAddress(installation)
+				// 		if (uInstStreetName) {
+
+				// 			setLoading(false)
+				// 			history.push(`/onboard/${params.lang}/done`)
+				// 		}
+				// 		else {
+				// 			setError('signup.error.missingData')
+				// 		}
+				// 	}
+				// 	else {
+				// 		setError('signup.error.missingData')
+				// 	}
+				// }
+				// else {
+				// 	setError('signup.error.missingData')
+				// }
+				// setLoading(false)
 			}
 		}
 		if (step === 'step3') {
@@ -258,7 +304,7 @@ const Onboarding = props => {
 				setSuccess('confirmUser.welcomeMessage')
 			}
 		}
-	}, [address, confirmPass, deviceIdent, email, error, firstName, handleCreateUser, history, instUUID, installationId, lastName, org, orgIdent, params.lang, params.step, params.token, pass, startDate])
+	}, [params.step, params.lang, params.token, orgIdent, installationId, deviceIdent, error, history, lastName, firstName, email, org, startDate, instUUID, noOfAdults, noOfChildren, streetName, streetNumber, zip, city, confirmPass, pass, handleCreateUser])
 
 	const handleKeyPress = useCallback((event) => {
 		if (event.key === 'Enter') {
@@ -346,14 +392,17 @@ const Onboarding = props => {
 			case 'phone':
 				setPhone(e.target.value)
 				break
-			case 'address':
-				setAddress(e.target.value)
+			case 'streetName':
+				setStreetName(e.target.value)
 				break
-			case 'postnr':
-				setPostnr(e.target.value)
+			case 'zip':
+				setZip(e.target.value)
 				break
 			case 'city':
 				setCity(e.target.value)
+				break
+			case 'streetNumber':
+				setStreetNumber(e.target.value)
 				break
 			default:
 				break
@@ -392,13 +441,15 @@ const Onboarding = props => {
 		setLastName(data.lastName ? data.lastName : "")
 		setEmail(data.email ? data.email : "")
 		setPhone(data.telefon ? data.telefon : "")
-		setAddress(data.address ? data.address : "")
-		setPostnr(data.postnr ? data.postnr : "")
+		setStreetName(data.streetName ? data.streetName : "")
+		setZip(data.zip ? data.zip : "")
 		setCity(data.city ? data.city : "")
 		setNoOfAdults(data.adults ? data.adults : 1)
 		setNoOfChildren(data.children ? data.children : 0)
 		setOrg(data.orgUUID ? data.orgUUID : "")
-		setStartDate(data.startDate ? moment(data.startDate).format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss'))
+		setStartDate(
+			data.startDate ? (moment(data.startDate).format('YYYY-MM-DD HH:mm:ss') !== 'Invalid date' ?
+				moment(data.startDate).format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss')) : moment().format('YYYY-MM-DD HH:mm:ss'))
 		setInstUUID(data.installationUUID ? data.installationUUID : null)
 	}
 
@@ -426,8 +477,9 @@ const Onboarding = props => {
 						lastName={lastName}
 						email={email}
 						phone={phone}
-						address={address}
-						postnr={postnr}
+						streetName={streetName}
+						streetNumber={streetNumber}
+						zip={zip}
 						city={city}
 						goToNextStep={handleNextStep}
 						noOfChildren={noOfChildren}

@@ -5,6 +5,7 @@ import { getPriceList } from 'data/devices'
  */
 const SetPriceData = 'setPriceData'
 const SetUsageData = 'setUsageData'
+const SetOrgSettings = 'setOrgSettings'
 /**
  * Dispatchers
  */
@@ -30,6 +31,14 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
 		let orgId = getState().settings.user?.org.uuid
 		let price = await getPriceList(orgId)
 
+		let settings = price?.settings ? price.settings : {}
+
+		console.log('sett', settings, price)
+		dispatch({
+			type: SetOrgSettings,
+			payload: settings
+		})
+
 		let priceList = price ? price : {
 			waterTotal: 0,
 			sewageTotal: 0
@@ -44,6 +53,10 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
 			return total
 		}, 0)
 
+		/**
+		 * Change from datapoints to number of days
+		 * @Andrei
+		 */
 		let avgValue = parseFloat(middleData / wsUsage.length).toFixed(3)
 		let bavgValue = parseFloat(benchmarkSum / wsUsage.length).toFixed(3)
 

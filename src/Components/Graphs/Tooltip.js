@@ -20,17 +20,33 @@ const TCard = styled(Card)`
 `
 
 const waterUsageTooltip = (props) => {
+	//Hooks
+
+	//Redux
+
+	//State
+
+	//Const
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 	return <TCard id={props.fs ? 'tooltipfsLG' + props.id : 'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
 				<ItemG container xs={6}>
 					<ItemG xs={12}>
-						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format('dddd'))}</T>
+						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format(props.timeType === 4 ? 'MMMM' : 'dddd'))}</T>
 					</ItemG>
-					<ItemG xs={12}>
-						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
-					</ItemG>
+					{ props.timeType === 4 ?
+						null : <ItemG xs={12}>
+							<T variant={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
+						</ItemG>
+					}
 				</ItemG>
 				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 					<T variant={'h5'}>{`${formatNumber(props.tooltip.value, 2)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>

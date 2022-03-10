@@ -88,7 +88,7 @@ const GroupTable = (props) => {
 	const columns = [
 		{ id: 'name', label: t('devices.fields.name') },
 		{ id: 'description', label: t('devices.fields.description') },
-		{ id: 'color', label: "Color" }
+		{ id: 'color', label: t('tags.fields.color') },
 	]
 	const bodyStructure = row => {
 		return <Fragment key={row.id}>
@@ -99,7 +99,7 @@ const GroupTable = (props) => {
 		</Fragment>
 	}
 	const handleSetClickedTag = (tag) => e => {
-		console.log('Tag', tag)
+		// console.log('Tag', tag)
 		setOpenGroup(true)
 		setClickedTag(tag)
 	}

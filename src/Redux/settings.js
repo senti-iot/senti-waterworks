@@ -66,6 +66,10 @@ const SAVED = 'savedSettings'
 const NOSETTINGS = 'noSettings'
 const reset = 'resetSettings'
 
+//Organisation Settings
+const SetOrgSettings = 'setOrgSettings'
+
+
 export const resetSettings = () => {
 	return async (dispatch, getState) => {
 		dispatch({
@@ -578,12 +582,15 @@ export let initialState = {
 	// globalSearch: true,
 	dsTheme: 0,
 	colorTheme: 'blue',
-	benchmarkSplitByTags: 0
+	benchmarkSplitByTags: 0,
+	orgSettings: {}
 }
 export const settings = (state = initialState, action) => {
 	switch (action.type) {
 		case 'RESET_APP':
 			return initialState
+		case SetOrgSettings:
+			return Object.assign({}, state, { orgSettings: action.payload })
 		case autoRowsPerPage:
 			let newRowsPerPage = [...initialState.rowsPerPageOptions]
 			newRowsPerPage[0] = action.payload + ' - auto'

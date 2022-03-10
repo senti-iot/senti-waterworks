@@ -71,7 +71,7 @@ const CreateInstallation = (props) => {
 		})
 	}
 	const handleSelectUser = user => {
-		console.log("User", user)
+		// console.log("User", user)
 		setInstUser({
 			...user
 		})
@@ -127,7 +127,7 @@ const CreateInstallation = (props) => {
 					}
 					let resInstUser = await putUser(InstUser)
 					if (resInstUser) {
-						console.log(resInstUser)
+						// console.log(resInstUser)
 					}
 
 				}
@@ -155,7 +155,7 @@ const CreateInstallation = (props) => {
 						}
 						let resInstUser = await putUser(InstUser)
 						if (resInstUser) {
-							console.log(resInstUser)
+							// console.log(resInstUser)
 						}
 					}
 				}
@@ -163,7 +163,7 @@ const CreateInstallation = (props) => {
 			if (createDeviceInst.uuid) {
 			}
 			else {
-				console.log(createDeviceInst)
+				// console.log(createDeviceInst)
 			}
 		}
 

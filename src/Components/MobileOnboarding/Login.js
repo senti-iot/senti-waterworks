@@ -109,7 +109,7 @@ const Login = props => {
             type="submit"
           >Log ind</Button>
           <Caption>
-            &copy; 2016-2019 All rights reserved. Senti is an open source IoT Service Platform designed
+            &copy; 2016-2021 All rights reserved. Senti is an open source IoT Service Platform designed
             and developed with <span style={{ color: 'red' }}>❤</span> in Aalborg, Denmark
           </Caption>
 

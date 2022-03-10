@@ -95,7 +95,7 @@ const filterByString = (items, k) => {
 			if (objVal !== null && objVal !== undefined) {
 				if (objVal.toString().toLowerCase().includes(k.value.toString().toLowerCase()))//?
 				{
-					console.log(d)
+					// console.log(d)
 					let newD = d
 					newArr.push(newD)
 				}
@@ -120,10 +120,10 @@ const filterByString = (items, k) => {
 				}
 
 			}
-			console.log(newArr)
+			// console.log(newArr)
 			return newArr
 		}, [])
-		console.log(items)
+		// console.log(items)
 		return items
 	}
 }

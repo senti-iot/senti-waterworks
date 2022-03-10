@@ -15,7 +15,8 @@ const headerLinksStyle = makeStyles(theme => ({
 	selectDevButton: {
 		color: '#fff',
 		textTransform: 'none',
-		marginRight: 32
+		marginRight: 32,
+		whiteSpace: "nowrap"
 	},
 	expand: {
 		// [theme.breakpoints.down('md')]: {

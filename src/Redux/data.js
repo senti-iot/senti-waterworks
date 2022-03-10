@@ -14,7 +14,7 @@ import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
-import { getFullInstallation, getInstallations, getUserInstallations } from 'data/installations'
+import { getFullInstallation, getInstallation, getInstallations, getUserInstallations } from 'data/installations'
 import { getAllUsers } from 'data/users'
 import { getAlarmsV1, getAlarmV1, getNotificationsV1 } from 'data/alarms'
 // import { genBenchmarkAll } from 'data/model'
@@ -38,6 +38,7 @@ const getUserInstallation = 'getUserInstallation'
 const gAlarms = 'getAlarms'
 const gAlarm = 'getAlarm'
 const gNotifs = 'getNotifications'
+const gInst = 'getInstallation'
 // const gNotif = 'getNotifications'
 
 
@@ -135,8 +136,8 @@ export const getUserInst = async () => {
 export const getWeatherData = async () => {
 	return async (dispatch, getState) => {
 		let userExP = getState().settings.user?.aux.sentiWaterworks.extendedProfile
-		let from = getState().dateTime.period.from.clone()
-		let to = getState().dateTime.period.to.clone()
+		let from = getState().dateTime.period.from?.clone()
+		let to = getState().dateTime.period.to?.clone()
 		let dates = getDates(from, to)
 		let timeType = getState().dateTime.period.timeType
 		if (userExP.address) {
@@ -147,23 +148,28 @@ export const getWeatherData = async () => {
 				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
 				let fWeather = []
 				// .map(r => r.daily.data[0])
+				console.log(weather)
 				if (weather) {
 
 					if (timeType > 1) {
-						fWeather = weather.map(r => r.daily.data[0])
+						fWeather = weather.map(r => r ? r.daily.data[0] : null)
 					}
 					else {
 						fWeather = weather[0]?.hourly?.data
 					}
-					let finalData = fWeather.map(w => ({
-						date: moment(w.time),
-						icon: w.icon,
-						description: w.summary
-					}))
-					dispatch({
-						type: wData,
-						payload: finalData
-					})
+					console.log(fWeather)
+					if (fWeather) {
+
+						let finalData = fWeather.map(w => ({
+							date: moment(w.time),
+							icon: w.icon,
+							description: w.summary
+						}))
+						dispatch({
+							type: wData,
+							payload: finalData
+						})
+					}
 				}
 			}
 		}
@@ -173,6 +179,19 @@ export const getWeatherData = async () => {
 				payload: []
 			})
 		}
+	}
+}
+/**
+ * Get installation
+ */
+export const gInstallation = async (uuid) => {
+	return async (dispatch, getState) => {
+		let installation = await getInstallation(uuid)
+		dispatch({
+			type: gInst,
+			payload: installation
+
+		})
 	}
 }
 /**
@@ -270,12 +289,14 @@ export const getAlarm = async (uuid) => {
  */
 export const getAlarms = async () => {
 	return async (dispatch, getState) => {
-		let userUUID = getState().settings.user.uuid
-		let alarms = await getAlarmsV1(userUUID)
-		dispatch({
-			type: gAlarms,
-			payload: alarms ? alarms : []
-		})
+		let userUUID = getState().settings?.user?.uuid
+		if (userUUID) {
+			let alarms = await getAlarmsV1(userUUID)
+			dispatch({
+				type: gAlarms,
+				payload: alarms ? alarms : []
+			})
+		}
 	}
 }
 /**
@@ -423,7 +444,7 @@ export const userData = () =>
 		let readingsData = await getReadingUsage(from/* .clone().add(1, 'day') */, to)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
 
-		await dispatch(await getWeatherData())
+		// await dispatch(await getWeatherData())
 		dispatch(await setLineData({
 			timeType: timeType,
 			isUser: true,
@@ -496,6 +517,7 @@ export const getNData = async () => {
 }
 
 const initialState = {
+	loggedIn: false,
 	unitHasChanged: false,
 	haveData: false,
 	barData: {},
@@ -505,6 +527,7 @@ const initialState = {
 	notifications: [],
 	installation: {},
 	installations: [],
+	users: [],
 	data: {},
 	priceData: {
 		waterusage: 0,
@@ -535,8 +558,13 @@ const initialState = {
 
 export const data = (state = initialState, { type, payload }) => {
 	switch (type) {
+
 		case 'RESET_APP':
 			return initialState
+		case 'loggedIn':
+			return Object.assign({}, state, { loggedIn: true })
+		case gInst:
+			return Object.assign({}, state, { installation: payload })
 		case gNotifs:
 			return Object.assign({}, state, { notifications: payload })
 		case gAlarm:

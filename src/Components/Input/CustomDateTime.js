@@ -29,7 +29,8 @@ const CustomDateTime = (props) => {
 				return false
 			case 3:
 				return uInternal?.sentiWaterworks.timeType === 3 ? false : true
-
+			case 4:
+				return true
 			default:
 				return uInternal?.sentiWaterworks.timeType === 2 ? false : true
 		}
@@ -116,11 +117,11 @@ const CustomDateTime = (props) => {
 									label={t('filters.dateOptions.daily')}
 								/>
 
-								{/* <FormControlLabel
-									value={'3'}
+								<FormControlLabel
+									value={'4'}
 									control={<Radio />}
-									label={t('filters.dateOptions.summary')}
-								/> */}
+									label={t('filters.dateOptions.monthly')}
+								/>
 							</RadioGroup>
 						</FormControl>
 					</ItemG>

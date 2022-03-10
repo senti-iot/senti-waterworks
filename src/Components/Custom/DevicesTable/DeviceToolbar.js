@@ -178,7 +178,7 @@ const DeviceToolbar = props => {
 								<List dense className={classes.listContainer}>
 									{props.devices.map(d => {
 										let device = devices[devices.findIndex(f => f.uuid === d)]
-										console.log(device)
+										// console.log(device)
 										return <ListItem divider>{device?.name} - {device?.uuname}</ListItem>
 									})
 									}
@@ -254,7 +254,7 @@ const DeviceToolbar = props => {
 								<List dense className={classes.listContainer}>
 									{props.devices.map(d => {
 										let device = devices[devices.findIndex(f => f.uuid === d)]
-										console.log(device)
+										// console.log(device)
 										return <ListItem divider>{device?.name} - {device?.uuname}</ListItem>
 									})
 									}

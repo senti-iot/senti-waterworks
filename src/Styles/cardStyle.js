@@ -116,7 +116,7 @@ const cardStyles = makeStyles(theme => ({
 	// 	...transition
 	// },
 	dashboard: {
-		height: 'calc(100% - 128px - 32px)'
+		// height: 'calc(100% - 128px - 32px)'
 	},
 	root: {
 		paddingTop: 0,

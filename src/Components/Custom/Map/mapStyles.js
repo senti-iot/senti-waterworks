@@ -1,4 +1,6 @@
-const mapStyles = theme => ({
+import { makeStyles } from '@material-ui/core'
+
+const mapStyles = makeStyles(theme => ({
 	map: {
 		width: '100%',
 		[theme.breakpoints.up('md')]: {
@@ -15,13 +17,14 @@ const mapStyles = theme => ({
 		background: "#ffffff",
 		color: "#000",
 		borderRadius: 3,
+
 	},
 	popupDark: {
 		background: "#424242",
 		color: "#ffffff",
 		borderRadius: 3,
 	},
-})
+}))
 export var darkMode = [
 	[
 		{ elementType: 'geometry', stylers: [{ color: '#242f3e' }] },

@@ -141,7 +141,7 @@ function ResetPassword() {
 
 	const resetPass = async () => {
 		let session = await resetPassword({ email: email })
-		console.log('session', session)
+		// console.log('session', session)
 		if (session !== 404 && session) {
 			setPasswordRequest(true)
 			setResettingPass(false)
@@ -204,7 +204,7 @@ function ResetPassword() {
 	const handleCancelReset = () => {
 		history.push('/login')
 	}
-	console.log(error, errorMessage)
+	// console.log(error, errorMessage)
 	return (
 		<ThemeProvider theme={loginTheme}>
 

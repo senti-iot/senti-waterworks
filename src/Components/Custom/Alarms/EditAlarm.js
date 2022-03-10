@@ -3,21 +3,22 @@ import CreateAlarmDetailsForm from 'Components/Custom/Alarms/CreateAlarmDetailsF
 import CreateAlarmNotificationForm from 'Components/Custom/Alarms/CreateAlarmNotificationForm'
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
 import TabPanel from 'Components/Custom/Tabs/TabPanel'
-import { createAlarm as cAlarmFunc } from 'data/alarms'
+import { /* createAlarm as cAlarmFunc, */ getAlarmV1 } from 'data/alarms'
 import { getDevice } from 'data/devices'
 import { useLocalization, useSelector } from 'Hooks'
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useState } from 'react'
 
-const CreateAlarm = props => {
+const EditAlarm = props => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
 	const user = useSelector(state => state.settings.user)
-
+	const devices = useSelector(s => s.data.devices)
 	//State
 	const [tab, setTab] = useState(0)
-
+	const [sAlarm, setSAlarm] = useState(null)
+	const [loading, setLoading] = useState(true)
 	//Alarm props
 
 	const [metrics, setMetrics] = useState([])
@@ -54,7 +55,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 	const host = 'waterworks.senti.io'
 	const { open, handleClose } = props
 
-	let cfs = [
+	const cfs = useMemo(() => [
 		{
 			"id": 160,
 			"uuid": "c73c1d32-95ac-413a-b776-ac10c41433b5",
@@ -80,12 +81,103 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			"uuid": "fc1889cf-66fb-44dd-a949-9914884238d7",
 			"name": "[Alarm - Kamstrup] All infocodes"
 		}
-	]
+	], [])
 
 
 	//useCallbacks
 
 	//useEffects
+	useEffect(() => {
+		let getAlarm = async () => {
+			return getAlarmV1(props.uuid)
+		}
+		let loadData = async () => {
+			if (loading && !sAlarm) {
+				let a = await getAlarm()
+				// console.log(a)
+				setSAlarm(a)
+				setLoading(false)
+			}
+		}
+		loadData()
+	}, [loading, props.uuid, sAlarm])
+	useEffect(() => {
+		// console.log('sAlarm', sAlarm)
+		if (sAlarm) {
+			// console.log('sAlarm', sAlarm.name)
+			/**
+			 * finalAlarm.name = alarm.name
+			finalAlarm.userUUID = user.uuid
+			finalAlarm.deviceId = alarm.device.id
+			finalAlarm.dataSource = alarm.device.id
+			finalAlarm.host = host
+			finalAlarm.actions = []
+			 */
+
+			let device = devices[devices.findIndex(f => f.id === sAlarm.deviceId)]
+			setAlarm({
+				id: 57,
+				name: sAlarm.name,
+				actions: [],
+				device: device
+			})
+
+			setTtl(sAlarm.config.ttlType)
+			setConfig({
+				ttl: Object.keys(sAlarm.config.ttl)[0],
+				ttlValue: sAlarm.config.ttl[Object.keys(sAlarm.config.ttl)[0]]
+			})
+
+			let emailNotificationIndex = sAlarm.actions.findIndex(f => f.type === 1)
+			if (emailNotificationIndex !== -1) {
+				let eNotf = sAlarm.actions[emailNotificationIndex]
+				setEmailBody(eNotf.config.message.body)
+				setEmailSubject(eNotf.config.message.subject)
+				setRecipients(eNotf.config.recipients)
+			}
+
+
+			let smsNotificationIndex = sAlarm.actions.findIndex(f => f.type === 2)
+			if (smsNotificationIndex !== -1) {
+				let smsNotf = sAlarm.actions[smsNotificationIndex]
+				setSmsBody(smsNotf.config.message.body)
+				setSmsRecipients(smsNotf.config.recipients)
+			}
+
+
+			let webNotificationIndex = sAlarm.actions.findIndex(f => f.type === 13)
+			if (webNotificationIndex !== -1) {
+				let webNotf = sAlarm.actions[webNotificationIndex]
+				setWebSubject(webNotf.config.message.subject)
+				setWebBody(webNotf.config.message.body)
+			}
+			if (sAlarm.condition) {
+				setConditionValidator(0)
+
+				let gDev = async () => {
+					let dev = await getDevice(device.uuid)
+
+					if (dev.dataKeys.length > 0) {
+						let metrics = dev.dataKeys.map(i => ({ value: i.key, label: i.key }))
+						setMetrics(metrics)
+					}
+				}
+				gDev()
+				// console.log(sAlarm.condition.operator)
+				setOperator(sAlarm.condition.operation)
+				setMetric(sAlarm.condition.metric)
+				setQuantifier(sAlarm.condition.qualifier)
+			}
+			else {
+				setConditionValidator(cfs.findIndex(f => f.id === sAlarm.cloudFunction.id) + 1)
+			}
+
+		}
+		setSAlarm(null) //Disable the useEffect
+		return () => {
+
+		}
+	}, [alarm, cfs, devices, sAlarm])
 
 	//Handlers
 
@@ -237,11 +329,11 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			//To do custom cloud function
 		}
 
-		let cAlarm = await cAlarmFunc(finalAlarm)
-		if (cAlarm) {
-			// console.log(cAlarm)
-			handleSetClose()
-		}
+		// let cAlarm = await cAlarmFunc(finalAlarm)
+		// if (cAlarm) {
+		// 	console.log(cAlarm)
+		handleSetClose()
+		// }
 
 
 	}
@@ -295,7 +387,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			minWidth={'md'}
 			onClose={handleClose}
 		>
-			<DialogHeader label={'menus.create.alarm'} />
+			<DialogHeader label={'menus.edits.alarm'} />
 			<DialogContent>
 				<Tabs
 					value={tab}
@@ -370,4 +462,4 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 	)
 }
 
-export default CreateAlarm
+export default EditAlarm

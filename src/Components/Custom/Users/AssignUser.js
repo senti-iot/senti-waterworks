@@ -77,8 +77,8 @@ const AssignUser = props => {
 
 	const assignSensor = sId => e => {
 		let user = users[users.findIndex(o => o.uuid === sId)]
-		console.log('sId', sId)
-		console.log('U', user)
+		// console.log('sId', sId)
+		// console.log('U', user)
 		// console.log('sId', sId)
 		props.callBack(user)
 	}

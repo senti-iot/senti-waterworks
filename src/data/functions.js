@@ -1,5 +1,36 @@
 import _ from 'lodash'
 import moment from 'moment'
+
+
+/**
+ * Month redux
+ */
+export const monthRedux = data => {
+	data = data.reduce((res, row) => {
+		let month = moment(row.date).startOf("month").format("YYYY-MM-DD")
+
+		if (!res[month]) {
+			res[month] = {
+				value: row.value,
+				count: 1,
+				datetime: month
+			}
+		}
+		else {
+			res[month] = {
+				value: res[month].value + row.value,
+				count: res[month].count + 1
+			}
+		}
+
+		return res
+	}, {})
+	data = Object.keys(data).map(r => ({
+		value: data[r].value,
+		date: r,
+	}))
+	return data
+}
 /**
  * Short Number
  */

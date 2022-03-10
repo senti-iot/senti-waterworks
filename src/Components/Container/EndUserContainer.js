@@ -19,6 +19,18 @@ import TagFilterDialog from 'Components/TagFilterDialog/TagFilterDialog'
 // import { getTags } from 'Redux/tagManager'
 
 const styles = makeStyles(theme => ({
+	chartGrid: {
+		height: '80%',
+		[theme.breakpoints.down('sm')]: {
+			height: 'auto'
+		}
+	},
+	mobileGrid: {
+		height: '100%',
+		[theme.breakpoints.down('sm')]: {
+			height: 'auto',
+		}
+	},
 	smallWidget: {
 		height: '25%',
 		[theme.breakpoints.down('sm')]: {
@@ -49,6 +61,7 @@ const EndUserContainer = props => {
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	const haveData = useSelector(s => s.data.haveData)
 	const unitHasChanged = useSelector(s => s.data.unitHasChanged)
+	const orgSettings = useSelector(s => s.settings.orgSettings)
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
@@ -62,13 +75,13 @@ const EndUserContainer = props => {
 
 	//useEffects
 	useEffect(() => {
-		console.log('useEffects triggered')
+		// console.log('useEffects triggered')
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
 		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
-			console.log('Different number of devices')
+			// console.log('Different number of devices')
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
@@ -109,25 +122,25 @@ const EndUserContainer = props => {
 
 	//Handlers
 
-	return <GridContainer style={{ height: '100%' }}>
-		<ItemG xs={12} md={9} container style={{ height: "100%" }}>
-			<ItemG xs={12} style={{ height: "80%" }}>
+	return <GridContainer  className={classes.mobileGrid}>
+		<ItemG xs={12} md={9} container className={classes.mobileGrid}>
+			<ItemG xs={12} className={classes.chartGrid}>
 				<BPaper>
 					<MainChart loading={loading} chart={chart} setChart={setChart} />
 				</BPaper>
 
 			</ItemG>
 			<ItemG xs={12} container style={{ height: "20%" }}>
-				<ItemG xs={6} style={{ height: '100%' }}>
+				<ItemG xs style={{ height: '100%' }}>
 					<BPaper ref={usageRef}>
 						<Usage parentRef={usageRef} />
 					</BPaper>
 				</ItemG>
-				<ItemG xs={6} style={{ height: '100%' }}>
+				{orgSettings.priceInfo === 0 ? null : <ItemG xs={6} style={{ height: '100%' }}>
 					<BPaper ref={priceRef}>
 						<PriceChart parentRef={priceRef} />
 					</BPaper>
-				</ItemG>
+				</ItemG>}
 			</ItemG>
 		</ItemG>
 		<ItemG xs={12} md={3} container style={{ height: "100%" }}>

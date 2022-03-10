@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 // import PropTypes from 'prop-types'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
+import { useSelector, useLocalization, useState, useDispatch, useHistory } from 'Hooks'
 import { getAdminDevices, getAdminInstallations, getAdminUsers, getUInstallation, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
@@ -47,6 +47,7 @@ const FullInstallationTable = (props) => {
 	//Hooks
 	const dispatch = useDispatch()
 	const t = useLocalization()
+	const history = useHistory()
 	const classes = styles()
 	//Redux
 	const installations = useSelector(s => s.data.installations)
@@ -132,8 +133,8 @@ const FullInstallationTable = (props) => {
 	}
 	const dState = () => {
 		return [
-			{ value: 0, label: t("installations.states.onboarded") },
-			{ value: 1, label: t("installations.states.provisioned") }
+			{ value: 0, label: t("installations.states.provisioned") },
+			{ value: 1, label: t("installations.states.onboarded") }
 		]
 	}
 	// const dTagList = () => {
@@ -141,7 +142,9 @@ const FullInstallationTable = (props) => {
 	// 		value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div> }))
 	// }
 	const installationFilters = [
-		{ key: 'address', name: t('installations.fields.address'), type: 'string' },
+		{ key: 'streetName', name: t('installations.fields.streetName'), type: 'string' },
+		{ key: 'zip', name: t('installations.fields.zip'), type: 'string' },
+		{ key: 'city', name: t('installations.fields.city'), type: 'string' },
 		{ key: 'state', name: t('installations.fields.state'), type: 'dropDown', options: dState() },
 		{ key: 'operation', name: t('installations.fields.operation'), type: 'dropDown', options: dOperation() },
 		// { key: '', name: t('installations.fields.tags'), type: 'dropDown', options: dTagList() },
@@ -150,7 +153,9 @@ const FullInstallationTable = (props) => {
 
 	//#endregion
 	const columns = [
-		{ id: 'address', label: t('installations.fields.address') },
+		{ id: 'streetName', label: t('installations.fields.streetName') },
+		{ id: 'zip', label: t('installations.fields.zip') },
+		{ id: 'city', label: t('installations.fields.city') },
 		{ id: 'uuid', label: t('installations.fields.instId') },
 		{ id: 'instDevUUID', label: t('installations.fields.deviceId') },
 		{ id: 'operation', label: t('installations.fields.operation') },
@@ -168,9 +173,9 @@ const FullInstallationTable = (props) => {
 	// }
 	const renderState = (state) => {
 		switch (state) {
-			case 0:
-				return t("installations.states.onboarded")
 			case 1:
+				return t("installations.states.onboarded")
+			case 0:
 				return t("installations.states.provisioned")
 			default:
 				break;
@@ -196,9 +201,26 @@ const FullInstallationTable = (props) => {
 				return
 		}
 	}
+	const renderStreet = (row) => {
+		let str = ''
+		if (row.streetName) {
+			str = str + row.streetName
+		}
+		if (row.streetNumber) {
+			str = str + ' ' + row.streetNumber
+		}
+		if (row.side) {
+			str = str + ' ' + row.side
+		}
+		return str
+	}
+
 	const bodyStructure = row => {
+		console.log(row)
 		return <Fragment key={row.id}>
-			<TC label={row.address} />
+			<TC label={renderStreet(row)} />
+			<TC label={row.zip} />
+			<TC label={row.city} />
 			<TC label={row.uuid} />
 			<TC label={row.instDevUUID} />
 			<TC label={renderOperation(row.operation)} />
@@ -245,6 +267,10 @@ const FullInstallationTable = (props) => {
 			await dispatch(await getAdminInstallations())
 		})
 	}
+	const handleGoToInstallation = (row) => e => {
+		console.log(row)
+		history.push(`/installation/${row.uuid}`)
+	}
 	const renderDeleteDialog = () => {
 		let data = selDev.map(s => installations[installations.findIndex(d => d.uuid === s)])
 		return <DeleteDialog
@@ -281,7 +307,7 @@ const FullInstallationTable = (props) => {
 				columns={columns}
 				handleCheckboxClick={selectInstallation}
 				handleSelectAllClick={selectAllInstallations}
-				handleClick={() => { }}
+				handleClick={handleGoToInstallation}
 				handleSort={handleRequestSort}
 			/>
 		</>

@@ -1,12 +1,12 @@
 import { CircularLoader, DMenu, GridContainer, InfoCard, ItemG, PageHeader } from 'Components'
-import { Add, MoreVert, Notifications as AlarmIco } from 'variables/icons'
+import { Edit, MoreVert, Notifications as AlarmIco } from 'variables/icons'
 import React, { useEffect, useState } from 'react'
-import CreateAlarm from 'Components/Custom/Alarms/CreateAlarm'
 import { makeStyles } from '@material-ui/core'
 import { useDispatch, useLocalization } from 'Hooks'
 import { getAlarm } from 'Redux/data'
 import Alarm from 'Components/Custom/Alarms/Alarm'
 import { useParams } from 'react-router'
+import EditAlarm from 'Components/Custom/Alarms/EditAlarm'
 
 
 const styles = makeStyles(theme => ({
@@ -55,8 +55,8 @@ const AlarmRoute = () => {
 			// onChange={handleOpenExport}
 			menuItems={[{
 				dontShow: false,
-				icon: <Add />,
-				label: t('menus.create.alarm'),
+				icon: <Edit />,
+				label: t('menus.edits.alarm'),
 				func: handleOpenCreate
 			}
 			]}
@@ -78,9 +78,10 @@ const AlarmRoute = () => {
 					noHeader
 					noExpand
 					content={<>
-						<CreateAlarm
+						<EditAlarm
 							open={openCreate}
 							handleClose={handleCloseCreate}
+							uuid={params.uuid}
 						/>
 						{loading ? <CircularLoader fill /> : <Alarm />}
 					</>}

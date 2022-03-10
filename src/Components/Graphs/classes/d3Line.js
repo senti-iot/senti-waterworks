@@ -93,6 +93,8 @@ class d3Line {
 		this.chartType = props.chartType
 		this.props = props
 		this.period = props.period
+		console.log("period", this.period)
+		console.log("props", this.props)
 		this.margin = { top: 30, right: 50, bottom: 50, left: 50 }
 		// let data = props.data ? props.data[props.id] : []
 		//Get the height and width from the container
@@ -103,7 +105,7 @@ class d3Line {
 		this.state = store.getState().appState.lines
 		this.generateXAxis()
 		this.generateYAxis()
-		console.log('this.state.Lbenchmark', this.state['Lbenchmark'])
+		// console.log('this.state.Lbenchmark', this.state['Lbenchmark'])
 		//Define the area for the values
 		this.valueArea = d3.area()
 			.curve(d3.curveStepBefore)
@@ -201,11 +203,18 @@ class d3Line {
 		let allData = [].concat(...newData.map(d => d.data))
 
 		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
-		let to = moment.max(allData.map(d => moment(d.date)))
+		let to = moment()
+		if (timeType === 4) {
+
+			 to = moment.max(allData.map(d => moment(d.date))).endOf('month')
+		}
+		else {
+			 to = moment.max(allData.map(d => moment(d.date)))
+		}
 
 
-
-		if (chartType === 1) {
+		console.log(chartType)
+		if (chartType === 1 && timeType !== 4) {
 			this.x.domain([from, moment(to).add(1, timeType === 1 ? 'h' : 'd')])
 		}
 		else {
@@ -234,9 +243,9 @@ class d3Line {
 		 * Month tick generator
 		 */
 		if (timeType === 4) {
-			monthTicks.push(counter.valueOf())
+			console.log(counter)
+			monthTicks.push(moment(counter).add(Math.round(moment(counter).daysInMonth() / 2) - 1, 'days').valueOf())
 			while (moment(counter).diff(to, 'day') < 0) {
-				ticks.push(counter.valueOf())
 				if (lb === 0) {
 					counter.add(14, 'day')
 					lb = 1
@@ -246,19 +255,17 @@ class d3Line {
 					counter.add(diff + 1, 'day')
 					lb = 0
 				}
-				// counter.add(Math.round(moment(counter).daysInMonth() / 2) - 1, 'day')
+				counter.add(Math.round(moment(counter).daysInMonth() / 2) - 1, 'day')
 
 				if (
 					monthTicks.findIndex(f => {
 						return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
 					}) === -1
 				) {
-
-					monthTicks.push(counter.valueOf())
+					monthTicks.push(counter.startOf("month").add(Math.round(moment(counter).daysInMonth() / 2) - 1, 'days').valueOf())
 				}
 			}
-			ticks.push(to.valueOf())
-			monthTicks.push(to.valueOf())
+
 		}
 		if (timeType === 1) {
 			while (moment(counter).diff(to, 'hour') < 0) {
@@ -270,100 +277,134 @@ class d3Line {
 				hourTicks.push(moment(to).add(1, 'h').valueOf())
 		}
 		else {
-			/**
-			 * Day tick generator
-			 */
-			while (moment(counter).diff(to, 'day') < 0) {
-				ticks.push(counter.valueOf())
-				counter.add(add, 'day')
+			if (timeType === 4) {
+
 			}
-			ticks.push(to.valueOf())
-			if (this.chartType > 0)
-				ticks.push(moment(to).add(1, 'd').valueOf())
+			else {
 
-			monthTicks.push(counter.valueOf())
-			while (moment(counter).diff(to, 'day') < 0) {
-				counter.add(add, 'day')
-				if (
-					monthTicks.findIndex(f => {
-						return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
-					}) === -1
-				) {
-
-					monthTicks.push(counter.valueOf())
+				/**
+				 * Day tick generator
+				 */
+				while (moment(counter).diff(to, 'day') < 0) {
+					let clone = moment(counter).clone()
+					ticks.push(clone.add(12, 'h').valueOf())
+					counter.add(add, 'day')
 				}
+				let cloneTo = moment(to).clone()
+				ticks.push(cloneTo.add(12, 'h').valueOf())
+				if (this.chartType > 0)
+					ticks.push(moment(to).valueOf())
+
+				monthTicks.push(counter.valueOf())
+				while (moment(counter).diff(to, 'day') < 0) {
+					counter.add(add, 'day')
+					if (
+						monthTicks.findIndex(f => {
+							return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
+						}) === -1
+					) {
+
+						monthTicks.push(counter.valueOf())
+					}
+				}
+				monthTicks.push(to.valueOf())
 			}
-			monthTicks.push(to.valueOf())
 		}
-		/**
+		if (timeType === 4) {
+			/**
+	 			* Generate Month Axis
+	 		*/
+			var xAxis_monthsSingle = this.xAxis_months = d3.axisBottom(this.x)
+				.tickFormat(d => moment(d).format('MMM'))
+				.tickValues(monthTicks)
+			/**
+			 * Append Month Axis
+			 */
+			this.xAxisMonths = this.svg.append("g")
+				.attr("transform", "translate(0," + (height - this.margin.bottom + 5) + ")")
+				.call(xAxis_monthsSingle)
+			/**
+			* Month Axis Styling
+			*/
+			this.xAxisMonths.selectAll('path').attr('class', classes.axis)
+			this.xAxisMonths.selectAll('line').attr('class', classes.axis)
+			this.xAxisMonths.selectAll('text').attr('class', classes.axisText)
+
+		}
+		else {
+
+
+			/**
 			 * Generate Hour axis
 			 */
-		var xAxis_hours = this.xAxis_hours = d3.axisBottom(this.x)
+			var xAxis_hours = this.xAxis_hours = d3.axisBottom(this.x)
 			// .tickFormat(d3.timeFormat("%d"))
-			.tickFormat(f => moment(f).format('HH:mm'))
-			.tickValues(hourTicks)
+				.tickFormat(f => moment(f).format('HH:mm'))
+				.tickValues(hourTicks)
 
-		/**
-		 * Append Day Axis
+			/**
+		 * Append Hour Axis
 		 */
-		this.xAxisHours = this.svg.append("g")
-			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
-			.call(xAxis_hours)
+			this.xAxisHours = this.svg.append("g")
+				.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
+				.call(xAxis_hours)
 
-		/**
-		* Day Axis Styling
+			/**
+		* Hour Axis Styling
 		*/
-		this.xAxisHours.selectAll('path').attr('class', classes.axis)
-		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
-		this.xAxisHours.selectAll('line').attr('class', classes.axis)
-		this.xAxisHours.selectAll('text').attr('class', classes.axisTick)
+			this.xAxisHours.selectAll('path').attr('class', classes.axis)
+			// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
+			this.xAxisHours.selectAll('line').attr('class', classes.axis)
+			this.xAxisHours.selectAll('text').attr('class', classes.axisTick)
 
 
-		/**
+			/**
 		 * Generate Day axis
 		 */
-		this.xAxis_days = d3.axisBottom(this.x)
-			.tickFormat(f => moment(f).format('D'))
-			.tickValues(ticks)
+			this.xAxis_days = d3.axisBottom(this.x)
 
-		/**
+				.tickFormat(f => moment(f).format('D'))
+				.tickValues(ticks)
+
+			/**
 		 * Append Day Axis
 		 */
-		this.xAxis = this.svg.append("g")
-			.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
-			.call(this.xAxis_days)
+			this.xAxis = this.svg.append("g")
+				.attr("transform", `translate(0,  ${(height - this.margin.bottom + 5)})`)
+				.call(this.xAxis_days)
 
 
-		/**
+			/**
 		* Day Axis Styling
 		*/
-		this.xAxis.selectAll('path').attr('class', classes.axis)
-		// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
-		this.xAxis.selectAll('line').attr('class', classes.axis)
-		this.xAxis.selectAll('text').attr('class', classes.axisTick)
+			this.xAxis.selectAll('path').attr('class', classes.axis)
+			// this.xAxis.selectAll('line').attr('class', classes.yAxisLine).attr('y2', `-${this.height - this.margin.bottom - 20}`)
+			this.xAxis.selectAll('line').attr('class', classes.axis)
+			this.xAxis.selectAll('text').attr('class', classes.axisTick)
 
-		/**
+			/**
 		 * Generate Month Axis
 		 */
-		var xAxis_months = this.xAxis_months = d3.axisBottom(this.x)
-			.tickFormat(d => moment(d).format('MMM'))
-			.tickValues(monthTicks)
-		/**
+			var xAxis_months = this.xAxis_months = d3.axisBottom(this.x)
+				.tickFormat(d => moment(d).format('MMM'))
+				.tickValues(monthTicks)
+			/**
 		 * Append Month Axis
 		 */
-		this.xAxisMonths = this.svg.append("g")
-			.attr("transform", "translate(-8," + (height - this.margin.bottom + 26) + ")")
-			.call(xAxis_months)
-		/**
+			this.xAxisMonths = this.svg.append("g")
+				.attr("transform", "translate(-8," + (height - this.margin.bottom + 26) + ")")
+				.call(xAxis_months)
+			/**
 		* Month Axis Styling
 		*/
-		this.xAxisMonths.selectAll('path').attr('class', classes.axis)
-		this.xAxisMonths.selectAll('line').attr('class', classes.axis)
-		this.xAxisMonths.selectAll('text').attr('class', classes.axisText)
+			this.xAxisMonths.selectAll('path').attr('class', classes.axis)
+			this.xAxisMonths.selectAll('line').attr('class', classes.axis)
+			this.xAxisMonths.selectAll('text').attr('class', classes.axisText)
 		// this.xAxis.append('text')
 		// 	.attr('transform', `translate(0,50)`)
 		// 	.attr('class', classes.axisText)
-		// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
+			// 	.html(toUppercase(moment(ticks[0].date).format('MMMM')))
+		}
 	}
 	generateBars = () => {
 		const classes = this.classes
@@ -394,6 +435,9 @@ class d3Line {
 						return barHeight < 10 ? barHeight === 0 ? this.y(d.value) : this.y(d.value) : this.y(d.value)
 					})
 					.attr("width", (d) => {
+						if (timeType === 4) {
+							return this.x(moment(d.date).endOf("month").valueOf()) - this.x(moment(d.date).startOf('month').valueOf())
+						}
 						return this.x(d3.timeHour.offset(moment(d.date).valueOf(), timeType === 1 ? 1 : 24)) - this.x(moment(d.date).valueOf())
 					})
 					.attr("x", (d, i) => this.x(moment(d.date).valueOf()))
@@ -428,6 +472,8 @@ class d3Line {
 		const height = this.height
 		const margin = this.margin
 		const weatherData = this.weatherData
+		let period = this.props.period
+		let timeType = period.timeType
 
 		const getIcon = (icon) => {
 
@@ -456,73 +502,79 @@ class d3Line {
 					break
 			}
 		}
-		this.xAxis.selectAll('.tick').each(function (d, i) {
-			let parent = d3.select(this)
-			if (this.nextSibling) {
+		if (timeType !== 4) {
 
-				if (i % 2 !== 0) {
-					parent.append('rect')
-						.attr('class', classes.axisLineWhite)
-						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-						.attr("height", height - margin.bottom - 26)
-						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
-					if (weatherData[i]) {
-						parent.append("image")
-							.attr("xlink:href", getIcon(weatherData[i].icon))
-							.attr('class', classes.weatherIcon)
-							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
-							.attr("y", -(height - margin.bottom - 40))
+
+			this.xAxis.selectAll('.tick').each(function (d, i) {
+				let parent = d3.select(this)
+				if (this.nextSibling) {
+
+					if (i % 2 !== 0) {
+						console.log(this.getBoundingClientRect().x)
+						parent.append('rect')
+							.attr("x", -Math.round((this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2))
+							.attr('class', classes.axisLineWhite)
+							.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+							.attr("height", height - margin.bottom - 26)
+							.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+						if (weatherData[i]) {
+							parent.append("image")
+								.attr("xlink:href", getIcon(weatherData[i].icon))
+								.attr('class', classes.weatherIcon)
+								.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
+								.attr("y", -(height - margin.bottom - 40))
+						}
+
 					}
+					else {
+						if (weatherData[i]) {
 
-				}
-				else {
-					if (weatherData[i]) {
+							parent.append("image")
+								.attr("xlink:href", getIcon(weatherData[i].icon))
+								.attr('class', classes.weatherIcon)
+								.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
+								.attr("y", -(height - margin.bottom - 40))
+						}
 
-						parent.append("image")
-							.attr("xlink:href", getIcon(weatherData[i].icon))
-							.attr('class', classes.weatherIcon)
-							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
-							.attr("y", -(height - margin.bottom - 40))
 					}
-
-				}
 				// }
-			}
-		})
-		this.xAxisHours.selectAll('.tick').each(function (d, i) {
-			let parent = d3.select(this)
-			if (this.nextSibling) {
+				}
+			})
+			this.xAxisHours.selectAll('.tick').each(function (d, i) {
+				let parent = d3.select(this)
+				if (this.nextSibling) {
 
-				if (i % 2 === 0) {
-					parent.append('rect')
-						.attr('class', classes.axisLineWhite)
-						.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
-						.attr("height", height - margin.bottom - 26)
-						.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
-					if (weatherData[i]) {
-						parent.append("image")
-							.attr("xlink:href", getIcon(weatherData[i].icon))
-							.attr('class', classes.weatherIcon)
-							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
-							.attr("y", -(height - margin.bottom - 40))
-					}
+					if (i % 2 === 0) {
+						parent.append('rect')
+							.attr('class', classes.axisLineWhite)
+							.attr("width", this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x)
+							.attr("height", height - margin.bottom - 26)
+							.attr('style', `transform: translate(0px, -${height + 5 - margin.bottom - 26}px)`)
+						if (weatherData[i]) {
+							parent.append("image")
+								.attr("xlink:href", getIcon(weatherData[i].icon))
+								.attr('class', classes.weatherIcon)
+								.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
+								.attr("y", -(height - margin.bottom - 40))
+						}
 					// .attr("width", 32)
 					// .attr("height", 32)
-				}
-				else {
-					if (weatherData[i])
+					}
+					else {
+						if (weatherData[i])
 
-						parent.append("image")
-							.attr("xlink:href", getIcon(weatherData[i].icon))
-							.attr('class', classes.weatherIcon)
-							.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
-							.attr("y", -(height - margin.bottom - 40))
+							parent.append("image")
+								.attr("xlink:href", getIcon(weatherData[i].icon))
+								.attr('class', classes.weatherIcon)
+								.attr("x", Math.round(this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2)
+								.attr("y", -(height - margin.bottom - 40))
 					// .attr("width", 32)
 					// .attr("height", 32)
-				}
+					}
 				// }
-			}
-		})
+				}
+			})
+		}
 	}
 
 	generateDots = () => {
@@ -763,7 +815,7 @@ class d3Line {
 				}
 				if (line.dashed) {
 					//Set up your path as normal
-					console.log(this.state['L' + line.name], line.name)
+					// console.log(this.state['L' + line.name], line.name)
 					var path = this.svg.append("path")
 						.data([line.data])
 						.attr('id', 'L' + line.name)

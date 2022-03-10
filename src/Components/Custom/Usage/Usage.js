@@ -38,12 +38,13 @@ const Usage = props => {
 
 	//Handlers
 	const unit = () => {
-		switch (props.chart) {
-			case 'waterusage':
-				return mUnit === 'm3' ? 'm³' : 'L'
-			default:
-				return 'm³'
-		}
+		return mUnit === 'm3' ? 'm³' : 'L';
+		// switch (props.chart) {
+		// 	case 'waterusage':
+		// 		return mUnit === 'm3' ? 'm³' : 'L'
+		// 	default:
+		// 		return 'm³'
+		// }
 	}
 
 	const columnClasses = (index) => {
@@ -81,7 +82,7 @@ const Usage = props => {
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
 				</ItemG>
 
-				<ItemG container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
+				<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
 					<T variant="body2" className={classes.cubicValue}>
 						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
 						<span className={classes.cubicValueUnit}>
@@ -94,7 +95,7 @@ const Usage = props => {
 				<ItemG container style={{ maxWidth: '100%' }}>
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
 				</ItemG>
-				<ItemG container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
+				<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
 					<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
 						{(mUnit === 'm3' ?
 							formatShortNumber(avgData.benchmarkm3, 2, t) :
