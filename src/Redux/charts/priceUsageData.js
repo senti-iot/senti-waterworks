@@ -53,6 +53,10 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
 			return total
 		}, 0)
 
+		/**
+		 * Change from datapoints to number of days
+		 * @Andrei
+		 */
 		let avgValue = parseFloat(middleData / wsUsage.length).toFixed(3)
 		let bavgValue = parseFloat(benchmarkSum / wsUsage.length).toFixed(3)
 
