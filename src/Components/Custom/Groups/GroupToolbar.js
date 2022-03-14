@@ -7,7 +7,7 @@ import TextF from 'Components/Input/TextF'
 import T from 'Components/Typography/T'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import React, { useState } from 'react'
-import { Add, Edit } from 'variables/icons'
+import { Add, /* Edit */ } from 'variables/icons'
 import { tagColors } from 'variables/colors'
 import { addTagToResources, createTag, replaceTagsToResources } from 'data/tags'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
@@ -33,7 +33,7 @@ const styles = makeStyles(theme => ({
 
 	},
 }))
-const DeviceToolbar = props => {
+const GroupToolbar = props => {
 	//Hooks
 	const classes = styles()
 	const t = useLocalization()
@@ -67,7 +67,7 @@ const DeviceToolbar = props => {
 	//useEffects
 
 	//Handlers
-	const handleOpenEditTags = () => setOpenEditTags(true)
+	// const handleOpenEditTags = () => setOpenEditTags(true)
 	const handleCloseEditTags = () => {
 		setReplace(false)
 		setOpenEditTags(false)
@@ -246,23 +246,6 @@ const DeviceToolbar = props => {
 					<DialogHeader label={'tags.createTag'} />
 					<ItemG container style={{ padding: 16 }}>
 
-						<ItemG container>
-							<ItemG xs={12}>
-								<T variant={'h6'} className={classes.section}>{`${t('sidebar.devices')} ${t('tables.selected')}:`}</T>
-								<Divider />
-							</ItemG>
-							<ItemG xs={12}>
-
-								<List dense className={classes.listContainer}>
-									{props.devices.map(d => {
-										let device = devices[devices.findIndex(f => f.uuid === d)]
-										return <ListItem divider>{device?.name} - {device?.uuname}</ListItem>
-									})
-									}
-								</List>
-							</ItemG>
-						</ItemG>
-						<Divider />
 						<ItemG container spacing={1}>
 							<ItemG xs={12}>
 								<T variant={'h6'} className={classes.section}>{t('tags.createTag')}</T>
@@ -334,7 +317,7 @@ const DeviceToolbar = props => {
 						<Chip style={{ color: '#fff' }} label={t('actions.addNewTag')} color={'secondary'} onClick={handleOpenAddTags} icon={<Add style={{ color: '#fff' }} />} />
 					</ItemG>
 					<ItemG>
-						<Chip style={{ color: '#fff' }} label={t('actions.editTags')} color={'secondary'} onClick={handleOpenEditTags} icon={<Edit style={{ color: '#fff' }} />} />
+						{/* <Chip style={{ color: '#fff' }} label={t('actions.editTags')} color={'secondary'} onClick={handleOpenEditTags} icon={<Edit style={{ color: '#fff' }} />} /> */}
 					</ItemG> </> : null}
 			</ItemG>
 			{renderEditTags()}
@@ -343,4 +326,4 @@ const DeviceToolbar = props => {
 	)
 }
 
-export default DeviceToolbar
+export default GroupToolbar

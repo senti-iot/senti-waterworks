@@ -3,13 +3,14 @@ import { Devices as DeviceIcon } from 'variables/icons'
 import React, { Fragment, useState } from 'react'
 import InstallationTable from 'Components/Custom/InstallationsTable/InstallationTable'
 import { useLocalization } from 'Hooks'
-import { Collapse, makeStyles, Toolbar } from '@material-ui/core'
+import { Collapse, Toolbar } from '@material-ui/core'
 import CreateInstallation from 'Components/Custom/InstallationsTable/CreateInstallation'
 import EditInstallation from 'Components/Custom/InstallationsTable/EditInstallation'
 import { useDispatch, useSelector } from 'react-redux'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { closeCI } from 'Redux/appState'
 import cx from 'classnames'
+import { makeStyles } from '@material-ui/styles'
 
 const styles = makeStyles(theme => ({
 	icon: {

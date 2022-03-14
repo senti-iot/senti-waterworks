@@ -4,12 +4,11 @@ import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { sortData as rSortData } from 'Redux/data'
-import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
-// import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
 import { getTags } from 'Redux/tagManager'
 import { Dialog } from '@material-ui/core'
 import Group from 'Components/Custom/Groups/Group'
+import GroupToolbar from 'Components/Custom/Groups/GroupToolbar'
 
 
 
@@ -76,15 +75,7 @@ const GroupTable = (props) => {
 		else
 			setSelDev(customFilterItems(tags, filters).map(d => d.uuid))
 	}
-	//#region  Filters
 
-	const groupFilters = [
-		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
-		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
-		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
-	]
-
-	//#endregion
 	const columns = [
 		{ id: 'name', label: t('devices.fields.name') },
 		{ id: 'description', label: t('devices.fields.description') },
@@ -113,8 +104,7 @@ const GroupTable = (props) => {
 
 		<>
 
-			{/* {selDev.length > 0 ? <DeviceToolbar devices={selDev} /> : <FilterToolbar reduxKey={'tags'} filters={deviceFilters} />} */}
-			<FilterToolbar reduxKey={'groups'} filters={groupFilters} />
+			 <GroupToolbar devices={selDev} />
 
 			<CTable
 				order={order}
