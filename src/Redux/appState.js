@@ -92,6 +92,10 @@ export const addFilter = (f, type) => {
 		let filters = []
 		filters = [...getState().appState.filters[type]]
 		let id = filters.length
+		if (filters.length > 0) {
+			f.filterType = 'OR'
+		}
+
 		filters.push({ ...f, id })
 		dispatch({
 			type: updateFilters,
