@@ -96,7 +96,7 @@ function CTable(props) {
 									{/* <Hidden mdDown> */}
 
 									<Fragment>
-										<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(!e.target.checked, row.uuid)} />} />
+										<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => { e.stopPropagation(); handleCheckboxClick(!e.target.checked, row.uuid) }} />} />
 										{bodyStructure(row)}
 									</Fragment>
 

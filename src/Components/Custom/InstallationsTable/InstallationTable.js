@@ -244,7 +244,7 @@ const FullInstallationTable = (props) => {
 			await dispatch(await getAdminInstallations())
 		})
 	}
-	const handleGoToInstallation = (row) => e => {
+	const handleGoToInstallation = (row) => {
 		console.log(row)
 		history.push(`/installation/${row.uuid}`)
 	}

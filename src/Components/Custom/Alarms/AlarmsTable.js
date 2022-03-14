@@ -176,6 +176,9 @@ const AlarmsTable = (props) => {
 		}
 
 	}
+	const handleGoToAlarm = (row) => {
+		history.push(`/alarm/${row.uuid}`)
+	}
 	const bodyStructure = row => {
 		return <Fragment key={row.id}>
 			{/* <TC label={row.address} /> */}
@@ -190,6 +193,7 @@ const AlarmsTable = (props) => {
 			{/* <TC content={renderTags(row)} /> */}
 		</Fragment>
 	}
+
 	return (
 
 		<>
@@ -208,7 +212,7 @@ const AlarmsTable = (props) => {
 				columns={columns}
 				handleCheckboxClick={selectDevice}
 				handleSelectAllClick={selectAllDevices}
-				handleClick={(r) => () => { history.push(`/alarm/${r.uuid}`) }}
+				handleClick={handleGoToAlarm}
 				handleSort={handleRequestSort}
 			/>
 		</>
