@@ -33,7 +33,7 @@ const styles = makeStyles(theme => ({
 
 	},
 }))
-const GroupsToolbar = props => {
+const DeviceToolbar = props => {
 	//Hooks
 	const classes = styles()
 	const t = useLocalization()
@@ -328,12 +328,12 @@ const GroupsToolbar = props => {
 				<ItemG>
 					<Chip color={'primary'} label={`${props.devices.length} ${t('tables.selected')}`} />
 				</ItemG>
-				<ItemG>
+				{props.devices.length > 0 ? <ItemG>
 					<Chip style={{ color: '#fff' }} label={t('actions.addNewTag')} color={'secondary'} onClick={handleOpenAddTags} icon={<Add style={{ color: '#fff' }} />} />
-				</ItemG>
-				<ItemG>
+				</ItemG> : null}
+				{props.devices.length > 0 ? <ItemG>
 					<Chip style={{ color: '#fff' }} label={t('actions.editTags')} color={'secondary'} onClick={handleOpenEditTags} icon={<Edit style={{ color: '#fff' }} />} />
-				</ItemG>
+				</ItemG> : null}
 			</ItemG>
 			{renderEditTags()}
 			{renderAddTags()}
@@ -341,4 +341,4 @@ const GroupsToolbar = props => {
 	)
 }
 
-export default GroupsToolbar
+export default DeviceToolbar
