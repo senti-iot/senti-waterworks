@@ -1,8 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Divider, MenuItem, Menu, IconButton, Button, Tooltip } from '@material-ui/core';
-import { T, CustomDateTime, ItemG, DSelect } from 'Components';
-import { dateTimeFormatter } from 'variables/functions';
+import { CustomDateTime, ItemG, DSelect } from 'Components';
 import moment from 'moment'
 import { DateRange } from 'variables/icons';
 import { useLocalization, useDispatch, useSelector } from 'Hooks';
@@ -10,8 +9,23 @@ import { changeDate } from 'Redux/dateTime';
 
 const DateFilterMenu = (props) => {
 
-	const { period, label, icon, button, settings, inputType, buttonProps } = props
+	//Hooks
 	const dispatch = useDispatch()
+
+	//Redux
+	const period = useSelector(s => s.dateTime.period)
+	console.log(period)
+	//State
+
+	//Const
+	const { label, icon, button, inputType, buttonProps } = props
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 	const uInternal = useSelector(s => s.settings.user?.internal)
 	const t = useLocalization()
 	const [openCustomDate, setOpenCustomDate] = useState(false)
@@ -27,17 +41,17 @@ const DateFilterMenu = (props) => {
 		{ value: 5, label: t('filters.dateOptions.90days') },
 		{ value: 6, label: t('filters.dateOptions.custom') },
 	]
-	const options = [
-		{ id: 0, label: t('filters.dateOptions.today') },
-		// { id: 1, label: t('filters.dateOptions.yesterday') },
-		{ id: 1, label: t('filters.dateOptions.thisWeek') },
-		{ id: 2, label: t('filters.dateOptions.7days') },
-		{ id: 3, label: t('filters.dateOptions.month') },
-		{ id: 4, label: t('filters.dateOptions.year') },
-		{ id: 5, label: t('filters.dateOptions.90days') },
-		{ id: 6, label: t('filters.dateOptions.custom') },
-		{ id: 7, label: t('filters.dateOptions.30days') },
-	]
+	// const options = [
+	// 	{ id: 0, label: t('filters.dateOptions.today') },
+	// 	// { id: 1, label: t('filters.dateOptions.yesterday') },
+	// 	{ id: 1, label: t('filters.dateOptions.thisWeek') },
+	// 	{ id: 2, label: t('filters.dateOptions.7days') },
+	// 	{ id: 3, label: t('filters.dateOptions.month') },
+	// 	{ id: 4, label: t('filters.dateOptions.year') },
+	// 	{ id: 5, label: t('filters.dateOptions.90days') },
+	// 	{ id: 6, label: t('filters.dateOptions.custom') },
+	// 	{ id: 7, label: t('filters.dateOptions.30days') },
+	// ]
 	/* TODO: Fix the Custom Date Time for >30 days set for monthly */
 	// const handleTimeType = (from, to) => {
 	// 	let diff = moment(from).diff(to, 'day')
@@ -138,13 +152,12 @@ const DateFilterMenu = (props) => {
 		setOpenCustomDate(false)
 	}
 	const renderCustomDateDialog = () => {
-		const { period } = props
 		return openCustomDate ? <CustomDateTime
 			openCustomDate={openCustomDate}
 			handleCloseDialog={handleCloseDialog}//
-			to={period ? period.to : undefined}
-			from={period ? period.from : undefined}
-			timeType={period ? period.timeType : undefined}
+			to={period.to}
+			from={period.from}
+			timeType={period.timeType}
 			handleCustomCheckBox={handleCustomCheckBox}//
 			handleCancelCustomDate={handleCancelCustomDate}//
 			uInternal={uInternal}
@@ -160,10 +173,10 @@ const DateFilterMenu = (props) => {
 		setActionAnchor(null)
 	}
 
-	const isSelected = (value) => value === period ? period.menuId ? true : false : false
+	const isSelected = (value) => value === period.menuId ? true : false
 
-	let displayTo = period ? dateTimeFormatter(period.to) : ""
-	let displayFrom = period ? dateTimeFormatter(period.from) : ""
+	// let displayTo = period ? dateTimeFormatter(period.to) : ""
+	// let displayFrom = period ? dateTimeFormatter(period.from) : ""
 	return (
 		inputType ? <DSelect
 			onChange={handleDateFilter}
@@ -207,13 +220,13 @@ const DateFilterMenu = (props) => {
 						}
 					}}>
 					<ItemG container direction={'column'}>
-						{!settings && period && <Fragment>
+						{/* {!settings && period && <Fragment>
 							<ItemG>
 								<T>{options[options.findIndex(d => d.id === period.menuId ? true : false)].label}</T>
 								<T>{`${displayFrom} - ${displayTo}`}</T>
 							</ItemG>
 							<Divider />
-						</Fragment>}
+						</Fragment>} */}
 						{uInternal?.sentiWaterworks?.timeType === 1 ?
 							<MenuItem selected={isSelected(0)} onClick={handleDateFilter} value={0}>{t('filters.dateOptions.today')}</MenuItem> : null}
 						<MenuItem selected={isSelected(1)} onClick={handleDateFilter} value={1}>{t('filters.dateOptions.thisWeek')}</MenuItem>
