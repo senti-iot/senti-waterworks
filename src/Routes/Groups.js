@@ -44,7 +44,6 @@ const Groups = () => {
 
 	const groupFilters = [
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
-		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
 
