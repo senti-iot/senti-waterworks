@@ -137,7 +137,10 @@ const DMultipleSelect = (props) => {
 				renderValue={(selected) => selected.length > 1 ? selected.length + ' ' + t('tables.selected') : menuItems[menuItems.findIndex(f => f.value === selected[0])].label}
 				onKeyPress={onKeyPress}
 				styles={props.styles}
-				MenuProps={menuProps}
+				MenuProps={{
+					variant: "menu",
+					getContentAnchorEl: null,
+					...menuProps }}
 				IconComponent={IconComponent}
 				InputProps={{
 					...props.InputProps,

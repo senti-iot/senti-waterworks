@@ -208,30 +208,49 @@ export const setGraphLine = (id, value) => {
 
 	}
 }
-export const setTagFilter = (tagUuid) => {
+export const setTagFilter = (tagArray) => {
 	return (dispatch, getState) => {
 		// let newSDevices = []
 		// let selectedDevices = getState().appState.selectedDevices
 		let devices = getState().data.devices
-		if (tagUuid !== -1) {
+		let tArr = tagArray.filter(f => f !== -1)
 
-			// let devices = getState().data.devices
-			let tagDevices = devices.filter(d => d.tags.filter(t => t.uuid === tagUuid).length > 0).map(s => s.uuid)
+		if (tArr.length > 0) {
+			// let tagDevices = devices.filter(d => d.tags.filter(t => tagArray.findIndex(ti => ti === t.uuid) > -1)).map(s => s.uuid)
+			let tagDevices = devices.map(s => ({ uuid: s.uuid, tags: s.tags }))
+			let fDevices = tagDevices.filter(d => {
+
+				let result = d.tags.filter(t => {
+					return tagArray.findIndex(ti => ti === t.uuid) > -1
+				})
+				return result.length > 0
+			}).map(s => s.uuid)
 			dispatch({
 				type: sDevice,
-				payload: tagDevices
+				payload: fDevices
 			})
-
 		}
+		// if (tagUuid !== -1) {
+
+		// 	// let devices = getState().data.devices
+		// 	let tagDevices = devices.filter(d => d.tags.filter(t => t.uuid === tagUuid).length > 0).map(s => s.uuid)
+		// 	dispatch({
+		// 		type: sDevice,
+		// 		payload: tagDevices
+		// 	})
+
+		// }
 		else {
+			tArr.push(-1)
 			dispatch({
 				type: sDevice,
 				payload: devices.map(s => s.uuid)
 			})
 		}
+
 		dispatch({
 			type: setTFilter,
-			payload: tagUuid
+			payload: tArr
 		})
 	}
 }
@@ -241,7 +260,7 @@ const initialState = {
 	fullScreenLineChart: false,
 	selectedExportDevices: [],
 	selectedDevices: [],
-	selectedTag: -1,
+	selectedTag: [-1],
 	openTagFilter: false,
 	tabs: {
 		id: '',

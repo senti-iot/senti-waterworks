@@ -1397,8 +1397,8 @@
         "filter": {
             "title": "Filtrer enheder"
         },
-        "tag": "gruppe",
-        "tags": "grupper"
+        "tag": "Gruppe",
+        "tags": "Grupper"
     },
     "time": {
         "M": "måneder",
