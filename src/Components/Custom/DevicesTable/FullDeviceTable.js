@@ -7,7 +7,7 @@ import { getAdminDevices, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import { Chip, Tooltip } from '@material-ui/core'
-import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
+// import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
 import { getTags } from 'Redux/tagManager'
 import { contrastColor } from 'data/functions'
 
@@ -135,7 +135,7 @@ const FullDeviceTable = (props) => {
 
 		<>
 
-			{selDev.length > 0 ? <DeviceToolbar devices={selDev}/> : <FilterToolbar reduxKey={'devices'} filters={deviceFilters} />}
+			{selDev.length > 0 ?/*  <DeviceToolbar devices={selDev}/> */ null : <FilterToolbar reduxKey={'devices'} filters={deviceFilters} />}
 
 			<CTable
 				order={order}

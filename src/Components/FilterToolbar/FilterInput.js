@@ -30,7 +30,7 @@ const styles = makeStyles(theme => {
 		chips: {},
 		root: {
 			background: light ? 'rgba(0, 0, 0, 0.1)' : "rgba(255, 255, 255, 0.1)",
-			borderRadius: "4px"
+			borderRadius: "4px",
 		},
 		inputRoot: {
 			flex: 1,
@@ -45,6 +45,7 @@ const styles = makeStyles(theme => {
 		input: {
 			display: 'inline-block',
 			appearance: 'none',
+			color: light ? "#fff" : "#000",
 			WebkitTapHighlightColor: 'rgba(0,0,0,0)',
 			float: 'left',
 			"&::placeholder": {
@@ -57,7 +58,7 @@ const styles = makeStyles(theme => {
 			display: 'flex',
 			// marginBottom: -2,
 			minHeight: 40,
-			padding: 8,
+			// padding: 8,
 			// margin: 2,
 			'&$labeled': {
 				marginTop: 18

@@ -78,7 +78,7 @@ function CTable(props) {
 							return (
 								<TableRow
 									hover
-									onClick={handleClick(row)}
+									onClick={e => { e.stopPropagation(); handleClick(row) }}
 									role='checkbox'
 									aria-checked={isSelectedRow}
 									tabIndex={-1}

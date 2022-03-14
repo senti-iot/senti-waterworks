@@ -15,6 +15,20 @@ const fsLG = 'fullScreenLineGraph'
 const setLines = 'setGraphLines'
 const setTFilter = 'setTFilter'
 const setOpenTFilter = 'setOpenTFilter'
+const openCreateInstallation = 'openCreateInstallation'
+const openCreateAlarm = 'openCreateAlarm'
+const openCreateTag = 'openCreateTag'
+
+
+export const openCA = () => dispatch => dispatch({ type: openCreateAlarm, payload: true })
+export const closeCA = () => dispatch => dispatch({ type: openCreateAlarm, payload: false })
+
+export const openCT = () => dispatch => dispatch({ type: openCreateTag, payload: true })
+export const closeCT = () => dispatch => dispatch({ type: openCreateTag, payload: true })
+
+export const openCI = () => dispatch => dispatch({ type: openCreateInstallation, payload: true })
+export const closeCI = () => dispatch => dispatch({ type: openCreateInstallation, payload: false })
+
 
 export const changeOpenTagFilter = () => {
 	return ({
@@ -262,6 +276,9 @@ const initialState = {
 	selectedDevices: [],
 	selectedTag: [-1],
 	openTagFilter: false,
+	oci: false,
+	oca: false,
+	oct: false,
 	tabs: {
 		id: '',
 		route: 0,
@@ -305,6 +322,12 @@ export const appState = (state = initialState, action) => {
 	switch (action.type) {
 		case 'RESET_APP':
 			return initialState
+		case openCreateTag:
+			return Object.assign({}, state, { oci: action.payload })
+		case openCreateAlarm:
+			return Object.assign({}, state, { oci: action.payload })
+		case openCreateInstallation:
+			return Object.assign({}, state, { oci: action.payload })
 		case setOpenTFilter:
 			return Object.assign({}, state, { openTagFilter: !state.openTagFilter })
 		case setTFilter:

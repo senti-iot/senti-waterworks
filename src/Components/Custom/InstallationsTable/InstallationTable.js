@@ -4,7 +4,6 @@ import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { useSelector, useLocalization, useState, useDispatch, useHistory } from 'Hooks'
 import { getAdminDevices, getAdminInstallations, getAdminUsers, getUInstallation, sortData as rSortData } from 'Redux/data'
-import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 // import { Chip, Tooltip } from '@material-ui/core'
 // import InstallationToolbar from 'Components/Custom/InstallationsTable/InstallationToolbar'
@@ -17,6 +16,8 @@ import { ItemG } from 'Components'
 import { Chip } from '@material-ui/core'
 import DeleteDialog from 'Components/Dialogs/DeleteDialog'
 import { deleteInstallation } from 'data/installations'
+import { openCI } from 'Redux/appState'
+import { Add } from '@material-ui/icons'
 
 const styles = makeStyles(theme => ({
 	chipIcon: {
@@ -95,7 +96,7 @@ const FullInstallationTable = (props) => {
 	//Handlers
 	const sortData = (key, property, order) => dispatch(rSortData(key, property, order))
 
-
+	const handleOpenCreate = () => dispatch(openCI())
 
 	const handleRequestSort = (key, property) => {
 		let o = property !== orderBy ? 'asc' : order === 'desc' ? 'asc' : 'desc'
@@ -105,6 +106,7 @@ const FullInstallationTable = (props) => {
 		sortData(key, property, o)
 	}
 	const selectInstallation = (s, installation) => {
+
 		let newSInstallations = []
 		newSInstallations = [...selDev]
 		if (s) {
@@ -124,34 +126,7 @@ const FullInstallationTable = (props) => {
 			setSelDev(customFilterItems(installations, filters).map(d => d.uuid))
 		}
 	}
-	//#region  Filters
-	const dOperation = () => {
-		return [
-			{ value: 0, label: t("installations.operations.inactive") },
-			{ value: 1, label: t("installations.operations.active") },
-		]
-	}
-	const dState = () => {
-		return [
-			{ value: 0, label: t("installations.states.provisioned") },
-			{ value: 1, label: t("installations.states.onboarded") }
-		]
-	}
-	// const dTagList = () => {
-	// 	return tags.map(t => ({
-	// 		value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div> }))
-	// }
-	const installationFilters = [
-		{ key: 'streetName', name: t('installations.fields.streetName'), type: 'string' },
-		{ key: 'zip', name: t('installations.fields.zip'), type: 'string' },
-		{ key: 'city', name: t('installations.fields.city'), type: 'string' },
-		{ key: 'state', name: t('installations.fields.state'), type: 'dropDown', options: dState() },
-		{ key: 'operation', name: t('installations.fields.operation'), type: 'dropDown', options: dOperation() },
-		// { key: '', name: t('installations.fields.tags'), type: 'dropDown', options: dTagList() },
-		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
-	]
 
-	//#endregion
 	const columns = [
 		{ id: 'streetName', label: t('installations.fields.streetName') },
 		{ id: 'zip', label: t('installations.fields.zip') },
@@ -216,7 +191,6 @@ const FullInstallationTable = (props) => {
 	}
 
 	const bodyStructure = row => {
-		console.log(row)
 		return <Fragment key={row.id}>
 			<TC label={renderStreet(row)} />
 			<TC label={row.zip} />
@@ -241,17 +215,20 @@ const FullInstallationTable = (props) => {
 	const renderSelectedToolbar = () => {
 		return <div className={classes.chipContainer}>
 			<ItemG container spacing={1} alignItems={'center'}>
-				<ItemG>
+				{selDev.length > 0 ? <ItemG>
 					<Chip color={'primary'} label={`${selDev.length} ${t('tables.selected')}`} />
-				</ItemG>
+				</ItemG> : <ItemG />}
 
 				{isSWAdmin ? <Fragment>
+					<ItemG>
+						<Chip className={classes.chipIcon} label={t('menus.create.installation')} color={'secondary'} onClick={() => { handleOpenCreate() }} icon={<Add className={classes.chipIcon} />} />
+					</ItemG>
 					{selDev.length === 1 ? <ItemG>
 						<Chip className={classes.chipIcon} label={t('menus.edits.installation')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0]) }} icon={<Edit className={classes.chipIcon} />} />
 					</ItemG> : null}
-					<ItemG>
+					{selDev.length >= 1 ? <ItemG>
 						<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon} />} />
-					</ItemG>
+					</ItemG> : null}
 				</Fragment> : null}
 			</ItemG>
 		</div>
@@ -290,10 +267,7 @@ const FullInstallationTable = (props) => {
 
 		<>
 			{renderDeleteDialog()}
-			{selDev.length > 0 ? <Fragment>
-				{ renderSelectedToolbar()}
-			</Fragment>
-				: <FilterToolbar reduxKey={'installations'} filters={installationFilters} />}
+			{renderSelectedToolbar()}
 
 			<CTable
 				order={order}

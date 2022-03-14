@@ -33,7 +33,7 @@ const styles = makeStyles(theme => ({
 
 	},
 }))
-const DeviceToolbar = props => {
+const GroupsToolbar = props => {
 	//Hooks
 	const classes = styles()
 	const t = useLocalization()
@@ -341,4 +341,4 @@ const DeviceToolbar = props => {
 	)
 }
 
-export default DeviceToolbar
+export default GroupsToolbar
