@@ -327,9 +327,9 @@ export const appState = (state = initialState, action) => {
 		case 'RESET_APP':
 			return initialState
 		case openCreateTag:
-			return Object.assign({}, state, { oci: action.payload })
+			return Object.assign({}, state, { oct: action.payload })
 		case openCreateAlarm:
-			return Object.assign({}, state, { oci: action.payload })
+			return Object.assign({}, state, { oca: action.payload })
 		case openCreateInstallation:
 			return Object.assign({}, state, { oci: action.payload })
 		case setOpenTFilter:

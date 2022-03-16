@@ -476,6 +476,7 @@
         },
         "delete": {
             "message": {
+				"alarms": "Er du sikker på du ønsker at slette disse alarmer:",
                 "cloudfunction": "Er du sikker på du ønsker at slette denne Cloud Funktion ( %{cf} ) ?",
                 "cloudfunctions": "Er du sikker på du ønsker at slette disse cloud funktioner:",
                 "collection": "Er du sikker på du ønsker at slette denne datasamling ( %{collection} ) ?",
@@ -498,6 +499,7 @@
                 "users": "Er du sikker på du ønsker at slette disse brugere:"
             },
             "title": {
+				"alarms": "Slet alarmer?",
                 "cloudfunction": "Slet cloud funktion?",
                 "cloudfunctions": "Slet cloud funktioner?",
                 "collection": "Slet datasamling?",
@@ -799,8 +801,9 @@
         },
         "delete": "Slet",
         "deletes": {
-            "installations": "Slet installationer"
-        },
+            "installations": "Slet installationer",
+			"alarms": "Slet alarmer"
+		},
         "edit": "Rediger",
         "edits": {
             "alarm": "Rediger alarm",

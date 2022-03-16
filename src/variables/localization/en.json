@@ -476,6 +476,7 @@
         },
         "delete": {
             "message": {
+                "alarms": "Are you sure you want to delete these alarms:",
                 "cloudfunction": "Are you sure you want to delete this Cloud Function ( %{cf} ) ?",
                 "cloudfunctions": "Are you sure you want to delete these cloud functions:",
                 "collection": "Are you sure you want to delete this data collection ( %{collection} ) ?",
@@ -498,6 +499,7 @@
                 "users": "Are you sure you want to delete these users:"
             },
             "title": {
+				"alarms": "Delete alarms?",
                 "cloudfunction": "Delete cloud function?",
                 "cloudfunctions": "Delete cloud functions?",
                 "collection": "Delete data collection?",
@@ -799,7 +801,8 @@
         },
         "delete": "Delete",
         "deletes": {
-            "installations": "Delete installations"
+            "installations": "Delete installations",
+			"alarms": "Delete alarms"
         },
         "edit": "Edit",
         "edits": {

@@ -13,6 +13,7 @@ import { Add, Notifications as AlarmIco } from 'variables/icons'
 import DeleteDialog from 'Components/Dialogs/DeleteDialog'
 import { Delete, /* Edit */ } from '@material-ui/icons'
 import { openCA } from 'Redux/appState'
+import { deleteAlarmV1 } from 'data/alarms'
 
 // import { Chip, Tooltip } from '@material-ui/core'
 // import { getTags } from 'Redux/tagManager'
@@ -116,8 +117,8 @@ const AlarmsTable = (props) => {
 	const handleCloseDeleteDialog = () => setOpenDelete(false)
 	const handleDelete = () => {
 		Promise.all([selDev.map(u => {
-			return true
-			// return deleteAlarm(u)
+			// return true
+			return deleteAlarmV1(u)
 		})]).then(async () => {
 			setOpenDelete(false)
 			setSelDev([])
@@ -129,8 +130,8 @@ const AlarmsTable = (props) => {
 		let data = selDev.map(s => alarms[alarms.findIndex(d => d.uuid === s)])
 		return <DeleteDialog
 			t={t}
-			title={'dialogs.delete.title.installations'}
-			message={'dialogs.delete.message.installations'}
+			title={'dialogs.delete.title.alarms'}
+			message={'dialogs.delete.message.alarms'}
 			open={openDelete}
 			icon={<AlarmIco />}
 			handleCloseDeleteDialog={handleCloseDeleteDialog}
@@ -151,13 +152,13 @@ const AlarmsTable = (props) => {
 
 				{isSWAdmin ? <Fragment>
 					<ItemG>
-						<Chip className={classes.chipIcon} label={t('menus.create.installation')} color={'secondary'} onClick={() => { handleOpenCreate() }} icon={<Add className={classes.chipIcon} />} />
+						<Chip className={classes.chipIcon} label={t('menus.create.alarm')} color={'secondary'} onClick={handleOpenCreate} icon={<Add className={classes.chipIcon} />} />
 					</ItemG>
 					{/* {selDev.length === 1 ? <ItemG>
-						<Chip className={classes.chipIcon} label={t('menus.edits.installation')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0]) }} icon={<Edit className={classes.chipIcon} />} />
+						<Chip className={classes.chipIcon} label={t('menus.edits.alarm')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0]) }} icon={<Edit className={classes.chipIcon} />} />
 					</ItemG> : null} */}
 					{selDev.length >= 1 ? <ItemG>
-						<Chip className={classes.chipIcon} label={t('menus.deletes.installations')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon} />} />
+						<Chip className={classes.chipIcon} label={t('menus.deletes.alarms')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon} />} />
 					</ItemG> : null}
 				</Fragment> : null}
 			</ItemG>

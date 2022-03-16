@@ -40,3 +40,13 @@ export const getNotificationsV1 = async uuid => {
 	let response = await eAPI.get(`/usernotifications/${uuid}/${startDate}/${endDate}`).then(rs => rs.ok ? rs.data : rs.ok)
 	return response
 }
+
+
+/**
+ * Delete Alarm
+ */
+
+export const deleteAlarmV1 = async uuid => {
+	let response = await eAPI.delete(`/alarm/${uuid}`).then(rs => rs.ok ? rs.data : rs.ok)
+	return response
+}
