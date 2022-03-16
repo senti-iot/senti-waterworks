@@ -87,6 +87,7 @@ const Installations = () => {
 		{ key: 'city', name: t('installations.fields.city'), type: 'string' },
 		{ key: 'state', name: t('installations.fields.state'), type: 'dropDown', options: dState() },
 		{ key: 'operation', name: t('installations.fields.operation'), type: 'dropDown', options: dOperation() },
+		{ key: 'user.fullName', name: t('installations.fields.user'), type: 'string' },
 		// { key: '', name: t('installations.fields.tags'), type: 'dropDown', options: dTagList() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
