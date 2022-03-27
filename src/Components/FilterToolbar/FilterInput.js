@@ -16,14 +16,28 @@ const styles = makeStyles(theme => {
 	const light = theme.palette.type === 'light'
 	const bottomLineColor = light ? 'rgba(0, 0, 0, 0.42)' : 'rgba(255, 255, 255, 0.7)'
 	return ({
+		addButton: {
+			background: darken(theme.secondary, 0.2),
+			borderRadius: 50,
+			padding: 4,
+			marginLeft: 0,
+			minWidth: 24,
+			minHeight: 24,
+			textAlign: 'center',
+			color: '#fff'
+		},
 		andOrSwitch: {
 			background: darken(theme.secondary, 0.2),
 			borderRadius: 50,
 			padding: 4,
 			marginLeft: 0,
 			minWidth: 24,
+			minHeight: 24,
 			textAlign: 'center',
-			color: '#fff'
+			color: '#fff',
+			fontSize: '12px',
+			paddingTop: 7,
+    		paddingBottom: 1
 		},
 		formControl: {
 		},
@@ -476,7 +490,7 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 					value: t('actions.addFilter'),
 					text: t('actions.addFilter'),
 					chip: t('actions.addFilter'),
-					icon: <Add className={ classes.andOrSwitch }/>,
+					icon: <Add className={classes.addButton }/>,
 					isDisabled: !!disabled,
 					isFocused: false,
 					className: classes.chip,

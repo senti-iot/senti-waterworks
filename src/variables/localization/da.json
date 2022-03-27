@@ -486,7 +486,8 @@
                 "deviceType": "Er du sikker på du ønsker at slette denne enhedstype ( %{deviceType} ) ?",
                 "deviceTypes": "Er du sikker på du ønsker at slette disse enhedstyper:",
                 "devices": "Er du sikker på du ønsker at slette disse enheder:",
-                "installations": "Er du sikker på du ønsker at slette denne Installationer:",
+                "installations": "Er du sikker på du ønsker at slette disse Installationer:",
+                "groups": "Er du sikker på du ønsker at slette disse grupper:",
                 "org": "Er du sikker på du ønsker at slette denne organisation ( %{org} )?",
                 "orgs": "Er du sikker på du ønsker at slette disse organisationer:",
                 "project": "Er du sikker på du ønsker at slette dette projekt ( %{project} )?",
@@ -510,6 +511,7 @@
                 "deviceTypes": "Slet enhedstyper?",
                 "devices": "Slet enheder?",
                 "installations": "Slet installationer?",
+                "groups": "Slet grupper?",
                 "org": "Slet organisation?",
                 "orgs": "Slet organisationer?",
                 "project": "Slet projekt?",
@@ -802,10 +804,12 @@
         "delete": "Slet",
         "deletes": {
             "installations": "Slet installationer",
-			"alarms": "Slet alarmer"
+			"alarms": "Slet alarmer",
+			"groups": "Slet grupper"
 		},
         "edit": "Rediger",
         "edits": {
+			"group":"Rediger gruppe",
             "alarm": "Rediger alarm",
             "cloudfunction": "Rediger cloud funktion",
             "collection": "Rediger datasamling",
@@ -1391,7 +1395,7 @@
     },
     "tags": {
         "createTag": "Tilføj nyt gruppe",
-        "editTag": "Rediger grupper",
+        "editTag": "Rediger gruppe",
         "fields": {
             "color": "Farve",
             "description": "Beskrivelse",

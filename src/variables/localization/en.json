@@ -487,6 +487,7 @@
                 "deviceTypes": "Are you sure you want to delete these device types:",
                 "devices": "Are you sure you want to delete these devices:",
                 "installations": "Are you sure you want to delete these installations:",
+                "groups": "Are you sure you want to delete these groups:",
                 "org": "Are you sure you want to delete this organisation?",
                 "orgs": "Are you sure you want to delete these organisations:",
                 "project": "Are you sure you want to delete this project?",
@@ -510,6 +511,7 @@
                 "deviceTypes": "Delete device types?",
                 "devices": "Delete devices?",
                 "installations": "Delete installations?",
+                "groups": "Delete groups?",
                 "org": "Delete organisation?",
                 "orgs": "Delete organisations?",
                 "project": "Delete project?",
@@ -802,11 +804,13 @@
         "delete": "Delete",
         "deletes": {
             "installations": "Delete installations",
-			"alarms": "Delete alarms"
+			"alarms": "Delete alarms",
+			"groups": "Delete groups"
         },
         "edit": "Edit",
         "edits": {
-            "alarm": "Edit alarm",
+			"group": "Edit group",
+			"alarm": "Edit alarm",
             "cloudfunction": "Edit cloud function",
             "collection": "Edit data collection",
             "device": "Edit device",

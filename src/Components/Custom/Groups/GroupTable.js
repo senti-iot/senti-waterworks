@@ -100,12 +100,10 @@ const GroupTable = (props) => {
 			setClickedTag(false)
 		}, 300);
 	}
+
 	return (
-
 		<>
-
-			 <GroupToolbar devices={selDev} />
-
+			<GroupToolbar tags={selDev} setSelected={setSelDev}/>
 			<CTable
 				order={order}
 				orderBy={orderBy}
