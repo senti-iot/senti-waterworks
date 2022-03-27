@@ -135,11 +135,11 @@ const DeviceTable = (props) => {
 	const closeDialog = () => {
 		if (selDev.length === 0) {
 			setSelDevices(devices.map(d => d.uuid))
-			dispatch(setTagFilter(-1))
+			dispatch(setTagFilter([]))
 		}
 		else {
 			if (selectedDevices.length !== selDev) {
-				dispatch(setTagFilter(-1))
+				dispatch(setTagFilter([]))
 			}
 			setSelDevices(selDev)
 		}
