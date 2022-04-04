@@ -201,7 +201,6 @@ class d3Line {
 		let data = this.props.data ? this.props.data[this.props.id] : []
 		let newData = data.filter(f => !this.state['L' + f.name])
 		let allData = [].concat(...newData.map(d => d.data))
-
 		let from = moment.min(allData.map(d => moment(d.date))).startOf('day')
 		let to = moment()
 		if (timeType === 4) {
@@ -293,21 +292,26 @@ class d3Line {
 				let cloneTo = moment(to).clone()
 				ticks.push(cloneTo.add(12, 'h').valueOf())
 				if (this.chartType > 0)
-					ticks.push(moment(to).valueOf())
+					ticks.push(moment(to).add(12, 'h').valueOf())
 
-				monthTicks.push(counter.valueOf())
-				while (moment(counter).diff(to, 'day') < 0) {
-					counter.add(add, 'day')
+				/**
+				 * Months ticks
+				 */
+				let mCounter = moment(from)
+				monthTicks.push(mCounter.add(12, 'h').valueOf())
+				while (moment(mCounter).diff(to, 'day') < 0) {
+					mCounter.add(add, 'day')
 					if (
 						monthTicks.findIndex(f => {
-							return moment(f).format('MMMM').toLowerCase() === counter.format('MMMM').toLowerCase()
+							return moment(f).format('MMMM').toLowerCase() === mCounter.format('MMMM').toLowerCase()
 						}) === -1
 					) {
 
-						monthTicks.push(counter.valueOf())
+						monthTicks.push(mCounter.add(12, 'h').valueOf())
 					}
 				}
-				monthTicks.push(to.valueOf())
+				monthTicks.push(to.add(12, 'h').valueOf())
+				monthTicks = monthTicks.filter((f, i) => moment(monthTicks[i - 1]).diff(moment(f), 'd') < 2)
 			}
 		}
 		if (timeType === 4) {
@@ -510,7 +514,7 @@ class d3Line {
 				if (this.nextSibling) {
 
 					if (i % 2 !== 0) {
-						console.log(this.getBoundingClientRect().x)
+						// console.log(this.getBoundingClientRect().x)
 						parent.append('rect')
 							.attr("x", -Math.round((this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2))
 							.attr('class', classes.axisLineWhite)
