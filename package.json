@@ -20,7 +20,7 @@
 		"hex-to-rgba": "^2.0.1",
 		"leaflet": "^1.7.1",
 		"lodash": "^4.17.20",
-		"moment": "^2.24.0",
+		"moment": "^2.29.2",
 		"react": "^17.0.2",
 		"react-ace": "^9.4.1",
 		"react-autosuggest": "^10.1.0",
