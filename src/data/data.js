@@ -114,6 +114,15 @@ export const wbAPI = create({
 		'Content-Type': 'application/json'
 	}
 })
+export const wrcAPI = create({
+	baseURL: sentiServicesAPI + 'wrc',
+	timeout: 30000,
+	headers: {
+		'auth': encrypt(process.env.REACT_APP_ENCRYPTION_KEY),
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+	}
+})
 export const servicesAPI = create({
 	baseURL: sentiServicesAPI + 'databroker',
 	timeout: 30000,
@@ -176,6 +185,7 @@ export const setToken = () => {
 		tagsServicesAPI.setHeader('appid', process.env.REACT_APP_APPID)
 		dataExportAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		wbAPI.setHeader('Authorization', `Bearer ${session.token}`)
+		wrcAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		eAPI.setHeader('Authorization', `Bearer ${session.token}`)
 		return true
 	}

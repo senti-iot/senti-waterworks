@@ -40,6 +40,8 @@ const ChartContainer = () => {
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const period = useSelector(s => s.dateTime.period)
 	const isAdmin = useSelector(s => s.auth.isAdmin)
+	const haveData = useSelector(s => s.data.haveData)
+
 	//State
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
@@ -61,20 +63,20 @@ const ChartContainer = () => {
 			setLoading(true)
 		}
 	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
-
+	console.log('Mounted')
 	useEffect(() => {
-		// console.log('loading', loading)
-		if (loading) {
+		console.log('loading', loading)
+		if (!haveData && loading) {
 			const getDeviceData = async () => dispatch(await getData())
 			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
 				await getDeviceData()
-				await getNewData
+				await getNewData()
 				setLoading(false)
 			}
 			loadData()
 		}
-	}, [dispatch, loading])
+	}, [dispatch, loading, haveData])
 
 	//Handlers
 

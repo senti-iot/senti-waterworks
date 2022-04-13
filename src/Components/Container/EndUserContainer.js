@@ -17,6 +17,7 @@ import BarsContainer from 'Components/Custom/Bars/BarsContainer'
 import FullScreenMainChart from 'Components/Custom/MainChart/FullScreenMainChart'
 import TagFilterDialog from 'Components/TagFilterDialog/TagFilterDialog'
 // import { getTags } from 'Redux/tagManager'
+import { getNData } from 'Redux/data'
 
 const styles = makeStyles(theme => ({
 	chartGrid: {
@@ -55,10 +56,10 @@ const EndUserContainer = props => {
 
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
-	const devices = useSelector(s => s.data.devices)
+	// const devices = useSelector(s => s.data.devices)
 	const period = useSelector(s => s.dateTime.period)
-	const isSuperUser = useSelector(s => s.auth.isSuperUser)
-	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
+	// const isSuperUser = useSelector(s => s.auth.isSuperUser)
+	// const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	const haveData = useSelector(s => s.data.haveData)
 	const unitHasChanged = useSelector(s => s.data.unitHasChanged)
 	const orgSettings = useSelector(s => s.settings.orgSettings)
@@ -97,28 +98,20 @@ const EndUserContainer = props => {
 	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, selectedDevices, unitHasChanged])
 
 	useEffect(() => {
-		if (loading && !haveData) {
+		console.log('loading', loading)
+		if (!haveData && loading) {
+			const getNewData = async () => dispatch(await getNData())
+			const loadData = async () => {
+				await getNewData()
+				setLoading(false)
+			}
+			loadData()
+		}
+		return async() => {
+			await dispatch(setHaveData(false))
+		}
+	}, [dispatch, loading, haveData])
 
-			// const getDevices = async () => await dispatch(await getAdminDevices())
-			// const getNewData = async () => await dispatch(await getNData())
-			// const getDeviceTags = async () => await dispatch(await getTags())
-			// const getNotifications = async () => await dispatch(await getAllNotifications())
-			// const loadData = async () => {
-			// 	if ((isSuperUser || isSWAdmin) && devices.length === 0) {
-			// 		await getDevices()
-			// 		await getDeviceTags()
-			// 	}
-			// 	// await getDeviceData()
-			// 	await getNotifications()
-			// 	await getNewData()
-			// 	setLoading(false)
-			// }
-			// loadData()
-		}
-		else {
-			setLoading(false)
-		}
-	}, [devices.length, dispatch, haveData, isSWAdmin, isSuperUser, loading])
 
 	//Handlers
 

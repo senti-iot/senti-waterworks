@@ -243,6 +243,7 @@ export const mapLineData = async data => {
 		//#region Temperature
 		if (temperatureWData && temperatureWData.length > 0) {
 			currentPeriodData.minWtemp = genLineData(temperatureWData)
+			// currentPeriodData.minWtemp = temperatureWData.map(d => ({ value: d.value, date: d.datetime, uuid: d.uuit }))
 		}
 		if (temperatureWPrevData && temperatureWPrevData.length > 0) {
 			previousPeriodData.minWtemp = genLineData(temperatureWPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))

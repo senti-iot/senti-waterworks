@@ -200,6 +200,10 @@
             "pie": "Lagkage"
         },
         "types": {
+			"maxFlow": "Maksimal vandgennemstrømning",
+			"minFlow": "Mindste vandgennemstrømning",
+			"ambientTemp": "Ambient temperatur",
+			"waterTemp": "Vand temperatur",
             "readings": "Aflæsninger",
             "temperature": "Temperatur",
             "waterflow": "Gennemstrømning",

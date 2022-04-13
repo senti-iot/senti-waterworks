@@ -127,8 +127,12 @@ export const MainChart = React.memo((props) => {
 								label={<ItemG xs container justify={'center'}>{t(`charts.types.${chart}`)}</ItemG>}
 								menuItems={[
 									{ label: t('charts.types.waterusage'), value: 'waterusage' },
-									{ label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
-									{ label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
+									{ label: t('charts.types.waterTemp'), value: 'waterTemp' },
+									{ label: t('charts.types.ambientTemp'), value: 'ambientTemp' },
+									{ label: t('charts.types.maxFlow'), value: 'maxFlow' },
+									{ label: t('charts.types.minFlow'), value: 'minFlow' },
+									// { label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
+									// { label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
 									{ label: t('charts.types.readings'), value: 'readings', disabled: data && !data.readings.length > 0 }
 								]}
 							/>
