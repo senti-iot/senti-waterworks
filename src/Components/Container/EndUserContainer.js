@@ -56,6 +56,7 @@ const EndUserContainer = props => {
 
 	//Redux
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const devices = useSelector(s => s.data.devices)
 	// const devices = useSelector(s => s.data.devices)
 	const period = useSelector(s => s.dateTime.period)
 	// const isSuperUser = useSelector(s => s.auth.isSuperUser)
@@ -78,10 +79,12 @@ const EndUserContainer = props => {
 	useEffect(() => {
 		// console.log('useEffects triggered')
 		if (prevPeriod && period !== prevPeriod && !loading) {
+			// console.log('period')
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
 		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
+			// console.log('Device Length')
 			// console.log('Different number of devices')
 			setLoading(true)
 			dispatch(setHaveData(false))
@@ -98,8 +101,7 @@ const EndUserContainer = props => {
 	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, selectedDevices, unitHasChanged])
 
 	useEffect(() => {
-		console.log('loading', loading)
-		if (!haveData && loading) {
+		if (!haveData && loading && devices.length > 0) {
 			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
 				await getNewData()
@@ -110,7 +112,7 @@ const EndUserContainer = props => {
 		return async() => {
 			await dispatch(setHaveData(false))
 		}
-	}, [dispatch, loading, haveData])
+	}, [dispatch, loading, haveData, devices.length])
 
 
 	//Handlers

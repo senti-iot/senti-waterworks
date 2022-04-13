@@ -14,7 +14,6 @@ const DateFilterMenu = (props) => {
 
 	//Redux
 	const period = useSelector(s => s.dateTime.period)
-	console.log(period)
 	//State
 
 	//Const

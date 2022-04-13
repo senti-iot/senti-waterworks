@@ -27,22 +27,22 @@ function Container(props) {
 		// }
 		// loadSettings()
 		if (!haveData && cookie.load('SESSION')) {
-			const getSetting = async () => await dispatch(await getSettings())
 			const getDevices = async () => await dispatch(await getAdminDevices())
+			const getSetting = async () => await dispatch(await getSettings())
 			const getDeviceTags = async () => await dispatch(await getTags())
 			const getNotifications = async () => await dispatch(await getAllNotifications())
 			const getAlarm = async () => await dispatch(await getAlarms())
 			const getInstallations = async () => await dispatch(await getAdminInstallations())
 			// const getNewData = async () => await dispatch(await getNData())
 			const loadData = async () => {
-				await getSetting()
 
 				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
-					await getInstallations()
 					await getDevices()
+					await getInstallations()
 					await getDeviceTags()
 				}
 				// await getDeviceData()
+				await getSetting()
 				await getAlarm()
 				await getNotifications()
 

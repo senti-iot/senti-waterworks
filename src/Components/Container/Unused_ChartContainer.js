@@ -54,18 +54,14 @@ const ChartContainer = () => {
 
 	//useEffects
 	useEffect(() => {
-		// console.log('Use Effect triggered')
 		if (prevPeriod && period !== prevPeriod && !loading) {
 			setLoading(true)
 		}
 		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
-			// console.log('setting loading to true')
 			setLoading(true)
 		}
 	}, [loading, period, prevPeriod, prevSelectedDevices, selectedDevices])
-	console.log('Mounted')
 	useEffect(() => {
-		console.log('loading', loading)
 		if (!haveData && loading) {
 			const getDeviceData = async () => dispatch(await getData())
 			const getNewData = async () => dispatch(await getNData())
