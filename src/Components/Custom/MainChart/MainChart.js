@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ItemG, DateTimeFilter, DMenu } from 'Components'
-import { Hidden, IconButton } from '@material-ui/core'
+import { Hidden, IconButton, Tooltip } from '@material-ui/core'
 import LineGraph from 'Components/Graphs/LineGraph'
 import { useLocalization, useSelector, useDispatch, } from 'Hooks'
 import DateTimeArrows from 'Components/Input/DateTimeArrows'
@@ -15,6 +15,7 @@ import DButton from 'Components/Input/DButton'
 import { lighten } from '@material-ui/core/styles'
 import { setFullScreenLineGraph, changeChartType } from 'Redux/appState'
 import cx from 'classnames'
+import { Info } from '@material-ui/icons'
 
 const DateRangeIcon = styled(DateRange)`
 color: #fff;
@@ -28,16 +29,17 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
 		// justifyContent: 'space-between',
-		width: 230,
+		width: 240,
 		textAlign: 'center',
 		fontWeight: 500,
 		color: '#fff',
 		background: theme.activeChartButton,
 		borderRadius: 4,
-		minWidth: 170,
+		minWidth: 240,
 		"&:hover": {
 			background: lighten(theme.activeChartButton, 0.3)
-		}
+		},
+		textTransform: 'none'
 	},
 
 	icon: {
@@ -109,6 +111,11 @@ export const MainChart = React.memo((props) => {
 		[classes.fullScreenIcon]: fullScreenLineChart
 	})
 
+	const renderInfoAbout = () => {
+		return <Tooltip title={t('filters.devices.max') + '.'}>
+			<Info/>
+		</Tooltip>
+	}
 	return (
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
@@ -117,23 +124,25 @@ export const MainChart = React.memo((props) => {
 						<ItemG xs={2} md={2} lg={2} container justify={'flex-start'} alignItems={'center'}>
 							<DButton
 								value={chart}
-								margin={'none'}
 								onChange={(value) => {
 									handleSetChart(value)()
 								}}
 								buttonClasses={{
 									root: classes.root
 								}}
+								menuItemClasses={{
+									root: classes.menuItem
+								}}
 								label={<ItemG xs container justify={'center'}>{t(`charts.types.${chart}`)}</ItemG>}
 								menuItems={[
 									{ label: t('charts.types.waterusage'), value: 'waterusage' },
-									{ label: t('charts.types.waterTemp'), value: 'waterTemp' },
-									{ label: t('charts.types.ambientTemp'), value: 'ambientTemp' },
-									{ label: t('charts.types.maxFlow'), value: 'maxFlow' },
-									{ label: t('charts.types.minFlow'), value: 'minFlow' },
+									{ label: t('charts.types.waterTemp'), value: 'waterTemp', disabled: data && !data.waterTemp.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									{ label: t('charts.types.ambientTemp'), value: 'ambientTemp', disabled: data && !data.ambientTemp.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									{ label: t('charts.types.maxFlow'), value: 'maxFlow', disabled: data && !data.maxFlow.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									{ label: t('charts.types.minFlow'), value: 'minFlow', disabled: data && !data.minFlow.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
 									// { label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
 									// { label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
-									{ label: t('charts.types.readings'), value: 'readings', disabled: data && !data.readings.length > 0 }
+									{ label: t('charts.types.readings'), value: 'readings', disabled: data && !data.readings.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() }
 								]}
 							/>
 

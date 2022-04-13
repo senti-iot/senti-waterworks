@@ -638,7 +638,8 @@
         },
         "devices": {
             "calibrated": "Calibrated",
-            "notCalibrated": "Not calibrated"
+            "notCalibrated": "Not calibrated",
+			"max": "You need to filter for max. 10 devices for this menu or there is no data available for selected period"
         },
         "display": "Display:",
         "endDate": "End date",

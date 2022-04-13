@@ -322,7 +322,7 @@ export const adminData = () =>
 		let suTo = to.clone()
 		let suFrom = from.clone()
 		let waterUsageData, waterUsagePrevData, benchmarkData, temperatureWData, temperatureWPrevData, temperatureAData,
-			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData
+			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData = []
 
 		if (selectedDevices.length !== devices.length) {
 			let uuids = selectedDevices.map(s => s)
@@ -333,20 +333,24 @@ export const adminData = () =>
 			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
 			benchmarkData = await getBenchmarkUsageByUUIDs(alldeviceUUIDS, from, suTo)
 
-			temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo, uuids)
-			temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
+			if (selectedDevices.length < 11) {
+
+				temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo, uuids)
+				// temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
 
 
-			temperatureAData = await getCachedMinATemperatureData(orgId, suFrom, suTo, uuids)
-			temperatureAPrevData = await getCachedMinATemperatureData(orgId, prevFrom, prevTo, uuids)
+				temperatureAData = await getCachedMinATemperatureData(orgId, suFrom, suTo, uuids)
+				// temperatureAPrevData = await getCachedMinATemperatureData(orgId, prevFrom, prevTo, uuids)
 
-			minFlowData = await getCachedMinFlowData(orgId, suFrom, suTo, uuids)
-			minFlowPrevData = await getCachedMinFlowData(orgId, prevFrom, prevTo, uuids)
+				minFlowData = await getCachedMinFlowData(orgId, suFrom, suTo, uuids)
+				// minFlowPrevData = await getCachedMinFlowData(orgId, prevFrom, prevTo, uuids)
 
-			maxFlowData = await getCachedMaxFlowData(orgId, suFrom, suTo, uuids)
-			maxFlowPrevData = await getCachedMaxFlowData(orgId, prevFrom, prevTo, uuids)
+				maxFlowData = await getCachedMaxFlowData(orgId, suFrom, suTo, uuids)
+				// maxFlowPrevData = await getCachedMaxFlowData(orgId, prevFrom, prevTo, uuids)
 
-			readingsData = await getCachedReadingData(suFrom, suTo, uuids)
+				readingsData = await getCachedReadingData(orgId, suFrom, suTo, uuids)
+			}
+
 
 		}
 		else {
@@ -369,16 +373,17 @@ export const adminData = () =>
 
 			// readingsData = await getReadingUsage(suFrom, suTo)
 
-			temperatureWData = []
-			temperatureWPrevData = []
-			temperatureAData = []
-			temperatureAPrevData = []
-			minFlowData = []
-			minFlowPrevData = []
-			maxFlowData = []
-			maxFlowPrevData = []
-			readingsData = []
+			// temperatureWData = []
+			// temperatureWPrevData = []
+			// temperatureAData = []
+			// temperatureAPrevData = []
+			// minFlowData = []
+			// minFlowPrevData = []
+			// maxFlowData = []
+			// maxFlowPrevData = []
+			// readingsData = []
 		}
+		console.log(temperatureWData, temperatureAData)
 		//#region Line Data
 		dispatch(await setLineData({
 			dateDiff: subtr,

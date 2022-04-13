@@ -642,7 +642,8 @@
         },
         "devices": {
             "calibrated": "Kalibreret",
-            "notCalibrated": "Ikke kalibreret"
+			"notCalibrated": "Ikke kalibreret",
+			"max": "Du skal filter til max. 10 enheder for at se denne menu eller der er ingen tilgængelige data for den valgte periode"
         },
         "display": "Visning",
         "endDate": "Slutdato",

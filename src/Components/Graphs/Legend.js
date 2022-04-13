@@ -25,7 +25,7 @@ const Legend = props => {
 						<FormControlLabel
 							key={'Legend' + line.name}
 							id={fs ? 'LegendfsLG' + line.name : 'Legend' + line.name}
-							style={{ color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][500] }}
+							style={{ color: line.hidden ? 'rgba(255, 255, 255, 0.3)' : colors[line.color][line.colorValue ? line.colorValue : 500] }}
 							control={
 								<CheckedBox
 									checked={!fs ? !lines['L' + line.name] : !lines['LfsLG' + line.name]}
@@ -58,7 +58,7 @@ const Legend = props => {
 					checked={!lines['L' + line.name]}
 					key={'Legend' + line.name}
 					id={fs ? 'LegendfsLG' + line.name : 'Legend' + line.name}
-					style={{ color: !line.prev ? colors[line.color] ? colors[line.color][500] : line.color : 'rgba(128,128,128,1)' }}
+					style={{ color: !line.prev ? colors[line.color] ? colors[line.color][line.colorValue ? line.colorValue : 500] : line.color : 'rgba(128,128,128,1)' }}
 					control={
 						<CheckedBox
 							checked={!fs ? !lines['L' + line.name] : !lines['LfsLG' + line.name]}

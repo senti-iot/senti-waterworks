@@ -2,7 +2,7 @@ import {
 	red, pink, purple,
 	deepPurple, indigo, blue,
 	lightBlue, cyan, teal,
-	green, lightGreen, lime, yellow, amber, orange, deepOrange
+	green, lightGreen, lime, yellow, amber, orange, deepOrange,
 } from '@material-ui/core/colors'
 
 
@@ -20,6 +20,18 @@ export const tagColors = [
 ]
 export const colorNames = [
 	'lightBlue', 'cyan', 'teal', 'green', 'lightGreen', 'lime', 'yellow', 'amber', 'orange', 'red', 'purple'
+]
+
+export const ambientColors = [
+	'red', 'orange', 'yellow', 'amber', 'green', 'lime', 'teal', 'cyan', 'lightGreen', 'lightBlue', 'purple'
+]
+
+export const maxFlowColors = [
+	'teal', 'blue', 'lightBlue', 'orange', 'yellow', 'amber', 'green', 'lime', 'cyan', 'lightGreen', 'blue', 'lightBlue', 'purple'
+]
+
+export const minFlowColors = [
+	'purple', 'amber', 'lightBlue', 'green', 'lime', 'cyan', 'lightGreen', 'blue', 'orange', 'yellow', 'red'
 ]
 
 export const colors = [

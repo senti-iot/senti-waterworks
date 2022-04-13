@@ -112,6 +112,7 @@ export const getCachedReadingData = async (orgUUID, from, to, uuids) => {
 	else {
 		response.ok = false
 	}
+	console.log(response)
 	return response.ok ? response.data : []
 }
 
@@ -289,7 +290,7 @@ export const getCachedMinATemperatureData = async (orgUUID, from, to, uuids) => 
 	let endDate = moment(to).format('YYYY-MM-DD')
 	let response = {}
 	if (uuids) {
-		response = await wrcAPI.post(`/minwtemp`, {
+		response = await wrcAPI.post(`/minatemp`, {
 			orgId: orgUUID,
 			period: {
 				from: startDate,

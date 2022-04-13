@@ -86,6 +86,9 @@ const EndUserContainer = props => {
 		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
 			// console.log('Device Length')
 			// console.log('Different number of devices')
+			if (selectedDevices.length > 11) {
+				setChart('waterusage')
+			}
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
