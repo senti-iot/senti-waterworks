@@ -435,7 +435,6 @@ class d3Line {
 			}
 			return total
 		}, 0)
-		console.log('barCounter', barCounter)
 		data.forEach((line, lineIndex) => {
 			if (!line.bars) {
 				return
@@ -448,12 +447,20 @@ class d3Line {
 					.attr('fill', (d, i) => barCounter > 1 ? colors[line.color][500] : i % 2 === 0 ? colors[line.color][300] : colors[line.color][500])
 					.attr("height", (d, i) => {
 						let barHeight = height - this.y(d.value) - this.margin.bottom
-						return barHeight < 10 ? barHeight === 0 ? 0 : 10 : barHeight
+						console.log('barHeight', barHeight)
+						// return barHeight < 10 ? barHeight === 0 ? 0 : 10 : barHeight
+						// return barHeight < 10 ? barHeight === 0 ? 0 : this.y(d.value) : this.y(d.value)
+						return barHeight
+
 					})
 					.attr("y", (d, i) => {
-						let barHeight = height - this.y(d.value) - this.margin.bottom
 
-						return barHeight < 10 ? barHeight === 0 ? this.y(d.value) : this.y(d.value) : this.y(d.value)
+						let barHeight = height - this.y(d.value) - this.margin.bottom
+						console.log('barheight', barHeight, this.y(d.value), this.y(barHeight), this.y(10))
+						// return barHeight < 10 ? barHeight === 0 ? 0 : this.y(d.value) : this.y(d.value)
+						// return barHeight
+						return this.y(d.value)
+
 					})
 					.attr("width", (d) => {
 						if (timeType === 4) {

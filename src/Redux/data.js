@@ -333,7 +333,7 @@ export const adminData = () =>
 			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
 			benchmarkData = await getBenchmarkUsageByUUIDs(alldeviceUUIDS, from, suTo)
 
-			if (selectedDevices.length < 11) {
+			if (selectedDevices.length < 2) {
 
 				temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo, uuids)
 				// temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo, uuids)

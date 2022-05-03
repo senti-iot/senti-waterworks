@@ -1,7 +1,7 @@
 import { monthAvgUUIDsRedux, monthRedux } from 'data/functions'
 // import { genLineData } from 'data/model'
 import moment from 'moment'
-import { ambientColors, colorNames, maxFlowColors, minFlowColors } from 'variables/colors'
+import { /* ambientColors */ colorNames, /*  maxFlowColors, minFlowColors */ } from 'variables/colors'
 
 /**
  * Actions
@@ -48,10 +48,12 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 
 		let finalData = {
 			waterusage: [],
-			waterTemp: [],
-			ambientTemp: [],
-			maxFlow: [],
-			minFlow: [],
+			waterflow: [],
+			temperature: [],
+			// waterTemp: [],
+			// ambientTemp: [],
+			// maxFlow: [],
+			// minFlow: [],
 			readings: []
 		}
 		let selectedDevices = getState().appState.selectedDevices
@@ -99,20 +101,19 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	// bars: false
 
 			// })
-			if (currentPeriodData.minWtemp.length > 0 && selectedDevices.length < 11) {
-				let devices = getState().data.devices
+			if (currentPeriodData.minWtemp.length > 0 && selectedDevices.length < 2) {
+				// let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
 					return ({
-						name: devices[devices.findIndex(d => d.uuid === dev)].uuname,
-						color: colorNames[i],
-						colorValue: i * 100,
+						name: 'tempWater',
+						color: 'blue',
 						noArea: true,
 						bars: true,
 						data: currentPeriodData.minWtemp.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
 					})
 				})
 
-				finalData.waterTemp.push(...dataLines)
+				finalData.temperature.push(...dataLines)
 			}
 		}
 		console.log('currentPeriodData', currentPeriodData)
@@ -126,20 +127,19 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	// bars: false
 
 			// })
-			if (currentPeriodData.minAtemp.length > 0 && selectedDevices.length < 11) {
-				let devices = getState().data.devices
+			if (currentPeriodData.minAtemp.length > 0 && selectedDevices.length < 2) {
+				// let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
 					return ({
-						name: devices[devices.findIndex(d => d.uuid === dev)].uuname,
-						color: ambientColors[i],
-						// colorValue: i * 100,
+						name: 'tempAmbient',
+						color: 'red',
 						noArea: true,
 						bars: true,
 						data: currentPeriodData.minAtemp.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
 					})
 				})
 
-				finalData.ambientTemp.push(...dataLines)
+				finalData.temperature.push(...dataLines)
 			}
 		}
 		console.log('finalData', finalData.ambientTemp)
@@ -152,12 +152,12 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	data: currentPeriodData.minFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 			// 	color: 'purple'
 			// })
-			if (currentPeriodData.minFlow.length > 0 && selectedDevices.length < 11) {
-				let devices = getState().data.devices
+			if (currentPeriodData.minFlow.length > 0 && selectedDevices.length < 2) {
+				// let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
 					return ({
-						name: devices[devices.findIndex(d => d.uuid === dev)].uuname,
-						color: minFlowColors[i],
+						name: 'minFlow',
+						color: 'purple',
 						// colorValue: i * 100,
 						noArea: true,
 						bars: true,
@@ -165,7 +165,7 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 					})
 				})
 
-				finalData.minFlow.push(...dataLines)
+				finalData.waterflow.push(...dataLines)
 			}
 		}
 		if (currentPeriodData.maxFlow) {
@@ -175,13 +175,13 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	data: currentPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 			// 	color: 'lightBlue'
 			// })
-			if (currentPeriodData.maxFlow.length > 0 && selectedDevices.length < 11) {
-				let devices = getState().data.devices
+			if (currentPeriodData.maxFlow.length > 0 && selectedDevices.length < 2) {
+				// let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
 					console.log(dev, currentPeriodData.maxFlow)
 					return ({
-						name: devices[devices.findIndex(d => d.uuid === dev)].uuname,
-						color: maxFlowColors[i],
+						name: 'maxFlow',
+						color: 'lightBlue',
 						// colorValue: i * 100,
 						noArea: true,
 						bars: true,
@@ -189,7 +189,7 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 					})
 				})
 
-				finalData.maxFlow.push(...dataLines)
+				finalData.waterflow.push(...dataLines)
 			}
 		}
 
@@ -385,11 +385,9 @@ export const setLineData = async (data) =>
  */
 const initialState = {
 	loading: true,
+	temperature: [],
 	waterusage: [],
-	waterTemp: [],
-	ambientTemp: [],
-	maxFlow: [],
-	minFlow: [],
+	waterflow: [],
 	readings: []
 }
 

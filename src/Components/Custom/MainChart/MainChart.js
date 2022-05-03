@@ -116,6 +116,7 @@ export const MainChart = React.memo((props) => {
 			<Info/>
 		</Tooltip>
 	}
+	console.log('data', data)
 	return (
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
@@ -136,12 +137,12 @@ export const MainChart = React.memo((props) => {
 								label={<ItemG xs container justify={'center'}>{t(`charts.types.${chart}`)}</ItemG>}
 								menuItems={[
 									{ label: t('charts.types.waterusage'), value: 'waterusage' },
-									{ label: t('charts.types.waterTemp'), value: 'waterTemp', disabled: data && !data.waterTemp.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
-									{ label: t('charts.types.ambientTemp'), value: 'ambientTemp', disabled: data && !data.ambientTemp.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
-									{ label: t('charts.types.maxFlow'), value: 'maxFlow', disabled: data && !data.maxFlow.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
-									{ label: t('charts.types.minFlow'), value: 'minFlow', disabled: data && !data.minFlow.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
-									// { label: t('charts.types.temperature'), value: 'temperature', hide: data && !data.temperature.length > 0 },
-									// { label: t('charts.types.waterflow'), value: 'waterflow', hide: data && !data.waterflow.length > 0 },
+									{ label: t('charts.types.temperature'), value: 'temperature', disabled: data && !data.temperature.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									{ label: t('charts.types.waterflow'), value: 'waterflow', disabled: data && !data.waterflow.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									// { label: t('charts.types.waterTemp'), value: 'waterTemp', disabled: data && !data.waterTemp.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									// { label: t('charts.types.ambientTemp'), value: 'ambientTemp', disabled: data && !data.ambientTemp.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									// { label: t('charts.types.maxFlow'), value: 'maxFlow', disabled: data && !data.maxFlow.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
+									// { label: t('charts.types.minFlow'), value: 'minFlow', disabled: data && !data.minFlow.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
 									{ label: t('charts.types.readings'), value: 'readings', disabled: data && !data.readings.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() }
 								]}
 							/>
