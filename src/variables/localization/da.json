@@ -1470,6 +1470,10 @@
         "user": "Bruger"
     },
     "usage": {
+		"dashboardOneDay": {
+			"title": "Aktuelt forbrug",
+			"subtitle": "Målerstand"
+		},
         "dashboardPrice": {
             "headline": "Afregning",
             "sewage": "Spildevand: Kr. ",

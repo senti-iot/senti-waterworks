@@ -84,6 +84,10 @@ const usageStyle = makeStyles(theme => ({
 		position: 'relative',
 		// flexFlow: 'column'
 	},
+	hiddenColumnStyle: {
+		padding: 0,
+		margin: 0
+	},
 	flexColumn: {
 		flexWrap: 'no-wrap',
 		display: 'flex',

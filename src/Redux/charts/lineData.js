@@ -262,7 +262,8 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			}
 		}
 		else {
-			if (currentPeriodData.readings.length > 0 && selectedDevices.length < 11) {
+			console.log('currentPeriodData', currentPeriodData)
+			if (currentPeriodData.readings && currentPeriodData.readings.length > 0 && selectedDevices.length < 11) {
 				let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
 					return ({

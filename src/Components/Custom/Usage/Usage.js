@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import React, { useState } from 'react'
-import { Grid, Dialog, IconButton } from '@material-ui/core'
+import { Grid, Dialog, IconButton, Collapse } from '@material-ui/core'
 // import GridContainer from 'Components/Containers/GridContainer'
 import ItemG from 'Components/Containers/ItemG'
 import { BPaper, AppPaper } from 'Styles/containerStyle'
@@ -26,6 +26,8 @@ const Usage = props => {
 
 	//Redux
 	const avgData = useSelector(s => s.priceUsageData.usage)
+	const oneDayUsage = useSelector(s => s.priceUsageData.oneDayUsage)
+	const sDev = useSelector(s => s.appState.selectedDevices.length)
 	const mUnit = useSelector(s => s.settings.mUnit)
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 
@@ -38,7 +40,7 @@ const Usage = props => {
 
 	//Handlers
 	const unit = () => {
-		return mUnit === 'm3' ? 'm³' : 'L';
+		return mUnit === 'm3' ? 'm³' : 'L'
 		// switch (props.chart) {
 		// 	case 'waterusage':
 		// 		return mUnit === 'm3' ? 'm³' : 'L'
@@ -50,8 +52,9 @@ const Usage = props => {
 	const columnClasses = (index) => {
 		return cx({
 			[classes.itemG]: false,
-			[classes.leftColumnStyle]: index % 2 === 0,
-			[classes.rightColumnStyle]: index % 2 !== 0,
+			[classes.leftColumnStyle]: index === 0,
+			[classes.rightColumnStyle]: index === 1,
+			[classes.hiddenColumnStyle]: index === 3
 
 		})
 	}
@@ -60,23 +63,26 @@ const Usage = props => {
 	}
 	return (
 		<Grid container className={classes.container}>
-			{/* <ItemG container xs={4} className={columnClasses(0)}>
+			<ItemG xs={sDev < 2 ? 4 : 0} className={sDev < 2 ? columnClasses(0) : columnClasses(3)}>
+				<Collapse in={sDev < 2}>
 
-				<ItemG xs={4} container style={{ maxWidth: '100%' }}>
-					<img src={FamilyIcon} alt="senti-family-icon" className={classes.familyIcon} style={{ color: '#fff' }} />
-					<HeaderText variant={'h5'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
-				</ItemG>
-
-				<ItemG xs={8} container alignItems={'flex-end'} justify={'flex-end'} style={{ maxWidth: '100%' }}>
-					<T variant="body2" className={classes.cubicValue}>
-						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
-						<span className={classes.cubicValueUnit}>
-							{unit()}
-						</span>
-					</T>
-				</ItemG>
-			</ItemG> */}
-			<ItemG xs={6} className={columnClasses(0)}>
+					<ItemG container style={{ maxWidth: '100%' }}>
+						<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
+					</ItemG>
+					<ItemG container style={{ maxWidth: '100%' }}>
+						<T>{`${t('usage.dashboardOneDay.subtitle')}: ${oneDayUsage.reading}`}</T>
+					</ItemG>
+					<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
+						<T variant="body2" className={classes.cubicValue}>
+							{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
+							<span className={classes.cubicValueUnit}>
+								{unit()}
+							</span>
+						</T>
+					</ItemG>
+				</Collapse>
+			</ItemG>
+			<ItemG xs={sDev < 2 ? 4 : 6} className={sDev < 2 ? columnClasses(1) : columnClasses(0)}>
 
 				<ItemG container style={{ maxWidth: '100%' }}>
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
@@ -91,7 +97,7 @@ const Usage = props => {
 					</T>
 				</ItemG>
 			</ItemG>
-			<ItemG xs={6} className={columnClasses(1)}>
+			<ItemG xs={sDev < 2 ? 4 : 6} className={columnClasses(1)}>
 				<ItemG container style={{ maxWidth: '100%' }}>
 					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
 				</ItemG>

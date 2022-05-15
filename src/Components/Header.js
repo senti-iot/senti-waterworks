@@ -75,8 +75,8 @@ function Header({ ...props }) {
 	}
 	const renderAddress = () => {
 		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
-		console.log(device, device ? true : false)
-		if (device ) {
+		// console.log(device, device ? true : false)
+		if (device && device.streetName) {
 			return device.streetName + ' ' + device.streetNumber + ', ' + device.zip + ' ' + device.city
 		}
 		return null

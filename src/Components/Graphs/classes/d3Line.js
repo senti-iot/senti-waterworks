@@ -287,7 +287,7 @@ class d3Line {
 				while (moment(counter).diff(to, 'day') < 0) {
 					let clone = moment(counter).clone()
 					ticks.push(clone.add(12, 'h').valueOf())
-					console.log('clone', clone.format('YYYY-MM-DD'), moment(counter).diff(to, 'day'))
+					// console.log('clone', clone.format('YYYY-MM-DD'), moment(counter).diff(to, 'day'))
 					counter.add(add, 'day')
 				}
 				// if (chartType === 0) {
@@ -300,7 +300,7 @@ class d3Line {
 				else {
 					ticks.push(moment(to).add(12, 'h').valueOf())
 				}
-				console.log(ticks.map(t => moment(t).format('YYYY-MM-DD')))
+				// console.log(ticks.map(t => moment(t).format('YYYY-MM-DD')))
 
 				// console.log('ticks', ticks.map(t => moment(t).format('YYYY-MM-DD')))
 				/**
@@ -447,7 +447,7 @@ class d3Line {
 					.attr('fill', (d, i) => barCounter > 1 ? colors[line.color][500] : i % 2 === 0 ? colors[line.color][300] : colors[line.color][500])
 					.attr("height", (d, i) => {
 						let barHeight = height - this.y(d.value) - this.margin.bottom
-						console.log('barHeight', barHeight)
+						// console.log('barHeight', barHeight)
 						// return barHeight < 10 ? barHeight === 0 ? 0 : 10 : barHeight
 						// return barHeight < 10 ? barHeight === 0 ? 0 : this.y(d.value) : this.y(d.value)
 						return barHeight
@@ -455,8 +455,8 @@ class d3Line {
 					})
 					.attr("y", (d, i) => {
 
-						let barHeight = height - this.y(d.value) - this.margin.bottom
-						console.log('barheight', barHeight, this.y(d.value), this.y(barHeight), this.y(10))
+						// let barHeight = height - this.y(d.value) - this.margin.bottom
+						// console.log('barheight', barHeight, this.y(d.value), this.y(barHeight), this.y(10))
 						// return barHeight < 10 ? barHeight === 0 ? 0 : this.y(d.value) : this.y(d.value)
 						// return barHeight
 						return this.y(d.value)
@@ -539,11 +539,11 @@ class d3Line {
 
 
 			this.xAxis.selectAll('.tick').each(function (d, i) {
-				console.log('d', d)
+				// console.log('d', d)
 				let parent = d3.select(this)
 				if (this.nextSibling) {
 					if (i % 2 !== 0) {
-						console.log(this.nextSibling.getBoundingClientRect().x)
+						// console.log(this.nextSibling.getBoundingClientRect().x)
 						parent.append('rect')
 							.attr("x", -Math.round((this.nextSibling.getBoundingClientRect().x - this.getBoundingClientRect().x) / 2))
 							.attr('class', classes.axisLineWhite)

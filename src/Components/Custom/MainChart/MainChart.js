@@ -116,7 +116,7 @@ export const MainChart = React.memo((props) => {
 			<Info/>
 		</Tooltip>
 	}
-	console.log('data', data)
+	// console.log('data', data)
 	return (
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>

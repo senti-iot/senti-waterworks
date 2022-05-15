@@ -1466,7 +1466,11 @@
         "user": "User"
     },
     "usage": {
-        "dashboardPrice": {
+		"dashboardOneDay": {
+			"title": "Consumption yesterday",
+			"subtitle": "Reading"
+		},
+		"dashboardPrice": {
             "headline": "Account",
             "sewage": "Sewage: DKK ",
             "water": "Water: DKK "

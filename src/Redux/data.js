@@ -322,7 +322,7 @@ export const adminData = () =>
 		let suTo = to.clone()
 		let suFrom = from.clone()
 		let waterUsageData, waterUsagePrevData, benchmarkData, temperatureWData, temperatureWPrevData, temperatureAData,
-			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData = []
+			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData, oneDayReading = []
 
 		if (selectedDevices.length !== devices.length) {
 			let uuids = selectedDevices.map(s => s)
@@ -349,6 +349,11 @@ export const adminData = () =>
 				// maxFlowPrevData = await getCachedMaxFlowData(orgId, prevFrom, prevTo, uuids)
 
 				readingsData = await getCachedReadingData(orgId, suFrom, suTo, uuids)
+
+				let f = moment().subtract(2, 'day').startOf('day')
+				let t = moment()
+				oneDayReading = await getCachedReadingData(orgId, f, t, uuids)
+				console.log('oneDayUsage', oneDayReading)
 			}
 
 
@@ -384,8 +389,10 @@ export const adminData = () =>
 			// readingsData = []
 		}
 		console.log(temperatureWData, temperatureAData)
+
 		//#region Line Data
 		dispatch(await setLineData({
+
 			dateDiff: subtr,
 			waterUsageData: waterUsageData,
 			waterUsagePrevData: waterUsagePrevData,
@@ -409,7 +416,7 @@ export const adminData = () =>
 		//#endregion
 
 		//#region Price & DailyUsage
-		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))
+		dispatch(await setPriceUsageData(waterUsageData, benchmarkData, oneDayReading))
 
 		//#endregion
 
