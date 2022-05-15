@@ -23,7 +23,10 @@ function Header({ ...props }) {
 
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
+	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const installations = useSelector(s => s.data.installations)
 
+	// console.log('device', device)
 	//State
 	const [menu, setMenu] = useState(false)
 
@@ -70,6 +73,14 @@ function Header({ ...props }) {
 			routes={routes}
 		/>
 	}
+	const renderAddress = () => {
+		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
+		console.log(device, device ? true : false)
+		if (device ) {
+			return device.streetName + ' ' + device.streetNumber + ', ' + device.zip + ' ' + device.city
+		}
+		return null
+	}
 	return (
 		<AppBar className={classes.appBar} >
 			{renderMenu()}
@@ -94,8 +105,17 @@ function Header({ ...props }) {
 				<ItemG xs container alignItems={'center'} justify={'center'}>
 
 					<T className={classes.title} variant={'h5'}>
-						{org.name}
+						{`${org.name} `}
 					</T>
+					{selectedDevices.length < 2 ? <>
+						<Hidden mdDown>
+							<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
+						</Hidden>
+						<T className={classes.title} variant={'h5'}>
+							{renderAddress()}
+						</T></>
+						: null}
+
 				</ItemG>
 
 				<HeaderLinks t={t} history={history} />
