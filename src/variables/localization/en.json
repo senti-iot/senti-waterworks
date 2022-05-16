@@ -760,7 +760,7 @@
         "needAnAccount2": "account",
         "nickname": "Organisation ID",
         "pass": "Password",
-        "text": "The new smart way of controlling your water consumption",
+        "text": "The new smart way of controlling your water usage",
         "unknownError": "Unknown error",
         "username": "Username",
         "wrongPassword": "Incorrect account or password"
@@ -1075,7 +1075,7 @@
             "minFlow": "Minimum water flow",
             "minWTemp": "Minimum water temperature",
             "temperature": "Temperature",
-            "value": "Water consumption / reading"
+            "value": "Water usage / reading"
         }
     },
     "settings": {
@@ -1102,7 +1102,7 @@
             },
             "defaultChart": "Default chart type",
             "mUnit": "Measurement Unit",
-            "maxDailyConsumption": "Max daily consumption",
+            "maxDailyConsumption": "Max daily usage",
             "period": "Period",
             "periods": "Periods",
             "rawData": "Raw data",
@@ -1473,7 +1473,7 @@
     "usage": {
         "dashboardOneDay": {
             "subtitle": "Reading",
-            "title": "Consumption yesterday"
+            "title": "Latest usage"
         },
         "dashboardPrice": {
             "headline": "Account",
@@ -1482,7 +1482,7 @@
         },
         "dashboardUsage": {
             "comparison": "Benchmark",
-            "dailyConsumption": "Daily consumption",
+            "dailyConsumption": "Daily usage",
             "usageToday": "Actual usage for today"
         },
         "dialogScreens": {
@@ -1493,7 +1493,7 @@
                     "1": "You can also flush less often than usual. For example, flush if you have just urinated, or do not put snot paper and the like in the toilet and then flush.",
                     "2": "Use rainwater for toilet flushing. This is a slightly more comprehensive option as a collection system must be connected to the sewerage network by an authorized plumber and fulfill the building regulations, but it can then be used for more than toilet flushes, e.g. washing machine, garden watering and car wash."
                 },
-                "subheadline": "27 percent of water consumption goes to toilet flushing - one person uses an average of 10,841 liters of water a year to flush. Therefore, you can save a lot of water by following these tips:"
+                "subheadline": "27 percent of water usage goes to toilet flushing - one person uses an average of 10,841 liters of water a year to flush. Therefore, you can save a lot of water by following these tips:"
             },
             "1": {
                 "headline": "How to save water when bathing",
@@ -1503,7 +1503,7 @@
                     "2": "Turn off the water as you soak.",
                     "3": "Buy a saving shower. Then you only use 6-12 liters of water per minute - half as much as a regular shower."
                 },
-                "subheadline": "The bathtub and shower represent between 35% and 45% of your daily water consumption. Therefore, you can save a lot of water by following these tips:"
+                "subheadline": "The bathtub and shower represent between 35% and 45% of your daily water usage. Therefore, you can save a lot of water by following these tips:"
             },
             "2": {
                 "headline": "How to save water when washing clothes",
@@ -1519,15 +1519,15 @@
                 "headline": "How to save water when washing up or using the dishwasher",
                 "steps": {
                     "0": "Always use a tub rather than washing up under running water if you are washing using your hands.",
-                    "1": "If you have a dishwasher, scan it completely before it starts. You do not have to rinse the dishes, it is enough to scrape off the leftovers. In addition, go for A-labeled products, like A++, which ensures low water and energy consumption.",
+                    "1": "If you have a dishwasher, scan it completely before it starts. You do not have to rinse the dishes, it is enough to scrape off the leftovers. In addition, go for A-labeled products, like A++, which ensures low water and energy usage.",
                     "2": "Newer dishwashers are all equipped with an eco-program that uses very little water for a wash. Some of them even use no more than 10 liters of water on a single dish. Older dishwashers without an eco-program will use about 20 liters of water."
                 },
                 "subheadline": "Did you know that the cost of water for washing is about 600-700 DKK a year? Therefore, you can save a lot of water by following these tips:"
             }
         },
         "panel": {
-            "myAverageWaterConsumption": "Average daily water consumption",
-            "periodTotalCO2": "My average water consumption on the selected period. This corresponds to approx. %{totalCO2} kg CO2 pr. month.",
+            "myAverageWaterConsumption": "Average daily water usage",
+            "periodTotalCO2": "My average water usage on the selected period. This corresponds to approx. %{totalCO2} kg CO2 pr. month.",
             "personsInHousehold": "persons in the household",
             "usagePerPerson": "Usage per person"
         },
