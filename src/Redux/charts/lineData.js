@@ -1,4 +1,4 @@
-import { monthAvgUUIDsRedux, monthRedux } from 'data/functions'
+import { monthAvgUUIDsRedux } from 'data/functions'
 // import { genLineData } from 'data/model'
 import moment from 'moment'
 import { /* ambientColors */ colorNames, /*  maxFlowColors, minFlowColors */ } from 'variables/colors'
@@ -356,14 +356,21 @@ export const mapLineData = async data => {
 		// 	previousPeriodData.maxFlow = genLineData(maxFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))
 		// }
 		if (timeType === 4) {
-			currentPeriodData.waterusage = monthRedux(currentPeriodData.waterusage)
-			previousPeriodData.waterusage = monthRedux(previousPeriodData.waterusage)
-			currentPeriodData.benchmark = monthRedux(currentPeriodData.benchmark)
-			currentPeriodData.minWtemp = monthAvgUUIDsRedux(currentPeriodData.minWtemp)
-			currentPeriodData.minAtemp = monthAvgUUIDsRedux(currentPeriodData.minAtemp)
-			currentPeriodData.minFlow = monthAvgUUIDsRedux(currentPeriodData.minFlow)
-			currentPeriodData.maxFlow = monthAvgUUIDsRedux(currentPeriodData.maxFlow)
-
+			currentPeriodData.waterusage = monthAvgUUIDsRedux(currentPeriodData.waterusage)
+			previousPeriodData.waterusage = monthAvgUUIDsRedux(previousPeriodData.waterusage)
+			currentPeriodData.benchmark = monthAvgUUIDsRedux(currentPeriodData.benchmark)
+			if (temperatureWData && temperatureWData.length > 0) {
+				currentPeriodData.minWtemp = monthAvgUUIDsRedux(currentPeriodData.minWtemp)
+			}
+			if (temperatureAData && temperatureAData.length > 0) {
+				currentPeriodData.minAtemp = monthAvgUUIDsRedux(currentPeriodData.minAtemp)
+			}
+			if (minFlowData && minFlowData.length > 0) {
+				currentPeriodData.minFlow = monthAvgUUIDsRedux(currentPeriodData.minFlow)
+			}
+			if (maxFlowData && maxFlowData.length > 0) {
+				currentPeriodData.maxFlow = monthAvgUUIDsRedux(currentPeriodData.maxFlow)
+			}
 
 
 
