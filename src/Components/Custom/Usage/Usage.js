@@ -12,7 +12,7 @@ import cx from 'classnames'
 import { useLocalization } from 'Hooks'
 // import PopperBubble from './PopperBubble'
 import T from 'Components/Typography/T'
-import { formatShortNumber } from 'data/functions'
+import { daFormat, formatShortNumber } from 'data/functions'
 import usageStyle from 'Styles/usageStyle'
 import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
 
@@ -61,7 +61,10 @@ const Usage = props => {
 	const handleOnClose = () => {
 		setFsDialogOpen(false)
 	}
+	// alert(sDev)
 	return (
+		<>
+
 		<Grid container className={classes.container}>
 			<ItemG xs={sDev < 2 ? 4 : 0} className={sDev < 2 ? columnClasses(0) : columnClasses(3)}>
 				<Collapse in={sDev < 2}>
@@ -70,7 +73,7 @@ const Usage = props => {
 						<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
 					</ItemG>
 					<ItemG container style={{ maxWidth: '100%' }}>
-						<T>{`${t('usage.dashboardOneDay.subtitle')}: ${oneDayUsage.reading}`}</T>
+						<T>{`${t('usage.dashboardOneDay.subtitle')}: ${daFormat(oneDayUsage.reading)} m³`}</T>
 					</ItemG>
 					<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
 						<T variant="body2" className={classes.cubicValue}>
@@ -132,7 +135,8 @@ const Usage = props => {
 					</BPaper>
 				</AppPaper>
 			</Dialog>
-		</Grid>
+			</Grid>
+		</>
 	)
 }
 

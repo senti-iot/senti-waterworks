@@ -86,7 +86,8 @@ const usageStyle = makeStyles(theme => ({
 	},
 	hiddenColumnStyle: {
 		padding: 0,
-		margin: 0
+		margin: 0,
+		width: 0
 	},
 	flexColumn: {
 		flexWrap: 'no-wrap',

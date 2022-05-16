@@ -12,12 +12,13 @@ import Usage from 'Components/Custom/Usage/Usage'
 import PriceChart from 'Components/Custom/Usage/PriceChart'
 import { /* getNData, getAdminDevices, */ setHaveData, setUnitHasChanged, /*  getAllNotifications */ } from 'Redux/data'
 import { usePrevious } from 'Hooks/index'
-import { makeStyles, /* Hidden */ } from '@material-ui/core'
+import { Collapse, makeStyles, /* Hidden */ } from '@material-ui/core'
 import BarsContainer from 'Components/Custom/Bars/BarsContainer'
 import FullScreenMainChart from 'Components/Custom/MainChart/FullScreenMainChart'
 import TagFilterDialog from 'Components/TagFilterDialog/TagFilterDialog'
 // import { getTags } from 'Redux/tagManager'
 import { getNData } from 'Redux/data'
+import ClientInfo from 'Components/Custom/Users/ClientInfo'
 
 const styles = makeStyles(theme => ({
 	chartGrid: {
@@ -43,6 +44,9 @@ const styles = makeStyles(theme => ({
 			height: '100%'
 		}
 	},
+	clientInfoCont: {
+		height: '100% !important'
+	}
 
 }))
 
@@ -58,6 +62,7 @@ const EndUserContainer = props => {
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const devices = useSelector(s => s.data.devices)
 	// const devices = useSelector(s => s.data.devices)
+	const sDev = useSelector(s => s.appState.selectedDevices.length)
 	const period = useSelector(s => s.dateTime.period)
 	// const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	// const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
@@ -134,11 +139,21 @@ const EndUserContainer = props => {
 						<Usage parentRef={usageRef} />
 					</BPaper>
 				</ItemG>
-				{orgSettings.priceInfo === 0 ? null : <ItemG xs={6} style={{ height: '100%' }}>
+				{orgSettings.priceInfo === 0 ? null : <ItemG xs={4} style={{ height: '100%' }}>
 					<BPaper ref={priceRef}>
 						<PriceChart parentRef={priceRef} />
 					</BPaper>
 				</ItemG>}
+				<ItemG xs={sDev < 2 ? 3 : 0} style={{ height: "100%", width: sDev < 2 ? "100%" : '0px' }}>
+					<Collapse in={sDev < 2} style={{ height: "100%" }} classes={{
+						entered: classes.clientInfoCont,
+						wrapper: classes.clientInfoCont,
+					}}>
+						<BPaper>
+							<ClientInfo/>
+						</BPaper>
+					</Collapse>
+				</ItemG>
 			</ItemG>
 		</ItemG>
 		<ItemG xs={12} md={3} container style={{ height: "100%" }}>

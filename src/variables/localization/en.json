@@ -200,8 +200,12 @@
             "pie": "Pie"
         },
         "types": {
+            "ambientTemp": "Ambient temperatur",
+            "maxFlow": "Maksimal vandgennemstrømning",
+            "minFlow": "Mindste vandgennemstrømning",
             "readings": "Reading",
             "temperature": "Temperature",
+            "waterTemp": "Vand temperatur",
             "waterflow": "Water flow",
             "waterusage": "Water usage"
         }
@@ -486,8 +490,8 @@
                 "deviceType": "Are you sure you want to delete this device type ( %{deviceType} ) ?",
                 "deviceTypes": "Are you sure you want to delete these device types:",
                 "devices": "Are you sure you want to delete these devices:",
-                "installations": "Are you sure you want to delete these installations:",
                 "groups": "Are you sure you want to delete these groups:",
+                "installations": "Are you sure you want to delete these installations:",
                 "org": "Are you sure you want to delete this organisation?",
                 "orgs": "Are you sure you want to delete these organisations:",
                 "project": "Are you sure you want to delete this project?",
@@ -500,7 +504,7 @@
                 "users": "Are you sure you want to delete these users:"
             },
             "title": {
-				"alarms": "Delete alarms?",
+                "alarms": "Delete alarms?",
                 "cloudfunction": "Delete cloud function?",
                 "cloudfunctions": "Delete cloud functions?",
                 "collection": "Delete data collection?",
@@ -510,8 +514,8 @@
                 "deviceType": "Delete device type?",
                 "deviceTypes": "Delete device types?",
                 "devices": "Delete devices?",
-                "installations": "Delete installations?",
                 "groups": "Delete groups?",
+                "installations": "Delete installations?",
                 "org": "Delete organisation?",
                 "orgs": "Delete organisations?",
                 "project": "Delete project?",
@@ -625,8 +629,8 @@
             "hourly": "Hourly",
             "minutely": "Minutely",
             "month": "Month",
-			"monthly":"Monthly",
             "monthToDate": "Month to date",
+            "monthly": "Monthly",
             "summary": "Summary",
             "thisMonth": "This month",
             "thisWeek": "This week",
@@ -638,8 +642,8 @@
         },
         "devices": {
             "calibrated": "Calibrated",
-            "notCalibrated": "Not calibrated",
-			"max": "You need to filter for max. 10 devices for this menu or there is no data available for selected period"
+            "max": "You need to filter for max. 1 devices for this menu or there is no data available for selected period",
+            "notCalibrated": "Not calibrated"
         },
         "display": "Display:",
         "endDate": "End date",
@@ -804,18 +808,18 @@
         },
         "delete": "Delete",
         "deletes": {
-            "installations": "Delete installations",
-			"alarms": "Delete alarms",
-			"groups": "Delete groups"
+            "alarms": "Delete alarms",
+            "groups": "Delete groups",
+            "installations": "Delete installations"
         },
         "edit": "Edit",
         "edits": {
-			"group": "Edit group",
-			"alarm": "Edit alarm",
+            "alarm": "Edit alarm",
             "cloudfunction": "Edit cloud function",
             "collection": "Edit data collection",
             "device": "Edit device",
             "devicetype": "Edit device type",
+            "group": "Edit group",
             "installation": "Edit installation",
             "org": "Edit organisation",
             "project": "Edit project",
@@ -1466,11 +1470,11 @@
         "user": "User"
     },
     "usage": {
-		"dashboardOneDay": {
-			"title": "Consumption yesterday",
-			"subtitle": "Reading"
-		},
-		"dashboardPrice": {
+        "dashboardOneDay": {
+            "subtitle": "Reading",
+            "title": "Consumption yesterday"
+        },
+        "dashboardPrice": {
             "headline": "Account",
             "sewage": "Sewage: DKK ",
             "water": "Water: DKK "

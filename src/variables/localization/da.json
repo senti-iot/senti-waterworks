@@ -200,12 +200,12 @@
             "pie": "Lagkage"
         },
         "types": {
-			"maxFlow": "Maksimal vandgennemstrømning",
-			"minFlow": "Mindste vandgennemstrømning",
-			"ambientTemp": "Ambient temperatur",
-			"waterTemp": "Vand temperatur",
+            "ambientTemp": "Ambient temperatur",
+            "maxFlow": "Maksimal vandgennemstrømning",
+            "minFlow": "Mindste vandgennemstrømning",
             "readings": "Aflæsninger",
             "temperature": "Temperatur",
+            "waterTemp": "Vand temperatur",
             "waterflow": "Gennemstrømning",
             "waterusage": "Vandforbrug"
         }
@@ -480,7 +480,7 @@
         },
         "delete": {
             "message": {
-				"alarms": "Er du sikker på du ønsker at slette disse alarmer:",
+                "alarms": "Er du sikker på du ønsker at slette disse alarmer:",
                 "cloudfunction": "Er du sikker på du ønsker at slette denne Cloud Funktion ( %{cf} ) ?",
                 "cloudfunctions": "Er du sikker på du ønsker at slette disse cloud funktioner:",
                 "collection": "Er du sikker på du ønsker at slette denne datasamling ( %{collection} ) ?",
@@ -490,8 +490,8 @@
                 "deviceType": "Er du sikker på du ønsker at slette denne enhedstype ( %{deviceType} ) ?",
                 "deviceTypes": "Er du sikker på du ønsker at slette disse enhedstyper:",
                 "devices": "Er du sikker på du ønsker at slette disse enheder:",
-                "installations": "Er du sikker på du ønsker at slette disse Installationer:",
                 "groups": "Er du sikker på du ønsker at slette disse grupper:",
+                "installations": "Er du sikker på du ønsker at slette disse Installationer:",
                 "org": "Er du sikker på du ønsker at slette denne organisation ( %{org} )?",
                 "orgs": "Er du sikker på du ønsker at slette disse organisationer:",
                 "project": "Er du sikker på du ønsker at slette dette projekt ( %{project} )?",
@@ -504,7 +504,7 @@
                 "users": "Er du sikker på du ønsker at slette disse brugere:"
             },
             "title": {
-				"alarms": "Slet alarmer?",
+                "alarms": "Slet alarmer?",
                 "cloudfunction": "Slet cloud funktion?",
                 "cloudfunctions": "Slet cloud funktioner?",
                 "collection": "Slet datasamling?",
@@ -514,8 +514,8 @@
                 "deviceType": "Slet enhedstype?",
                 "deviceTypes": "Slet enhedstyper?",
                 "devices": "Slet enheder?",
-                "installations": "Slet installationer?",
                 "groups": "Slet grupper?",
+                "installations": "Slet installationer?",
                 "org": "Slet organisation?",
                 "orgs": "Slet organisationer?",
                 "project": "Slet projekt?",
@@ -629,8 +629,8 @@
             "hourly": "Hver time",
             "minutely": "Hver minut",
             "month": "Måned",
-			"monthly": "Hver Måned",
             "monthToDate": "Måned til dato",
+            "monthly": "Hver Måned",
             "summary": "Resumé",
             "thisMonth": "Denne måned",
             "thisWeek": "Denne uge",
@@ -642,8 +642,8 @@
         },
         "devices": {
             "calibrated": "Kalibreret",
-			"notCalibrated": "Ikke kalibreret",
-			"max": "Du skal filter til max. 10 enheder for at se denne menu eller der er ingen tilgængelige data for den valgte periode"
+            "max": "Du skal filter til max. 1 enheder for at se denne menu eller der er ingen tilgængelige data for den valgte periode",
+            "notCalibrated": "Ikke kalibreret"
         },
         "display": "Visning",
         "endDate": "Slutdato",
@@ -808,18 +808,18 @@
         },
         "delete": "Slet",
         "deletes": {
-            "installations": "Slet installationer",
-			"alarms": "Slet alarmer",
-			"groups": "Slet grupper"
-		},
+            "alarms": "Slet alarmer",
+            "groups": "Slet grupper",
+            "installations": "Slet installationer"
+        },
         "edit": "Rediger",
         "edits": {
-			"group":"Rediger gruppe",
             "alarm": "Rediger alarm",
             "cloudfunction": "Rediger cloud funktion",
             "collection": "Rediger datasamling",
             "device": "Rediger enhed",
             "devicetype": "Rediger enhedstype",
+            "group": "Rediger gruppe",
             "installation": "Rediger installation",
             "org": "Rediger organisation",
             "project": "Rediger projekt",
@@ -1470,10 +1470,10 @@
         "user": "Bruger"
     },
     "usage": {
-		"dashboardOneDay": {
-			"title": "Aktuelt forbrug",
-			"subtitle": "Målerstand"
-		},
+        "dashboardOneDay": {
+            "subtitle": "Målerstand",
+            "title": "Aktuelt forbrug"
+        },
         "dashboardPrice": {
             "headline": "Afregning",
             "sewage": "Spildevand: Kr. ",

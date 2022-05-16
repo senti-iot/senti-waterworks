@@ -121,6 +121,14 @@ export function formatNumber(num, digits = 3) {
 	return num ? parseFloat(num.toString().replace(',', '.')).toFixed(digits).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
 }
 /**
+ * Danish Locale
+ */
+export const daFormat = (value) =>
+	new Intl.NumberFormat('da-DK', {
+		// style: 'currency',
+		// currency: 'INR'
+	}).format(value);
+/**
  * Email validator
  */
 export const validateEmail = (mail) => {
