@@ -64,77 +64,82 @@ const Usage = props => {
 	// alert(sDev)
 	return (
 		<>
+			<Grid container className={classes.container}>
+				<ItemG xs={sDev < 2 ? 4 : 0} className={sDev < 2 ? columnClasses(0) : columnClasses(3)}>
+					<Collapse in={sDev < 2}
+						classes={{
+							entered: classes.clientInfoCont,
+							wrapper: classes.clientInfoCont,
+						}}
+					>
+						<ItemG container style={{ height: '100%' }}>
 
-		<Grid container className={classes.container}>
-			<ItemG xs={sDev < 2 ? 4 : 0} className={sDev < 2 ? columnClasses(0) : columnClasses(3)}>
-				<Collapse in={sDev < 2}>
+							<ItemG xs container style={{ maxWidth: '100%' }}>
+								<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
+							</ItemG>
+							<ItemG container style={{ maxWidth: '100%' }}>
+								<T>{`${t('usage.dashboardOneDay.subtitle')}: ${daFormat(oneDayUsage.reading)} m³`}</T>
+							</ItemG>
+							<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%', display: 'flex' }}>
+								<T variant="body2" className={classes.cubicValue}>
+									{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
+									<span className={classes.cubicValueUnit}>
+										{unit()}
+									</span>
+								</T>
+							</ItemG>
+						</ItemG>
+					</Collapse>
+				</ItemG>
+				<ItemG container xs={sDev < 2 ? 4 : 6} className={sDev < 2 ? columnClasses(1) : columnClasses(0)}>
+					<ItemG container style={{ maxWidth: '100%' }}>
+						<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
+					</ItemG>
 
-					<ItemG container style={{ maxWidth: '100%' }}>
-						<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
-					</ItemG>
-					<ItemG container style={{ maxWidth: '100%' }}>
-						<T>{`${t('usage.dashboardOneDay.subtitle')}: ${daFormat(oneDayUsage.reading)} m³`}</T>
-					</ItemG>
 					<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
 						<T variant="body2" className={classes.cubicValue}>
-							{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
+							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
 							<span className={classes.cubicValueUnit}>
 								{unit()}
 							</span>
 						</T>
 					</ItemG>
-				</Collapse>
-			</ItemG>
-			<ItemG xs={sDev < 2 ? 4 : 6} className={sDev < 2 ? columnClasses(1) : columnClasses(0)}>
+				</ItemG>
+				<ItemG container xs={sDev < 2 ? 4 : 6} className={columnClasses(1)}>
+					<ItemG container style={{ maxWidth: '100%' }}>
+						<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
+					</ItemG>
+					<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
+						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
+							{(mUnit === 'm3' ?
+								formatShortNumber(avgData.benchmarkm3, 2, t) :
+								formatShortNumber(avgData.benchmarkL, 0, t))}
+							<span className={classes.cubicValueUnit}>
+								{unit()}
+							</span>
+						</T>
+					</ItemG>
+				</ItemG>
+				<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
+					<CallMade />
+				</IconButton>
 
-				<ItemG container style={{ maxWidth: '100%' }}>
-					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
-				</ItemG>
-
-				<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
-					<T variant="body2" className={classes.cubicValue}>
-						{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
-						<span className={classes.cubicValueUnit}>
-							{unit()}
-						</span>
-					</T>
-				</ItemG>
-			</ItemG>
-			<ItemG xs={sDev < 2 ? 4 : 6} className={columnClasses(1)}>
-				<ItemG container style={{ maxWidth: '100%' }}>
-					<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
-				</ItemG>
-				<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
-					<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
-						{(mUnit === 'm3' ?
-							formatShortNumber(avgData.benchmarkm3, 2, t) :
-							formatShortNumber(avgData.benchmarkL, 0, t))}
-						<span className={classes.cubicValueUnit}>
-							{unit()}
-						</span>
-					</T>
-				</ItemG>
-			</ItemG>
-			<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
-				<CallMade />
-			</IconButton>
-
-			<Dialog
-				fullScreen
-				hideBackdrop
-				className={classes.dialogRoot}
-				open={fsDialogOpen}
-				TransitionComponent={SlideT}
-				onClose={handleOnClose}
-				keepMounted
-				disablePortal
-			>
-				<AppPaper color={colorTheme} style={{ padding: 30 }}>
-					<BPaper style={{ padding: 0 }}>
-						<UsageOverview closeDialog={setFsDialogOpen} />
-					</BPaper>
-				</AppPaper>
-			</Dialog>
+				<Dialog
+					fullScreen
+					hideBackdrop
+					className={classes.dialogRoot}
+					open={fsDialogOpen}
+					TransitionComponent={SlideT}
+					onClose={handleOnClose}
+					keepMounted
+					disablePortal
+				>
+					<AppPaper color={colorTheme} style={{ padding: 30 }}>
+						<BPaper style={{ padding: 0 }}>
+							<UsageOverview closeDialog={setFsDialogOpen} />
+						</BPaper>
+					</AppPaper>
+				</Dialog>
 			</Grid>
 		</>
 	)

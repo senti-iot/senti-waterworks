@@ -95,6 +95,9 @@ const usageStyle = makeStyles(theme => ({
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		height: '100%'
+	},
+	clientInfoCont: {
+		height: '100% !important'
 	}
 }))
 
