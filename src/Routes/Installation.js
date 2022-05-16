@@ -2,6 +2,7 @@ import { Button } from '@material-ui/core'
 import { GridContainer, InfoCard, ItemG } from 'Components'
 import Installation from 'Components/Custom/InstallationsTable/Installation'
 import PageHeader from 'Components/Custom/PageHeader/PageHeader'
+import { useLocalization } from 'Hooks'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
@@ -13,6 +14,7 @@ const InstallationRoute = (props) => {
 	const params = useParams()
 	const history = useHistory()
 	const dispatch = useDispatch()
+	const t = useLocalization()
 	//Redux
 	const installation = useSelector(s => s.data.installation)
 
@@ -44,7 +46,7 @@ const InstallationRoute = (props) => {
 					subheader={params.uuid}
 					icon={Devices}
 					actions={<ItemG container>
-						<Button variant={'contained'} color={'secondary'} style={{ color: '#fff' }} onClick={handleSeeData} startIcon={<PageviewIcon />} >Se data</Button>
+						<Button variant={'contained'} color={'secondary'} style={{ color: '#fff' }} onClick={handleSeeData} startIcon={<PageviewIcon />} >{t('actions.seeData')}</Button>
 					</ItemG>}
 				/>
 			</ItemG>
