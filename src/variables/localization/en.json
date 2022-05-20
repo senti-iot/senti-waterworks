@@ -1482,7 +1482,7 @@
         },
         "dashboardUsage": {
             "comparison": "Benchmark",
-            "dailyConsumption": "Daily usage",
+            "dailyConsumption": "Average usage",
             "usageToday": "Actual usage for today"
         },
         "dialogScreens": {

@@ -1482,7 +1482,7 @@
         },
         "dashboardUsage": {
             "comparison": "Sammenligning",
-            "dailyConsumption": "Dagligt forbrug",
+            "dailyConsumption": "Gennemsnit forbrug",
             "usageToday": "Aktuelt forbrug i dag"
         },
         "dialogScreens": {
