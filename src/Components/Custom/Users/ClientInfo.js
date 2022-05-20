@@ -7,6 +7,7 @@ import T from 'Components/Typography/T'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { useLocalization } from 'Hooks'
+import Link from 'Components/Custom/Link/Link'
 
 const ClientInfoStyles = makeStyles(theme => ({
 	container: {
@@ -95,9 +96,12 @@ const ClientInfo = () => {
 				<T className={classes.t}>{device.user.fullName}</T>
 			</ItemG> : null}
 			{(device && device.user && device.user.fullName) ? <ItemG xs={12} className={classes.iG}>
-				<T className={classes.t}>{device.user.email}</T>
-				<T className={classes.t}>{device.user.phone}</T>
-				<T className={classes.t}>{device.user.mobile}</T>
+				<T className={classes.t}><Link component={'a'} target={'_blank'} href={`mailto:${device.user.email}`}>{device.user.email}</Link></T>
+				<T className={classes.t}><Link component={'a'} target={'_blank'} href={`tel:${device.user.phone}`}>{device.user.phone}</Link></T>
+
+				<Link component={'a'} target={'_blank'} href={`tel:${device.user.mobile}`}>
+					<T className={classes.t}>{device.user.mobile}</T>
+				</Link>
 			</ItemG> : null}
 			{(device && device.user && device.user.fullName) ? <ItemG xs={12} className={classes.iG}>
 			</ItemG> : null}
