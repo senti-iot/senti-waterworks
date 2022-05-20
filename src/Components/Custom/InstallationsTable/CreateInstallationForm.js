@@ -1,4 +1,4 @@
-import { Checkbox, Collapse, Divider, FormControlLabel } from '@material-ui/core'
+import { Button, Checkbox, Collapse, Divider, FormControlLabel } from '@material-ui/core'
 import { DSelect, T, TextF } from 'Components'
 import ItemG from 'Components/Containers/ItemG'
 import AssignDevice from 'Components/Custom/Devices/AssignDevice'
@@ -55,9 +55,37 @@ const CreateInstallationForm = (props) => {
 				</ItemG>
 				<ItemG xs={12}>
 					<TextF
-						label={t('installations.fields.address')}
-						value={inst.address}
-						onChange={e => handleSetInstallation('address')(e.target.value)}
+						label={t('installations.fields.streetName')}
+						value={inst.streetName}
+						onChange={e => handleSetInstallation('streetName')(e.target.value)}
+					/>
+				</ItemG>
+				<ItemG xs={12} style={{ maxWidth: 230 }}>
+					<TextF
+						style={{ width: '49%', minWidth: '49%', marginRight: '4px' }}
+						label={t('installations.fields.streetNumber')}
+						value={inst.streetNumber}
+						onChange={e => handleSetInstallation('streetNumber')(e.target.value)}
+					/>
+					<TextF
+						style={{ width: '49%', minWidth: '49%' }}
+						label={t('installations.fields.side')}
+						value={inst.side}
+						onChange={e => handleSetInstallation('side')(e.target.value)}
+					/>
+				</ItemG>
+				<ItemG xs={12}>
+					<TextF
+						label={t('installations.fields.zip')}
+						value={inst.zip}
+						onChange={e => handleSetInstallation('zip')(e.target.value)}
+					/>
+				</ItemG>
+				<ItemG xs={12}>
+					<TextF
+						label={t('installations.fields.city')}
+						value={inst.city}
+						onChange={e => handleSetInstallation('city')(e.target.value)}
 					/>
 				</ItemG>
 				<ItemG xs={12}>
@@ -159,15 +187,21 @@ const CreateInstallationForm = (props) => {
 									value={user.firstName}
 									onChange={e => handleSetSentiUser('firstName')(e.target.value)}
 								/>
-							</ItemG>
-							<ItemG xs={12}>
 								<TextF
 									label={t('users.fields.lastName')}
 									value={user.lastName}
 									onChange={e => handleSetSentiUser('lastName')(e.target.value)}
 								/>
-							</ItemG>
-							<ItemG xs={12}>
+								<TextF
+									label={t('users.fields.phone')}
+									value={user.phone}
+									onChange={e => handleSetSentiUser('phone')(e.target.value)}
+								/>
+								<TextF
+									label={t('users.fields.mobile')}
+									value={user.mobile}
+									onChange={e => handleSetSentiUser('mobile')(e.target.value)}
+								/>
 								<TextF
 									label={t('users.fields.email')}
 									value={user.email}
@@ -176,11 +210,33 @@ const CreateInstallationForm = (props) => {
 							</ItemG>
 						</Collapse>
 						<Collapse in={existingUser}>
+							<Button variant={'outlined'} onClick={() => setOpenUserAssign(true)}>{t('actions.selectUser')}</Button>
 							<TextF
-								onClick={() => setOpenUserAssign(true)}
-								readOnly
-								value={instUser.firstName ? instUser.firstName + ' ' + instUser.lastName : t('actions.select') + ' ' + t('sidebar.user')}
+								label={t('users.fields.firstName')}
+								value={user.firstName}
+								onChange={e => handleSetSentiUser('firstName')(e.target.value)}
 							/>
+							<TextF
+								label={t('users.fields.lastName')}
+								value={user.lastName}
+								onChange={e => handleSetSentiUser('lastName')(e.target.value)}
+							/>
+							<TextF
+								label={t('users.fields.phone')}
+								value={user.phone}
+								onChange={e => handleSetSentiUser('phone')(e.target.value)}
+							/>
+							<TextF
+								label={t('users.fields.mobile')}
+								value={user.mobile}
+								onChange={e => handleSetSentiUser('mobile')(e.target.value)}
+							/>
+							<TextF
+								label={t('users.fields.email')}
+								value={user.email}
+								onChange={e => handleSetSentiUser('email')(e.target.value)}
+							/>
+
 							<AssignUser open={openUserAssign}
 								handleClose={() => setOpenUserAssign(false)}
 								callBack={(dev) => { handleSelectUser(dev); setOpenUserAssign(false) }}

@@ -75,7 +75,7 @@ const FullInstallationTable = (props) => {
 		const getUInstallations = async () => await dispatch(await getUInstallation())
 		// const getInstallationTags = async () => await dispatch(await getTags())
 		const loadData = async () => {
-			if (installations.length === 0 && loading) {
+			if ( loading) {
 				if (isSWAdmin) {
 					await getInstallations()
 				}
