@@ -1,5 +1,6 @@
 import { Divider } from '@material-ui/core'
 import { Caption, CircularLoader, Info, ItemG, OpenStreetMap, T } from 'Components'
+import Link from 'Components/Custom/Link/Link'
 import { useLocalization } from 'Hooks'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -52,10 +53,32 @@ const Installation = () => {
 	const renderUser = () => {
 		console.log(users)
 		let user = users.find(u => u.uuid === installation.sentiUserUUID)
-		return <ItemG xs={12}>
-			<Caption>{t("installations.fields.user")}</Caption>
-			{user ? <Info>{`${user.firstName} ${user.lastName}`}</Info> : null}
-		</ItemG>
+		console.log(user)
+		return user ? <ItemG xs={12} container>
+			<ItemG xs={3}>
+				<Caption>{t("installations.fields.user")}</Caption>
+				{user ? <Info>{`${user.firstName} ${user.lastName}`}</Info> : null}
+			</ItemG>
+			<ItemG xs={9}>
+				<Caption>{t('users.fields.email')}</Caption>
+				<Info>
+					<Link component={'a'} target={'_blank'} href={`mailto:${user.email}`}>{user.email}</Link>
+				</Info>
+			</ItemG>
+			<ItemG xs={3}>
+				<Caption>{t('users.fields.phone')}</Caption>
+				<Info>
+					<Link component={'a'} target={'_blank'} href={`tel:${user.phone}`}>{user.phone}</Link>
+				</Info>
+			</ItemG>
+			<ItemG xs={9}>
+				<Caption>{t('users.fields.mobile')}</Caption>
+				<Info>
+					<Link component={'a'} target={'_blank'} href={`tel:${user.mobile}`}>{user.mobile}</Link>
+				</Info>
+			</ItemG>
+
+		</ItemG> : null
 	}
 	const renderOperation = () => {
 		switch (installation.operation) {
