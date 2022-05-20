@@ -5,7 +5,7 @@ import DMultipleSelect from 'Components/Input/DMultipleSelect'
 import { useLocalization } from 'Hooks'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeOpenTagFilter, setTagFilter } from 'Redux/appState'
+import { changeOpenTFilter, setTagFilter } from 'Redux/appState'
 
 const styles = makeStyles(theme => ({
 	section: {
@@ -32,9 +32,10 @@ const TagFilterDialog = () => {
 	const classes = styles()
 	const t = useLocalization()
 	//Redux
-	const open = useSelector(s => s.appState.openTagFilter)
+	const open = useSelector(s => s.appState.openTagsFilter)
 	const selectedTag = useSelector(s => s.appState.selectedTag)
 	const tags = useSelector(s => s.tagManager.tags)
+	console.log('open', open)
 	//State
 
 	//Const
@@ -51,7 +52,7 @@ const TagFilterDialog = () => {
 		// handleClose()
 	}
 	const handleClose = () => {
-		dispatch(changeOpenTagFilter())
+		dispatch(changeOpenTFilter())
 	}
 	return (
 		<Dialog

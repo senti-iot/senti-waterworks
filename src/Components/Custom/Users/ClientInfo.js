@@ -80,9 +80,9 @@ const ClientInfo = () => {
 	}
 	const renderClientInfo = () => {
 		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
-		let user = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])].user
+		// let user = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])].user
 		// console.log(device, device ? true : false)
-		console.log('user', user)
+		// console.log('user', user)
 
 
 		return <Grid container className={classes.container} >

@@ -15,6 +15,7 @@ const fsLG = 'fullScreenLineGraph'
 const setLines = 'setGraphLines'
 const setTFilter = 'setTFilter'
 const setOpenTFilter = 'setOpenTFilter'
+const setOpenTagFilter = 'setOpenTagFilter'
 const openCreateInstallation = 'openCreateInstallation'
 const openCreateAlarm = 'openCreateAlarm'
 const openCreateTag = 'openCreateTag'
@@ -33,6 +34,11 @@ export const closeCI = () => dispatch => dispatch({ type: openCreateInstallation
 export const changeOpenTagFilter = () => {
 	return ({
 		type: setOpenTFilter
+	})
+}
+export const changeOpenTFilter = () => {
+	return ({
+		type: setOpenTagFilter
 	})
 }
 export const changeSmallMenu = (val) => {
@@ -280,6 +286,7 @@ const initialState = {
 	selectedDevices: [],
 	selectedTag: [-1],
 	openTagFilter: false,
+	openTagsFilter: false,
 	oci: false,
 	oca: false,
 	oct: false,
@@ -332,6 +339,8 @@ export const appState = (state = initialState, action) => {
 			return Object.assign({}, state, { oca: action.payload })
 		case openCreateInstallation:
 			return Object.assign({}, state, { oci: action.payload })
+		case setOpenTagFilter:
+			return Object.assign({}, state, { openTagsFilter: !state.openTagsFilter })
 		case setOpenTFilter:
 			return Object.assign({}, state, { openTagFilter: !state.openTagFilter })
 		case setTFilter:

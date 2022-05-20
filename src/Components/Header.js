@@ -4,14 +4,14 @@ import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
 import logo from 'assets/senti.waterworks.svg'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
 import {  Map, Menu, PageviewIcon, TuneIcon, Devices as DeviceIcon, Notifications } from 'variables/icons'
 import Sidebar from 'Components/Custom/Sidebar/Sidebar'
 import { routes } from 'Routes'
-import { changeOpenTagFilter } from 'Redux/appState'
+import {  changeOpenTagFilter, changeOpenTFilter } from 'Redux/appState'
 
 function Header({ ...props }) {
 	//Hooks
@@ -20,7 +20,7 @@ function Header({ ...props }) {
 	const t = useLocalization()
 	const dispatch = useDispatch()
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
-
+	const location = useLocation()
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
@@ -44,7 +44,16 @@ function Header({ ...props }) {
 	const handleSwitchMenu = () => setMenu(!menu)
 	const handleCloseMenu = () => setMenu(false)
 	const handleOpenTagFilter = () => {
-		dispatch(changeOpenTagFilter())
+		if (location.pathname === '/') {
+			dispatch(changeOpenTFilter())
+
+		 }
+		// console.log(location)
+		// if()
+		else {
+
+			dispatch(changeOpenTagFilter())
+		}
 	}
 
 	var brand = (
