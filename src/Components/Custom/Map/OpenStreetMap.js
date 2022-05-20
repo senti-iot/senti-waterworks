@@ -31,15 +31,23 @@ const OpenStreetMap = (props) => {
 	//State
 
 	const [map, setMap] = useState(null)
-	const [zoom, setZoom] = useState(props.markers.length === 1 ? 17 : 9)
+	const [zoom, setZoom] = useState(props.markers.length === 1 ? 17 : 13)
 	//Const
 	const { markers } = props
 	//useCallbacks
 
 	//useEffects
 	useEffect(() => {
-		if (map)
-			map.setView(averageGeolocation(markers), zoom)
+		if (map) {
+			var ms = markers.map(m => L.latLng(m.lat, m.long))
+			let bounds = L.latLngBounds(ms).pad(0.5)
+			if (bounds) {
+				map.fitBounds(bounds)
+			}
+			else
+				map.setView(averageGeolocation(markers), zoom)
+
+		}
 	}, [map, markers, zoom])
 	//Handlers
 
@@ -149,7 +157,7 @@ const OpenStreetMap = (props) => {
 				attributionControl={true}
 				zoomControl={false}
 				// ref={r => this.map = r}
-				center={averageGeolocation([])}
+				center={averageGeolocation(markers)}
 				zoom={zoom}
 				onzoomend={setZoom}
 				maxZoom={layers[mapTheme].maxZoom}
