@@ -75,6 +75,7 @@
         "seeData": "See data",
         "seeMore": "See more",
         "select": "Select",
+        "selectUser": "Select user",
         "sendEmail": "Send e-mail",
         "share": "Share",
         "src": "Search...",
@@ -677,6 +678,7 @@
     "installations": {
         "fields": {
             "address": "Address",
+			"side": "Side",
             "city": "City",
             "deviceId": "Water Meter ID",
             "deviceUUID": "Device Identification",

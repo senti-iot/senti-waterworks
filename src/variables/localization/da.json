@@ -75,6 +75,7 @@
         "seeData": "Se data",
         "seeMore": "Se mere",
         "select": "Vælg",
+        "selectUser": "Vælg bruger",
         "sendEmail": "Send e-mail",
         "share": "Del",
         "src": "Søg...",
@@ -677,7 +678,8 @@
     "installations": {
         "fields": {
             "address": "Addresse",
-            "city": "By",
+			"side": "Side",
+			"city": "By",
             "deviceId": "Måler ID",
             "deviceUUID": "Måler ID",
             "endDate": "Slutdato",
@@ -1567,7 +1569,8 @@
             "newsletter": "Nyhedsbrev",
             "noOrg": "Uden Organisation",
             "organisation": "Organisation",
-            "phone": "Mobil nummer",
+            "phone": "Telefonnummer",
+			"mobile": "Mobil nummer",
             "position": "Stilling",
             "postnr": "Postnr.",
             "profileImage": "Profilbillede",

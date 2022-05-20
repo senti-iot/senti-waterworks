@@ -39,10 +39,15 @@ const OpenStreetMap = (props) => {
 	//useEffects
 	useEffect(() => {
 		if (map) {
-			var ms = markers.map(m => L.latLng(m.lat, m.long))
-			let bounds = L.latLngBounds(ms).pad(0.5)
-			if (bounds) {
-				map.fitBounds(bounds)
+			if (markers.length > 0) {
+				var ms = markers.map(m => L.latLng(m.lat, m.long)).filter(f => f)
+				console.log(ms)
+				if (ms.length > 0) {
+					let bounds = L.latLngBounds(ms).pad(0.5)
+					if (bounds) {
+						map.fitBounds(bounds)
+					}
+				}
 			}
 			else
 				map.setView(averageGeolocation(markers), zoom)
