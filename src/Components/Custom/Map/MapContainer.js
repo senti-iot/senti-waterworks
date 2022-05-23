@@ -3,12 +3,15 @@ import ItemG from 'Components/Containers/ItemG'
 import { useLocalization } from 'Hooks'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { customFilterItems } from 'variables/functions/filters'
 
 const MapContainer = () => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
 	const installations = useSelector(s => s.data.installations)
+	const filters = useSelector(s => s.appState.filters.installations)
+	const openTagFilter = useSelector(s => s.appState.openTagFilter)
 
 	//State
 	const [markers, setMarkers] = useState([])
@@ -20,7 +23,7 @@ const MapContainer = () => {
 	useEffect(() => {
 		if (installations.length > 0) {
 			// console.log('Setting markers', installations)
-			let markers = installations.map(i => ({
+			let markers = customFilterItems(installations, filters).map(i => ({
 				...i,
 				address: i.address,
 				lat: i.lat,
@@ -29,7 +32,7 @@ const MapContainer = () => {
 			setMarkers(markers.filter(f => f.lat && f.long))
 		}
 
-	}, [installations])
+	}, [filters, installations])
 
 	//Handlers
 
@@ -48,7 +51,7 @@ const MapContainer = () => {
 	// }
 	return (
 		<ItemG container>
-			<ItemG xs style={{ height: 'calc(100vh - 288px)' }}>
+			<ItemG xs style={{ height: `calc(100vh - ${openTagFilter ? '345px' : '288px' })` }}>
 				<OpenStreetMap
 					t={t}
 					markers={markers}
