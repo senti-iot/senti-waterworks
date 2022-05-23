@@ -37,8 +37,10 @@ const OpenStreetMap = (props) => {
 	//useCallbacks
 
 	//useEffects
+
 	useEffect(() => {
 		if (map) {
+
 			if (markers.length > 0) {
 				var ms = markers.map(m => L.latLng(m.lat, m.long)).filter(f => f)
 				console.log(ms)
