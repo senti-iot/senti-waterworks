@@ -211,6 +211,7 @@ const FilterToolbar = props => {
 					chipRef={r => chipRef = r}
 					chips={chips[reduxKey]}
 					onBeforeAdd={(chip) => onBeforeAdd(chip)}
+
 					// onBeforeDelete={handleClose}
 					handleDoubleClick={handleDoubleClick}
 					onFocus={handleFocus}

@@ -2,6 +2,74 @@ import _ from 'lodash'
 import moment from 'moment'
 
 
+
+export const monthAvgUUIDsRedux = data => {
+	data = data.reduce((res, row) => {
+		console.log('row', row)
+		let month = moment(row.date).startOf("month").format("YYYY-MM-DD")
+		console.log(month)
+
+		if (!res[row.uuid]) {
+			res[row.uuid] = []
+			if (!res[row.uuid][month]) {
+				res[row.uuid][month] = {
+					value: row.value,
+					count: 1,
+					datetime: month
+				}
+			}
+			else {
+				res[row.uuid][month] = {
+					value: res[row.uuid][month] + row.value,
+					count: res[row.uuid][month] + 1,
+					datetime: month
+
+				}
+			}
+		}
+		else {
+			console.log(res[row.uuid])
+			if (!res[row.uuid][month]) {
+				res[row.uuid][month] = {
+					value: row.value,
+					count: 1,
+					datetime: month
+				}
+			}
+			else {
+				res[row.uuid][month] = {
+					value: res[row.uuid][month].value + row.value,
+					count: res[row.uuid][month].count + 1,
+					datetime: month
+
+				}
+				console.log(res[row.uuid][month])
+			}
+		}
+
+
+
+		return res
+	}, {})
+	data = Object.keys(data).map(r => {
+		return ({
+			uuid: r,
+			data: data[r]
+		})
+	})
+	let final = []
+	data = data.forEach(d => {
+		Object.keys(d.data).forEach(r => {
+			final.push({
+				uuid: d.uuid,
+				value: d.data[r].value / d.data[r].count,
+				date: d.data[r].datetime
+			})
+		})
+	})
+
+	return final
+}
 /**
  * Month redux
  */
@@ -52,6 +120,14 @@ export function formatNumber(num, digits = 3) {
 
 	return num ? parseFloat(num.toString().replace(',', '.')).toFixed(digits).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
 }
+/**
+ * Danish Locale
+ */
+export const daFormat = (value) =>
+	new Intl.NumberFormat('da-DK', {
+		// style: 'currency',
+		// currency: 'INR'
+	}).format(value);
 /**
  * Email validator
  */

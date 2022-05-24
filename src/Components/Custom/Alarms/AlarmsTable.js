@@ -3,30 +3,64 @@ import React, { Fragment } from 'react'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { useSelector, useLocalization, useState, useDispatch, useHistory } from 'Hooks'
-import { sortData as rSortData } from 'Redux/data'
-import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
+import { getAdminDevices, getAlarms, sortData as rSortData } from 'Redux/data'
 import { customFilterItems } from 'variables/functions/filters'
+import ItemG from 'Components/Containers/ItemG'
+import { Chip } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+import { red } from '@material-ui/core/colors'
+import { Add, Notifications as AlarmIco } from 'variables/icons'
+import DeleteDialog from 'Components/Dialogs/DeleteDialog'
+import { Delete, /* Edit */ } from '@material-ui/icons'
+import { openCA } from 'Redux/appState'
+import { deleteAlarmV1 } from 'data/alarms'
+
 // import { Chip, Tooltip } from '@material-ui/core'
-import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
 // import { getTags } from 'Redux/tagManager'
 // import { contrastColor } from 'data/functions'
 
+const styles = makeStyles(theme => ({
+	chipIcon: {
+		color: '#fff'
+	},
+	movingOut: {
+		fill: red[500]
+	},
+	section: {
+		margin: 8
+	},
+	listContainer: {
+		maxHeight: 300,
+		overflow: 'auto',
+		minWidth: 300
+	},
+	chipContainer: {
+		background: 'rgba(0, 0, 0, 0.1)',
+		display: 'flex',
+		borderRadius: 4,
+		minHeight: 40,
+		padding: 12,
 
+	},
+}))
 
 const AlarmsTable = (props) => {
 	//Hooks
 	const dispatch = useDispatch()
 	const t = useLocalization()
 	const history = useHistory()
+	const classes = styles()
+
 	//Redux
 	const alarms = useSelector(s => s.data.alarms)
-	const tags = useSelector(s => s.tagManager.tags)
-	const filters = useSelector(s => s.appState.filters.devices)
+	const filters = useSelector(s => s.appState.filters.alarms)
+	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 
 	//State
 	const [selDev, setSelDev] = useState([])
 	const [order, setOrder] = useState('desc')
 	const [orderBy, setOrderBy] = useState('id')
+	const [openDelete, setOpenDelete] = useState(false)
 
 	//Const
 
@@ -64,28 +98,7 @@ const AlarmsTable = (props) => {
 		else
 			setSelDev(customFilterItems(alarms, filters).map(d => d.uuid))
 	}
-	//#region  Filters
-	const dLiveStatus = () => {
-		return [
-			{ value: 0, label: t("devices.fields.state.inactive") },
-			{ value: 1, label: t("devices.fields.state.active") },
-		]
-	}
-	const dTagList = () => {
-		return tags.map(t => ({
-			value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div>
-		}))
 
-	}
-	const deviceFilters = [
-		{ key: 'uuname', name: t('devices.fields.uuid'), type: 'string' },
-		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
-		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
-		{ key: 'tags', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
-		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
-	]
-
-	//#endregion
 	const columns = [
 		// { id: 'address', label: t('devices.fields.address') },
 		{ id: 'name', label: t('alarms.fields.name') },
@@ -100,12 +113,57 @@ const AlarmsTable = (props) => {
 		// { id: 'communication', label: t('devices.fields.status') },
 		// { id: 'tags', label: t('devices.fields.tags') }
 	]
-	// const renderTags = device => {
-	// 	return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
-	// 		<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
-	// 	</Tooltip>
-	// 	))
-	// }
+
+	const handleCloseDeleteDialog = () => setOpenDelete(false)
+	const handleDelete = () => {
+		Promise.all([selDev.map(u => {
+			// return true
+			return deleteAlarmV1(u)
+		})]).then(async () => {
+			setOpenDelete(false)
+			setSelDev([])
+			await dispatch(await getAdminDevices())
+			await dispatch(await getAlarms())
+		})
+	}
+	const renderDeleteDialog = () => {
+		let data = selDev.map(s => alarms[alarms.findIndex(d => d.uuid === s)])
+		return <DeleteDialog
+			t={t}
+			title={'dialogs.delete.title.alarms'}
+			message={'dialogs.delete.message.alarms'}
+			open={openDelete}
+			icon={<AlarmIco />}
+			handleCloseDeleteDialog={handleCloseDeleteDialog}
+			handleDelete={handleDelete}
+			data={data}
+			dataKey={'address'}
+			dataKeySec={'uuid'}
+		/>
+	}
+	const handleOpenCreate = () => dispatch(openCA())
+
+	const renderSelectedToolbar = () => {
+		return <div className={classes.chipContainer}>
+			<ItemG container spacing={1} alignItems={'center'}>
+				{selDev.length > 0 ? <ItemG>
+					<Chip color={'primary'} label={`${selDev.length} ${t('tables.selected')}`} />
+				</ItemG> : <ItemG />}
+
+				{isSWAdmin ? <Fragment>
+					<ItemG>
+						<Chip className={classes.chipIcon} label={t('menus.create.alarm')} color={'secondary'} onClick={handleOpenCreate} icon={<Add className={classes.chipIcon} />} />
+					</ItemG>
+					{/* {selDev.length === 1 ? <ItemG>
+						<Chip className={classes.chipIcon} label={t('menus.edits.alarm')} color={'secondary'} onClick={() => { handleOpenEdit(selDev[0]) }} icon={<Edit className={classes.chipIcon} />} />
+					</ItemG> : null} */}
+					{selDev.length >= 1 ? <ItemG>
+						<Chip className={classes.chipIcon} label={t('menus.deletes.alarms')} color={'secondary'} onClick={() => { setOpenDelete(true) }} icon={<Delete className={classes.chipIcon} />} />
+					</ItemG> : null}
+				</Fragment> : null}
+			</ItemG>
+		</div>
+	}
 	const renderTtlType = ttlType => {
 		switch (ttlType) {
 			case 1:
@@ -118,6 +176,9 @@ const AlarmsTable = (props) => {
 				break;
 		}
 
+	}
+	const handleGoToAlarm = (row) => {
+		history.push(`/alarm/${row.uuid}`)
 	}
 	const bodyStructure = row => {
 		return <Fragment key={row.id}>
@@ -133,12 +194,13 @@ const AlarmsTable = (props) => {
 			{/* <TC content={renderTags(row)} /> */}
 		</Fragment>
 	}
+
 	return (
 
 		<>
 
-			{selDev.length > 0 ? <DeviceToolbar devices={selDev} /> : <FilterToolbar reduxKey={'devices'} filters={deviceFilters} />}
-
+			{renderDeleteDialog()}
+			{renderSelectedToolbar()}
 			<CTable
 				order={order}
 				orderBy={orderBy}
@@ -151,7 +213,7 @@ const AlarmsTable = (props) => {
 				columns={columns}
 				handleCheckboxClick={selectDevice}
 				handleSelectAllClick={selectAllDevices}
-				handleClick={(r) => () => { history.push(`/alarm/${r.uuid}`) }}
+				handleClick={handleGoToAlarm}
 				handleSort={handleRequestSort}
 			/>
 		</>

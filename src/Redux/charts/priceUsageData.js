@@ -1,11 +1,12 @@
 import { getPriceList } from 'data/devices'
-
+import moment from 'moment'
 /**
  * Actions
  */
 const SetPriceData = 'setPriceData'
 const SetUsageData = 'setUsageData'
 const SetOrgSettings = 'setOrgSettings'
+const SetOneDay = 'setOneDay'
 /**
  * Dispatchers
  */
@@ -25,15 +26,18 @@ const dispSetUsageData = (data, loading) => ({
  * Set Arc Data
  * @param {Array} wsUsage
  */
-export const setPriceUsageData = async (wsUsage, benchmarkData) =>
+export const setPriceUsageData = async (wsUsage, benchmarkData, oneDayReading) =>
 	async (dispatch, getState) => {
-		let usageData = {}, priceData = {}
+		let usageData = {}, priceData = {}, oneDayUsage = {}
 		let orgId = getState().settings.user?.org.uuid
 		let price = await getPriceList(orgId)
 
 		let settings = price?.settings ? price.settings : {}
 
 		console.log('sett', settings, price)
+
+
+
 		dispatch({
 			type: SetOrgSettings,
 			payload: settings
@@ -52,6 +56,13 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
 			total = total + d.value
 			return total
 		}, 0)
+
+		if (oneDayReading.length > 0) {
+			let sortArr = oneDayReading.sort((a, b) => moment(b.datetime).valueOf() - moment(a.datetime).valueOf())
+			console.log('sortArr', sortArr)
+			oneDayUsage.value = sortArr[0].value - sortArr[1].value
+			oneDayUsage.reading = sortArr[0].value
+		}
 
 		/**
 		 * Change from datapoints to number of days
@@ -73,6 +84,10 @@ export const setPriceUsageData = async (wsUsage, benchmarkData) =>
 
 		dispatch(dispSetPriceData(priceData, false))
 
+		dispatch({
+			type: SetOneDay,
+			payload: { oneDayUsage }
+		})
 
 	}
 /**
@@ -84,6 +99,9 @@ const initialState = {
 		waterusage: 0,
 		sewage: 0,
 		total: 0
+	},
+	oneDayUsage: {
+		value: null,
 	},
 	price: {
 		waterusage: 0,
@@ -109,6 +127,8 @@ export const priceUsageData = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'RESET_APP':
 			return initialState
+		case SetOneDay:
+			return Object.assign({}, state, payload)
 		case SetUsageData:
 			return Object.assign({}, state, payload)
 		case SetPriceData:

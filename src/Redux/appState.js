@@ -15,10 +15,30 @@ const fsLG = 'fullScreenLineGraph'
 const setLines = 'setGraphLines'
 const setTFilter = 'setTFilter'
 const setOpenTFilter = 'setOpenTFilter'
+const setOpenTagFilter = 'setOpenTagFilter'
+const openCreateInstallation = 'openCreateInstallation'
+const openCreateAlarm = 'openCreateAlarm'
+const openCreateTag = 'openCreateTag'
+
+
+export const openCA = () => dispatch => dispatch({ type: openCreateAlarm, payload: true })
+export const closeCA = () => dispatch => dispatch({ type: openCreateAlarm, payload: false })
+
+export const openCT = () => dispatch => dispatch({ type: openCreateTag, payload: true })
+export const closeCT = () => dispatch => dispatch({ type: openCreateTag, payload: true })
+
+export const openCI = () => dispatch => dispatch({ type: openCreateInstallation, payload: true })
+export const closeCI = () => dispatch => dispatch({ type: openCreateInstallation, payload: false })
+
 
 export const changeOpenTagFilter = () => {
 	return ({
 		type: setOpenTFilter
+	})
+}
+export const changeOpenTFilter = () => {
+	return ({
+		type: setOpenTagFilter
 	})
 }
 export const changeSmallMenu = (val) => {
@@ -78,6 +98,10 @@ export const addFilter = (f, type) => {
 		let filters = []
 		filters = [...getState().appState.filters[type]]
 		let id = filters.length
+		if (filters.length > 0) {
+			f.filterType = 'OR'
+		}
+
 		filters.push({ ...f, id })
 		dispatch({
 			type: updateFilters,
@@ -208,30 +232,49 @@ export const setGraphLine = (id, value) => {
 
 	}
 }
-export const setTagFilter = (tagUuid) => {
+export const setTagFilter = (tagArray) => {
 	return (dispatch, getState) => {
 		// let newSDevices = []
 		// let selectedDevices = getState().appState.selectedDevices
 		let devices = getState().data.devices
-		if (tagUuid !== -1) {
+		let tArr = tagArray.filter(f => f !== -1)
 
-			// let devices = getState().data.devices
-			let tagDevices = devices.filter(d => d.tags.filter(t => t.uuid === tagUuid).length > 0).map(s => s.uuid)
+		if (tArr.length > 0) {
+			// let tagDevices = devices.filter(d => d.tags.filter(t => tagArray.findIndex(ti => ti === t.uuid) > -1)).map(s => s.uuid)
+			let tagDevices = devices.map(s => ({ uuid: s.uuid, tags: s.tags }))
+			let fDevices = tagDevices.filter(d => {
+
+				let result = d.tags.filter(t => {
+					return tagArray.findIndex(ti => ti === t.uuid) > -1
+				})
+				return result.length > 0
+			}).map(s => s.uuid)
 			dispatch({
 				type: sDevice,
-				payload: tagDevices
+				payload: fDevices
 			})
-
 		}
+		// if (tagUuid !== -1) {
+
+		// 	// let devices = getState().data.devices
+		// 	let tagDevices = devices.filter(d => d.tags.filter(t => t.uuid === tagUuid).length > 0).map(s => s.uuid)
+		// 	dispatch({
+		// 		type: sDevice,
+		// 		payload: tagDevices
+		// 	})
+
+		// }
 		else {
+			tArr.push(-1)
 			dispatch({
 				type: sDevice,
 				payload: devices.map(s => s.uuid)
 			})
 		}
+
 		dispatch({
 			type: setTFilter,
-			payload: tagUuid
+			payload: tArr
 		})
 	}
 }
@@ -241,8 +284,12 @@ const initialState = {
 	fullScreenLineChart: false,
 	selectedExportDevices: [],
 	selectedDevices: [],
-	selectedTag: -1,
+	selectedTag: [-1],
 	openTagFilter: false,
+	openTagsFilter: false,
+	oci: false,
+	oca: false,
+	oct: false,
 	tabs: {
 		id: '',
 		route: 0,
@@ -286,6 +333,14 @@ export const appState = (state = initialState, action) => {
 	switch (action.type) {
 		case 'RESET_APP':
 			return initialState
+		case openCreateTag:
+			return Object.assign({}, state, { oct: action.payload })
+		case openCreateAlarm:
+			return Object.assign({}, state, { oca: action.payload })
+		case openCreateInstallation:
+			return Object.assign({}, state, { oci: action.payload })
+		case setOpenTagFilter:
+			return Object.assign({}, state, { openTagsFilter: !state.openTagsFilter })
 		case setOpenTFilter:
 			return Object.assign({}, state, { openTagFilter: !state.openTagFilter })
 		case setTFilter:

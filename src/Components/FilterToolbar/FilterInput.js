@@ -16,21 +16,35 @@ const styles = makeStyles(theme => {
 	const light = theme.palette.type === 'light'
 	const bottomLineColor = light ? 'rgba(0, 0, 0, 0.42)' : 'rgba(255, 255, 255, 0.7)'
 	return ({
+		addButton: {
+			background: darken(theme.secondary, 0.2),
+			borderRadius: 50,
+			padding: 4,
+			marginLeft: 0,
+			minWidth: 24,
+			minHeight: 24,
+			textAlign: 'center',
+			color: '#fff'
+		},
 		andOrSwitch: {
 			background: darken(theme.secondary, 0.2),
 			borderRadius: 50,
 			padding: 4,
 			marginLeft: 0,
 			minWidth: 24,
+			minHeight: 24,
 			textAlign: 'center',
-			color: '#fff'
+			color: '#fff',
+			fontSize: '12px',
+			paddingTop: 7,
+    		paddingBottom: 1
 		},
 		formControl: {
 		},
 		chips: {},
 		root: {
 			background: light ? 'rgba(0, 0, 0, 0.1)' : "rgba(255, 255, 255, 0.1)",
-			borderRadius: "4px"
+			borderRadius: "4px",
 		},
 		inputRoot: {
 			flex: 1,
@@ -45,6 +59,7 @@ const styles = makeStyles(theme => {
 		input: {
 			display: 'inline-block',
 			appearance: 'none',
+			color: light ? "#fff" : "#000",
 			WebkitTapHighlightColor: 'rgba(0,0,0,0)',
 			float: 'left',
 			"&::placeholder": {
@@ -57,7 +72,7 @@ const styles = makeStyles(theme => {
 			display: 'flex',
 			// marginBottom: -2,
 			minHeight: 40,
-			padding: 8,
+			// padding: 8,
 			// margin: 2,
 			'&$labeled': {
 				marginTop: 18
@@ -475,7 +490,7 @@ const FilterInput = ({ allowDuplicates = false, blurBehavior = 'clear', clearInp
 					value: t('actions.addFilter'),
 					text: t('actions.addFilter'),
 					chip: t('actions.addFilter'),
-					icon: <Add className={ classes.andOrSwitch }/>,
+					icon: <Add className={classes.addButton }/>,
 					isDisabled: !!disabled,
 					isFocused: false,
 					className: classes.chip,

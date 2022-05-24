@@ -15,8 +15,13 @@ const CustomDateTime = (props) => {
 	const [endDate, setEndDate] = useState(to ? moment(to) : moment().endOf('day'))
 	const [startDate, setStartDate] = useState(from ? moment(from) : moment().subtract(7, 'days').startOf('day'))
 	const [time, setTime] = useState(timeType !== undefined ? timeType : 2)
-	const t = useLocalization()
 
+	const t = useLocalization()
+	// useEffect(() => {
+	// 	setEndDate(to)
+	// 	setStartDate(from)
+
+	// }, [to, from])
 	const handleTimeTypes = (tt) => {
 		switch (tt) {
 			case 0:

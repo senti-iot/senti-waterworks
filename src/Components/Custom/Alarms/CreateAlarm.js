@@ -8,10 +8,13 @@ import { getDevice } from 'data/devices'
 import { useLocalization, useSelector } from 'Hooks'
 import React from 'react'
 import { useState } from 'react'
+import { getAdminDevices, getAlarms } from 'Redux/data'
+import { useDispatch } from 'react-redux'
 
 const CreateAlarm = props => {
 	//Hooks
 	const t = useLocalization()
+	const dispatch = useDispatch()
 	//Redux
 	const user = useSelector(state => state.settings.user)
 
@@ -241,6 +244,8 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 		if (cAlarm) {
 			// console.log(cAlarm)
 			handleSetClose()
+			await dispatch(await getAdminDevices())
+			await dispatch(await getAlarms())
 		}
 
 

@@ -2,14 +2,14 @@ import React, { Fragment, useEffect } from 'react'
 // import PropTypes from 'prop-types'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
-import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
+import { useSelector, useLocalization, useState, useDispatch,  } from 'Hooks'
 import { getAdminDevices, sortData as rSortData } from 'Redux/data'
-import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import { Chip, Tooltip } from '@material-ui/core'
-import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
+// import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
 import { getTags } from 'Redux/tagManager'
 import { contrastColor } from 'data/functions'
+import DeviceToolbar from 'Components/Custom/DevicesTable/DeviceToolbar'
 
 
 
@@ -19,7 +19,16 @@ const FullDeviceTable = (props) => {
 	const t = useLocalization()
 
 	//Redux
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => {
+		let d = s.data.devices
+		let i = s.data.installations
+		let di = d.map(dev => {
+			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }
+			return n
+		})
+		console.log(di)
+		return di
+	})
 	const tags = useSelector(s => s.tagManager.tags)
 	const filters = useSelector(s => s.appState.filters.devices)
 
@@ -80,27 +89,7 @@ const FullDeviceTable = (props) => {
 		else
 			setSelDev(customFilterItems(devices, filters).map(d => d.uuid))
 	}
-	//#region  Filters
-	const dLiveStatus = () => {
-		return [
-			{ value: 0, label: t("devices.fields.state.inactive") },
-			{ value: 1, label: t("devices.fields.state.active") },
-		]
-	}
-	const dTagList = () => {
-		return tags.map(t => ({
-			value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div> }))
 
-	}
-	const deviceFilters = [
-		{ key: 'uuname', name: t('devices.fields.uuid'), type: 'string' },
-		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
-		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
-		{ key: 'tags', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
-		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
-	]
-
-	//#endregion
 	const columns = [
 		// { id: 'address', label: t('devices.fields.address') },
 		{ id: 'uuname', label: t('devices.fields.uuname') },
@@ -131,11 +120,12 @@ const FullDeviceTable = (props) => {
 			<TC content={renderTags(row)} />
 		</Fragment>
 	}
+
 	return (
 
 		<>
 
-			{selDev.length > 0 ? <DeviceToolbar devices={selDev}/> : <FilterToolbar reduxKey={'devices'} filters={deviceFilters} />}
+			<DeviceToolbar devices={selDev}/>
 
 			<CTable
 				order={order}

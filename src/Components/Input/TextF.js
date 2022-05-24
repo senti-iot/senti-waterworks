@@ -92,6 +92,7 @@ const TextF = (props) => {
 			margin={props.margin ? props.margin : 'normal'}
 			notched={props.notched}
 			helperText={props.helperText}
+			// InputLabelProps={{ shrink: true }}
 			InputProps={{
 				...props.InputProps,
 				style: { ...props.InputProps?.style, boxSizing: 'border-box' },

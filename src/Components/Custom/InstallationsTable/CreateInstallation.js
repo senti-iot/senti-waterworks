@@ -19,11 +19,15 @@ const CreateInstallation = (props) => {
 
 	//State
 	const [inst, setInst] = useState({
-		address: '',
+		streetNumber: '',
+		streetName: '',
+		side: '',
 		orgUUID: org ? org.uuid : null,
 		state: 0,
 		operation: 0,
-		moving: 0
+		moving: 0,
+		zip: '',
+		city: ''
 	})
 	const [instDevice, setInstDevice] = useState({
 		uuid: '',
@@ -39,7 +43,9 @@ const CreateInstallation = (props) => {
 	const [user, setUser] = useState({
 		firstName: '',
 		lastName: '',
-		email: ''
+		email: '',
+		phone: '',
+		mobile: ''
 	})
 	const [existingUser, setExistingUser] = useState(false)
 	const [withoutUser, setWithoutUser] = useState(false)
@@ -73,6 +79,9 @@ const CreateInstallation = (props) => {
 	const handleSelectUser = user => {
 		// console.log("User", user)
 		setInstUser({
+			...user
+		})
+		setUser({
 			...user
 		})
 		// setInstUser({

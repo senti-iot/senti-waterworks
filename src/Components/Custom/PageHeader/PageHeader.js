@@ -54,7 +54,9 @@ const PageHeader = props => {
 			action={close ? <IconButton onClick={handleCloseButton}>
 				<Close className={classes.closeButton} />
 			</IconButton> : actions ? actions : null}
-		/>
+		>
+			Test
+		</CardHeader>
 	)
 }
 

@@ -20,7 +20,7 @@
 		"constructor-super": "warn",
 		"valid-typeof": "warn",
 		"indent": [
-			"error",
+			"warn",
 			"tab",
 			{
 				"SwitchCase": 1,
@@ -28,33 +28,33 @@
 			}
 		],
 		"comma-spacing": [
-			"error",
+			"warn",
 			{
 				"before": false,
 				"after": true
 			}
 		],
 		"keyword-spacing": [
-			"error",
+			"warn",
 			{
 				"before": true,
 				"after": true
 			}
 		],
 		"key-spacing": [
-			"error",
+			"warn",
 			{
 				"beforeColon": false,
 				"afterColon": true
 			}
 		],
 		"object-curly-spacing": [
-			"error",
+			"warn",
 			"always"
 		],
-		"space-infix-ops": "error",
-		"space-before-blocks": "error",
-		"arrow-spacing": "error",
+		"space-infix-ops": "warn",
+		"space-before-blocks": "warn",
+		"arrow-spacing": "warn",
 		"react/display-name": 0,
 		"jsx-a11y/href-no-hash": 0,
 		"react/jsx-no-bind": [

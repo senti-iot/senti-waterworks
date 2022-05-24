@@ -1,11 +1,15 @@
 import { handleRequestSort, getDates } from 'data/functions'
 import {
-	/* getDevices, */ getWaterUsageByDay, getReadingUsage, getBenchmarkUsageByDay, getBenchmarkUsageByHour,
-	getTotalVolumeData, getDevicesV2, getMinATemperatureData, getMinWTemperatureData,
-	getMinFlowData,
-	getMaxFlowData,
+	/* getDevices, */ getWaterUsageByDay, getReadingUsage, getBenchmarkUsageByDay, getBenchmarkUsageByHour, getDevicesV2,
+	/* getTotalVolumeData, getMinATemperatureData, getMinWTemperatureData, getMinFlowData, getMaxFlowData, */
 	getWaterUsageByHour,
-	getBenchmarkUsageByUUIDs
+	getBenchmarkUsageByUUIDs,
+	getCachedTotalVolumeData,
+	getCachedMinWTemperatureData,
+	getCachedMinATemperatureData,
+	getCachedMaxFlowData,
+	getCachedMinFlowData,
+	getCachedReadingData
 } from 'data/devices'
 import moment from 'moment'
 // import { colors } from 'variables/colors'
@@ -318,48 +322,77 @@ export const adminData = () =>
 		let suTo = to.clone()
 		let suFrom = from.clone()
 		let waterUsageData, waterUsagePrevData, benchmarkData, temperatureWData, temperatureWPrevData, temperatureAData,
-			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData
+			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData, oneDayReading = []
 
 		if (selectedDevices.length !== devices.length) {
 			let uuids = selectedDevices.map(s => s)
 			let alldeviceUUIDS = devices.map(s => s.uuid)
-			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
-			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
+
+			waterUsageData = await getCachedTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
+			waterUsagePrevData = await getCachedTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
 			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
 			benchmarkData = await getBenchmarkUsageByUUIDs(alldeviceUUIDS, from, suTo)
 
-			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo, uuids)
-			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
-			temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo, uuids)
-			temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom, prevTo, uuids)
+			if (selectedDevices.length < 2) {
 
-			minFlowData = await getMinFlowData(orgId, suFrom, suTo, uuids)
-			minFlowPrevData = await getMinFlowData(orgId, prevFrom, prevTo, uuids)
-			maxFlowData = await getMaxFlowData(orgId, suFrom, suTo, uuids)
-			maxFlowPrevData = await getMaxFlowData(orgId, prevFrom, prevTo, uuids)
+				temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo, uuids)
+				// temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
 
-			readingsData = await getReadingUsage(suFrom, suTo, uuids)
+
+				temperatureAData = await getCachedMinATemperatureData(orgId, suFrom, suTo, uuids)
+				// temperatureAPrevData = await getCachedMinATemperatureData(orgId, prevFrom, prevTo, uuids)
+
+				minFlowData = await getCachedMinFlowData(orgId, suFrom, suTo, uuids)
+				// minFlowPrevData = await getCachedMinFlowData(orgId, prevFrom, prevTo, uuids)
+
+				maxFlowData = await getCachedMaxFlowData(orgId, suFrom, suTo, uuids)
+				// maxFlowPrevData = await getCachedMaxFlowData(orgId, prevFrom, prevTo, uuids)
+
+				readingsData = await getCachedReadingData(orgId, suFrom, suTo, uuids)
+
+				let f = moment().subtract(2, 'day').startOf('day')
+				let t = moment()
+				oneDayReading = await getCachedReadingData(orgId, f, t, uuids)
+				console.log('oneDayUsage', oneDayReading)
+			}
+
 
 		}
 		else {
-			waterUsageData = await getTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo)
-			waterUsagePrevData = await getTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo)
+			waterUsageData = await getCachedTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo)
+			waterUsagePrevData = await getCachedTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo)
 			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo)
 
-			temperatureWData = await getMinWTemperatureData(orgId, suFrom, suTo)
-			temperatureWPrevData = await getMinWTemperatureData(orgId, prevFrom, prevTo)
-			temperatureAData = await getMinATemperatureData(orgId, suFrom, suTo)
-			temperatureAPrevData = await getMinATemperatureData(orgId, prevFrom, prevTo)
+			// temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo)
+			// temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo)
 
-			minFlowData = await getMinFlowData(orgId, suFrom, suTo)
-			minFlowPrevData = await getMinFlowData(orgId, prevFrom, prevTo)
-			maxFlowData = await getMaxFlowData(orgId, suFrom, suTo)
-			maxFlowPrevData = await getMaxFlowData(orgId, prevFrom, prevTo)
 
-			readingsData = await getReadingUsage(suFrom, suTo)
+			// temperatureAData = await getCachedMinATemperatureData(orgId, suFrom, suTo)
+			// temperatureAPrevData = await getCachedMinATemperatureData(orgId, prevFrom, prevTo)
+
+			// minFlowData = await getMinFlowData(orgId, suFrom, suTo)
+			// minFlowPrevData = await getMinFlowData(orgId, prevFrom, prevTo)
+
+			// maxFlowData = await getMaxFlowData(orgId, suFrom, suTo)
+			// maxFlowPrevData = await getMaxFlowData(orgId, prevFrom, prevTo)
+
+			// readingsData = await getReadingUsage(suFrom, suTo)
+
+			// temperatureWData = []
+			// temperatureWPrevData = []
+			// temperatureAData = []
+			// temperatureAPrevData = []
+			// minFlowData = []
+			// minFlowPrevData = []
+			// maxFlowData = []
+			// maxFlowPrevData = []
+			// readingsData = []
 		}
+		console.log(temperatureWData, temperatureAData)
+
 		//#region Line Data
 		dispatch(await setLineData({
+
 			dateDiff: subtr,
 			waterUsageData: waterUsageData,
 			waterUsagePrevData: waterUsagePrevData,
@@ -383,7 +416,7 @@ export const adminData = () =>
 		//#endregion
 
 		//#region Price & DailyUsage
-		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))
+		dispatch(await setPriceUsageData(waterUsageData, benchmarkData, oneDayReading))
 
 		//#endregion
 

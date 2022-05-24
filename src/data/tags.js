@@ -17,7 +17,30 @@ export const createTag = async t => {
 	return response
 }
 
-
+/**
+ * @desc edit base tag
+ * @param {Object} t - Tag object
+ * @param {UUIDv4} t.uuid - Tag UUID
+ * @param {String} t.name - Tag name
+ * @param {String} t.color - Hex color string
+ * @param {String} t.description - Tag description
+ */
+export const editTag = async t => {
+	let response = await tagsServicesAPI.post('/edit', t).then(rs => rs.ok ? rs.data : rs.ok)
+	return response
+}
+/**
+ * @desc edit base tag
+ * @param {Object} t - Tag object
+ * @param {UUIDv4} t.uuid - Tag UUID
+ * @param {String} t.name - Tag name
+ * @param {String} t.color - Hex color string
+ * @param {String} t.description - Tag description
+ */
+export const deleteTag = async t => {
+	let response = await tagsServicesAPI.delete('/delete', t).then(rs => rs.ok ? rs.data : rs.ok)
+	return response
+}
 /**
  * @desc Get all tags
  * @param

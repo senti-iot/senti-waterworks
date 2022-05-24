@@ -143,7 +143,7 @@ const CreateAlarmDetailsForm = props => {
 				<ItemG xs={12}>
 					<ItemG container alignItems={'center'}>
 						<DSelect
-							label={'alarms.fields.conditionValidator'}
+							label={t('alarms.fields.conditionValidator')}
 							value={conditionValidator}
 							onChange={(e) => {setConditionValidator(e.target.value) }}
 							menuItems={[

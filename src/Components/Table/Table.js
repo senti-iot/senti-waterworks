@@ -78,7 +78,7 @@ function CTable(props) {
 							return (
 								<TableRow
 									hover
-									onClick={handleClick(row)}
+									onClick={e => { e.stopPropagation(); handleClick(row) }}
 									role='checkbox'
 									aria-checked={isSelectedRow}
 									tabIndex={-1}
@@ -96,7 +96,7 @@ function CTable(props) {
 									{/* <Hidden mdDown> */}
 
 									<Fragment>
-										<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => handleCheckboxClick(!e.target.checked, row.uuid)} />} />
+										<TC checkbox content={<Checkbox checked={isSelectedRow} onClick={e => { e.stopPropagation(); handleCheckboxClick(!e.target.checked, row.uuid) }} />} />
 										{bodyStructure(row)}
 									</Fragment>
 

@@ -6,7 +6,7 @@ import cookie from 'react-cookies'
 import { useDispatch, useSelector } from 'Hooks'
 import { getSettings } from 'Redux/settings'
 import { routes } from 'Routes'
-import { getAdminDevices, getAllNotifications, getNData, getAdminInstallations, getAlarms } from 'Redux/data'
+import { getAdminDevices, getAllNotifications, getAdminInstallations, getAlarms } from 'Redux/data'
 import { getTags } from 'Redux/tagManager'
 import { CircularLoader } from 'Components'
 
@@ -27,27 +27,27 @@ function Container(props) {
 		// }
 		// loadSettings()
 		if (!haveData && cookie.load('SESSION')) {
-			const getSetting = async () => await dispatch(await getSettings())
 			const getDevices = async () => await dispatch(await getAdminDevices())
+			const getSetting = async () => await dispatch(await getSettings())
 			const getDeviceTags = async () => await dispatch(await getTags())
 			const getNotifications = async () => await dispatch(await getAllNotifications())
 			const getAlarm = async () => await dispatch(await getAlarms())
 			const getInstallations = async () => await dispatch(await getAdminInstallations())
-			const getNewData = async () => await dispatch(await getNData())
+			// const getNewData = async () => await dispatch(await getNData())
 			const loadData = async () => {
-				await getSetting()
 
 				if ((isSuperUser || isSWAdmin) && devices.length === 0) {
-					await getInstallations()
 					await getDevices()
+					await getInstallations()
 					await getDeviceTags()
 				}
 				// await getDeviceData()
+				await getSetting()
 				await getAlarm()
 				await getNotifications()
 
 				setLoading(false)
-				await getNewData()
+				// await getNewData()
 			}
 			loadData()
 		}

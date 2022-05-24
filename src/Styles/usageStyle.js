@@ -84,12 +84,20 @@ const usageStyle = makeStyles(theme => ({
 		position: 'relative',
 		// flexFlow: 'column'
 	},
+	hiddenColumnStyle: {
+		padding: 0,
+		margin: 0,
+		width: 0
+	},
 	flexColumn: {
 		flexWrap: 'no-wrap',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		height: '100%'
+	},
+	clientInfoCont: {
+		height: '100% !important'
 	}
 }))
 

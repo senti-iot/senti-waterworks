@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { getAdminDevices, getAdminInstallations } from 'Redux/data'
 import FadeLoader from 'Components/Loaders/FadeLoader'
-import { createUser } from 'data/users'
+import { createUser, updateUser } from 'data/users'
 
 const EditInstallation = (props) => {
 	//Hooks
@@ -23,11 +23,15 @@ const EditInstallation = (props) => {
 
 	//State
 	const [inst, setInst] = useState({
-		address: '',
 		orgUUID: org?.uuid,
 		state: 0,
 		operation: 0,
-		moving: 0
+		moving: 0,
+		streetName: '',
+		streetNumber: '',
+		side: '',
+		zip: '',
+		city: ''
 	})
 	const [instDevice, setInstDevice] = useState({
 		uuid: '',
@@ -43,7 +47,9 @@ const EditInstallation = (props) => {
 	const [user, setUser] = useState({
 		firstName: '',
 		lastName: '',
-		email: ''
+		email: '',
+		phone: '',
+		mobile: ''
 	})
 
 	const [existingUser, setExistingUser] = useState(false)
@@ -80,17 +86,25 @@ const EditInstallation = (props) => {
 		}
 		let user = users ? users[users.findIndex(f => f.uuid === inst.sentiUserUUID)] : null
 		// console.log(users)
-		// console.log('user', user)
-		if (user) {
+		if (inst) {
+			let gUser = await getInstUser(inst.instUserUUID)
 			setExistingUser(true)
-			setInstUser(user)
-			setUser(user)
+			setInstUser({
+				...gUser,
+				uuid: inst.instUserUUID ? inst.instUserUUID : null,
+
+			})
+			if (user) {
+				setUser(user)
+			}
 		}
+
 		else {
 			setWithoutUser(true)
 		}
 		setLoading(false)
 	}
+
 	const handleSetUser = what => value => {
 		setInstUser({
 			...instUser,
@@ -99,7 +113,8 @@ const EditInstallation = (props) => {
 	}
 
 	const handleSelectUser = user => {
-		setInstUser({
+
+		setUser({
 			...user
 		})
 	}
@@ -131,11 +146,13 @@ const EditInstallation = (props) => {
 	}
 	const handleSetClose = () => {
 		setInst({
-			address: '',
-			orgUUID: org ? org.uuid : null,
+			orgUUID: org?.uuid,
 			state: 0,
 			operation: 0,
-			moving: 0
+			moving: 0,
+			streetName: '',
+			streetNumber: '',
+			side: ''
 		})
 		setInstDevice({
 			uuid: '',
@@ -151,7 +168,9 @@ const EditInstallation = (props) => {
 		setUser({
 			firstName: '',
 			lastName: '',
-			email: ''
+			email: '',
+			phone: '',
+			mobile: ''
 		})
 		setExistingUser(false)
 		setWithoutUser(false)
@@ -162,6 +181,21 @@ const EditInstallation = (props) => {
 			...user,
 			[what]: value
 		})
+	}
+	const updateSentiUser = async () => {
+		let SentiUser = {
+			...user,
+			userName: user.email,
+			org: {
+				uuid: org.uuid
+			},
+			state: 2,
+			role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
+		}
+		let resUser = await updateUser(SentiUser).then(rs => rs.data)
+		console.log('resUser', resUser)
+		return resUser
+
 	}
 
 	const handleEdit = async () => {
@@ -175,55 +209,89 @@ const EditInstallation = (props) => {
 
 		//#region User Part
 
+		/**
+		 * If without user, end the current user
+		 */
 		if (withoutUser) {
-			//Set the current instUser to ended
+			/**
+			 * Set the current instUser to ended
+			 */
 			// console.log(inst.instUserUUID)
-			let user = await getInstUser(inst.instUserUUID)
+			let gUser = await getInstUser(inst.instUserUUID)
 			// console.log('instUser', user)
-			user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
-			await postInstUser(user)
-			setTimeout(() => {
-				//debounce the edit
-			}, 300)
-			//End the instUser
+			if (gUser) {
+				gUser.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
+				await postInstUser(gUser)
+				setTimeout(() => {
+					//debounce the edit
+				}, 300)
+			}
+			/**
+			 * End the instUser
+			 */
 		}
 		else {
+			/**
+			 * If there is an user
+			 */
 			if (existingUser) {
-				if ((inst.sentiUserUUID !== instUser.uuid) && inst.sentiUserUUID !== null) {
-					// console.log('Close the current instUser')
-					let user = await getInstUser(inst.instUserUUID)
-					if (user) {
-						// console.log('instUser', user)
-						user.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
-						await postInstUser(user)
+				/**
+				 * If there is a different user selected
+				 */
+				console.log(inst, inst.sentiUserUUID)
+				if ((inst.sentiUserUUID !== user.uuid) && inst.sentiUserUUID !== null) {
+					/**
+					 * Close the current user period
+					 */
+					let gUser = await getInstUser(inst.instUserUUID)
+					console.log('gUser', gUser)
+					console.log('inst', inst)
+					if (gUser) {
+						console.log('instUser', gUser)
+						gUser.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
+						gUser.deleted = 1
+						await postInstUser(gUser)
 					}
-					// console.log('Create a new one')
+					 /**
+					  * Create a new user period
+					  */
 					let InstUser = {
 						...instUser,
 						instUUID: inst.uuid,
 						startDate: instDevice.startDate,
 						endDate: instDevice.endDate,
-						userUUID: instUser.uuid,
+						userUUID: user.uuid,
 					}
+					console.log('InstUser', InstUser)
 					let resInstUser = await putUser(InstUser)
+					await updateSentiUser()
 					if (resInstUser) {
 						// console.log(resInstUser)
 					}
 				}
+				/**
+				 * If the Installation doesn't have an user
+				 */
 				else {
 					let InstUser = {
 						...instUser,
 						instUUID: inst.uuid,
 						startDate: instDevice.startDate,
 						endDate: instDevice.endDate,
-						userUUID: instUser.uuid,
+						userUUID: user.uuid,
 					}
+					console.log('InstUser', InstUser)
+
 					let resInstUser = await postInstUser(InstUser)
+					await updateSentiUser()
 					if (resInstUser) {
 						// console.log(resInstUser)
 					}
 				}
 			}
+			/**
+			 * Create a new user
+			 */
 			else {
 
 				let SentiUser = {

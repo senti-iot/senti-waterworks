@@ -72,7 +72,10 @@
         "retry": "Prøv igen",
         "save": "Gem",
         "search": "Skriv her for at søge",
+        "seeData": "Se data",
+        "seeMore": "Se mere",
         "select": "Vælg",
+        "selectUser": "Vælg bruger",
         "sendEmail": "Send e-mail",
         "share": "Del",
         "src": "Søg...",
@@ -200,8 +203,12 @@
             "pie": "Lagkage"
         },
         "types": {
+            "ambientTemp": "Ambient temperatur",
+            "maxFlow": "Maksimal vandgennemstrømning",
+            "minFlow": "Mindste vandgennemstrømning",
             "readings": "Aflæsninger",
             "temperature": "Temperatur",
+            "waterTemp": "Vand temperatur",
             "waterflow": "Gennemstrømning",
             "waterusage": "Vandforbrug"
         }
@@ -476,6 +483,7 @@
         },
         "delete": {
             "message": {
+                "alarms": "Er du sikker på du ønsker at slette disse alarmer:",
                 "cloudfunction": "Er du sikker på du ønsker at slette denne Cloud Funktion ( %{cf} ) ?",
                 "cloudfunctions": "Er du sikker på du ønsker at slette disse cloud funktioner:",
                 "collection": "Er du sikker på du ønsker at slette denne datasamling ( %{collection} ) ?",
@@ -485,7 +493,8 @@
                 "deviceType": "Er du sikker på du ønsker at slette denne enhedstype ( %{deviceType} ) ?",
                 "deviceTypes": "Er du sikker på du ønsker at slette disse enhedstyper:",
                 "devices": "Er du sikker på du ønsker at slette disse enheder:",
-                "installations": "Er du sikker på du ønsker at slette denne Installationer:",
+                "groups": "Er du sikker på du ønsker at slette disse grupper:",
+                "installations": "Er du sikker på du ønsker at slette disse Installationer:",
                 "org": "Er du sikker på du ønsker at slette denne organisation ( %{org} )?",
                 "orgs": "Er du sikker på du ønsker at slette disse organisationer:",
                 "project": "Er du sikker på du ønsker at slette dette projekt ( %{project} )?",
@@ -498,6 +507,7 @@
                 "users": "Er du sikker på du ønsker at slette disse brugere:"
             },
             "title": {
+                "alarms": "Slet alarmer?",
                 "cloudfunction": "Slet cloud funktion?",
                 "cloudfunctions": "Slet cloud funktioner?",
                 "collection": "Slet datasamling?",
@@ -507,6 +517,7 @@
                 "deviceType": "Slet enhedstype?",
                 "deviceTypes": "Slet enhedstyper?",
                 "devices": "Slet enheder?",
+                "groups": "Slet grupper?",
                 "installations": "Slet installationer?",
                 "org": "Slet organisation?",
                 "orgs": "Slet organisationer?",
@@ -621,8 +632,8 @@
             "hourly": "Hver time",
             "minutely": "Hver minut",
             "month": "Måned",
-			"monthly": "Hver Måned",
             "monthToDate": "Måned til dato",
+            "monthly": "Hver Måned",
             "summary": "Resumé",
             "thisMonth": "Denne måned",
             "thisWeek": "Denne uge",
@@ -634,6 +645,7 @@
         },
         "devices": {
             "calibrated": "Kalibreret",
+            "max": "Du skal filter til max. 1 enheder for at se denne menu eller der er ingen tilgængelige data for den valgte periode",
             "notCalibrated": "Ikke kalibreret"
         },
         "display": "Visning",
@@ -666,7 +678,8 @@
     "installations": {
         "fields": {
             "address": "Addresse",
-            "city": "By",
+			"side": "Side",
+			"city": "By",
             "deviceId": "Måler ID",
             "deviceUUID": "Måler ID",
             "endDate": "Slutdato",
@@ -799,6 +812,8 @@
         },
         "delete": "Slet",
         "deletes": {
+            "alarms": "Slet alarmer",
+            "groups": "Slet grupper",
             "installations": "Slet installationer"
         },
         "edit": "Rediger",
@@ -808,6 +823,7 @@
             "collection": "Rediger datasamling",
             "device": "Rediger enhed",
             "devicetype": "Rediger enhedstype",
+            "group": "Rediger gruppe",
             "installation": "Rediger installation",
             "org": "Rediger organisation",
             "project": "Rediger projekt",
@@ -1388,7 +1404,7 @@
     },
     "tags": {
         "createTag": "Tilføj nyt gruppe",
-        "editTag": "Rediger grupper",
+        "editTag": "Rediger gruppe",
         "fields": {
             "color": "Farve",
             "description": "Beskrivelse",
@@ -1397,8 +1413,8 @@
         "filter": {
             "title": "Filtrer enheder"
         },
-        "tag": "gruppe",
-        "tags": "grupper"
+        "tag": "Gruppe",
+        "tags": "Grupper"
     },
     "time": {
         "M": "måneder",
@@ -1458,6 +1474,10 @@
         "user": "Bruger"
     },
     "usage": {
+        "dashboardOneDay": {
+            "subtitle": "Målerstand",
+            "title": "Seneste forbrug"
+        },
         "dashboardPrice": {
             "headline": "Afregning",
             "sewage": "Spildevand: Kr. ",
@@ -1465,7 +1485,7 @@
         },
         "dashboardUsage": {
             "comparison": "Sammenligning",
-            "dailyConsumption": "Dagligt forbrug",
+            "dailyConsumption": "Gennemsnit forbrug",
             "usageToday": "Aktuelt forbrug i dag"
         },
         "dialogScreens": {
@@ -1549,7 +1569,8 @@
             "newsletter": "Nyhedsbrev",
             "noOrg": "Uden Organisation",
             "organisation": "Organisation",
-            "phone": "Mobil nummer",
+            "phone": "Telefonnummer",
+			"mobile": "Mobil nummer",
             "position": "Stilling",
             "postnr": "Postnr.",
             "profileImage": "Profilbillede",

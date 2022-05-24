@@ -28,6 +28,7 @@ const DeviceTable = (props) => {
 			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }
 			return n
 		})
+		console.log(di)
 		return di
 	})
 	const tags = useSelector(s => s.tagManager.tags)
@@ -83,12 +84,12 @@ const DeviceTable = (props) => {
 			setSelDev(customFilterItems(devices, filters).map(d => d.uuid))
 	}
 	//#region  Filters
-	const dLiveStatus = () => {
-		return [
-			{ value: 0, label: t("devices.fields.state.inactive") },
-			{ value: 1, label: t("devices.fields.state.active") },
-		]
-	}
+	// const dLiveStatus = () => {
+	// 	return [
+	// 		{ value: 0, label: t("devices.fields.state.inactive") },
+	// 		{ value: 1, label: t("devices.fields.state.active") },
+	// 	]
+	// }
 	const dTagList = () => {
 		return tags.map(t => ({
 			value: t.name, label: t.name, icon: <div style={{ borderRadius: 4, background: t.color, width: 16, height: 16 }}></div>
@@ -97,8 +98,9 @@ const DeviceTable = (props) => {
 	}
 	const deviceFilters = [
 		{ key: 'name', name: t('devices.fields.name'), type: 'string' },
-		{ key: 'address', name: t('devices.fields.address'), type: 'string' },
-		{ key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
+		{ key: 'streetName', name: t('installations.fields.streetName'), type: 'string' },
+		{ key: 'streetNumber', name: t('installations.fields.streetNumber'), type: 'string' },
+		// { key: 'communication', name: t('devices.fields.status'), type: 'dropDown', options: dLiveStatus() },
 		{ key: '', name: t('devices.fields.tags'), type: 'dropDown', options: dTagList() },
 		{ key: '', name: t('filters.freeText'), type: 'string', hidden: true },
 	]
@@ -107,11 +109,13 @@ const DeviceTable = (props) => {
 	const columns = [
 		{ id: 'uuid', label: t('devices.fields.uuid') },
 		{ id: 'name', label: t('devices.fields.name') },
-		{ id: 'address', label: t('devices.fields.address') },
+		{ key: 'fullName', label: t('sidebar.user') + ' ' + t('users.fields.name') },
+		{ key: 'streetName', label: t('installations.fields.streetName') },
+		{ key: 'streetNumber', label: t('installations.fields.streetNumber') },
 		// { id: 'id', label: t('devices.fields.id') },
 		// { id: 'type', label: t('devices.fields.type') },
 		// { id: 'group', label: t('devices.fields.group') },
-		{ id: 'communication', label: t('devices.fields.status') },
+		// { id: 'communication', label: t('devices.fields.status') },
 		{ id: 'tags', label: t('devices.fields.tags') }
 	]
 	const renderTags = device => {
@@ -124,22 +128,25 @@ const DeviceTable = (props) => {
 		return <Fragment>
 			<TC label={row.uuname} />
 			<TC label={row.name} />
-			<TC label={row.address} />
+			<TC label={row.user?.fullName}/>
+			<TC label={row.streetName} />
+			<TC label={(row.streetNumber ? row.streetNumber : '') + ' ' + (row.side ? row.side : '')} />
+			{/* <TC label={row.side}/> */}
 			{/* <TC label={row.id} /> */}
 			{/* <TC label={row.type} /> */}
 			{/* <TC label={row.group} /> */}
-			<TC label={row.communication ? t('devices.fields.state.active') : t('devices.fields.state.inactive')} />
+			{/* <TC label={row.communication ? t('devices.fields.state.active') : t('devices.fields.state.inactive')} /> */}
 			<TC content={renderTags(row)} />
 		</Fragment>
 	}
 	const closeDialog = () => {
 		if (selDev.length === 0) {
 			setSelDevices(devices.map(d => d.uuid))
-			dispatch(setTagFilter(-1))
+			dispatch(setTagFilter([]))
 		}
 		else {
 			if (selectedDevices.length !== selDev) {
-				dispatch(setTagFilter(-1))
+				dispatch(setTagFilter([]))
 			}
 			setSelDevices(selDev)
 		}

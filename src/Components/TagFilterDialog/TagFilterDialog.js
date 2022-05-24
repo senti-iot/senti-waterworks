@@ -1,10 +1,11 @@
 import { Dialog, DialogActions,  makeStyles } from '@material-ui/core'
-import { DSelect, ItemG, T } from 'Components'
+import { ItemG, T } from 'Components'
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
+import DMultipleSelect from 'Components/Input/DMultipleSelect'
 import { useLocalization } from 'Hooks'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeOpenTagFilter, setTagFilter } from 'Redux/appState'
+import { changeOpenTFilter, setTagFilter } from 'Redux/appState'
 
 const styles = makeStyles(theme => ({
 	section: {
@@ -31,7 +32,7 @@ const TagFilterDialog = () => {
 	const classes = styles()
 	const t = useLocalization()
 	//Redux
-	const open = useSelector(s => s.appState.openTagFilter)
+	const open = useSelector(s => s.appState.openTagsFilter)
 	const selectedTag = useSelector(s => s.appState.selectedTag)
 	const tags = useSelector(s => s.tagManager.tags)
 	//State
@@ -44,24 +45,28 @@ const TagFilterDialog = () => {
 
 	//Handlers
 	const handleSelectEditTag = (e) => {
-		dispatch(setTagFilter(e.target.value))
+		console.log(e.target.value)
+		dispatch(setTagFilter(e.target.value, [e.target.value]))
+
+		// handleClose()
 	}
 	const handleClose = () => {
-		dispatch(changeOpenTagFilter())
+		dispatch(changeOpenTFilter())
 	}
 	return (
 		<Dialog
 			open={open}
 			onClose={handleClose}
 			scroll="paper"
+
 		>
-			<DialogHeader label={'tags.filter.title'}/>
+			<DialogHeader label={'tags.filter.title'} close handleCloseButton={handleClose}/>
 			<ItemG container style={{ padding: 16 }}>
 
 				<ItemG container>
 					<ItemG xs={12}>
 						<T variant={'h6'} className={classes.section}>{`${t('tags.tag')} ${t('tables.selected')}:`}</T>
-						<DSelect
+						<DMultipleSelect
 							leftIcon
 							value={selectedTag}
 							onChange={handleSelectEditTag}

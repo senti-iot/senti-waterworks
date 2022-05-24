@@ -1,4 +1,4 @@
-import { servicesAPI, dataExportAPI, waterworksAPI, wbAPI } from './data'
+import { servicesAPI, dataExportAPI, waterworksAPI, wbAPI, wrcAPI } from './data'
 import moment from 'moment'
 /**
  * Benchmark by hour
@@ -94,6 +94,28 @@ export const getReadingUsage = async (from, to, uuids) => {
 	}
 	return response.ok ? response.data : []
 }
+
+export const getCachedReadingData = async (orgUUID, from, to, uuids) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response = {}
+	if (uuids) {
+		response = await wrcAPI.post(`/reading`, {
+			orgId: orgUUID,
+			period: {
+				from: startDate,
+				to: endDate
+			},
+			uuids: uuids
+		})
+	}
+	else {
+		response.ok = false
+	}
+	console.log(response)
+	return response.ok ? response.data : []
+}
+
 /**
  * Get Benchmark usage by hour from an Org
  * @param {string} orgUuid -  Organisation UUID
@@ -161,10 +183,46 @@ export const getTotalVolumeData = async (orgUUID, from, to, uuids) => {
 		response = await servicesAPI.post(`/v2/waterworks/data/totalusagebyday/${startDate}/${endDate}`, uuids)
 	}
 	else {
-		response = await servicesAPI.get(`/v2/waterworks/data/totalusagebyday/${orgUUID}/${startDate}/${endDate}`)
+		response = await wrcAPI.post(`/v2/waterworks/data/totalusagebyday/${orgUUID}/${startDate}/${endDate}`)
 	}
 	return response.ok ? response.data : []
 }
+
+/**
+ * Get total volume data
+ * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
+ * @param {String} orgUUID
+ * @param {String} from
+ * @param {String} to
+ * @param {Array} uuids
+ */
+export const getCachedTotalVolumeData = async (orgUUID, from, to, uuids) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response
+	if (uuids) {
+		response = await wrcAPI.post(`/usage`, {
+			orgId: orgUUID,
+			period: {
+				from: startDate,
+				to: endDate
+			},
+			uuids: uuids
+		})
+	}
+	else {
+		response = await wrcAPI.post(`/usage`, {
+			orgId: orgUUID,
+			period: {
+				from: startDate,
+				to: endDate
+			},
+			uuids: uuids
+		})
+	}
+	return response.ok ? response.data : []
+}
+
 
 /**
  * Get minimum water temperature
@@ -183,6 +241,26 @@ export const getMinWTemperatureData = async (orgUUID, from, to, uuids) => {
 	}
 	else {
 		response = await servicesAPI.get(`/v2/waterworks/data/minWTemp/${startDate}/${endDate}`)
+	}
+	return response.ok ? response.data : []
+}
+
+export const getCachedMinWTemperatureData = async (orgUUID, from, to, uuids) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response = {}
+	if (uuids) {
+		response = await wrcAPI.post(`/minwtemp`, {
+			orgId: orgUUID,
+			period: {
+				from: startDate,
+				to: endDate
+			},
+			uuids: uuids
+		})
+	}
+	else {
+		response.ok = false
 	}
 	return response.ok ? response.data : []
 }
@@ -207,6 +285,25 @@ export const getMinATemperatureData = async (orgUUID, from, to, uuids) => {
 	return response.ok ? response.data : []
 }
 
+export const getCachedMinATemperatureData = async (orgUUID, from, to, uuids) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response = {}
+	if (uuids) {
+		response = await wrcAPI.post(`/minatemp`, {
+			orgId: orgUUID,
+			period: {
+				from: startDate,
+				to: endDate
+			},
+			uuids: uuids
+		})
+	}
+	else {
+		response.ok = false
+	}
+	return response.ok ? response.data : []
+}
 /**
  * get minimum flow
  * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
@@ -227,7 +324,25 @@ export const getMinFlowData = async (orgUUID, from, to, uuids) => {
 	}
 	return response.ok ? response.data : []
 }
-
+export const getCachedMinFlowData = async (orgUUID, from, to, uuids) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response = {}
+	if (uuids) {
+		response = await wrcAPI.post(`/minwtemp`, {
+			orgId: orgUUID,
+			period: {
+				from: startDate,
+				to: endDate
+			},
+			uuids: uuids
+		})
+	}
+	else {
+		response.ok = false
+	}
+	return response.ok ? response.data : []
+}
 /**
  * get maximum flow
  * databroker/v2/waterworks/data/totalbyday/:orgUUID/:field/:from/:to
@@ -245,6 +360,26 @@ export const getMaxFlowData = async (orgUUID, from, to, uuids) => {
 	}
 	else {
 		response = await servicesAPI.get(`/v2/waterworks/data/maxFlow/${startDate}/${endDate}`)
+	}
+	return response.ok ? response.data : []
+}
+
+export const getCachedMaxFlowData = async (orgUUID, from, to, uuids) => {
+	let startDate = moment(from).format('YYYY-MM-DD')
+	let endDate = moment(to).format('YYYY-MM-DD')
+	let response = {}
+	if (uuids) {
+		response = await wrcAPI.post(`/maxflow`, {
+			orgId: orgUUID,
+			period: {
+				from: startDate,
+				to: endDate
+			},
+			uuids: uuids
+		})
+	}
+	else {
+		response.ok = false
 	}
 	return response.ok ? response.data : []
 }

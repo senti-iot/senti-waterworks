@@ -4,14 +4,14 @@ import HeaderLinks from './HeaderLinks'
 import headerStyles from 'Styles/headerStyle'
 // import logo from 'logo.svg'
 import logo from 'assets/senti.waterworks.svg'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import { useDispatch, useLocalization, useSelector } from 'Hooks'
 import T from 'Components/Typography/T'
 import { ItemG } from 'Components'
 import {  Map, Menu, PageviewIcon, TuneIcon, Devices as DeviceIcon, Notifications } from 'variables/icons'
 import Sidebar from 'Components/Custom/Sidebar/Sidebar'
 import { routes } from 'Routes'
-import { changeOpenTagFilter } from 'Redux/appState'
+import {  changeOpenTagFilter, changeOpenTFilter } from 'Redux/appState'
 
 function Header({ ...props }) {
 	//Hooks
@@ -20,10 +20,13 @@ function Header({ ...props }) {
 	const t = useLocalization()
 	const dispatch = useDispatch()
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
-
+	const location = useLocation()
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
+	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const installations = useSelector(s => s.data.installations)
 
+	// console.log('device', device)
 	//State
 	const [menu, setMenu] = useState(false)
 
@@ -41,7 +44,16 @@ function Header({ ...props }) {
 	const handleSwitchMenu = () => setMenu(!menu)
 	const handleCloseMenu = () => setMenu(false)
 	const handleOpenTagFilter = () => {
-		dispatch(changeOpenTagFilter())
+		if (location.pathname === '/') {
+			dispatch(changeOpenTFilter())
+
+		 }
+		// console.log(location)
+		// if()
+		else {
+
+			dispatch(changeOpenTagFilter())
+		}
 	}
 
 	var brand = (
@@ -70,6 +82,14 @@ function Header({ ...props }) {
 			routes={routes}
 		/>
 	}
+	const renderAddress = () => {
+		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
+		// console.log(device, device ? true : false)
+		if (device && device.streetName) {
+			return device.streetName + ' ' + device.streetNumber + ', ' + device.zip + ' ' + device.city
+		}
+		return null
+	}
 	return (
 		<AppBar className={classes.appBar} >
 			{renderMenu()}
@@ -94,8 +114,17 @@ function Header({ ...props }) {
 				<ItemG xs container alignItems={'center'} justify={'center'}>
 
 					<T className={classes.title} variant={'h5'}>
-						{org.name}
+						{`${org.name} `}
 					</T>
+					{selectedDevices.length < 2 ? <>
+						<Hidden mdDown>
+							<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
+						</Hidden>
+						<T className={classes.title} variant={'h5'}>
+							{renderAddress()}
+						</T></>
+						: null}
+
 				</ItemG>
 
 				<HeaderLinks t={t} history={history} />
@@ -153,6 +182,9 @@ function Header({ ...props }) {
 					</ItemG>
 				</ItemG>
 			</Toolbar>
+			{/* <Toolbar>
+				Filter
+			</Toolbar> */}
 		</AppBar>
 
 	)

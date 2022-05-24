@@ -3,17 +3,47 @@ import { Menu, MenuItem, Button } from '@material-ui/core'
 import { ItemG } from 'Components'
 import { KeyboardArrowDown } from 'variables/icons'
 
+import { makeStyles } from '@material-ui/styles'
+import cx from 'classnames'
+
+const dbuttonStyles = makeStyles(theme => ({
+	icon: {
+		marginRight: 8,
+		marginLeft: 8
+	},
+	iconDisabled: {
+		color: 'rgba(0, 0, 0, 0.87)',
+		opacity: 0.5
+	}
+}))
+
+
 const DButton = (props) => {
+	//Hooks
+	const cls = dbuttonStyles()
+	//Redux
+
+	//State
+
+	//Const
+
+	//useCallbacks
+
+	//useEffects
+
+	//Handlers
+
 	//#region Variables
 	const [anchor, setAnchor] = useState(null)
 
-	const { label, menuItems, divider, buttonClasses, menuClasses } = props
+	const { label, menuItems, divider, buttonClasses, menuClasses, menuItemClasses } = props
 
 	//#endregion
 
 	//#region Handlers
 
 	const handleOpenActionsDetails = event => {
+		console.log(event.currentTarget)
 		setAnchor(event.currentTarget)
 		// setState({ anchor: event.currentTarget });
 	}
@@ -38,9 +68,6 @@ const DButton = (props) => {
 	return (
 		<>
 			<Button
-				aria-label='More'
-				aria-owns={anchor ? 'long-menu' : null}
-				aria-haspopup='true'
 				variant={props.variant}
 				color={props.color}
 				classes={buttonClasses}
@@ -52,27 +79,37 @@ const DButton = (props) => {
 			</Button>
 			<Menu
 				classes={menuClasses}
-				id='long-menu'
 				anchorEl={anchor}
 				open={Boolean(anchor)}
 				onClose={handleCloseActionsDetails}
 				disablePortal
-				style={{ marginTop: 80 }}
+				disableScrollLock
+				getContentAnchorEl={null}
+				style={{ marginTop: 40 }}
 				transformOrigin={{
 					vertical: 'top',
 					horizontal: 'left',
 				}}
-				PaperProps={{ style: { minWidth: 230 } }}>
+				// PaperProps={{ style: { minWidth: 230 } }}
+			>
 				{menuItems.map((m, i) => {
 					if (m.hide)
 						return null
-					return <MenuItem divider={divider ? i === menuItems.length - 1 ? false : true : false} disabled={m.disabled || props.value === m.value} key={i}
-						onClick={handleMenuItemClick(m)}>
-						<ItemG container justify={'space-between'} alignItems={'center'}>
+					return <ItemG container justify={'space-between'} alignItems={'center'}>
+					 <MenuItem style={{ flexGrow: 1 }} divider={divider ? i === menuItems.length - 1 ? false : true : false} disabled={m.disabled} key={i}
+							onClick={handleMenuItemClick(m)} classes={menuItemClasses}>
 							{m.icon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon}</ItemG> : null}
 							<ItemG xs>{m.label}</ItemG>
-						</ItemG>
-					</MenuItem>
+						</MenuItem>
+						{m.endIcon ? m.showOnlyOnDisabled ? m.disabled ? <ItemG className={cx({
+							[cls.icon]: true,
+							[cls.iconDisabled]: m.disabled
+						})}>{m.endIcon}</ItemG> : null : <ItemG className={cx({
+							[cls.icon]: true,
+							[cls.iconDisabled]: m.disabled
+						})}>{m.endIcon}</ItemG> : null}
+					</ItemG>
+
 				})}
 			</Menu>
 		</>
