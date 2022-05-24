@@ -35,7 +35,6 @@ const TagFilterDialog = () => {
 	const open = useSelector(s => s.appState.openTagsFilter)
 	const selectedTag = useSelector(s => s.appState.selectedTag)
 	const tags = useSelector(s => s.tagManager.tags)
-	console.log('open', open)
 	//State
 
 	//Const

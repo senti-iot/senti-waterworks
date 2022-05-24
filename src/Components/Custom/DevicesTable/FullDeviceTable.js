@@ -19,7 +19,16 @@ const FullDeviceTable = (props) => {
 	const t = useLocalization()
 
 	//Redux
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => {
+		let d = s.data.devices
+		let i = s.data.installations
+		let di = d.map(dev => {
+			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }
+			return n
+		})
+		console.log(di)
+		return di
+	})
 	const tags = useSelector(s => s.tagManager.tags)
 	const filters = useSelector(s => s.appState.filters.devices)
 
