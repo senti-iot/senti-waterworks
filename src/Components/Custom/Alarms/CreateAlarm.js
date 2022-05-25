@@ -101,9 +101,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 	const handleSetDevice = async device => {
 
-		// console.log(device)
 		let dev = await getDevice(device.uuid)
-		// console.log(dev)
 		if (dev.dataKeys.length > 0) {
 			let metrics = dev.dataKeys.map(i => ({ value: i.key, label: i.key }))
 			setMetrics(metrics)
@@ -118,16 +116,13 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 	}
 
 	const handleSetConfig = what => value => {
-		// console.log(what, value)
 		setConfig({
 			...config,
 			[what]: value
 		})
-		// console.log(config)
 	}
 
 	const handleSetMetric = e => {
-		// console.log(e.target.value)
 		setMetric(e.target.value)
 	}
 
@@ -155,7 +150,6 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 	const handleStartCreate = async () => {
 		let finalAlarm = {}
-		// console.log(alarm)
 		finalAlarm.name = alarm.name
 		finalAlarm.userUUID = user.uuid
 		finalAlarm.deviceId = alarm.device.id
@@ -176,7 +170,6 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			}
 		}
 
-		// console.log('typeOfNotification', typesOfNotfs)
 
 		if (typesOfNotfs.indexOf(1) > -1) {
 
@@ -242,7 +235,6 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 
 		let cAlarm = await cAlarmFunc(finalAlarm)
 		if (cAlarm) {
-			// console.log(cAlarm)
 			handleSetClose()
 			await dispatch(await getAdminDevices())
 			await dispatch(await getAlarms())
@@ -291,7 +283,6 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 		setTypesOfNotfs(e.target.value)
 	}
 	const handleSetConditionValidator = e => {
-		// console.log(e)
 		setConditionValidator(e)
 	}
 	return (

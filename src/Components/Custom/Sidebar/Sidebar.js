@@ -163,7 +163,7 @@ const Sidebar = (props) => {
 		}}
 		open={open}
 		BackdropProps={{ invisible: true }}
-		onClose={e => { console.log(e); handleCloseDrawer() }}
+		onClose={e => { handleCloseDrawer() }}
 	>
 		<Hidden smUp>
 			{renderUserMenu()}

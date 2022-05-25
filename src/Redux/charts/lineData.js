@@ -116,7 +116,6 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				finalData.temperature.push(...dataLines)
 			}
 		}
-		console.log('currentPeriodData', currentPeriodData)
 
 		if (currentPeriodData.minAtemp) {
 			// finalData.ambientTemp.push({
@@ -142,7 +141,6 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 				finalData.temperature.push(...dataLines)
 			}
 		}
-		console.log('finalData', finalData.ambientTemp)
 
 
 		if (currentPeriodData.minFlow) {
@@ -178,7 +176,6 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			if (currentPeriodData.maxFlow.length > 0 && selectedDevices.length < 2) {
 				// let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
-					console.log(dev, currentPeriodData.maxFlow)
 					return ({
 						name: 'maxFlow',
 						color: 'lightBlue',
@@ -262,7 +259,6 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			}
 		}
 		else {
-			console.log('currentPeriodData', currentPeriodData)
 			if (currentPeriodData.readings && currentPeriodData.readings.length > 0 && selectedDevices.length < 11) {
 				let devices = getState().data.devices
 				let dataLines = selectedDevices.map((dev, i) => {
@@ -323,7 +319,6 @@ export const mapLineData = async data => {
 			// currentPeriodData.minWtemp = genLineData(temperatureWData)
 			currentPeriodData.minWtemp = temperatureWData.map(d => ({ value: d.value, date: d.datetime, uuid: d.uuid }))
 		}
-		console.log('temperatureAData', temperatureAData)
 		if (temperatureAData && temperatureAData.length > 0) {
 			// currentPeriodData.minAtemp = genLineData(temperatureAData)
 			currentPeriodData.minAtemp = temperatureAData.map(d => ({ value: d.value, date: d.datetime, uuid: d.uuid }))

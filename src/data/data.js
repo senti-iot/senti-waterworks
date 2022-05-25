@@ -1,6 +1,6 @@
 import { create } from 'apisauce'
 import cookie from 'react-cookies'
-import crypto from 'crypto'
+import crypto from 'crypto-browserify'
 
 const { REACT_APP_ENCRYPTION_KEY } = process.env
 const IV_LENGTH = 16

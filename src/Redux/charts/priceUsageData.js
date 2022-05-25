@@ -34,10 +34,6 @@ export const setPriceUsageData = async (wsUsage, benchmarkData, oneDayReading) =
 
 		let settings = price?.settings ? price.settings : {}
 
-		console.log('sett', settings, price)
-
-
-
 		dispatch({
 			type: SetOrgSettings,
 			payload: settings
@@ -59,7 +55,6 @@ export const setPriceUsageData = async (wsUsage, benchmarkData, oneDayReading) =
 
 		if (oneDayReading.length > 0) {
 			let sortArr = oneDayReading.sort((a, b) => moment(b.datetime).valueOf() - moment(a.datetime).valueOf())
-			console.log('sortArr', sortArr)
 			oneDayUsage.value = sortArr[0].value - sortArr[1].value
 			oneDayUsage.reading = sortArr[0].value
 		}

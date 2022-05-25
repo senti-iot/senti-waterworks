@@ -43,7 +43,6 @@ const DButton = (props) => {
 	//#region Handlers
 
 	const handleOpenActionsDetails = event => {
-		console.log(event.currentTarget)
 		setAnchor(event.currentTarget)
 		// setState({ anchor: event.currentTarget });
 	}

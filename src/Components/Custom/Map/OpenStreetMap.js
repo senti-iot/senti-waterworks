@@ -43,7 +43,6 @@ const OpenStreetMap = (props) => {
 
 			if (markers.length > 0) {
 				var ms = markers.map(m => L.latLng(m.lat, m.long)).filter(f => f)
-				console.log(ms)
 				if (ms.length > 0) {
 					let bounds = L.latLngBounds(ms).pad(0.5)
 					if (bounds) {

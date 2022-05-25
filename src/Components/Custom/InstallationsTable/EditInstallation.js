@@ -193,7 +193,6 @@ const EditInstallation = (props) => {
 			role: { uuid: "943dc3fc-c9f5-4e73-a24f-b0ae334c0c5e" }
 		}
 		let resUser = await updateUser(SentiUser).then(rs => rs.data)
-		console.log('resUser', resUser)
 		return resUser
 
 	}
@@ -238,16 +237,12 @@ const EditInstallation = (props) => {
 				/**
 				 * If there is a different user selected
 				 */
-				console.log(inst, inst.sentiUserUUID)
 				if ((inst.sentiUserUUID !== user.uuid) && inst.sentiUserUUID !== null) {
 					/**
 					 * Close the current user period
 					 */
 					let gUser = await getInstUser(inst.instUserUUID)
-					console.log('gUser', gUser)
-					console.log('inst', inst)
 					if (gUser) {
-						console.log('instUser', gUser)
 						gUser.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
 						gUser.deleted = 1
 						await postInstUser(gUser)
@@ -262,7 +257,6 @@ const EditInstallation = (props) => {
 						endDate: instDevice.endDate,
 						userUUID: user.uuid,
 					}
-					console.log('InstUser', InstUser)
 					let resInstUser = await putUser(InstUser)
 					await updateSentiUser()
 					if (resInstUser) {
@@ -280,7 +274,6 @@ const EditInstallation = (props) => {
 						endDate: instDevice.endDate,
 						userUUID: user.uuid,
 					}
-					console.log('InstUser', InstUser)
 
 					let resInstUser = await postInstUser(InstUser)
 					await updateSentiUser()

@@ -165,7 +165,6 @@ const Onboarding = props => {
 			}
 			if (err) {
 				setLoading(false)
-				console.log(startDate)
 				return
 			}
 			else {
@@ -189,7 +188,6 @@ const Onboarding = props => {
 					postnr: zip,
 					city: city
 				}
-				console.log(startDate)
 				data.wUserBody = {
 					startDate: startDate,
 					instUUID: instUUID,
@@ -204,7 +202,6 @@ const Onboarding = props => {
 					city: city
 				}
 				let create = await finishOnboarding(data)
-				console.log('create', create)
 				setLoading(false)
 				if (!create?.Error) {
 					history.push(`/onboard/${params.lang}/done`)
