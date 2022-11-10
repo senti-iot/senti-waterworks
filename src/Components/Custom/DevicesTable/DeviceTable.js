@@ -28,7 +28,6 @@ const DeviceTable = (props) => {
 			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }
 			return n
 		})
-		console.log(di)
 		return di
 	})
 	const tags = useSelector(s => s.tagManager.tags)

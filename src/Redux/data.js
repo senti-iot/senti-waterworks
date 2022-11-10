@@ -152,7 +152,7 @@ export const getWeatherData = async () => {
 				let weather = await Promise.all(dates.map((d) => getWeather(d, coords.lat, coords.long))).then(rs => rs)
 				let fWeather = []
 				// .map(r => r.daily.data[0])
-				console.log(weather)
+				// console.log(weather)
 				if (weather) {
 
 					if (timeType > 1) {
@@ -161,7 +161,7 @@ export const getWeatherData = async () => {
 					else {
 						fWeather = weather[0]?.hourly?.data
 					}
-					console.log(fWeather)
+					// console.log(fWeather)
 					if (fWeather) {
 
 						let finalData = fWeather.map(w => ({
@@ -353,7 +353,6 @@ export const adminData = () =>
 				let f = moment().subtract(2, 'day').startOf('day')
 				let t = moment()
 				oneDayReading = await getCachedReadingData(orgId, f, t, uuids)
-				console.log('oneDayUsage', oneDayReading)
 			}
 
 
@@ -388,7 +387,6 @@ export const adminData = () =>
 			// maxFlowPrevData = []
 			// readingsData = []
 		}
-		console.log(temperatureWData, temperatureAData)
 
 		//#region Line Data
 		dispatch(await setLineData({

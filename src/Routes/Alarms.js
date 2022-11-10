@@ -33,7 +33,6 @@ const Alarms = () => {
 	const tags = useSelector(s => s.tagManager.tags)
 	const openTagFilter = useSelector(s => s.appState.openTagFilter)
 	const openCreate = useSelector(s => s.appState.oca)
-	console.log(openCreate)
 	//State
 	const [loading, setLoading] = useState(true)
 

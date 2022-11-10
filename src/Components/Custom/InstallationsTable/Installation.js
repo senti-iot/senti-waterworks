@@ -51,9 +51,7 @@ const Installation = () => {
 	}
 
 	const renderUser = () => {
-		console.log(users)
 		let user = users.find(u => u.uuid === installation.sentiUserUUID)
-		console.log(user)
 		return user ? <ItemG xs={12} container>
 			<ItemG xs={3}>
 				<Caption>{t("installations.fields.user")}</Caption>

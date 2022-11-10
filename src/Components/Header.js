@@ -26,7 +26,6 @@ function Header({ ...props }) {
 	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const installations = useSelector(s => s.data.installations)
 
-	// console.log('device', device)
 	//State
 	const [menu, setMenu] = useState(false)
 
@@ -48,8 +47,6 @@ function Header({ ...props }) {
 			dispatch(changeOpenTFilter())
 
 		 }
-		// console.log(location)
-		// if()
 		else {
 
 			dispatch(changeOpenTagFilter())
@@ -84,7 +81,6 @@ function Header({ ...props }) {
 	}
 	const renderAddress = () => {
 		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
-		// console.log(device, device ? true : false)
 		if (device && device.streetName) {
 			return device.streetName + ' ' + device.streetNumber + ', ' + device.zip + ' ' + device.city
 		}

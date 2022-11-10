@@ -82,15 +82,11 @@ const EndUserContainer = props => {
 
 	//useEffects
 	useEffect(() => {
-		// console.log('useEffects triggered')
 		if (prevPeriod && period !== prevPeriod && !loading) {
-			// console.log('period')
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
 		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
-			// console.log('Device Length')
-			// console.log('Different number of devices')
 			if (selectedDevices.length > 11) {
 				setChart('waterusage')
 			}

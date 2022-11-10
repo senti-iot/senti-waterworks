@@ -378,7 +378,6 @@ const GroupToolbar = props => {
 			</FadeOutLoader>
 		</Dialog>
 	}
-	console.log((props.tags.length > 1 || props.tags.length === 0))
 	return (
 		<div className={classes.chipContainer}>
 			<ItemG container spacing={1} alignItems={'center'}>

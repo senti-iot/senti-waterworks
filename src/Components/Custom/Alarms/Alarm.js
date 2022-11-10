@@ -132,7 +132,6 @@ const Alarm = () => {
 			return null
 		})
 	}
-	// console.log(alarm)
 	return (
 		<ItemG container style={{ padding: 16 }}>
 			<ItemG xs={3}>

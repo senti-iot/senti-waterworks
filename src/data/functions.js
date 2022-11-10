@@ -5,9 +5,7 @@ import moment from 'moment'
 
 export const monthAvgUUIDsRedux = data => {
 	data = data.reduce((res, row) => {
-		console.log('row', row)
 		let month = moment(row.date).startOf("month").format("YYYY-MM-DD")
-		console.log(month)
 
 		if (!res[row.uuid]) {
 			res[row.uuid] = []
@@ -28,7 +26,6 @@ export const monthAvgUUIDsRedux = data => {
 			}
 		}
 		else {
-			console.log(res[row.uuid])
 			if (!res[row.uuid][month]) {
 				res[row.uuid][month] = {
 					value: row.value,
@@ -43,7 +40,6 @@ export const monthAvgUUIDsRedux = data => {
 					datetime: month
 
 				}
-				console.log(res[row.uuid][month])
 			}
 		}
 

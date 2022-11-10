@@ -30,7 +30,6 @@ const InstallationRoute = (props) => {
 
 	const handleSeeData = () => {
 
-		console.log(installation)
 		if (installation) {
 			dispatch(setSelectedDevices([installation.deviceUUID]))
 			history.push('/')

@@ -45,7 +45,6 @@ const OpenPopup = props => {
 		return m?.streetName ? (m.streetName ? m.streetName : '') + (m.streetNumber ? ' ' + m.streetNumber : '') + (m.side ? ' ' + m.side : '') + (m.zip ? ', ' + m.zip : '') + (m.city ? ' ' + m.city : '') : null
 	}
 	const renderUser = () => {
-		console.log(m, m.sentiUserUUID)
 		if (m && m.user) {
 			return <>
 				<Info className={classes.contact}>{m.user.fullName}</Info>

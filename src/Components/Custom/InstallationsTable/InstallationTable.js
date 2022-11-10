@@ -245,7 +245,6 @@ const FullInstallationTable = (props) => {
 		})
 	}
 	const handleGoToInstallation = (row) => {
-		console.log(row)
 		history.push(`/installation/${row.uuid}`)
 	}
 	const renderDeleteDialog = () => {
