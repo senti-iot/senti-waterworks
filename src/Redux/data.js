@@ -477,10 +477,9 @@ export const userData = () =>
 		let readingsData = await getReadingUsage(from, to, deviceUUID ? [deviceUUID] : null)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
 
-		// let f = moment().subtract(2, 'day').startOf('day')
-		// let t = moment()
-		// let oneDayReading = await getWaterUsageByDay(f, t, deviceUUID ? [deviceUUID] : null)
-
+		let f = moment().subtract(2, 'day').startOf('day')
+		let t = moment()
+		let oneDayReading = await getCachedReadingData(orgId, f, t, [deviceUUID])
 
 		// await dispatch(await getWeatherData())
 		dispatch(await setLineData({
@@ -507,7 +506,7 @@ export const userData = () =>
 		//#endregion
 		//#region Generate Average Data
 
-		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))//oneDayReading
+		dispatch(await setPriceUsageData(waterUsageData, benchmarkData, oneDayReading))
 
 		//Dispatch that we have the data
 
