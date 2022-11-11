@@ -56,7 +56,8 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// minFlow: [],
 			readings: []
 		}
-		let selectedDevices = getState().appState.selectedDevices
+		let selectedInstallations = getState().appState.selectedInstallations
+		let installations = getState().data.installations
 
 		if (currentPeriodData.waterusage) {
 			finalData.waterusage.push({
@@ -101,15 +102,16 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	// bars: false
 
 			// })
-			if (currentPeriodData.minWtemp.length > 0 && selectedDevices.length < 2) {
+			if (currentPeriodData.minWtemp.length > 0 && selectedInstallations.length < 2) {
 				// let devices = getState().data.devices
-				let dataLines = selectedDevices.map((dev, i) => {
+				let dataLines = selectedInstallations.map((inst, i) => {
+					const installation = installations.find(installation => installation.uuid === inst)
 					return ({
 						name: 'tempWater',
 						color: 'blue',
 						noArea: true,
 						bars: true,
-						data: currentPeriodData.minWtemp.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
+						data: currentPeriodData.minWtemp.filter(d => d.value && d.uuid === installation.deviceUUID).map(d => ({ value: d.value, date: d.date }))
 					})
 				})
 
@@ -126,15 +128,16 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	// bars: false
 
 			// })
-			if (currentPeriodData.minAtemp.length > 0 && selectedDevices.length < 2) {
+			if (currentPeriodData.minAtemp.length > 0 && selectedInstallations.length < 2) {
 				// let devices = getState().data.devices
-				let dataLines = selectedDevices.map((dev, i) => {
+				let dataLines = selectedInstallations.map((inst, i) => {
+					const installation = installations.find(installation => installation.uuid === inst)
 					return ({
 						name: 'tempAmbient',
 						color: 'red',
 						noArea: true,
 						bars: true,
-						data: currentPeriodData.minAtemp.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
+						data: currentPeriodData.minAtemp.filter(d => d.value && d.uuid === installation.deviceUUID).map(d => ({ value: d.value, date: d.date }))
 					})
 				})
 
@@ -150,16 +153,17 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	data: currentPeriodData.minFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 			// 	color: 'purple'
 			// })
-			if (currentPeriodData.minFlow.length > 0 && selectedDevices.length < 2) {
+			if (currentPeriodData.minFlow.length > 0 && selectedInstallations.length < 2) {
 				// let devices = getState().data.devices
-				let dataLines = selectedDevices.map((dev, i) => {
+				let dataLines = selectedInstallations.map((inst, i) => {
+					const installation = installations.find(installation => installation.uuid === inst)
 					return ({
 						name: 'minFlow',
 						color: 'purple',
 						// colorValue: i * 100,
 						noArea: true,
 						bars: true,
-						data: currentPeriodData.minFlow.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
+						data: currentPeriodData.minFlow.filter(d => d.value && d.uuid === installation.deviceUUID).map(d => ({ value: d.value, date: d.date }))
 					})
 				})
 
@@ -173,16 +177,16 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			// 	data: currentPeriodData.maxFlow.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf()),
 			// 	color: 'lightBlue'
 			// })
-			if (currentPeriodData.maxFlow.length > 0 && selectedDevices.length < 2) {
-				// let devices = getState().data.devices
-				let dataLines = selectedDevices.map((dev, i) => {
+			if (currentPeriodData.maxFlow.length > 0 && selectedInstallations.length < 2) {
+				let dataLines = selectedInstallations.map((inst, i) => {
+					const installation = installations.find(installation => installation.uuid === inst)
 					return ({
 						name: 'maxFlow',
 						color: 'lightBlue',
 						// colorValue: i * 100,
 						noArea: true,
 						bars: true,
-						data: currentPeriodData.maxFlow.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
+						data: currentPeriodData.maxFlow.filter(d => d.value && d.uuid === installation.deviceUUID).map(d => ({ value: d.value, date: d.date }))
 					})
 				})
 
@@ -259,14 +263,15 @@ export const genLines = (currentPeriodData, previousPeriodData, isUser) => {
 			}
 		}
 		else {
-			if (currentPeriodData.readings && currentPeriodData.readings.length > 0 && selectedDevices.length < 11) {
-				let devices = getState().data.devices
-				let dataLines = selectedDevices.map((dev, i) => {
+			if (currentPeriodData.readings && currentPeriodData.readings.length > 0 && selectedInstallations.length < 11) {
+				// let devices = getState().data.devices
+				let dataLines = selectedInstallations.map((inst, i) => {
+					const installation = installations.find(installation => installation.uuid === inst)
 					return ({
-						name: "" + devices[devices.findIndex(d => d.uuid === dev)].name,
+						name: "" + installation.device.name,
 						color: colorNames[i],
 						noArea: true,
-						data: currentPeriodData.readings.filter(d => d.value && d.uuid === dev).map(d => ({ value: d.value, date: d.date }))
+						data: currentPeriodData.readings.filter(d => d.value && d.uuid === installation.deviceUUID).map(d => ({ value: d.value, date: d.date }))
 					})
 				})
 

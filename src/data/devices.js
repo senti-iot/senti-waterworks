@@ -66,9 +66,9 @@ export const getWaterUsageByDay = async (from, to, uuids) => {
 	let response
 
 
-	console.log('uuids', uuids)
+	// console.log('uuids', uuids)
 	if (uuids) {
-		response = await wbAPI.get(`/v3/usage/byday/${uuids[0]}/${startDate}/${endDate}/`)
+		response = await wbAPI.get(`/v3/usage/byday/${uuids[0]}/${startDate}/${endDate}`)
 		// response = await servicesAPI.post(`/v2/waterworks/data/usagebyday/${startDate}/${endDate}`, uuids)
 	}
 	else {
@@ -87,10 +87,10 @@ export const getReadingUsage = async (from, to, uuids) => {
 	let endDate = moment(to).format('YYYY-MM-DD HH:mm:ss')
 	let response
 	if (uuids) {
-		response = await servicesAPI.post(`/v2/waterworks/data/volume/${startDate}/${endDate}`, uuids)
-	}
-	else {
-		response = await servicesAPI.get(`/v2/waterworks/data/volume/${startDate}/${endDate}`)
+		// response = await servicesAPI.post(`/v2/waterworks/data/volume/${startDate}/${endDate}`, uuids)
+		response = await wbAPI.post(`/v4/data/volume/${startDate}/${endDate}`, uuids)
+	} else {
+		// response = await servicesAPI.get(`/v2/waterworks/data/volume/${startDate}/${endDate}`)
 	}
 	return response.ok ? response.data : []
 }
@@ -112,7 +112,7 @@ export const getCachedReadingData = async (orgUUID, from, to, uuids) => {
 	else {
 		response.ok = false
 	}
-	console.log(response)
+
 	return response.ok ? response.data : []
 }
 

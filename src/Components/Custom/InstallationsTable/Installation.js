@@ -193,7 +193,7 @@ const Installation = () => {
 					<Info>{installation.sentiUserUUID}</Info>
 				</ItemG>
 				<ItemG xs={6}>
-					<Caption>{t('installations.fields.deviceUUID')}</Caption>
+					<Caption>{t('installations.fields.instId')}</Caption>
 					<Info>{installation.uuid}</Info>
 				</ItemG>
 			</ItemG>

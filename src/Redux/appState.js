@@ -8,7 +8,7 @@ const changeCPP = 'changeCardsPerPage'
 const changeEventHandler = 'changeEH'
 const changeSM = 'changeSmallmenu'
 const changeT = 'changeTabs'
-const sDevice = 'selectDevice'
+const sInstallation = 'selectInstallation'
 const sExportDevice = 'selectExportDevice'
 const getSettings = 'getSettings'
 const fsLG = 'fullScreenLineGraph'
@@ -153,16 +153,16 @@ export const changeTabs = tabs => {
 export const selectAllDevices = (b) => {
 	return (dispatch, getState) => {
 		if (b) {
-			let devices = getState().data.devices
-			let newSDevices = devices.map(d => d.id)
+			let installations = getState().data.installations
+			let newSInstallations = installations.map(d => d.id)
 			dispatch({
-				type: sDevice,
-				payload: newSDevices
+				type: sInstallation,
+				payload: newSInstallations
 			})
 		}
 		else {
 			dispatch({
-				type: sDevice,
+				type: sInstallation,
 				payload: []
 			})
 		}
@@ -176,11 +176,11 @@ export const setSelectedExportDevices = (devices) => {
 		})
 	}
 }
-export const setSelectedDevices = (devices) => {
+export const setSelectedInstallations = (installations) => {
 	return (dispatch, getState) => {
 		dispatch({
-			type: sDevice,
-			payload: devices
+			type: sInstallation,
+			payload: installations
 		})
 	}
 }
@@ -196,19 +196,19 @@ export const setFullScreenLineGraph = fs => ({
 	type: fsLG,
 	payload: fs
 })
-export const selectDevice = (b, device) => {
+export const selectInstallation = (b, installation) => {
 	return (dispatch, getState) => {
 		let newSDevices = []
-		let selectedDevices = getState().appState.selectedDevices
-		newSDevices = [...selectedDevices]
+		let selectedInstallations = getState().appState.selectedInstallations
+		newSDevices = [...selectedInstallations]
 		if (b) {
-			newSDevices = newSDevices.filter(d => d.toString() !== device)
+			newSDevices = newSDevices.filter(d => d.toString() !== installation)
 		}
 		else {
-			newSDevices.push(device)
+			newSDevices.push(installation)
 		}
 		dispatch({
-			type: sDevice,
+			type: sInstallation,
 			payload: newSDevices
 		})
 
@@ -236,12 +236,12 @@ export const setTagFilter = (tagArray) => {
 	return (dispatch, getState) => {
 		// let newSDevices = []
 		// let selectedDevices = getState().appState.selectedDevices
-		let devices = getState().data.devices
+		let installations = getState().data.installations
 		let tArr = tagArray.filter(f => f !== -1)
 
 		if (tArr.length > 0) {
 			// let tagDevices = devices.filter(d => d.tags.filter(t => tagArray.findIndex(ti => ti === t.uuid) > -1)).map(s => s.uuid)
-			let tagDevices = devices.map(s => ({ uuid: s.uuid, tags: s.tags }))
+			let tagDevices = installations.map(s => ({ uuid: s.uuid, tags: s.tags }))
 			let fDevices = tagDevices.filter(d => {
 
 				let result = d.tags.filter(t => {
@@ -250,7 +250,7 @@ export const setTagFilter = (tagArray) => {
 				return result.length > 0
 			}).map(s => s.uuid)
 			dispatch({
-				type: sDevice,
+				type: sInstallation,
 				payload: fDevices
 			})
 		}
@@ -267,8 +267,8 @@ export const setTagFilter = (tagArray) => {
 		else {
 			tArr.push(-1)
 			dispatch({
-				type: sDevice,
-				payload: devices.map(s => s.uuid)
+				type: sInstallation,
+				payload: installations.map(s => s.uuid)
 			})
 		}
 
@@ -282,8 +282,8 @@ const initialState = {
 
 	lines: {},
 	fullScreenLineChart: false,
-	selectedExportDevices: [],
-	selectedDevices: [],
+	selectedExportInstallations: [],
+	selectedInstallations: [],
 	selectedTag: [-1],
 	openTagFilter: false,
 	openTagsFilter: false,
@@ -371,8 +371,8 @@ export const appState = (state = initialState, action) => {
 			return Object.assign({}, state, { trp: action.trp })
 		case updateFilters:
 			return Object.assign({}, state, { filters: { ...state.filters, ...action.filters } })
-		case sDevice:
-			return Object.assign({}, state, { selectedDevices: action.payload })
+		case sInstallation:
+			return Object.assign({}, state, { selectedInstallations: action.payload })
 		case sExportDevice:
 			return Object.assign({}, state, { selectedExportDevices: action.payload })
 		default:

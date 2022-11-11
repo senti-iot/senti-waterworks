@@ -18,7 +18,7 @@ import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
-import { getFullInstallation, getInstallation, getInstallations, getUserInstallations } from 'data/installations'
+import { getFullInstallation, getInstallation, getInstallations } from 'data/installations'
 import { getAllUsers } from 'data/users'
 import { getAlarmsV1, getAlarmV1, getNotificationsV1 } from 'data/alarms'
 // import { genBenchmarkAll } from 'data/model'
@@ -33,6 +33,7 @@ const averageData = 'averageData'
 const pData = 'priceData'
 const wData = 'weatherData'
 const sDevice = 'selectDevice'
+const sInst = 'selectInstallation'
 const hData = 'receivedData'
 const uhcData = 'unitHasChanged'
 const changeUnit = 'changeMeasurementUnit'
@@ -201,26 +202,29 @@ export const gInstallation = async (uuid) => {
 /**
  * Get User Installations
  */
-export const getUInstallation = async () => {
-	return async (dispatch, getState) => {
-		let userUUID = getState().settings.user?.uuid
-		let installations = await getUserInstallations(userUUID)
-		dispatch({
-			type: GetInst,
-			payload: installations ? installations : []
-		})
-	}
-}
+// export const getUInstallation = async () => {
+// 	return async (dispatch, getState) => {
+// 		let userUUID = getState().settings.user?.uuid
+// 		let installations = await getUserInstallations(userUUID)
+// 		dispatch({
+// 			type: GetInst,
+// 			payload: installations ? installations : []
+// 		})
+// 	}
+// }
 /**
  * Get Admin Installations
  */
 export const getAdminInstallations = async () => {
 	return async (dispatch, getState) => {
-		let orgUUID = getState().settings.user?.org.uuid
-		let installations = await getInstallations(orgUUID)
+		let installations = await getInstallations()
 		dispatch({
 			type: GetInst,
 			payload: installations ? installations : []
+		})
+		await dispatch({
+			type: sInst,
+			payload: installations ? installations.map(d => d.uuid) : []
 		})
 	}
 }
@@ -317,24 +321,25 @@ export const adminData = () =>
 		let prevTo = moment(from)
 
 
-		let selectedDevices = getState().appState.selectedDevices
-		let devices = getState().data.devices
+		let selectedInstallations = getState().appState.selectedInstallations
+		let installations = getState().data.installations
 		let suTo = to.clone()
 		let suFrom = from.clone()
 		let waterUsageData, waterUsagePrevData, benchmarkData, temperatureWData, temperatureWPrevData, temperatureAData,
 			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData, oneDayReading = []
 
-		if (selectedDevices.length !== devices.length) {
-			let uuids = selectedDevices.map(s => s)
-			let alldeviceUUIDS = devices.map(s => s.uuid)
+		if (selectedInstallations.length !== installations.length) {
+			let uuids = installations.filter(installation => selectedInstallations.includes(installation.uuid)).map(installation => installation.deviceUUID)
+			let alldeviceUUIDS = installations.map(s => s.deviceUUID)
+			// console.log('uuids', uuids);
+			// console.log('alldeviceUUIDS', alldeviceUUIDS);
 
 			waterUsageData = await getCachedTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
 			waterUsagePrevData = await getCachedTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
 			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
 			benchmarkData = await getBenchmarkUsageByUUIDs(alldeviceUUIDS, from, suTo)
 
-			if (selectedDevices.length < 2) {
-
+			if (selectedInstallations.length < 2) {
 				temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo, uuids)
 				// temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo, uuids)
 
@@ -354,10 +359,7 @@ export const adminData = () =>
 				let t = moment()
 				oneDayReading = await getCachedReadingData(orgId, f, t, uuids)
 			}
-
-
-		}
-		else {
+		} else {
 			waterUsageData = await getCachedTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo)
 			waterUsagePrevData = await getCachedTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo)
 			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo)
@@ -455,8 +457,8 @@ export const userData = () =>
 		let orgId = getState().settings.user?.org.uuid
 		let from = getState().dateTime.period.from?.clone()
 		let to = getState().dateTime.period.to?.clone()
-		let installation = getState().data.installation
-		let deviceUUID = installation.deviceUUID
+		let installations = getState().data.installations
+		let deviceUUID = installations?.length ? installations[0].deviceUUID : undefined
 		let timeType = getState().dateTime.period.timeType
 		let subtr = moment(to).diff(moment(from), timeType > 1 ? 'day' : 'hour')
 
@@ -471,9 +473,14 @@ export const userData = () =>
 		// }
 
 		let waterUsageData = timeType > 1 ? await getWaterUsageByDay(from, to, deviceUUID ? [deviceUUID] : null) : await getWaterUsageByHour(from, to, deviceUUID ? [deviceUUID] : null)
-		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo) : await getWaterUsageByHour(prevFrom, prevTo)
-		let readingsData = await getReadingUsage(from/* .clone().add(1, 'day') */, to)
+		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo, deviceUUID ? [deviceUUID] : null) : await getWaterUsageByHour(prevFrom, prevTo, deviceUUID ? [deviceUUID] : null)
+		let readingsData = await getReadingUsage(from, to, deviceUUID ? [deviceUUID] : null)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
+
+		// let f = moment().subtract(2, 'day').startOf('day')
+		// let t = moment()
+		// let oneDayReading = await getWaterUsageByDay(f, t, deviceUUID ? [deviceUUID] : null)
+
 
 		// await dispatch(await getWeatherData())
 		dispatch(await setLineData({
@@ -500,7 +507,7 @@ export const userData = () =>
 		//#endregion
 		//#region Generate Average Data
 
-		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))
+		dispatch(await setPriceUsageData(waterUsageData, benchmarkData))//oneDayReading
 
 		//Dispatch that we have the data
 
@@ -537,9 +544,8 @@ export const getNData = async () => {
 		if (isSuperUser || isSWAdmin) {
 			await dispatch(await adminData())
 			return
-		}
-		else {
-			await dispatch(await getUserInst())
+		} else {
+			// await dispatch(await getUserInst())
 			await dispatch(await userData())
 			return
 		}
@@ -552,7 +558,7 @@ const initialState = {
 	unitHasChanged: false,
 	haveData: false,
 	barData: {},
-	devices: [],
+	// devices: [],
 	alarms: [],
 	alarm: {},
 	notifications: [],

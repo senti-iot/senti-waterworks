@@ -69,6 +69,7 @@
 		"@welldone-software/why-did-you-render": "^3.3.8",
 		"buffer": "^6.0.3",
 		"crypto-browserify": "^3.12.0",
+		"react-error-overlay": "^6.0.9",
 		"stream-browserify": "^3.0.0"
 	}
 }

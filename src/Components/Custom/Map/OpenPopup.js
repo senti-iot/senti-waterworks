@@ -3,8 +3,8 @@ import { Button } from '@material-ui/core'
 import { ItemG, Caption, Info } from 'Components'
 import { Link } from 'react-router-dom'
 import { useLocalization } from 'Hooks'
-import { setSelectedDevices } from 'Redux/appState'
-import { useDispatch } from "react-redux";
+// import { setSelectedInstallations } from 'Redux/appState'
+// import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom"	;
 import { makeStyles } from '@material-ui/styles'
 
@@ -21,7 +21,7 @@ const OpenPopup = props => {
 	//Hooks
 	const t = useLocalization()
 	const classes = OpenPopupStyles()
-	const dispatch = useDispatch()
+	// const dispatch = useDispatch()
 	const history = useHistory()
 	//Redux
 	//State
@@ -36,7 +36,8 @@ const OpenPopup = props => {
 	//Handlers
 	const handleFilterData = () => {
 		if (m.deviceUUID) {
-			dispatch(setSelectedDevices([m.deviceUUID]))
+			//HH FIXME
+			//dispatch(setSelectedInstallations([m.deviceUUID]))
 			history.push('/')
 
 		}

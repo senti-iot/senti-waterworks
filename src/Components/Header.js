@@ -23,8 +23,8 @@ function Header({ ...props }) {
 	const location = useLocation()
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
-	const installations = useSelector(s => s.data.installations)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
+	// const installations = useSelector(s => s.data.installations)
 
 	//State
 	const [menu, setMenu] = useState(false)
@@ -80,9 +80,9 @@ function Header({ ...props }) {
 		/>
 	}
 	const renderAddress = () => {
-		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
-		if (device && device.streetName) {
-			return device.streetName + ' ' + device.streetNumber + ', ' + device.zip + ' ' + device.city
+		let installation = selectedInstallations[0]
+		if (installation && installation.streetName) {
+			return installation.streetName + ' ' + installation.streetNumber + ', ' + installation.zip + ' ' + installation.city
 		}
 		return null
 	}
@@ -112,7 +112,7 @@ function Header({ ...props }) {
 					<T className={classes.title} variant={'h5'}>
 						{`${org.name} `}
 					</T>
-					{selectedDevices.length < 2 ? <>
+					{selectedInstallations.length < 2 ? <>
 						<Hidden mdDown>
 							<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
 						</Hidden>

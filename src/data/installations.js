@@ -3,18 +3,18 @@ import { wbAPI } from './data'
 /**
  * @desc v3/installations - ALL installations
  */
-export const getInstallations = async (orgUUID) => {
-	let response = await wbAPI.get(`/v3/installations/${orgUUID}`).then(rs => rs.ok ? rs.data : rs.ok)
+export const getInstallations = async () => {
+	let response = await wbAPI.get(`/v4/installations`).then(rs => rs.ok ? rs.data : rs.ok)
 	return response
 }
 /**
  * @desc v3/installations - user Installations
  */
-export const getUserInstallations = async (userUUID) => {
-	let response = await wbAPI.get(`/v3/installations/user/${userUUID}`).then(rs => rs.ok ? rs.data : rs.ok)
-	// console.log('Response GET installations', response)
-	return response
-}
+// export const getUserInstallations = async (userUUID) => {
+// 	let response = await wbAPI.get(`/v3/installations/user/${userUUID}`).then(rs => rs.ok ? rs.data : rs.ok)
+// 	// console.log('Response GET installations', response)
+// 	return response
+// }
 /**
  * @desc PUT v3/installation
  */

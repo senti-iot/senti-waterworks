@@ -27,7 +27,7 @@ const Usage = props => {
 	//Redux
 	const avgData = useSelector(s => s.priceUsageData.usage)
 	const oneDayUsage = useSelector(s => s.priceUsageData.oneDayUsage)
-	const sDev = useSelector(s => s.appState.selectedDevices.length)
+	const sInst = useSelector(s => s.appState.selectedInstallations.length)
 	const mUnit = useSelector(s => s.settings.mUnit)
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 
@@ -61,12 +61,12 @@ const Usage = props => {
 	const handleOnClose = () => {
 		setFsDialogOpen(false)
 	}
-	// alert(sDev)
+
 	return (
 		<>
 			<Grid container className={classes.container}>
-				<ItemG xs={sDev < 2 ? 4 : 0} className={sDev < 2 ? columnClasses(0) : columnClasses(3)}>
-					<Collapse in={sDev < 2}
+				<ItemG xs={sInst < 2 ? 4 : 0} className={sInst < 2 ? columnClasses(0) : columnClasses(3)}>
+					<Collapse in={sInst < 2}
 						classes={{
 							entered: classes.clientInfoCont,
 							wrapper: classes.clientInfoCont,
@@ -91,7 +91,7 @@ const Usage = props => {
 						</ItemG>
 					</Collapse>
 				</ItemG>
-				<ItemG container xs={sDev < 2 ? 4 : 6} className={sDev < 2 ? columnClasses(1) : columnClasses(0)}>
+				<ItemG container xs={sInst < 2 ? 4 : 6} className={sInst < 2 ? columnClasses(1) : columnClasses(0)}>
 					<ItemG container style={{ maxWidth: '100%' }}>
 						<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
 					</ItemG>
@@ -105,7 +105,7 @@ const Usage = props => {
 						</T>
 					</ItemG>
 				</ItemG>
-				<ItemG container xs={sDev < 2 ? 4 : 6} className={columnClasses(1)}>
+				<ItemG container xs={sInst < 2 ? 4 : 6} className={columnClasses(1)}>
 					<ItemG container style={{ maxWidth: '100%' }}>
 						<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
 					</ItemG>

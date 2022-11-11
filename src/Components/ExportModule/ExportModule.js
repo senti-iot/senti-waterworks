@@ -30,7 +30,7 @@ export const ExportModule = props => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
-	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedExportInstallations)
 	const orgUUID = useSelector(s => s.settings.user?.org.uuid)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	// const language = useSelector(s => s.settings.language)
@@ -83,7 +83,7 @@ export const ExportModule = props => {
 			"type": fileType,
 			"from": from,
 			"to": to,
-			"uuids": selectedDevices.length > 0 ? selectedDevices : null,
+			"uuids": selectedInstallations.length > 0 ? selectedInstallations : null,
 			"locale": locale === 'da' ? 'da-DK' : 'en-US'
 
 		}

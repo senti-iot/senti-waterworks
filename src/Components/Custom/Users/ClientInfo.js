@@ -52,8 +52,8 @@ const ClientInfo = () => {
 	const history = useHistory()
 	const t = useLocalization()
 	//Redux
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
 	const installations = useSelector(s => s.data.installations)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 
 	//State
 
@@ -66,8 +66,10 @@ const ClientInfo = () => {
 	//Handlers
 
 	const handleGoToInstallation = () => {
-		let installation = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
-		history.push(`/installation/${installation.uuid}`)
+		const installation = installations?.length ? installations[0] : null;
+		if (installation) {
+			history.push(`/installation/${installation.uuid}`)
+		}
 	}
 
 	let addressCls = cx({
@@ -80,30 +82,26 @@ const ClientInfo = () => {
 		</div>
 	}
 	const renderClientInfo = () => {
-		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
-		// let user = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])].user
-		// console.log(device, device ? true : false)
-		// console.log('user', user)
-
+		let installation = installations.find(f => f.uuid === selectedInstallations[0])
 
 		return <Grid container className={classes.container} >
-			{(device && device.streetName) ? <ItemG xs={12} className={addressCls}>
-				<T variant='h6' className={classes.addressText}>{device.streetName + ' ' + device.streetNumber}</T>
-				<T className={classes.t}>{device.zip + ', ' + device.city}</T>
+			{(installation && installation.streetName) ? <ItemG xs={12} className={addressCls}>
+				<T variant='h6' className={classes.addressText}>{installation.streetName + ' ' + installation.streetNumber}</T>
+				<T className={classes.t}>{installation.zip + ', ' + installation.city}</T>
 			</ItemG> : null
 			}
-			{(device && device.user && device.user.fullName) ? <ItemG xs={12} className={classes.iG}>
-				<T className={classes.t}>{device.user.fullName}</T>
+			{(installation && installation.user && installation.user.fullName) ? <ItemG xs={12} className={classes.iG}>
+				<T className={classes.t}>{installation.user.fullName}</T>
 			</ItemG> : null}
-			{(device && device.user && device.user.fullName) ? <ItemG xs={12} className={classes.iG}>
-				<T className={classes.t}><Link component={'a'} target={'_blank'} href={`mailto:${device.user.email}`}>{device.user.email}</Link></T>
-				<T className={classes.t}><Link component={'a'} target={'_blank'} href={`tel:${device.user.phone}`}>{device.user.phone}</Link></T>
+			{(installation && installation.user && installation.user.fullName) ? <ItemG xs={12} className={classes.iG}>
+				<T className={classes.t}><Link component={'a'} target={'_blank'} href={`mailto:${installation.user.email}`}>{installation.user.email}</Link></T>
+				<T className={classes.t}><Link component={'a'} target={'_blank'} href={`tel:${installation.user.phone}`}>{installation.user.phone}</Link></T>
 
-				<Link component={'a'} target={'_blank'} href={`tel:${device.user.mobile}`}>
-					<T className={classes.t}>{device.user.mobile}</T>
+				<Link component={'a'} target={'_blank'} href={`tel:${installation.user.mobile}`}>
+					<T className={classes.t}>{installation.user.mobile}</T>
 				</Link>
 			</ItemG> : null}
-			{(device && device.user && device.user.fullName) ? <ItemG xs={12} className={classes.iG}>
+			{(installation && installation.user && installation.user.fullName) ? <ItemG xs={12} className={classes.iG}>
 			</ItemG> : null}
 			{/* {(device && device.streetName) ? <ItemG xs={12} className={classes.iG}>
 				<T className={classes.t}>{device.deviceUUID}</T>

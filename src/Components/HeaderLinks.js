@@ -34,7 +34,7 @@ function HeaderLinks(props) {
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 	const notifications = useSelector(s => s.data.notifications)
 
 	const redux = {
@@ -121,11 +121,11 @@ function HeaderLinks(props) {
 				</Hidden>
 				}>
 				<Hidden smDown>
-					{`${t('charts.selectedInstallations')}: ${selectedDevices.length}`}
+					{`${t('charts.selectedInstallations')}: ${selectedInstallations.length}`}
 				</Hidden>
 				<Hidden smUp>
 					<ItemG container style={{ flexWrap: "noWrap" }} justifyContent="space-between">
-						{selectedDevices.length} <Devices style={{ marginLeft: 8 }}/>
+						{selectedInstallations.length} <Devices style={{ marginLeft: 8 }}/>
 					</ItemG>
 				</Hidden>
 			</Button>
