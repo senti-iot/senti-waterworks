@@ -27,6 +27,7 @@ const dispSetUsageData = (data, loading) => ({
  * @param {Array} wsUsage
  */
 export const setPriceUsageData = async (wsUsage, benchmarkData, oneDayReading) =>
+	console.log('oneDayReading', oneDayReading));
 	async (dispatch, getState) => {
 		let usageData = {}, priceData = {}, oneDayUsage = {}
 		let orgId = getState().settings.user?.org.uuid
