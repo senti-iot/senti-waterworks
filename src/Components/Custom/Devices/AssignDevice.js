@@ -49,7 +49,8 @@ const AssignDevice = props => {
 	const classes = assignStyles()
 
 	//Redux
-	const sensors = useSelector(s => s.data.devices)
+	const sensors = useSelector(s => s.data.adminDevices)
+	console.log(sensors);
 
 	//State
 	const [page, setPage] = useState(0)

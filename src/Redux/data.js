@@ -1,16 +1,4 @@
 import { handleRequestSort, getDates } from 'data/functions'
-import {
-	/* getDevices, */ getWaterUsageByDay, getReadingUsage, getBenchmarkUsageByDay, getBenchmarkUsageByHour, getDevicesV2,
-	/* getTotalVolumeData, getMinATemperatureData, getMinWTemperatureData, getMinFlowData, getMaxFlowData, */
-	getWaterUsageByHour,
-	getBenchmarkUsageByUUIDs,
-	getCachedTotalVolumeData,
-	getCachedMinWTemperatureData,
-	getCachedMinATemperatureData,
-	getCachedMaxFlowData,
-	getCachedMinFlowData,
-	getCachedReadingData
-} from 'data/devices'
 import moment from 'moment'
 // import { colors } from 'variables/colors'
 import { getLatLongFromAddress, getWeather } from 'data/weather'
@@ -18,13 +6,14 @@ import { setArcData } from 'Redux/charts/arcData'
 import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
-import { getFullInstallation, getInstallation, getInstallations } from 'data/installations'
+import { getFullInstallation, getInstallation } from 'data/installations'
+import { getWaterUsageByHour, getWaterUsageByDay, getReadingUsage, getCachedReadingData, getBenchmarkUsageByDay, getBenchmarkUsageByHour, getBenchmarkUsageByUUIDs, getCachedTotalVolumeData, getCachedMinWTemperatureData, getCachedMinATemperatureData, getCachedMinFlowData, getCachedMaxFlowData, getInstallations, getDevices } from 'data/waterworks'
 import { getAllUsers } from 'data/users'
 import { getAlarmsV1, getAlarmV1, getNotificationsV1 } from 'data/alarms'
 // import { genBenchmarkAll } from 'data/model'
 
 const sData = 'sortData'
-const GETDevice = 'devices'
+const GETDevice = 'adminDevices'
 const deviceData = 'deviceData'
 // const rawDataStore = 'storeOldData'
 const middleChartData = 'middleChartData'
@@ -32,7 +21,7 @@ const barData = 'barData'
 const averageData = 'averageData'
 const pData = 'priceData'
 const wData = 'weatherData'
-const sDevice = 'selectDevice'
+// const sDevice = 'selectDevice'
 const sInst = 'selectInstallation'
 const hData = 'receivedData'
 const uhcData = 'unitHasChanged'
@@ -254,15 +243,16 @@ export const getAdminDevices = async () => {
 		/**
 		 * Get the devices for the admin
 		 */
-		let devices = await getDevicesV2()
+		let devices = await getDevices()
+		console.log(devices)
 		dispatch({
 			type: GETDevice,
 			payload: devices ? devices : []
 		})
-		await dispatch({
-			type: sDevice,
-			payload: devices ? devices.map(d => d.uuid) : []
-		})
+		// await dispatch({
+		// 	type: sDevice,
+		// 	payload: devices ? devices.map(d => d.uuid) : []
+		// })
 	}
 }
 /**
@@ -557,7 +547,7 @@ const initialState = {
 	unitHasChanged: false,
 	haveData: false,
 	barData: {},
-	// devices: [],
+	adminDevices: [],
 	alarms: [],
 	alarm: {},
 	notifications: [],
@@ -622,7 +612,7 @@ export const data = (state = initialState, { type, payload }) => {
 		case sData:
 			return Object.assign({}, state, { [payload.key]: payload.sortedData })
 		case GETDevice:
-			return Object.assign({}, state, { devices: payload })
+			return Object.assign({}, state, { adminDevices: payload })
 		case deviceData:
 			return Object.assign({}, state, { deviceData: payload })
 		case barData:

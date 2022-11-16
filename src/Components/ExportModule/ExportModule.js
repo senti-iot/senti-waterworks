@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogActions, Button, Checkbox, FormGroup, Form
 import GridContainer from 'Components/Containers/GridContainer'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
-import {  getExportData } from 'data/devices'
+import {  getExportData } from 'data/waterworks'
 import DeviceTableExportWidget from 'Components/Custom/DevicesTable/DeviceTableExportWidget'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 import styled from 'styled-components'

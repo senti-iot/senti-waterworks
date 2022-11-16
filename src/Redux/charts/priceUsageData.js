@@ -1,4 +1,4 @@
-import { getPriceList } from 'data/devices'
+import { getPriceList } from 'data/waterworks'
 import moment from 'moment'
 /**
  * Actions
