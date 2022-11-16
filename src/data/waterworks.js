@@ -45,7 +45,7 @@ export const getWaterUsageByDay = async (from, to, uuids) => {
 	let response
 
 	if (uuids) {
-		response = await wbAPI.get(`/v4/data/usagebyday/${uuids[0]}/${from}/${to}`)
+		response = await wbAPI.post(`/v4/data/usagebyday/${from}/${to}`, uuids)
 	} else {
 		response = await wbAPI.get(`/v4/data/usagebyday/${from}/${to}`)
 	}
