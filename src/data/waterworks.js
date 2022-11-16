@@ -68,10 +68,8 @@ export const getCachedReadingData = async (orgUUID, from, to, uuids) => {
 	if (uuids) {
 		response = await wbAPI.post(`/v4/data/cachedreading`, {
 			orgId: orgUUID,
-			period: {
-				from: from,
-				to: to
-			},
+			from: from,
+			to: to,
 			uuids: uuids
 		})
 	} else {
@@ -141,10 +139,8 @@ export const getCachedMinFlowData = async (orgUUID, from, to, uuids) => {
 export const getCachedMaxFlowData = async (orgUUID, from, to, uuids) => {
 	const response = await wbAPI.post(`/v4/data/cachedflowmax`, {
 		orgUUID: orgUUID,
-		period: {
-			from: from,
-			to: to
-		},
+		from: from,
+		to: to,
 		uuids: uuids
 	})
 
