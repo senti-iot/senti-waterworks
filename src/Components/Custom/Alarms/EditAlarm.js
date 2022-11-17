@@ -8,13 +8,16 @@ import { getDevice } from 'data/waterworks'
 import { useLocalization, useSelector } from 'Hooks'
 import React, { useEffect, useMemo } from 'react'
 import { useState } from 'react'
+import { useDispatch } from 'Hooks'
+import { getAdminDevices } from 'Redux/data'
 
 const EditAlarm = props => {
 	//Hooks
 	const t = useLocalization()
+	const dispatch = useDispatch()
 	//Redux
 	const user = useSelector(state => state.settings.user)
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 	//State
 	const [tab, setTab] = useState(0)
 	const [sAlarm, setSAlarm] = useState(null)
@@ -92,6 +95,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			return getAlarmV1(props.uuid)
 		}
 		let loadData = async () => {
+			dispatch(await getAdminDevices())
 			if (loading && !sAlarm) {
 				let a = await getAlarm()
 				setSAlarm(a)
@@ -99,7 +103,7 @@ Alarm: @METRIC@ (@DATA_METRIC@) er @QUALIFIER@ på @DEVICE_NAME@
 			}
 		}
 		loadData()
-	}, [loading, props.uuid, sAlarm])
+	}, [dispatch, loading, props.uuid, sAlarm])
 	useEffect(() => {
 		if (sAlarm) {
 			/**
