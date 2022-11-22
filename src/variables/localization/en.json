@@ -890,7 +890,8 @@
         "org": "No organisation",
         "project": "No project",
         "projects": "No projects",
-        "tag": "No group"
+        "tag": "No group",
+        "user": "No user"
     },
     "numSuffix": {
         "billion": "bil.",

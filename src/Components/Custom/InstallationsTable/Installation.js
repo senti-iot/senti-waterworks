@@ -190,7 +190,7 @@ const Installation = () => {
 				</ItemG>
 				<ItemG xs={6}>
 					<Caption>{t('installations.fields.sentiUserUUID')}</Caption>
-					<Info>{installation.sentiUserUUID}</Info>
+					<Info>{installation.sentiUserUUID ? installation.sentiUserUUID : t('no.user')}</Info>
 				</ItemG>
 				<ItemG xs={6}>
 					<Caption>{t('installations.fields.instId')}</Caption>

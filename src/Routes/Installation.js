@@ -31,7 +31,7 @@ const InstallationRoute = (props) => {
 	const handleSeeData = () => {
 
 		if (installation) {
-			dispatch(setSelectedInstallations([installation]))
+			dispatch(setSelectedInstallations([installation.uuid]))
 			history.push('/')
 
 		}
