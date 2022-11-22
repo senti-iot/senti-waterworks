@@ -244,7 +244,6 @@ export const getAdminDevices = async () => {
 		 * Get the devices for the admin
 		 */
 		let devices = await getDevices()
-		console.log(devices)
 		dispatch({
 			type: GETDevice,
 			payload: devices ? devices : []

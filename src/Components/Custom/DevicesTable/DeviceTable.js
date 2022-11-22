@@ -7,7 +7,7 @@ import TC from 'Components/Table/TC'
 import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected, Title } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
 import { setSelectedInstallations, setTagFilter } from 'Redux/appState'
-import { sortData as rSortData } from 'Redux/data'
+import { getAdminDevices, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import ItemG from 'Components/Containers/ItemG'
@@ -33,6 +33,7 @@ const DeviceTable = (props) => {
 
 	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 	const filters = useSelector(s => s.appState.filters.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 
 	//State
 	const [selDev, setSelDev] = useState([])
@@ -48,7 +49,13 @@ const DeviceTable = (props) => {
 	//useEffects
 	useEffect(() => {
 		setSelDev(selectedInstallations)
-	}, [selectedInstallations])
+
+		let loadData = async () => {
+			dispatch(await getAdminDevices())
+		}
+
+		loadData()
+	}, [dispatch, selectedInstallations])
 
 	//Handlers
 	const setSelDevices = devices => dispatch(setSelectedInstallations(devices))
@@ -116,11 +123,17 @@ const DeviceTable = (props) => {
 		// { id: 'communication', label: t('devices.fields.status') },
 		{ id: 'tags', label: t('devices.fields.tags') }
 	]
-	const renderTags = device => {
-		return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
-			<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
-		</Tooltip>
-		))
+	const renderTags = installation => {
+		const device = devices.find(d => d.uuid === installation.deviceUUID)
+		if (device !== undefined) {
+			return device.tags?.map((t, i) => (
+				<Tooltip key={i} title={t.description}>
+					<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
+				</Tooltip>
+			))
+		} else {
+			return null
+		}
 	}
 	const bodyStructure = row => {
 		return <Fragment>
