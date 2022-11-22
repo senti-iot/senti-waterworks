@@ -110,9 +110,9 @@ function Header({ ...props }) {
 				<ItemG xs container alignItems={'center'} justifyContent={'center'}>
 
 					<T className={classes.title} variant={'h5'}>
-						{`${org.name} `}
+						{org ? org.name : null}
 					</T>
-					{selectedInstallations.length < 2 ? <>
+					{selectedInstallations && selectedInstallations.length === 1 ? <>
 						<Hidden mdDown>
 							<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
 						</Hidden>

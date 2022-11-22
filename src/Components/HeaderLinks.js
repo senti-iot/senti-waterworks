@@ -154,7 +154,7 @@ function HeaderLinks(props) {
 					<ExpandMore className={cx(classes.expand, {
 						[classes.expandOpen]: openProfile,
 					})} />
-					{user ? <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${user.firstName}`}</T> : <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${'Not logged in'}`}</T>}
+					{user ? <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${user.firstName}`}</T> : null}
 					{user ? user.img ? <img src={user.img} alt='UserProfile' className={classes.img} /> :
 						<Gravatar default='mp' email={user.email} className={classes.img} size={36} /> :
 						<Gravatar default='mp' email={''} className={classes.img} size={36} />}
