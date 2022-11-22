@@ -28,7 +28,6 @@ const dispSetUsageData = (data, loading) => ({
  */
 export const setPriceUsageData = async (wsUsage, benchmarkData, oneDayReading) =>
 	async (dispatch, getState) => {
-		console.log('oneDayReading', oneDayReading);
 		let usageData = {}, priceData = {}, oneDayUsage = {}
 		let orgId = getState().settings.user?.org.uuid
 		let price = await getPriceList(orgId)

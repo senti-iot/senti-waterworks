@@ -111,7 +111,7 @@ export const getCachedTotalVolumeData = async (orgUUID, from, to, uuids) => {
 
 export const getCachedMinWTemperatureData = async (orgUUID, from, to, uuids) => {
 	const response = await wbAPI.post(`/v4/data/cachedtemeraturewmin`, {
-		orgId: orgUUID,
+		orgUUID: orgUUID,
 		from: from,
 		to: to,
 		uuids: uuids
@@ -122,7 +122,7 @@ export const getCachedMinWTemperatureData = async (orgUUID, from, to, uuids) => 
 
 export const getCachedMinATemperatureData = async (orgUUID, from, to, uuids) => {
 	const response = await wbAPI.post(`/v4/data/cachedtemeratureamin`, {
-		orgId: orgUUID,
+		orgUUID: orgUUID,
 		from: from,
 		to: to,
 		uuids: uuids
