@@ -136,7 +136,7 @@ const EndUserContainer = props => {
 						<Usage parentRef={usageRef} />
 					</BPaper>
 				</ItemG>
-				{orgSettings.priceInfo === 0 ? null : <ItemG xs={4} style={{ height: '100%' }}>
+				{orgSettings.priceInfo === undefined || orgSettings.priceInfo === 0 ? null : <ItemG xs={4} style={{ height: '100%' }}>
 					<BPaper ref={priceRef}>
 						<PriceChart parentRef={priceRef} />
 					</BPaper>
