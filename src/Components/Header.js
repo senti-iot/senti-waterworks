@@ -24,7 +24,7 @@ function Header({ ...props }) {
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
 	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
-	// const installations = useSelector(s => s.data.installations)
+	const installations = useSelector(s => s.data.installations)
 
 	//State
 	const [menu, setMenu] = useState(false)
@@ -80,9 +80,22 @@ function Header({ ...props }) {
 		/>
 	}
 	const renderAddress = () => {
-		let installation = selectedInstallations[0]
-		if (installation && installation.streetName) {
-			return installation.streetName + ' ' + installation.streetNumber + ', ' + installation.zip + ' ' + installation.city
+		const installation = installations.find(i => i.uuid === selectedInstallations[0])
+		let address = '';
+		if (installation !== undefined && installation.streetName) {
+			address = installation.streetName + ' ' + installation.streetNumber + ', ' + installation.zip + ' ' + installation.city
+		}
+		if (address.length) {
+			return (
+				<>
+					<Hidden mdDown>
+						<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
+					</Hidden>
+					<T className={classes.title} variant={'h5'}>
+						{address}
+					</T>
+				</>
+			)
 		}
 		return null
 	}
@@ -112,13 +125,10 @@ function Header({ ...props }) {
 					<T className={classes.title} variant={'h5'}>
 						{org ? org.name : null}
 					</T>
-					{selectedInstallations && selectedInstallations.length === 1 ? <>
-						<Hidden mdDown>
-							<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
-						</Hidden>
-						<T className={classes.title} variant={'h5'}>
+					{selectedInstallations && selectedInstallations.length < 2 ? 
+						<>
 							{renderAddress()}
-						</T></>
+						</>
 						: null}
 
 				</ItemG>
