@@ -48,7 +48,7 @@ const waterUsageTooltip = (props) => {
 						</ItemG>
 					}
 				</ItemG>
-				<ItemG xs={6} container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
+				<ItemG xs={6} container justifyContent={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 					<T variant={'h5'}>{`${formatNumber(props.tooltip.value, 2)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
@@ -76,7 +76,7 @@ const waterFlowTooltip = (props) => {
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
 					</ItemG>
 				</ItemG>
-				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+				<ItemG xs={6} container justifyContent={'center'} alignItems={'flex-end'}>
 					<T variant={'h5'}>{`${props.tooltip.value} l/t`}</T>
 					<img src={Pipe} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
@@ -104,7 +104,7 @@ const temperatureTooltip = (props) => {
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
 					</ItemG>
 				</ItemG>
-				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+				<ItemG xs={6} container justifyContent={'center'} alignItems={'flex-end'}>
 					<T variant={'h5'}>{`${parseFloat(props.tooltip.value).toFixed(1)} °C`}</T>
 					<img src={Thermometer} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>
@@ -132,7 +132,7 @@ const readingTooltip = (props) => {
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('lll')}</T>
 					</ItemG>
 				</ItemG>
-				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
+				<ItemG xs={6} container justifyContent={'center'} alignItems={'flex-end'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 					<T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
 				</ItemG>

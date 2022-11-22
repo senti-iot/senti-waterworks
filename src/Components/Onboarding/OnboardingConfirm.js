@@ -142,7 +142,7 @@ const OnboardingConfirm = (props) => {
 						<T className={classes.message} style={{ marginBottom: 24 }}>
 							{success ? t(`signup.confirm.confirmSuccess`) : t('signup.confirm.confirmFail')}
 						</T>
-						<ItemG xs={6} container justify={'center'}>
+						<ItemG xs={6} container justifyContent={'center'}>
 							<Button className={classes.button} variant={'contained'} color={'secondary'} onClick={handleGoToLogin}>
 								{t('actions.goToLogin')}
 							</Button>

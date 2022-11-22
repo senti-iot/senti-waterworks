@@ -60,7 +60,7 @@ const OpenPopup = props => {
 				<Typography variant={'h5'}>{m.address}</Typography>
 			</ItemG>
 			<ItemG xs={2} container>
-				<ItemG container justify={'flex-end'}>
+				<ItemG container justifyContent={'flex-end'}>
 				</ItemG>
 			</ItemG> */}
 			<ItemG xs={12}>
@@ -80,7 +80,7 @@ const OpenPopup = props => {
 				<Info>{m.uuid}</Info>
 			</ItemG> */}
 
-			<ItemG xs={12} container justify={'flex-end'}>
+			<ItemG xs={12} container justifyContent={'flex-end'}>
 				<Button variant={'text'} color={'primary'} component={Link} to={`/installation/${m.uuid}`}>
 					{t('menus.seeMore')}
 				</Button>

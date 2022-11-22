@@ -136,7 +136,7 @@ const AssignUser = props => {
 									{t('sidebar.users')}
 								</Typography>
 							</ItemG>
-							<ItemG xs={12} container alignItems={'center'} justify={'center'}>
+							<ItemG xs={12} container alignItems={'center'} justifyContent={'center'}>
 								<Search
 									noAbsolute
 									fullWidth

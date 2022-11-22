@@ -42,17 +42,17 @@ const ChartTable = props => {
 							{t(d.type)}
 						</T>
 					</ItemG>
-					<ItemG xs={5} container justify={'center'}>
+					<ItemG xs={5} container justifyContent={'center'}>
 						<T>
 							{d.value}
 						</T>
 					</ItemG>
-					<ItemG container xs={2} justify={'center'}>
+					<ItemG container xs={2} justifyContent={'center'}>
 						<T>
 							{d.unit}
 						</T>
 					</ItemG>
-					{/* <ItemG container xs={2} justify={'center'}>
+					{/* <ItemG container xs={2} justifyContent={'center'}>
 						<T>
 							11%
 					</T>
@@ -73,17 +73,17 @@ const ChartTable = props => {
 						{t('chartTable.temperature.line1')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -98,17 +98,17 @@ const ChartTable = props => {
 						{t('chartTable.waterusage.line2')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -123,17 +123,17 @@ const ChartTable = props => {
 						{t('chartTable.waterusage.line3')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -148,17 +148,17 @@ const ChartTable = props => {
 						{t('chartTable.waterusage.line4')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -177,17 +177,17 @@ const ChartTable = props => {
 						{t('chartTable.waterflow.line1')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -202,17 +202,17 @@ const ChartTable = props => {
 						{t('chartTable.waterflow.line2')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -227,17 +227,17 @@ const ChartTable = props => {
 						{t('chartTable.waterflow.line3')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -256,17 +256,17 @@ const ChartTable = props => {
 						{t('chartTable.readings.line1')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -281,17 +281,17 @@ const ChartTable = props => {
 						{t('chartTable.readings.line2')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -306,17 +306,17 @@ const ChartTable = props => {
 						{t('chartTable.readings.line3')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>
@@ -331,17 +331,17 @@ const ChartTable = props => {
 						{t('chartTable.readings.line4')}
 					</T>
 				</ItemG>
-				<ItemG xs={2} container justify={'center'}>
+				<ItemG xs={2} container justifyContent={'center'}>
 					<T>
 						0,2
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						C*
 					</T>
 				</ItemG>
-				<ItemG container xs={2} justify={'center'}>
+				<ItemG container xs={2} justifyContent={'center'}>
 					<T>
 						11%
 					</T>

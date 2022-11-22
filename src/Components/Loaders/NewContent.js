@@ -89,7 +89,7 @@ function NewContent(props) {
 				<UpdateSnackbar
 					message={
 						<ItemG container>
-							<ItemG xs={1} container justify={'center'} alignItems={'center'}>
+							<ItemG xs={1} container justifyContent={'center'} alignItems={'center'}>
 								<IconWarn />
 							</ItemG>
 							<ItemG xs={8} container alignItems={'center'}>

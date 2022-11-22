@@ -88,7 +88,7 @@ class HeatMapLegend extends MapControl {
 					<MuiThemeProvider theme={this.props.theme}>
 						<Paper classes={{ root: this.props.classes.fullscreenButton }}>
 							<div className={this.props.classes.gradientBar} />
-							<ItemG container justify={'space-between'}>
+							<ItemG container justifyContent={'space-between'}>
 								<ItemG xs={4} style={{ textAlign: 'left' }}>0</ItemG>
 								<ItemG xs={4} style={{ textAlign: 'center' }}>{this.setMaxValue(true)}</ItemG>
 								<ItemG xs={4} style={{ textAlign: 'right' }}>{this.setMaxValue(false)}+</ItemG>
@@ -113,7 +113,7 @@ class HeatMapLegend extends MapControl {
 					<MuiThemeProvider theme={this.props.theme}>
 						<Paper classes={{ root: this.props.classes.fullscreenButton }}>
 							<div className={this.props.classes.gradientBar} />
-							<ItemG container justify={'space-between'}>
+							<ItemG container justifyContent={'space-between'}>
 								<div style={{ width: 40 }}>0</div>
 								<div style={{ width: 40 }}>{this.setMaxValue(true)}</div>
 								<div style={{ width: 40 }}>{this.setMaxValue(false)}+</div>

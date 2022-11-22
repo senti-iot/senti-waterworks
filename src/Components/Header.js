@@ -107,7 +107,7 @@ function Header({ ...props }) {
 						</div>
 					</ItemG>
 				</Hidden>
-				<ItemG xs container alignItems={'center'} justify={'center'}>
+				<ItemG xs container alignItems={'center'} justifyContent={'center'}>
 
 					<T className={classes.title} variant={'h5'}>
 						{`${org.name} `}
@@ -126,7 +126,7 @@ function Header({ ...props }) {
 				<HeaderLinks t={t} history={history} />
 			</Toolbar>
 			<Toolbar className={classes.secondaryToolbar}>
-				<ItemG container alignItems={'center'} justify={'center'}>
+				<ItemG container alignItems={'center'} justifyContent={'center'}>
 
 					<ItemG xs={1} container >
 						<Button
@@ -169,7 +169,7 @@ function Header({ ...props }) {
 							</Hidden>
 						</Button>
 					</ItemG>
-					 <ItemG xs container alignItems={'center'} justify={'flex-end'}>
+					 <ItemG xs container alignItems={'center'} justifyContent={'flex-end'}>
 						{isSWAdmin ? <IconButton
 							onClick={handleOpenTagFilter}
 							className={classes.toolbarButton}>

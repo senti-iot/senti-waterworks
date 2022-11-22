@@ -121,8 +121,8 @@ export const MainChart = React.memo((props) => {
 		<ItemG container style={{ height: '100%', flexFlow: 'column' }}>
 			<Hidden xsDown>
 				<ChartsButtonContainer>
-					<ItemG container alignItems={'center'} justify={'space-evenly'}>
-						<ItemG xs={2} md={2} lg={2} container justify={'flex-start'} alignItems={'center'}>
+					<ItemG container alignItems={'center'} justifyContent={'space-evenly'}>
+						<ItemG xs={2} md={2} lg={2} container justifyContent={'flex-start'} alignItems={'center'}>
 							<DButton
 								value={chart}
 								onChange={(value) => {
@@ -134,7 +134,7 @@ export const MainChart = React.memo((props) => {
 								menuItemClasses={{
 									root: classes.menuItem
 								}}
-								label={<ItemG xs container justify={'center'}>{t(`charts.types.${chart}`)}</ItemG>}
+								label={<ItemG xs container justifyContent={'center'}>{t(`charts.types.${chart}`)}</ItemG>}
 								menuItems={[
 									{ label: t('charts.types.waterusage'), value: 'waterusage' },
 									{ label: t('charts.types.temperature'), value: 'temperature', disabled: data && !data.temperature.length > 0, showOnlyOnDisabled: true, endIcon: renderInfoAbout() },
@@ -151,8 +151,8 @@ export const MainChart = React.memo((props) => {
 						<ItemG xs={8} md={8} lg={5} container alignItems={'center'} >
 							<DateTimeArrows />
 						</ItemG>
-						<ItemG xs={2} md={2} lg={5} container alignItems={'center'} justify={'flex-end'}>
-							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justify={'flex-end'}>
+						<ItemG xs={2} md={2} lg={5} container alignItems={'center'} justifyContent={'flex-end'}>
+							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justifyContent={'flex-end'}>
 								<Hidden mdDown>
 									<DateTimeDays />
 								</Hidden>

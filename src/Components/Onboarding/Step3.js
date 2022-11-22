@@ -7,7 +7,7 @@ const Step3 = props => {
 	const handleNextStep = () => goToNextStep()
 
 	return (
-		<ItemG xs={12} container justify={'center'}>
+		<ItemG xs={12} container justifyContent={'center'}>
 			<ItemG xs={12} container>
 				<NeedAccountT>
 					{t('signup.form.finishProfileTitle')}
@@ -40,7 +40,7 @@ const Step3 = props => {
 
 				{/* </ItemG> */}
 			</ItemG>
-			<ItemG xs={12} container justify={'center'}>
+			<ItemG xs={12} container justifyContent={'center'}>
 				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
 					{t('actions.confirm')}
 				</NextStepButton>

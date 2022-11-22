@@ -35,8 +35,8 @@ const TP = styled((props) => {
 				'aria-label': t('actions.previousPage'),
 			}}
 			labelDisplayedRows={({ from, to, count }) => disableRowsPerPage ? `` : `${from}-${to} ${t('tables.of')} ${count}`}
-			onChangePage={handleChangePage}
-			onChangeRowsPerPage={handleChangeRowsPerPage}
+			onPageChange={handleChangePage}
+			onRowsPerPageChange={handleChangeRowsPerPage}
 			rowsPerPageOptions={rowsPerPageOptions}
 			SelectProps={{
 				renderValue: value => value

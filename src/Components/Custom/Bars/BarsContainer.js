@@ -43,7 +43,7 @@ const BarsContainer = props => {
 	}
 	return <ItemG container style={{ height: '100%', flexFlow: 'column', }}>
 
-		<ItemG container xs={1} justify={'space-between'} alignItems={'center'} style={{ maxWidth: '100%' }}>
+		<ItemG container xs={1} justifyContent={'space-between'} alignItems={'center'} style={{ maxWidth: '100%' }}>
 			<ChartSmallTitle variant={'h6'}>{t(`chartLines.readings`)}</ChartSmallTitle>
 			<Dropdown
 				icon={<SettingsIcon className={classes.whiteIcon} />}

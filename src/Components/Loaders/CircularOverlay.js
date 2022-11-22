@@ -49,7 +49,7 @@ const CircularOverlay = (props) => {
 		[classes.hidden]: !overlay,
 	})
 	return (
-		<Grid container justify={'center'} alignItems='center' className={gridClasses} style={props.style}>
+		<Grid container justifyContent={'center'} alignItems='center' className={gridClasses} style={props.style}>
 			<Fade in={overlay}>
 				<CircularProgress className={circularClasses} />
 			</Fade>

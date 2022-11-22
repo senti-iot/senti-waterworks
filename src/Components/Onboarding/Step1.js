@@ -10,8 +10,8 @@ const Step1 = props => {
 		goToNextStep()
 	}
 	return (
-		<ItemG xs={12} container justify={'center'}>
-			<ItemG xs={12} container justify={'center'}>
+		<ItemG xs={12} container justifyContent={'center'}>
+			<ItemG xs={12} container justifyContent={'center'}>
 				<NeedAccountT>
 					{t('signup.form.insertDeviceNumber')}
 				</NeedAccountT>
@@ -59,12 +59,12 @@ const Step1 = props => {
 				/>
 				{/* </ItemG> */}
 			</ItemG>
-			<ItemG xs={12} container justify={'center'}>
+			<ItemG xs={12} container justifyContent={'center'}>
 				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
 					{t('actions.nextStep')}
 				</NextStepButton>
 			</ItemG>
-			<ItemG xs={12} container justify={'center'}>
+			<ItemG xs={12} container justifyContent={'center'}>
 			</ItemG>
 		</ItemG>
 	)

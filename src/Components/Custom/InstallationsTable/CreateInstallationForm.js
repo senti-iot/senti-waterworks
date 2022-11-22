@@ -125,7 +125,7 @@ const CreateInstallationForm = (props) => {
 					/>
 				</ItemG>
 			</ItemG>
-			<ItemG xs={1} container alignItems={'center'} justify={'center'}>
+			<ItemG xs={1} container alignItems={'center'} justifyContent={'center'}>
 				<Divider orientation={'vertical'} />
 			</ItemG>
 			<ItemG container xs={12} md={3} style={{ height: 'min-content' }}>
@@ -158,7 +158,7 @@ const CreateInstallationForm = (props) => {
 					/>
 				</ItemG>
 			</ItemG>
-			<ItemG xs={1} container alignItems={'center'} justify={'center'}>
+			<ItemG xs={1} container alignItems={'center'} justifyContent={'center'}>
 				<Divider orientation={'vertical'} />
 			</ItemG>
 			<ItemG container xs={12} md={3} style={{ height: 'min-content' }}>

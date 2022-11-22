@@ -518,7 +518,7 @@ const Onboarding = props => {
 							<MobileContainer>
 								<LeftPanel /* className={classes.paper} */>
 									<InputContainer>
-										<ItemG xs={12} container justify={'center'}>
+										<ItemG xs={12} container justifyContent={'center'}>
 											<Link to={'/login'}>
 
 												<ImgLogo src={logo} alt={'sentiLogo'} />
@@ -532,7 +532,7 @@ const Onboarding = props => {
 										{loading ? <CircularLoader /> : renderStep()}
 									</InputContainer>
 									<Divider style={{ width: '100%' }} />
-									<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
+									<Footer xs={12} container alignItems={'flex-end'} justifyContent={'center'}>
 										<FooterText style={{ flex: 1 }}>
 											{`${t('login.footer')} `}
 											<MutedButton onClick={handlePrivacy}>{t('settings.t&c.privacyPolicy')}</MutedButton>

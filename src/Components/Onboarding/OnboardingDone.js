@@ -8,13 +8,13 @@ const OnboardingDone = props => {
 
 
 	return (
-		<ItemG xs={12} container justify={'center'}>
-			<ItemG xs={12} container justify={'center'}>
+		<ItemG xs={12} container justifyContent={'center'}>
+			<ItemG xs={12} container justifyContent={'center'}>
 				<NeedAccountT>
 					{t('signup.form.finishConfirmEmail')}
 				</NeedAccountT>
 			</ItemG>
-			<ItemG xs={12} container justify={'center'}>
+			<ItemG xs={12} container justifyContent={'center'}>
 				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
 					{t('actions.goToLogin')}
 				</NextStepButton>
