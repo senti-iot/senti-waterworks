@@ -1,4 +1,4 @@
-import { monthAvgUUIDsRedux } from 'data/functions'
+import { monthRedux } from 'data/functions'//monthAvgUUIDsRedux
 // import { genLineData } from 'data/model'
 import moment from 'moment'
 import { /* ambientColors */ colorNames, /*  maxFlowColors, minFlowColors */ } from 'variables/colors'
@@ -355,26 +355,35 @@ export const mapLineData = async data => {
 		// if (maxFlowPrevData && maxFlowPrevData.length > 0) {
 		// 	previousPeriodData.maxFlow = genLineData(maxFlowPrevData.map(d => ({ ...d, datetime: moment(d.datetime).add(dateDiff, timeType > 1 ? 'day' : 'hour') })))
 		// }
+
 		if (timeType === 4) {
-			currentPeriodData.waterusage = monthAvgUUIDsRedux(currentPeriodData.waterusage)
-			previousPeriodData.waterusage = monthAvgUUIDsRedux(previousPeriodData.waterusage)
-			currentPeriodData.benchmark = monthAvgUUIDsRedux(currentPeriodData.benchmark)
+			currentPeriodData.waterusage = monthRedux(currentPeriodData.waterusage)
+			// currentPeriodData.waterusageAvg = monthAvgUUIDsRedux(currentPeriodData.waterusage)
+
+			previousPeriodData.waterusage = monthRedux(previousPeriodData.waterusage)
+			// previousPeriodData.waterusageAvg = monthAvgUUIDsRedux(previousPeriodData.waterusage)
+
+			currentPeriodData.benchmark = monthRedux(currentPeriodData.benchmark)
+			// currentPeriodData.benchmarkAvg = monthAvgUUIDsRedux(currentPeriodData.benchmark)
+
 			if (temperatureWData && temperatureWData.length > 0) {
-				currentPeriodData.minWtemp = monthAvgUUIDsRedux(currentPeriodData.minWtemp)
+				currentPeriodData.minWtemp = monthRedux(currentPeriodData.minWtemp)
+				// currentPeriodData.minWtempAvg = monthAvgUUIDsRedux(currentPeriodData.minWtemp)
 			}
 			if (temperatureAData && temperatureAData.length > 0) {
-				currentPeriodData.minAtemp = monthAvgUUIDsRedux(currentPeriodData.minAtemp)
+				currentPeriodData.minAtemp = monthRedux(currentPeriodData.minAtemp)
+				// currentPeriodData.minAtempAvg = monthAvgUUIDsRedux(currentPeriodData.minAtemp)
 			}
 			if (minFlowData && minFlowData.length > 0) {
-				currentPeriodData.minFlow = monthAvgUUIDsRedux(currentPeriodData.minFlow)
+				currentPeriodData.minFlow = monthRedux(currentPeriodData.minFlow)
+				// currentPeriodData.minFlowAvg = monthAvgUUIDsRedux(currentPeriodData.minFlow)
 			}
 			if (maxFlowData && maxFlowData.length > 0) {
-				currentPeriodData.maxFlow = monthAvgUUIDsRedux(currentPeriodData.maxFlow)
+				currentPeriodData.maxFlow = monthRedux(currentPeriodData.maxFlow)
+				// currentPeriodData.maxFlowAvg = monthAvgUUIDsRedux(currentPeriodData.maxFlow)
 			}
-
-
-
 		}
+
 		//#endregion
 		dispatch(await genLines(currentPeriodData, previousPeriodData, data.isUser))
 	}
