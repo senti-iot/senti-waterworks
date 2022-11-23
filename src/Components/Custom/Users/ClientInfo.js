@@ -66,10 +66,7 @@ const ClientInfo = () => {
 	//Handlers
 
 	const handleGoToInstallation = () => {
-		const installation = installations?.length ? installations[0] : null;
-		if (installation) {
-			history.push(`/installation/${installation.uuid}`)
-		}
+		history.push(`/installation/${selectedInstallations[0]}`)
 	}
 
 	let addressCls = cx({
