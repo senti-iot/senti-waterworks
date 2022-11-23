@@ -34,11 +34,13 @@ const waterUsageTooltip = (props) => {
 
 	//Handlers
 
+	const numberOfDays = moment(props.tooltip.date).month() + 1 === moment().month() + 1 && moment(props.tooltip.date).year() === moment().year() ? moment().date() : moment(props.tooltip.date).daysInMonth()
+
 	return <TCard id={props.fs ? 'tooltipfsLG' + props.id : 'tooltip' + props.id}>
 		<CardContent>
 			{/* <ItemG container> */}
 			<ItemG container xs={12}>
-				<ItemG container xs={6}>
+				<ItemG container xs={5}>
 					<ItemG xs={12}>
 						<T variant={'h6'}>{capitalizeFL(moment(props.tooltip.date).format(props.timeType === 4 ? 'MMMM' : 'dddd'))}</T>
 					</ItemG>
@@ -48,9 +50,16 @@ const waterUsageTooltip = (props) => {
 						</ItemG>
 					}
 				</ItemG>
-				<ItemG xs={6} container justifyContent={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
-					<T variant={'h5'}>{`${formatNumber(props.tooltip.value, 2)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
-					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+				<ItemG xs={7} container justifyContent={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
+					<ItemG container alignItems={'center'}>
+						<ItemG xs={10} style={{ textAlign: 'right' }}>
+							<T variant={'h5'}>{`${formatNumber(props.tooltip.value, 2)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T>
+							{props.timeType === 4 ? <T variant={'h5'}>Gns. {`${formatNumber(props.tooltip.value / numberOfDays, 2)} ${props.unit === 'm3' ? 'm³' : 'L'}`}</T> : null}
+						</ItemG>
+						<ItemG xs={2}>
+							<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} />
+						</ItemG>
+					</ItemG>
 				</ItemG>
 			</ItemG>
 			{/* </ItemG> */}
