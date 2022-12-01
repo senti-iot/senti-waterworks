@@ -1,3 +1,4 @@
+import moment from 'moment/moment'
 import { wbAPI } from './data'
 
 export const getInstallations = async () => {
@@ -30,6 +31,9 @@ export const getExportData = async (config) => {
 }
 
 export const getWaterUsageByHour = async (from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	let response
 
 	if (uuids) {
@@ -42,6 +46,9 @@ export const getWaterUsageByHour = async (from, to, uuids) => {
 }
 
 export const getWaterUsageByDay = async (from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	let response
 
 	if (uuids) {
@@ -54,6 +61,9 @@ export const getWaterUsageByDay = async (from, to, uuids) => {
 }
 
 export const getReadingUsage = async (from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	let response
 
 	if (uuids) {
@@ -64,6 +74,9 @@ export const getReadingUsage = async (from, to, uuids) => {
 }
 
 export const getCachedReadingData = async (orgUUID, from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	let response = {}
 	if (uuids) {
 		response = await wbAPI.post(`/v4/data/cachedreading`, {
@@ -80,16 +93,25 @@ export const getCachedReadingData = async (orgUUID, from, to, uuids) => {
 }
 
 export const getBenchmarkUsageByHour = async (orgUuid, from, to) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const response = await wbAPI.get(`/v4/data/benchmarkbyhour/${orgUuid}/${from}/${to}`)
 	return response.ok ? response.data : []
 }
 
 export const getBenchmarkUsageByDay = async (orgUuid, from, to) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const response = await wbAPI.get(`/v4/data/benchmarkbyday/${orgUuid}/${from}/${to}`)
 	return response.ok ? response.data : []
 }
 
 export const getBenchmarkUsageByUUIDs = async (deviceUUIDs, from, to) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const response = await wbAPI.post(`/v4/data/benchmarkcustom`, {
 		from: from,
 		to: to,
@@ -99,6 +121,9 @@ export const getBenchmarkUsageByUUIDs = async (deviceUUIDs, from, to) => {
 }
 
 export const getCachedTotalVolumeData = async (orgUUID, from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const response = await wbAPI.post(`/v4/data/cachedtotalvolume`, {
 		orgUUID: orgUUID,
 		from: from,
@@ -110,6 +135,9 @@ export const getCachedTotalVolumeData = async (orgUUID, from, to, uuids) => {
 }
 
 export const getCachedMinWTemperatureData = async (orgUUID, from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const response = await wbAPI.post(`/v4/data/cachedtemeraturewmin`, {
 		orgUUID: orgUUID,
 		from: from,
@@ -121,6 +149,9 @@ export const getCachedMinWTemperatureData = async (orgUUID, from, to, uuids) => 
 }
 
 export const getCachedMinATemperatureData = async (orgUUID, from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const response = await wbAPI.post(`/v4/data/cachedtemeratureamin`, {
 		orgUUID: orgUUID,
 		from: from,
@@ -132,11 +163,17 @@ export const getCachedMinATemperatureData = async (orgUUID, from, to, uuids) => 
 }
 
 export const getCachedMinFlowData = async (orgUUID, from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const data = await getCachedMinWTemperatureData(orgUUID, from, to, uuids) // ?? why is this the same
 	return data
 }
 
 export const getCachedMaxFlowData = async (orgUUID, from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
 	const response = await wbAPI.post(`/v4/data/cachedflowmax`, {
 		orgUUID: orgUUID,
 		from: from,
