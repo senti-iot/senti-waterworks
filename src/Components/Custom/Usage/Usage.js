@@ -12,7 +12,7 @@ import cx from 'classnames'
 import { useLocalization } from 'Hooks'
 // import PopperBubble from './PopperBubble'
 import T from 'Components/Typography/T'
-import { daFormat, formatShortNumber } from 'data/functions'
+import { formatNumber, formatShortNumber } from 'data/functions'
 import usageStyle from 'Styles/usageStyle'
 import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
 import CircularLoader from 'Components/Loaders/CircularLoader'
@@ -81,7 +81,7 @@ const Usage = props => {
 							{!loading ? (
 								<>
 									<ItemG container style={{ maxWidth: '100%' }}>
-										<T>{`${t('usage.dashboardOneDay.subtitle')}: ${daFormat(oneDayUsage.reading)} m³`}</T>
+										<T>{`${t('usage.dashboardOneDay.subtitle')}: ${formatNumber(oneDayUsage.reading)} m³`}</T>
 									</ItemG>
 									<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%', display: 'flex' }}>
 										<T variant="body2" className={classes.cubicValue}>

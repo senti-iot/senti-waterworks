@@ -114,16 +114,32 @@ export function formatShortNumber(num, digits = 2, t) {
 export function formatNumber(num, digits = 3) {
 	// return num.toString()
 
-	return num ? parseFloat(num.toString().replace(',', '.')).toFixed(digits).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0
+	if (num) {
+		num = num.toString().replace(',', '.')
+		const len = num.toString().split('.')[0].length;
+
+		if (len === 1) {
+			digits = 3;
+		} else if (len === 2) {
+			digits = 2;
+		} else if (len >= 3) {
+			digits = 1;
+		}
+
+		//return parseFloat(num).toFixed(digits).replace('.', ',') //.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+		return Intl.NumberFormat('da-DK', { minimumFractionDigits: 0, maximumFractionDigits: digits }).format(num);
+	}
+
+	return num;
 }
 /**
  * Danish Locale
  */
-export const daFormat = (value) =>
-	new Intl.NumberFormat('da-DK', {
-		// style: 'currency',
-		// currency: 'INR'
-	}).format(value);
+// export const daFormat = (value) =>
+// 	new Intl.NumberFormat('da-DK', {
+// 		// style: 'currency',
+// 		// currency: 'INR'
+// 	}).format(value);
 /**
  * Email validator
  */
