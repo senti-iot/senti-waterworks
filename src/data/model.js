@@ -244,15 +244,15 @@ export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 		/**
 		 * Empty bar
 		 */
-		if (!admin) {
-			let fake = {}
-			fake.className = 'waterUsageB'
-			fake.value = 0
-			fake.unit = ''
-			fake.type = ''
-			fake.hidden = true
-			waterusage.push(fake)
-		}
+		// if (!admin) {
+		// 	let fake = {}
+		// 	fake.className = 'waterUsageB'
+		// 	fake.value = 0
+		// 	fake.unit = ''
+		// 	fake.type = ''
+		// 	fake.hidden = true
+		// 	waterusage.push(fake)
+		// }
 		/**
 		 * Average
 		 */
