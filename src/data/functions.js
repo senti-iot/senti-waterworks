@@ -122,8 +122,10 @@ export function formatNumber(num, digits = 3) {
 			digits = 3;
 		} else if (len === 2) {
 			digits = 2;
-		} else if (len >= 3) {
+		} else if (len === 3) {
 			digits = 1;
+		} else if (len >= 4) {
+			digits = 0;
 		}
 
 		//return parseFloat(num).toFixed(digits).replace('.', ',') //.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
