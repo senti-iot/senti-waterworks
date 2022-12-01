@@ -137,7 +137,7 @@ const DeviceTable = (props) => {
 	}
 	const bodyStructure = row => {
 		return <Fragment>
-			<TC label={row.uuname} />
+			<TC label={row.device.uuname} />
 			<TC label={row.name} />
 			<TC label={row.user?.fullName}/>
 			<TC label={row.streetName} />
