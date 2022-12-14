@@ -67,35 +67,37 @@ const Usage = props => {
 	return (
 		<>
 			<Grid container className={classes.container}>
-				<ItemG xs={sInst < 2 ? 4 : 0} className={sInst < 2 ? columnClasses(0) : columnClasses(3)}>
-					<Collapse in={sInst < 2}
-						classes={{
-							entered: classes.clientInfoCont,
-							wrapper: classes.clientInfoCont,
-						}}
-					>
-						<ItemG container style={{ height: '100%' }}>
-							<ItemG xs container style={{ maxWidth: '100%' }}>
-								<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
+				{sInst < 2 ? (
+					<ItemG xs={4} className={sInst < 2 ? columnClasses(0) : columnClasses(3)}>
+						<Collapse in={sInst < 2}
+							classes={{
+								entered: classes.clientInfoCont,
+								wrapper: classes.clientInfoCont,
+							}}
+						>
+							<ItemG container style={{ height: '100%' }}>
+								<ItemG xs container style={{ maxWidth: '100%' }}>
+									<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
+								</ItemG>
+								{!loading ? (
+									<>
+										<ItemG container style={{ maxWidth: '100%' }}>
+											<T>{`${t('usage.dashboardOneDay.subtitle')}: ${formatNumber(oneDayUsage.reading)} m³`}</T>
+										</ItemG>
+										<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%', display: 'flex' }}>
+											<T variant="body2" className={classes.cubicValue}>
+												{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
+												<span className={classes.cubicValueUnit}>
+													{unit()}
+												</span>
+											</T>
+										</ItemG>
+									</>
+								) : <CircularLoader fill />}
 							</ItemG>
-							{!loading ? (
-								<>
-									<ItemG container style={{ maxWidth: '100%' }}>
-										<T>{`${t('usage.dashboardOneDay.subtitle')}: ${formatNumber(oneDayUsage.reading)} m³`}</T>
-									</ItemG>
-									<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%', display: 'flex' }}>
-										<T variant="body2" className={classes.cubicValue}>
-											{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
-											<span className={classes.cubicValueUnit}>
-												{unit()}
-											</span>
-										</T>
-									</ItemG>
-								</>
-							) : <CircularLoader fill />}
-						</ItemG>
-					</Collapse>
-				</ItemG>
+						</Collapse>
+					</ItemG>
+				) : null}
 				<ItemG container xs={sInst < 2 ? 4 : 6} className={sInst < 2 ? columnClasses(1) : columnClasses(0)}>
 					<ItemG container style={{ maxWidth: '100%' }}>
 						<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
