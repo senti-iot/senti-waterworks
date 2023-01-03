@@ -82,15 +82,17 @@ const Usage = props => {
 								{!loading ? (
 									<>
 										<ItemG container style={{ maxWidth: '100%' }}>
-											<T>{`${t('usage.dashboardOneDay.subtitle')}: ${formatNumber(oneDayUsage.reading)} m³`}</T>
+											<T>{`${t('usage.dashboardOneDay.subtitle')}: ${oneDayUsage.reading !== undefined ? formatNumber(oneDayUsage.reading) : '-'} m³`}</T>
 										</ItemG>
 										<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%', display: 'flex' }}>
-											<T variant="body2" className={classes.cubicValue}>
-												{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
-												<span className={classes.cubicValueUnit}>
-													{unit()}
-												</span>
-											</T>
+											{oneDayUsage.reading !== undefined ? (
+												<T variant="body2" className={classes.cubicValue}>
+													{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
+													<span className={classes.cubicValueUnit}>
+														{unit()}
+													</span>
+												</T>
+											) : <></>}
 										</ItemG>
 									</>
 								) : <CircularLoader fill />}
