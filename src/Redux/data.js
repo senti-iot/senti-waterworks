@@ -350,10 +350,12 @@ export const adminData = () =>
 				oneDayReading = await getCachedReadingData(orgId, f, t, uuids)
 			}
 		} else {
+			const uuids = installations.map(installation => installation.deviceUUID)
+
 			waterUsageData = await getCachedTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo)
 			waterUsagePrevData = await getCachedTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo)
 			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo)
-			waterUsageDataPerson = await getWaterUsagePerPerson(orgId, suFrom.clone().subtract(1, 'day'), suTo)
+			waterUsageDataPerson = await getWaterUsagePerPerson(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
 
 			// temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo)
 			// temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo)
