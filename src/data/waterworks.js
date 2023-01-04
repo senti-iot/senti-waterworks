@@ -184,6 +184,20 @@ export const getCachedMaxFlowData = async (orgUUID, from, to, uuids) => {
 	return response.ok ? response.data : []
 }
 
+export const getWaterUsagePerPerson = async (orgUUID, from, to, uuids) => {
+	from = moment(from).format('YYYY-MM-DD HH:mm:ss')
+	to = moment(to).format('YYYY-MM-DD HH:mm:ss')
+
+	const response = await wbAPI.post(`/v4/data/waterusageperson`, {
+		orgUUID: orgUUID,
+		from: from,
+		to: to,
+		uuids: uuids
+	})
+
+	return response.ok ? response.data : []
+}
+
 export const getPriceList = async (orgId) => {
 	let data = await wbAPI.get(`/settings/price/${orgId}`).then(rs => rs.data)
 	return data

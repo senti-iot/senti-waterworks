@@ -19,14 +19,10 @@ const dispSetBarData = (data, loading) => ({
  * Set Arc Data
  * @param {Array} wsUsage
  */
-export const setBarData = async (wsUsage) =>
+export const setBarData = async (wsUsage, wsUsagePerson) =>
 	async (dispatch, getState) => {
 		let mUnit = getState().settings.mUnit
-		let noOfAdults = getState().settings.user?.aux.sentiWaterworks.extendedProfile.noOfAdults
-		let noOfChildren = getState().settings.user?.aux.sentiWaterworks.extendedProfile.noOfChildren
-		let noOfPersons = noOfAdults + noOfChildren
-
-		let barData = genNBarData(wsUsage, noOfPersons, mUnit)
+		let barData = genNBarData(wsUsage, wsUsagePerson, mUnit)
 
 		dispatch(dispSetBarData(barData, false))
 	}

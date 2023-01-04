@@ -7,7 +7,7 @@ import { setPriceUsageData } from 'Redux/charts/priceUsageData'
 import { setLineData } from 'Redux/charts/lineData'
 import { setBarData } from 'Redux/charts/barData'
 import { getFullInstallation, getInstallation } from 'data/installations'
-import { getWaterUsageByHour, getWaterUsageByDay, getReadingUsage, getCachedReadingData, getBenchmarkUsageByDay, getBenchmarkUsageByHour, getBenchmarkUsageByUUIDs, getCachedTotalVolumeData, getCachedMinWTemperatureData, getCachedMinATemperatureData, getCachedMinFlowData, getCachedMaxFlowData, getInstallations, getDevices } from 'data/waterworks'
+import { getWaterUsageByHour, getWaterUsageByDay, getReadingUsage, getCachedReadingData, getBenchmarkUsageByDay, getBenchmarkUsageByHour, getBenchmarkUsageByUUIDs, getCachedTotalVolumeData, getCachedMinWTemperatureData, getCachedMinATemperatureData, getCachedMinFlowData, getCachedMaxFlowData, getInstallations, getDevices, getWaterUsagePerPerson } from 'data/waterworks'
 import { getAllUsers } from 'data/users'
 import { getAlarmsV1, getAlarmV1, getNotificationsV1 } from 'data/alarms'
 // import { genBenchmarkAll } from 'data/model'
@@ -315,7 +315,7 @@ export const adminData = () =>
 		let suTo = to.clone()
 		let suFrom = from.clone()
 		let waterUsageData, waterUsagePrevData, benchmarkData, temperatureWData, temperatureWPrevData, temperatureAData,
-			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData, oneDayReading = []
+			temperatureAPrevData, minFlowData, minFlowPrevData, maxFlowData, maxFlowPrevData, readingsData, oneDayReading, waterUsageDataPerson = []
 
 		if (selectedInstallations.length !== installations.length) {
 			let uuids = installations.filter(installation => selectedInstallations.includes(installation.uuid)).map(installation => installation.deviceUUID)
@@ -327,6 +327,7 @@ export const adminData = () =>
 			waterUsagePrevData = await getCachedTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo, uuids)
 			// benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo, uuids)
 			benchmarkData = await getBenchmarkUsageByUUIDs(alldeviceUUIDS, from, suTo)
+			waterUsageDataPerson = await getWaterUsagePerPerson(orgId, suFrom.clone().subtract(1, 'day'), suTo, uuids)
 
 			if (selectedInstallations.length < 2) {
 				temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo, uuids)
@@ -352,6 +353,7 @@ export const adminData = () =>
 			waterUsageData = await getCachedTotalVolumeData(orgId, suFrom.clone().subtract(1, 'day'), suTo)
 			waterUsagePrevData = await getCachedTotalVolumeData(orgId, prevFrom.clone().subtract(1, 'day'), prevTo)
 			benchmarkData = await getBenchmarkUsageByDay(orgId, from, suTo)
+			waterUsageDataPerson = await getWaterUsagePerPerson(orgId, suFrom.clone().subtract(1, 'day'), suTo)
 
 			// temperatureWData = await getCachedMinWTemperatureData(orgId, suFrom, suTo)
 			// temperatureWPrevData = await getCachedMinWTemperatureData(orgId, prevFrom, prevTo)
@@ -411,7 +413,7 @@ export const adminData = () =>
 
 		//#region Final bar Data
 
-		dispatch(await setBarData(waterUsageData))
+		dispatch(await setBarData(waterUsageData, waterUsageDataPerson))
 
 		//Dispatch that we have the data
 
@@ -465,6 +467,7 @@ export const userData = () =>
 		let waterUsagePrevData = timeType > 1 ? await getWaterUsageByDay(prevFrom, prevTo, deviceUUID ? [deviceUUID] : null) : await getWaterUsageByHour(prevFrom, prevTo, deviceUUID ? [deviceUUID] : null)
 		let readingsData = await getReadingUsage(from, to, deviceUUID ? [deviceUUID] : null)
 		let benchmarkData = timeType > 1 ? await getBenchmarkUsageByDay(orgId, from, to) : await getBenchmarkUsageByHour(orgId, from, to)
+		let waterUsageDataPerson = await getWaterUsagePerPerson(orgId, from, to, [deviceUUID])
 
 		let f = moment().subtract(2, 'day').startOf('day')
 		let t = moment()
@@ -490,7 +493,7 @@ export const userData = () =>
 		//#endregion
 		//#region Generate bars Data
 
-		dispatch(await setBarData(waterUsageData))
+		dispatch(await setBarData(waterUsageData, waterUsageDataPerson))
 
 		//#endregion
 		//#region Generate Average Data
