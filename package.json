@@ -14,7 +14,7 @@
 		"autosuggest-highlight": "^3.1.1",
 		"babel-eslint": "^10.1.0",
 		"classnames": "^2.2.6",
-		"d3": "^5.16.0",
+		"d3": "^7.8.2",
 		"file-saver": "^2.0.5",
 		"for-each": "^0.3.3",
 		"hex-to-rgba": "^2.0.1",
