@@ -1,9 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import { primaryColor, secondaryColor, hoverColor, /* headerColor */ } from 'Styles/mainStyles'
 import { teal, red, grey } from '@material-ui/core/colors'
 
 const theme = color => {
-	let theme = createMuiTheme({
+	let theme = createTheme({
 		overrides: {
 			MuiTooltip: {
 				tooltipPlacementRight: {

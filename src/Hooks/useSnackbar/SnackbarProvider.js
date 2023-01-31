@@ -56,7 +56,11 @@ const SnackbarProvider = ({ children }) => {
 				anchorOrigin={{ vertical: 'bottom', horizontal: snackbarLocation }}
 				open={sOpen}
 				onClose={sClose}
-				onExited={handleNextS}
+				TransitionProps={{
+					onExited: () => {
+						handleNextS()
+					}
+			    }}
 				ContentProps={{
 					'aria-describedby': 'message-id',
 				}}

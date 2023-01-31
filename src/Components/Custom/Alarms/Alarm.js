@@ -17,7 +17,7 @@ const Alarm = () => {
 	const t = useLocalization()
 	//Redux
 	const alarm = useSelector(s => s.data.alarm)
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 	//State
 
 	//Const

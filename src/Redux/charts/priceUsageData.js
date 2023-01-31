@@ -1,4 +1,4 @@
-import { getPriceList } from 'data/devices'
+import { getPriceList } from 'data/waterworks'
 import moment from 'moment'
 /**
  * Actions
@@ -53,7 +53,7 @@ export const setPriceUsageData = async (wsUsage, benchmarkData, oneDayReading) =
 			return total
 		}, 0)
 
-		if (oneDayReading.length > 0) {
+		if (oneDayReading?.length > 1) {
 			let sortArr = oneDayReading.sort((a, b) => moment(b.datetime).valueOf() - moment(a.datetime).valueOf())
 			oneDayUsage.value = sortArr[0].value - sortArr[1].value
 			oneDayUsage.reading = sortArr[0].value

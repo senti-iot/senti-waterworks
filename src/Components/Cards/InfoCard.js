@@ -41,7 +41,7 @@ const InfoCard = (props) => {
 	const { menuExpand } = props
 
 	const renderTopAction = () => {
-		return <ItemG container justify={'flex-end'}>
+		return <ItemG container justifyContent={'flex-end'}>
 			{props.topAction}
 			{!menuExpand ? null : <IconButton variant={'text'}
 				onClick={handleExpandClick}

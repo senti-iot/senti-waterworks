@@ -141,7 +141,10 @@ const AlarmsTable = (props) => {
 			dataKeySec={'uuid'}
 		/>
 	}
-	const handleOpenCreate = () => dispatch(openCA())
+	const handleOpenCreate = async () => {
+		dispatch(await getAdminDevices())
+		dispatch(openCA())
+	}
 
 	const renderSelectedToolbar = () => {
 		return <div className={classes.chipContainer}>

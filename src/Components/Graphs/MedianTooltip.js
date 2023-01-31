@@ -59,7 +59,7 @@ const MedianTooltip = (props) => {
 						<T varinat={'body2'}>{moment(props.tooltip.date).format('ll')}</T>
 					</ItemG>
 				</ItemG>
-				<ItemG xs={6} container justify={'center'} alignItems={'flex-end'}>
+				<ItemG xs={6} container justifyContent={'center'} alignItems={'flex-end'}>
 					{renderIcon(props.id, props.tooltip)}
 					{/* <T variant={'h5'}>{`${props.tooltip.value} m³`}</T>
 					<img src={Droplet} alt={'water drop'} height={36} width={36} style={{ margin: 4 }} /> */}

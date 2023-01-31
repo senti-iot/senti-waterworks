@@ -21,7 +21,7 @@ const Step2 = props => {
 	}
 
 	return (
-		<ItemG xs={12} container justify={'center'}>
+		<ItemG xs={12} container justifyContent={'center'}>
 			<ItemG container xs={12}>
 				{/* <NeedAccountT style={{ width: 300 }}>
 					{t('signup.form.dataAutoFill')}
@@ -134,7 +134,7 @@ const Step2 = props => {
 				/>
 				{/* </ItemG> */}
 			</ItemG>
-			<ItemG xs={12} container justify={'center'}>
+			<ItemG xs={12} container justifyContent={'center'}>
 				<NextStepButton variant={'contained'} fullWidth color={'secondary'} onClick={handleNextStep}>
 					{t('actions.confirm')}
 				</NextStepButton>

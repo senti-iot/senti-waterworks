@@ -49,7 +49,8 @@ const AssignDevice = props => {
 	const classes = assignStyles()
 
 	//Redux
-	const sensors = useSelector(s => s.data.devices)
+	const sensors = useSelector(s => s.data.adminDevices)
+	console.log(sensors);
 
 	//State
 	const [page, setPage] = useState(0)
@@ -133,7 +134,7 @@ const AssignDevice = props => {
 									{t('sidebar.users')}
 								</Typography>
 							</ItemG>
-							<ItemG xs={12} container alignItems={'center'} justify={'center'}>
+							<ItemG xs={12} container alignItems={'center'} justifyContent={'center'}>
 								<Search
 									noAbsolute
 									fullWidth

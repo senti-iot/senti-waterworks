@@ -212,7 +212,7 @@ export const genBarData = (currentData, prevData, noOfPersons) => {
 	}
 
 }
-export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
+export const genNBarData = (waterusageData, wsUsagePerson, unit) => {
 	let waterusage = []
 
 	//#region WaterUsage/Reading
@@ -244,15 +244,15 @@ export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 		/**
 		 * Empty bar
 		 */
-		if (!admin) {
-			let fake = {}
-			fake.className = 'waterUsageB'
-			fake.value = 0
-			fake.unit = ''
-			fake.type = ''
-			fake.hidden = true
-			waterusage.push(fake)
-		}
+		// if (!admin) {
+		// 	let fake = {}
+		// 	fake.className = 'waterUsageB'
+		// 	fake.value = 0
+		// 	fake.unit = ''
+		// 	fake.type = ''
+		// 	fake.hidden = true
+		// 	waterusage.push(fake)
+		// }
 		/**
 		 * Average
 		 */
@@ -266,16 +266,14 @@ export const genNBarData = (waterusageData, noOfPersons, unit, admin) => {
 		/**
 		 * Usage Per person
 		 */
-		if (!admin) {
-			let nOP = noOfPersons > 0 ? noOfPersons : 1
-			let perPerson = {}
-			perPerson.className = 'waterUsageD'
-			perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
-			perPerson.value = unit === 'm3' ? perPerson.value : perPerson.value * 1000
-			perPerson.unit = unit === 'm3' ? 'm³' : 'L'
-			perPerson.type = 'chartTable.waterusage.line4'
-			waterusage.push(perPerson)
-		}
+		let perPerson = {}
+		perPerson.className = 'waterUsageD'
+		// perPerson.value = parseFloat(((values.reduce((a, b) => a + b, 0) / values.length) / nOP).toFixed(3))
+		perPerson.value = parseFloat(wsUsagePerson.value).toFixed(3)
+		perPerson.value = unit === 'm3' ? perPerson.value : perPerson.value * 1000
+		perPerson.unit = unit === 'm3' ? 'm³' : 'L'
+		perPerson.type = 'chartTable.waterusage.line4'
+		waterusage.push(perPerson)
 		//#endregion
 		return {
 			waterusage: waterusage,

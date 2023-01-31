@@ -32,7 +32,7 @@ const DeviceTableExport = (props) => {
 	})
 	const tags = useSelector(s => s.tagManager.tags)
 
-	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedExportInstallations)
 	const filters = useSelector(s => s.appState.filters.devices)
 
 	//State
@@ -48,8 +48,8 @@ const DeviceTableExport = (props) => {
 
 	//useEffects
 	useEffect(() => {
-		setSelDev(selectedDevices)
-	}, [selectedDevices])
+		setSelDev(selectedInstallations)
+	}, [selectedInstallations])
 
 	//Handlers
 	const setSelDevices = devices => dispatch(setSelectedExportDevices(devices))
@@ -138,7 +138,7 @@ const DeviceTableExport = (props) => {
 			dispatch(setTagFilter(-1))
 		}
 		else {
-			if (selectedDevices.length !== selDev) {
+			if (selectedInstallations.length !== selDev) {
 				// dispatch(setTagFilter(-1))
 			}
 			setSelDevices(selDev)
@@ -166,7 +166,7 @@ const DeviceTableExport = (props) => {
 		>
 			<DBox>
 				<TitleContainer>
-					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedDevices')}</T>
+					<T variant={'h4'} style={{ fontWeight: 500, letterSpacing: 0.5 }}>{t('charts.selectedInstallations')}</T>
 					<ItemG container style={{ width: 'auto' }}>
 						<ItemG>
 							<DevicesSelected>{selDev.length}</DevicesSelected>

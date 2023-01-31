@@ -12,9 +12,10 @@ import cx from 'classnames'
 import { useLocalization } from 'Hooks'
 // import PopperBubble from './PopperBubble'
 import T from 'Components/Typography/T'
-import { daFormat, formatShortNumber } from 'data/functions'
+import { formatNumber, formatShortNumber } from 'data/functions'
 import usageStyle from 'Styles/usageStyle'
 import { HeaderText } from 'Components/Custom/Styles/arcGraphStyles'
+import CircularLoader from 'Components/Loaders/CircularLoader'
 
 const Usage = props => {
 	const t = useLocalization()
@@ -25,9 +26,10 @@ const Usage = props => {
 	// const [popperOpen, setPopperOpen] = useState(false)
 
 	//Redux
+	const loading = useSelector(s => s.priceUsageData.loading)
 	const avgData = useSelector(s => s.priceUsageData.usage)
 	const oneDayUsage = useSelector(s => s.priceUsageData.oneDayUsage)
-	const sDev = useSelector(s => s.appState.selectedDevices.length)
+	const sInst = useSelector(s => s.appState.selectedInstallations.length)
 	const mUnit = useSelector(s => s.settings.mUnit)
 	const colorTheme = useSelector((state) => state.settings.colorTheme)
 
@@ -61,64 +63,76 @@ const Usage = props => {
 	const handleOnClose = () => {
 		setFsDialogOpen(false)
 	}
-	// alert(sDev)
+
 	return (
 		<>
 			<Grid container className={classes.container}>
-				<ItemG xs={sDev < 2 ? 4 : 0} className={sDev < 2 ? columnClasses(0) : columnClasses(3)}>
-					<Collapse in={sDev < 2}
-						classes={{
-							entered: classes.clientInfoCont,
-							wrapper: classes.clientInfoCont,
-						}}
-					>
-						<ItemG container style={{ height: '100%' }}>
-
-							<ItemG xs container style={{ maxWidth: '100%' }}>
-								<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
+				{sInst < 2 ? (
+					<ItemG xs={4} className={sInst < 2 ? columnClasses(0) : columnClasses(3)}>
+						<Collapse in={sInst < 2}
+							classes={{
+								entered: classes.clientInfoCont,
+								wrapper: classes.clientInfoCont,
+							}}
+						>
+							<ItemG container style={{ height: '100%' }}>
+								<ItemG xs container style={{ maxWidth: '100%' }}>
+									<HeaderText variant={'h6'}>{t('usage.dashboardOneDay.title')}</HeaderText>
+								</ItemG>
+								{!loading ? (
+									<>
+										<ItemG container style={{ maxWidth: '100%' }}>
+											<T>{`${t('usage.dashboardOneDay.subtitle')}: ${oneDayUsage.reading !== undefined ? formatNumber(oneDayUsage.reading) : '-'} m³`}</T>
+										</ItemG>
+										<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%', display: 'flex' }}>
+											{oneDayUsage.reading !== undefined ? (
+												<T variant="body2" className={classes.cubicValue}>
+													{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
+													<span className={classes.cubicValueUnit}>
+														{unit()}
+													</span>
+												</T>
+											) : <></>}
+										</ItemG>
+									</>
+								) : <CircularLoader fill />}
 							</ItemG>
-							<ItemG container style={{ maxWidth: '100%' }}>
-								<T>{`${t('usage.dashboardOneDay.subtitle')}: ${daFormat(oneDayUsage.reading)} m³`}</T>
-							</ItemG>
-							<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%', display: 'flex' }}>
-								<T variant="body2" className={classes.cubicValue}>
-									{(mUnit === 'm3' ? formatShortNumber(oneDayUsage.value, 2, t) : formatShortNumber(oneDayUsage.value * 1000, 0, t))}
-									<span className={classes.cubicValueUnit}>
-										{unit()}
-									</span>
-								</T>
-							</ItemG>
-						</ItemG>
-					</Collapse>
-				</ItemG>
-				<ItemG container xs={sDev < 2 ? 4 : 6} className={sDev < 2 ? columnClasses(1) : columnClasses(0)}>
+						</Collapse>
+					</ItemG>
+				) : null}
+				<ItemG container xs={sInst < 2 ? 4 : 6} className={sInst < 2 ? columnClasses(1) : columnClasses(0)}>
 					<ItemG container style={{ maxWidth: '100%' }}>
 						<HeaderText variant={'h6'}>{t('usage.dashboardUsage.dailyConsumption')}</HeaderText>
 					</ItemG>
 
-					<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
-						<T variant="body2" className={classes.cubicValue}>
-							{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
-							<span className={classes.cubicValueUnit}>
-								{unit()}
-							</span>
-						</T>
-					</ItemG>
+					{!loading ? (
+						<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
+							<T variant="body2" className={classes.cubicValue}>
+								{(mUnit === 'm3' ? formatShortNumber(avgData.waterusagem3, 2, t) : formatShortNumber(avgData.waterusageL, 0, t))}
+								<span className={classes.cubicValueUnit}>
+									{unit()}
+								</span>
+							</T>
+						</ItemG>
+					) : <CircularLoader fill />}
 				</ItemG>
-				<ItemG container xs={sDev < 2 ? 4 : 6} className={columnClasses(1)}>
+				<ItemG container xs={sInst < 2 ? 4 : 6} className={columnClasses(1)}>
 					<ItemG container style={{ maxWidth: '100%' }}>
 						<HeaderText variant={'h6'}>{t('usage.dashboardUsage.comparison')}</HeaderText>
 					</ItemG>
-					<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
-						<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
-							{(mUnit === 'm3' ?
-								formatShortNumber(avgData.benchmarkm3, 2, t) :
-								formatShortNumber(avgData.benchmarkL, 0, t))}
-							<span className={classes.cubicValueUnit}>
-								{unit()}
-							</span>
-						</T>
-					</ItemG>
+
+					{!loading ? (
+						<ItemG container alignItems={'flex-end'} style={{ maxWidth: '100%' }}>
+							<T variant="body2" className={classes.cubicValue} style={{ color: '#F7DC00' }}>
+								{(mUnit === 'm3' ?
+									formatShortNumber(avgData.benchmarkm3, 2, t) :
+									formatShortNumber(avgData.benchmarkL, 0, t))}
+								<span className={classes.cubicValueUnit}>
+									{unit()}
+								</span>
+							</T>
+						</ItemG>
+					) : <CircularLoader fill />}
 				</ItemG>
 				<IconButton size="small" className={classes.callMade} onClick={() => setFsDialogOpen(true)}>
 					<CallMade />

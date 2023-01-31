@@ -59,10 +59,11 @@ const EndUserContainer = props => {
 	const priceRef = useRef(null)
 
 	//Redux
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
-	const devices = useSelector(s => s.data.devices)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 	// const devices = useSelector(s => s.data.devices)
-	const sDev = useSelector(s => s.appState.selectedDevices.length)
+	const installations = useSelector(s => s.data.installations)
+	// const devices = useSelector(s => s.data.devices)
+	const sDev = useSelector(s => s.appState.selectedInstallations.length)
 	const period = useSelector(s => s.dateTime.period)
 	// const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	// const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
@@ -73,12 +74,12 @@ const EndUserContainer = props => {
 	const [chart, setChart] = useState('waterusage')
 	const [loading, setLoading] = useState(true)
 
-
+	// console.log('EndUserContainer.js: selectedInstallations: ', selectedInstallations)
 	//Const
 
 	//useCallbacks
 	const prevPeriod = usePrevious(period)
-	const prevSelectedDevices = usePrevious(selectedDevices)
+	const prevSelectedInstallations = usePrevious(selectedInstallations)
 
 	//useEffects
 	useEffect(() => {
@@ -86,8 +87,8 @@ const EndUserContainer = props => {
 			setLoading(true)
 			dispatch(setHaveData(false))
 		}
-		if ((selectedDevices.length !== prevSelectedDevices.length || selectedDevices[0] !== prevSelectedDevices[0]) && !loading) {
-			if (selectedDevices.length > 11) {
+		if ((selectedInstallations.length !== prevSelectedInstallations.length || selectedInstallations[0] !== prevSelectedInstallations[0]) && !loading) {
+			if (selectedInstallations.length > 11) {
 				setChart('waterusage')
 			}
 			setLoading(true)
@@ -102,10 +103,10 @@ const EndUserContainer = props => {
 			reloadData()
 		}
 
-	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedDevices, selectedDevices, unitHasChanged])
+	}, [dispatch, haveData, loading, period, prevPeriod, prevSelectedInstallations, selectedInstallations, unitHasChanged])
 
 	useEffect(() => {
-		if (!haveData && loading && devices.length > 0) {
+		if (!haveData && loading && installations.length > 0) {
 			const getNewData = async () => dispatch(await getNData())
 			const loadData = async () => {
 				await getNewData()
@@ -116,7 +117,7 @@ const EndUserContainer = props => {
 		return async() => {
 			await dispatch(setHaveData(false))
 		}
-	}, [dispatch, loading, haveData, devices.length])
+	}, [dispatch, loading, haveData, installations.length])
 
 
 	//Handlers
@@ -135,7 +136,7 @@ const EndUserContainer = props => {
 						<Usage parentRef={usageRef} />
 					</BPaper>
 				</ItemG>
-				{orgSettings.priceInfo === 0 ? null : <ItemG xs={4} style={{ height: '100%' }}>
+				{orgSettings.priceInfo === undefined || orgSettings.priceInfo === 0 ? null : <ItemG xs={4} style={{ height: '100%' }}>
 					<BPaper ref={priceRef}>
 						<PriceChart parentRef={priceRef} />
 					</BPaper>

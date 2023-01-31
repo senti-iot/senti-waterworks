@@ -34,7 +34,7 @@ function HeaderLinks(props) {
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 	const notifications = useSelector(s => s.data.notifications)
 
 	const redux = {
@@ -121,11 +121,11 @@ function HeaderLinks(props) {
 				</Hidden>
 				}>
 				<Hidden smDown>
-					{`${t('charts.selectedInstallations')}: ${selectedDevices.length}`}
+					{`${t('charts.selectedInstallations')}: ${selectedInstallations.length}`}
 				</Hidden>
 				<Hidden smUp>
 					<ItemG container style={{ flexWrap: "noWrap" }} justifyContent="space-between">
-						{selectedDevices.length} <Devices style={{ marginLeft: 8 }}/>
+						{selectedInstallations.length} <Devices style={{ marginLeft: 8 }}/>
 					</ItemG>
 				</Hidden>
 			</Button>
@@ -154,7 +154,7 @@ function HeaderLinks(props) {
 					<ExpandMore className={cx(classes.expand, {
 						[classes.expandOpen]: openProfile,
 					})} />
-					{user ? <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${user.firstName}`}</T> : <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${'Not logged in'}`}</T>}
+					{user ? <T style={{ color: '#fff', textTransform: 'none', margin: 8 }}>{`${user.firstName}`}</T> : null}
 					{user ? user.img ? <img src={user.img} alt='UserProfile' className={classes.img} /> :
 						<Gravatar default='mp' email={user.email} className={classes.img} size={36} /> :
 						<Gravatar default='mp' email={''} className={classes.img} size={36} />}
@@ -210,7 +210,7 @@ function HeaderLinks(props) {
 		xs: isSWAdmin ? 6 : 3,
 	}
 	return (
-		<Grid item container xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justify={'flex-end'} alignItems={'center'} classes={{ container: classes.headerMargin }}>
+		<Grid item container xs={rsp.xs} md={rsp.md} lg={rsp.lg} xl={rsp.xl} justifyContent={'flex-end'} alignItems={'center'} classes={{ container: classes.headerMargin }}>
 			{/* <ItemG>
 					{renderChristmasIcon()}
 				</ItemG> */}

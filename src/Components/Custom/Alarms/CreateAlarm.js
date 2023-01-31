@@ -4,7 +4,7 @@ import CreateAlarmNotificationForm from 'Components/Custom/Alarms/CreateAlarmNot
 import DialogHeader from 'Components/Custom/PageHeader/DialogHeader'
 import TabPanel from 'Components/Custom/Tabs/TabPanel'
 import { createAlarm as cAlarmFunc } from 'data/alarms'
-import { getDevice } from 'data/devices'
+import { getDevice } from 'data/waterworks'
 import { useLocalization, useSelector } from 'Hooks'
 import React from 'react'
 import { useState } from 'react'

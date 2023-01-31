@@ -158,11 +158,11 @@ function Login() {
 					<MobileContainer>
 						<LeftPanel /* className={classes.paper} */>
 							<InputContainer>
-								<ItemG xs={12} container justify={'center'}>
+								<ItemG xs={12} container justifyContent={'center'}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
 								<FadeLoader on={loggingIn} onChange={handleLoginUser}>
-									<ItemG xs={12} container justify={'center'}>
+									<ItemG xs={12} container justifyContent={'center'}>
 
 										<Warning
 											open={Boolean(error)}
@@ -219,17 +219,17 @@ function Login() {
 											/>
 											{/* </ItemG> */}
 										</ItemG>
-										<ItemG xs={12} container justify={'center'} alignItems={'center'}>
+										<ItemG xs={12} container justifyContent={'center'} alignItems={'center'}>
 											<LoginButton variant={'contained'} fullWidth color={'secondary'} onClick={logUser}>
 												{t('actions.login')}
 											</LoginButton>
 										</ItemG>
-										<ItemG xs={12} container justify={'center'} alignItems={'center'}>
+										<ItemG xs={12} container justifyContent={'center'} alignItems={'center'}>
 											<ResetPasswordButton variant={'outlined'} fullWidth color={'secondary'} onClick={handleResetPassword}>
 												{t('login.forgotPassword')}
 											</ResetPasswordButton>
 										</ItemG>
-										{/* <ItemG xs={12} container justify={'center'} style={{ marginTop: 36 }}>
+										{/* <ItemG xs={12} container justifyContent={'center'} style={{ marginTop: 36 }}>
 											<NeedAccountT>
 												<span style={{ marginRight: 4 }}>
 													{t('login.needAnAccount1')}
@@ -248,7 +248,7 @@ function Login() {
 								</FadeLoader>
 								{/* </FadeOutLoader> */}
 							</InputContainer>
-							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
+							<Footer xs={12} container alignItems={'flex-end'} justifyContent={'center'}>
 								<FooterText>
 									{`${t('login.footer')} `}
 									<MutedButton onClick={handlePrivacy}>{t('settings.t&c.privacyPolicy')}</MutedButton>

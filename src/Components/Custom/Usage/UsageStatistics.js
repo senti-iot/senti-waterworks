@@ -80,12 +80,12 @@ const UsageStatistics = () => {
 
 	return (
 		<GridContainer className={classes.container}>
-			<ItemG xs={4} container justify={'center'}>
+			<ItemG xs={4} container justifyContent={'center'}>
 				<HeaderText variant='h4' >
 					{t('usage.waterworks.usageHouse')}
 				</HeaderText>
 			</ItemG>
-			<ItemG xs={8} container justify={'center'}>
+			<ItemG xs={8} container justifyContent={'center'}>
 				<HeaderText variant='h4'>
 					{t('usage.waterworks.usageWaterworks')}
 				</HeaderText>
@@ -104,7 +104,7 @@ const UsageStatistics = () => {
 						<ItemG xs={5}>
 							{t('usage.panel.myAverageWaterConsumption')}
 						</ItemG>
-						<ItemG container justify={'flex-end'} className={classes.value}>
+						<ItemG container justifyContent={'flex-end'} className={classes.value}>
 							<span className={classes.greenValue}>
 								{parseFloat(mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
 							</span>
@@ -116,7 +116,7 @@ const UsageStatistics = () => {
 							<ItemG xs={5}>
 								{t('usage.panel.usagePerPerson')}
 							</ItemG>
-							<ItemG container justify={'flex-end'} className={classes.secondaryValue}>
+							<ItemG container justifyContent={'flex-end'} className={classes.secondaryValue}>
 								<span className={classes.greenValue}>
 									{parseFloat((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
 								</span>
@@ -128,7 +128,7 @@ const UsageStatistics = () => {
 						<ItemG xs={5}>
 							{t('usage.panel.periodTotalCO2', { totalCO2: '1182' })}
 						</ItemG>
-						<ItemG container xs={7} justify={'flex-end'} className={classes.secondaryValue}>
+						<ItemG container xs={7} justifyContent={'flex-end'} className={classes.secondaryValue}>
 							<div style={{ borderRadius: 100, border: '3px solid white', height: 125, width: 125, position: 'relative' }}>
 								<div style={{ position: 'absolute', transform: 'translate(-50%, -50%)', left: '50%', top: '50%', whiteSpace: 'nowrap' }}>
 
@@ -191,7 +191,7 @@ const UsageStatistics = () => {
 						<ItemG xs={5}>
 							{t('usage.panel.myAverageWaterConsumption')}
 						</ItemG>
-						<ItemG container justify={'flex-end'} className={classes.value}>
+						<ItemG container justifyContent={'flex-end'} className={classes.value}>
 							<span className={classes.benchmarkValue}>
 								{parseFloat(mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
 							</span>
@@ -203,7 +203,7 @@ const UsageStatistics = () => {
 							<ItemG xs={5}>
 								{t('usage.panel.usagePerPerson')}
 							</ItemG>
-							<ItemG container justify={'flex-end'} className={classes.secondaryValue}>
+							<ItemG container justifyContent={'flex-end'} className={classes.secondaryValue}>
 								<span className={classes.benchmarkValue}>
 									{parseFloat((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
 								</span>
@@ -215,7 +215,7 @@ const UsageStatistics = () => {
 						<ItemG xs={5}>
 							{t('usage.panel.periodTotalCO2', { totalCO2: '1182' })}
 						</ItemG>
-						<ItemG container xs={7} justify={'flex-end'} className={classes.secondaryValue}>
+						<ItemG container xs={7} justifyContent={'flex-end'} className={classes.secondaryValue}>
 							<div style={{ borderRadius: 100, border: '3px solid white', height: 125, width: 125, position: 'relative' }}>
 								<div style={{ position: 'absolute', transform: 'translate(-50%, -50%)', left: '50%', top: '50%', whiteSpace: 'nowrap' }}>
 
@@ -245,7 +245,7 @@ const UsageStatistics = () => {
 						<ItemG xs={5}>
 							{t('usage.panel.myAverageWaterConsumption')}
 						</ItemG>
-						<ItemG container justify={'flex-end'} className={classes.value}>
+						<ItemG container justifyContent={'flex-end'} className={classes.value}>
 							<span className={classes.benchmarkValue}>
 								{parseFloat(mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
 							</span>
@@ -257,7 +257,7 @@ const UsageStatistics = () => {
 							<ItemG xs={5}>
 								{t('usage.panel.usagePerPerson')}
 							</ItemG>
-							<ItemG container justify={'flex-end'} className={classes.secondaryValue}>
+							<ItemG container justifyContent={'flex-end'} className={classes.secondaryValue}>
 								<span className={classes.benchmarkValue}>
 									{parseFloat((mUnit === "m3" ? avgData.waterusagem3 : avgData.waterusageL) / noOfPeople).toFixed(mUnit === 'm3' ? 2 : 0).replace('.', ',')}
 								</span>
@@ -269,7 +269,7 @@ const UsageStatistics = () => {
 						<ItemG xs={5}>
 							{t('usage.panel.periodTotalCO2', { totalCO2: '1182' })}
 						</ItemG>
-						<ItemG container xs={7} justify={'flex-end'} className={classes.secondaryValue}>
+						<ItemG container xs={7} justifyContent={'flex-end'} className={classes.secondaryValue}>
 							<div style={{ borderRadius: 100, border: '3px solid white', height: 125, width: 125, position: 'relative' }}>
 								<div style={{ position: 'absolute', transform: 'translate(-50%, -50%)', left: '50%', top: '50%', whiteSpace: 'nowrap' }}>
 

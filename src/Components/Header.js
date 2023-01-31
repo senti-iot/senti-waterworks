@@ -23,7 +23,7 @@ function Header({ ...props }) {
 	const location = useLocation()
 	//Redux
 	const org = useSelector(s => s.settings.user ? s.settings.user.org : {})
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 	const installations = useSelector(s => s.data.installations)
 
 	//State
@@ -80,9 +80,22 @@ function Header({ ...props }) {
 		/>
 	}
 	const renderAddress = () => {
-		let device = installations[installations.findIndex(f => f.deviceUUID === selectedDevices[0])]
-		if (device && device.streetName) {
-			return device.streetName + ' ' + device.streetNumber + ', ' + device.zip + ' ' + device.city
+		const installation = installations.find(i => i.uuid === selectedInstallations[0])
+		let address = '';
+		if (installation !== undefined && installation.streetName) {
+			address = installation.streetName + ' ' + installation.streetNumber + ', ' + installation.zip + ' ' + installation.city
+		}
+		if (address.length) {
+			return (
+				<>
+					<Hidden mdDown>
+						<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
+					</Hidden>
+					<T className={classes.title} variant={'h5'}>
+						{address}
+					</T>
+				</>
+			)
 		}
 		return null
 	}
@@ -107,18 +120,15 @@ function Header({ ...props }) {
 						</div>
 					</ItemG>
 				</Hidden>
-				<ItemG xs container alignItems={'center'} justify={'center'}>
+				<ItemG xs container alignItems={'center'} justifyContent={'center'}>
 
 					<T className={classes.title} variant={'h5'}>
-						{`${org.name} `}
+						{org ? org.name : null}
 					</T>
-					{selectedDevices.length < 2 ? <>
-						<Hidden mdDown>
-							<T className={classes.title} variant={'h5'} style={{ margin: "0px 6px" }}>-</T>
-						</Hidden>
-						<T className={classes.title} variant={'h5'}>
+					{selectedInstallations && selectedInstallations.length < 2 ? 
+						<>
 							{renderAddress()}
-						</T></>
+						</>
 						: null}
 
 				</ItemG>
@@ -126,7 +136,7 @@ function Header({ ...props }) {
 				<HeaderLinks t={t} history={history} />
 			</Toolbar>
 			<Toolbar className={classes.secondaryToolbar}>
-				<ItemG container alignItems={'center'} justify={'center'}>
+				<ItemG container alignItems={'center'} justifyContent={'center'}>
 
 					<ItemG xs={1} container >
 						<Button
@@ -169,7 +179,7 @@ function Header({ ...props }) {
 							</Hidden>
 						</Button>
 					</ItemG>
-					 <ItemG xs container alignItems={'center'} justify={'flex-end'}>
+					 <ItemG xs container alignItems={'center'} justifyContent={'flex-end'}>
 						{isSWAdmin ? <IconButton
 							onClick={handleOpenTagFilter}
 							className={classes.toolbarButton}>

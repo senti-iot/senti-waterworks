@@ -67,7 +67,7 @@ const renderDeviceCount = (t, dCount, selectedDCount) => {
 }
 const DeviceTableWidget = () => {
 	const t = useLocalization()
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 	const devices = useSelector(s => s.data.devices)
 	const [openTable, setOpenTable] = useState(false)
 
@@ -76,8 +76,8 @@ const DeviceTableWidget = () => {
 	return (
 		<>
 			<DeviceTable openTable={openTable} setOpenTable={setOpenTable} />
-			<Title variant={'h5'}>{t('charts.selectedDevices')}</Title>
-			<Text>{`${t('charts.seeing')}: ${renderDeviceCount(t, devices.length, selectedDevices.length)} ${t('charts.devices')}`}</Text>
+			<Title variant={'h5'}>{t('charts.selectedInstallations')}</Title>
+			<Text>{`${t('charts.seeing')}: ${renderDeviceCount(t, devices.length, selectedInstallations.length)} ${t('charts.devices')}`}</Text>
 			<FilterButton onClick={handleOpenTable} variant={'contained'}>{t('actions.filter')}</FilterButton>
 		</>
 	)

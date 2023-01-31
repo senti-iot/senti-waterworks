@@ -216,7 +216,7 @@ const GroupToolbar = props => {
 	const handleCloseDeleteDialog = () => setOpenDelete(false)
 	const handleDelete = () => {
 		Promise.all([props.tags.map(u => {
-			return deleteTag({ tagUUID: u });
+			return deleteTag(u);
 		})]).then(async () => {
 			setOpenDelete(false)
 			// setSelDev([])

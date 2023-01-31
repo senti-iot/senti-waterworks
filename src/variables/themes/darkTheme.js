@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import { secondaryColor, hoverColor, /* headerColor */ } from 'Styles/mainStyles'
 import { colors } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
@@ -7,7 +7,7 @@ import { grey } from '@material-ui/core/colors';
 
 const theme = (color) => {
 
-	let theme = createMuiTheme({
+	let theme = createTheme({
 		typography: {
 			useNextVariants: true,
 			suppressDeprecationWarnings: true,

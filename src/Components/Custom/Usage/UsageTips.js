@@ -141,7 +141,7 @@ const UsageTips = props => {
 				open={descriptionOpen}
 				TransitionComponent={SlideT}
 				onClose={() => setDescriptionOpen(false)}
-				onBackdropClick={() => setDescriptionOpen(false)}
+				// onBackdropClick={() => setDescriptionOpen(false)}
 				keepMounted
 				disablePortal
 				PaperComponent={BPaper}

@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogActions, Button, Checkbox, FormGroup, Form
 import GridContainer from 'Components/Containers/GridContainer'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
-import {  getExportData } from 'data/devices'
+import {  getExportData } from 'data/waterworks'
 import DeviceTableExportWidget from 'Components/Custom/DevicesTable/DeviceTableExportWidget'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 import styled from 'styled-components'
@@ -30,7 +30,7 @@ export const ExportModule = props => {
 	//Hooks
 	const t = useLocalization()
 	//Redux
-	const selectedDevices = useSelector(s => s.appState.selectedExportDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedExportInstallations)
 	const orgUUID = useSelector(s => s.settings.user?.org.uuid)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 	// const language = useSelector(s => s.settings.language)
@@ -83,7 +83,7 @@ export const ExportModule = props => {
 			"type": fileType,
 			"from": from,
 			"to": to,
-			"uuids": selectedDevices.length > 0 ? selectedDevices : null,
+			"uuids": selectedInstallations.length > 0 ? selectedInstallations : null,
 			"locale": locale === 'da' ? 'da-DK' : 'en-US'
 
 		}

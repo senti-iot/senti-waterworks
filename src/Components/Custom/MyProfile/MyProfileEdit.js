@@ -61,16 +61,16 @@ const MyProfileEdit = () => {
 										<T variant={'h6'}>{t('sidebar.myprofile')}</T>
 									</ItemG>
 								</ItemG>
-								<ItemG xs={12} container justify={'center'} alignItems={'center'}>
+								<ItemG xs={12} container justifyContent={'center'} alignItems={'center'}>
 									<Gravatar default='mp' email={user.email} className={classes.img} size={240} />
 								</ItemG>
-								<ItemG xs={12} container justify={'center'} alignItems={'flex-start'}>
+								<ItemG xs={12} container justifyContent={'center'} alignItems={'flex-start'}>
 									<Button color={'primary'} variant={'contained'} labe>{t('actions.change')}</Button>
 								</ItemG>
 							</ItemG>
 						</ItemG>
 						<ItemG container xs={6} component={'form'} autoomplete={'off'}>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('login.username')}:
@@ -87,7 +87,7 @@ const MyProfileEdit = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('login.pass')}:
@@ -103,7 +103,7 @@ const MyProfileEdit = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('users.fields.firstName')}:
@@ -117,7 +117,7 @@ const MyProfileEdit = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('users.fields.lastName')}:
@@ -132,7 +132,7 @@ const MyProfileEdit = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('users.fields.address')}:
@@ -147,7 +147,7 @@ const MyProfileEdit = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('users.fields.postnr')}:
@@ -161,7 +161,7 @@ const MyProfileEdit = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('users.fields.city')}:
@@ -175,7 +175,7 @@ const MyProfileEdit = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('users.fields.phone')}:
@@ -190,7 +190,7 @@ const MyProfileEdit = () => {
 								</ItemG>
 							</ItemG>
 
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('signup.form.adultNr')}:
@@ -212,7 +212,7 @@ const MyProfileEdit = () => {
 
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22, color: 'gray' }}>
 										{t('signup.form.childNr')}:
@@ -235,7 +235,7 @@ const MyProfileEdit = () => {
 								</ItemG>
 							</ItemG>
 						</ItemG>
-						<ItemG xs={12} container justify={'center'} alignItems={'center'}>
+						<ItemG xs={12} container justifyContent={'center'} alignItems={'center'}>
 							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>{t('actions.cancel')}</Button>
 							<Button color={'primary'} style={{ margin: 16 }} variant={'contained'}>Change Password </Button>
 

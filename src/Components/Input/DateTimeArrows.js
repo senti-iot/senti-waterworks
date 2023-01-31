@@ -83,13 +83,13 @@ const DateTimeArrows = () => {
 	//Deleted width: 45% from itemg container
 
 	return (
-		<ItemG container justify={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
-			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justify={'center'}>
+		<ItemG container justifyContent={'center'} alignItems={'center'} style={{ flexWrap: 'nowrap' }}>
+			<ItemG xs={2} /* xs={3} lg={1} xl={1} */ container justifyContent={'center'}>
 				<SIconButton onClick={handlePreviousPeriod} >
 					<LeftArrow />
 				</SIconButton>
 			</ItemG>
-			<ItemG container /* xs={9} lg={9} xl={5} */ justify={'center'} alignItems={'center'} style={{ width: 'fit-content', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
+			<ItemG container /* xs={9} lg={9} xl={5} */ justifyContent={'center'} alignItems={'center'} style={{ width: 'fit-content', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
 
 				<MonthYear>{moment(period.from).format(period.timeType > 1 ? 'll' : 'lll')}</MonthYear>
 
@@ -98,7 +98,7 @@ const DateTimeArrows = () => {
 				&nbsp;&nbsp;&nbsp;
 				<MonthYear>{moment(period.to).format(period.timeType > 1 ? 'll' : 'lll')}</MonthYear>
 			</ItemG>
-			<ItemG xs={2}/* xs={3} lg={1} xl={1}  */ container justify={'center'}>
+			<ItemG xs={2}/* xs={3} lg={1} xl={1}  */ container justifyContent={'center'}>
 				<SIconButton disabled={futureTester(period.to, period.timeType > 1 ? 'day' : 'hour')} onClick={handleNextPeriod}>
 					<RightArrow />
 				</SIconButton>

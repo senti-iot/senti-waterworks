@@ -95,7 +95,7 @@ const CreateAlarmDetailsForm = props => {
 					callBack={(dev) => { handleSetDevice(dev); setOpenAssign(false) }}
 				/>
 			</ItemG>
-			<ItemG container justify={'space-between'} alignItems={'center'}>
+			<ItemG container justifyContent={'space-between'} alignItems={'center'}>
 				<ItemG xs={6}>
 
 					<DSelect

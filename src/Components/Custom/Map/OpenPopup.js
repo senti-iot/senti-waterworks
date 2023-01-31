@@ -3,7 +3,7 @@ import { Button } from '@material-ui/core'
 import { ItemG, Caption, Info } from 'Components'
 import { Link } from 'react-router-dom'
 import { useLocalization } from 'Hooks'
-import { setSelectedDevices } from 'Redux/appState'
+import { setSelectedInstallations } from 'Redux/appState'
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom"	;
 import { makeStyles } from '@material-ui/styles'
@@ -36,9 +36,8 @@ const OpenPopup = props => {
 	//Handlers
 	const handleFilterData = () => {
 		if (m.deviceUUID) {
-			dispatch(setSelectedDevices([m.deviceUUID]))
+			dispatch(setSelectedInstallations([m.uuid]))
 			history.push('/')
-
 		}
 	}
 	const renderAddress = () => {
@@ -61,7 +60,7 @@ const OpenPopup = props => {
 				<Typography variant={'h5'}>{m.address}</Typography>
 			</ItemG>
 			<ItemG xs={2} container>
-				<ItemG container justify={'flex-end'}>
+				<ItemG container justifyContent={'flex-end'}>
 				</ItemG>
 			</ItemG> */}
 			<ItemG xs={12}>
@@ -81,7 +80,7 @@ const OpenPopup = props => {
 				<Info>{m.uuid}</Info>
 			</ItemG> */}
 
-			<ItemG xs={12} container justify={'flex-end'}>
+			<ItemG xs={12} container justifyContent={'flex-end'}>
 				<Button variant={'text'} color={'primary'} component={Link} to={`/installation/${m.uuid}`}>
 					{t('menus.seeMore')}
 				</Button>

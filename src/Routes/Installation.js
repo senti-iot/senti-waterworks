@@ -6,7 +6,7 @@ import { useLocalization } from 'Hooks'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
-import { setSelectedDevices } from 'Redux/appState'
+import { setSelectedInstallations } from 'Redux/appState'
 import { Devices, PageviewIcon } from 'variables/icons'
 
 const InstallationRoute = (props) => {
@@ -31,7 +31,7 @@ const InstallationRoute = (props) => {
 	const handleSeeData = () => {
 
 		if (installation) {
-			dispatch(setSelectedDevices([installation.deviceUUID]))
+			dispatch(setSelectedInstallations([installation.uuid]))
 			history.push('/')
 
 		}

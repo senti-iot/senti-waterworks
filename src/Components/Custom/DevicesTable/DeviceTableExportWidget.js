@@ -52,7 +52,7 @@ const DeviceTableExportWidget = () => {
 			<DeviceTableExport openTable={openTable} setOpenTable={setOpenTable} />
 			{/* <T className={classes.title}></T> */}
 			<FormLabel>
-				{`${t('charts.selectedDevices')}: ${renderDeviceCount(t, devices.length, selectedExportDevices.length)} ${t('charts.devices')}`}
+				{`${t('charts.selectedInstallations')}: ${renderDeviceCount(t, devices.length, selectedExportDevices.length)} ${t('charts.devices')}`}
 			</FormLabel>
 			<Button color={'secondary'} onClick={handleOpenTable} variant={'contained'} className={classes.filterButton}>{t('actions.select')}</Button>
 		</>

@@ -94,7 +94,7 @@ const DButton = (props) => {
 				{menuItems.map((m, i) => {
 					if (m.hide)
 						return null
-					return <ItemG container justify={'space-between'} alignItems={'center'}>
+					return <ItemG container justifyContent={'space-between'} alignItems={'center'} key={m.value}>
 					 <MenuItem style={{ flexGrow: 1 }} divider={divider ? i === menuItems.length - 1 ? false : true : false} disabled={m.disabled} key={i}
 							onClick={handleMenuItemClick(m)} classes={menuItemClasses}>
 							{m.icon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon}</ItemG> : null}

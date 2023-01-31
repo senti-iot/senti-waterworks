@@ -6,8 +6,8 @@ import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { Backdrop, DPaper, TitleContainer, DBox, GetDevicesButton, DevicesSelected, Title } from 'Components/Custom/Styles/deviceTableStyles'
 import { useSelector, useLocalization, useState, useDispatch } from 'Hooks'
-import { setSelectedDevices, setTagFilter } from 'Redux/appState'
-import { sortData as rSortData } from 'Redux/data'
+import { setSelectedInstallations, setTagFilter } from 'Redux/appState'
+import { getAdminDevices, sortData as rSortData } from 'Redux/data'
 import FilterToolbar from 'Components/FilterToolbar/FilterToolbar'
 import { customFilterItems } from 'variables/functions/filters'
 import ItemG from 'Components/Containers/ItemG'
@@ -21,19 +21,19 @@ const DeviceTable = (props) => {
 	const t = useLocalization()
 
 	//Redux
-	const devices = useSelector(s => {
-		let d = s.data.devices
+	const installations = useSelector(s => {
 		let i = s.data.installations
-		let di = d.map(dev => {
-			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }
+		let di = i.map(inst => {
+			let n = { ...inst }
 			return n
 		})
 		return di
 	})
 	const tags = useSelector(s => s.tagManager.tags)
 
-	const selectedDevices = useSelector(s => s.appState.selectedDevices)
+	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
 	const filters = useSelector(s => s.appState.filters.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 
 	//State
 	const [selDev, setSelDev] = useState([])
@@ -48,11 +48,17 @@ const DeviceTable = (props) => {
 
 	//useEffects
 	useEffect(() => {
-		setSelDev(selectedDevices)
-	}, [selectedDevices])
+		setSelDev(selectedInstallations)
+
+		let loadData = async () => {
+			dispatch(await getAdminDevices())
+		}
+
+		loadData()
+	}, [dispatch, selectedInstallations])
 
 	//Handlers
-	const setSelDevices = devices => dispatch(setSelectedDevices(devices))
+	const setSelDevices = devices => dispatch(setSelectedInstallations(devices))
 	const sortData = (key, property, order) => dispatch(rSortData(key, property, order))
 
 
@@ -80,7 +86,7 @@ const DeviceTable = (props) => {
 		if (!s)
 			setSelDev(newSDevices)
 		else
-			setSelDev(customFilterItems(devices, filters).map(d => d.uuid))
+			setSelDev(customFilterItems(installations, filters).map(d => d.uuid))
 	}
 	//#region  Filters
 	// const dLiveStatus = () => {
@@ -117,15 +123,21 @@ const DeviceTable = (props) => {
 		// { id: 'communication', label: t('devices.fields.status') },
 		{ id: 'tags', label: t('devices.fields.tags') }
 	]
-	const renderTags = device => {
-		return device.tags?.map((t, i) => (<Tooltip key={i} title={t.description}>
-			<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
-		</Tooltip>
-		))
+	const renderTags = installation => {
+		const device = devices.find(d => d.uuid === installation.deviceUUID)
+		if (device !== undefined) {
+			return device.tags?.map((t, i) => (
+				<Tooltip key={i} title={t.description}>
+					<Chip label={t.name} style={{ background: t.color, marginRight: 4, color: t.color ? contrastColor(t.color) : "#fff" }} />
+				</Tooltip>
+			))
+		} else {
+			return null
+		}
 	}
 	const bodyStructure = row => {
 		return <Fragment>
-			<TC label={row.uuname} />
+			<TC label={row.device.uuname} />
 			<TC label={row.name} />
 			<TC label={row.user?.fullName}/>
 			<TC label={row.streetName} />
@@ -140,11 +152,10 @@ const DeviceTable = (props) => {
 	}
 	const closeDialog = () => {
 		if (selDev.length === 0) {
-			setSelDevices(devices.map(d => d.uuid))
+			setSelDevices(installations.map(d => d.uuid))
 			dispatch(setTagFilter([]))
-		}
-		else {
-			if (selectedDevices.length !== selDev) {
+		} else {
+			if (selectedInstallations.length !== selDev) { // ????
 				dispatch(setTagFilter([]))
 			}
 			setSelDevices(selDev)
@@ -187,7 +198,7 @@ const DeviceTable = (props) => {
 					order={order}
 					orderBy={orderBy}
 					sortKey={'devices'}
-					body={customFilterItems(devices, filters)}
+					body={customFilterItems(installations, filters)}
 					bodyStructure={bodyStructure}
 					mobile
 					bodyMobileStructure={() => { }}

@@ -98,8 +98,8 @@ const DMenu = (props) => {
 							padding: '6px 0px'
 						}}
 					>
-						<ItemG container justify={'space-between'} alignItems={'center'}>
-							<ItemG xs container justify={'center'} alignItems={'center'}>
+						<ItemG container justifyContent={'space-between'} alignItems={'center'}>
+							<ItemG xs container justifyContent={'center'} alignItems={'center'}>
 								<AlarmIco style={{ color: 'rgba(0, 0, 0, 0.54)' }}/>
 							</ItemG>
 							<ItemG xs={10} container>

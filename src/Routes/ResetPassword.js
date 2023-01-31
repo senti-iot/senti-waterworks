@@ -213,17 +213,17 @@ function ResetPassword() {
 					<MobileContainer>
 						<LeftPanel /* className={classes.paper} */>
 							<InputContainer>
-								<ItemG xs={12} container justify={'center'} style={{ marginBottom: 48 }}>
+								<ItemG xs={12} container justifyContent={'center'} style={{ marginBottom: 48 }}>
 									<ImgLogo src={logo} alt={'sentiLogo'} />
 								</ItemG>
 								<FadeLoader on={resettingPass} onChange={resetPass}>
-									<ItemG xs={12} container justify={'center'}>
+									<ItemG xs={12} container justifyContent={'center'}>
 										<ItemG container xs={12}>
 											<Collapse in={error}>
 												{errorMessage}
 											</Collapse>
 										</ItemG>
-										<ItemG container xs={12} justify={'center'}>
+										<ItemG container xs={12} justifyContent={'center'}>
 											<Warning type={'success'} label={t('dialogs.login.resetPasswordMessage')} open={passwordRequest} />
 											<Warning type={'success'} label={t('dialogs.login.passwordReseted')} open={passwordReset}/>
 											<Collapse in={!passwordRequest && !token} style={{ width: '100%' }}>
@@ -245,7 +245,7 @@ function ResetPassword() {
 											</Collapse>
 
 										</ItemG>
-										<ItemG container xs={12} justify={'center'}>
+										<ItemG container xs={12} justifyContent={'center'}>
 
 											<Collapse in={token && !passwordReset} style={{ width: '100%' }}>
 												<LoginTF
@@ -287,14 +287,14 @@ function ResetPassword() {
 
 											</Collapse>
 										</ItemG>
-										<ItemG xs={12} container justify={'center'}>
+										<ItemG xs={12} container justifyContent={'center'}>
 											<Collapse in={!(passwordRequest || passwordReset)} style={{ width: '100%' }}>
 												<LoginButton variant={'contained'} fullWidth color={'secondary'} onClick={token ? confirmPass : handleResetPassword }>
 													{t('actions.requestPasswordReset')}
 												</LoginButton>
 											</Collapse>
 										</ItemG>
-										<ItemG xs={12} container justify={'center'} alignItems={'center'}>
+										<ItemG xs={12} container justifyContent={'center'} alignItems={'center'}>
 											<ResetPasswordButton variant={'outlined'} fullWidth color={'secondary'} onClick={handleCancelReset}>
 												{passwordRequest || passwordReset ? t('actions.goToLogin') : t('actions.cancel')}
 											</ResetPasswordButton>
@@ -303,7 +303,7 @@ function ResetPassword() {
 								</FadeLoader>
 								{/* </FadeOutLoader> */}
 							</InputContainer>
-							<Footer xs={12} container alignItems={'flex-end'} justify={'center'}>
+							<Footer xs={12} container alignItems={'flex-end'} justifyContent={'center'}>
 								<FooterText>
 									{`${t('login.footer')} `}
 									<MutedButton onClick={handlePrivacy}>{t('settings.t&c.privacyPolicy')}</MutedButton>

@@ -261,10 +261,10 @@ const MyProfile = () => {
 				/>
 
 				<CardContent>
-					<ItemG container justify={'center'}>
+					<ItemG container justifyContent={'center'}>
 
 						<ItemG container xs={6}>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('login.username')}:
@@ -282,7 +282,7 @@ const MyProfile = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							{/* <ItemG container xs={12} justify={'center'} alignItems={null}>
+							{/* <ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={5}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('login.pass')}:
@@ -299,7 +299,7 @@ const MyProfile = () => {
 									/>
 								</ItemG>
 							</ItemG> */}
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.firstName')}:
@@ -315,7 +315,7 @@ const MyProfile = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.lastName')}:
@@ -331,7 +331,7 @@ const MyProfile = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.address')}:
@@ -347,7 +347,7 @@ const MyProfile = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.postnr')}:
@@ -363,7 +363,7 @@ const MyProfile = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.city')}:
@@ -379,7 +379,7 @@ const MyProfile = () => {
 									/>
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('users.fields.phone')}:
@@ -396,7 +396,7 @@ const MyProfile = () => {
 								</ItemG>
 							</ItemG>
 
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('signup.form.adultNr')}:
@@ -415,7 +415,7 @@ const MyProfile = () => {
 
 								</ItemG>
 							</ItemG>
-							<ItemG container xs={12} justify={'center'} alignItems={null}>
+							<ItemG container xs={12} justifyContent={'center'} alignItems={null}>
 								<ItemG xs={6}>
 									<T variant={'h6'} style={{ marginRight: 32, marginTop: 22 }}>
 										{t('signup.form.childNr')}:
@@ -439,7 +439,7 @@ const MyProfile = () => {
 					</ItemG>
 				</CardContent>
 				<CardActions>
-					<ItemG xs={12} container justify={'flex-end'} alignItems={'center'}>
+					<ItemG xs={12} container justifyContent={'flex-end'} alignItems={'center'}>
 						<Warning
 							open={Boolean(error)}
 							label={t(error, { disableMissing: true })}

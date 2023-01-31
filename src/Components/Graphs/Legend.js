@@ -15,7 +15,7 @@ const Legend = props => {
 	const t = useLocalization()
 	let lines = props.graphLines
 	return (
-		<ItemG container justify={'center'} alignItems={'center'}>
+		<ItemG container justifyContent={'center'} alignItems={'center'}>
 			{data.map(line => {
 				if (line.noLegend) {
 					return null

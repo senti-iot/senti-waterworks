@@ -165,7 +165,7 @@ const DMultipleSelect = (props) => {
 					}
 					return <MenuItem id={id} key={i} value={m.value} disabled={m.disabled} classes={{ selected: classes.menuItem }}>
 						<Tooltip title={m.label} enterDelay={1000}>
-							<ItemG container justify={'space-between'} alignItems={'center'}>
+							<ItemG container justifyContent={'space-between'} alignItems={'center'}>
 								<Checkbox checked={value.findIndex(f => f === m.value) > -1} />
 								{leftIcon ? <ItemG style={{ display: 'flex', marginRight: 8 }}>{m.icon ? m.icon : null}</ItemG> : null}
 								<ItemG xs style={labelStyle}>{m.label}</ItemG>
@@ -179,7 +179,7 @@ const DMultipleSelect = (props) => {
 						return null
 					}
 					return <MenuItem id={id} key={i} value={m}>
-						<ItemG container justify={'space-between'} alignItems={'center'}>
+						<ItemG container justifyContent={'space-between'} alignItems={'center'}>
 							<ItemG xs>{m}</ItemG>
 						</ItemG>
 					</MenuItem>

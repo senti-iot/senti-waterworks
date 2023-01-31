@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react'
 import CTable from 'Components/Table/Table'
 import TC from 'Components/Table/TC'
 import { useSelector, useLocalization, useState, useDispatch, useHistory } from 'Hooks'
-import { getAdminDevices, getAdminInstallations, getAdminUsers, getUInstallation, sortData as rSortData } from 'Redux/data'
+import { getAdminDevices, getAdminInstallations, getAdminUsers, sortData as rSortData } from 'Redux/data'
 import { customFilterItems } from 'variables/functions/filters'
 // import { Chip, Tooltip } from '@material-ui/core'
 // import InstallationToolbar from 'Components/Custom/InstallationsTable/InstallationToolbar'
@@ -72,16 +72,11 @@ const FullInstallationTable = (props) => {
 		const getDevices = async () => await dispatch(await getAdminDevices())
 		const getUsers = async () => await dispatch(await getAdminUsers())
 		const getInstallations = async () => await dispatch(await getAdminInstallations())
-		const getUInstallations = async () => await dispatch(await getUInstallation())
+		// const getUInstallations = async () => await dispatch(await getUInstallation())
 		// const getInstallationTags = async () => await dispatch(await getTags())
 		const loadData = async () => {
 			if ( loading) {
-				if (isSWAdmin) {
-					await getInstallations()
-				}
-				else {
-					await getUInstallations()
-				}
+				await getInstallations()
 				await getDevices()
 				await getUsers()
 			}

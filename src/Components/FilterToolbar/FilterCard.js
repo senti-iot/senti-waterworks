@@ -319,7 +319,7 @@ const FilterCard = (props) => {
 					</ItemG>
 				</ItemG>
 				<CardContent className={classes.content}>
-					<ItemG container justify={'center'}>
+					<ItemG container justifyContent={'center'}>
 						<ItemG xs={12}>
 							{renderType()}
 						</ItemG>
@@ -336,7 +336,7 @@ const FilterCard = (props) => {
 					</ItemG>
 				</CardContent>
 				<CardActions>
-					<ItemG xs={12} container justify={'center'}>
+					<ItemG xs={12} container justifyContent={'center'}>
 						<Button onClick={_handleButton} onKeyPress={handleKeyPress}>
 							{!edit ? t('actions.addFilter') : t('actions.editFilter')}
 						</Button>
