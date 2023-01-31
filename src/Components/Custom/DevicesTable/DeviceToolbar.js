@@ -40,7 +40,7 @@ const DeviceToolbar = props => {
 	const s = useSnackbar()
 	const dispatch = useDispatch()
 	//Redux
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 	const tags = useSelector(s => s.tagManager.tags)
 	//State
 	const [openAddTags, setOpenAddTags] = useState(false)
