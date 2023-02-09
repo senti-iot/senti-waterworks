@@ -97,7 +97,7 @@ export const ExportModule = props => {
 				downloadLink.click();
 				// var fileName = "SW-data-export" + moment().format('YYYY-MM-DD_HH-mm') + ".zip"
 				// saveAs(blob, fileName)
-				// handleCloseExport()
+				handleCloseExport()
 				setLoading(false)
 			}
 			else {
