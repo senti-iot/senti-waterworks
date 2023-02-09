@@ -18,7 +18,7 @@ const EditInstallation = (props) => {
 
 	//Redux
 	const org = useSelector(s => s.settings.user?.org)
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 	const users = useSelector(s => s.data.users)
 
 	//State

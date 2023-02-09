@@ -57,7 +57,7 @@ const devicesWidgetStyles = makeStyles(theme => ({
 const DevicesWidget = () => {
 	const classes = devicesWidgetStyles()
 	const t = useLocalization()
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 	const inactiveDevices = devices.filter(d => !d.communication)
 	const activeDevices = devices.filter(d => d.communication)
 	return (
