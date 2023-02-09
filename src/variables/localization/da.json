@@ -581,6 +581,7 @@
             "SigfoxID": "Enhed ID",
             "benchmark": "Sammenligning",
             "firstLast": "Kun første og sidste datapakke",
+            "onlyLast": "Kun sidste datapakke",
             "maxWaterFlow": "Maksimal vandgennemstrømning",
             "meterNumber": "Meter Nummer",
             "minAmbientTemperature": "Mindste omgivelsestemperatur",

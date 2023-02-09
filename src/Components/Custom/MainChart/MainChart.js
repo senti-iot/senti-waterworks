@@ -13,7 +13,7 @@ import styled from 'styled-components'
 import { makeStyles } from '@material-ui/styles'
 import DButton from 'Components/Input/DButton'
 import { lighten } from '@material-ui/core/styles'
-import { setFullScreenLineGraph, changeChartType } from 'Redux/appState'
+import { setFullScreenLineGraph, changeChartType, setSelectedExportDevices } from 'Redux/appState'
 import cx from 'classnames'
 import { Info } from '@material-ui/icons'
 
@@ -98,6 +98,8 @@ export const MainChart = React.memo((props) => {
 		setOpenExport(true)
 	}
 	const handleCloseExport = () => {
+		dispatch(setSelectedExportDevices([]))
+
 		setOpenExport(false)
 	}
 	const handleSetChart = (c) => () => setChart(c)
@@ -122,7 +124,7 @@ export const MainChart = React.memo((props) => {
 			<Hidden xsDown>
 				<ChartsButtonContainer>
 					<ItemG container alignItems={'center'} justifyContent={'space-evenly'}>
-						<ItemG xs={2} md={2} lg={2} container justifyContent={'flex-start'} alignItems={'center'}>
+						<ItemG xs={2} md={2} lg={3} container justifyContent={'flex-start'} alignItems={'center'}>
 							<DButton
 								value={chart}
 								onChange={(value) => {
@@ -148,12 +150,12 @@ export const MainChart = React.memo((props) => {
 							/>
 
 						</ItemG>
-						<ItemG xs={8} md={8} lg={5} container alignItems={'center'} >
+						<ItemG xs={8} md={8} lg={5} container alignItems={'center'}>
 							<DateTimeArrows />
 						</ItemG>
-						<ItemG xs={2} md={2} lg={5} container alignItems={'center'} justifyContent={'flex-end'}>
+						<ItemG xs={2} md={2} lg={2} container alignItems={'center'} justifyContent={'flex-end'}>
 							<ItemG xs={2} md={2} lg={5} container wrap={"nowrap"} alignItems={'center'} justifyContent={'flex-end'}>
-								<Hidden mdDown>
+								<Hidden lgDown>
 									<DateTimeDays />
 								</Hidden>
 								<DateTimeFilter icon={<DateRangeIcon />} />
