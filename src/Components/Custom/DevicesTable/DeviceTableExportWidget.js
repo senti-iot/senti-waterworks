@@ -27,32 +27,43 @@ const devicesTableWidgetStyles = makeStyles(theme => ({
 	}
 }))
 
-const renderDeviceCount = (t, dCount, selectedDCount) => {
-	if (dCount === selectedDCount) {
-		return t('charts.allDevices')
-	}
-	if (selectedDCount === 0) {
-		return t('charts.noDevices')
-	}
-	if (dCount !== selectedDCount) {
-		return selectedDCount
-	}
-}
 const DeviceTableExportWidget = () => {
 	const t = useLocalization()
 	const classes = devicesTableWidgetStyles()
 	const selectedExportDevices = useSelector(s => s.appState.selectedExportDevices)
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 	const [openTable, setOpenTable] = useState(false)
 
 	const handleOpenTable = () => setOpenTable(true)
+
+	const renderDeviceCount = () => {
+		let dCount = 0;
+		if (devices !== undefined) {
+			dCount = devices.length
+		}
+	
+		let selectedDCount = 0;
+		if (selectedExportDevices !== undefined) {
+			selectedDCount = selectedExportDevices.length
+		}
+			
+		if (dCount === selectedDCount) {
+			return t('charts.allDevices')
+		}
+		if (selectedDCount === 0) {
+			return t('charts.noDevices')
+		}
+		if (dCount !== selectedDCount) {
+			return selectedDCount
+		}
+	}
 
 	return (
 		<>
 			<DeviceTableExport openTable={openTable} setOpenTable={setOpenTable} />
 			{/* <T className={classes.title}></T> */}
 			<FormLabel>
-				{`${t('charts.selectedInstallations')}: ${renderDeviceCount(t, devices.length, selectedExportDevices.length)} ${t('charts.devices')}`}
+				{`${t('charts.selectedInstallations')}: ${renderDeviceCount()} ${t('charts.devices')}`}
 			</FormLabel>
 			<Button color={'secondary'} onClick={handleOpenTable} variant={'contained'} className={classes.filterButton}>{t('actions.select')}</Button>
 		</>

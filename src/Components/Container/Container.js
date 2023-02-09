@@ -15,7 +15,7 @@ function Container(props) {
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(true)
 
-	// const devices = useSelector(s => s.data.devices)
+	// const devices = useSelector(s => s.data.adminDevices)
 	const installations = useSelector(s => s.data.installations)
 	const isSuperUser = useSelector(s => s.auth.isSuperUser)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)

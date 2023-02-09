@@ -581,6 +581,7 @@
             "SigfoxID": "Device ID",
             "benchmark": "Benchmark",
             "firstLast": "Only the first and last data packet",
+            "onlyLast": "Only the last data packet",
             "maxWaterFlow": "Max. Water Flow",
             "meterNumber": "Meter Number",
             "minAmbientTemperature": "Min. Ambient Temperature",

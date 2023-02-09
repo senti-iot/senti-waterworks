@@ -22,7 +22,7 @@ const DeviceTableExport = (props) => {
 
 	//Redux
 	const devices = useSelector(s => {
-		let d = s.data.devices
+		let d = s.data.adminDevices
 		let i = s.data.installations
 		let di = d.map(dev => {
 			let n = { ...i[i.findIndex(f => f.deviceUUID === dev.uuid)], ...dev }

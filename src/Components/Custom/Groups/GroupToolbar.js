@@ -43,7 +43,7 @@ const GroupToolbar = props => {
 	const s = useSnackbar()
 	const dispatch = useDispatch()
 	//Redux
-	// const devices = useSelector(s => s.data.devices)
+	// const devices = useSelector(s => s.data.adminDevices)
 	const tags = useSelector(s => s.tagManager.tags)
 	const isSWAdmin = useSelector(s => s.auth.privileges.indexOf('waterworks.admin') > -1 ? true : false)
 

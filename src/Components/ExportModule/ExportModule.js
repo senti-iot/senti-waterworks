@@ -6,11 +6,10 @@ import { Dialog, DialogContent, DialogActions, Button, Checkbox, FormGroup, Form
 import GridContainer from 'Components/Containers/GridContainer'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
-import {  getExportData } from 'data/waterworks'
+import { getExportData } from 'data/waterworks'
 import DeviceTableExportWidget from 'Components/Custom/DevicesTable/DeviceTableExportWidget'
 import FadeOutLoader from 'Components/Loaders/FadeOutLoader'
 import styled from 'styled-components'
-import { saveAs } from 'file-saver';
 
 
 const MDialogHeader = styled(DialogTitle)`
@@ -85,13 +84,19 @@ export const ExportModule = props => {
 			"to": to,
 			"uuids": selectedInstallations.length > 0 ? selectedInstallations : null,
 			"locale": locale === 'da' ? 'da-DK' : 'en-US'
-
 		}
-		await getExportData(config).then(rs => {
+
+		await getExportData(config).then(async rs => {
 			if (rs) {
-				var blob = new Blob([rs], { type: "application/octet-stream" })
-				var fileName = "SW-data-export" + moment().format('YYYY-MM-DD_HH-mm') + ".zip"
-				saveAs(blob, fileName)
+				const linkSource = `data:application/zip;base64,${rs}`;
+				const downloadLink = document.createElement('a');
+				const fileName = "SW-data-export" + moment().format('YYYY-MM-DD_HH-mm') + ".zip"
+
+				downloadLink.href = linkSource;
+				downloadLink.download = fileName;
+				downloadLink.click();
+				// var fileName = "SW-data-export" + moment().format('YYYY-MM-DD_HH-mm') + ".zip"
+				// saveAs(blob, fileName)
 				handleCloseExport()
 				setLoading(false)
 			}
@@ -100,9 +105,8 @@ export const ExportModule = props => {
 				alert('Error')
 			}
 		})
-
-
 	}
+
 	const handleSelectFileType = e => {
 		setFileType(e.target.value)
 	}
@@ -140,9 +144,9 @@ export const ExportModule = props => {
 										<FormControlLabel
 
 											control={<Checkbox
-												onChange={handleCheckboxClick('firstLast')}
-												checked={sColumns.indexOf('firstLast') !== -1 ? true : false} />}
-											label={t('exports.fields.firstLast')}
+												onChange={handleCheckboxClick('onlyLast')}
+												checked={sColumns.indexOf('onlyLast') !== -1 ? true : false} />}
+											label={t('exports.fields.onlyLast')}
 											style={{ marginTop: 0, marginLeft: 8 }}
 										/>
 									</Collapse>
@@ -154,7 +158,7 @@ export const ExportModule = props => {
 									simple
 									value={fileType}
 									onChange={handleSelectFileType}
-									menuItems={["csv", 'json'] }
+									menuItems={["csv", 'json']}
 								/>
 							</ItemG>
 						</ItemG>

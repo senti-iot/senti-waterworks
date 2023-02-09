@@ -68,7 +68,7 @@ const renderDeviceCount = (t, dCount, selectedDCount) => {
 const DeviceTableWidget = () => {
 	const t = useLocalization()
 	const selectedInstallations = useSelector(s => s.appState.selectedInstallations)
-	const devices = useSelector(s => s.data.devices)
+	const devices = useSelector(s => s.data.adminDevices)
 	const [openTable, setOpenTable] = useState(false)
 
 	const handleOpenTable = () => setOpenTable(true)
